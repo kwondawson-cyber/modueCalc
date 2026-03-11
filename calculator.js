@@ -9,22 +9,29 @@
       position: fixed;
       bottom: 28px;
       right: 24px;
-      width: 56px;
-      height: 56px;
+      height: 52px;
+      padding: 0 20px 0 16px;
       background: linear-gradient(135deg, #00d4aa, #0095ff);
       border: none;
-      border-radius: 50%;
-      font-size: 24px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: 'Noto Sans KR', sans-serif;
       cursor: pointer;
       z-index: 9998;
-      box-shadow: 0 4px 20px rgba(0,212,170,0.5);
+      box-shadow: 0 4px 24px rgba(0,212,170,0.55);
       transition: transform .2s, box-shadow .2s;
       display: flex;
       align-items: center;
-      justify-content: center;
+      gap: 8px;
+      color: #000;
     }
-    #calc-fab:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(0,212,170,0.7); }
-    #calc-fab.open { transform: rotate(45deg); background: linear-gradient(135deg, #ff6b6b, #ff4444); }
+    #calc-fab:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(0,212,170,0.7); }
+    #calc-fab.open { background: linear-gradient(135deg, #ff6b6b, #ff4444); }
+    #calc-fab .fab-icon { font-size: 20px; line-height: 1; }
+    #calc-fab .fab-label { font-size: 14px; font-weight: 700; white-space: nowrap; }
+    #calc-fab.open .fab-label { display: none; }
+    #calc-fab.open .fab-icon { font-size: 18px; }
 
     #calc-panel {
       position: fixed;
@@ -141,7 +148,8 @@
 
     @media (max-width: 400px) {
       #calc-panel { width: calc(100vw - 32px); right: 16px; }
-      #calc-fab { right: 16px; bottom: 20px; }
+      #calc-fab { right: 16px; bottom: 20px; padding: 0 16px 0 12px; height: 46px; }
+      #calc-fab .fab-label { font-size: 13px; }
     }
   `;
   document.head.appendChild(style);
@@ -149,7 +157,7 @@
   // FAB 버튼
   const fab = document.createElement('button');
   fab.id = 'calc-fab';
-  fab.innerHTML = '🔢';
+  fab.innerHTML = '<span class="fab-icon">🔢</span><span class="fab-label">계산기 열기</span>';
   fab.title = '계산기 열기';
   document.body.appendChild(fab);
 
@@ -279,7 +287,11 @@
 
   fab.addEventListener('click', () => {
     fab.classList.toggle('open');
-    fab.innerHTML = fab.classList.contains('open') ? '✕' : '🔢';
+    if(fab.classList.contains('open')) {
+      fab.innerHTML = '<span class="fab-icon">✕</span>';
+    } else {
+      fab.innerHTML = '<span class="fab-icon">🔢</span><span class="fab-label">계산기 열기</span>';
+    }
     panel.classList.toggle('visible');
   });
 
