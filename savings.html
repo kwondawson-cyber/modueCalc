@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>적금 만기 계산기 | 모두의계산기</title>
+  <meta name="description" content="적금 만기 계산기. 단리·복리, 이자과세 적용 후 실수령액을 계산하세요." />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+    .container{max-width:640px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .nav{text-align:center;margin-bottom:32px}.nav a{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:3px;color:var(--accent);text-decoration:none;text-transform:uppercase}
+    .header{text-align:center;margin-bottom:40px}
+    .header h1{font-size:clamp(28px,6vw,44px);font-weight:900;line-height:1.1;margin-bottom:10px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .header p{color:var(--text-muted);font-size:14px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;margin-bottom:16px}
+    .card-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:20px}
+    .tab-group{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:20px}
+    .tab-btn{padding:11px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;font-size:13px;font-weight:600;font-family:'Noto Sans KR',sans-serif;color:var(--text-muted);cursor:pointer;transition:all .2s}
+    .tab-btn.active{background:rgba(0,212,170,0.1);border-color:rgba(0,212,170,0.4);color:var(--accent)}
+    .input-group{margin-bottom:18px}
+    .input-group label{display:block;font-size:13px;font-weight:500;color:var(--text-muted);margin-bottom:7px}
+    .input-wrapper{position:relative}
+    .input-wrapper input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:13px 60px 13px 16px;font-size:20px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none;transition:border-color .2s,box-shadow .2s}
+    .input-wrapper input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,170,0.1)}
+    .input-unit{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--text-muted);font-weight:500;pointer-events:none}
+    input[type="range"]{width:100%;-webkit-appearance:none;height:4px;border-radius:4px;background:var(--surface2);outline:none;cursor:pointer;margin-top:8px}
+    input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent);cursor:pointer;box-shadow:0 0 8px rgba(0,212,170,0.5)}
+    .calc-btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;font-size:16px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:#000;cursor:pointer;margin-top:4px;transition:transform .15s,box-shadow .15s}
+    .calc-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,212,170,0.3)}
+    .result-card{display:none;animation:fadeUp .4s ease}
+    .result-card.visible{display:block}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+    .s-box{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center}
+    .s-box.main{border-color:rgba(0,212,170,0.4);background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.04))}
+    .s-box .s-label{font-size:11px;color:var(--text-muted);font-weight:600;margin-bottom:6px}
+    .s-box .s-value{font-family:'Montserrat',sans-serif;font-size:20px;font-weight:900}
+    .s-box.main .s-value{color:var(--accent)}
+    .s-box .s-unit{font-size:11px;color:var(--text-muted);margin-top:3px}
+    .detail-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);font-size:14px}
+    .detail-item:last-child{border-bottom:none}
+    .detail-item .d-label{color:var(--text-muted)}
+    .detail-item .d-value{font-weight:700}
+    .detail-item .d-value.accent{color:var(--accent)}
+    .notice{margin-top:16px;padding:13px 16px;background:rgba(255,165,0,0.05);border:1px solid rgba(255,165,0,0.15);border-radius:10px;font-size:12px;color:var(--text-muted);line-height:1.7}
+    @media(max-width:480px){.card{padding:20px 16px}.summary-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="nav"><a href="/">← 모두의계산기</a></div>
+  <div class="header">
+    <h1>적금 만기<br>계산기</h1>
+    <p>단리 · 복리 · 세후 실수령액</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">적금 정보</div>
+
+    <div class="input-group">
+      <label>적금 유형</label>
+      <div class="tab-group">
+        <button class="tab-btn active" onclick="setType('regular')" id="tab-regular">📅 정기적금</button>
+        <button class="tab-btn" onclick="setType('lump')" id="tab-lump">💰 정기예금</button>
+      </div>
+    </div>
+
+    <div class="input-group" id="monthly-group">
+      <label>월 납입금</label>
+      <div class="input-wrapper"><input type="number" id="monthly" value="500000" /><span class="input-unit">원</span></div>
+    </div>
+    <div class="input-group" id="lump-group" style="display:none">
+      <label>예치 원금</label>
+      <div class="input-wrapper"><input type="number" id="lump" value="10000000" /><span class="input-unit">원</span></div>
+    </div>
+
+    <div class="input-group">
+      <label>연 이자율</label>
+      <div class="input-wrapper"><input type="number" id="rate" value="3.5" step="0.1" /><span class="input-unit">%</span></div>
+      <input type="range" id="rateSlider" min="0.1" max="10" step="0.1" value="3.5" />
+    </div>
+
+    <div class="input-group">
+      <label>기간</label>
+      <div class="input-wrapper"><input type="number" id="period" value="12" min="1" max="120" /><span class="input-unit">개월</span></div>
+      <input type="range" id="periodSlider" min="1" max="120" step="1" value="12" />
+    </div>
+
+    <div class="input-group">
+      <label>이자 과세</label>
+      <div class="tab-group">
+        <button class="tab-btn active" onclick="setTax(0.154)" id="tab-tax">일반과세 (15.4%)</button>
+        <button class="tab-btn" onclick="setTax(0.099)" id="tab-semi">세금우대 (9.9%)</button>
+        <button class="tab-btn" onclick="setTax(0)" id="tab-free">비과세 (0%)</button>
+      </div>
+    </div>
+
+    <button class="calc-btn" onclick="calculate()">💳 만기 수령액 계산하기</button>
+  </div>
+
+  <div class="result-card" id="resultCard">
+    <div class="card">
+      <div class="summary-grid">
+        <div class="s-box main">
+          <div class="s-label">세후 수령액</div>
+          <div class="s-value" id="s-net">-</div>
+          <div class="s-unit">원</div>
+        </div>
+        <div class="s-box">
+          <div class="s-label">총 원금</div>
+          <div class="s-value" id="s-principal">-</div>
+          <div class="s-unit">원</div>
+        </div>
+        <div class="s-box">
+          <div class="s-label">세후 이자</div>
+          <div class="s-value" id="s-interest" style="color:#ffd54f">-</div>
+          <div class="s-unit">원</div>
+        </div>
+      </div>
+      <div class="detail-item"><span class="d-label">세전 이자</span><span class="d-value" id="d-gross">-</span></div>
+      <div class="detail-item"><span class="d-label">이자 세금</span><span class="d-value" id="d-tax">-</span></div>
+      <div class="detail-item"><span class="d-label">세후 이자</span><span class="d-value accent" id="d-net-int">-</span></div>
+      <div class="detail-item"><span class="d-label">실질 수익률</span><span class="d-value accent" id="d-yield">-</span></div>
+    </div>
+    <div class="notice">
+      <strong style="color:orange">ℹ️ 안내</strong> 정기적금은 단리 방식으로 계산됩니다. 실제 이자는 은행별 정책에 따라 다를 수 있습니다.
+    </div>
+  </div>
+</div>
+<script>
+  let savType='regular', taxRate=0.154;
+  document.getElementById('rateSlider').addEventListener('input',e=>{document.getElementById('rate').value=e.target.value});
+  document.getElementById('rate').addEventListener('input',e=>{document.getElementById('rateSlider').value=e.target.value});
+  document.getElementById('periodSlider').addEventListener('input',e=>{document.getElementById('period').value=e.target.value});
+  document.getElementById('period').addEventListener('input',e=>{document.getElementById('periodSlider').value=e.target.value});
+
+  function setType(t){
+    savType=t;
+    document.getElementById('tab-regular').classList.toggle('active',t==='regular');
+    document.getElementById('tab-lump').classList.toggle('active',t==='lump');
+    document.getElementById('monthly-group').style.display=t==='regular'?'block':'none';
+    document.getElementById('lump-group').style.display=t==='lump'?'block':'none';
+  }
+  function setTax(r){
+    taxRate=r;
+    ['tax','semi','free'].forEach(id=>document.getElementById(`tab-${id}`).classList.remove('active'));
+    if(r===0.154) document.getElementById('tab-tax').classList.add('active');
+    else if(r===0.099) document.getElementById('tab-semi').classList.add('active');
+    else document.getElementById('tab-free').classList.add('active');
+  }
+  function fmt(n){return Math.round(n).toLocaleString('ko-KR')}
+
+  function calculate(){
+    const annualRate=parseFloat(document.getElementById('rate').value)/100;
+    const months=parseInt(document.getElementById('period').value);
+    let principal=0, grossInterest=0;
+
+    if(savType==='regular'){
+      const m=parseFloat(document.getElementById('monthly').value)||0;
+      principal=m*months;
+      // 단리: 각 월납입금 × 연이율 × 남은기간/12
+      for(let i=1;i<=months;i++) grossInterest+=m*annualRate*((months-i+1)/12);
+    } else {
+      principal=parseFloat(document.getElementById('lump').value)||0;
+      grossInterest=principal*annualRate*(months/12);
+    }
+
+    const taxAmt=grossInterest*taxRate;
+    const netInterest=grossInterest-taxAmt;
+    const netTotal=principal+netInterest;
+    const yieldPct=(netInterest/principal*100).toFixed(2);
+
+    document.getElementById('s-net').textContent=fmt(netTotal);
+    document.getElementById('s-principal').textContent=fmt(principal);
+    document.getElementById('s-interest').textContent=fmt(netInterest);
+    document.getElementById('d-gross').textContent=`${fmt(grossInterest)}원`;
+    document.getElementById('d-tax').textContent=`-${fmt(taxAmt)}원 (${(taxRate*100).toFixed(1)}%)`;
+    document.getElementById('d-net-int').textContent=`${fmt(netInterest)}원`;
+    document.getElementById('d-yield').textContent=`${yieldPct}%`;
+
+    const rc=document.getElementById('resultCard');
+    rc.classList.add('visible');
+    rc.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+  window.onload=()=>calculate();
+</script>
+</body>
+</html>

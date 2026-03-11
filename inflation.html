@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>물가상승률 계산기 | 모두의계산기</title>
+  <meta name="description" content="물가상승률 계산기. 과거 금액의 현재 가치, 현재 금액의 미래 가치를 인플레이션 기준으로 계산하세요." />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+    .container{max-width:640px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .nav{text-align:center;margin-bottom:32px}.nav a{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:3px;color:var(--accent);text-decoration:none;text-transform:uppercase}
+    .header{text-align:center;margin-bottom:40px}
+    .header h1{font-size:clamp(24px,5vw,38px);font-weight:900;line-height:1.1;margin-bottom:10px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .header p{color:var(--text-muted);font-size:14px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;margin-bottom:16px}
+    .card-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:20px}
+    .tab-group{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:22px}
+    .tab-btn{padding:12px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;font-size:14px;font-weight:600;font-family:'Noto Sans KR',sans-serif;color:var(--text-muted);cursor:pointer;transition:all .2s}
+    .tab-btn.active{background:rgba(0,212,170,0.1);border-color:rgba(0,212,170,0.4);color:var(--accent)}
+    .input-group{margin-bottom:18px}
+    .input-group label{display:block;font-size:13px;font-weight:500;color:var(--text-muted);margin-bottom:7px}
+    .input-wrapper{position:relative}
+    .input-wrapper input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:13px 60px 13px 16px;font-size:20px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none;transition:border-color .2s,box-shadow .2s}
+    .input-wrapper input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,170,0.1)}
+    .input-unit{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--text-muted);font-weight:500;pointer-events:none}
+    .input-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    input[type="range"]{width:100%;-webkit-appearance:none;height:4px;border-radius:4px;background:var(--surface2);outline:none;cursor:pointer;margin-top:8px}
+    input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent);cursor:pointer;box-shadow:0 0 8px rgba(0,212,170,0.5)}
+    .slider-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-top:4px}
+    .preset-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px}
+    .preset-tag{padding:5px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:20px;font-size:12px;font-weight:600;color:var(--text-muted);cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .15s}
+    .preset-tag:hover{border-color:var(--accent);color:var(--accent)}
+    .calc-btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;font-size:16px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:#000;cursor:pointer;margin-top:4px;transition:transform .15s,box-shadow .15s}
+    .calc-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,212,170,0.3)}
+    .result-card{display:none;animation:fadeUp .4s ease}
+    .result-card.visible{display:block}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .result-highlight{background:linear-gradient(135deg,rgba(0,212,170,0.1),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.3);border-radius:16px;padding:24px 28px;text-align:center;margin-bottom:16px}
+    .r-label{font-size:12px;color:var(--accent);font-weight:700;letter-spacing:1px;margin-bottom:8px}
+    .r-amount{font-family:'Montserrat',sans-serif;font-size:clamp(34px,7vw,50px);font-weight:900;color:#fff}
+    .r-amount span{font-size:18px;color:var(--text-muted)}
+    .r-sub{font-size:13px;color:var(--text-muted);margin-top:6px}
+    .compare-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--border);font-size:14px}
+    .compare-row:last-child{border-bottom:none}
+    .compare-row .c-label{color:var(--text-muted)}
+    .compare-row .c-value{font-weight:700}
+    .compare-row .c-value.accent{color:var(--accent)}
+    .compare-row .c-value.danger{color:#ff6b6b}
+    .notice{margin-top:16px;padding:13px 16px;background:rgba(255,165,0,0.05);border:1px solid rgba(255,165,0,0.15);border-radius:10px;font-size:12px;color:var(--text-muted);line-height:1.7}
+    @media(max-width:480px){.card{padding:20px 16px}.input-row{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="nav"><a href="/">← 모두의계산기</a></div>
+  <div class="header">
+    <h1>물가상승률<br>계산기</h1>
+    <p>과거 금액의 현재 가치 · 미래 가치 계산</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">계산 방향</div>
+    <div class="tab-group">
+      <button class="tab-btn active" onclick="setMode('past')" id="tab-past">📈 과거 → 현재</button>
+      <button class="tab-btn" onclick="setMode('future')" id="tab-future">🔮 현재 → 미래</button>
+    </div>
+
+    <div class="input-group">
+      <label id="amountLabel">과거 금액</label>
+      <div class="input-wrapper"><input type="number" id="amount" value="1000000" /><span class="input-unit">원</span></div>
+    </div>
+
+    <div class="input-row">
+      <div class="input-group">
+        <label id="yearLabel">기준 연도</label>
+        <div class="input-wrapper"><input type="number" id="startYear" value="2010" min="1970" max="2030" /><span class="input-unit">년</span></div>
+      </div>
+      <div class="input-group">
+        <label id="year2Label">현재/목표 연도</label>
+        <div class="input-wrapper"><input type="number" id="endYear" value="2025" min="1970" max="2050" /><span class="input-unit">년</span></div>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>연 물가상승률 (인플레이션)</label>
+      <div class="input-wrapper"><input type="number" id="inflation" value="2.5" step="0.1" /><span class="input-unit">%</span></div>
+      <input type="range" id="inflationSlider" min="0" max="15" step="0.1" value="2.5" />
+      <div class="slider-labels"><span>0%</span><span>3%</span><span>7%</span><span>15%</span></div>
+    </div>
+
+    <div>
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;font-weight:600">빠른 설정</div>
+      <div class="preset-tags">
+        <button class="preset-tag" onclick="setPreset(2.5)">🇰🇷 한국 평균 (2.5%)</button>
+        <button class="preset-tag" onclick="setPreset(2.0)">📊 목표 인플레 (2%)</button>
+        <button class="preset-tag" onclick="setPreset(5.0)">📈 고물가 (5%)</button>
+        <button class="preset-tag" onclick="setPreset(1.0)">📉 저물가 (1%)</button>
+      </div>
+    </div>
+
+    <button class="calc-btn" onclick="calculate()">📊 가치 계산하기</button>
+  </div>
+
+  <div class="result-card" id="resultCard">
+    <div class="result-highlight">
+      <div class="r-label" id="r-label">현재 가치</div>
+      <div class="r-amount" id="r-amount">-<span>원</span></div>
+      <div class="r-sub" id="r-sub">-</div>
+    </div>
+    <div class="card">
+      <div class="card-title">분석</div>
+      <div class="compare-row"><span class="c-label" id="c-l1">과거 금액</span><span class="c-value" id="c-v1">-</span></div>
+      <div class="compare-row"><span class="c-label" id="c-l2">현재 환산 가치</span><span class="c-value accent" id="c-v2">-</span></div>
+      <div class="compare-row"><span class="c-label">변화 기간</span><span class="c-value" id="c-years">-</span></div>
+      <div class="compare-row"><span class="c-label">누적 물가 상승</span><span class="c-value danger" id="c-pct">-</span></div>
+      <div class="compare-row"><span class="c-label">구매력 변화</span><span class="c-value" id="c-power">-</span></div>
+    </div>
+    <div class="notice">
+      <strong style="color:orange">ℹ️ 안내</strong> 한국의 연평균 소비자물가 상승률은 약 2~3%입니다. 실제 물가 지수는 통계청 국가통계포털(KOSIS)에서 확인하세요.
+    </div>
+  </div>
+</div>
+<script>
+  let mode='past';
+  document.getElementById('inflationSlider').addEventListener('input',e=>{document.getElementById('inflation').value=e.target.value});
+  document.getElementById('inflation').addEventListener('input',e=>{document.getElementById('inflationSlider').value=e.target.value});
+
+  function setMode(m){
+    mode=m;
+    document.getElementById('tab-past').classList.toggle('active',m==='past');
+    document.getElementById('tab-future').classList.toggle('active',m==='future');
+    document.getElementById('amountLabel').textContent=m==='past'?'과거 금액':'현재 금액';
+    document.getElementById('yearLabel').textContent=m==='past'?'기준 연도':'현재 연도';
+    document.getElementById('year2Label').textContent=m==='past'?'현재 연도':'목표 연도';
+  }
+  function setPreset(r){
+    document.getElementById('inflation').value=r;
+    document.getElementById('inflationSlider').value=r;
+  }
+  function fmt(n){return Math.round(n).toLocaleString('ko-KR')}
+
+  function calculate(){
+    const amount=parseFloat(document.getElementById('amount').value)||0;
+    const startYear=parseInt(document.getElementById('startYear').value)||0;
+    const endYear=parseInt(document.getElementById('endYear').value)||0;
+    const inflation=parseFloat(document.getElementById('inflation').value)/100;
+    const years=endYear-startYear;
+    if(years===0){alert('두 연도가 같습니다.');return;}
+
+    const factor=Math.pow(1+inflation,Math.abs(years));
+    let result, totalChange;
+
+    if(mode==='past'){
+      result=amount*factor;
+      totalChange=((factor-1)*100).toFixed(1);
+      document.getElementById('r-label').textContent='현재 가치 (환산액)';
+      document.getElementById('c-l1').textContent=`${startYear}년 금액`;
+      document.getElementById('c-l2').textContent=`${endYear}년 환산 가치`;
+    } else {
+      result=amount*factor;
+      totalChange=((factor-1)*100).toFixed(1);
+      document.getElementById('r-label').textContent='미래 필요 금액';
+      document.getElementById('c-l1').textContent=`${startYear}년 현재 금액`;
+      document.getElementById('c-l2').textContent=`${endYear}년 필요 금액`;
+    }
+
+    const powerChange=(1/factor*100).toFixed(1);
+    document.getElementById('r-amount').innerHTML=`${fmt(result)}<span>원</span>`;
+    document.getElementById('r-sub').textContent=`${Math.abs(years)}년간 ${(inflation*100).toFixed(1)}% 물가상승률 적용`;
+    document.getElementById('c-v1').textContent=`${fmt(amount)}원`;
+    document.getElementById('c-v2').textContent=`${fmt(result)}원`;
+    document.getElementById('c-years').textContent=`${Math.abs(years)}년`;
+    document.getElementById('c-pct').textContent=`+${totalChange}%`;
+    document.getElementById('c-power').textContent=`100원 → ${powerChange}원 가치`;
+
+    const rc=document.getElementById('resultCard');
+    rc.classList.add('visible');
+    rc.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+  window.onload=()=>calculate();
+</script>
+</body>
+</html>
