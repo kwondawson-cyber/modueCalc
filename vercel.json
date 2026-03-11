@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/salary", "destination": "/salary.html" },
+    { "source": "/age", "destination": "/age.html" }
+  ]
+}
