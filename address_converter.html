@@ -49,6 +49,7 @@
     .spinner{display:inline-block;width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:12px}
     @keyframes spin{to{transform:rotate(360deg)}}
     .notice{padding:13px 16px;background:rgba(255,165,0,0.05);border:1px solid rgba(255,165,0,0.15);border-radius:10px;font-size:12px;color:var(--text-muted);line-height:1.7;margin-top:12px}
+    .err-box{background:rgba(255,107,107,0.06);border:1px solid rgba(255,107,107,0.2);border-radius:14px;padding:20px 22px;margin-bottom:14px;font-size:14px;color:#ff6b6b;line-height:1.7}
     @media(max-width:480px){.card{padding:20px 16px}.btn-row{grid-template-columns:1fr}}
   </style>
 </head>
@@ -64,19 +65,19 @@
     <div class="card-title">주소 입력</div>
     <div class="input-group">
       <label>한글 주소 (도로명주소 권장)</label>
-      <textarea id="addressInput" placeholder="예) 경기도 김포시 김포한강7로 22번길 22&#10;서울특별시 강남구 테헤란로 152"></textarea>
+      <textarea id="addressInput" placeholder="예) 서울특별시 강남구 테헤란로 421 202호"></textarea>
     </div>
     <div style="margin-bottom:14px">
       <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px">예시 주소:</div>
       <div class="example-chips">
-        <div class="chip" onclick="setAddr('서울특별시 강남구 테헤란로 152')">강남구 테헤란로</div>
-        <div class="chip" onclick="setAddr('서울특별시 종로구 세종대로 175')">종로구 세종대로</div>
+        <div class="chip" onclick="setAddr('서울특별시 강남구 테헤란로 421')">강남 테헤란로</div>
+        <div class="chip" onclick="setAddr('서울특별시 종로구 세종대로 175')">종로 세종대로</div>
         <div class="chip" onclick="setAddr('부산광역시 해운대구 해운대해변로 264')">부산 해운대</div>
-        <div class="chip" onclick="setAddr('경기도 김포시 김포한강7로22번길 22')">김포한강</div>
         <div class="chip" onclick="setAddr('제주특별자치도 제주시 공항로 2')">제주 공항로</div>
+        <div class="chip" onclick="setAddr('경기도 성남시 분당구 판교역로 235')">판교역로</div>
       </div>
     </div>
-    <div class="info-box">📌 행정안전부 도로명주소 공식 영문 API 연동<br>📌 도로명주소로 입력할수록 정확도가 높습니다</div>
+    <div class="info-box">📌 행정안전부 도로명주소 공식 API 기반 · 우편번호 포함<br>📌 상세주소(동·호수)는 변환 후 직접 추가하세요</div>
     <div class="btn-row">
       <button class="calc-btn" onclick="convertAddress()">🌐 영문 변환하기</button>
       <button class="calc-btn sec" onclick="clearAll()">🗑 초기화</button>
@@ -88,20 +89,8 @@
   </div>
 
   <div class="result-card" id="resultCard">
-    <div class="card">
-      <div class="result-box">
-        <label>영문 주소 (Full)</label>
-        <button class="copy-btn" onclick="copyText('fullAddr')">복사</button>
-        <div class="result-text" id="fullAddr">-</div>
-      </div>
-      <div class="result-box">
-        <label>우편번호 포함 (국제 우편용)</label>
-        <button class="copy-btn" onclick="copyText('postalAddr')">복사</button>
-        <div class="result-text" id="postalAddr">-</div>
-      </div>
-      <div class="addr-parts" id="addrParts"></div>
-    </div>
-    <a href="https://www.juso.go.kr/openIndexPage.do" class="notice" target="_blank" style="display:block;text-decoration:none;text-align:center;cursor:pointer">
+    <div id="resultBody"></div>
+    <a href="https://www.juso.go.kr/openIndexPage.do" target="_blank" class="notice" style="display:block;text-decoration:none;cursor:pointer;text-align:center">
       🔍 도로명주소 공식 사이트에서 직접 확인하기 →
     </a>
   </div>
@@ -109,6 +98,11 @@
 
 <script>
   const CONF_KEY = 'devU01TX0FVVEgyMDI2MDMxMTIyMjQwMDExNzcxODg=';
+  // CORS 프록시 (공개 프록시 2개 순차 시도)
+  const PROXIES = [
+    'https://corsproxy.io/?',
+    'https://api.allorigins.win/get?url='
+  ];
 
   function setAddr(addr){ document.getElementById('addressInput').value = addr; }
   function clearAll(){
@@ -119,93 +113,110 @@
   function copyText(id){
     const txt = document.getElementById(id).textContent;
     navigator.clipboard.writeText(txt).then(()=>{
-      event.target.textContent='✅ 복사됨';
-      setTimeout(()=>event.target.textContent='복사',1500);
+      const btn = event.target;
+      const orig = btn.textContent;
+      btn.textContent = '✅ 복사됨';
+      setTimeout(()=>btn.textContent=orig, 1500);
     });
   }
 
-  function convertAddress(){
+  async function fetchWithProxy(apiUrl, proxyIdx = 0) {
+    if (proxyIdx >= PROXIES.length) throw new Error('모든 프록시 실패');
+    const proxy = PROXIES[proxyIdx];
+    const fullUrl = proxy + encodeURIComponent(apiUrl);
+    const res = await fetch(fullUrl);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const text = await res.text();
+    // allorigins는 {contents: "..."} 형태
+    try {
+      const outer = JSON.parse(text);
+      if (outer.contents) return JSON.parse(outer.contents);
+      return outer;
+    } catch(e) {
+      return JSON.parse(text);
+    }
+  }
+
+  async function convertAddress(){
     const input = document.getElementById('addressInput').value.trim();
     if(!input){ alert('주소를 입력해주세요.'); return; }
 
     document.getElementById('resultCard').classList.remove('visible');
     document.getElementById('loadingOverlay').classList.add('show');
 
-    // JSONP 방식으로 CORS 우회
-    const cbName = 'jusoCallback_' + Date.now();
-    const script = document.createElement('script');
-
-    window[cbName] = function(data){
-      document.getElementById('loadingOverlay').classList.remove('show');
-      delete window[cbName];
-      script.remove();
-
-      const juso = data?.results?.juso;
-      if(juso && juso.length > 0){
-        showResult(juso[0]);
-      } else {
-        showError();
-      }
-    };
-
-    const url = `https://business.juso.go.kr/addrlink/addrEngApi.do`
-      + `?currentPage=1&countPerPage=1`
+    const apiUrl = `https://business.juso.go.kr/addrlink/addrEngApi.do`
+      + `?currentPage=1&countPerPage=5`
       + `&keyword=${encodeURIComponent(input)}`
       + `&confmKey=${CONF_KEY}`
-      + `&resultType=json`
-      + `&callback=${cbName}`;
+      + `&resultType=json`;
 
-    script.src = url;
-    script.onerror = function(){
-      document.getElementById('loadingOverlay').classList.remove('show');
-      delete window[cbName];
-      showError();
-    };
-    document.head.appendChild(script);
-
-    // 5초 타임아웃
-    setTimeout(()=>{
-      if(window[cbName]){
-        document.getElementById('loadingOverlay').classList.remove('show');
-        delete window[cbName];
-        showError();
+    let data = null;
+    for (let i = 0; i < PROXIES.length; i++) {
+      try {
+        data = await fetchWithProxy(apiUrl, i);
+        break;
+      } catch(e) {
+        console.warn('Proxy ' + i + ' failed:', e);
       }
-    }, 5000);
+    }
+
+    document.getElementById('loadingOverlay').classList.remove('show');
+
+    const juso = data?.results?.juso;
+    if (juso && juso.length > 0) {
+      showResult(juso[0]);
+    } else {
+      showError(input);
+    }
   }
 
   function showResult(item){
-    // engAddr 예: "22, Gimpohangang 7-ro 22beon-gil, Gimpo-si, Gyeonggi-do"
-    const eng = item.engAddr || '';
+    const eng = (item.engAddr || '').trim();
     const zip = item.zipNo || '';
     const roadEng = item.rnEng || '';
     const siNm = item.siNm || '';
     const sggNm = item.sggNm || '';
-    const emdNm = item.emdNm || '';
-    const buldNo = item.buldMnnm ? (item.buldSlno && item.buldSlno!=='0' ? item.buldMnnm+'-'+item.buldSlno : item.buldMnnm) : '';
+    const buldMnnm = item.buldMnnm || '';
+    const buldSlno = item.buldSlno && item.buldSlno !== '0' ? '-' + item.buldSlno : '';
+    const buldNo = buldMnnm ? buldMnnm + buldSlno : '';
 
     const fullAddr = eng + ', Republic of Korea';
     const postalAddr = zip ? eng + ', ' + zip + ', Republic of Korea' : fullAddr;
 
-    document.getElementById('fullAddr').textContent = fullAddr;
-    document.getElementById('postalAddr').textContent = postalAddr;
-
-    document.getElementById('addrParts').innerHTML = `
-      <div class="addr-part"><span class="ap-label">시/도</span><span class="ap-val">${siNm||'-'}</span></div>
-      <div class="addr-part"><span class="ap-label">시군구</span><span class="ap-val">${sggNm||'-'}</span></div>
-      <div class="addr-part"><span class="ap-label">도로명 (영문)</span><span class="ap-val">${roadEng||'-'}</span></div>
-      <div class="addr-part"><span class="ap-label">건물번호</span><span class="ap-val">${buldNo||'-'}</span></div>
-      <div class="addr-part"><span class="ap-label">우편번호</span><span class="ap-val accent">${zip||'미확인'}</span></div>
+    document.getElementById('resultBody').innerHTML = `
+      <div class="result-box">
+        <label>영문 주소 (Full)</label>
+        <button class="copy-btn" onclick="copyText('r-full')">복사</button>
+        <div class="result-text" id="r-full">${fullAddr}</div>
+      </div>
+      <div class="result-box">
+        <label>우편번호 포함 (국제 우편용)</label>
+        <button class="copy-btn" onclick="copyText('r-postal')">복사</button>
+        <div class="result-text" id="r-postal">${postalAddr}</div>
+      </div>
+      <div class="addr-parts">
+        <div class="addr-part"><span class="ap-label">시/도</span><span class="ap-val">${siNm||'-'}</span></div>
+        <div class="addr-part"><span class="ap-label">시군구</span><span class="ap-val">${sggNm||'-'}</span></div>
+        <div class="addr-part"><span class="ap-label">도로명 (영문)</span><span class="ap-val">${roadEng||'-'}</span></div>
+        <div class="addr-part"><span class="ap-label">건물번호</span><span class="ap-val">${buldNo||'-'}</span></div>
+        <div class="addr-part"><span class="ap-label">우편번호</span><span class="ap-val accent">${zip||'미확인'}</span></div>
+      </div>
     `;
 
     document.getElementById('resultCard').classList.add('visible');
     document.getElementById('resultCard').scrollIntoView({behavior:'smooth',block:'nearest'});
   }
 
-  function showError(){
-    document.getElementById('fullAddr').textContent = '변환 실패 — 도로명주소로 다시 입력해주세요';
-    document.getElementById('postalAddr').textContent = '예) 경기도 김포시 김포한강7로22번길 22';
-    document.getElementById('addrParts').innerHTML = `
-      <div class="addr-part"><span class="ap-label">해결방법</span><span class="ap-val" style="color:#ff6b6b;font-size:12px">지번 대신 도로명주소로 입력해보세요</span></div>
+  function showError(input){
+    document.getElementById('resultBody').innerHTML = `
+      <div class="err-box">
+        ⚠️ 주소를 찾지 못했어요.<br><br>
+        <strong>도로명주소로 다시 시도해보세요</strong><br>
+        · 지번 주소 → 도로명 주소로 변경<br>
+        · 쉼표(,) 제거 후 입력<br>
+        · 상세주소(동·호수) 빼고 도로명+번지만 입력<br><br>
+        예) <span style="color:var(--accent)">서울특별시 강남구 테헤란로 421</span>
+      </div>
     `;
     document.getElementById('resultCard').classList.add('visible');
   }
