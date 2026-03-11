@@ -9,6 +9,13 @@
     { "source": "/bmi", "destination": "/bmi.html" },
     { "source": "/bmr", "destination": "/bmr.html" },
     { "source": "/realestate", "destination": "/realestate.html" },
-    { "source": "/acquisition", "destination": "/acquisition.html" }
+    { "source": "/acquisition", "destination": "/acquisition.html" },
+    { "source": "/capital_gains", "destination": "/capital_gains.html" },
+    { "source": "/gift_tax", "destination": "/gift_tax.html" },
+    { "source": "/rent_conversion", "destination": "/rent_conversion.html" },
+    { "source": "/pregnancy", "destination": "/pregnancy.html" },
+    { "source": "/savings", "destination": "/savings.html" },
+    { "source": "/exchange", "destination": "/exchange.html" },
+    { "source": "/inflation", "destination": "/inflation.html" }
   ]
 }
