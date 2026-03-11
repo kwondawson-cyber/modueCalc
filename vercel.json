@@ -1,4 +1,15 @@
 {
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://t1.kakaocdn.net https://developers.kakao.com https://fonts.googleapis.com; default-src *; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src *;"
+        }
+      ]
+    }
+  ],
   "rewrites": [
     { "source": "/salary", "destination": "/salary.html" },
     { "source": "/age", "destination": "/age.html" },
