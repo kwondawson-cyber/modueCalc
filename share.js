@@ -77,7 +77,7 @@
 
   // 카카오 SDK 로드 (최신 안정버전)
   const kakaoScript = document.createElement('script');
-  kakaoScript.src = 'https://developers.kakao.com/sdk/js/kakao.js';
+  kakaoScript.src = 'https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js';
   kakaoScript.crossOrigin = 'anonymous';
   kakaoScript.onload = function() {
     if (window.Kakao && !Kakao.isInitialized()) {
