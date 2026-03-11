@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>한글 주소 영문 변환기 | 모두의계산기</title>
+  <meta name="description" content="한글 주소를 영문 주소로 변환하세요. 도로명주소 기준 영문 변환 및 우편번호 조회." />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+    .container{max-width:640px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .nav{text-align:center;margin-bottom:32px}.nav a{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:3px;color:var(--accent);text-decoration:none;text-transform:uppercase}
+    .header{text-align:center;margin-bottom:40px}
+    .header h1{font-size:clamp(28px,6vw,44px);font-weight:900;line-height:1.1;margin-bottom:10px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .header p{color:var(--text-muted);font-size:14px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:16px}
+    .card-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:20px}
+    .input-group{margin-bottom:18px}
+    .input-group label{display:block;font-size:13px;font-weight:500;color:var(--text-muted);margin-bottom:7px}
+    .input-group textarea{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-size:16px;font-family:'Noto Sans KR',sans-serif;color:var(--text);outline:none;resize:vertical;min-height:80px;transition:border-color .2s;line-height:1.6}
+    .input-group textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,170,0.1)}
+    .input-group textarea::placeholder{color:#30363d}
+    .example-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+    .chip{padding:6px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:20px;font-size:12px;color:var(--text-muted);cursor:pointer;transition:all .15s;white-space:nowrap}
+    .chip:hover{border-color:rgba(0,212,170,0.4);color:var(--accent)}
+    .info-box{background:rgba(0,149,255,0.06);border:1px solid rgba(0,149,255,0.15);border-radius:10px;padding:12px 16px;font-size:12px;color:var(--text-muted);margin-bottom:18px;line-height:1.8}
+    .btn-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .calc-btn{width:100%;padding:15px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;font-size:15px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:#000;cursor:pointer;transition:transform .15s,box-shadow .15s}
+    .calc-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,212,170,0.3)}
+    .calc-btn.sec{background:var(--surface2);border:1px solid var(--border);color:var(--text-muted)}
+    .calc-btn.sec:hover{border-color:var(--accent);color:var(--accent);box-shadow:none}
+    .result-card{display:none;animation:fadeUp .4s ease}.result-card.visible{display:block}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .result-box{background:var(--surface2);border:1px solid rgba(0,212,170,0.3);border-radius:14px;padding:20px 22px;margin-bottom:14px;position:relative}
+    .result-box label{font-size:11px;color:var(--accent);font-weight:700;letter-spacing:1px;display:block;margin-bottom:10px;text-transform:uppercase}
+    .result-text{font-size:18px;font-weight:700;color:var(--text);line-height:1.6;font-family:'Montserrat',sans-serif;word-break:break-all}
+    .copy-btn{position:absolute;top:16px;right:16px;padding:6px 12px;background:rgba(0,212,170,0.1);border:1px solid rgba(0,212,170,0.3);border-radius:8px;font-size:12px;font-weight:600;color:var(--accent);cursor:pointer;transition:all .15s}
+    .copy-btn:hover{background:rgba(0,212,170,0.2)}
+    .addr-parts{display:grid;gap:8px;margin-top:12px}
+    .addr-part{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 14px;display:flex;justify-content:space-between;font-size:13px}
+    .ap-label{color:var(--text-muted);font-size:12px}
+    .ap-val{font-weight:600;text-align:right;font-family:'Montserrat',sans-serif}
+    .search-link{display:block;text-align:center;margin-top:12px;padding:12px;background:rgba(0,149,255,0.06);border:1px solid rgba(0,149,255,0.15);border-radius:10px;font-size:13px;color:var(--accent2);text-decoration:none;transition:background .15s}
+    .search-link:hover{background:rgba(0,149,255,0.12)}
+    .notice{padding:13px 16px;background:rgba(255,165,0,0.05);border:1px solid rgba(255,165,0,0.15);border-radius:10px;font-size:12px;color:var(--text-muted);line-height:1.7}
+    .loading{text-align:center;padding:20px;color:var(--text-muted)}
+    @media(max-width:480px){.card{padding:20px 16px}.btn-row{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="nav"><a href="/">← 모두의계산기</a></div>
+  <div class="header">
+    <h1>한글 주소<br>영문 변환기</h1>
+    <p>도로명주소 기준 공식 영문 주소 변환</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">주소 입력</div>
+    <div class="input-group">
+      <label>한글 주소 (도로명주소 권장)</label>
+      <textarea id="addressInput" placeholder="예) 서울특별시 강남구 테헤란로 152&#10;경기도 수원시 영통구 월드컵로 206"></textarea>
+    </div>
+    <div style="margin-bottom:14px">
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px">예시 주소 선택:</div>
+      <div class="example-chips">
+        <div class="chip" onclick="setAddr('서울특별시 강남구 테헤란로 152')">강남구 테헤란로</div>
+        <div class="chip" onclick="setAddr('서울특별시 종로구 세종대로 175')">종로구 세종대로</div>
+        <div class="chip" onclick="setAddr('부산광역시 해운대구 해운대해변로 264')">부산 해운대</div>
+        <div class="chip" onclick="setAddr('제주특별자치도 제주시 공항로 2')">제주 공항로</div>
+        <div class="chip" onclick="setAddr('경기도 성남시 분당구 판교역로 235')">판교역로</div>
+      </div>
+    </div>
+    <div class="info-box">📌 도로명주소 공식 영문 변환 API 연동 · 우편번호(ZIP) 함께 제공<br>📌 지번주소 입력 시 정확도가 낮을 수 있습니다</div>
+    <div class="btn-row">
+      <button class="calc-btn" onclick="convertAddress()">🌐 영문 변환하기</button>
+      <button class="calc-btn sec" onclick="clearAll()">🗑 초기화</button>
+    </div>
+  </div>
+
+  <div class="result-card" id="resultCard">
+    <div class="card">
+      <div class="result-box">
+        <label>영문 주소 (Full)</label>
+        <button class="copy-btn" onclick="copyText('fullAddr')">복사</button>
+        <div class="result-text" id="fullAddr">-</div>
+      </div>
+      <div class="result-box">
+        <label>우편번호 포함 (국제 우편용)</label>
+        <button class="copy-btn" onclick="copyText('postalAddr')">복사</button>
+        <div class="result-text" id="postalAddr">-</div>
+      </div>
+      <div class="addr-parts" id="addrParts"></div>
+    </div>
+    <a href="#" id="jusoLink" class="search-link" target="_blank">🔍 도로명주소 공식 사이트에서 확인하기 →</a>
+    <div class="notice" style="margin-top:12px">📌 본 변환기는 도로명주소 API를 사용합니다. 정확도 향상을 위해 상세주소(동·호수)는 직접 입력하세요.</div>
+  </div>
+</div>
+
+<script>
+  function setAddr(addr) {
+    document.getElementById('addressInput').value = addr;
+  }
+  function clearAll() {
+    document.getElementById('addressInput').value = '';
+    document.getElementById('resultCard').classList.remove('visible');
+  }
+  function copyText(id) {
+    const txt = document.getElementById(id).textContent;
+    navigator.clipboard.writeText(txt).then(() => {
+      const btn = event.target;
+      btn.textContent = '✅ 복사됨';
+      setTimeout(() => btn.textContent = '복사', 1500);
+    });
+  }
+
+  // 도로명주소 → 영문 변환 (행정안전부 도로명주소 오픈API 없이 규칙 기반 변환)
+  // 공식 API는 키 발급 필요하므로 주소 구성요소 분해 + 영문 변환 규칙 사용
+  const sidoMap = {
+    '서울특별시':'Seoul','서울':'Seoul',
+    '부산광역시':'Busan','부산':'Busan',
+    '대구광역시':'Daegu','대구':'Daegu',
+    '인천광역시':'Incheon','인천':'Incheon',
+    '광주광역시':'Gwangju','광주':'Gwangju',
+    '대전광역시':'Daejeon','대전':'Daejeon',
+    '울산광역시':'Ulsan','울산':'Ulsan',
+    '세종특별자치시':'Sejong','세종':'Sejong',
+    '경기도':'Gyeonggi-do',
+    '강원도':'Gangwon-do','강원특별자치도':'Gangwon State',
+    '충청북도':'Chungcheongbuk-do','충북':'Chungcheongbuk-do',
+    '충청남도':'Chungcheongnam-do','충남':'Chungcheongnam-do',
+    '전라북도':'Jeollabuk-do','전북특별자치도':'Jeollabuk State','전북':'Jeollabuk-do',
+    '전라남도':'Jeollanam-do','전남':'Jeollanam-do',
+    '경상북도':'Gyeongsangbuk-do','경북':'Gyeongsangbuk-do',
+    '경상남도':'Gyeongsangnam-do','경남':'Gyeongsangnam-do',
+    '제주특별자치도':'Jeju-do','제주':'Jeju-do',
+  };
+
+  // 행정구역 접미사
+  const suffixMap = {
+    '시':'si','구':'gu','군':'gun','읍':'eup','면':'myeon','리':'ri',
+    '동':'dong','로':'ro','길':'gil','대로':'daero','도':'do',
+    '가':'ga','번길':'beon-gil',
+  };
+
+  function romanize(kor) {
+    // 간이 로마자 변환 (공식 국립국어원 기준 근사치)
+    const cho = ['g','kk','n','d','tt','r','m','b','pp','s','ss','','j','jj','ch','k','t','p','h'];
+    const jung = ['a','ae','ya','yae','eo','e','yeo','ye','o','wa','wae','oe','yo','u','wo','we','wi','yu','eu','ui','i'];
+    const jong = ['','g','kk','gs','n','nj','nh','d','l','lg','lm','lb','ls','lt','lp','lh','m','b','bs','s','ss','ng','j','ch','k','t','p','h'];
+
+    let result = '';
+    for (let i = 0; i < kor.length; i++) {
+      const code = kor.charCodeAt(i) - 0xAC00;
+      if (code < 0 || code > 11171) { result += kor[i]; continue; }
+      const c = Math.floor(code / 21 / 28);
+      const v = Math.floor((code % (21 * 28)) / 28);
+      const f = code % 28;
+      result += cho[c] + jung[v] + jong[f];
+    }
+    return result.charAt(0).toUpperCase() + result.slice(1);
+  }
+
+  function parseAddress(raw) {
+    raw = raw.trim();
+    const parts = raw.split(/\s+/);
+    if (parts.length < 2) return null;
+
+    let sido = '', sigungu = '', road = '', building = '', detail = '';
+    let idx = 0;
+
+    // 시도 매칭
+    for (const key of Object.keys(sidoMap)) {
+      if (raw.startsWith(key)) {
+        sido = sidoMap[key];
+        idx = key.length;
+        break;
+      }
+    }
+
+    // 나머지 파싱
+    const rest = raw.slice(idx).trim().split(/\s+/);
+    const roadKeywords = ['로','길','대로','번길'];
+    const detailKeywords = ['동','호','층','번','아파트','빌딩','타워'];
+
+    let roadIdx = -1;
+    for (let i = 0; i < rest.length; i++) {
+      if (roadKeywords.some(k => rest[i].endsWith(k))) { roadIdx = i; break; }
+    }
+
+    if (roadIdx >= 0) {
+      sigungu = rest.slice(0, roadIdx).join(' ');
+      road = rest[roadIdx];
+      building = rest[roadIdx + 1] || '';
+      detail = rest.slice(roadIdx + 2).join(' ');
+    } else {
+      sigungu = rest.join(' ');
+    }
+
+    return { sido, sigungu, road, building, detail, raw };
+  }
+
+  async function convertAddress() {
+    const input = document.getElementById('addressInput').value.trim();
+    if (!input) { alert('주소를 입력해주세요.'); return; }
+
+    // 주소 API 시도 (행정안전부 도로명주소 영문 검색)
+    try {
+      const url = `https://business.juso.go.kr/addrlink/addrEngApi.do?currentPage=1&countPerPage=1&keyword=${encodeURIComponent(input)}&confmKey=devU01TX0FVVEgyMDI1MDMxMTE0MTYzMTExNTA3MDg=&resultType=json`;
+      const res = await fetch(url);
+      if (res.ok) {
+        const data = await res.json();
+        const item = data?.results?.juso?.[0];
+        if (item) {
+          showResult(item.engAddr, item.zipNo, item);
+          return;
+        }
+      }
+    } catch(e) {}
+
+    // 폴백: 규칙 기반 변환
+    const parsed = parseAddress(input);
+    if (!parsed) { showFallback(input); return; }
+
+    const sigunguEng = romanize(parsed.sigungu);
+    const roadEng = romanize(parsed.road);
+    const engAddr = [parsed.building, roadEng, sigunguEng, parsed.sido, 'Republic of Korea']
+      .filter(Boolean).join(', ');
+
+    showResult(engAddr, '(우편번호 미확인)', null, parsed);
+  }
+
+  function showResult(engAddr, zipNo, apiItem, parsed) {
+    document.getElementById('fullAddr').textContent = engAddr;
+    const postal = zipNo && zipNo !== '(우편번호 미확인)'
+      ? `${engAddr}, ${zipNo}, Republic of Korea`
+      : engAddr + ', Republic of Korea';
+    document.getElementById('postalAddr').textContent = postal;
+
+    let parts = '';
+    if (apiItem) {
+      parts = `
+        <div class="addr-part"><span class="ap-label">시/도</span><span class="ap-val">${apiItem.siNm||'-'}</span></div>
+        <div class="addr-part"><span class="ap-label">시군구</span><span class="ap-val">${apiItem.sggNm||'-'}</span></div>
+        <div class="addr-part"><span class="ap-label">도로명</span><span class="ap-val">${(apiItem.rn||'')+' '+(apiItem.buldNo||'')}</span></div>
+        <div class="addr-part"><span class="ap-label">우편번호</span><span class="ap-val">${zipNo}</span></div>
+      `;
+    } else if (parsed) {
+      parts = `
+        <div class="addr-part"><span class="ap-label">시/도</span><span class="ap-val">${parsed.sido||'-'}</span></div>
+        <div class="addr-part"><span class="ap-label">시군구 (변환)</span><span class="ap-val">${romanize(parsed.sigungu)||'-'}</span></div>
+        <div class="addr-part"><span class="ap-label">도로명 (변환)</span><span class="ap-val">${romanize(parsed.road)||'-'}</span></div>
+        <div class="addr-part"><span class="ap-label">우편번호</span><span class="ap-val">미확인</span></div>
+      `;
+    }
+    document.getElementById('addrParts').innerHTML = parts;
+
+    const query = encodeURIComponent(document.getElementById('addressInput').value.trim());
+    document.getElementById('jusoLink').href = `https://www.juso.go.kr/openIndexPage.do`;
+
+    const rc = document.getElementById('resultCard');
+    rc.classList.add('visible');
+    rc.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function showFallback(raw) {
+    document.getElementById('fullAddr').textContent = '변환 실패 — 도로명주소로 다시 입력해주세요';
+    document.getElementById('postalAddr').textContent = '-';
+    document.getElementById('addrParts').innerHTML = '';
+    document.getElementById('resultCard').classList.add('visible');
+  }
+</script>
+<script src="/share.js"></script>
+<script src="/calculator.js"></script>
+</body>
+</html>

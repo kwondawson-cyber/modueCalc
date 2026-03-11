@@ -33,6 +33,9 @@
     { "source": "/annual_leave", "destination": "/annual_leave.html" },
     { "source": "/vat", "destination": "/vat.html" },
     { "source": "/margin", "destination": "/margin.html" },
-    { "source": "/stock_return", "destination": "/stock_return.html" }
+    { "source": "/stock_return", "destination": "/stock_return.html" },
+    { "source": "/health_insurance", "destination": "/health_insurance.html" },
+    { "source": "/income_tax", "destination": "/income_tax.html" },
+    { "source": "/address_converter", "destination": "/address_converter.html" }
   ]
 }
