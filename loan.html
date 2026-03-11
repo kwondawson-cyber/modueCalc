@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>대출 이자 계산기 | 모두의계산기</title>
+  <meta name="description" content="대출 이자 계산기. 원리금균등, 원금균등 방식으로 월 상환액과 총 이자를 계산하세요. 2025년 기준." />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --surface2: #21262d;
+      --border: #30363d;
+      --accent: #00d4aa;
+      --accent2: #0095ff;
+      --text: #e6edf3;
+      --text-muted: #8b949e;
+      --danger: #ff6b6b;
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,170,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,170,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+      position: relative;
+      z-index: 1;
+    }
+    .nav { text-align: center; margin-bottom: 32px; }
+    .nav a {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: var(--accent);
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+    .header { text-align: center; margin-bottom: 40px; }
+    .header h1 {
+      font-size: clamp(28px, 6vw, 44px);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .header p { color: var(--text-muted); font-size: 14px; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 20px;
+    }
+    .card-title {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .input-group { margin-bottom: 20px; }
+    .input-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .input-wrapper { position: relative; }
+    .input-wrapper input {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 70px 14px 18px;
+      font-size: 18px;
+      font-weight: 700;
+      font-family: 'Montserrat', sans-serif;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .input-wrapper input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0,212,170,0.1);
+    }
+    .input-unit {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+      pointer-events: none;
+    }
+    /* 상환 방식 탭 */
+    .tab-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    .tab-btn {
+      padding: 12px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: 'Noto Sans KR', sans-serif;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    .tab-btn.active {
+      background: rgba(0,212,170,0.1);
+      border-color: rgba(0,212,170,0.4);
+      color: var(--accent);
+    }
+    /* 슬라이더 */
+    .slider-wrapper { margin-top: 10px; }
+    input[type="range"] {
+      width: 100%;
+      -webkit-appearance: none;
+      height: 4px;
+      border-radius: 4px;
+      background: var(--surface2);
+      outline: none;
+      cursor: pointer;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--accent);
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(0,212,170,0.5);
+    }
+    .slider-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 6px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .calc-btn {
+      width: 100%;
+      padding: 18px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border: none;
+      border-radius: 12px;
+      font-size: 17px;
+      font-weight: 700;
+      font-family: 'Noto Sans KR', sans-serif;
+      color: #000;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .calc-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0,212,170,0.3);
+    }
+    /* 결과 */
+    .result-card { display: none; animation: fadeUp 0.4s ease; }
+    .result-card.visible { display: block; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .summary-box {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 14px;
+      text-align: center;
+    }
+    .summary-box.main {
+      border-color: rgba(0,212,170,0.4);
+      background: linear-gradient(135deg, rgba(0,212,170,0.08), rgba(0,149,255,0.04));
+    }
+    .summary-box .s-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    .summary-box .s-value {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 20px;
+      font-weight: 900;
+      color: var(--text);
+    }
+    .summary-box.main .s-value { color: var(--accent); }
+    .summary-box .s-unit { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    /* 상환 스케줄 */
+    .schedule-title {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .schedule-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .schedule-table th {
+      text-align: right;
+      padding: 8px 12px;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--border);
+    }
+    .schedule-table th:first-child { text-align: center; }
+    .schedule-table td {
+      text-align: right;
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(48,54,61,0.5);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+    }
+    .schedule-table td:first-child {
+      text-align: center;
+      color: var(--text-muted);
+      font-family: 'Noto Sans KR', sans-serif;
+      font-weight: 400;
+    }
+    .schedule-table td.interest { color: var(--danger); }
+    .schedule-table td.principal { color: var(--accent2); }
+    .show-more-btn {
+      width: 100%;
+      padding: 12px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: 'Noto Sans KR', sans-serif;
+      color: var(--text-muted);
+      cursor: pointer;
+      margin-top: 12px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .show-more-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .notice {
+      margin-top: 20px;
+      padding: 14px 18px;
+      background: rgba(255,165,0,0.05);
+      border: 1px solid rgba(255,165,0,0.15);
+      border-radius: 10px;
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+    @media (max-width: 500px) {
+      .summary-grid { grid-template-columns: 1fr; }
+      .card { padding: 24px 20px; }
+      .schedule-table { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="nav"><a href="/">← 모두의계산기</a></div>
+
+    <div class="header">
+      <h1>대출 이자<br>계산기</h1>
+      <p>원리금균등 · 원금균등 · 만기일시 상환 비교</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">대출 정보 입력</div>
+
+      <div class="input-group">
+        <label>대출 금액</label>
+        <div class="input-wrapper">
+          <input type="number" id="loanAmount" value="100000000" />
+          <span class="input-unit">원</span>
+        </div>
+        <div class="slider-wrapper">
+          <input type="range" id="loanSlider" min="1000000" max="500000000" step="1000000" value="100000000" />
+          <div class="slider-labels">
+            <span>100만</span>
+            <span>1억</span>
+            <span>2억</span>
+            <span>5억</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label>연 이자율</label>
+        <div class="input-wrapper">
+          <input type="number" id="interestRate" value="4.5" step="0.1" min="0.1" max="30" />
+          <span class="input-unit">%</span>
+        </div>
+        <div class="slider-wrapper">
+          <input type="range" id="rateSlider" min="1" max="20" step="0.1" value="4.5" />
+          <div class="slider-labels">
+            <span>1%</span>
+            <span>5%</span>
+            <span>10%</span>
+            <span>20%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label>대출 기간</label>
+        <div class="input-wrapper">
+          <input type="number" id="loanPeriod" value="12" min="1" max="360" />
+          <span class="input-unit">개월</span>
+        </div>
+        <div class="slider-wrapper">
+          <input type="range" id="periodSlider" min="1" max="360" step="1" value="12" />
+          <div class="slider-labels">
+            <span>1개월</span>
+            <span>1년</span>
+            <span>5년</span>
+            <span>30년</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label>상환 방식</label>
+        <div class="tab-group">
+          <button class="tab-btn active" onclick="setMethod('equal')" id="tab-equal">원리금균등</button>
+          <button class="tab-btn" onclick="setMethod('principal')" id="tab-principal">원금균등</button>
+        </div>
+      </div>
+
+      <button class="calc-btn" onclick="calculate()">💳 이자 계산하기</button>
+    </div>
+
+    <div class="result-card" id="resultCard">
+      <div class="card">
+        <div class="summary-grid">
+          <div class="summary-box main">
+            <div class="s-label">첫 달 상환액</div>
+            <div class="s-value" id="s-first">-</div>
+            <div class="s-unit">원</div>
+          </div>
+          <div class="summary-box">
+            <div class="s-label">총 이자</div>
+            <div class="s-value" id="s-interest" style="color:var(--danger)">-</div>
+            <div class="s-unit">원</div>
+          </div>
+          <div class="summary-box">
+            <div class="s-label">총 상환액</div>
+            <div class="s-value" id="s-total">-</div>
+            <div class="s-unit">원</div>
+          </div>
+        </div>
+
+        <div class="schedule-title">월별 상환 스케줄</div>
+        <div style="overflow-x:auto">
+          <table class="schedule-table">
+            <thead>
+              <tr>
+                <th>회차</th>
+                <th>월 상환액</th>
+                <th class="interest">이자</th>
+                <th class="principal">원금</th>
+                <th>잔여원금</th>
+              </tr>
+            </thead>
+            <tbody id="scheduleBody"></tbody>
+          </table>
+        </div>
+        <button class="show-more-btn" id="showMoreBtn" onclick="toggleSchedule()">▼ 전체 보기</button>
+      </div>
+
+      <div class="notice">
+        <strong style="color:orange">⚠️ 안내</strong> 본 계산기는 참고용이며 실제 대출 상환액은 금융기관 정책에 따라 다를 수 있습니다. 중도상환수수료, 거치기간 등은 반영되지 않았습니다.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let method = 'equal';
+    let allRows = [];
+    let showAll = false;
+
+    // 슬라이더 연동
+    document.getElementById('loanSlider').addEventListener('input', e => {
+      document.getElementById('loanAmount').value = e.target.value;
+    });
+    document.getElementById('loanAmount').addEventListener('input', e => {
+      document.getElementById('loanSlider').value = Math.min(e.target.value, 500000000);
+    });
+    document.getElementById('rateSlider').addEventListener('input', e => {
+      document.getElementById('interestRate').value = e.target.value;
+    });
+    document.getElementById('interestRate').addEventListener('input', e => {
+      document.getElementById('rateSlider').value = Math.min(e.target.value, 20);
+    });
+    document.getElementById('periodSlider').addEventListener('input', e => {
+      document.getElementById('loanPeriod').value = e.target.value;
+    });
+    document.getElementById('loanPeriod').addEventListener('input', e => {
+      document.getElementById('periodSlider').value = Math.min(e.target.value, 360);
+    });
+
+    function setMethod(m) {
+      method = m;
+      document.getElementById('tab-equal').classList.toggle('active', m === 'equal');
+      document.getElementById('tab-principal').classList.toggle('active', m === 'principal');
+    }
+
+    function fmt(n) { return Math.round(n).toLocaleString('ko-KR'); }
+
+    function calculate() {
+      const P = parseFloat(document.getElementById('loanAmount').value) || 0;
+      const annualRate = parseFloat(document.getElementById('interestRate').value) || 0;
+      const n = parseInt(document.getElementById('loanPeriod').value) || 0;
+      const r = annualRate / 100 / 12;
+
+      if (P <= 0 || n <= 0 || annualRate <= 0) { alert('올바른 값을 입력해주세요.'); return; }
+
+      allRows = [];
+      let totalInterest = 0;
+      let remaining = P;
+
+      if (method === 'equal') {
+        // 원리금균등
+        const monthly = r === 0 ? P / n : P * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
+        for (let i = 1; i <= n; i++) {
+          const interest = remaining * r;
+          const principal = monthly - interest;
+          remaining -= principal;
+          totalInterest += interest;
+          allRows.push({ month: i, payment: monthly, interest, principal, remaining: Math.max(0, remaining) });
+        }
+        document.getElementById('s-first').textContent = fmt(monthly);
+      } else {
+        // 원금균등
+        const principalPayment = P / n;
+        let firstPayment = 0;
+        for (let i = 1; i <= n; i++) {
+          const interest = remaining * r;
+          const payment = principalPayment + interest;
+          remaining -= principalPayment;
+          totalInterest += interest;
+          if (i === 1) firstPayment = payment;
+          allRows.push({ month: i, payment, interest, principal: principalPayment, remaining: Math.max(0, remaining) });
+        }
+        document.getElementById('s-first').textContent = fmt(firstPayment);
+      }
+
+      const totalPayment = P + totalInterest;
+      document.getElementById('s-interest').textContent = fmt(totalInterest);
+      document.getElementById('s-total').textContent = fmt(totalPayment);
+
+      renderSchedule();
+
+      const resultCard = document.getElementById('resultCard');
+      resultCard.classList.add('visible');
+      resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function renderSchedule() {
+      const tbody = document.getElementById('scheduleBody');
+      const rows = showAll ? allRows : allRows.slice(0, 6);
+      tbody.innerHTML = rows.map(r => `
+        <tr>
+          <td>${r.month}회</td>
+          <td>${fmt(r.payment)}</td>
+          <td class="interest">${fmt(r.interest)}</td>
+          <td class="principal">${fmt(r.principal)}</td>
+          <td>${fmt(r.remaining)}</td>
+        </tr>
+      `).join('');
+
+      const btn = document.getElementById('showMoreBtn');
+      if (allRows.length <= 6) {
+        btn.style.display = 'none';
+      } else {
+        btn.style.display = 'block';
+        btn.textContent = showAll ? '▲ 접기' : `▼ 전체 보기 (총 ${allRows.length}회)`;
+      }
+    }
+
+    function toggleSchedule() {
+      showAll = !showAll;
+      renderSchedule();
+    }
+
+    window.onload = () => calculate();
+  </script>
+</body>
+</html>
