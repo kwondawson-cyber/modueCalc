@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>부가가치세 계산기 | 모두의계산기</title>
+  <meta name="description" content="부가가치세 계산기. 공급가액과 VAT를 빠르게 계산하세요." />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+    .container{max-width:640px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .nav{text-align:center;margin-bottom:32px}.nav a{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:3px;color:var(--accent);text-decoration:none;text-transform:uppercase}
+    .header{text-align:center;margin-bottom:40px}
+    .header h1{font-size:clamp(28px,6vw,44px);font-weight:900;line-height:1.1;margin-bottom:10px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .header p{color:var(--text-muted);font-size:14px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:16px}
+    .card-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:20px}
+    .tab-group{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:22px}
+    .tab-btn{padding:11px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;font-size:13px;font-weight:600;font-family:'Noto Sans KR',sans-serif;color:var(--text-muted);cursor:pointer;transition:all .2s}
+    .tab-btn.active{background:rgba(0,212,170,0.1);border-color:rgba(0,212,170,0.4);color:var(--accent)}
+    .input-group{margin-bottom:18px}
+    .input-group label{display:block;font-size:13px;font-weight:500;color:var(--text-muted);margin-bottom:7px}
+    .input-wrapper{position:relative}
+    .input-wrapper input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:13px 60px 13px 16px;font-size:20px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none;transition:border-color .2s}
+    .input-wrapper input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,170,0.1)}
+    .input-unit{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--text-muted);font-weight:500;pointer-events:none}
+    .calc-btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;font-size:16px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:#000;cursor:pointer;transition:transform .15s,box-shadow .15s;margin-top:4px}
+    .calc-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,212,170,0.3)}
+    .result-card{display:none;animation:fadeUp .4s ease}.result-card.visible{display:block}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .result-highlight{background:linear-gradient(135deg,rgba(0,212,170,0.1),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.3);border-radius:var(--radius);padding:24px 28px;text-align:center;margin-bottom:16px}
+    .r-label{font-size:12px;color:var(--accent);font-weight:700;letter-spacing:1px;margin-bottom:8px}
+    .r-amount{font-family:'Montserrat',sans-serif;font-size:clamp(34px,7vw,50px);font-weight:900;color:#fff}
+    .r-amount span{font-size:18px;color:var(--text-muted)}
+    .r-sub{font-size:13px;color:var(--text-muted);margin-top:6px}
+    .detail-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);font-size:14px}
+    .detail-item:last-child{border-bottom:none}
+    .detail-item .d-label{color:var(--text-muted)}
+    .detail-item .d-value{font-weight:700}.detail-item .d-value.accent{color:var(--accent)}
+    @media(max-width:480px){.card{padding:20px 16px}}
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="nav"><a href="/">← 모두의계산기</a></div>
+  <div class="header">
+    <h1>부가가치세<br>계산기</h1>
+    <p>공급가액 ↔ VAT 포함가 계산</p>
+  </div>
+  <div class="card">
+    <div class="card-title">계산 방향</div>
+    <div class="tab-group">
+      <button class="tab-btn active" onclick="setMode('add')" id="tab-add">➕ 공급가 → VAT 포함가</button>
+      <button class="tab-btn" onclick="setMode('extract')" id="tab-extract">➖ VAT 포함가 → 공급가</button>
+    </div>
+    <div class="input-group">
+      <label id="amountLabel">공급가액 (VAT 제외)</label>
+      <div class="input-wrapper"><input type="number" id="amount" value="1000000" /><span class="input-unit">원</span></div>
+    </div>
+    <button class="calc-btn" onclick="calculate()">🧮 부가세 계산하기</button>
+  </div>
+  <div class="result-card" id="resultCard">
+    <div class="result-highlight">
+      <div class="r-label" id="r-label">VAT (부가가치세)</div>
+      <div class="r-amount" id="r-vat">-<span>원</span></div>
+      <div class="r-sub" id="r-sub">-</div>
+    </div>
+    <div class="card">
+      <div class="card-title">계산 내역</div>
+      <div class="detail-item"><span class="d-label">공급가액</span><span class="d-value" id="d-supply">-</span></div>
+      <div class="detail-item"><span class="d-label">부가가치세 (10%)</span><span class="d-value accent" id="d-vat">-</span></div>
+      <div class="detail-item"><span class="d-label">합계금액 (VAT 포함)</span><span class="d-value" id="d-total">-</span></div>
+    </div>
+  </div>
+</div>
+<script>
+  let mode='add';
+  function setMode(m){
+    mode=m;
+    document.getElementById('tab-add').classList.toggle('active',m==='add');
+    document.getElementById('tab-extract').classList.toggle('active',m==='extract');
+    document.getElementById('amountLabel').textContent=m==='add'?'공급가액 (VAT 제외)':'VAT 포함 금액';
+  }
+  function fmt(n){return Math.round(n).toLocaleString('ko-KR')}
+  function calculate(){
+    const amount=parseFloat(document.getElementById('amount').value)||0;
+    let supply,vat,total;
+    if(mode==='add'){supply=amount;vat=supply*0.1;total=supply+vat;}
+    else{total=amount;supply=total/1.1;vat=total-supply;}
+    document.getElementById('r-label').textContent='부가가치세 (VAT)';
+    document.getElementById('r-vat').innerHTML=`${fmt(vat)}<span>원</span>`;
+    document.getElementById('r-sub').textContent=`합계금액: ${fmt(total)}원`;
+    document.getElementById('d-supply').textContent=`${fmt(supply)}원`;
+    document.getElementById('d-vat').textContent=`${fmt(vat)}원`;
+    document.getElementById('d-total').textContent=`${fmt(total)}원`;
+    const rc=document.getElementById('resultCard');rc.classList.add('visible');rc.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+  window.onload=()=>calculate();
+</script>
+<script src="/share.js"></script>
+<script src="/calculator.js"></script>
+</body>
+</html>

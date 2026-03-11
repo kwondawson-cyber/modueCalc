@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>시급 월급 계산기 | 모두의계산기</title>
+  <meta name="description" content="시급 월급 계산기. 시급에서 월급, 연봉까지 주휴수당 포함하여 계산하세요." />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+    .container{max-width:640px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .nav{text-align:center;margin-bottom:32px}.nav a{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:3px;color:var(--accent);text-decoration:none;text-transform:uppercase}
+    .header{text-align:center;margin-bottom:40px}
+    .header h1{font-size:clamp(28px,6vw,44px);font-weight:900;line-height:1.1;margin-bottom:10px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .header p{color:var(--text-muted);font-size:14px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:16px}
+    .card-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:20px}
+    .input-group{margin-bottom:18px}
+    .input-group label{display:block;font-size:13px;font-weight:500;color:var(--text-muted);margin-bottom:7px}
+    .input-wrapper{position:relative}
+    .input-wrapper input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:13px 60px 13px 16px;font-size:20px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none;transition:border-color .2s}
+    .input-wrapper input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,170,0.1)}
+    .input-unit{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--text-muted);font-weight:500;pointer-events:none}
+    .input-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    input[type="range"]{width:100%;-webkit-appearance:none;height:4px;border-radius:4px;background:var(--surface2);outline:none;cursor:pointer;margin-top:8px}
+    input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent);cursor:pointer}
+    .toggle-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;padding:14px 16px;background:var(--surface2);border-radius:10px;border:1px solid var(--border)}
+    .toggle-label{font-size:14px;font-weight:500}
+    .toggle{position:relative;width:44px;height:24px}
+    .toggle input{opacity:0;width:0;height:0}
+    .toggle-slider{position:absolute;inset:0;background:#30363d;border-radius:30px;cursor:pointer;transition:.3s}
+    .toggle-slider:before{content:'';position:absolute;height:18px;width:18px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s}
+    input:checked+.toggle-slider{background:var(--accent)}
+    input:checked+.toggle-slider:before{transform:translateX(20px)}
+    .calc-btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;font-size:16px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:#000;cursor:pointer;transition:transform .15s,box-shadow .15s}
+    .calc-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,212,170,0.3)}
+    .result-card{display:none;animation:fadeUp .4s ease}.result-card.visible{display:block}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+    .r-box{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:18px;text-align:center}
+    .r-box.main{border-color:rgba(0,212,170,0.4);grid-column:1/-1;background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.04))}
+    .r-box .r-label{font-size:11px;color:var(--text-muted);font-weight:600;margin-bottom:8px}
+    .r-box .r-value{font-family:'Montserrat',sans-serif;font-size:26px;font-weight:900}
+    .r-box.main .r-value{font-size:36px;color:var(--accent)}
+    .r-box .r-unit{font-size:12px;color:var(--text-muted);margin-top:4px}
+    .detail-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);font-size:14px}
+    .detail-item:last-child{border-bottom:none}
+    .detail-item .d-label{color:var(--text-muted)}
+    .detail-item .d-value{font-weight:700}.detail-item .d-value.accent{color:var(--accent)}
+    @media(max-width:480px){.card{padding:20px 16px}.input-row{grid-template-columns:1fr}.result-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="nav"><a href="/">← 모두의계산기</a></div>
+  <div class="header">
+    <h1>시급 · 월급<br>계산기</h1>
+    <p>시급 → 월급 · 연봉 (주휴수당 포함)</p>
+  </div>
+  <div class="card">
+    <div class="card-title">근무 정보</div>
+    <div class="input-group">
+      <label>시급</label>
+      <div class="input-wrapper"><input type="number" id="hourly" value="10030" /><span class="input-unit">원</span></div>
+      <input type="range" id="hourlySlider" min="10030" max="50000" step="100" value="10030" />
+    </div>
+    <div class="input-row">
+      <div class="input-group">
+        <label>1일 근무시간</label>
+        <div class="input-wrapper"><input type="number" id="hpd" value="8" min="1" max="12" step="0.5" /><span class="input-unit">시간</span></div>
+      </div>
+      <div class="input-group">
+        <label>주 근무일수</label>
+        <div class="input-wrapper"><input type="number" id="days" value="5" min="1" max="6" /><span class="input-unit">일</span></div>
+      </div>
+    </div>
+    <div class="toggle-row">
+      <span class="toggle-label">주휴수당 포함</span>
+      <label class="toggle"><input type="checkbox" id="includeHoliday" checked /><span class="toggle-slider"></span></label>
+    </div>
+    <button class="calc-btn" onclick="calculate()">💵 급여 계산하기</button>
+  </div>
+  <div class="result-card" id="resultCard">
+    <div class="card">
+      <div class="result-grid">
+        <div class="r-box main"><div class="r-label">월 급여</div><div class="r-value" id="r-monthly">-</div><div class="r-unit">원</div></div>
+        <div class="r-box"><div class="r-label">주급</div><div class="r-value" id="r-weekly">-</div><div class="r-unit">원</div></div>
+        <div class="r-box"><div class="r-label">연봉</div><div class="r-value" id="r-annual">-</div><div class="r-unit">원</div></div>
+      </div>
+      <div class="detail-item"><span class="d-label">주 근무시간</span><span class="d-value" id="d-wh">-</span></div>
+      <div class="detail-item"><span class="d-label">근무수당 (주)</span><span class="d-value" id="d-work">-</span></div>
+      <div class="detail-item"><span class="d-label">주휴수당 (주)</span><span class="d-value accent" id="d-holiday">-</span></div>
+      <div class="detail-item"><span class="d-label">일급 환산</span><span class="d-value" id="d-daily">-</span></div>
+    </div>
+  </div>
+</div>
+<script>
+  document.getElementById('hourlySlider').addEventListener('input',e=>{document.getElementById('hourly').value=e.target.value});
+  document.getElementById('hourly').addEventListener('input',e=>{document.getElementById('hourlySlider').value=e.target.value});
+  function fmt(n){return Math.round(n).toLocaleString('ko-KR')}
+  function calculate(){
+    const hourly=parseFloat(document.getElementById('hourly').value)||0;
+    const hpd=parseFloat(document.getElementById('hpd').value)||0;
+    const days=parseFloat(document.getElementById('days').value)||0;
+    const inclHoliday=document.getElementById('includeHoliday').checked;
+    const weekHours=hpd*days;
+    const workPay=hourly*weekHours;
+    const holidayHours=weekHours>=15?Math.min(hpd,8):0;
+    const holidayPay=inclHoliday?hourly*holidayHours:0;
+    const weekly=workPay+holidayPay;
+    const monthly=weekly*4.345;
+    const annual=monthly*12;
+    const daily=hourly*hpd+(inclHoliday&&weekHours>=15?hourly*holidayHours/days:0);
+    document.getElementById('r-monthly').textContent=fmt(monthly);
+    document.getElementById('r-weekly').textContent=fmt(weekly);
+    document.getElementById('r-annual').textContent=fmt(annual);
+    document.getElementById('d-wh').textContent=`${weekHours}시간`;
+    document.getElementById('d-work').textContent=`${fmt(workPay)}원`;
+    document.getElementById('d-holiday').textContent=inclHoliday&&weekHours>=15?`${fmt(holidayPay)}원`:'미포함';
+    document.getElementById('d-daily').textContent=`${fmt(daily)}원`;
+    const rc=document.getElementById('resultCard');rc.classList.add('visible');rc.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+  window.onload=()=>calculate();
+</script>
+<script src="/share.js"></script>
+<script src="/calculator.js"></script>
+</body>
+</html>

@@ -27,6 +27,12 @@
     { "source": "/pregnancy", "destination": "/pregnancy.html" },
     { "source": "/savings", "destination": "/savings.html" },
     { "source": "/exchange", "destination": "/exchange.html" },
-    { "source": "/inflation", "destination": "/inflation.html" }
+    { "source": "/inflation", "destination": "/inflation.html" },
+    { "source": "/weekly_holiday", "destination": "/weekly_holiday.html" },
+    { "source": "/hourly_salary", "destination": "/hourly_salary.html" },
+    { "source": "/annual_leave", "destination": "/annual_leave.html" },
+    { "source": "/vat", "destination": "/vat.html" },
+    { "source": "/margin", "destination": "/margin.html" },
+    { "source": "/stock_return", "destination": "/stock_return.html" }
   ]
 }
