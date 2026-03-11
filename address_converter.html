@@ -209,7 +209,7 @@
 
     // 주소 API 시도 (행정안전부 도로명주소 영문 검색)
     try {
-      const url = `https://business.juso.go.kr/addrlink/addrEngApi.do?currentPage=1&countPerPage=1&keyword=${encodeURIComponent(input)}&confmKey=devU01TX0FVVEgyMDI1MDMxMTE0MTYzMTExNTA3MDg=&resultType=json`;
+      const url = `https://business.juso.go.kr/addrlink/addrEngApi.do?currentPage=1&countPerPage=1&keyword=${encodeURIComponent(input)}&confmKey=devU01TX0FVVEgyMDI2MDMxMTIyMjQwMDExNzcxODg=&resultType=json`;
       const res = await fetch(url);
       if (res.ok) {
         const data = await res.json();
