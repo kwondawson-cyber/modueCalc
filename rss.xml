@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>모두의계산기 | everycalc.kr</title>
+    <link>https://www.everycalc.kr</link>
+    <description>연봉, 세금, 주식, 환율 등 생활에 필요한 모든 계산기 무료 제공</description>
+    <language>ko</language>
+    <lastBuildDate>Wed, 11 Mar 2026 00:00:00 +0900</lastBuildDate>
+    <atom:link href="https://www.everycalc.kr/rss.xml" rel="self" type="application/rss+xml"/>
+
+    <item>
+      <title>주식 수익률 계산기 - 국내/해외 세후 손익 계산</title>
+      <link>https://www.everycalc.kr/stock_return</link>
+      <description>매수·매도가로 손익, 세후 수익률을 계산하세요. 국내 증권거래세, 해외 양도세 자동 반영.</description>
+      <pubDate>Wed, 11 Mar 2026 00:00:00 +0900</pubDate>
+      <guid>https://www.everycalc.kr/stock_return</guid>
+    </item>
+    <item>
+      <title>주휴수당 계산기 - 2025년 최저시급 기준</title>
+      <link>https://www.everycalc.kr/weekly_holiday</link>
+      <description>주 15시간 이상 근무 시 발생하는 주휴수당과 실질 시급을 계산하세요.</description>
+      <pubDate>Wed, 11 Mar 2026 00:00:00 +0900</pubDate>
+      <guid>https://www.everycalc.kr/weekly_holiday</guid>
+    </item>
+    <item>
+      <title>시급 월급 계산기 - 주휴수당 포함 월급 환산</title>
+      <link>https://www.everycalc.kr/hourly_salary</link>
+      <description>시급에서 주급, 월급, 연봉을 주휴수당 포함하여 계산합니다.</description>
+      <pubDate>Wed, 11 Mar 2026 00:00:00 +0900</pubDate>
+      <guid>https://www.everycalc.kr/hourly_salary</guid>
+    </item>
+    <item>
+      <title>환율 계산기 - 실시간 환율 달러 엔화 유로</title>
+      <link>https://www.everycalc.kr/exchange</link>
+      <description>실시간 환율 기준으로 달러, 엔화, 유로, 위안 등을 원화로 환산합니다.</description>
+      <pubDate>Wed, 11 Mar 2026 00:00:00 +0900</pubDate>
+      <guid>https://www.everycalc.kr/exchange</guid>
+    </item>
+    <item>
+      <title>연봉 실수령액 계산기 - 4대보험 소득세 자동계산</title>
+      <link>https://www.everycalc.kr/salary</link>
+      <description>연봉에서 4대보험과 소득세를 공제한 월 실수령액을 계산합니다.</description>
+      <pubDate>Wed, 11 Mar 2026 00:00:00 +0900</pubDate>
+      <guid>https://www.everycalc.kr/salary</guid>
+    </item>
+    <item>
+      <title>소득세 계산기 - 종합소득세 기타소득세</title>
+      <link>https://www.everycalc.kr/income_tax</link>
+      <description>2024년 세율 기준 종합소득세와 기타소득세 납부 세액을 계산합니다.</description>
+      <pubDate>Wed, 11 Mar 2026 00:00:00 +0900</pubDate>
+      <guid>https://www.everycalc.kr/income_tax</guid>
+    </item>
+    <item>
+      <title>부가가치세 계산기 - 공급가 VAT 포함가 변환</title>
+      <link>https://www.everycalc.kr/vat</link>
+      <description>공급가액과 VAT 포함 금액을 빠르게 계산합니다.</description>
+      <pubDate>Wed, 11 Mar 2026 00:00:00 +0900</pubDate>
+      <guid>https://www.everycalc.kr/vat</guid>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://www.everycalc.kr/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://www.everycalc.kr/salary</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.everycalc.kr/retirement</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.everycalc.kr/unemployment</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.everycalc.kr/loan</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.everycalc.kr/savings</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.everycalc.kr/weekly_holiday</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.everycalc.kr/hourly_salary</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.everycalc.kr/annual_leave</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.everycalc.kr/stock_return</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.everycalc.kr/exchange</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.everycalc.kr/inflation</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.everycalc.kr/income_tax</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.everycalc.kr/capital_gains</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.everycalc.kr/gift_tax</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.everycalc.kr/acquisition</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.everycalc.kr/vat</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.everycalc.kr/margin</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.everycalc.kr/health_insurance</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.everycalc.kr/address_converter</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.everycalc.kr/realestate</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.everycalc.kr/rent_conversion</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.everycalc.kr/bmi</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.everycalc.kr/bmr</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.everycalc.kr/pregnancy</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.everycalc.kr/age</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.everycalc.kr/dday</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+</urlset>

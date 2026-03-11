@@ -97,7 +97,6 @@
 </div>
 
 <script>
-  const CONF_KEY = 'devU01TX0FVVEgyMDI2MDMxMTIyMjQwMDExNzcxODg=';
   // CORS 프록시 (공개 프록시 2개 순차 시도)
   const PROXIES = [
     'https://corsproxy.io/?',
@@ -120,23 +119,6 @@
     });
   }
 
-  async function fetchWithProxy(apiUrl, proxyIdx = 0) {
-    if (proxyIdx >= PROXIES.length) throw new Error('모든 프록시 실패');
-    const proxy = PROXIES[proxyIdx];
-    const fullUrl = proxy + encodeURIComponent(apiUrl);
-    const res = await fetch(fullUrl);
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const text = await res.text();
-    // allorigins는 {contents: "..."} 형태
-    try {
-      const outer = JSON.parse(text);
-      if (outer.contents) return JSON.parse(outer.contents);
-      return outer;
-    } catch(e) {
-      return JSON.parse(text);
-    }
-  }
-
   async function convertAddress(){
     const input = document.getElementById('addressInput').value.trim();
     if(!input){ alert('주소를 입력해주세요.'); return; }
@@ -144,28 +126,18 @@
     document.getElementById('resultCard').classList.remove('visible');
     document.getElementById('loadingOverlay').classList.add('show');
 
-    const apiUrl = `https://business.juso.go.kr/addrlink/addrEngApi.do`
-      + `?currentPage=1&countPerPage=5`
-      + `&keyword=${encodeURIComponent(input)}`
-      + `&confmKey=${CONF_KEY}`
-      + `&resultType=json`;
-
-    let data = null;
-    for (let i = 0; i < PROXIES.length; i++) {
-      try {
-        data = await fetchWithProxy(apiUrl, i);
-        break;
-      } catch(e) {
-        console.warn('Proxy ' + i + ' failed:', e);
+    try {
+      const res = await fetch(`${API_PROXY}?keyword=${encodeURIComponent(input)}`);
+      const data = await res.json();
+      document.getElementById('loadingOverlay').classList.remove('show');
+      const juso = data?.results?.juso;
+      if (juso && juso.length > 0) {
+        showResult(juso[0]);
+      } else {
+        showError(input);
       }
-    }
-
-    document.getElementById('loadingOverlay').classList.remove('show');
-
-    const juso = data?.results?.juso;
-    if (juso && juso.length > 0) {
-      showResult(juso[0]);
-    } else {
+    } catch(e) {
+      document.getElementById('loadingOverlay').classList.remove('show');
       showError(input);
     }
   }
