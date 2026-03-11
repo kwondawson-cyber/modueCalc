@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>환율 계산기 | 모두의계산기</title>
-  <meta name="description" content="환율 계산기. 달러, 엔화, 유로, 위안 등 주요 통화를 원화로 환산하세요." />
+  <meta name="description" content="실시간 환율 계산기. 달러, 엔화, 유로, 위안 등 주요 통화를 원화로 환산하세요." />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
   <style>
@@ -18,148 +18,159 @@
     .header p{color:var(--text-muted);font-size:14px}
     .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;margin-bottom:16px}
     .card-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:20px}
-    /* 환율 입력 */
-    .exchange-box{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:12px}
-    .exchange-box label{font-size:12px;color:var(--text-muted);font-weight:600;display:block;margin-bottom:10px}
+    .live-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:rgba(0,212,170,0.1);border:1px solid rgba(0,212,170,0.3);border-radius:20px;font-size:11px;font-weight:700;color:var(--accent);margin-bottom:18px}
+    .live-dot{width:7px;height:7px;background:var(--accent);border-radius:50%;animation:blink 1.5s infinite}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+    .exchange-box{background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin-bottom:10px;transition:border-color .2s}
+    .exchange-box:focus-within{border-color:rgba(0,212,170,0.4)}
+    .exchange-box label{font-size:11px;color:var(--text-muted);font-weight:600;display:block;margin-bottom:10px;letter-spacing:1px;text-transform:uppercase}
     .exchange-row{display:flex;gap:10px;align-items:center}
-    .exchange-row input{flex:1;background:transparent;border:none;font-size:28px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none}
-    .currency-select{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:14px;font-weight:600;font-family:'Noto Sans KR',sans-serif;color:var(--text);cursor:pointer;outline:none;min-width:90px}
-    .swap-btn{width:100%;padding:12px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;font-size:20px;cursor:pointer;margin-bottom:12px;transition:border-color .2s}
-    .swap-btn:hover{border-color:var(--accent)}
-    .calc-btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;font-size:16px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:#000;cursor:pointer;transition:transform .15s,box-shadow .15s}
-    .calc-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,212,170,0.3)}
-    /* 결과 */
-    .result-card{display:none;animation:fadeUp .4s ease}
-    .result-card.visible{display:block}
-    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-    .result-highlight{background:linear-gradient(135deg,rgba(0,212,170,0.1),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.3);border-radius:16px;padding:24px 28px;text-align:center;margin-bottom:16px}
-    .r-label{font-size:12px;color:var(--accent);font-weight:700;letter-spacing:1px;margin-bottom:8px}
-    .r-amount{font-family:'Montserrat',sans-serif;font-size:clamp(32px,7vw,48px);font-weight:900;color:#fff}
-    .r-sub{font-size:13px;color:var(--text-muted);margin-top:6px}
-    /* 환율표 */
+    .exchange-row input{flex:1;background:transparent;border:none;font-size:32px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none;min-width:0}
+    .exchange-row input::placeholder{color:#30363d}
+    .currency-select-wrap{display:flex;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;flex-shrink:0}
+    .currency-flag{font-size:22px;padding:10px 8px 10px 12px;line-height:1}
+    .currency-select-wrap select{background:transparent;border:none;padding:10px 14px 10px 2px;font-size:15px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:var(--text);cursor:pointer;outline:none;-webkit-appearance:none;appearance:none;min-width:72px}
+    .swap-area{display:flex;align-items:center;justify-content:center;margin:4px 0}
+    .swap-btn{width:44px;height:44px;background:var(--surface2);border:1px solid var(--border);border-radius:50%;font-size:20px;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center}
+    .swap-btn:hover{border-color:var(--accent);transform:rotate(180deg)}
+    .rate-display{text-align:center;padding:13px 16px;font-size:14px;color:var(--text-muted);background:var(--surface2);border-radius:10px;margin-top:14px}
+    .rate-display strong{color:var(--text);font-family:'Montserrat',sans-serif;font-size:16px}
+    .rate-display .update-time{font-size:11px;color:#8b949e;margin-top:5px}
     .rate-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .rate-item{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;display:flex;justify-content:space-between;align-items:center}
-    .rate-item .ri-flag{font-size:20px;margin-right:8px}
-    .rate-item .ri-name{font-size:13px;font-weight:600}
-    .rate-item .ri-code{font-size:11px;color:var(--text-muted)}
-    .rate-item .ri-rate{font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700;color:var(--accent)}
+    .rate-item{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:border-color .15s}
+    .rate-item:hover{border-color:rgba(0,212,170,0.3)}
+    .rate-item-left{display:flex;align-items:center;gap:8px}
+    .ri-flag{font-size:22px}
+    .ri-name{font-size:13px;font-weight:600}
+    .ri-code{font-size:11px;color:var(--text-muted)}
+    .ri-rate{font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700;color:var(--accent);text-align:right}
+    .ri-unit{font-size:10px;color:var(--text-muted);text-align:right}
+    .loading{text-align:center;padding:20px;color:var(--text-muted);font-size:13px}
     .notice{margin-top:16px;padding:13px 16px;background:rgba(255,165,0,0.05);border:1px solid rgba(255,165,0,0.15);border-radius:10px;font-size:12px;color:var(--text-muted);line-height:1.7}
-    @media(max-width:480px){.card{padding:20px 16px}.rate-grid{grid-template-columns:1fr}}
+    @media(max-width:480px){.card{padding:20px 16px}.rate-grid{grid-template-columns:1fr}.exchange-row input{font-size:24px}}
   </style>
 </head>
 <body>
 <div class="container">
   <div class="nav"><a href="/">← 모두의계산기</a></div>
-  <div class="header">
-    <h1>환율<br>계산기</h1>
-    <p>주요 통화 원화 환산</p>
-  </div>
-
+  <div class="header"><h1>환율<br>계산기</h1><p>실시간 환율 기준 주요 통화 환산</p></div>
   <div class="card">
-    <div class="card-title">환율 변환</div>
-
+    <div class="live-badge"><span class="live-dot"></span> 실시간 환율</div>
     <div class="exchange-box">
       <label>변환할 금액</label>
       <div class="exchange-row">
-        <input type="number" id="fromAmount" value="1000" />
-        <select class="currency-select" id="fromCurrency" onchange="updateRateDisplay()">
-          <option value="USD">🇺🇸 USD</option>
-          <option value="JPY">🇯🇵 JPY</option>
-          <option value="EUR">🇪🇺 EUR</option>
-          <option value="CNY">🇨🇳 CNY</option>
-          <option value="GBP">🇬🇧 GBP</option>
-          <option value="HKD">🇭🇰 HKD</option>
-          <option value="KRW">🇰🇷 KRW</option>
-        </select>
+        <input type="number" id="fromAmount" value="100" placeholder="0" oninput="convert()" />
+        <div class="currency-select-wrap">
+          <span class="currency-flag" id="fromFlag">🇺🇸</span>
+          <select id="fromCurrency" onchange="onCurrencyChange()">
+            <option value="USD" selected>USD</option><option value="KRW">KRW</option>
+            <option value="JPY">JPY</option><option value="EUR">EUR</option>
+            <option value="CNY">CNY</option><option value="GBP">GBP</option>
+            <option value="HKD">HKD</option><option value="SGD">SGD</option>
+            <option value="AUD">AUD</option><option value="CAD">CAD</option>
+            <option value="CHF">CHF</option><option value="THB">THB</option>
+            <option value="VND">VND</option>
+          </select>
+        </div>
       </div>
     </div>
-
-    <button class="swap-btn" onclick="swapCurrencies()">⇅ 통화 전환</button>
-
+    <div class="swap-area"><button class="swap-btn" onclick="swapCurrencies()">⇅</button></div>
     <div class="exchange-box">
-      <label>변환 결과</label>
+      <label>환산 결과</label>
       <div class="exchange-row">
-        <input type="number" id="toAmount" value="" placeholder="결과" readonly style="color:var(--accent)" />
-        <select class="currency-select" id="toCurrency" onchange="updateRateDisplay()">
-          <option value="KRW" selected>🇰🇷 KRW</option>
-          <option value="USD">🇺🇸 USD</option>
-          <option value="JPY">🇯🇵 JPY</option>
-          <option value="EUR">🇪🇺 EUR</option>
-          <option value="CNY">🇨🇳 CNY</option>
-          <option value="GBP">🇬🇧 GBP</option>
-          <option value="HKD">🇭🇰 HKD</option>
-        </select>
+        <input type="number" id="toAmount" placeholder="0" readonly style="color:var(--accent)" />
+        <div class="currency-select-wrap">
+          <span class="currency-flag" id="toFlag">🇰🇷</span>
+          <select id="toCurrency" onchange="onCurrencyChange()">
+            <option value="KRW" selected>KRW</option><option value="USD">USD</option>
+            <option value="JPY">JPY</option><option value="EUR">EUR</option>
+            <option value="CNY">CNY</option><option value="GBP">GBP</option>
+            <option value="HKD">HKD</option><option value="SGD">SGD</option>
+            <option value="AUD">AUD</option><option value="CAD">CAD</option>
+            <option value="CHF">CHF</option><option value="THB">THB</option>
+            <option value="VND">VND</option>
+          </select>
+        </div>
       </div>
     </div>
-
-    <div style="text-align:center;font-size:13px;color:var(--text-muted);padding:12px 0" id="rateDisplay">1 USD = 1,350 KRW</div>
-    <button class="calc-btn" onclick="convert()">💱 환율 계산하기</button>
+    <div class="rate-display" id="rateDisplay"><div>⏳ 환율 불러오는 중...</div></div>
   </div>
-
   <div class="card">
-    <div class="card-title">주요 환율 (기준 환율)</div>
-    <div class="rate-grid" id="rateGrid"></div>
-    <div style="font-size:11px;color:var(--text-muted);margin-top:12px;text-align:center" id="rateNote">※ 아래 환율은 참고용 고정값입니다. 실제 환율과 다를 수 있습니다.</div>
-  </div>
-
-  <div class="notice">
-    <strong style="color:orange">⚠️ 안내</strong> 본 계산기는 참고용 환율을 사용합니다. 실제 거래 환율은 은행·환전소마다 다릅니다. 정확한 환율은 하나은행, 외환은행 등 금융기관에서 확인하세요.
+    <div class="card-title">주요 통화 (원화 환산)</div>
+    <div id="rateGrid"><div class="loading">⏳ 실시간 환율 불러오는 중...</div></div>
+    <div class="notice">📌 환율 출처: ExchangeRate-API · 매일 1회 업데이트 · 실제 거래 환율과 다를 수 있습니다.</div>
   </div>
 </div>
 <script>
-  // 참고 환율 (KRW 기준, 2024년 말 기준)
-  const rates={KRW:1,USD:1350,JPY:9.0,EUR:1480,CNY:185,GBP:1710,HKD:173};
-  const names={KRW:{flag:'🇰🇷',name:'한국 원'},USD:{flag:'🇺🇸',name:'미국 달러'},JPY:{flag:'🇯🇵',name:'일본 엔'},EUR:{flag:'🇪🇺',name:'유로'},CNY:{flag:'🇨🇳',name:'중국 위안'},GBP:{flag:'🇬🇧',name:'영국 파운드'},HKD:{flag:'🇭🇰',name:'홍콩 달러'}};
+  const API_KEY='9eff9fb23e303328b51b2cce';
+  const flags={KRW:'🇰🇷',USD:'🇺🇸',JPY:'🇯🇵',EUR:'🇪🇺',CNY:'🇨🇳',GBP:'🇬🇧',HKD:'🇭🇰',SGD:'🇸🇬',AUD:'🇦🇺',CAD:'🇨🇦',CHF:'🇨🇭',THB:'🇹🇭',VND:'🇻🇳'};
+  const names={KRW:'한국 원',USD:'미국 달러',JPY:'일본 엔',EUR:'유로',CNY:'중국 위안',GBP:'영국 파운드',HKD:'홍콩 달러',SGD:'싱가포르 달러',AUD:'호주 달러',CAD:'캐나다 달러',CHF:'스위스 프랑',THB:'태국 바트',VND:'베트남 동'};
+  const mainCurrencies=['USD','JPY','EUR','CNY','GBP','HKD','SGD','AUD'];
+  let rates={},updateTime='';
 
-  function fmt(n,code){
-    if(code==='KRW') return Math.round(n).toLocaleString();
-    if(code==='JPY') return n.toFixed(0);
+  async function fetchRates(){
+    try{
+      const res=await fetch(`https://v6.exchangerate-api.com/v6/${API_KEY}/latest/KRW`);
+      const data=await res.json();
+      if(data.result==='success'){
+        rates=data.conversion_rates;
+        const d=new Date(data.time_last_update_utc);
+        updateTime=`${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')} 기준`;
+        renderRateGrid();convert();
+      }
+    }catch(e){
+      rates={KRW:1,USD:0.000741,JPY:0.111,EUR:0.000676,CNY:0.00539,GBP:0.000584,HKD:0.00578,SGD:0.000997,AUD:0.00116,CAD:0.00101,CHF:0.000671,THB:0.0257,VND:18.7};
+      updateTime='참고용 환율';
+      renderRateGrid();convert();
+    }
+  }
+
+  function toKRW(a,c){return a/rates[c]}
+  function fromKRW(k,c){return k*rates[c]}
+  function fmt(n,c){
+    if(!isFinite(n))return'-';
+    if(c==='KRW')return Math.round(n).toLocaleString('ko-KR');
+    if(c==='JPY'||c==='VND'||c==='THB')return Math.round(n).toLocaleString();
     return n.toFixed(2);
   }
 
-  function toKRW(amount,code){return amount*rates[code]}
-  function fromKRW(krw,code){return krw/rates[code]}
-
   function convert(){
+    if(!rates.KRW)return;
     const amount=parseFloat(document.getElementById('fromAmount').value)||0;
     const from=document.getElementById('fromCurrency').value;
     const to=document.getElementById('toCurrency').value;
-    const krw=toKRW(amount,from);
-    const result=fromKRW(krw,to);
+    const result=fromKRW(toKRW(amount,from),to);
     document.getElementById('toAmount').value=fmt(result,to);
-    updateRateDisplay();
+    const rate1=fromKRW(toKRW(1,from),to);
+    document.getElementById('rateDisplay').innerHTML=`<div>1 <strong>${from}</strong> = <strong>${fmt(rate1,to)} ${to}</strong></div><div class="update-time">${updateTime}</div>`;
   }
 
-  function updateRateDisplay(){
-    const from=document.getElementById('fromCurrency').value;
-    const to=document.getElementById('toCurrency').value;
-    const rate=fromKRW(toKRW(1,from),to);
-    document.getElementById('rateDisplay').textContent=`1 ${from} = ${fmt(rate,to)} ${to}`;
-  }
-
-  function swapCurrencies(){
-    const fromSel=document.getElementById('fromCurrency');
-    const toSel=document.getElementById('toCurrency');
-    const tmp=fromSel.value;
-    fromSel.value=toSel.value;
-    toSel.value=tmp;
+  function onCurrencyChange(){
+    document.getElementById('fromFlag').textContent=flags[document.getElementById('fromCurrency').value]||'🌐';
+    document.getElementById('toFlag').textContent=flags[document.getElementById('toCurrency').value]||'🌐';
     convert();
   }
 
-  function renderRates(){
-    const codes=['USD','JPY','EUR','CNY','GBP','HKD'];
-    document.getElementById('rateGrid').innerHTML=codes.map(c=>`
-      <div class="rate-item">
-        <div>
-          <div><span class="ri-flag">${names[c].flag}</span><span class="ri-name">${names[c].name}</span></div>
-          <div class="ri-code">${c}</div>
-        </div>
-        <div class="ri-rate">${rates[c].toLocaleString()}원</div>
-      </div>`).join('');
+  function swapCurrencies(){
+    const f=document.getElementById('fromCurrency'),t=document.getElementById('toCurrency'),tmp=f.value;
+    f.value=t.value;t.value=tmp;onCurrencyChange();
   }
 
-  window.onload=()=>{renderRates();convert()};
+  function renderRateGrid(){
+    document.getElementById('rateGrid').innerHTML=mainCurrencies.map(c=>{
+      const krw=toKRW(1,c);
+      return `<div class="rate-item" onclick="document.getElementById('fromCurrency').value='${c}';onCurrencyChange()">
+        <div class="rate-item-left"><span class="ri-flag">${flags[c]||'🌐'}</span>
+          <div><div class="ri-name">${names[c]||c}</div><div class="ri-code">${c}</div></div></div>
+        <div><div class="ri-rate">${Math.round(krw).toLocaleString()}</div><div class="ri-unit">원 / 1${c}</div></div>
+      </div>`;
+    }).join('');
+    document.getElementById('rateGrid').className='rate-grid';
+  }
+
+  window.onload=fetchRates;
 </script>
 <script src="/share.js"></script>
+<script src="/calculator.js"></script>
 </body>
 </html>
