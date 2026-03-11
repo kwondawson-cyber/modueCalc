@@ -1,11 +1,7 @@
 // 모두의계산기 SNS 공유 컴포넌트
-// 모든 계산기 페이지 </body> 직전에 아래 한 줄 추가:
-// <script src="/share.js"></script>
-
 (function() {
   const KAKAO_KEY = '545df65de1ad8ab9e5c8b7271f90575b';
 
-  // 공유 버튼 CSS 삽입
   const style = document.createElement('style');
   style.textContent = `
     .share-section {
@@ -79,17 +75,19 @@
   `;
   document.head.appendChild(style);
 
-  // 카카오 SDK 로드
+  // 카카오 SDK 로드 (최신 안정버전)
   const kakaoScript = document.createElement('script');
-  kakaoScript.src = 'https://t1.kakaocdn.net/kakaojs/2.7.4/kakao.min.js';
+  kakaoScript.src = 'https://t1.kakaocdn.net/kakaojs/2.7.2/kakao.min.js';
+  kakaoScript.crossOrigin = 'anonymous';
   kakaoScript.onload = function() {
     if (window.Kakao && !Kakao.isInitialized()) {
       Kakao.init(KAKAO_KEY);
+      console.log('Kakao SDK 초기화 완료');
     }
   };
   document.head.appendChild(kakaoScript);
 
-  // 토스트 만들기
+  // 토스트
   const toast = document.createElement('div');
   toast.className = 'copy-toast';
   toast.textContent = '🔗 링크가 복사되었습니다!';
@@ -100,12 +98,9 @@
     setTimeout(() => toast.classList.remove('show'), 2000);
   }
 
-  // 공유 함수들
   function shareKakao() {
-    if (!window.Kakao || !Kakao.isInitialized()) {
-      alert('카카오 SDK 로딩 중입니다. 잠시 후 다시 시도해주세요.');
-      return;
-    }
+    if (!window.Kakao) { alert('카카오 SDK 로딩 실패. 페이지를 새로고침해주세요.'); return; }
+    if (!Kakao.isInitialized()) { Kakao.init(KAKAO_KEY); }
     const url = location.href;
     const title = document.title || '모두의계산기';
     Kakao.Share.sendDefault({
@@ -116,28 +111,23 @@
         imageUrl: 'https://everycalc.kr/og-image.png',
         link: { mobileWebUrl: url, webUrl: url }
       },
-      buttons: [{
-        title: '계산하러 가기',
-        link: { mobileWebUrl: url, webUrl: url }
-      }]
+      buttons: [{ title: '계산하러 가기', link: { mobileWebUrl: url, webUrl: url } }]
     });
   }
 
   function shareTwitter() {
     const text = encodeURIComponent(document.title + ' | 모두의계산기');
     const url = encodeURIComponent(location.href);
-    window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+    window.open('https://twitter.com/intent/tweet?text=' + text + '&url=' + url, '_blank');
   }
 
   function shareFacebook() {
     const url = encodeURIComponent(location.href);
-    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank', 'width=600,height=400');
+    window.open('https://www.facebook.com/sharer/sharer.php?u=' + url, '_blank', 'width=600,height=400');
   }
 
   function copyLink() {
-    navigator.clipboard.writeText(location.href).then(() => {
-      showToast();
-    }).catch(() => {
+    navigator.clipboard.writeText(location.href).then(showToast).catch(function() {
       const el = document.createElement('textarea');
       el.value = location.href;
       document.body.appendChild(el);
@@ -148,28 +138,10 @@
     });
   }
 
-  // DOM 로드 후 삽입
   function insertShareButtons() {
     const section = document.createElement('div');
     section.className = 'share-section';
-    section.innerHTML = `
-      <div class="share-title">이 계산기 공유하기</div>
-      <div class="share-buttons">
-        <button class="share-btn kakao" onclick="window.__share.kakao()">
-          <span class="sb-icon">💬</span>카카오톡
-        </button>
-        <button class="share-btn twitter" onclick="window.__share.twitter()">
-          <span class="sb-icon">🐦</span>트위터
-        </button>
-        <button class="share-btn facebook" onclick="window.__share.facebook()">
-          <span class="sb-icon">📘</span>페이스북
-        </button>
-        <button class="share-btn copy" onclick="window.__share.copy()">
-          <span class="sb-icon">🔗</span>링크복사
-        </button>
-      </div>
-    `;
-    // container 마지막에 삽입
+    section.innerHTML = '<div class="share-title">이 계산기 공유하기</div><div class="share-buttons"><button class="share-btn kakao" onclick="window.__share.kakao()"><span class="sb-icon">💬</span>카카오톡</button><button class="share-btn twitter" onclick="window.__share.twitter()"><span class="sb-icon">🐦</span>트위터</button><button class="share-btn facebook" onclick="window.__share.facebook()"><span class="sb-icon">📘</span>페이스북</button><button class="share-btn copy" onclick="window.__share.copy()"><span class="sb-icon">🔗</span>링크복사</button></div>';
     const container = document.querySelector('.container');
     if (container) container.appendChild(section);
     else document.body.appendChild(section);
