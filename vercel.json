@@ -1,6 +1,14 @@
 {
   "rewrites": [
     { "source": "/salary", "destination": "/salary.html" },
-    { "source": "/age", "destination": "/age.html" }
+    { "source": "/age", "destination": "/age.html" },
+    { "source": "/retirement", "destination": "/retirement.html" },
+    { "source": "/unemployment", "destination": "/unemployment.html" },
+    { "source": "/loan", "destination": "/loan.html" },
+    { "source": "/dday", "destination": "/dday.html" },
+    { "source": "/bmi", "destination": "/bmi.html" },
+    { "source": "/bmr", "destination": "/bmr.html" },
+    { "source": "/realestate", "destination": "/realestate.html" },
+    { "source": "/acquisition", "destination": "/acquisition.html" }
   ]
 }
