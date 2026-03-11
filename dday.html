@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>디데이 계산기 | 모두의계산기</title>
+  <meta name="description" content="디데이 계산기. 시험, 결혼, 생일, 기념일 등 특별한 날까지 남은 날수를 계산하세요. 여러 디데이 동시 관리 가능." />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --surface2: #21262d;
+      --border: #30363d;
+      --accent: #00d4aa;
+      --accent2: #0095ff;
+      --text: #e6edf3;
+      --text-muted: #8b949e;
+      --danger: #ff6b6b;
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,170,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,170,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+      position: relative;
+      z-index: 1;
+    }
+    .nav { text-align: center; margin-bottom: 32px; }
+    .nav a {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: var(--accent);
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+    .header { text-align: center; margin-bottom: 40px; }
+    .header h1 {
+      font-size: clamp(28px, 6vw, 44px);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .header p { color: var(--text-muted); font-size: 14px; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 16px;
+    }
+    .card-title {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .input-group { margin-bottom: 16px; }
+    .input-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 7px;
+    }
+    .input-group input[type="text"],
+    .input-group input[type="date"] {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 13px 16px;
+      font-size: 16px;
+      font-weight: 600;
+      font-family: 'Noto Sans KR', sans-serif;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .input-group input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0,212,170,0.1);
+    }
+    /* 빠른 선택 태그 */
+    .quick-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+    .tag {
+      padding: 5px 12px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: 'Noto Sans KR', sans-serif;
+    }
+    .tag:hover { border-color: var(--accent); color: var(--accent); background: rgba(0,212,170,0.05); }
+    .add-btn {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 700;
+      font-family: 'Noto Sans KR', sans-serif;
+      color: #000;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .add-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,212,170,0.3); }
+    /* 디데이 목록 */
+    .dday-list { display: flex; flex-direction: column; gap: 12px; }
+    .dday-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      animation: fadeUp 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .dday-item::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+    }
+    .dday-item.future::before { background: var(--accent); }
+    .dday-item.past::before { background: var(--text-muted); }
+    .dday-item.today::before { background: #ffd54f; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .dday-left { flex: 1; min-width: 0; }
+    .dday-emoji { font-size: 20px; margin-right: 8px; }
+    .dday-name {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .dday-date { font-size: 12px; color: var(--text-muted); }
+    .dday-right { text-align: right; flex-shrink: 0; }
+    .dday-number {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 32px;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .dday-item.future .dday-number { color: var(--accent); }
+    .dday-item.past .dday-number { color: var(--text-muted); }
+    .dday-item.today .dday-number { color: #ffd54f; }
+    .dday-label { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
+    .delete-btn {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 16px;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.15s;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .dday-item:hover .delete-btn { opacity: 1; }
+    .delete-btn:hover { color: var(--danger); background: rgba(255,107,107,0.1); }
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+    .empty-state .empty-icon { font-size: 40px; margin-bottom: 12px; }
+    /* 오늘 날짜 표시 */
+    .today-bar {
+      text-align: center;
+      padding: 10px;
+      background: var(--surface2);
+      border-radius: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+    .today-bar span { color: var(--accent); font-weight: 700; }
+    @media (max-width: 480px) {
+      .card { padding: 20px 16px; }
+      .dday-item { padding: 16px 18px; }
+      .dday-number { font-size: 26px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="nav"><a href="/">← 모두의계산기</a></div>
+
+    <div class="header">
+      <h1>디데이<br>계산기</h1>
+      <p>특별한 날까지 남은 날수 계산</p>
+    </div>
+
+    <div class="today-bar">오늘은 <span id="todayStr">-</span> 입니다</div>
+
+    <div class="card">
+      <div class="card-title">디데이 추가</div>
+
+      <div class="input-group">
+        <label>이름</label>
+        <input type="text" id="ddayName" placeholder="예: 수능, 결혼기념일, 졸업식" maxlength="20" />
+      </div>
+
+      <div class="input-group">
+        <label>날짜</label>
+        <input type="date" id="ddayDate" />
+      </div>
+
+      <div class="quick-tags">
+        <button class="tag" onclick="setQuick('수능 📚')">📚 수능</button>
+        <button class="tag" onclick="setQuick('생일 🎂')">🎂 생일</button>
+        <button class="tag" onclick="setQuick('결혼기념일 💍')">💍 결혼기념일</button>
+        <button class="tag" onclick="setQuick('여행 ✈️')">✈️ 여행</button>
+        <button class="tag" onclick="setQuick('입사일 💼')">💼 입사일</button>
+        <button class="tag" onclick="setQuick('크리스마스 🎄')">🎄 크리스마스</button>
+      </div>
+
+      <button class="add-btn" onclick="addDday()">📅 디데이 추가</button>
+    </div>
+
+    <div class="dday-list" id="ddayList">
+      <div class="empty-state">
+        <div class="empty-icon">📆</div>
+        디데이를 추가해보세요
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // 오늘 날짜 표시
+    const weekdays = ['일','월','화','수','목','금','토'];
+    document.getElementById('todayStr').textContent =
+      `${today.getFullYear()}년 ${today.getMonth()+1}월 ${today.getDate()}일 (${weekdays[today.getDay()]})`;
+
+    // 기본 날짜 = 오늘
+    const pad = n => String(n).padStart(2, '0');
+    document.getElementById('ddayDate').value =
+      `${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.getDate())}`;
+
+    let ddayItems = JSON.parse(localStorage.getItem('everycalc_dday') || '[]');
+
+    function setQuick(name) {
+      document.getElementById('ddayName').value = name;
+    }
+
+    function save() {
+      localStorage.setItem('everycalc_dday', JSON.stringify(ddayItems));
+    }
+
+    function getDiff(dateStr) {
+      const target = new Date(dateStr);
+      target.setHours(0, 0, 0, 0);
+      return Math.round((target - today) / (1000 * 60 * 60 * 24));
+    }
+
+    function formatDate(dateStr) {
+      const d = new Date(dateStr);
+      return `${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일 (${weekdays[d.getDay()]})`;
+    }
+
+    function addDday() {
+      const name = document.getElementById('ddayName').value.trim();
+      const date = document.getElementById('ddayDate').value;
+      if (!name) { alert('이름을 입력해주세요.'); return; }
+      if (!date) { alert('날짜를 선택해주세요.'); return; }
+
+      ddayItems.unshift({ id: Date.now(), name, date });
+      save();
+      render();
+
+      document.getElementById('ddayName').value = '';
+    }
+
+    function deleteDday(id) {
+      ddayItems = ddayItems.filter(i => i.id !== id);
+      save();
+      render();
+    }
+
+    function render() {
+      const list = document.getElementById('ddayList');
+      if (ddayItems.length === 0) {
+        list.innerHTML = `<div class="empty-state"><div class="empty-icon">📆</div>디데이를 추가해보세요</div>`;
+        return;
+      }
+
+      // 정렬: 오늘 → 미래(가까운순) → 지난날(최근순)
+      const sorted = [...ddayItems].sort((a, b) => {
+        const da = getDiff(a.date), db = getDiff(b.date);
+        if (da === 0) return -1;
+        if (db === 0) return 1;
+        if (da >= 0 && db >= 0) return da - db;
+        if (da < 0 && db < 0) return db - da;
+        return da >= 0 ? -1 : 1;
+      });
+
+      list.innerHTML = sorted.map(item => {
+        const diff = getDiff(item.date);
+        let cls, label, numStr;
+
+        if (diff === 0) {
+          cls = 'today'; label = '🎉 오늘!'; numStr = 'D-DAY';
+        } else if (diff > 0) {
+          cls = 'future'; label = '남은 날'; numStr = `D-${diff}`;
+        } else {
+          cls = 'past'; label = '지난 날'; numStr = `D+${Math.abs(diff)}`;
+        }
+
+        return `
+          <div class="dday-item ${cls}">
+            <button class="delete-btn" onclick="deleteDday(${item.id})">✕</button>
+            <div class="dday-left">
+              <div class="dday-name">${item.name}</div>
+              <div class="dday-date">${formatDate(item.date)}</div>
+            </div>
+            <div class="dday-right">
+              <div class="dday-number">${numStr}</div>
+              <div class="dday-label">${label}</div>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    // 크리스마스 퀵태그 클릭 시 자동으로 연도 맞춰서 날짜 설정
+    function setQuick(name) {
+      document.getElementById('ddayName').value = name;
+      if (name.includes('크리스마스')) {
+        const y = today.getMonth() === 11 && today.getDate() > 25
+          ? today.getFullYear() + 1 : today.getFullYear();
+        document.getElementById('ddayDate').value = `${y}-12-25`;
+      }
+    }
+
+    render();
+  </script>
+</body>
+</html>

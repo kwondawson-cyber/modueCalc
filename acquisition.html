@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>취득세 계산기 | 모두의계산기</title>
+  <meta name="description" content="취득세 계산기. 주택 매매 취득세, 농어촌특별세, 지방교육세를 2024년 기준으로 계산하세요." />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0d1117; --surface: #161b22; --surface2: #21262d; --border: #30363d;
+      --accent: #00d4aa; --accent2: #0095ff; --text: #e6edf3; --text-muted: #8b949e;
+      --danger: #ff6b6b; --radius: 16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image: linear-gradient(rgba(0,212,170,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,170,0.03) 1px, transparent 1px);
+      background-size: 40px 40px; pointer-events: none; z-index: 0;
+    }
+    .container { max-width: 640px; margin: 0 auto; padding: 40px 20px 80px; position: relative; z-index: 1; }
+    .nav { text-align: center; margin-bottom: 32px; }
+    .nav a { font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 3px; color: var(--accent); text-decoration: none; text-transform: uppercase; }
+    .header { text-align: center; margin-bottom: 40px; }
+    .header h1 { font-size: clamp(26px, 5vw, 40px); font-weight: 900; line-height: 1.1; margin-bottom: 10px; background: linear-gradient(135deg, #fff 0%, var(--accent) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .header p { color: var(--text-muted); font-size: 14px; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; margin-bottom: 16px; }
+    .card-title { font-size: 12px; font-weight: 700; letter-spacing: 2px; color: var(--accent); text-transform: uppercase; margin-bottom: 20px; }
+    .input-group { margin-bottom: 18px; }
+    .input-group label { display: block; font-size: 13px; font-weight: 500; color: var(--text-muted); margin-bottom: 7px; }
+    .input-wrapper { position: relative; }
+    .input-wrapper input { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 13px 60px 13px 16px; font-size: 20px; font-weight: 700; font-family: 'Montserrat', sans-serif; color: var(--text); outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+    .input-wrapper input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,212,170,0.1); }
+    .input-unit { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-size: 13px; color: var(--text-muted); font-weight: 500; pointer-events: none; }
+    .select-wrapper select { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 13px 16px; font-size: 15px; font-weight: 500; font-family: 'Noto Sans KR', sans-serif; color: var(--text); outline: none; cursor: pointer; transition: border-color 0.2s; }
+    .select-wrapper select:focus { border-color: var(--accent); }
+    .tab-group { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px; }
+    .tab-btn { padding: 12px; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; font-size: 14px; font-weight: 600; font-family: 'Noto Sans KR', sans-serif; color: var(--text-muted); cursor: pointer; transition: all 0.2s; }
+    .tab-btn.active { background: rgba(0,212,170,0.1); border-color: rgba(0,212,170,0.4); color: var(--accent); }
+    .info-box { background: rgba(0,149,255,0.06); border: 1px solid rgba(0,149,255,0.15); border-radius: 10px; padding: 12px 16px; font-size: 12px; color: var(--text-muted); line-height: 1.7; margin-bottom: 18px; }
+    .calc-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, var(--accent), var(--accent2)); border: none; border-radius: 12px; font-size: 16px; font-weight: 700; font-family: 'Noto Sans KR', sans-serif; color: #000; cursor: pointer; margin-top: 4px; transition: transform 0.15s, box-shadow 0.15s; }
+    .calc-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,212,170,0.3); }
+    /* 결과 */
+    .result-card { display: none; animation: fadeUp 0.4s ease; }
+    .result-card.visible { display: block; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    .result-highlight { background: linear-gradient(135deg, rgba(0,212,170,0.1), rgba(0,149,255,0.05)); border: 1px solid rgba(0,212,170,0.3); border-radius: var(--radius); padding: 24px 28px; text-align: center; margin-bottom: 16px; }
+    .r-label { font-size: 12px; color: var(--accent); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+    .r-amount { font-family: 'Montserrat', sans-serif; font-size: clamp(36px, 8vw, 52px); font-weight: 900; color: #fff; }
+    .r-amount span { font-size: 18px; color: var(--text-muted); }
+    .r-sub { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+    .tax-breakdown { display: flex; flex-direction: column; gap: 10px; }
+    .tax-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; background: var(--surface2); border-radius: 10px; border-left: 3px solid var(--border); }
+    .tax-row.main { border-left-color: var(--accent); }
+    .tax-row.sub1 { border-left-color: var(--accent2); }
+    .tax-row.sub2 { border-left-color: #ffd54f; }
+    .tax-row.total { border-left-color: #fff; background: rgba(255,255,255,0.04); }
+    .tax-row .t-name { font-size: 14px; font-weight: 600; }
+    .tax-row .t-rate { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .tax-row .t-amount { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 700; }
+    .tax-row.total .t-amount { color: var(--accent); font-size: 22px; }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 4px 0; }
+    /* 요율표 */
+    .rate-info { margin-top: 4px; }
+    .rate-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(48,54,61,0.5); font-size: 13px; }
+    .rate-row:last-child { border-bottom: none; }
+    .rate-row.current { color: var(--accent); font-weight: 700; }
+    .notice { margin-top: 16px; padding: 13px 16px; background: rgba(255,165,0,0.05); border: 1px solid rgba(255,165,0,0.15); border-radius: 10px; font-size: 12px; color: var(--text-muted); line-height: 1.7; }
+    @media (max-width: 480px) { .card { padding: 20px 16px; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="nav"><a href="/">← 모두의계산기</a></div>
+    <div class="header">
+      <h1>취득세<br>계산기</h1>
+      <p>주택 취득세 · 농어촌특별세 · 지방교육세</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">주택 정보</div>
+
+      <div class="input-group">
+        <label>취득 가액 (실거래가)</label>
+        <div class="input-wrapper">
+          <input type="number" id="price" value="600000000" />
+          <span class="input-unit">원</span>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label>주택 보유 수 (취득 후 기준)</label>
+        <div class="select-wrapper">
+          <select id="houseCount">
+            <option value="1">1주택 (무주택자가 1채 취득)</option>
+            <option value="2">2주택 (1주택자가 1채 추가 취득)</option>
+            <option value="3">3주택 이상</option>
+            <option value="law">법인 취득</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label>조정대상지역 여부</label>
+        <div class="tab-group">
+          <button class="tab-btn active" onclick="setAdjusted(true)" id="tab-adj">조정대상지역</button>
+          <button class="tab-btn" onclick="setAdjusted(false)" id="tab-nadj">비조정대상지역</button>
+        </div>
+      </div>
+
+      <div class="info-box" id="infoBox">
+        📍 조정대상지역: 서울 전체, 경기 일부 지역 등 (시기에 따라 변동됨)
+      </div>
+
+      <button class="calc-btn" onclick="calculate()">🧾 취득세 계산하기</button>
+    </div>
+
+    <div class="result-card" id="resultCard">
+      <div class="result-highlight">
+        <div class="r-label">총 납부세액</div>
+        <div class="r-amount" id="r-total">-<span>원</span></div>
+        <div class="r-sub" id="r-sub">취득가 대비 -</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">세금 내역</div>
+        <div class="tax-breakdown">
+          <div class="tax-row main">
+            <div>
+              <div class="t-name">취득세</div>
+              <div class="t-rate" id="t-rate1">-</div>
+            </div>
+            <div class="t-amount" id="t-acq">-</div>
+          </div>
+          <div class="tax-row sub1">
+            <div>
+              <div class="t-name">농어촌특별세</div>
+              <div class="t-rate" id="t-rate2">-</div>
+            </div>
+            <div class="t-amount" id="t-rural">-</div>
+          </div>
+          <div class="tax-row sub2">
+            <div>
+              <div class="t-name">지방교육세</div>
+              <div class="t-rate" id="t-rate3">-</div>
+            </div>
+            <div class="t-amount" id="t-edu">-</div>
+          </div>
+          <hr class="divider" />
+          <div class="tax-row total">
+            <div><div class="t-name">합 계</div></div>
+            <div class="t-amount" id="t-sum">-</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">취득세율 구조</div>
+        <div class="rate-info" id="rateInfo"></div>
+      </div>
+
+      <div class="notice">
+        <strong style="color:orange">⚠️ 안내</strong> 2024년 기준입니다. 일시적 2주택 특례, 생애최초 감면(200만원 한도), 신혼부부 감면 등 다양한 감면 혜택이 있으니 관할 구청에 문의하세요. 실제 납부액은 다를 수 있습니다.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let isAdjusted = true;
+
+    function setAdjusted(v) {
+      isAdjusted = v;
+      document.getElementById('tab-adj').classList.toggle('active', v);
+      document.getElementById('tab-nadj').classList.toggle('active', !v);
+    }
+
+    function fmt(n) { return Math.round(n).toLocaleString('ko-KR'); }
+
+    function getTaxRate(price, houseCount, adjusted) {
+      // 1주택: 가격구간별
+      if (houseCount === '1') {
+        if (price <= 600000000) return { rate: 0.01, label: '1%', ruralRate: 0, eduRate: 0.001 };
+        if (price <= 900000000) return { rate: 0.02, label: '2%', ruralRate: 0.002, eduRate: 0.002 };
+        return { rate: 0.03, label: '3%', ruralRate: 0.002, eduRate: 0.003 };
+      }
+      // 2주택
+      if (houseCount === '2') {
+        if (adjusted) return { rate: 0.08, label: '8% (조정)', ruralRate: 0.006, eduRate: 0.004 };
+        return { rate: 0.01, label: '1~3% (비조정)', ruralRate: 0, eduRate: 0.001, useNormal: true, normalPrice: price };
+      }
+      // 3주택 이상
+      if (houseCount === '3') {
+        if (adjusted) return { rate: 0.12, label: '12% (조정)', ruralRate: 0.01, eduRate: 0.004 };
+        return { rate: 0.08, label: '8% (비조정)', ruralRate: 0.006, eduRate: 0.004 };
+      }
+      // 법인
+      return { rate: 0.12, label: '12% (법인)', ruralRate: 0.01, eduRate: 0.004 };
+    }
+
+    function getNormalRate(price) {
+      if (price <= 600000000) return { rate: 0.01, ruralRate: 0, eduRate: 0.001 };
+      if (price <= 900000000) return { rate: 0.02, ruralRate: 0.002, eduRate: 0.002 };
+      return { rate: 0.03, ruralRate: 0.002, eduRate: 0.003 };
+    }
+
+    function calculate() {
+      const price = parseFloat(document.getElementById('price').value) || 0;
+      const houseCount = document.getElementById('houseCount').value;
+      if (!price) { alert('취득 가액을 입력해주세요.'); return; }
+
+      let info = getTaxRate(price, houseCount, isAdjusted);
+      if (info.useNormal) {
+        info = { ...getNormalRate(price), label: `1~3% (비조정 2주택)` };
+      }
+
+      const acqTax = price * info.rate;
+      const ruralTax = price * info.ruralRate;
+      const eduTax = price * info.eduRate;
+      const total = acqTax + ruralTax + eduTax;
+      const ratio = ((total / price) * 100).toFixed(2);
+
+      document.getElementById('r-total').innerHTML = `${fmt(total)}<span>원</span>`;
+      document.getElementById('r-sub').textContent = `취득가 대비 약 ${ratio}%`;
+      document.getElementById('t-rate1').textContent = `취득가 × ${info.label}`;
+      document.getElementById('t-acq').textContent = `${fmt(acqTax)}원`;
+      document.getElementById('t-rate2').textContent = `취득세 × ${(info.ruralRate * 100).toFixed(1)}%`;
+      document.getElementById('t-rural').textContent = `${fmt(ruralTax)}원`;
+      document.getElementById('t-rate3').textContent = `취득세 × ${(info.eduRate * 100).toFixed(1)}%`;
+      document.getElementById('t-edu').textContent = `${fmt(eduTax)}원`;
+      document.getElementById('t-sum').textContent = `${fmt(total)}원`;
+
+      // 요율표
+      const isOne = houseCount === '1';
+      const rateRows = isOne ? [
+        { label: '6억 이하', rate: '1%', current: price <= 600000000 },
+        { label: '6억 초과 ~ 9억 이하', rate: '2%', current: price > 600000000 && price <= 900000000 },
+        { label: '9억 초과', rate: '3%', current: price > 900000000 },
+      ] : houseCount === '2' && !isAdjusted ? [
+        { label: '6억 이하 (비조정 2주택)', rate: '1%', current: price <= 600000000 },
+        { label: '6억 초과~9억 (비조정 2주택)', rate: '2%', current: price > 600000000 && price <= 900000000 },
+        { label: '9억 초과 (비조정 2주택)', rate: '3%', current: price > 900000000 },
+      ] : [
+        { label: houseCount === '2' && isAdjusted ? '조정 2주택' : houseCount === '3' && isAdjusted ? '조정 3주택+' : houseCount === '3' ? '비조정 3주택+' : '법인', rate: info.label, current: true },
+      ];
+
+      document.getElementById('rateInfo').innerHTML = rateRows.map(r => `
+        <div class="rate-row ${r.current ? 'current' : ''}">
+          <span>${r.label}${r.current ? ' ◀ 현재' : ''}</span>
+          <span>${r.rate}</span>
+        </div>`).join('');
+
+      const rc = document.getElementById('resultCard');
+      rc.classList.add('visible');
+      rc.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    window.onload = () => calculate();
+  </script>
+</body>
+</html>
