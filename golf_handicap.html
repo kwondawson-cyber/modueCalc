@@ -155,6 +155,73 @@ function calcHandicap(){
 <details><summary>슬로프 레이팅 기준(113)은 왜 113인가요?</summary><div class="faq-answer">USGA가 미국 전국 코스 평균값을 113으로 설정했습니다. 슬로프가 높을수록 고수와 일반 골퍼의 점수 차이가 크게 나는 어려운 코스입니다.</div></details>
 </section>
 <style>.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}.seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}.seo-section details[open] summary::after{content:'－'}.seo-section details[open]{background:#161b22}.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}</style>
+<style>
+.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
+.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
+.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}
+.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
+.seo-section ul{padding-left:20px;margin-bottom:12px}
+.seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+.seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
+.seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+.seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
+.seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
+.seo-section table tr:nth-child(even) td{background:#161b22}
+.seo-section table td strong{color:#00d4aa}
+.seo-section .tip-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .tip-box strong{color:#00d4aa}
+.seo-section .warn-box{background:rgba(255,107,107,0.05);border:1px solid rgba(255,107,107,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .warn-box strong{color:#ff6b6b}
+.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
+.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
+.seo-section details[open] summary::after{content:'－'}
+.seo-section details[open]{background:#161b22}
+.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
+</style>
+<div class="seo-section">
+  <h2>골프 핸디캡 계산기 사용법</h2>
+  <h3>📌 사용방법</h3>
+  <p>라운드별 타수, 코스 레이팅, 슬로프 레이팅을 입력하면 세계 핸디캡 시스템(WHS, World Handicap System) 기준 핸디캡 지수(Handicap Index)를 계산합니다. 최소 1라운드부터 최대 20라운드까지 입력 가능합니다.</p>
+  <h3>📐 계산 공식 (WHS 기준)</h3>
+  <div class="formula-box">스코어 차등 = (타수 − 코스레이팅) × 113 ÷ 슬로프레이팅
+핸디캡 지수 = 최저 스코어 차등 N개의 평균 × 0.96
+(N = 라운드 수에 따라 1~10개 사용)</div>
+  <h3>📊 라운드 수별 사용 차등 개수</h3>
+  <table>
+    <thead><tr><th>제출 라운드 수</th><th>사용 차등 개수</th></tr></thead>
+    <tbody>
+      <tr><td>3~5라운드</td><td>최저 1개</td></tr>
+      <tr><td>6~8라운드</td><td>최저 2개</td></tr>
+      <tr><td>9~11라운드</td><td>최저 3개</td></tr>
+      <tr><td>12~14라운드</td><td>최저 4개</td></tr>
+      <tr><td>20라운드 이상</td><td>최저 8개</td></tr>
+    </tbody>
+  </table>
+  <h3>📊 핸디캡 지수별 실력 기준</h3>
+  <table>
+    <thead><tr><th>핸디캡 지수</th><th>실력 수준</th><th>평균 타수 (파72 코스)</th></tr></thead>
+    <tbody>
+      <tr><td>0 이하</td><td>스크래치 이상 (선수급)</td><td>72 이하</td></tr>
+      <tr><td>0~5</td><td>싱글 핸디캡 (상급)</td><td>72~78</td></tr>
+      <tr><td>5~15</td><td>중상급</td><td>78~90</td></tr>
+      <tr><td>15~25</td><td>중급 (주말 골퍼)</td><td>90~100</td></tr>
+      <tr><td>25~36</td><td>초중급</td><td>100~110</td></tr>
+      <tr><td>36 초과</td><td>초급</td><td>110 이상</td></tr>
+    </tbody>
+  </table>
+  <h3>💡 코스 레이팅·슬로프 확인 방법</h3>
+  <ul>
+    <li>스코어카드 앞면 또는 골프장 홈페이지에서 확인</li>
+    <li>코스 레이팅: 스크래치 골퍼의 예상 타수 (보통 70~74)</li>
+    <li>슬로프 레이팅: 코스 난이도 지수 (평균 113, 범위 55~155)</li>
+    <li>같은 코스도 티박스 위치(챔피언/레귤러/포워드)에 따라 다름</li>
+  </ul>
+  <h2>자주 묻는 질문 (FAQ)</h2>
+  <details><summary>핸디캡 지수가 낮을수록 좋은 건가요?</summary><div class="faq-answer">맞습니다. 핸디캡 지수 0이 스크래치, 마이너스면 투어 프로 수준입니다. 일반 주말 골퍼 평균은 약 15~25 수준입니다.</div></details>
+  <details><summary>코스 핸디캡과 핸디캡 지수의 차이는 무엇인가요?</summary><div class="faq-answer">핸디캡 지수(Handicap Index)는 다른 코스와 비교 가능한 기준값이고, 코스 핸디캡(Course Handicap)은 특정 코스에서 받는 타수 이점입니다. 코스 핸디캡 = 핸디캡 지수 × 슬로프 ÷ 113 + (파 - 코스레이팅) 입니다.</div></details>
+  <details><summary>한국에서 공식 핸디캡 인증을 받으려면?</summary><div class="faq-answer">한국골프협회(KGA) 또는 골프존·카카오VX 등 플랫폼을 통해 공식 WHS 핸디캡을 등록할 수 있습니다. 이 계산기는 자체 참고용입니다.</div></details>
+</div>
 <script src="/common.js"></script>
 <script src="/share.js"></script>
 <script src="/calculator.js"></script>

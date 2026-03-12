@@ -173,6 +173,73 @@ updateExercise();
 <details><summary>운동 칼로리 계산이 왜 부정확한가요?</summary><div class="faq-answer">MET(대사당량) 기반 계산으로 체지방률, 운동 강도, 개인 대사 차이를 반영하지 못합니다. 실제 소모량은 ±20% 오차가 있습니다.</div></details>
 </section>
 <style>.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}.seo-section details[open] summary::after{content:'－'}.seo-section details[open]{background:#161b22}.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}</style>
+<style>
+.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
+.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
+.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}
+.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
+.seo-section ul{padding-left:20px;margin-bottom:12px}
+.seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+.seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
+.seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+.seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
+.seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
+.seo-section table tr:nth-child(even) td{background:#161b22}
+.seo-section table td strong{color:#00d4aa}
+.seo-section .tip-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .tip-box strong{color:#00d4aa}
+.seo-section .warn-box{background:rgba(255,107,107,0.05);border:1px solid rgba(255,107,107,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .warn-box strong{color:#ff6b6b}
+.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
+.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
+.seo-section details[open] summary::after{content:'－'}
+.seo-section details[open]{background:#161b22}
+.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
+</style>
+<div class="seo-section">
+  <h2>칼로리 계산기 사용법</h2>
+  <h3>📌 사용방법</h3>
+  <p>음식을 선택하고 섭취량(g)을 입력하면 칼로리를 계산합니다. 운동 소모 칼로리는 체중·운동 종류·시간으로 계산합니다. 다이어트 목표 설정, 식단 관리에 활용하세요.</p>
+  <h3>📊 주요 음식 칼로리 총정리</h3>
+  <table>
+    <thead><tr><th>음식</th><th>1인분</th><th>칼로리</th><th>특징</th></tr></thead>
+    <tbody>
+      <tr><td>흰쌀밥</td><td>200g (1공기)</td><td>약 260kcal</td><td>탄수화물 위주</td></tr>
+      <tr><td>삼겹살</td><td>200g</td><td>약 660kcal</td><td>지방 높음</td></tr>
+      <tr><td>닭가슴살</td><td>100g</td><td>약 109kcal</td><td>다이어트 식품</td></tr>
+      <tr><td>라면(1봉)</td><td>120g</td><td>약 500kcal</td><td>나트륨 매우 높음</td></tr>
+      <tr><td>아메리카노</td><td>355ml</td><td>약 10kcal</td><td>당류 0</td></tr>
+      <tr><td>카페라떼</td><td>355ml</td><td>약 190kcal</td><td>우유 함량 높음</td></tr>
+      <tr><td>치킨(1조각)</td><td>100g</td><td>약 245kcal</td><td>튀김옷 제외 시 낮음</td></tr>
+      <tr><td>소주(1병)</td><td>360ml</td><td>약 400kcal</td><td>공칼로리</td></tr>
+    </tbody>
+  </table>
+  <h3>📊 체중별·운동별 30분 소모 칼로리</h3>
+  <table>
+    <thead><tr><th>운동</th><th>60kg 기준</th><th>70kg 기준</th><th>80kg 기준</th></tr></thead>
+    <tbody>
+      <tr><td>걷기 (4km/h)</td><td>96kcal</td><td>112kcal</td><td>128kcal</td></tr>
+      <tr><td>빠른 걷기 (6km/h)</td><td>168kcal</td><td>196kcal</td><td>224kcal</td></tr>
+      <tr><td>달리기 (8km/h)</td><td>204kcal</td><td>238kcal</td><td>272kcal</td></tr>
+      <tr><td>자전거 (보통)</td><td>144kcal</td><td>168kcal</td><td>192kcal</td></tr>
+      <tr><td>수영</td><td>216kcal</td><td>252kcal</td><td>288kcal</td></tr>
+      <tr><td>헬스 (웨이트)</td><td>120kcal</td><td>140kcal</td><td>160kcal</td></tr>
+    </tbody>
+  </table>
+  <h3>💡 다이어트 칼로리 기준</h3>
+  <ul>
+    <li>성인 하루 권장: 남성 약 2,500kcal / 여성 약 2,000kcal</li>
+    <li>체중 0.5kg 감량에 약 3,500kcal 적자 필요</li>
+    <li>TDEE − 500kcal = 주당 약 0.5kg 감량 목표</li>
+    <li>극단적 식이제한(1,000kcal 이하)은 근손실·대사저하 유발</li>
+  </ul>
+  <div class="tip-box"><strong>💡 Tip.</strong> 같은 칼로리라도 단백질 위주 식사가 포만감이 더 오래 갑니다. 닭가슴살 200kcal와 과자 200kcal는 식욕 억제 효과가 전혀 다릅니다.</div>
+  <h2>자주 묻는 질문 (FAQ)</h2>
+  <details><summary>기초대사량보다 적게 먹으면 더 빨리 살이 빠지나요?</summary><div class="faq-answer">단기적으로는 체중이 줄지만 근육이 감소하고 기초대사량 자체가 낮아져 요요 위험이 커집니다. BMR 이하 식사는 권장하지 않습니다.</div></details>
+  <details><summary>운동 칼로리 계산이 실제와 다를 수 있나요?</summary><div class="faq-answer">MET 기반 계산으로 개인 체지방률, 운동 강도, 근육량 차이를 반영하지 못합니다. 실제 소모량은 ±20% 오차가 있으며 참고용으로 사용하세요.</div></details>
+  <details><summary>공칼로리란 무엇인가요?</summary><div class="faq-answer">칼로리는 있지만 영양소(단백질·비타민·무기질)가 거의 없는 열량입니다. 주류·설탕·가공식품이 대표적이며, 체지방은 늘리고 영양은 공급하지 못합니다.</div></details>
+</div>
 <script src="/common.js"></script>
 <script src="/share.js"></script>
 <script src="/calculator.js"></script>

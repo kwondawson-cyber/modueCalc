@@ -148,6 +148,69 @@ judgeBP();
 <details><summary>고혈압약을 먹으면 평생 먹어야 하나요?</summary><div class="faq-answer">생활습관 개선으로 혈압이 조절되면 감량·중단이 가능합니다. 반드시 의사와 상의 후 결정하세요.</div></details>
 </section>
 <style>.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}.seo-section details[open] summary::after{content:'－'}.seo-section details[open]{background:#161b22}.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}</style>
+<style>
+.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
+.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
+.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}
+.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
+.seo-section ul{padding-left:20px;margin-bottom:12px}
+.seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+.seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
+.seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+.seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
+.seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
+.seo-section table tr:nth-child(even) td{background:#161b22}
+.seo-section table td strong{color:#00d4aa}
+.seo-section .tip-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .tip-box strong{color:#00d4aa}
+.seo-section .warn-box{background:rgba(255,107,107,0.05);border:1px solid rgba(255,107,107,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .warn-box strong{color:#ff6b6b}
+.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
+.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
+.seo-section details[open] summary::after{content:'－'}
+.seo-section details[open]{background:#161b22}
+.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
+</style>
+<div class="seo-section">
+  <h2>혈압 정상범위 계산기 사용법</h2>
+  <h3>📌 사용방법</h3>
+  <p>수축기(윗 혈압)와 이완기(아랫 혈압)를 입력하면 대한고혈압학회 기준으로 즉시 판정합니다. 심박수도 함께 입력하면 빈맥·서맥 여부도 확인할 수 있습니다.</p>
+  <h3>📊 혈압 분류 기준 (대한고혈압학회 2022)</h3>
+  <table>
+    <thead><tr><th>분류</th><th>수축기 (mmHg)</th><th>이완기 (mmHg)</th><th>대응</th></tr></thead>
+    <tbody>
+      <tr><td>저혈압</td><td>90 미만</td><td>60 미만</td><td>어지러움 지속 시 병원</td></tr>
+      <tr><td><strong>정상</strong></td><td><strong>120 미만</strong></td><td><strong>80 미만</strong></td><td>건강한 상태</td></tr>
+      <tr><td>주의혈압</td><td>120~129</td><td>80 미만</td><td>생활습관 개선</td></tr>
+      <tr><td>고혈압 전단계</td><td>130~139</td><td>80~89</td><td>식이·운동 관리</td></tr>
+      <tr><td>고혈압 1기</td><td>140~159</td><td>90~99</td><td>의사 상담 필요</td></tr>
+      <tr><td>고혈압 2기</td><td>160 이상</td><td>100 이상</td><td>즉시 병원 방문</td></tr>
+    </tbody>
+  </table>
+  <h3>💡 정확한 혈압 측정을 위한 5가지 원칙</h3>
+  <ul>
+    <li>아침 기상 후 <strong>30분 이내</strong>, 화장실 다녀온 후 측정</li>
+    <li>의자에 앉아 등을 기대고 <strong>5분 안정</strong> 후 측정</li>
+    <li>커피·담배·운동 후 <strong>최소 30분</strong> 경과 후 측정</li>
+    <li>좌우 팔 모두 측정, 높은 쪽 기준으로 기록</li>
+    <li>아침·저녁 2회씩 <strong>1주일 평균</strong>이 가장 정확</li>
+  </ul>
+  <div class="warn-box"><strong>⚠️ 주의.</strong> 백의고혈압(병원에서만 높게 측정)이 있을 수 있습니다. 가정 혈압이 더 신뢰도 높으며, 가정 혈압 135/85 이상이면 고혈압으로 진단합니다.</div>
+  <h3>📊 심박수 정상 범위</h3>
+  <table>
+    <thead><tr><th>분류</th><th>심박수 (bpm)</th><th>원인</th></tr></thead>
+    <tbody>
+      <tr><td>서맥</td><td>60 미만</td><td>운동선수·약물·심장질환</td></tr>
+      <tr><td><strong>정상</strong></td><td><strong>60~100</strong></td><td></td></tr>
+      <tr><td>빈맥</td><td>100 초과</td><td>스트레스·탈수·갑상선</td></tr>
+    </tbody>
+  </table>
+  <h2>자주 묻는 질문 (FAQ)</h2>
+  <details><summary>고혈압 약을 먹으면 평생 먹어야 하나요?</summary><div class="faq-answer">생활습관 개선(체중 감량·식이요법·운동)으로 혈압이 조절되면 감량·중단이 가능합니다. 반드시 의사와 상의하고 임의 중단하지 마세요.</div></details>
+  <details><summary>혈압이 갑자기 180/110 이상으로 올랐어요. 어떻게 해야 하나요?</summary><div class="faq-answer">고혈압 응급(Hypertensive Emergency) 가능성이 있습니다. 두통·흉통·시야장애·호흡곤란이 동반되면 즉시 119에 연락하거나 응급실을 방문하세요.</div></details>
+  <details><summary>짠 음식을 먹으면 혈압이 바로 오르나요?</summary><div class="faq-answer">나트륨 섭취 후 혈압이 오르는 속도는 개인마다 다릅니다. 장기적으로 고나트륨 식이는 혈압 상승의 주요 원인입니다. 하루 나트륨 2,000mg(소금 5g) 이하를 목표로 하세요.</div></details>
+</div>
 <script src="/common.js"></script>
 <script src="/share.js"></script>
 <script src="/calculator.js"></script>

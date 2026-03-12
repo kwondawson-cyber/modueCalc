@@ -1,361 +1,279 @@
 // ============================================================
-// common.js — 모두의계산기 공통 기능
-// 즐겨찾기 / 플로팅 메모장 / 관련 계산기 / 홈 버튼 강화
+// common.js v2 — 모두의계산기 공통 기능
+// 홈버튼(🏠HOME) / 즐겨찾기(localStorage) / 메모(localStorage유지) / 관련계산기
 // ============================================================
-
 (function () {
-
-  // ── 계산기 전체 목록 ─────────────────────────────────────
   const CALC_LIST = [
-    { title: '연봉 실수령액', path: '/salary',          emoji: '💰', cat: '세금·금융' },
-    { title: '퇴직금',       path: '/retirement',       emoji: '🏦', cat: '세금·금융' },
-    { title: '대출 이자',    path: '/loan',             emoji: '🏠', cat: '세금·금융' },
-    { title: '실업급여',     path: '/unemployment',     emoji: '📋', cat: '세금·금융' },
-    { title: '적금 만기',    path: '/savings',          emoji: '💳', cat: '세금·금융' },
-    { title: '물가상승률',   path: '/inflation',        emoji: '📈', cat: '세금·금융' },
-    { title: '중개수수료',   path: '/realestate',       emoji: '🏡', cat: '부동산' },
-    { title: '취득세',       path: '/acquisition',      emoji: '🏢', cat: '부동산' },
-    { title: '양도소득세',   path: '/capital_gains',    emoji: '📊', cat: '부동산' },
-    { title: '증여세·상속세',path: '/gift_tax',         emoji: '🎁', cat: '부동산' },
-    { title: '전월세 전환율',path: '/rent_conversion',  emoji: '🔄', cat: '부동산' },
-    { title: '만 나이',      path: '/age',              emoji: '🎂', cat: '날짜·생활' },
-    { title: '디데이',       path: '/dday',             emoji: '📅', cat: '날짜·생활' },
-    { title: 'BMI',          path: '/bmi',              emoji: '⚖️', cat: '건강' },
-    { title: '기초대사량',   path: '/bmr',              emoji: '🔥', cat: '건강' },
-    { title: '임신 주수',    path: '/pregnancy',        emoji: '🤱', cat: '건강' },
-    { title: '혈압 정상범위',path: '/blood_pressure',   emoji: '❤️', cat: '건강' },
-    { title: '칼로리',       path: '/calorie',          emoji: '🥗', cat: '건강' },
-    { title: '환율',         path: '/exchange',         emoji: '💱', cat: '환율' },
-    { title: '주휴수당',     path: '/weekly_holiday',   emoji: '📅', cat: '노동' },
-    { title: '시급→월급',    path: '/hourly_salary',    emoji: '⏰', cat: '노동' },
-    { title: '연차수당',     path: '/annual_leave',     emoji: '🌴', cat: '노동' },
-    { title: '주식 수익률',  path: '/stock_return',     emoji: '📉', cat: '주식' },
-    { title: '부가가치세',   path: '/vat',              emoji: '🧾', cat: '사업자' },
-    { title: '마진율',       path: '/margin',           emoji: '💹', cat: '사업자' },
-    { title: '건강보험료',   path: '/health_insurance', emoji: '🏥', cat: '사업자' },
-    { title: '소득세',       path: '/income_tax',       emoji: '🧮', cat: '사업자' },
-    { title: '영문 주소변환',path: '/address_converter',emoji: '📮', cat: '생활' },
-    { title: '평↔제곱미터', path: '/area_converter',   emoji: '📐', cat: '단위변환' },
-    { title: 'cm↔inch',     path: '/cm_inch',          emoji: '📏', cat: '단위변환' },
-    { title: '국민연금',     path: '/pension',          emoji: '👴', cat: '세금·금융' },
-    { title: '관세',         path: '/customs',          emoji: '✈️', cat: '생활' },
-    { title: '골프 핸디캡', path: '/golf_handicap',    emoji: '⛳', cat: '생활' },
+    { title: '연봉 실수령액',  path: '/salary',          emoji: '💰' },
+    { title: '퇴직금',        path: '/retirement',       emoji: '🏦' },
+    { title: '대출 이자',     path: '/loan',             emoji: '🏠' },
+    { title: '실업급여',      path: '/unemployment',     emoji: '📋' },
+    { title: '적금 만기',     path: '/savings',          emoji: '💳' },
+    { title: '물가상승률',    path: '/inflation',        emoji: '📈' },
+    { title: '국민연금',      path: '/pension',          emoji: '👴' },
+    { title: '중개수수료',    path: '/realestate',       emoji: '🏡' },
+    { title: '취득세',        path: '/acquisition',      emoji: '🏢' },
+    { title: '양도소득세',    path: '/capital_gains',    emoji: '📊' },
+    { title: '증여세·상속세', path: '/gift_tax',         emoji: '🎁' },
+    { title: '전월세 전환율', path: '/rent_conversion',  emoji: '🔄' },
+    { title: '만 나이',       path: '/age',              emoji: '🎂' },
+    { title: '디데이',        path: '/dday',             emoji: '📅' },
+    { title: '영문 주소변환', path: '/address_converter',emoji: '📮' },
+    { title: '관세',          path: '/customs',          emoji: '✈️' },
+    { title: '골프 핸디캡',   path: '/golf_handicap',   emoji: '⛳' },
+    { title: '평↔제곱미터',  path: '/area_converter',   emoji: '📐' },
+    { title: 'cm↔inch',      path: '/cm_inch',          emoji: '📏' },
+    { title: 'BMI',           path: '/bmi',              emoji: '⚖️' },
+    { title: '기초대사량',    path: '/bmr',              emoji: '🔥' },
+    { title: '임신 주수',     path: '/pregnancy',        emoji: '🤱' },
+    { title: '혈압 정상범위', path: '/blood_pressure',   emoji: '❤️' },
+    { title: '칼로리',        path: '/calorie',          emoji: '🥗' },
+    { title: '환율',          path: '/exchange',         emoji: '💱' },
+    { title: '주휴수당',      path: '/weekly_holiday',   emoji: '📅' },
+    { title: '시급→월급',     path: '/hourly_salary',    emoji: '⏰' },
+    { title: '연차수당',      path: '/annual_leave',     emoji: '🌴' },
+    { title: '주식 수익률',   path: '/stock_return',     emoji: '📉' },
+    { title: '부가가치세',    path: '/vat',              emoji: '🧾' },
+    { title: '마진율',        path: '/margin',           emoji: '💹' },
+    { title: '건강보험료',    path: '/health_insurance', emoji: '🏥' },
+    { title: '소득세',        path: '/income_tax',       emoji: '🧮' },
   ];
 
   const currentPath = location.pathname.replace(/\/$/, '') || '/';
+  const isHome = (currentPath === '/');
 
-  // ── CSS ────────────────────────────────────────────────────
-  const css = `
-    /* ── 홈 버튼 강화 ── */
+  function getFavs() { try { return JSON.parse(localStorage.getItem('ec_favs') || '[]'); } catch(e) { return []; } }
+  function saveFavs(a) { try { localStorage.setItem('ec_favs', JSON.stringify(a)); } catch(e) {} }
+  function isFav(p) { return getFavs().includes(p); }
+  function toggleFav(p) {
+    let f = getFavs();
+    f.includes(p) ? (f = f.filter(x => x !== p)) : f.unshift(p);
+    saveFavs(f); return f.includes(p);
+  }
+  function getMemo() { try { return localStorage.getItem('ec_memo') || ''; } catch(e) { return ''; } }
+  function saveMemo(v) { try { localStorage.setItem('ec_memo', v); } catch(e) {} }
+
+  // ── CSS ──────────────────────────────────────────────────
+  const S = document.createElement('style');
+  S.textContent = `
     .site-name {
       display: inline-flex !important;
-      align-items: center;
-      gap: 6px;
-      font-size: 15px !important;
-      font-weight: 700 !important;
-      color: var(--accent, #00d4aa) !important;
-      background: rgba(0,212,170,0.08);
-      border: 1px solid rgba(0,212,170,0.25);
-      border-radius: 30px;
-      padding: 7px 18px !important;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all 0.2s;
-      letter-spacing: 0.5px !important;
-    }
-    .site-name:hover {
-      background: rgba(0,212,170,0.15);
-      border-color: rgba(0,212,170,0.5);
-    }
-
-    /* ── 즐겨찾기 버튼 ── */
-    .fav-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: transparent;
-      border: 1px solid #30363d;
-      border-radius: 30px;
-      padding: 7px 16px;
-      font-size: 13px;
-      font-weight: 600;
-      color: #8b949e;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-family: 'Noto Sans KR', sans-serif;
-      margin-top: 12px;
-    }
-    .fav-btn:hover { border-color: #ffd700; color: #ffd700; }
-    .fav-btn.active { border-color: #ffd700; color: #ffd700; background: rgba(255,215,0,0.08); }
-    .fav-btn .fav-star { font-size: 16px; transition: transform 0.2s; }
-    .fav-btn.active .fav-star { transform: scale(1.2); }
-
-    /* ── 관련 계산기 섹션 ── */
-    .related-section {
-      max-width: 640px;
-      margin: 0 auto 32px;
-      padding: 0 20px;
-    }
-    .related-title {
-      font-size: 13px;
-      font-weight: 700;
-      color: #8b949e;
-      letter-spacing: 1px;
-      margin-bottom: 12px;
-      text-align: center;
-    }
-    .related-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-    }
-    .related-card {
-      display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 5px;
-      padding: 12px 6px;
-      background: #161b22;
-      border: 1px solid #30363d;
-      border-radius: 12px;
-      text-decoration: none;
-      color: #8b949e;
-      font-size: 11px;
-      font-weight: 600;
-      font-family: 'Noto Sans KR', sans-serif;
-      transition: all 0.2s;
-      text-align: center;
-      line-height: 1.3;
-    }
-    .related-card:hover {
-      border-color: rgba(0,212,170,0.4);
-      color: #e6edf3;
-      transform: translateY(-2px);
-    }
-    .related-card .rc-emoji { font-size: 20px; }
-
-    /* ── 플로팅 메모장 ── */
-    .memo-fab {
-      position: fixed;
-      bottom: 90px;
-      right: 24px;
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: #21262d;
-      border: 1px solid #30363d;
-      color: #8b949e;
-      font-size: 20px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
       justify-content: center;
-      z-index: 999;
-      transition: all 0.2s;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    }
-    .memo-fab:hover { background: #30363d; color: #e6edf3; }
-    .memo-panel {
-      position: fixed;
-      bottom: 148px;
-      right: 24px;
-      width: 260px;
-      background: #161b22;
-      border: 1px solid #30363d;
-      border-radius: 16px;
-      padding: 14px;
-      z-index: 998;
-      display: none;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-    }
-    .memo-panel.open { display: block; }
-    .memo-panel-title {
-      font-size: 12px;
-      font-weight: 700;
-      color: #8b949e;
-      margin-bottom: 8px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .memo-clear {
-      font-size: 11px;
-      color: #484f58;
+      gap: 2px;
+      width: 56px; height: 56px;
+      background: rgba(0,212,170,0.08);
+      border: 1px solid rgba(0,212,170,0.3) !important;
+      border-radius: 50%;
       cursor: pointer;
-      background: none;
-      border: none;
-      font-family: inherit;
-      padding: 2px 6px;
-      border-radius: 4px;
-    }
-    .memo-clear:hover { color: #ff6b6b; }
-    .memo-textarea {
-      width: 100%;
-      height: 160px;
-      background: #0d1117;
-      border: 1px solid #30363d;
-      border-radius: 10px;
-      padding: 10px;
-      color: #e6edf3;
-      font-size: 13px;
+      transition: all 0.2s;
       font-family: 'Noto Sans KR', sans-serif;
-      line-height: 1.7;
-      resize: none;
-      outline: none;
+      padding: 0 !important;
+      font-size: 0 !important;
+      color: transparent !important;
+      -webkit-text-fill-color: transparent !important;
+      text-decoration: none;
+      letter-spacing: 0 !important;
+      opacity: 1 !important;
     }
-    .memo-textarea:focus { border-color: rgba(0,212,170,0.3); }
-    .memo-hint {
-      font-size: 10px;
-      color: #484f58;
-      margin-top: 6px;
-      text-align: right;
-    }
+    .site-name:hover { background: rgba(0,212,170,0.18); transform: translateY(-2px); }
+    .site-name .home-emoji { font-size: 21px; line-height:1; -webkit-text-fill-color:initial; color:initial; }
+    .site-name .home-label { font-size:9px; font-weight:800; letter-spacing:1.5px; color:#00d4aa; -webkit-text-fill-color:#00d4aa; }
 
-    @media (max-width: 600px) {
-      .related-grid { grid-template-columns: repeat(3, 1fr); }
-      .memo-panel { width: calc(100vw - 48px); right: 16px; bottom: 140px; }
-      .memo-fab { right: 16px; }
+    .fav-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      border: 1px solid #30363d; border-radius: 30px;
+      padding: 7px 14px; font-size: 13px; font-weight: 600;
+      color: #8b949e; cursor: pointer; transition: all 0.2s;
+      font-family: 'Noto Sans KR', sans-serif; background: transparent; margin-top: 10px;
+    }
+    .fav-pill:hover { border-color: #ffd700; color: #ffd700; }
+    .fav-pill.active { border-color: #ffd700; color: #ffd700; background: rgba(255,215,0,0.08); }
+    .fav-pill .fav-star { font-size:15px; transition:transform 0.2s; }
+    .fav-pill.active .fav-star { transform:scale(1.2); }
+
+    #top-fab-group {
+      position: fixed; top: 18px; right: 18px;
+      z-index: 9990; display: flex; flex-direction: column; gap: 7px; align-items: flex-end;
+    }
+    #memo-fab-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      height: 38px; padding: 0 14px; border-radius: 30px;
+      font-size: 13px; font-weight: 700; font-family: 'Noto Sans KR', sans-serif;
+      cursor: pointer; transition: all 0.2s; white-space: nowrap;
+      background: #21262d; border: 1px solid #30363d; color: #8b949e;
+    }
+    #memo-fab-pill:hover { background: #30363d; color: #e6edf3; }
+    #memo-fab-pill.open { background: rgba(0,212,170,0.1); border-color: rgba(0,212,170,0.4); color: #00d4aa; }
+
+    #memo-panel {
+      position: fixed; top: 64px; right: 18px; width: 268px;
+      background: #161b22; border: 1px solid #30363d; border-radius: 16px;
+      padding: 14px; z-index: 9989; display: none;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    }
+    #memo-panel.open { display: block; }
+    .memo-hdr { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+    .memo-hdr-title { font-size:11px; font-weight:700; color:#8b949e; }
+    .memo-clear-btn { font-size:11px; color:#484f58; cursor:pointer; background:none; border:none; font-family:inherit; padding:2px 6px; border-radius:4px; }
+    .memo-clear-btn:hover { color:#ff6b6b; }
+    #memo-textarea {
+      width:100%; height:165px; background:#0d1117; border:1px solid #30363d;
+      border-radius:10px; padding:10px; color:#e6edf3; font-size:13px;
+      font-family:'Noto Sans KR',sans-serif; line-height:1.7; resize:none; outline:none;
+    }
+    #memo-textarea:focus { border-color:rgba(0,212,170,0.35); }
+    .memo-hint { font-size:10px; color:#484f58; margin-top:5px; text-align:right; }
+
+    #calc-fab { position:fixed !important; top:64px !important; right:18px !important; bottom:auto !important; }
+    #calc-panel { top:110px !important; right:18px !important; bottom:auto !important; }
+
+    .related-section { max-width:640px; margin:0 auto 28px; padding:0 20px; }
+    .related-title { font-size:12px; font-weight:700; color:#8b949e; letter-spacing:1px; margin-bottom:10px; text-align:center; }
+    .related-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+    .related-card {
+      display:flex; flex-direction:column; align-items:center; gap:4px;
+      padding:11px 6px; background:#161b22; border:1px solid #30363d; border-radius:11px;
+      text-decoration:none; color:#8b949e; font-size:11px; font-weight:600;
+      font-family:'Noto Sans KR',sans-serif; transition:all 0.2s; text-align:center; line-height:1.3;
+    }
+    .related-card:hover { border-color:rgba(0,212,170,0.4); color:#e6edf3; transform:translateY(-2px); }
+    .related-card .rc-emoji { font-size:18px; }
+
+    #common-toast {
+      position:fixed; bottom:24px; left:50%;
+      transform:translateX(-50%) translateY(20px);
+      background:#161b22; border:1px solid rgba(0,212,170,0.4);
+      color:#e6edf3; padding:10px 18px; border-radius:30px;
+      font-size:13px; font-weight:600; opacity:0; transition:all 0.3s;
+      pointer-events:none; z-index:99999;
+      font-family:'Noto Sans KR',sans-serif; white-space:nowrap;
+    }
+    #common-toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+    @media(max-width:600px){
+      .related-grid{grid-template-columns:repeat(3,1fr)}
+      #top-fab-group{top:10px;right:10px}
+      #memo-panel{right:10px;width:calc(100vw - 20px);top:56px}
+      #calc-fab{top:56px !important;right:10px !important}
+      #calc-panel{top:102px !important;right:10px !important;width:calc(100vw - 20px) !important}
     }
   `;
+  document.head.appendChild(S);
 
-  const styleEl = document.createElement('style');
-  styleEl.textContent = css;
-  document.head.appendChild(styleEl);
-
-  // ── 즐겨찾기 유틸 ─────────────────────────────────────────
-  function getFavs() {
-    try { return JSON.parse(localStorage.getItem('ec_favs') || '[]'); }
-    catch (e) { return []; }
-  }
-  function saveFavs(arr) {
-    try { localStorage.setItem('ec_favs', JSON.stringify(arr)); } catch (e) {}
-  }
-  function isFav(path) { return getFavs().includes(path); }
-  function toggleFav(path) {
-    let favs = getFavs();
-    if (favs.includes(path)) {
-      favs = favs.filter(f => f !== path);
-    } else {
-      favs.unshift(path);
-    }
-    saveFavs(favs);
-    return favs.includes(path);
+  // ── 토스트 ──────────────────────────────────────────────
+  const toast = document.createElement('div');
+  toast.id = 'common-toast';
+  document.body.appendChild(toast);
+  let toastT;
+  function showToast(msg, ms = 2600) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastT);
+    toastT = setTimeout(() => toast.classList.remove('show'), ms);
   }
 
-  // ── 홈 버튼 강화 ──────────────────────────────────────────
+  // ── 홈 버튼 ─────────────────────────────────────────────
   function enhanceHomeBtn() {
-    const siteNameEl = document.querySelector('.site-name');
-    if (!siteNameEl) return;
-    siteNameEl.innerHTML = '← 모두의계산기';
-    siteNameEl.style.cursor = 'pointer';
-    siteNameEl.addEventListener('click', () => { location.href = '/'; });
+    const el = document.querySelector('.site-name');
+    if (!el) return;
+    el.innerHTML = '<span class="home-emoji">🏠</span><span class="home-label">HOME</span>';
+    el.onclick = () => { location.href = '/'; };
   }
 
-  // ── 즐겨찾기 버튼 주입 ────────────────────────────────────
-  function injectFavButton() {
-    if (currentPath === '/') return;
+  // ── 즐겨찾기 버튼 ───────────────────────────────────────
+  function injectFavBtn() {
+    if (isHome) return;
     const header = document.querySelector('.header');
     if (!header) return;
-
     const active = isFav(currentPath);
     const btn = document.createElement('button');
-    btn.className = 'fav-btn' + (active ? ' active' : '');
-    btn.innerHTML = `<span class="fav-star">${active ? '★' : '☆'}</span><span class="fav-label">${active ? '즐겨찾기 됨' : '즐겨찾기 추가'}</span>`;
+    btn.className = 'fav-pill' + (active ? ' active' : '');
+    btn.innerHTML = `<span class="fav-star">${active ? '★' : '☆'}</span><span class="fav-text">${active ? '즐겨찾기 됨' : '즐겨찾기 추가'}</span>`;
     btn.addEventListener('click', () => {
       const now = toggleFav(currentPath);
-      btn.className = 'fav-btn' + (now ? ' active' : '');
+      btn.className = 'fav-pill' + (now ? ' active' : '');
       btn.querySelector('.fav-star').textContent = now ? '★' : '☆';
-      btn.querySelector('.fav-label').textContent = now ? '즐겨찾기 됨' : '즐겨찾기 추가';
+      btn.querySelector('.fav-text').textContent = now ? '즐겨찾기 됨' : '즐겨찾기 추가';
+      showToast(now ? '⭐ 즐겨찾기 추가됨 · 홈 화면에서 확인' : '즐겨찾기에서 제거됐습니다');
     });
     header.appendChild(btn);
   }
 
-  // ── 관련 계산기 주입 ──────────────────────────────────────
-  function injectRelated() {
-    if (currentPath === '/') return;
-    const currentCalc = CALC_LIST.find(c => c.path === currentPath);
-    const currentCat = currentCalc ? currentCalc.cat : '';
+  // ── 메모 ─────────────────────────────────────────────────
+  function injectMemo() {
+    let grp = document.getElementById('top-fab-group');
+    if (!grp) { grp = document.createElement('div'); grp.id = 'top-fab-group'; document.body.appendChild(grp); }
 
-    // 같은 카테고리 우선, 그 다음 인기 계산기
-    let related = CALC_LIST.filter(c => c.path !== currentPath && c.cat === currentCat).slice(0, 4);
-    if (related.length < 4) {
-      const popular = ['/salary', '/age', '/weekly_holiday', '/retirement', '/loan', '/bmi', '/exchange', '/unemployment'];
-      for (const p of popular) {
-        if (related.length >= 4) break;
-        const c = CALC_LIST.find(x => x.path === p && x.path !== currentPath && !related.includes(x));
-        if (c) related.push(c);
-      }
-    }
-    related = related.slice(0, 4);
-
-    const section = document.createElement('div');
-    section.className = 'related-section';
-    section.innerHTML = `
-      <div class="related-title">다른 계산기 보기</div>
-      <div class="related-grid">
-        ${related.map(c => `
-          <a href="${c.path}" class="related-card">
-            <span class="rc-emoji">${c.emoji}</span>
-            <span>${c.title}</span>
-          </a>
-        `).join('')}
-      </div>
-    `;
-
-    // share-section 앞에 삽입
-    const shareSection = document.querySelector('.share-section');
-    if (shareSection) shareSection.before(section);
-    else {
-      const container = document.querySelector('.container');
-      if (container) container.appendChild(section);
-    }
-  }
-
-  // ── 플로팅 메모장 ─────────────────────────────────────────
-  function injectNotepad() {
-    const fab = document.createElement('button');
-    fab.className = 'memo-fab';
-    fab.title = '메모장';
-    fab.textContent = '📝';
+    const pill = document.createElement('button');
+    pill.id = 'memo-fab-pill';
+    pill.innerHTML = '📝 <span id="memo-fab-lbl">메모</span>';
+    grp.appendChild(pill);
 
     const panel = document.createElement('div');
-    panel.className = 'memo-panel';
+    panel.id = 'memo-panel';
     panel.innerHTML = `
-      <div class="memo-panel-title">
-        <span>📝 메모장</span>
-        <button class="memo-clear" id="memoClear">지우기</button>
+      <div class="memo-hdr">
+        <span class="memo-hdr-title">📝 메모 (페이지 이동해도 유지)</span>
+        <button class="memo-clear-btn" id="memo-clear">지우기</button>
       </div>
-      <textarea class="memo-textarea" id="memoArea" placeholder="여기에 메모하세요 (저장안됨)"></textarea>
-      <div class="memo-hint">⚠️ 페이지 이동 시 내용이 사라집니다</div>
-    `;
-
+      <textarea id="memo-textarea" placeholder="여기에 메모하세요 (저장안됨)"></textarea>
+      <div class="memo-hint">브라우저 탭 닫으면 삭제됩니다</div>`;
     document.body.appendChild(panel);
-    document.body.appendChild(fab);
 
-    fab.addEventListener('click', () => {
-      panel.classList.toggle('open');
-      fab.textContent = panel.classList.contains('open') ? '✕' : '📝';
+    const saved = getMemo();
+    if (saved) document.getElementById('memo-textarea').value = saved;
+
+    pill.addEventListener('click', () => {
+      const open = panel.classList.toggle('open');
+      pill.classList.toggle('open', open);
+      document.getElementById('memo-fab-lbl').textContent = open ? '닫기' : '메모';
+      if (open) document.getElementById('memo-textarea').focus();
     });
-    document.getElementById('memoClear').addEventListener('click', () => {
-      document.getElementById('memoArea').value = '';
+    document.getElementById('memo-textarea').addEventListener('input', e => saveMemo(e.target.value));
+    document.getElementById('memo-clear').addEventListener('click', () => {
+      document.getElementById('memo-textarea').value = ''; saveMemo('');
     });
   }
 
-  // ── 초기화 ────────────────────────────────────────────────
+  // calc-fab 위치 패치
+  function patchCalcFab() {
+    function tryIt() {
+      const fab = document.getElementById('calc-fab');
+      if (!fab) return setTimeout(tryIt, 250);
+      const pill = document.getElementById('memo-fab-pill');
+      const top = pill ? (pill.getBoundingClientRect().bottom + window.scrollY + 8) : 64;
+      fab.style.cssText += `;position:fixed!important;top:${Math.round(top)}px!important;right:18px!important;bottom:auto!important`;
+    }
+    setTimeout(tryIt, 400);
+  }
+
+  // ── 관련 계산기 ────────────────────────────────────────
+  function injectRelated() {
+    if (isHome) return;
+    const popular = ['/salary','/age','/weekly_holiday','/retirement','/loan','/bmi','/exchange','/unemployment','/area_converter','/pension','/calorie','/blood_pressure','/acquisition','/income_tax'];
+    const others = CALC_LIST.filter(c => c.path !== currentPath);
+    const sorted = [...others].sort((a,b)=>(popular.indexOf(a.path)+1||99)-(popular.indexOf(b.path)+1||99));
+    const related = sorted.slice(0,4);
+    const sec = document.createElement('div');
+    sec.className = 'related-section';
+    sec.innerHTML = `<div class="related-title">다른 계산기 보기</div><div class="related-grid">${related.map(c=>`<a href="${c.path}" class="related-card"><span class="rc-emoji">${c.emoji}</span><span>${c.title}</span></a>`).join('')}</div>`;
+    const shareSection = document.querySelector('.share-section');
+    if (shareSection) shareSection.before(sec);
+    else (document.querySelector('.container')||document.body).appendChild(sec);
+  }
+
   function init() {
     enhanceHomeBtn();
-    injectFavButton();
+    injectFavBtn();
+    injectMemo();
+    patchCalcFab();
     injectRelated();
-    injectNotepad();
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
 
-  // ── 외부 노출 (index.html에서 즐겨찾기 렌더링용) ──────────
-  window.__common = { CALC_LIST, getFavs, isFav };
-
+  window.__common = { CALC_LIST, getFavs, isFav, showToast };
 })();
