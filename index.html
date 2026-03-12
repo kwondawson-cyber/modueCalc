@@ -521,4 +521,26 @@
       favs.slice(0, 9).forEach(function(path) {
         var calc = CALC_LIST.find(function(c){ return c.path === path; });
         if (!calc) return;
-      
+              var a = document.createElement('a');
+        a.href = calc.path;
+        a.className = 'fav-card';
+        a.innerHTML = '<span class="fav-emoji">'+calc.emoji+'</span><span>'+calc.title+'</span>';
+        grid.appendChild(a);
+      });
+    })();
+  </script>
+
+  <script src="/common.js"></script>
+  <script src="/share.js"></script>
+  <script src="/calculator.js"></script>
+  <script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .then(r => console.log('[PWA] SW registered:', r.scope))
+        .catch(e => console.warn('[PWA] SW failed:', e));
+    });
+  }
+  </script>
+</body>
+</html>

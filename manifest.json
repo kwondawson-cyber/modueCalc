@@ -1,7 +1,7 @@
 {
   "name": "모두의계산기",
   "short_name": "모두의계산기",
-  "description": "연봉·대출·세금·건강·날짜까지 — 생활 밀착형 무료 계산기 39개",
+  "description": "연봉·대출·세금·건강·날짜까지 — 생활 밀착형 무료 계산기 42개",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0d1117",
@@ -39,31 +39,55 @@
       "short_name": "연봉",
       "description": "연봉 실수령액 계산",
       "url": "/salary",
-      "icons": [{ "src": "/favicon-32.png", "sizes": "32x32" }]
+      "icons": [
+        {
+          "src": "/favicon-32.png",
+          "sizes": "32x32"
+        }
+      ]
     },
     {
       "name": "대출 계산기",
       "short_name": "대출",
       "description": "대출 이자·원리금 계산",
       "url": "/loan",
-      "icons": [{ "src": "/favicon-32.png", "sizes": "32x32" }]
+      "icons": [
+        {
+          "src": "/favicon-32.png",
+          "sizes": "32x32"
+        }
+      ]
     },
     {
       "name": "BMI 계산기",
       "short_name": "BMI",
       "description": "체질량지수 계산",
       "url": "/bmi",
-      "icons": [{ "src": "/favicon-32.png", "sizes": "32x32" }]
+      "icons": [
+        {
+          "src": "/favicon-32.png",
+          "sizes": "32x32"
+        }
+      ]
     },
     {
       "name": "만 나이 계산기",
       "short_name": "만 나이",
       "description": "만 나이 계산",
       "url": "/age",
-      "icons": [{ "src": "/favicon-32.png", "sizes": "32x32" }]
+      "icons": [
+        {
+          "src": "/favicon-32.png",
+          "sizes": "32x32"
+        }
+      ]
     }
   ],
-  "categories": ["finance", "utilities", "productivity"],
+  "categories": [
+    "finance",
+    "utilities",
+    "productivity"
+  ],
   "screenshots": [
     {
       "src": "/og-image.png",

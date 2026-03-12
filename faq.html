@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#00d4aa" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="모두의계산기" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>자주 묻는 질문 (FAQ) | 모두의계산기</title>
@@ -297,7 +306,7 @@
       <summary>원하는 계산기가 없어요. 추가 요청할 수 있나요?</summary>
       <div class="faq-answer">
         네! 아래 이메일로 원하시는 계산기 종류를 보내주시면 검토 후 추가하겠습니다.<br><br>
-        📧 <a href="mailto:contact@everycalc.kr">contact@everycalc.kr</a>
+        📧 <a href="/cdn-cgi/l/email-protection#d8bbb7b6acb9bbac98bdaebdaaa1bbb9b4bbf6b3aa"><span class="__cf_email__" data-cfemail="7f1c10110b1e1c0b3f1a091a0d061c1e131c51140d">[email&#160;protected]</span></a>
       </div>
     </details>
 
@@ -305,14 +314,14 @@
       <summary>계산 결과가 잘못된 것 같아요</summary>
       <div class="faq-answer">
         아래 이메일로 어떤 계산기인지, 어떤 값을 입력했는지 알려주시면 빠르게 확인하겠습니다.<br><br>
-        📧 <a href="mailto:contact@everycalc.kr">contact@everycalc.kr</a>
+        📧 <a href="/cdn-cgi/l/email-protection#81e2eeeff5e0e2f5c1e4f7e4f3f8e2e0ede2afeaf3"><span class="__cf_email__" data-cfemail="01626e6f7560627541647764737862606d622f6a73">[email&#160;protected]</span></a>
       </div>
     </details>
 
     <details class="faq-item">
       <summary>광고 및 제휴 문의는 어디로 하나요?</summary>
       <div class="faq-answer">
-        📧 <a href="mailto:contact@everycalc.kr">contact@everycalc.kr</a> 로 연락주시면 검토 후 답변드리겠습니다.
+        📧 <a href="/cdn-cgi/l/email-protection#9bf8f4f5effaf8efdbfeedfee9e2f8faf7f8b5f0e9"><span class="__cf_email__" data-cfemail="e5868a8b91848691a5809380979c86848986cb8e97">[email&#160;protected]</span></a> 로 연락주시면 검토 후 답변드리겠습니다.
       </div>
     </details>
   </div>
@@ -320,18 +329,21 @@
   <!-- 문의 박스 -->
   <div class="contact-box">
     <h2>💬 그 외 문의사항</h2>
-    <p>FAQ에 없는 내용이나 오류 제보, 계산기 추가 요청은<br>아래 이메일로 보내주세요.</p>
-    <a href="mailto:contact@everycalc.kr" class="contact-mail">
-      ✉️ contact@everycalc.kr
-    </a>
+    <p>FAQ에 없는 내용이나 오류 제보, 계산기 추가 요청은 아래 이메일로 보내주세요.</p>
+    <a href="mailto:contact@everycalc.kr" class="contact-btn">📧 contact@everycalc.kr</a>
   </div>
 
-  <div class="footer">
-    © 2026 모두의계산기 · everycalc.kr<br>
-    본 사이트의 모든 계산 결과는 참고용이며 실제와 다를 수 있습니다.
-  </div>
-
-</div>
-<script src="/common.js"></script>
+  <script src="/common.js"></script>
+  <script src="/share.js"></script>
+  <script src="/calculator.js"></script>
+  <script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .then(r => console.log('[PWA] SW registered:', r.scope))
+        .catch(e => console.warn('[PWA] SW failed:', e));
+    });
+  }
+  </script>
 </body>
 </html>
