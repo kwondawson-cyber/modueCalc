@@ -202,11 +202,14 @@
     }, 100);
   }
 
-  // ⑨ 콤마 표시
+  // ⑨ 콤마 표시 (금액 입력만, 단위 레이블 있는 input 제외)
   function injectComma() {
     if (IS_HOME) return;
     document.querySelectorAll('input[type="number"]').forEach(function(inp){
       if (inp.dataset.ecComma) return;
+      // 단위 레이블(.input-unit)이 형제로 있으면 건너뜀
+      var wrapper = inp.parentNode;
+      if (wrapper && wrapper.querySelector('.input-unit')) return;
       inp.dataset.ecComma = '1';
       var lbl = document.createElement('span');
       lbl.className = 'ec-comma';

@@ -7,6 +7,8 @@
   style.textContent = `
     #calc-fab {
       position: fixed;
+      left: calc(50% + 390px);
+      top: 420px;
       height: 52px;
       padding: 0 20px 0 16px;
       background: linear-gradient(135deg, #00d4aa, #0095ff);
@@ -33,6 +35,8 @@
 
     #calc-panel {
       position: fixed;
+      left: calc(50% + 390px);
+      top: 480px;
       width: 320px;
       background: #161b22;
       border: 1px solid #30363d;
@@ -142,6 +146,10 @@
     .hist-item:hover { color: #00d4aa; }
     .hist-item:last-child { border-bottom: none; }
 
+    @media (max-width: 1100px) {
+      #calc-fab { left: auto !important; right: 20px; top: 420px; }
+      #calc-panel { left: auto !important; right: 20px; top: 480px; }
+    }
     @media (max-width: 400px) {
       #calc-panel { width: calc(100vw - 32px); right: 16px; }
       #calc-fab { right: 16px; bottom: 20px; padding: 0 16px 0 12px; height: 46px; }
