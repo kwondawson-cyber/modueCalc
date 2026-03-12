@@ -175,11 +175,16 @@ function calcFreelancer() {
 
   // 종합소득세 세율 적용
   let incomeTax = 0;
-  if (taxBase <= 14000000)       incomeTax = taxBase * 0.06;
-  else if (taxBase <= 50000000)  incomeTax = 840000 + (taxBase - 14000000) * 0.15;
-  else if (taxBase <= 88000000)  incomeTax = 6240000 + (taxBase - 50000000) * 0.24;
-  else if (taxBase <= 150000000) incomeTax = 15360000 + (taxBase - 88000000) * 0.35;
-  else                           incomeTax = 37060000 + (taxBase - 150000000) * 0.38;
+  // 2025년 종합소득세 세율 (지방소득세 10% 포함)
+  // 과세표준 구간: 1,400만/5,000만/8,800만/1.5억/3억/5억/10억
+  if      (taxBase <= 14000000)   incomeTax = taxBase * 0.06;
+  else if (taxBase <= 50000000)   incomeTax = 840000   + (taxBase - 14000000)  * 0.15;
+  else if (taxBase <= 88000000)   incomeTax = 6240000  + (taxBase - 50000000)  * 0.24;
+  else if (taxBase <= 150000000)  incomeTax = 15360000 + (taxBase - 88000000)  * 0.35;
+  else if (taxBase <= 300000000)  incomeTax = 37060000 + (taxBase - 150000000) * 0.38;
+  else if (taxBase <= 500000000)  incomeTax = 94060000 + (taxBase - 300000000) * 0.40;
+  else if (taxBase <= 1000000000) incomeTax = 154060000 + (taxBase - 500000000) * 0.42;
+  else                            incomeTax = 364060000 + (taxBase - 1000000000) * 0.45;
   incomeTax = Math.round(incomeTax * 1.1); // 지방소득세 10% 포함
 
   // 건강보험료 (지역가입자: 소득의 약 7.09% / 12개월)
