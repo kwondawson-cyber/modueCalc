@@ -2,47 +2,172 @@
   "headers": [
     {
       "source": "/sitemap.xml",
-      "headers": [{ "key": "Content-Type", "value": "application/xml" }]
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/xml"
+        }
+      ]
     },
     {
       "source": "/rss.xml",
-      "headers": [{ "key": "Content-Type", "value": "application/xml" }]
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/xml"
+        }
+      ]
+    },
+    {
+      "source": "/ads.txt",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/plain"
+        }
+      ]
     }
   ],
   "rewrites": [
-    { "source": "/", "destination": "/index.html" },
-    { "source": "/salary", "destination": "/salary.html" },
-    { "source": "/retirement", "destination": "/retirement.html" },
-    { "source": "/loan", "destination": "/loan.html" },
-    { "source": "/unemployment", "destination": "/unemployment.html" },
-    { "source": "/savings", "destination": "/savings.html" },
-    { "source": "/inflation", "destination": "/inflation.html" },
-    { "source": "/realestate", "destination": "/realestate.html" },
-    { "source": "/acquisition", "destination": "/acquisition.html" },
-    { "source": "/capital_gains", "destination": "/capital_gains.html" },
-    { "source": "/gift_tax", "destination": "/gift_tax.html" },
-    { "source": "/rent_conversion", "destination": "/rent_conversion.html" },
-    { "source": "/age", "destination": "/age.html" },
-    { "source": "/dday", "destination": "/dday.html" },
-    { "source": "/bmi", "destination": "/bmi.html" },
-    { "source": "/bmr", "destination": "/bmr.html" },
-    { "source": "/pregnancy", "destination": "/pregnancy.html" },
-    { "source": "/exchange", "destination": "/exchange.html" },
-    { "source": "/weekly_holiday", "destination": "/weekly_holiday.html" },
-    { "source": "/hourly_salary", "destination": "/hourly_salary.html" },
-    { "source": "/annual_leave", "destination": "/annual_leave.html" },
-    { "source": "/stock_return", "destination": "/stock_return.html" },
-    { "source": "/vat", "destination": "/vat.html" },
-    { "source": "/margin", "destination": "/margin.html" },
-    { "source": "/health_insurance", "destination": "/health_insurance.html" },
-    { "source": "/income_tax", "destination": "/income_tax.html" },
-    { "source": "/address_converter", "destination": "/address_converter.html" },
-    { "source": "/area_converter", "destination": "/area_converter.html" },
-    { "source": "/cm_inch", "destination": "/cm_inch.html" },
-    { "source": "/pension", "destination": "/pension.html" },
-    { "source": "/calorie", "destination": "/calorie.html" },
-    { "source": "/blood_pressure", "destination": "/blood_pressure.html" },
-    { "source": "/golf_handicap", "destination": "/golf_handicap.html" },
-    { "source": "/customs", "destination": "/customs.html" }
+    {
+      "source": "/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/salary",
+      "destination": "/salary.html"
+    },
+    {
+      "source": "/retirement",
+      "destination": "/retirement.html"
+    },
+    {
+      "source": "/loan",
+      "destination": "/loan.html"
+    },
+    {
+      "source": "/unemployment",
+      "destination": "/unemployment.html"
+    },
+    {
+      "source": "/savings",
+      "destination": "/savings.html"
+    },
+    {
+      "source": "/inflation",
+      "destination": "/inflation.html"
+    },
+    {
+      "source": "/realestate",
+      "destination": "/realestate.html"
+    },
+    {
+      "source": "/acquisition",
+      "destination": "/acquisition.html"
+    },
+    {
+      "source": "/capital_gains",
+      "destination": "/capital_gains.html"
+    },
+    {
+      "source": "/gift_tax",
+      "destination": "/gift_tax.html"
+    },
+    {
+      "source": "/rent_conversion",
+      "destination": "/rent_conversion.html"
+    },
+    {
+      "source": "/age",
+      "destination": "/age.html"
+    },
+    {
+      "source": "/dday",
+      "destination": "/dday.html"
+    },
+    {
+      "source": "/bmi",
+      "destination": "/bmi.html"
+    },
+    {
+      "source": "/bmr",
+      "destination": "/bmr.html"
+    },
+    {
+      "source": "/pregnancy",
+      "destination": "/pregnancy.html"
+    },
+    {
+      "source": "/exchange",
+      "destination": "/exchange.html"
+    },
+    {
+      "source": "/weekly_holiday",
+      "destination": "/weekly_holiday.html"
+    },
+    {
+      "source": "/hourly_salary",
+      "destination": "/hourly_salary.html"
+    },
+    {
+      "source": "/annual_leave",
+      "destination": "/annual_leave.html"
+    },
+    {
+      "source": "/stock_return",
+      "destination": "/stock_return.html"
+    },
+    {
+      "source": "/vat",
+      "destination": "/vat.html"
+    },
+    {
+      "source": "/margin",
+      "destination": "/margin.html"
+    },
+    {
+      "source": "/health_insurance",
+      "destination": "/health_insurance.html"
+    },
+    {
+      "source": "/income_tax",
+      "destination": "/income_tax.html"
+    },
+    {
+      "source": "/address_converter",
+      "destination": "/address_converter.html"
+    },
+    {
+      "source": "/area_converter",
+      "destination": "/area_converter.html"
+    },
+    {
+      "source": "/cm_inch",
+      "destination": "/cm_inch.html"
+    },
+    {
+      "source": "/pension",
+      "destination": "/pension.html"
+    },
+    {
+      "source": "/calorie",
+      "destination": "/calorie.html"
+    },
+    {
+      "source": "/blood_pressure",
+      "destination": "/blood_pressure.html"
+    },
+    {
+      "source": "/golf_handicap",
+      "destination": "/golf_handicap.html"
+    },
+    {
+      "source": "/customs",
+      "destination": "/customs.html"
+    },
+    {
+      "source": "/faq",
+      "destination": "/faq.html"
+    }
   ]
 }
