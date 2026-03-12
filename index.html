@@ -611,7 +611,7 @@
 
     closeBtn.addEventListener('click', function() {
       banner.classList.remove('show');
-      localStorage.setItem(DISMISSED_KEY, '1');
+      // X는 이번 세션만 닫기 (다음 방문엔 다시 표시)
     });
 
     // iOS Safari는 beforeinstallprompt 없음 → 별도 안내
