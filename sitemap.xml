@@ -80,4 +80,8 @@
   <url><loc>https://www.everycalc.kr/freelancer_tax</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.everycalc.kr/gift_tax_sim</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.everycalc.kr/loan_limit</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+  <url><loc>https://www.everycalc.kr/date_diff</loc><lastmod>2026-03-13</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.everycalc.kr/car_tax</loc><lastmod>2026-03-13</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.everycalc.kr/fuel_economy</loc><lastmod>2026-03-13</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
 </urlset>

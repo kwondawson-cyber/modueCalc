@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#00d4aa" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="모두의계산기" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>날짜 계산기 — 두 날짜 사이 일수 계산 | 모두의계산기</title>
+  <meta name="description" content="날짜 계산기. 두 날짜 사이의 날수(일수)·주·개월·연도를 자동 계산합니다. 근무일수, 계약기간, 나이 등 다양하게 활용하세요." />
+  <meta property="og:title" content="날짜 계산기 | 모두의계산기" />
+  <meta property="og:description" content="두 날짜 사이 일수·주·개월·연도를 한 번에 계산. 근무일수·계약기간·기념일 활용." />
+  <meta property="og:image" content="https://www.everycalc.kr/og-image.png" />
+  <meta property="og:url" content="https://www.everycalc.kr/date_diff" />
+  <meta name="naver-site-verification" content="82ae9d4234997a93590385e408dc1119dfe6f61f" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0d1117; --surface: #161b22; --surface2: #21262d;
+      --border: #30363d; --accent: #00d4aa; --accent2: #0095ff;
+      --text: #e6edf3; --text-muted: #8b949e; --danger: #ff6b6b; --radius: 16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image: linear-gradient(rgba(0,212,170,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,170,0.03) 1px, transparent 1px);
+      background-size: 40px 40px; pointer-events: none; z-index: 0;
+    }
+    .container { max-width: 640px; margin: 0 auto; padding: 40px 20px 80px; position: relative; z-index: 1; }
+    .nav { text-align: center; margin-bottom: 32px; }
+    .nav a { font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 700; color: var(--accent); text-decoration: none; letter-spacing: 0.05em; }
+    .page-title { text-align: center; margin-bottom: 32px; }
+    .page-title h1 { font-family: 'Montserrat', sans-serif; font-size: clamp(22px,5vw,32px); font-weight: 900; color: var(--text); }
+    .page-title p { font-size: 14px; color: var(--text-muted); margin-top: 8px; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 16px; }
+    .card-title { font-size: 13px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 20px; }
+    .input-row { display: flex; gap: 12px; align-items: flex-end; margin-bottom: 16px; }
+    .input-group { flex: 1; }
+    .input-group label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 8px; font-weight: 500; }
+    .input-wrapper { position: relative; display: flex; align-items: center; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; transition: border-color .2s; }
+    .input-wrapper:focus-within { border-color: var(--accent); }
+    .input-wrapper input[type="date"] { width: 100%; padding: 12px 14px; font-size: 15px; background: transparent; border: none; outline: none; color: var(--text); font-family: 'Noto Sans KR', sans-serif; }
+    input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.7); cursor: pointer; }
+    .swap-btn { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; cursor: pointer; color: var(--accent); font-size: 18px; transition: all .2s; flex-shrink: 0; line-height: 1; }
+    .swap-btn:hover { background: rgba(0,212,170,0.1); }
+    .today-btn { background: transparent; border: 1px solid var(--accent); border-radius: 8px; padding: 5px 10px; font-size: 11px; color: var(--accent); cursor: pointer; font-family: 'Noto Sans KR', sans-serif; margin-top: 6px; transition: all .2s; }
+    .today-btn:hover { background: rgba(0,212,170,0.1); }
+    .info-box { background: rgba(0,212,170,0.05); border: 1px solid rgba(0,212,170,0.15); border-radius: 10px; padding: 12px 16px; font-size: 13px; color: var(--text-muted); line-height: 1.7; margin-bottom: 16px; }
+    .calc-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, var(--accent), #00b894); border: none; border-radius: 12px; color: #0d1117; font-size: 16px; font-weight: 900; cursor: pointer; font-family: 'Noto Sans KR', sans-serif; transition: all .2s; margin-top: 4px; }
+    .calc-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,212,170,0.3); }
+    .result-card { display: none; }
+    .result-card.visible { display: block; }
+    .big-result { text-align: center; padding: 24px 0 20px; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+    .br-label { font-size: 13px; color: var(--text-muted); margin-bottom: 8px; }
+    .br-value { font-family: 'Montserrat', sans-serif; font-size: clamp(42px,10vw,64px); font-weight: 900; color: var(--accent); line-height: 1; }
+    .br-unit { font-size: 16px; color: var(--text-muted); margin-top: 6px; }
+    .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+    .detail-box { background: var(--surface2); border-radius: 12px; padding: 16px; text-align: center; }
+    .detail-box .d-val { font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 900; color: var(--text); }
+    .detail-box .d-lbl { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+    .detail-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+    .detail-item:last-child { border-bottom: none; }
+    .d-label { color: var(--text-muted); }
+    .d-value { font-weight: 700; color: var(--text); }
+    .d-value.accent { color: var(--accent); }
+    .breakdown-card { background: var(--surface2); border-radius: 12px; padding: 16px; margin-top: 12px; }
+    .breakdown-title { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; font-weight: 600; }
+    .breakdown-row { display: flex; justify-content: space-between; font-size: 13px; padding: 4px 0; color: var(--text); }
+    .breakdown-row span:last-child { color: var(--accent); font-weight: 700; }
+    .ad-slot { margin: 16px 0; text-align: center; min-height: 90px; background: rgba(255,255,255,0.02); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="nav"><a href="/">← 모두의계산기</a></div>
+  <div class="page-title">
+    <h1>📆 날짜 계산기</h1>
+    <p>두 날짜 사이의 일수·주·개월·연도를 한 번에 계산</p>
+  </div>
+
+  <div class="ad-slot">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6079812618767597" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📅 날짜 입력</div>
+    <div class="input-row">
+      <div class="input-group">
+        <label>시작 날짜</label>
+        <div class="input-wrapper"><input type="date" id="startDate" /></div>
+        <button class="today-btn" onclick="setToday('startDate')">오늘로 설정</button>
+      </div>
+      <button class="swap-btn" onclick="swapDates()" title="날짜 교체">⇄</button>
+      <div class="input-group">
+        <label>종료 날짜</label>
+        <div class="input-wrapper"><input type="date" id="endDate" /></div>
+        <button class="today-btn" onclick="setToday('endDate')">오늘로 설정</button>
+      </div>
+    </div>
+    <div class="info-box">💡 시작일 포함 여부는 결과 카드에서 확인하세요. 날짜 순서가 바뀌어도 자동 계산됩니다.</div>
+    <button class="calc-btn" onclick="calcDiff()">📆 날짜 계산하기</button>
+  </div>
+
+  <div class="card result-card" id="resultCard">
+    <div class="card-title">📊 계산 결과</div>
+    <div class="big-result">
+      <div class="br-label">두 날짜 사이</div>
+      <div class="br-value" id="totalDays">—</div>
+      <div class="br-unit">일</div>
+    </div>
+    <div class="detail-grid">
+      <div class="detail-box"><div class="d-val" id="r-weeks">—</div><div class="d-lbl">주</div></div>
+      <div class="detail-box"><div class="d-val" id="r-months">—</div><div class="d-lbl">개월 (약)</div></div>
+    </div>
+    <div class="breakdown-card">
+      <div class="breakdown-title">상세 분해</div>
+      <div class="breakdown-row"><span>시작일 제외 (기본)</span><span id="r-excl">— 일</span></div>
+      <div class="breakdown-row"><span>시작일 포함</span><span id="r-incl">— 일</span></div>
+      <div class="breakdown-row"><span>완전한 주 수</span><span id="r-fullweeks">— 주 + — 일</span></div>
+      <div class="breakdown-row"><span>연 단위 (약)</span><span id="r-years">— 년</span></div>
+    </div>
+    <div style="margin-top:16px;">
+      <div class="detail-item"><span class="d-label">시작 날짜</span><span class="d-value" id="r-start">—</span></div>
+      <div class="detail-item"><span class="d-label">종료 날짜</span><span class="d-value" id="r-end">—</span></div>
+      <div class="detail-item"><span class="d-label">시작 요일</span><span class="d-value accent" id="r-startday">—</span></div>
+      <div class="detail-item"><span class="d-label">종료 요일</span><span class="d-value accent" id="r-endday">—</span></div>
+    </div>
+  </div>
+
+  <div class="ad-slot">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6079812618767597" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  </div>
+</div>
+
+<style>
+.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
+.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
+.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}
+.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
+.seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
+.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
+.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
+.seo-section details[open] summary::after{content:'－'}
+.seo-section details[open]{background:#161b22}
+.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
+</style>
+<div class="seo-section">
+  <h2>날짜 계산기 — 일수 계산의 모든 것</h2>
+  <p>날짜 계산은 생각보다 헷갈립니다. 가장 흔한 혼란은 <strong>시작일 포함 여부</strong>입니다. 법령·계약서에서는 보통 "초일 산입" 또는 "초일 불산입"을 명시하는데, 기본값은 시작일 제외(초일 불산입)이 일반적입니다.</p>
+  <div class="formula-box">시작일 제외: 종료일 − 시작일  (일반적인 경과 일수)
+시작일 포함: 종료일 − 시작일 + 1  (법령·계약·근무일수에 사용)
+
+예) 3월 1일 ~ 3월 5일
+  시작일 제외: 4일 경과
+  시작일 포함: 5일 (1·2·3·4·5일 총 5일)</div>
+
+  <h3>📋 "시작일 포함" vs "시작일 제외" 언제 쓰나요?</h3>
+  <p>근무일수·출석일수·계약 이행 기간처럼 <strong>기간 내 실제 날수를 세야 할 때</strong>는 시작일 포함을 씁니다. 반면 "D+100일"처럼 <strong>얼마나 지났는지 경과 일수를 구할 때</strong>는 시작일을 제외합니다. 예를 들어 태어난 날(D-day)로부터 100일은 생일 당일은 0일이므로 100일째는 시작일 제외로 100일이 됩니다.</p>
+
+  <h3>📅 날짜 계산 자주 쓰는 상황</h3>
+  <p>계약 만료일 확인, 프리랜서 프로젝트 기간 산정, 여행 일정 계산, 임신 주수 확인, 근속 연수 계산, 보험·대출 만기일 확인 등 일상에서 날짜 계산이 필요한 상황은 생각보다 많습니다.</p>
+
+  <h3>💡 윤년과 날짜 계산</h3>
+  <p>윤년(2월 29일이 있는 해)은 4년에 한 번 옵니다. 2024·2028·2032년이 윤년입니다. 2월 28일과 3월 1일 사이 날짜 계산 시 윤년 여부에 따라 하루 차이가 날 수 있습니다. 이 계산기는 윤년을 자동으로 반영합니다.</p>
+
+  <h2>자주 묻는 질문 (FAQ)</h2>
+  <details><summary>계약서에 "30일 이내"라고 하면 언제까지인가요?</summary><div class="faq-answer">계약 체결일 다음 날부터 30일을 세는 것이 일반적입니다(초일 불산입 원칙). 예를 들어 3월 1일 계약 체결 시 3월 2일부터 30일을 세어 3월 31일이 만기일이 됩니다. 다만 계약서에 명시된 조건을 우선 확인하세요.</div></details>
+  <details><summary>근무일수는 주말을 빼야 하나요?</summary><div class="faq-answer">이 계산기는 주말·공휴일을 제외하지 않고 순수 달력 기준으로 계산합니다. 영업일 기준 근무일수가 필요하다면 총 일수에서 해당 기간의 토요일·일요일·공휴일 수를 별도로 빼야 합니다.</div></details>
+  <details><summary>날짜 계산에서 1년은 몇 일인가요?</summary><div class="faq-answer">일반적으로 1년은 365일(윤년은 366일)입니다. 이 계산기의 "약 몇 년"은 365.25일을 기준으로 계산한 근사값입니다. 법적·행정적 계산에서는 만 1년 = 365일 또는 해당 날짜의 전년도 동일 날짜 기준으로 산정합니다.</div></details>
+  <details><summary>두 날짜가 같으면 0일인가요?</summary><div class="faq-answer">시작일 제외 기준으로는 0일(당일)이고, 시작일 포함 기준으로는 1일이 됩니다. 생일·기념일 당일을 "1일차"로 세려면 시작일 포함 기준을 사용하세요.</div></details>
+  <details><summary>100일·1000일 기념일은 어떻게 계산하나요?</summary><div class="faq-answer">커플 기념일의 경우 만난 날 당일을 1일로 계산하는 것이 일반적입니다. 즉 시작일 포함 기준으로 99일을 더한 날이 100일 기념일입니다. 예를 들어 1월 1일에 만났다면 100일은 4월 10일(윤년 아닌 경우)입니다.</div></details>
+</div>
+
+<script>
+const DAYS = ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'];
+
+function pad(n){ return String(n).padStart(2,'0'); }
+
+function todayStr(){
+  const d = new Date();
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+}
+
+function setToday(id){
+  document.getElementById(id).value = todayStr();
+}
+
+function swapDates(){
+  const s = document.getElementById('startDate');
+  const e = document.getElementById('endDate');
+  [s.value, e.value] = [e.value, s.value];
+}
+
+function fmtDate(d){
+  return `${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일`;
+}
+
+function calcDiff(){
+  const sv = document.getElementById('startDate').value;
+  const ev = document.getElementById('endDate').value;
+  if(!sv || !ev){ alert('두 날짜를 모두 입력하세요.'); return; }
+
+  let s = new Date(sv), e = new Date(ev);
+  if(s > e){ [s,e] = [e,s]; }
+
+  const diffMs = e - s;
+  const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
+  const inclDays = diffDays + 1;
+  const weeks = Math.floor(diffDays / 7);
+  const remDays = diffDays % 7;
+  const months = (diffDays / 30.44).toFixed(1);
+  const years = (diffDays / 365.25).toFixed(2);
+
+  document.getElementById('totalDays').textContent = diffDays.toLocaleString();
+  document.getElementById('r-weeks').textContent = Math.floor(diffDays / 7).toLocaleString();
+  document.getElementById('r-months').textContent = months;
+  document.getElementById('r-excl').textContent = diffDays.toLocaleString() + '일';
+  document.getElementById('r-incl').textContent = inclDays.toLocaleString() + '일';
+  document.getElementById('r-fullweeks').textContent = `${weeks}주 + ${remDays}일`;
+  document.getElementById('r-years').textContent = years + '년';
+  document.getElementById('r-start').textContent = fmtDate(s);
+  document.getElementById('r-end').textContent = fmtDate(e);
+  document.getElementById('r-startday').textContent = DAYS[s.getDay()];
+  document.getElementById('r-endday').textContent = DAYS[e.getDay()];
+
+  document.getElementById('resultCard').classList.add('visible');
+}
+
+// 기본값: 오늘 ~ 오늘
+document.getElementById('startDate').value = todayStr();
+document.getElementById('endDate').value = todayStr();
+</script>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<script src="/common.js"></script><script src="/share.js"></script>
+<script src="/calculator.js"></script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  });
+}
+</script>
+</body>
+</html>

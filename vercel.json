@@ -214,6 +214,18 @@
     {
       "source": "/loan_limit",
       "destination": "/loan_limit.html"
+    },
+    {
+      "source": "/date_diff",
+      "destination": "/date_diff.html"
+    },
+    {
+      "source": "/car_tax",
+      "destination": "/car_tax.html"
+    },
+    {
+      "source": "/fuel_economy",
+      "destination": "/fuel_economy.html"
     }
   ]
 }
