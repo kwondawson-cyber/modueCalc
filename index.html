@@ -143,9 +143,9 @@
     <div class="pwa-icon">📲</div>
     <div class="pwa-text">
       <strong>홈 화면에 추가하면 앱처럼 바로 열려요!</strong>
-      <span>설치 무료 · 인터넷 없어도 사용 가능</span>
+      <span>Chrome 브라우저로 설치하세요 · 무료 · 오프라인도 사용 가능</span>
     </div>
-    <button class="pwa-install-btn" id="pwa-install-btn">설치하기</button>
+    <button class="pwa-install-btn" id="pwa-install-btn">Chrome으로 설치</button>
     <button class="pwa-close" id="pwa-close" aria-label="닫기">×</button>
   </div>
 
@@ -577,6 +577,16 @@
     if (localStorage.getItem(DISMISSED_KEY)) return;
     // standalone 모드(이미 설치됨)면 숨김
     if (window.matchMedia('(display-mode: standalone)').matches) return;
+
+    // Chrome 아닌 브라우저면 설치 버튼 → Chrome 안내로 교체
+    var isChrome = /chrome/i.test(navigator.userAgent) && !/edg|opr|samsung/i.test(navigator.userAgent);
+    if (!isChrome) {
+      installBtn.textContent = 'Chrome으로 열기';
+      installBtn.addEventListener('click', function() {
+        alert('Chrome 브라우저에서 이 페이지를 열고\n설치하면 경고 없이 홈 화면에 추가돼요!\n\nChrome 앱 → everycalc.kr 접속 → 설치');
+      });
+      setTimeout(function() { banner.classList.add('show'); }, 1500);
+    }
 
     window.addEventListener('beforeinstallprompt', function(e) {
       e.preventDefault();
