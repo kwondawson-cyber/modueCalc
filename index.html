@@ -83,7 +83,7 @@
       <div class="category-title">📌 자주 쓰는 계산기</div>
       <span class="category-count" id="favCount">0</span>
     </div>
-    <div class="cards-grid" id="favGrid"></div>
+    <div class="calc-grid" id="favGrid"></div>
   </div>
 
   <!-- 💰 금융 · 급여 -->
@@ -412,13 +412,13 @@
       section.style.display = '';
       if (countEl) countEl.textContent = favs.length;
       grid.innerHTML = '';
-      favs.forEach(function(path) {
+      favs.slice(0, 9).forEach(function(path) {
         var calc = CALC_LIST.find(function(c){ return c.path === path; });
         if (!calc) return;
         var a = document.createElement('a');
         a.href = calc.path;
         a.className = 'calc-card';
-        a.innerHTML = '<div class="card-emoji">'+calc.emoji+'</div>'
+        a.innerHTML = '<div class="card-top"><span class="card-emoji">'+calc.emoji+'</span></div>'
           + '<div class="card-name">'+calc.title+'</div>';
         grid.appendChild(a);
       });
