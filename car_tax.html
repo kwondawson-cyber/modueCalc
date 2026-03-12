@@ -35,11 +35,14 @@
       background-size: 40px 40px; pointer-events: none; z-index: 0;
     }
     .container { max-width: 640px; margin: 0 auto; padding: 40px 20px 80px; position: relative; z-index: 1; }
-    .nav { text-align: center; margin-bottom: 32px; }
-    .nav a { font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 700; color: var(--accent); text-decoration: none; letter-spacing: 0.05em; }
-    .page-title { text-align: center; margin-bottom: 32px; }
-    .page-title h1 { font-family: 'Montserrat', sans-serif; font-size: clamp(22px,5vw,32px); font-weight: 900; }
-    .page-title p { font-size: 14px; color: var(--text-muted); margin-top: 8px; }
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
+    .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+    .header{text-align:center;margin-bottom:32px}
+    .header h1{font-family:'Montserrat',sans-serif;font-size:clamp(22px,5vw,36px);font-weight:900;line-height:1.1;margin-bottom:8px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .header p{color:var(--text-muted);font-size:14px}
     .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 16px; }
     .card-title { font-size: 13px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 20px; }
     .input-group { margin-bottom: 16px; }
@@ -71,13 +74,13 @@
     .total-row span:last-child { color: var(--accent); font-size: 18px; }
     .badge { display: inline-block; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; background: rgba(0,212,170,0.15); color: var(--accent); margin-left: 6px; }
     .rate-tag { font-size: 12px; color: var(--accent); background: rgba(0,212,170,0.1); padding: 2px 8px; border-radius: 20px; }
-    .ad-slot { margin: 16px 0; text-align: center; min-height: 90px; background: rgba(255,255,255,0.02); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+    .ad-slot { margin: 16px 0; text-align: center; min-height: 0; background: rgba(255,255,255,0.02); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
   </style>
 </head>
 <body>
 <div class="container">
-  <div class="nav"><a href="/">← 모두의계산기</a></div>
-  <div class="page-title">
+  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="header">
     <h1>🚗 자동차 취득세 계산기</h1>
     <p>신차·중고차·전기차·경차 취득세 한 번에 계산</p>
   </div>
