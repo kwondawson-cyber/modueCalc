@@ -578,9 +578,9 @@
     // standalone 모드(이미 설치됨)면 숨김
     if (window.matchMedia('(display-mode: standalone)').matches) return;
 
-    // Chrome 아닌 브라우저면 설치 버튼 → Chrome 안내로 교체
-    var isChrome = /chrome/i.test(navigator.userAgent) && !/edg|opr|samsung/i.test(navigator.userAgent);
-    if (!isChrome) {
+    // 삼성 인터넷만 Chrome 안내로 교체 (Edge·Chrome·웨일 등은 PWA 정상 지원)
+    var isSamsung = /samsungbrowser/i.test(navigator.userAgent);
+    if (isSamsung) {
       installBtn.textContent = 'Chrome으로 열기';
       installBtn.addEventListener('click', function() {
         alert('Chrome 브라우저에서 이 페이지를 열고\n설치하면 경고 없이 홈 화면에 추가돼요!\n\nChrome 앱 → everycalc.kr 접속 → 설치');
