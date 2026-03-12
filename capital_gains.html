@@ -219,6 +219,49 @@
   }
   window.onload=()=>calculate();
 </script>
+
+<style>
+.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
+.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
+.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}
+.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
+.seo-section ul{padding-left:20px;margin-bottom:12px}
+.seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+.seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
+.seo-section .example-box{background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:16px 20px;margin:12px 0}
+.seo-section .example-box p{margin:0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .example-box strong{color:#00d4aa}
+.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
+.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
+.seo-section details[open] summary::after{content:'－'}
+.seo-section details[open]{background:#161b22}
+.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
+</style>
+
+<div class="seo-section">
+  <h2>양도소득세 계산기 사용법</h2>
+  <h3>📌 사용방법</h3>
+  <p>부동산 취득가·양도가·보유기간·거주기간을 입력하면 양도차익과 납부세액을 계산합니다. 1세대 1주택 비과세 요건(2년 이상 보유·거주) 해당 여부도 확인하세요.</p>
+  <h3>📐 계산 공식</h3>
+  <div class="formula-box">
+양도차익 = 양도가 − 취득가 − 필요경비
+과세표준 = 양도차익 − 장기보유특별공제 − 기본공제(250만원)
+산출세액 = 과세표준 × 세율(6~45%)
+장기보유공제: 보유 3년~15년, 최대 30%(1주택 최대 80%)
+  </div>
+  <h3>📊 예시 계산</h3>
+  <div class="example-box">
+    <p>취득가 <strong>3억원</strong> → 양도가 <strong>5억원</strong>, 보유 <strong>5년</strong>, 1주택자</p>
+    <p>· 양도차익: 2억원<br>· 장기보유공제(10%): 2,000만원<br>· 과세표준: 약 1억 7,750만원<br>· <strong>산출세액: 약 4,700만원 (지방세 포함)</strong></p>
+  </div>
+  <h2>자주 묻는 질문 (FAQ)</h2>
+  <details><summary>1세대 1주택 비과세 조건은?</summary><div class="faq-answer">2년 이상 보유(조정대상지역은 2년 이상 거주 추가)하고 양도가가 12억원 이하면 전액 비과세입니다. 12억 초과분은 과세됩니다.</div></details>
+  <details><summary>필요경비로 인정되는 항목은?</summary><div class="faq-answer">취득세, 법무사비용, 중개수수료, 자본적 지출(리모델링·증축 비용), 양도 시 중개수수료 등이 필요경비로 공제됩니다.</div></details>
+  <details><summary>다주택자는 세율이 다른가요?</summary><div class="faq-answer">조정대상지역 내 2주택자는 기본세율+20%p, 3주택 이상은 +30%p 중과세율이 적용됩니다. (현재 한시적 중과 유예 중)</div></details>
+</div>
+
 <script src="/share.js"></script>
+<script src="/calculator.js"></script>
 </body>
 </html>

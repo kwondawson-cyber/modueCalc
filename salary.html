@@ -737,6 +737,47 @@
     // 페이지 로드 시 자동 계산
     window.onload = () => calculate();
   </script>
+
+<style>
+.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
+.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
+.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}
+.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
+.seo-section ul{padding-left:20px;margin-bottom:12px}
+.seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+.seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
+.seo-section .example-box{background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:16px 20px;margin:12px 0}
+.seo-section .example-box p{margin:0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .example-box strong{color:#00d4aa}
+.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
+.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
+.seo-section details[open] summary::after{content:'－'}
+.seo-section details[open]{background:#161b22}
+.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
+</style>
+
+<div class="seo-section">
+  <h2>연봉 실수령액 계산기 사용법</h2>
+  <h3>📌 사용방법</h3>
+  <p>연봉을 입력하면 4대보험(국민연금·건강보험·고용보험·산재보험)과 소득세·지방소득세를 자동으로 공제하여 월 실수령액을 계산합니다. 부양가족 수를 입력하면 소득세 공제액이 달라지므로 더 정확한 금액을 확인할 수 있습니다.</p>
+  <h3>📐 계산 공식</h3>
+  <div class="formula-box">
+월 실수령액 = 월급 − 국민연금(4.5%) − 건강보험(3.545%) − 장기요양보험(건강보험료×12.95%) − 고용보험(0.9%) − 소득세(간이세액표) − 지방소득세(소득세×10%)
+  </div>
+  <h3>📊 예시 계산</h3>
+  <div class="example-box">
+    <p>연봉 <strong>4,000만원</strong>, 부양가족 1명 기준</p>
+    <p>· 월급: 3,333,333원<br>· 국민연금: 150,000원<br>· 건강보험: 118,160원<br>· 고용보험: 30,000원<br>· 소득세+지방세: 약 59,300원<br>· <strong>월 실수령액: 약 2,975,000원</strong></p>
+  </div>
+  <h2>자주 묻는 질문 (FAQ)</h2>
+  <details><summary>연봉과 월급은 어떻게 다른가요?</summary><div class="faq-answer">연봉은 1년치 총급여이며, 월급은 연봉을 12로 나눈 금액입니다. 실수령액은 여기서 4대보험과 세금을 공제한 금액입니다.</div></details>
+  <details><summary>퇴직금은 연봉에 포함되나요?</summary><div class="faq-answer">회사마다 다릅니다. 퇴직금 포함 연봉이라면 실제 월급은 더 적을 수 있으므로 근로계약서를 확인하세요.</div></details>
+  <details><summary>부양가족 수가 많으면 세금이 줄어드나요?</summary><div class="faq-answer">네. 부양가족이 많을수록 소득세 간이세액표 기준 공제액이 커져 실수령액이 늘어납니다.</div></details>
+  <details><summary>비과세 항목은 어떻게 처리하나요?</summary><div class="faq-answer">식대(월 20만원), 자가운전보조금(월 20만원) 등 비과세 항목은 4대보험 및 소득세 산정 기준에서 제외됩니다.</div></details>
+</div>
+
 <script src="/share.js"></script>
+<script src="/calculator.js"></script>
 </body>
 </html>

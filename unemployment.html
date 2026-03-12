@@ -462,6 +462,49 @@
 
     window.onload = () => calculate();
   </script>
+
+<style>
+.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
+.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
+.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}
+.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
+.seo-section ul{padding-left:20px;margin-bottom:12px}
+.seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+.seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
+.seo-section .example-box{background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:16px 20px;margin:12px 0}
+.seo-section .example-box p{margin:0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .example-box strong{color:#00d4aa}
+.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
+.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
+.seo-section details[open] summary::after{content:'－'}
+.seo-section details[open]{background:#161b22}
+.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
+</style>
+
+<div class="seo-section">
+  <h2>실업급여 계산기 사용법</h2>
+  <h3>📌 사용방법</h3>
+  <p>퇴직 전 평균임금과 고용보험 피보험기간(근무기간)을 입력하면 하루 구직급여액과 총 지급일수를 계산합니다. 자발적 퇴사가 아닌 비자발적 이직(권고사직·계약만료 포함)에 해당해야 합니다.</p>
+  <h3>📐 계산 공식</h3>
+  <div class="formula-box">
+1일 구직급여 = 퇴직 전 평균임금 × 60%
+(상한: 66,000원/일, 하한: 최저임금의 80% × 8시간)
+지급일수: 피보험기간·나이 따라 120~270일
+  </div>
+  <h3>📊 예시 계산</h3>
+  <div class="example-box">
+    <p>평균임금 <strong>130,000원/일</strong>, 피보험기간 <strong>3년</strong>, 만 35세</p>
+    <p>· 1일 구직급여: 130,000 × 60% = 78,000원 → 상한 적용 <strong>66,000원</strong><br>· 지급일수: <strong>180일</strong><br>· 총 예상 수령액: <strong>약 11,880,000원</strong></p>
+  </div>
+  <h2>자주 묻는 질문 (FAQ)</h2>
+  <details><summary>자발적으로 퇴사했는데 실업급여 받을 수 있나요?</summary><div class="faq-answer">원칙적으로 자발적 퇴사는 수급 불가입니다. 단, 임금 체불·직장 내 괴롭힘·통근 불가능 등 정당한 사유가 있는 경우 예외적으로 수급이 가능합니다.</div></details>
+  <details><summary>실업급여 받으면서 아르바이트 해도 되나요?</summary><div class="faq-answer">신고 후 일부 허용됩니다. 단, 월 60시간 이상 근무하거나 일정 소득 초과 시 해당 기간 급여가 감액 또는 지급 정지됩니다.</div></details>
+  <details><summary>실업급여 신청은 어디서 하나요?</summary><div class="faq-answer">퇴사 후 고용보험 홈페이지(ei.go.kr) 또는 가까운 고용센터에서 신청합니다. 퇴사 다음날부터 12개월 이내에 신청해야 합니다.</div></details>
+  <details><summary>실업급여에 세금이 붙나요?</summary><div class="faq-answer">실업급여(구직급여)는 비과세 소득이므로 세금이 붙지 않습니다.</div></details>
+</div>
+
 <script src="/share.js"></script>
+<script src="/calculator.js"></script>
 </body>
 </html>

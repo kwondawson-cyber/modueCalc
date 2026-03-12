@@ -183,6 +183,47 @@
   }
   window.onload=()=>calculate();
 </script>
+
+<style>
+.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
+.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
+.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}
+.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
+.seo-section ul{padding-left:20px;margin-bottom:12px}
+.seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+.seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
+.seo-section .example-box{background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:16px 20px;margin:12px 0}
+.seo-section .example-box p{margin:0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .example-box strong{color:#00d4aa}
+.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
+.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
+.seo-section details[open] summary::after{content:'－'}
+.seo-section details[open]{background:#161b22}
+.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
+</style>
+
+<div class="seo-section">
+  <h2>물가상승률 계산기 사용법</h2>
+  <h3>📌 사용방법</h3>
+  <p>기준 연도의 금액과 시작·종료 연도를 입력하면 물가상승률을 반영한 현재 또는 미래 가치를 계산합니다. 연평균 물가상승률을 직접 입력하거나 통계 기준값을 사용할 수 있습니다.</p>
+  <h3>📐 계산 공식</h3>
+  <div class="formula-box">
+미래가치 = 현재금액 × (1 + 물가상승률)ⁿ
+현재가치 = 미래금액 ÷ (1 + 물가상승률)ⁿ
+실질금리 = 명목금리 − 물가상승률
+  </div>
+  <h3>📊 예시 계산</h3>
+  <div class="example-box">
+    <p>2014년 <strong>1,000만원</strong>의 2024년 가치 (연 평균 물가상승률 2.5%)</p>
+    <p>· 계산: 1,000만원 × (1.025)¹⁰ = <strong>약 1,280만원</strong><br>· 즉, 2014년 1,000만원은 현재 1,280만원의 가치</p>
+  </div>
+  <h2>자주 묻는 질문 (FAQ)</h2>
+  <details><summary>한국 평균 물가상승률은 얼마인가요?</summary><div class="faq-answer">최근 10년 평균 약 2~3%이며 2022년에는 에너지·식품 가격 급등으로 5%대를 기록했습니다. 통계청 소비자물가지수(CPI)를 참고하세요.</div></details>
+  <details><summary>예금 금리가 물가상승률보다 낮으면?</summary><div class="faq-answer">실질금리가 마이너스인 상황으로, 은행에 돈을 맡길수록 실질 구매력이 떨어집니다. 이 경우 주식·부동산 등 실물자산으로 분산 투자가 필요합니다.</div></details>
+</div>
+
 <script src="/share.js"></script>
+<script src="/calculator.js"></script>
 </body>
 </html>

@@ -193,6 +193,46 @@
     document.getElementById('resultCard').classList.add('visible');
   }
 </script>
+
+<style>
+.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
+.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
+.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}
+.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
+.seo-section ul{padding-left:20px;margin-bottom:12px}
+.seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+.seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
+.seo-section .example-box{background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:16px 20px;margin:12px 0}
+.seo-section .example-box p{margin:0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .example-box strong{color:#00d4aa}
+.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
+.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
+.seo-section details[open] summary::after{content:'－'}
+.seo-section details[open]{background:#161b22}
+.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
+</style>
+
+<div class="seo-section">
+  <h2>한글 주소 영문 변환기 사용법</h2>
+  <h3>📌 사용방법</h3>
+  <p>도로명주소를 입력하면 행정안전부 공식 API 기반으로 영문 주소와 우편번호(ZIP Code)를 변환합니다. 국제 택배·해외 서류 작성 시 활용하세요.</p>
+  <h3>📐 계산 공식</h3>
+  <div class="formula-box">
+영문 주소 순서: 건물번호 → 도로명 → 시군구 → 시도 → Republic of Korea
+예: 서울특별시 강남구 테헤란로 152 → 152, Teheran-ro, Gangnam-gu, Seoul, Republic of Korea
+  </div>
+  <h3>📊 예시 변환</h3>
+  <div class="example-box">
+    <p>한글: <strong>서울특별시 강남구 테헤란로 421</strong></p>
+    <p>영문: <strong>421, Teheran-ro, Gangnam-gu, Seoul, Republic of Korea</strong><br>우편번호: <strong>06160</strong></p>
+  </div>
+  <h2>자주 묻는 질문 (FAQ)</h2>
+  <details><summary>지번 주소는 변환이 안 되나요?</summary><div class="faq-answer">지번 주소는 정확도가 낮을 수 있습니다. 도로명주소로 입력하면 더 정확한 결과를 얻을 수 있습니다. 도로명주소는 도로명주소 안내시스템(juso.go.kr)에서 확인하세요.</div></details>
+  <details><summary>아파트 동·호수는 영문으로 어떻게 쓰나요?</summary><div class="faq-answer">영문 주소 변환 후 'Apt. 동수, 호수'를 추가합니다. 예: 102동 501호 → Apt. 102, 501. 또는 '#102-501'로 쓰기도 합니다.</div></details>
+  <details><summary>해외 배송 시 영문 주소 형식은?</summary><div class="faq-answer">우체국 국제우편 기준: 수취인명 → 건물명/호수 → 도로명 → 도시 → 우편번호 → KOREA 순으로 기재합니다.</div></details>
+</div>
+
 <script src="/share.js"></script>
 <script src="/calculator.js"></script>
 </body>

@@ -166,6 +166,47 @@
   }
   window.onload=()=>calculate();
 </script>
+
+<style>
+.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
+.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
+.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}
+.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
+.seo-section ul{padding-left:20px;margin-bottom:12px}
+.seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+.seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
+.seo-section .example-box{background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:16px 20px;margin:12px 0}
+.seo-section .example-box p{margin:0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .example-box strong{color:#00d4aa}
+.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
+.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
+.seo-section details[open] summary::after{content:'－'}
+.seo-section details[open]{background:#161b22}
+.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
+</style>
+
+<div class="seo-section">
+  <h2>전월세 전환율 계산기 사용법</h2>
+  <h3>📌 사용방법</h3>
+  <p>전세금·월세 보증금·월세액을 입력하면 전월세 전환율을 계산합니다. 법정 전환율 상한(연 5.5%)을 초과하는지도 확인할 수 있습니다.</p>
+  <h3>📐 계산 공식</h3>
+  <div class="formula-box">
+전환율(%) = 월세 × 12 ÷ (전세금 − 보증금) × 100
+월세 → 전세 전환: (월세 × 12) ÷ 전환율 + 보증금
+법정 상한: 기준금리 + 3.5% (2024년 기준 약 5.5%)
+  </div>
+  <h3>📊 예시 계산</h3>
+  <div class="example-box">
+    <p>전세 <strong>3억원</strong> → 보증금 <strong>5,000만원</strong>에 월세 전환</p>
+    <p>· 전환 대상 금액: 2억 5,000만원<br>· 법정 상한 5.5% 적용<br>· 적정 월세: 2억 5,000만원 × 5.5% ÷ 12 = <strong>약 114,580원</strong></p>
+  </div>
+  <h2>자주 묻는 질문 (FAQ)</h2>
+  <details><summary>법정 전환율보다 높은 월세를 요구하면?</summary><div class="faq-answer">주택임대차보호법 위반입니다. 임차인은 초과 금액의 반환을 청구할 수 있으며, 분쟁 시 주택임대차분쟁조정위원회에 신청 가능합니다.</div></details>
+  <details><summary>전월세 신고제란?</summary><div class="faq-answer">2021년 6월부터 보증금 6,000만원 초과 또는 월세 30만원 초과 계약은 30일 이내 신고 의무가 있습니다.</div></details>
+</div>
+
 <script src="/share.js"></script>
+<script src="/calculator.js"></script>
 </body>
 </html>

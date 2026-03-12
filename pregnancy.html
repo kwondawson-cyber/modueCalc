@@ -181,6 +181,48 @@
   }
   window.onload=()=>calculate();
 </script>
+
+<style>
+.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
+.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
+.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}
+.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
+.seo-section ul{padding-left:20px;margin-bottom:12px}
+.seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+.seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
+.seo-section .example-box{background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:16px 20px;margin:12px 0}
+.seo-section .example-box p{margin:0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .example-box strong{color:#00d4aa}
+.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
+.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
+.seo-section details[open] summary::after{content:'－'}
+.seo-section details[open]{background:#161b22}
+.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
+</style>
+
+<div class="seo-section">
+  <h2>임신 주수 계산기 사용법</h2>
+  <h3>📌 사용방법</h3>
+  <p>마지막 생리 시작일을 입력하면 현재 임신 주수와 분만예정일(출산예정일), 트라이메스터(분기)를 계산합니다. 초음파 검사 결과와 약간의 차이가 있을 수 있습니다.</p>
+  <h3>📐 계산 공식</h3>
+  <div class="formula-box">
+분만예정일(네겔레 공식) = 마지막 생리 시작일 + 280일(40주)
+임신 주수 = (오늘 − 마지막 생리일) ÷ 7
+1삼분기: 1~13주 / 2삼분기: 14~27주 / 3삼분기: 28~40주
+  </div>
+  <h3>📊 예시 계산</h3>
+  <div class="example-box">
+    <p>마지막 생리일 <strong>2025년 1월 1일</strong></p>
+    <p>· 분만예정일: <strong>2025년 10월 8일</strong><br>· 2025년 3월 12일 기준 임신 <strong>10주 1일</strong><br>· 현재: 1삼분기</p>
+  </div>
+  <h2>자주 묻는 질문 (FAQ)</h2>
+  <details><summary>임신 주수와 개월 수는 어떻게 다른가요?</summary><div class="faq-answer">임신은 주 단위로 계산합니다. 4주 = 1개월로 보면 10주 = 2개월 2주입니다. 병원에서는 주수로 표현하는 것이 정확합니다.</div></details>
+  <details><summary>생리가 불규칙하면 주수 계산이 부정확한가요?</summary><div class="faq-answer">네. 생리 주기가 28일이 아닌 경우 이 계산기의 결과와 차이가 생길 수 있습니다. 정확한 주수 확인은 초음파 검사가 필요합니다.</div></details>
+  <details><summary>분만예정일보다 일찍 태어나는 경우가 많나요?</summary><div class="faq-answer">전체 출산의 약 70%가 예정일 전후 2주 이내에 이루어집니다. 예정일 당일 출산은 5% 정도입니다.</div></details>
+</div>
+
 <script src="/share.js"></script>
+<script src="/calculator.js"></script>
 </body>
 </html>

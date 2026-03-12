@@ -100,6 +100,49 @@
   }
   window.onload=()=>calculate();
 </script>
+
+<style>
+.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
+.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
+.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}
+.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
+.seo-section ul{padding-left:20px;margin-bottom:12px}
+.seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+.seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
+.seo-section .example-box{background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:16px 20px;margin:12px 0}
+.seo-section .example-box p{margin:0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .example-box strong{color:#00d4aa}
+.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
+.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
+.seo-section details[open] summary::after{content:'－'}
+.seo-section details[open]{background:#161b22}
+.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
+</style>
+
+<div class="seo-section">
+  <h2>부가가치세 계산기 사용법</h2>
+  <h3>📌 사용방법</h3>
+  <p>공급가액 또는 VAT 포함 금액을 입력하면 부가가치세(10%)를 자동 계산합니다. 세금계산서 발행 시 필요한 공급가액·세액을 빠르게 확인할 수 있습니다.</p>
+  <h3>📐 계산 공식</h3>
+  <div class="formula-box">
+VAT 포함가 = 공급가액 × 1.1
+공급가액 = VAT 포함가 ÷ 1.1
+부가세액 = 공급가액 × 10%
+  </div>
+  <h3>📊 예시 계산</h3>
+  <div class="example-box">
+    <p>공급가액 <strong>500,000원</strong>인 경우</p>
+    <p>· 부가세: 50,000원<br>· VAT 포함 청구금액: <strong>550,000원</strong></p>
+    <p>VAT 포함가 <strong>330,000원</strong>인 경우</p>
+    <p>· 공급가액: 300,000원 / 세액: <strong>30,000원</strong></p>
+  </div>
+  <h2>자주 묻는 질문 (FAQ)</h2>
+  <details><summary>부가가치세 면세 항목은 어떤 게 있나요?</summary><div class="faq-answer">기초생활필수품(쌀·채소 등), 의료·교육·금융 서비스, 토지 거래 등은 부가세 면세 대상입니다.</div></details>
+  <details><summary>간이과세자는 세율이 다른가요?</summary><div class="faq-answer">간이과세자는 업종별 부가가치율(15~40%)에 10%를 곱한 낮은 세율이 적용됩니다. 연 매출 4,800만원 미만 사업자에게 적용됩니다.</div></details>
+  <details><summary>부가세 신고는 언제 하나요?</summary><div class="faq-answer">일반과세자는 연 2회(1월·7월), 간이과세자는 연 1회(1월) 신고·납부합니다.</div></details>
+</div>
+
 <script src="/share.js"></script>
 <script src="/calculator.js"></script>
 </body>

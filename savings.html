@@ -188,6 +188,48 @@
   }
   window.onload=()=>calculate();
 </script>
+
+<style>
+.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
+.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
+.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}
+.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
+.seo-section ul{padding-left:20px;margin-bottom:12px}
+.seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+.seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
+.seo-section .example-box{background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:16px 20px;margin:12px 0}
+.seo-section .example-box p{margin:0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .example-box strong{color:#00d4aa}
+.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
+.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
+.seo-section details[open] summary::after{content:'－'}
+.seo-section details[open]{background:#161b22}
+.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
+</style>
+
+<div class="seo-section">
+  <h2>적금 만기 계산기 사용법</h2>
+  <h3>📌 사용방법</h3>
+  <p>월 납입금액·금리·기간을 입력하면 만기 시 원리합계와 세후 실수령액을 계산합니다. 이자소득세(15.4%)가 자동으로 반영됩니다.</p>
+  <h3>📐 계산 공식</h3>
+  <div class="formula-box">
+[단리] 이자 = 월납입액 × n(n+1)/2 × 연이율/12
+[복리] 만기금액 = 월납입액 × ((1+월이율)ⁿ − 1) ÷ 월이율
+세후이자 = 이자 × (1 − 15.4%)
+  </div>
+  <h3>📊 예시 계산</h3>
+  <div class="example-box">
+    <p>월 <strong>30만원</strong>, 연 <strong>4%</strong>, <strong>12개월</strong> 단리</p>
+    <p>· 납입원금: 3,600,000원<br>· 세전이자: 78,000원<br>· 이자소득세(15.4%): 12,012원<br>· <strong>세후 수령액: 3,665,988원</strong></p>
+  </div>
+  <h2>자주 묻는 질문 (FAQ)</h2>
+  <details><summary>적금과 예금의 차이는?</summary><div class="faq-answer">예금은 목돈을 한 번에 맡기는 것이고, 적금은 매월 일정액을 분할 납입합니다. 같은 금리라면 예금의 실질 이자가 더 많습니다.</div></details>
+  <details><summary>비과세 적금 상품이 있나요?</summary><div class="faq-answer">청년도약계좌·청년희망적금 등 정부 지원 상품은 비과세 또는 세금 우대 혜택이 있습니다. 조건 충족 시 이자소득세 면제가 가능합니다.</div></details>
+  <details><summary>중도해지하면 이자가 줄어드나요?</summary><div class="faq-answer">네. 중도해지 시 약정 금리가 아닌 중도해지 금리(보통 연 0.1~1%)가 적용되어 이자가 대폭 줄어듭니다.</div></details>
+</div>
+
 <script src="/share.js"></script>
+<script src="/calculator.js"></script>
 </body>
 </html>
