@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>혈압 정상범위 계산기 | 모두의계산기</title>
+  <meta name="description" content="수축기·이완기 혈압을 입력하면 정상·고혈압·저혈압 여부를 즉시 판정합니다." />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;
+      --accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;
+      --danger:#ff6b6b;--radius:16px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+    .container{max-width:800px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .header{text-align:center;margin-bottom:48px}
+    .site-name{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:4px;color:var(--accent);text-transform:uppercase;margin-bottom:16px;opacity:.8;display:inline-block}
+    .header h1{font-size:clamp(28px,6vw,48px);font-weight:900;line-height:1.1;margin-bottom:12px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .header p{font-size:14px;color:var(--text-muted)}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:20px}
+    .card-title{font-size:14px;font-weight:700;color:var(--text-muted);letter-spacing:1px;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+    .input-group{margin-bottom:20px}
+    .input-group label{display:block;font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:8px}
+    .input-wrapper{position:relative;display:flex;align-items:center}
+    .input-wrapper input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 52px 14px 16px;font-size:18px;font-weight:700;color:var(--text);font-family:'Noto Sans KR',sans-serif;outline:none;transition:border-color .2s;-moz-appearance:textfield}
+    .input-wrapper input::-webkit-outer-spin-button,.input-wrapper input::-webkit-inner-spin-button{-webkit-appearance:none}
+    .input-wrapper input:focus{border-color:rgba(0,212,170,.5);box-shadow:0 0 0 3px rgba(0,212,170,.08)}
+    .input-unit{position:absolute;right:14px;font-size:14px;font-weight:600;color:var(--text-muted)}
+    select{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-size:15px;font-weight:600;color:var(--text);font-family:'Noto Sans KR',sans-serif;outline:none;appearance:none;cursor:pointer}
+    select:focus{border-color:rgba(0,212,170,.5)}
+    .btn{width:100%;padding:18px;border:none;border-radius:12px;font-size:17px;font-weight:800;cursor:pointer;transition:all .2s;font-family:'Noto Sans KR',sans-serif;margin-top:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,212,170,.3)}
+    .result-section{display:none}
+    .result-section.show{display:block}
+    .result-card{background:linear-gradient(135deg,rgba(0,212,170,.08),rgba(0,149,255,.05));border:1px solid rgba(0,212,170,.2);border-radius:var(--radius);padding:28px;margin-bottom:20px;text-align:center}
+    .result-label{font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:10px}
+    .result-value{font-size:clamp(28px,5vw,44px);font-weight:900;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.1}
+    .result-sub{font-size:13px;color:var(--text-muted);margin-top:8px}
+    .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+    .detail-item{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px}
+    .detail-item .di-label{font-size:11px;color:var(--text-muted);margin-bottom:4px}
+    .detail-item .di-value{font-size:16px;font-weight:700;color:var(--text)}
+    .info-box{background:rgba(0,212,170,.05);border:1px solid rgba(0,212,170,.15);border-radius:10px;padding:14px 16px;margin-bottom:16px;font-size:13px;color:var(--text-muted);line-height:1.8}
+    .info-box strong{color:var(--accent)}
+    .two-btn{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .btn-sub{background:var(--surface2);color:var(--accent);border:1px solid rgba(0,212,170,.3)}
+    .btn-sub:hover{background:rgba(0,212,170,.1)}
+    @media(max-width:600px){.detail-grid{grid-template-columns:1fr}.two-btn{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="site-name">모두의계산기</div>
+    <h1>혈압 정상범위<br>계산기</h1>
+    <p>수축기 · 이완기 혈압 판정 · 심박수 분석</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">❤️ 혈압 입력</div>
+    <div class="input-group">
+      <label>수축기 혈압 (윗 혈압)</label>
+      <div class="input-wrapper">
+        <input type="number" id="systolic" value="120" min="60" max="250" oninput="judgeBP()" />
+        <span class="input-unit">mmHg</span>
+      </div>
+    </div>
+    <div class="input-group">
+      <label>이완기 혈압 (아랫 혈압)</label>
+      <div class="input-wrapper">
+        <input type="number" id="diastolic" value="80" min="40" max="150" oninput="judgeBP()" />
+        <span class="input-unit">mmHg</span>
+      </div>
+    </div>
+    <div class="input-group">
+      <label>심박수 (선택)</label>
+      <div class="input-wrapper">
+        <input type="number" id="heartRate" value="" placeholder="선택 입력" min="30" max="220" oninput="judgeBP()" />
+        <span class="input-unit">bpm</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="bpResult" class="result-card" style="display:none">
+    <div class="result-label" id="bpLabel">판정 결과</div>
+    <div class="result-value" id="bpValue">-</div>
+    <div class="result-sub" id="bpSub"></div>
+    <div id="bpDetail" style="margin-top:16px"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 혈압 분류 기준표 (대한고혈압학회)</div>
+    <table style="width:100%;border-collapse:collapse;font-size:13px">
+      <thead><tr style="background:#21262d"><th style="padding:10px;border:1px solid #30363d;color:#e6edf3">분류</th><th style="padding:10px;border:1px solid #30363d;color:#e6edf3">수축기</th><th style="padding:10px;border:1px solid #30363d;color:#e6edf3">이완기</th></tr></thead>
+      <tbody>
+        <tr><td style="padding:9px;border:1px solid #30363d;color:#8b949e">저혈압</td><td style="padding:9px;border:1px solid #30363d;color:#8b949e;text-align:center">90 미만</td><td style="padding:9px;border:1px solid #30363d;color:#8b949e;text-align:center">60 미만</td></tr>
+        <tr><td style="padding:9px;border:1px solid #30363d;color:#00d4aa;font-weight:700">정상</td><td style="padding:9px;border:1px solid #30363d;color:#00d4aa;text-align:center;font-weight:700">120 미만</td><td style="padding:9px;border:1px solid #30363d;color:#00d4aa;text-align:center;font-weight:700">80 미만</td></tr>
+        <tr><td style="padding:9px;border:1px solid #30363d;color:#8b949e">주의혈압</td><td style="padding:9px;border:1px solid #30363d;color:#8b949e;text-align:center">120~129</td><td style="padding:9px;border:1px solid #30363d;color:#8b949e;text-align:center">80 미만</td></tr>
+        <tr><td style="padding:9px;border:1px solid #30363d;color:#ffa500">고혈압 전단계</td><td style="padding:9px;border:1px solid #30363d;color:#ffa500;text-align:center">130~139</td><td style="padding:9px;border:1px solid #30363d;color:#ffa500;text-align:center">80~89</td></tr>
+        <tr><td style="padding:9px;border:1px solid #30363d;color:#ff6b6b">고혈압 1기</td><td style="padding:9px;border:1px solid #30363d;color:#ff6b6b;text-align:center">140~159</td><td style="padding:9px;border:1px solid #30363d;color:#ff6b6b;text-align:center">90~99</td></tr>
+        <tr><td style="padding:9px;border:1px solid #30363d;color:#ff4444;font-weight:700">고혈압 2기</td><td style="padding:9px;border:1px solid #30363d;color:#ff4444;text-align:center;font-weight:700">160 이상</td><td style="padding:9px;border:1px solid #30363d;color:#ff4444;text-align:center;font-weight:700">100 이상</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+<script>
+function judgeBP(){
+  const sys=parseInt(document.getElementById('systolic').value)||0;
+  const dia=parseInt(document.getElementById('diastolic').value)||0;
+  const hr=parseInt(document.getElementById('heartRate').value)||0;
+  
+  let label,color,desc;
+  if(sys<90||dia<60){label='저혈압';color='#0095ff';desc='혈압이 낮습니다. 어지러움·피로가 지속되면 병원을 방문하세요.';}
+  else if(sys<120&&dia<80){label='정상 혈압 ✓';color='#00d4aa';desc='혈압이 정상 범위입니다. 건강한 생활 습관을 유지하세요.';}
+  else if(sys<130&&dia<80){label='주의 혈압';color='#f0c040';desc='정상 상단입니다. 식습관·운동으로 관리가 필요합니다.';}
+  else if(sys<140||dia<90){label='고혈압 전단계';color='#ffa500';desc='생활습관 개선이 필요합니다. 정기적으로 혈압을 체크하세요.';}
+  else if(sys<160||dia<100){label='고혈압 1기';color='#ff6b6b';desc='의사와 상담이 필요합니다. 약물 치료를 고려할 수 있습니다.';}
+  else{label='고혈압 2기';color='#ff4444';desc='즉시 의료기관을 방문하세요. 심각한 건강 위험이 있습니다.';}
+
+  let hrText='';
+  if(hr>0){
+    if(hr<60)hrText='서맥 (느린 심박수)';
+    else if(hr<100)hrText='정상 심박수';
+    else hrText='빈맥 (빠른 심박수)';
+  }
+
+  document.getElementById('bpResult').style.display='block';
+  document.getElementById('bpLabel').textContent='혈압 판정 결과';
+  document.getElementById('bpValue').style.cssText=`font-size:32px;font-weight:900;color:${color};-webkit-text-fill-color:${color}`;
+  document.getElementById('bpValue').textContent=label;
+  document.getElementById('bpSub').textContent=`${sys}/${dia} mmHg${hr?'  ·  심박수 '+hr+'bpm ('+hrText+')':''}`;
+  document.getElementById('bpDetail').innerHTML=`<div style="background:#21262d;border-radius:10px;padding:14px;font-size:13px;color:#8b949e;line-height:1.8">${desc}</div>`;
+}
+judgeBP();
+</script>
+
+  </div>
+</div>
+<section class="seo-section"><h2>혈압 정상범위 계산기 사용법</h2>
+<h3>📌 사용방법</h3><p>수축기(윗 혈압)와 이완기(아랫 혈압)를 입력하면 대한고혈압학회 기준으로 즉시 판정합니다.</p>
+<h3>💡 혈압 측정 팁</h3><p>아침 기상 후 30분 이내, 앉아서 5분 안정 후 측정이 가장 정확합니다. 커피·담배·운동 후 30분~1시간은 피하세요.</p>
+<h2>자주 묻는 질문 (FAQ)</h2>
+<details><summary>가정 혈압계와 병원 혈압이 다른 이유는?</summary><div class="faq-answer">백의고혈압(병원에서만 높게 나오는 현상)이 있을 수 있습니다. 가정에서 아침·저녁 2회씩 1주일간 측정한 평균이 더 신뢰도 높습니다.</div></details>
+<details><summary>고혈압약을 먹으면 평생 먹어야 하나요?</summary><div class="faq-answer">생활습관 개선으로 혈압이 조절되면 감량·중단이 가능합니다. 반드시 의사와 상의 후 결정하세요.</div></details>
+</section>
+<style>.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}.seo-section details[open] summary::after{content:'－'}.seo-section details[open]{background:#161b22}.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}</style>
+<script src="/common.js"></script>
+<script src="/share.js"></script>
+<script src="/calculator.js"></script>
+</body>
+</html>

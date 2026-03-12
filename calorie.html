@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>칼로리 계산기 | 모두의계산기</title>
+  <meta name="description" content="음식별 칼로리와 운동 소모 칼로리를 계산합니다. 다이어트·체중 관리에 활용하세요." />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;
+      --accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;
+      --danger:#ff6b6b;--radius:16px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+    .container{max-width:800px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .header{text-align:center;margin-bottom:48px}
+    .site-name{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:4px;color:var(--accent);text-transform:uppercase;margin-bottom:16px;opacity:.8;display:inline-block}
+    .header h1{font-size:clamp(28px,6vw,48px);font-weight:900;line-height:1.1;margin-bottom:12px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .header p{font-size:14px;color:var(--text-muted)}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:20px}
+    .card-title{font-size:14px;font-weight:700;color:var(--text-muted);letter-spacing:1px;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+    .input-group{margin-bottom:20px}
+    .input-group label{display:block;font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:8px}
+    .input-wrapper{position:relative;display:flex;align-items:center}
+    .input-wrapper input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 52px 14px 16px;font-size:18px;font-weight:700;color:var(--text);font-family:'Noto Sans KR',sans-serif;outline:none;transition:border-color .2s;-moz-appearance:textfield}
+    .input-wrapper input::-webkit-outer-spin-button,.input-wrapper input::-webkit-inner-spin-button{-webkit-appearance:none}
+    .input-wrapper input:focus{border-color:rgba(0,212,170,.5);box-shadow:0 0 0 3px rgba(0,212,170,.08)}
+    .input-unit{position:absolute;right:14px;font-size:14px;font-weight:600;color:var(--text-muted)}
+    select{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-size:15px;font-weight:600;color:var(--text);font-family:'Noto Sans KR',sans-serif;outline:none;appearance:none;cursor:pointer}
+    select:focus{border-color:rgba(0,212,170,.5)}
+    .btn{width:100%;padding:18px;border:none;border-radius:12px;font-size:17px;font-weight:800;cursor:pointer;transition:all .2s;font-family:'Noto Sans KR',sans-serif;margin-top:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,212,170,.3)}
+    .result-section{display:none}
+    .result-section.show{display:block}
+    .result-card{background:linear-gradient(135deg,rgba(0,212,170,.08),rgba(0,149,255,.05));border:1px solid rgba(0,212,170,.2);border-radius:var(--radius);padding:28px;margin-bottom:20px;text-align:center}
+    .result-label{font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:10px}
+    .result-value{font-size:clamp(28px,5vw,44px);font-weight:900;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.1}
+    .result-sub{font-size:13px;color:var(--text-muted);margin-top:8px}
+    .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+    .detail-item{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px}
+    .detail-item .di-label{font-size:11px;color:var(--text-muted);margin-bottom:4px}
+    .detail-item .di-value{font-size:16px;font-weight:700;color:var(--text)}
+    .info-box{background:rgba(0,212,170,.05);border:1px solid rgba(0,212,170,.15);border-radius:10px;padding:14px 16px;margin-bottom:16px;font-size:13px;color:var(--text-muted);line-height:1.8}
+    .info-box strong{color:var(--accent)}
+    .two-btn{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .btn-sub{background:var(--surface2);color:var(--accent);border:1px solid rgba(0,212,170,.3)}
+    .btn-sub:hover{background:rgba(0,212,170,.1)}
+    @media(max-width:600px){.detail-grid{grid-template-columns:1fr}.two-btn{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="site-name">모두의계산기</div>
+    <h1>칼로리<br>계산기</h1>
+    <p>음식 칼로리 · 운동 소모량 · 다이어트 목표 설정</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🥗 음식 칼로리 검색</div>
+    <div class="input-group">
+      <label>음식 선택</label>
+      <select id="foodSelect" onchange="updateCalorie()">
+        <option value="">-- 음식을 선택하세요 --</option>
+      </select>
+    </div>
+    <div class="input-group">
+      <label>섭취량 (g)</label>
+      <div class="input-wrapper">
+        <input type="number" id="foodGram" value="100" min="1" max="2000" oninput="updateCalorie()" />
+        <span class="input-unit">g</span>
+      </div>
+    </div>
+    <div id="foodResult" style="display:none" class="info-box">
+      <strong id="foodName"></strong><br>
+      <span id="foodKcal" style="font-size:20px;font-weight:900;color:#00d4aa"></span>
+      <span id="foodMacro" style="font-size:12px;color:#8b949e"></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏃 운동 칼로리 소모량</div>
+    <div class="input-group">
+      <label>체중</label>
+      <div class="input-wrapper">
+        <input type="number" id="bodyWeight" value="65" min="30" max="200" oninput="updateExercise()" />
+        <span class="input-unit">kg</span>
+      </div>
+    </div>
+    <div class="input-group">
+      <label>운동 종류</label>
+      <select id="exerciseSelect" onchange="updateExercise()">
+        <option value="4">걷기 (보통속도 4km/h)</option>
+        <option value="7">빠른 걷기 (6km/h)</option>
+        <option value="8.5" selected>달리기 (8km/h)</option>
+        <option value="11">달리기 (10km/h)</option>
+        <option value="6">자전거 (보통)</option>
+        <option value="9">수영</option>
+        <option value="5">헬스 (웨이트)</option>
+        <option value="3">요가</option>
+        <option value="7.5">등산</option>
+        <option value="8">줄넘기</option>
+      </select>
+    </div>
+    <div class="input-group">
+      <label>운동 시간</label>
+      <div class="input-wrapper">
+        <input type="number" id="exerciseMin" value="30" min="1" max="360" oninput="updateExercise()" />
+        <span class="input-unit">분</span>
+      </div>
+    </div>
+    <div id="exerciseResult" class="info-box">
+      <strong>소모 칼로리: </strong><span id="exKcal" style="font-size:20px;font-weight:900;color:#00d4aa">-</span>
+      <span id="exSub" style="font-size:12px;color:#8b949e"></span>
+    </div>
+  </div>
+
+<script>
+const FOODS = [
+  ['밥(흰쌀밥)',130,'탄수화물 28g | 단백질 2.7g'],['현미밥',110,'탄수화물 23g | 식이섬유 2g'],
+  ['라면(1봉)',500,'나트륨 1,800mg | 지방 16g'],['삼겹살',330,'단백질 17g | 지방 28g'],
+  ['닭가슴살',109,'단백질 23g | 지방 1g'],['달걀(1개=50g)',75,'단백질 6.3g | 지방 5g'],
+  ['아메리카노(355ml)',10,'당류 0g'],['카페라떼(355ml)',190,'단백질 7g | 지방 7g'],
+  ['치킨(1조각=100g)',245,'단백질 20g | 지방 15g'],['피자(1조각=100g)',266,'탄수화물 30g | 지방 12g'],
+  ['떡볶이(100g)',140,'탄수화물 28g | 나트륨 600mg'],['김밥(1줄=250g)',380,'탄수화물 60g | 단백질 10g'],
+  ['바나나(1개=120g)',104,'탄수화물 27g | 칼륨 422mg'],['사과(1개=200g)',104,'탄수화물 28g | 식이섬유 5g'],
+  ['빵(식빵 1장=35g)',93,'탄수화물 18g | 단백질 3g'],['콜라(250ml)',105,'당류 27g'],
+  ['맥주(500ml)',215,'알코올 20g | 탄수화물 16g'],['소주(1잔=50ml)',65,'알코올 8g'],
+];
+
+const foodSel = document.getElementById('foodSelect');
+FOODS.forEach(([name,kcal,macro],i)=>{
+  const opt=document.createElement('option');
+  opt.value=i;
+  opt.textContent=`${name} (${kcal}kcal/100g)`;
+  foodSel.appendChild(opt);
+});
+
+function updateCalorie(){
+  const idx=foodSel.value;
+  if(idx===''){document.getElementById('foodResult').style.display='none';return;}
+  const [name,kcalPer100,macro]=FOODS[idx];
+  const gram=parseFloat(document.getElementById('foodGram').value)||100;
+  const total=Math.round(kcalPer100*gram/100);
+  document.getElementById('foodName').textContent=name+' '+gram+'g';
+  document.getElementById('foodKcal').textContent=total+' kcal  ';
+  document.getElementById('foodMacro').textContent=macro;
+  document.getElementById('foodResult').style.display='block';
+}
+
+function updateExercise(){
+  const bw=parseFloat(document.getElementById('bodyWeight').value)||65;
+  const met=parseFloat(document.getElementById('exerciseSelect').value)||8.5;
+  const min=parseFloat(document.getElementById('exerciseMin').value)||30;
+  const kcal=Math.round(met*3.5*bw/200*min);
+  document.getElementById('exKcal').textContent=kcal+' kcal';
+  document.getElementById('exSub').textContent=`  ·  밥 약 ${(kcal/130).toFixed(1)}공기 분량`;
+}
+updateExercise();
+</script>
+
+  </div>
+</div>
+<section class="seo-section"><h2>칼로리 계산기 사용법</h2>
+<h3>📌 사용방법</h3><p>음식을 선택하고 섭취량(g)을 입력하면 칼로리를 계산합니다. 운동 소모 칼로리는 체중·운동 종류·시간으로 계산합니다.</p>
+<h3>💡 다이어트 칼로리 기준</h3><p>성인 하루 권장 칼로리: 남성 약 2,500kcal, 여성 약 2,000kcal. 체중 0.5kg 감량에 약 3,500kcal 적자가 필요합니다.</p>
+<h2>자주 묻는 질문 (FAQ)</h2>
+<details><summary>같은 칼로리라도 살찌는 음식이 따로 있나요?</summary><div class="faq-answer">총 칼로리가 가장 중요하지만 당지수(GI)가 높은 음식은 혈당을 빠르게 올려 지방 축적이 쉽습니다. 같은 칼로리라도 단백질 위주 식사가 포만감이 더 오래 갑니다.</div></details>
+<details><summary>운동 칼로리 계산이 왜 부정확한가요?</summary><div class="faq-answer">MET(대사당량) 기반 계산으로 체지방률, 운동 강도, 개인 대사 차이를 반영하지 못합니다. 실제 소모량은 ±20% 오차가 있습니다.</div></details>
+</section>
+<style>.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}.seo-section details[open] summary::after{content:'－'}.seo-section details[open]{background:#161b22}.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}</style>
+<script src="/common.js"></script>
+<script src="/share.js"></script>
+<script src="/calculator.js"></script>
+</body>
+</html>

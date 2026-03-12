@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cm inch 변환 계산기 | 모두의계산기</title>
+  <meta name="description" content="센티미터(cm)를 인치(inch)로, 인치를 센티미터로 즉시 변환합니다. 키·화면 크기·신발 사이즈 변환에 활용하세요." />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;
+      --accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;
+      --danger:#ff6b6b;--radius:16px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+    .container{max-width:800px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .header{text-align:center;margin-bottom:48px}
+    .site-name{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:4px;color:var(--accent);text-transform:uppercase;margin-bottom:16px;opacity:.8;display:inline-block}
+    .header h1{font-size:clamp(28px,6vw,48px);font-weight:900;line-height:1.1;margin-bottom:12px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .header p{font-size:14px;color:var(--text-muted)}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:20px}
+    .card-title{font-size:14px;font-weight:700;color:var(--text-muted);letter-spacing:1px;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+    .input-group{margin-bottom:20px}
+    .input-group label{display:block;font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:8px}
+    .input-wrapper{position:relative;display:flex;align-items:center}
+    .input-wrapper input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 52px 14px 16px;font-size:18px;font-weight:700;color:var(--text);font-family:'Noto Sans KR',sans-serif;outline:none;transition:border-color .2s;-moz-appearance:textfield}
+    .input-wrapper input::-webkit-outer-spin-button,.input-wrapper input::-webkit-inner-spin-button{-webkit-appearance:none}
+    .input-wrapper input:focus{border-color:rgba(0,212,170,.5);box-shadow:0 0 0 3px rgba(0,212,170,.08)}
+    .input-unit{position:absolute;right:14px;font-size:14px;font-weight:600;color:var(--text-muted)}
+    select{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-size:15px;font-weight:600;color:var(--text);font-family:'Noto Sans KR',sans-serif;outline:none;appearance:none;cursor:pointer}
+    select:focus{border-color:rgba(0,212,170,.5)}
+    .btn{width:100%;padding:18px;border:none;border-radius:12px;font-size:17px;font-weight:800;cursor:pointer;transition:all .2s;font-family:'Noto Sans KR',sans-serif;margin-top:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,212,170,.3)}
+    .result-section{display:none}
+    .result-section.show{display:block}
+    .result-card{background:linear-gradient(135deg,rgba(0,212,170,.08),rgba(0,149,255,.05));border:1px solid rgba(0,212,170,.2);border-radius:var(--radius);padding:28px;margin-bottom:20px;text-align:center}
+    .result-label{font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:10px}
+    .result-value{font-size:clamp(28px,5vw,44px);font-weight:900;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.1}
+    .result-sub{font-size:13px;color:var(--text-muted);margin-top:8px}
+    .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+    .detail-item{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px}
+    .detail-item .di-label{font-size:11px;color:var(--text-muted);margin-bottom:4px}
+    .detail-item .di-value{font-size:16px;font-weight:700;color:var(--text)}
+    .info-box{background:rgba(0,212,170,.05);border:1px solid rgba(0,212,170,.15);border-radius:10px;padding:14px 16px;margin-bottom:16px;font-size:13px;color:var(--text-muted);line-height:1.8}
+    .info-box strong{color:var(--accent)}
+    .two-btn{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .btn-sub{background:var(--surface2);color:var(--accent);border:1px solid rgba(0,212,170,.3)}
+    .btn-sub:hover{background:rgba(0,212,170,.1)}
+    @media(max-width:600px){.detail-grid{grid-template-columns:1fr}.two-btn{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="site-name">모두의계산기</div>
+    <h1>cm ↔ inch<br>변환 계산기</h1>
+    <p>센티미터 · 인치 · 피트 즉시 변환</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📏 단위 입력</div>
+    <div class="input-group">
+      <label>센티미터 (cm)</label>
+      <div class="input-wrapper">
+        <input type="text" id="cmVal" placeholder="예: 175" oninput="syncCm(this)" />
+        <span class="input-unit">cm</span>
+      </div>
+    </div>
+    <div class="input-group">
+      <label>인치 (inch)</label>
+      <div class="input-wrapper">
+        <input type="text" id="inchVal" placeholder="예: 68.9" oninput="syncInch(this)" />
+        <span class="input-unit">inch</span>
+      </div>
+    </div>
+    <div class="input-group">
+      <label>피트+인치 (ft″)</label>
+      <div class="input-wrapper">
+        <input type="text" id="ftVal" placeholder="예: 5′9″" readonly style="background:#0d1117;color:#8b949e;font-size:15px" />
+        <span class="input-unit">ft</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="cmResult" style="display:none" class="result-card">
+    <div class="result-label">변환 결과</div>
+    <div id="cmResultVal" class="result-value"></div>
+    <div id="cmResultSub" class="result-sub"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 키 변환 참고표</div>
+    <table style="width:100%;border-collapse:collapse;font-size:13px">
+      <thead><tr style="background:#21262d"><th style="padding:10px;border:1px solid #30363d;color:#e6edf3">cm</th><th style="padding:10px;border:1px solid #30363d;color:#e6edf3">inch</th><th style="padding:10px;border:1px solid #30363d;color:#e6edf3">피트+인치</th></tr></thead>
+      <tbody id="cmTable"></tbody>
+    </table>
+  </div>
+
+<script>
+const heights=[155,160,163,165,168,170,173,175,178,180,183,185,188,190];
+const tb=document.getElementById('cmTable');
+heights.forEach(h=>{
+  const inch=h/2.54;
+  const ft=Math.floor(inch/12);
+  const remIn=Math.round(inch%12);
+  tb.innerHTML+=`<tr><td style="padding:9px;border:1px solid #30363d;color:#8b949e;text-align:center">${h}cm</td><td style="padding:9px;border:1px solid #30363d;color:#8b949e;text-align:center">${inch.toFixed(1)}"</td><td style="padding:9px;border:1px solid #30363d;color:#8b949e;text-align:center">${ft}'${remIn}"</td></tr>`;
+});
+
+function toFtIn(inch){
+  const ft=Math.floor(inch/12);
+  const rem=Math.floor(inch%12);
+  return `${ft}′${rem}″`;
+}
+function showResult(cm,inch){
+  const r=document.getElementById('cmResult');
+  r.style.display='block';
+  document.getElementById('cmResultVal').textContent=`${cm.toFixed(1)} cm = ${inch.toFixed(2)} inch`;
+  document.getElementById('cmResultSub').textContent=toFtIn(inch)+'  |  '+cm.toFixed(1)+' cm';
+}
+function syncCm(el){
+  const v=parseFloat(el.value);
+  if(isNaN(v)){document.getElementById('inchVal').value='';document.getElementById('ftVal').value='';document.getElementById('cmResult').style.display='none';return;}
+  const inch=v/2.54;
+  document.getElementById('inchVal').value=inch.toFixed(2);
+  document.getElementById('ftVal').value=toFtIn(inch);
+  showResult(v,inch);
+}
+function syncInch(el){
+  const v=parseFloat(el.value);
+  if(isNaN(v)){document.getElementById('cmVal').value='';document.getElementById('ftVal').value='';document.getElementById('cmResult').style.display='none';return;}
+  const cm=v*2.54;
+  document.getElementById('cmVal').value=cm.toFixed(2);
+  document.getElementById('ftVal').value=toFtIn(v);
+  showResult(cm,v);
+}
+</script>
+
+  </div>
+</div>
+<section class="seo-section"><h2>cm inch 변환 계산기 사용법</h2>
+<h3>📌 사용방법</h3><p>센티미터를 입력하면 인치와 피트+인치로, 인치를 입력하면 센티미터로 즉시 변환됩니다. 키 변환, TV·모니터 화면 크기, 신발 사이즈 계산에 활용하세요.</p>
+<h3>📐 공식</h3><div class="formula-box">1 inch = 2.54 cm / 1 cm = 0.3937 inch / 1 foot = 30.48 cm</div>
+<h3>💡 자주 찾는 변환</h3><p>한국 평균 남성 키 173cm = 5피트 8인치 / 여성 161cm = 5피트 3인치. TV 65인치 = 165cm 대각선 길이.</p>
+<h2>자주 묻는 질문 (FAQ)</h2>
+<details><summary>신발 사이즈 변환은 어떻게 하나요?</summary><div class="faq-answer">한국 신발 사이즈(mm) ÷ 25.4 = 미국 사이즈(inch)가 아니라 별도 환산표가 필요합니다. 남성 270mm = US10, 여성 245mm = US8 정도입니다.</div></details>
+<details><summary>모니터·TV 인치는 어떻게 재나요?</summary><div class="faq-answer">화면의 대각선 길이를 인치로 표시합니다. 27인치 모니터는 대각선이 약 68.6cm입니다.</div></details>
+</section>
+<style>.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}.seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}.seo-section details[open] summary::after{content:'－'}.seo-section details[open]{background:#161b22}.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}</style>
+<script src="/common.js"></script>
+<script src="/share.js"></script>
+<script src="/calculator.js"></script>
+</body>
+</html>

@@ -287,7 +287,91 @@
     </div>
   </div>
 
+  <!-- 📐 단위 변환 -->
+  <div class="category" data-cat>
+    <div class="category-header">
+      <div class="category-title">📐 단위 변환</div>
+      <span class="category-count">2</span>
+    </div>
+    <div class="cards-grid">
+      <a href="/area_converter" class="calc-card" data-keywords="평 제곱미터 평수 면적 아파트 평형 변환">
+        <div class="card-emoji">📐</div>
+        <div class="card-name">평 ↔ 제곱미터</div>
+        <div class="card-desc">평수·㎡ 즉시 변환, 아파트 면적 확인</div>
+      </a>
+      <a href="/cm_inch" class="calc-card" data-keywords="cm inch 센티미터 인치 피트 키 변환">
+        <div class="card-emoji">📏</div>
+        <div class="card-name">cm ↔ inch</div>
+        <div class="card-desc">센티미터·인치·피트 즉시 변환</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- 🌏 생활 · 기타 -->
+  <div class="category" data-cat>
+    <div class="category-header">
+      <div class="category-title">🌏 생활 · 기타</div>
+      <span class="category-count">2</span>
+    </div>
+    <div class="cards-grid">
+      <a href="/customs" class="calc-card" data-keywords="관세 해외직구 부가세 수입 직구 세금 미국 일본">
+        <div class="card-emoji">✈️</div>
+        <div class="card-name">관세 계산기</div>
+        <div class="card-desc">해외 직구 관세·부가세 자동 계산</div>
+      </a>
+      <a href="/golf_handicap" class="calc-card" data-keywords="골프 핸디캡 스코어 코스레이팅 슬로프">
+        <div class="card-emoji">⛳</div>
+        <div class="card-name">골프 핸디캡</div>
+        <div class="card-desc">WHS 기준 핸디캡 지수 계산</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- 💪 건강 추가 항목 -->
+  <div class="category" data-cat>
+    <div class="category-header">
+      <div class="category-title">🥗 건강 · 영양</div>
+      <span class="category-count">2</span>
+    </div>
+    <div class="cards-grid">
+      <a href="/calorie" class="calc-card" data-keywords="칼로리 열량 다이어트 음식 운동 소모 kcal">
+        <div class="card-emoji">🥗</div>
+        <div class="card-name">칼로리 계산기</div>
+        <div class="card-desc">음식 칼로리·운동 소모량 계산</div>
+      </a>
+      <a href="/blood_pressure" class="calc-card" data-keywords="혈압 정상범위 고혈압 저혈압 수축기 이완기">
+        <div class="card-emoji">❤️</div>
+        <div class="card-name">혈압 정상범위</div>
+        <div class="card-desc">수축기·이완기 혈압 판정</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- 🏦 연금 -->
+  <div class="category" data-cat>
+    <div class="category-header">
+      <div class="category-title">🏦 연금</div>
+      <span class="category-count">1</span>
+    </div>
+    <div class="cards-grid">
+      <a href="/pension" class="calc-card" data-keywords="국민연금 예상 수령액 노령연금 노후 연금 수령">
+        <div class="card-emoji">👴</div>
+        <div class="card-name">국민연금 수령액</div>
+        <div class="card-desc">가입기간·소득 기준 예상 수령액 계산</div>
+      </a>
+    </div>
+  </div>
+
   <div class="no-results" id="noResults">검색 결과가 없습니다. 다른 키워드로 검색해보세요.</div>
+
+  <!-- ⭐ 즐겨찾기 섹션 -->
+  <div id="favSection" style="display:none;margin-bottom:32px">
+    <div class="category-header" style="margin-bottom:14px">
+      <div class="category-title">⭐ 즐겨찾기</div>
+      <span class="category-count" id="favCount">0</span>
+    </div>
+    <div class="cards-grid" id="favGrid"></div>
+  </div>
 
   <div class="footer">
     © 2026 모두의계산기 · everycalc.kr<br>
@@ -319,7 +403,36 @@
     document.getElementById('noResults').classList.toggle('visible', visible === 0);
   }
 </script>
+<script src="/common.js"></script>
 <script src="/share.js"></script>
 <script src="/calculator.js"></script>
+<script>
+(function renderFavs() {
+  function init() {
+    if (!window.__common) return setTimeout(init, 100);
+    const { CALC_LIST, getFavs } = window.__common;
+    const favs = getFavs();
+    if (!favs.length) return;
+    const section = document.getElementById('favSection');
+    const grid = document.getElementById('favGrid');
+    const countEl = document.getElementById('favCount');
+    section.style.display = '';
+    countEl.textContent = favs.length;
+    const searchBar = document.querySelector('.search-bar');
+    if (searchBar) searchBar.after(section);
+    favs.forEach(path => {
+      const calc = CALC_LIST.find(c => c.path === path);
+      if (!calc) return;
+      const a = document.createElement('a');
+      a.href = calc.path;
+      a.className = 'calc-card';
+      a.innerHTML = `<div class="card-emoji">${calc.emoji}</div><div class="card-name">${calc.title}</div><div class="card-desc">즐겨찾기</div>`;
+      grid.appendChild(a);
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
 </body>
 </html>

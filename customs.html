@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>관세 계산기 | 모두의계산기</title>
+  <meta name="description" content="해외 직구 관세와 부가세를 자동 계산합니다. 미국·유럽·일본·중국 직구 세금을 미리 확인하세요." />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;
+      --accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;
+      --danger:#ff6b6b;--radius:16px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+    .container{max-width:800px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .header{text-align:center;margin-bottom:48px}
+    .site-name{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:4px;color:var(--accent);text-transform:uppercase;margin-bottom:16px;opacity:.8;display:inline-block}
+    .header h1{font-size:clamp(28px,6vw,48px);font-weight:900;line-height:1.1;margin-bottom:12px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .header p{font-size:14px;color:var(--text-muted)}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:20px}
+    .card-title{font-size:14px;font-weight:700;color:var(--text-muted);letter-spacing:1px;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+    .input-group{margin-bottom:20px}
+    .input-group label{display:block;font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:8px}
+    .input-wrapper{position:relative;display:flex;align-items:center}
+    .input-wrapper input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 52px 14px 16px;font-size:18px;font-weight:700;color:var(--text);font-family:'Noto Sans KR',sans-serif;outline:none;transition:border-color .2s;-moz-appearance:textfield}
+    .input-wrapper input::-webkit-outer-spin-button,.input-wrapper input::-webkit-inner-spin-button{-webkit-appearance:none}
+    .input-wrapper input:focus{border-color:rgba(0,212,170,.5);box-shadow:0 0 0 3px rgba(0,212,170,.08)}
+    .input-unit{position:absolute;right:14px;font-size:14px;font-weight:600;color:var(--text-muted)}
+    select{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-size:15px;font-weight:600;color:var(--text);font-family:'Noto Sans KR',sans-serif;outline:none;appearance:none;cursor:pointer}
+    select:focus{border-color:rgba(0,212,170,.5)}
+    .btn{width:100%;padding:18px;border:none;border-radius:12px;font-size:17px;font-weight:800;cursor:pointer;transition:all .2s;font-family:'Noto Sans KR',sans-serif;margin-top:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,212,170,.3)}
+    .result-section{display:none}
+    .result-section.show{display:block}
+    .result-card{background:linear-gradient(135deg,rgba(0,212,170,.08),rgba(0,149,255,.05));border:1px solid rgba(0,212,170,.2);border-radius:var(--radius);padding:28px;margin-bottom:20px;text-align:center}
+    .result-label{font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:10px}
+    .result-value{font-size:clamp(28px,5vw,44px);font-weight:900;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.1}
+    .result-sub{font-size:13px;color:var(--text-muted);margin-top:8px}
+    .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+    .detail-item{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px}
+    .detail-item .di-label{font-size:11px;color:var(--text-muted);margin-bottom:4px}
+    .detail-item .di-value{font-size:16px;font-weight:700;color:var(--text)}
+    .info-box{background:rgba(0,212,170,.05);border:1px solid rgba(0,212,170,.15);border-radius:10px;padding:14px 16px;margin-bottom:16px;font-size:13px;color:var(--text-muted);line-height:1.8}
+    .info-box strong{color:var(--accent)}
+    .two-btn{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .btn-sub{background:var(--surface2);color:var(--accent);border:1px solid rgba(0,212,170,.3)}
+    .btn-sub:hover{background:rgba(0,212,170,.1)}
+    @media(max-width:600px){.detail-grid{grid-template-columns:1fr}.two-btn{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="site-name">모두의계산기</div>
+    <h1>관세 계산기</h1>
+    <p>해외 직구 · 관세 + 부가세 자동 계산</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">✈️ 직구 정보 입력</div>
+    <div class="input-group">
+      <label>구매 국가</label>
+      <select id="country" onchange="updateCustoms()">
+        <option value="us">미국 (USD)</option>
+        <option value="eu">유럽 (EUR)</option>
+        <option value="jp">일본 (JPY)</option>
+        <option value="cn">중국 (CNY)</option>
+        <option value="other">기타</option>
+      </select>
+    </div>
+    <div class="input-group">
+      <label>물품 금액 (외화)</label>
+      <div class="input-wrapper">
+        <input type="text" id="foreignPrice" value="100" oninput="fmtInput(this);updateCustoms()" />
+        <span class="input-unit" id="currencyUnit">USD</span>
+      </div>
+    </div>
+    <div class="input-group">
+      <label>배송비 (외화, 없으면 0)</label>
+      <div class="input-wrapper">
+        <input type="text" id="shippingFee" value="0" oninput="fmtInput(this);updateCustoms()" />
+        <span class="input-unit" id="shippingUnit">USD</span>
+      </div>
+    </div>
+    <div class="input-group">
+      <label>환율 (원/1외화)</label>
+      <div class="input-wrapper">
+        <input type="text" id="exchangeRate" value="1,350" oninput="fmtInput(this);updateCustoms()" />
+        <span class="input-unit">원</span>
+      </div>
+    </div>
+    <div class="input-group">
+      <label>품목 관세율</label>
+      <select id="tariffRate" onchange="updateCustoms()">
+        <option value="0">0% (면세 한도 이하)</option>
+        <option value="0.08" selected>8% (일반 소비재)</option>
+        <option value="0.13">13% (의류·신발)</option>
+        <option value="0.20">20% (가방·잡화)</option>
+        <option value="0.40">40% (주류·식품)</option>
+        <option value="custom">직접 입력</option>
+      </select>
+    </div>
+    <div class="input-group" id="customRateGroup" style="display:none">
+      <label>관세율 직접 입력</label>
+      <div class="input-wrapper">
+        <input type="number" id="customRate" value="8" min="0" max="100" step="0.1" oninput="updateCustoms()" />
+        <span class="input-unit">%</span>
+      </div>
+    </div>
+    <div class="info-box">💡 미국 직구 <strong>150달러 이하</strong>(관세), <strong>200달러 이하</strong>(목록통관) 면세. 단 건강기능식품·일부 품목은 별도 기준 적용.</div>
+  </div>
+
+  <div class="result-section" id="customsResult">
+    <div class="result-card">
+      <div class="result-label">총 납부 세금</div>
+      <div class="result-value" id="totalTax">-</div>
+      <div class="result-sub" id="taxSub"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">📊 세금 상세 내역</div>
+      <div class="detail-grid" id="taxDetail"></div>
+    </div>
+  </div>
+
+<script>
+const CURRENCIES={us:'USD',eu:'EUR',jp:'JPY',cn:'CNY',other:'외화'};
+function fmtInput(el){const r=el.value.replace(/[^0-9.]/g,'');const parts=r.split('.');el.value=parts[0]?Number(parts[0]).toLocaleString('ko-KR')+(parts.length>1?'.'+parts[1]:''):''}
+function getNum(id){return parseFloat(document.getElementById(id).value.replace(/,/g,''))||0}
+
+document.getElementById('country').addEventListener('change',function(){
+  const cu=CURRENCIES[this.value];
+  document.getElementById('currencyUnit').textContent=cu;
+  document.getElementById('shippingUnit').textContent=cu;
+  // 기본 환율 세팅
+  const rates={us:1350,eu:1480,jp:9.2,cn:188,other:1000};
+  document.getElementById('exchangeRate').value=(rates[this.value]||1000).toLocaleString('ko-KR');
+  updateCustoms();
+});
+document.getElementById('tariffRate').addEventListener('change',function(){
+  document.getElementById('customRateGroup').style.display=this.value==='custom'?'block':'none';
+  updateCustoms();
+});
+
+function updateCustoms(){
+  const price=getNum('foreignPrice');
+  const ship=getNum('shippingFee');
+  const rate=getNum('exchangeRate');
+  const tariffSel=document.getElementById('tariffRate').value;
+  const tariffRate=tariffSel==='custom'?getNum('customRate')/100:parseFloat(tariffSel);
+  
+  const krwPrice=(price+ship)*rate; // 과세가격
+  const tariff=Math.round(krwPrice*tariffRate);
+  const vat=Math.round((krwPrice+tariff)*0.1);
+  const total=tariff+vat;
+  const totalCost=Math.round(price*rate)+tariff+vat;
+  
+  document.getElementById('totalTax').textContent=total.toLocaleString('ko-KR')+'원';
+  document.getElementById('taxSub').textContent=`관세 ${tariff.toLocaleString()}원 + 부가세 ${vat.toLocaleString()}원`;
+  document.getElementById('taxDetail').innerHTML=`
+    <div class="detail-item"><div class="di-label">물품 금액 (원화 환산)</div><div class="di-value">${Math.round(price*rate).toLocaleString()}원</div></div>
+    <div class="detail-item"><div class="di-label">배송비 (원화 환산)</div><div class="di-value">${Math.round(ship*rate).toLocaleString()}원</div></div>
+    <div class="detail-item"><div class="di-label">관세 (${(tariffRate*100).toFixed(1)}%)</div><div class="di-value">${tariff.toLocaleString()}원</div></div>
+    <div class="detail-item"><div class="di-label">부가세 (10%)</div><div class="di-value">${vat.toLocaleString()}원</div></div>
+    <div class="detail-item"><div class="di-label">총 납부 세금</div><div class="di-value" style="color:#00d4aa">${total.toLocaleString()}원</div></div>
+    <div class="detail-item"><div class="di-label">실제 총 구매비용</div><div class="di-value" style="color:#00d4aa">${totalCost.toLocaleString()}원</div></div>
+  `;
+  document.getElementById('customsResult').className='result-section show';
+}
+updateCustoms();
+</script>
+
+  </div>
+</div>
+<section class="seo-section"><h2>관세 계산기 사용법</h2>
+<h3>📌 사용방법</h3><p>구매 국가, 물품 금액, 환율, 관세율을 입력하면 관세와 부가세(VAT 10%)를 계산합니다. 실제 물품 수령 전 세금을 미리 확인하세요.</p>
+<h3>💡 해외직구 면세 기준</h3><p>미국 직구: 물품가+배송비 합산 <strong>150달러 이하</strong> 관세 면제 (목록통관 200달러). 단, 건강기능식품·의약품·화장품은 별도 기준 적용. 일본·EU: <strong>150달러(유로) 이하</strong> 면세.</p>
+<h3>📊 주요 품목 관세율</h3><p>전자제품 0~8%, 의류·신발 13%, 가방·지갑 20%, 주류 30~40%, 식품류 8~20%. 정확한 HS코드별 세율은 관세청 홈페이지(customs.go.kr)에서 확인하세요.</p>
+<h2>자주 묻는 질문 (FAQ)</h2>
+<details><summary>목록통관과 일반통관의 차이는?</summary><div class="faq-answer">목록통관은 200달러 이하 물품을 간소화된 절차로 수입하는 방식입니다. 의류·신발·가방은 목록통관 가능, 건강기능식품·의약품은 일반통관 필요합니다.</div></details>
+<details><summary>직구 물품이 세관에 걸리면 어떻게 되나요?</summary><div class="faq-answer">세관에서 과세 통보가 오면 고지된 세금을 납부해야 물품을 받을 수 있습니다. 납부하지 않으면 반송·폐기됩니다.</div></details>
+</section>
+<style>.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}.seo-section details[open] summary::after{content:'－'}.seo-section details[open]{background:#161b22}.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}</style>
+<script src="/common.js"></script>
+<script src="/share.js"></script>
+<script src="/calculator.js"></script>
+</body>
+</html>
