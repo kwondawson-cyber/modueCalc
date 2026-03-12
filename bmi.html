@@ -484,10 +484,21 @@
 .seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
 .seo-section ul{padding-left:20px;margin-bottom:12px}
 .seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+.seo-section ol{padding-left:20px;margin-bottom:12px}
+.seo-section ol li{font-size:14px;color:#8b949e;line-height:1.9}
 .seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
 .seo-section .example-box{background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:16px 20px;margin:12px 0}
 .seo-section .example-box p{margin:0;font-size:13px;color:#8b949e;line-height:1.9}
 .seo-section .example-box strong{color:#00d4aa}
+.seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+.seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
+.seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
+.seo-section table tr:nth-child(even) td{background:#161b22}
+.seo-section table td strong{color:#00d4aa}
+.seo-section .tip-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .tip-box strong{color:#00d4aa}
+.seo-section .warn-box{background:rgba(255,107,107,0.05);border:1px solid rgba(255,107,107,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .warn-box strong{color:#ff6b6b}
 .seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
 .seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
 .seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
@@ -497,23 +508,45 @@
 </style>
 
 <div class="seo-section">
-  <h2>BMI 체질량지수 계산기 사용법</h2>
+  <h2>BMI 계산기 사용법</h2>
   <h3>📌 사용방법</h3>
-  <p>키(cm)와 체중(kg)을 입력하면 BMI 지수와 비만도, 적정 체중 범위를 계산합니다. 세계보건기구(WHO) 기준과 아시아·태평양 기준을 함께 제공합니다.</p>
+  <p>키(cm)와 몸무게(kg)를 입력하면 체질량지수(BMI)와 비만도 판정, 정상 체중 범위를 확인할 수 있습니다. 한국 대한비만학회와 WHO 기준을 함께 표시합니다.</p>
+
   <h3>📐 계산 공식</h3>
-  <div class="formula-box">
-BMI = 체중(kg) ÷ 키(m)²
-저체중: 18.5 미만 / 정상: 18.5~22.9 / 과체중: 23~24.9 / 비만: 25 이상 (아시아 기준)
-적정체중 = 22 × 키(m)²
-  </div>
-  <h3>📊 예시 계산</h3>
-  <div class="example-box">
-    <p>키 <strong>170cm</strong>, 체중 <strong>72kg</strong></p>
-    <p>· BMI: 72 ÷ (1.7)² = <strong>24.9</strong><br>· 판정: 과체중<br>· 적정체중 범위: 53.5kg ~ 65.9kg</p>
-  </div>
+  <div class="formula-box">BMI = 체중(kg) ÷ 신장(m)²
+정상 체중 범위 = BMI 18.5~22.9 × 키(m)²</div>
+
+  <h3>📊 BMI 기준표 (한국 대한비만학회 기준)</h3>
+  <table>
+    <thead><tr><th>BMI</th><th>판정</th><th>건강 위험도</th></tr></thead>
+    <tbody>
+      <tr><td>18.5 미만</td><td>저체중</td><td>영양불량, 골다공증 위험</td></tr>
+      <tr><td>18.5 ~ 22.9</td><td><strong>정상</strong></td><td>낮음</td></tr>
+      <tr><td>23.0 ~ 24.9</td><td>과체중 (비만 전단계)</td><td>약간 높음</td></tr>
+      <tr><td>25.0 ~ 29.9</td><td>비만 1단계</td><td>높음</td></tr>
+      <tr><td>30.0 이상</td><td>비만 2단계</td><td>매우 높음</td></tr>
+    </tbody>
+  </table>
+
+  <h3>📊 키별 정상 체중 범위</h3>
+  <table>
+    <thead><tr><th>키</th><th>정상 체중 범위 (BMI 18.5~22.9)</th><th>과체중 기준 (BMI 23)</th></tr></thead>
+    <tbody>
+      <tr><td>155cm</td><td>44.4 ~ 55.0 kg</td><td>55.3 kg 이상</td></tr>
+      <tr><td>160cm</td><td>47.4 ~ 58.6 kg</td><td>58.9 kg 이상</td></tr>
+      <tr><td>165cm</td><td>50.3 ~ 62.3 kg</td><td>62.6 kg 이상</td></tr>
+      <tr><td>170cm</td><td>53.5 ~ 66.2 kg</td><td>66.5 kg 이상</td></tr>
+      <tr><td>175cm</td><td>56.7 ~ 70.2 kg</td><td>70.4 kg 이상</td></tr>
+      <tr><td>180cm</td><td>59.9 ~ 74.2 kg</td><td>74.5 kg 이상</td></tr>
+    </tbody>
+  </table>
+
+  <div class="tip-box"><strong>💡 Tip.</strong> BMI는 근육량을 반영하지 못합니다. 복부 비만(남성 허리 90cm, 여성 85cm 초과)도 함께 확인하는 것이 더 정확합니다.</div>
+
   <h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>BMI가 정상이어도 건강에 문제가 있을 수 있나요?</summary><div class="faq-answer">네. BMI는 체지방률·근육량을 구분하지 않습니다. 근육이 많은 운동선수는 BMI가 높아도 건강하고, 반대로 마른비만은 BMI가 정상이어도 내장지방이 많을 수 있습니다.</div></details>
-  <details><summary>어린이·청소년에게도 같은 기준을 적용하나요?</summary><div class="faq-answer">아니요. 성장기 어린이·청소년은 성별·나이별 BMI 백분위수 기준을 사용합니다. 이 계산기는 성인 기준입니다.</div></details>
+  <details><summary>BMI 정상인데 뱃살이 많으면 건강에 문제가 있나요?</summary><div class="faq-answer">네. 복부 내장지방은 BMI와 별개로 심혈관 질환·당뇨 위험을 높입니다. 허리둘레를 함께 측정하세요.</div></details>
+  <details><summary>근육이 많은 운동선수는 BMI가 높게 나오는 이유는?</summary><div class="faq-answer">BMI는 체지방과 근육을 구분하지 않습니다. 근육이 많으면 체중이 높아 BMI도 올라가지만 실제 건강 위험은 낮습니다.</div></details>
+  <details><summary>어린이·청소년 BMI는 성인과 다르게 해석하나요?</summary><div class="faq-answer">네. 성장기에는 성별·연령별 백분위수(5~85% 정상)로 평가합니다. 이 계산기는 성인 기준입니다.</div></details>
 </div>
 
 <script src="/share.js"></script>

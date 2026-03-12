@@ -536,10 +536,21 @@
 .seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
 .seo-section ul{padding-left:20px;margin-bottom:12px}
 .seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+.seo-section ol{padding-left:20px;margin-bottom:12px}
+.seo-section ol li{font-size:14px;color:#8b949e;line-height:1.9}
 .seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
 .seo-section .example-box{background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:16px 20px;margin:12px 0}
 .seo-section .example-box p{margin:0;font-size:13px;color:#8b949e;line-height:1.9}
 .seo-section .example-box strong{color:#00d4aa}
+.seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+.seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
+.seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
+.seo-section table tr:nth-child(even) td{background:#161b22}
+.seo-section table td strong{color:#00d4aa}
+.seo-section .tip-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .tip-box strong{color:#00d4aa}
+.seo-section .warn-box{background:rgba(255,107,107,0.05);border:1px solid rgba(255,107,107,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .warn-box strong{color:#ff6b6b}
 .seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
 .seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
 .seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
@@ -551,22 +562,44 @@
 <div class="seo-section">
   <h2>대출 이자 계산기 사용법</h2>
   <h3>📌 사용방법</h3>
-  <p>대출금액·금리·기간을 입력하고 상환방식(원리금균등·원금균등·만기일시)을 선택하면 월 상환액과 총 이자를 계산합니다. 금리는 연이율 기준으로 입력하세요.</p>
-  <h3>📐 계산 공식</h3>
-  <div class="formula-box">
-[원리금균등] 월상환액 = 대출원금 × (월이율 × (1+월이율)ⁿ) ÷ ((1+월이율)ⁿ − 1)
-[원금균등] 월상환액 = (대출원금 ÷ 상환기간) + (잔여원금 × 월이율)
-  </div>
-  <h3>📊 예시 계산</h3>
-  <div class="example-box">
-    <p>대출 <strong>1억원</strong>, 연 <strong>4.5%</strong>, <strong>20년</strong>, 원리금균등</p>
-    <p>· 월 상환액: <strong>약 632,650원</strong><br>· 총 상환액: 약 151,836,000원<br>· 총 이자: <strong>약 51,836,000원</strong></p>
-  </div>
+  <p>대출금액, 연 금리, 대출 기간을 입력하면 원리금균등·원금균등·만기일시상환 방식별 월 상환액, 총 이자, 총 상환액을 비교합니다.</p>
+
+  <h3>📊 대출 방식 비교 (1억 원, 연 4%, 30년)</h3>
+  <table>
+    <thead><tr><th>상환 방식</th><th>초기 월 상환액</th><th>총 이자</th><th>특징</th></tr></thead>
+    <tbody>
+      <tr><td>원리금균등</td><td><strong>약 477,000원</strong></td><td>약 7,186만</td><td>매달 동일 금액</td></tr>
+      <tr><td>원금균등</td><td>약 611,000원 (초기)</td><td>약 6,017만</td><td>초기 부담 크고 총이자 적음</td></tr>
+      <tr><td>만기일시</td><td>약 333,000원 (이자만)</td><td>약 1억 2,000만</td><td>만기에 원금 일시 상환</td></tr>
+    </tbody>
+  </table>
+
+  <h3>📊 금리별 월 상환액 비교 (1억 원, 30년, 원리금균등)</h3>
+  <table>
+    <thead><tr><th>연 금리</th><th>월 상환액</th><th>총 이자</th></tr></thead>
+    <tbody>
+      <tr><td>3%</td><td>약 422,000원</td><td>약 5,192만</td></tr>
+      <tr><td>4%</td><td>약 477,000원</td><td>약 7,186만</td></tr>
+      <tr><td>5%</td><td>약 537,000원</td><td>약 9,327만</td></tr>
+      <tr><td>6%</td><td>약 600,000원</td><td>약 1억 1,600만</td></tr>
+      <tr><td>7%</td><td>약 665,000원</td><td>약 1억 3,950만</td></tr>
+    </tbody>
+  </table>
+
+  <div class="tip-box"><strong>💡 금리 1%의 차이</strong>가 30년 기준 약 2,000만 원 이상 차이를 만듭니다. 대출 전 금리 비교는 필수입니다.</div>
+
+  <h3>💡 대출 이자 절감 팁</h3>
+  <ul>
+    <li><strong>금리 비교</strong>: 은행별 대출금리 비교 후 최저금리 선택</li>
+    <li><strong>우대금리 활용</strong>: 급여이체·자동이체·카드 실적으로 금리 인하</li>
+    <li><strong>중도상환</strong>: 여유 자금 생기면 수수료 면제 기간(보통 3년) 이후 중도상환</li>
+    <li><strong>DSR 확인</strong>: 총부채원리금상환비율이 대출 한도를 결정, 사전 계획 필수</li>
+  </ul>
+
   <h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>원리금균등과 원금균등 중 어떤 게 유리한가요?</summary><div class="faq-answer">총 이자는 원금균등이 더 적습니다. 하지만 초기 부담이 커서 여유자금이 있다면 원금균등, 현금흐름이 일정해야 한다면 원리금균등이 유리합니다.</div></details>
-  <details><summary>중도상환하면 이자가 줄어드나요?</summary><div class="faq-answer">네. 중도상환 시 남은 원금에 대한 이자만 내므로 총 이자가 줄어듭니다. 단, 중도상환수수료가 있는지 확인하세요 (보통 3년 이내 0.5~1.5%).</div></details>
-  <details><summary>변동금리와 고정금리 어떤 걸 선택하나요?</summary><div class="faq-answer">금리 인상기에는 고정금리, 인하기에는 변동금리가 유리합니다. 이 계산기는 고정금리 기준으로 계산하며, 변동금리는 주기적으로 재계산이 필요합니다.</div></details>
-  <details><summary>DSR이 뭔가요?</summary><div class="faq-answer">총부채원리금상환비율(DSR)로, 연간 대출 원리금 상환액이 연소득의 일정 비율을 넘지 않도록 제한하는 규제입니다. 2024년 기준 은행 40%, 2금융권 50%입니다.</div></details>
+  <details><summary>변동금리 vs 고정금리 어느 것이 유리한가요?</summary><div class="faq-answer">금리 상승기에는 고정금리, 금리 하락기에는 변동금리가 유리합니다. 장기 대출이라면 안정성을 위해 고정금리를 선호하는 경우가 많습니다.</div></details>
+  <details><summary>DSR 규제란 무엇인가요?</summary><div class="faq-answer">총부채원리금상환비율로, 연 소득 대비 모든 대출 원리금 상환액 비율입니다. 현재 대출 규제로 40%(일반) 또는 50%(특례)가 적용됩니다.</div></details>
+  <details><summary>중도상환수수료는 얼마인가요?</summary><div class="faq-answer">보통 잔여 원금의 0.5~1.5%이며, 대출 후 3년이 지나면 수수료 없이 중도상환이 가능한 상품이 많습니다.</div></details>
 </div>
 
 <script src="/share.js"></script>

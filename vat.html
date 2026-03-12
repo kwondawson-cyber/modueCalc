@@ -108,10 +108,21 @@
 .seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
 .seo-section ul{padding-left:20px;margin-bottom:12px}
 .seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+.seo-section ol{padding-left:20px;margin-bottom:12px}
+.seo-section ol li{font-size:14px;color:#8b949e;line-height:1.9}
 .seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
 .seo-section .example-box{background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:16px 20px;margin:12px 0}
 .seo-section .example-box p{margin:0;font-size:13px;color:#8b949e;line-height:1.9}
 .seo-section .example-box strong{color:#00d4aa}
+.seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+.seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
+.seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
+.seo-section table tr:nth-child(even) td{background:#161b22}
+.seo-section table td strong{color:#00d4aa}
+.seo-section .tip-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .tip-box strong{color:#00d4aa}
+.seo-section .warn-box{background:rgba(255,107,107,0.05);border:1px solid rgba(255,107,107,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .warn-box strong{color:#ff6b6b}
 .seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
 .seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
 .seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
@@ -123,24 +134,41 @@
 <div class="seo-section">
   <h2>부가가치세 계산기 사용법</h2>
   <h3>📌 사용방법</h3>
-  <p>공급가액 또는 VAT 포함 금액을 입력하면 부가가치세(10%)를 자동 계산합니다. 세금계산서 발행 시 필요한 공급가액·세액을 빠르게 확인할 수 있습니다.</p>
-  <h3>📐 계산 공식</h3>
-  <div class="formula-box">
-VAT 포함가 = 공급가액 × 1.1
-공급가액 = VAT 포함가 ÷ 1.1
-부가세액 = 공급가액 × 10%
-  </div>
-  <h3>📊 예시 계산</h3>
-  <div class="example-box">
-    <p>공급가액 <strong>500,000원</strong>인 경우</p>
-    <p>· 부가세: 50,000원<br>· VAT 포함 청구금액: <strong>550,000원</strong></p>
-    <p>VAT 포함가 <strong>330,000원</strong>인 경우</p>
-    <p>· 공급가액: 300,000원 / 세액: <strong>30,000원</strong></p>
-  </div>
+  <p>공급가액 또는 VAT 포함 금액을 입력하면 부가세와 상대 금액을 즉시 계산합니다. 세금계산서 발행, 견적서 작성, 매입세액 공제 계산 시 활용하세요.</p>
+
+  <h3>📊 과세 구분 정리</h3>
+  <table>
+    <thead><tr><th>구분</th><th>세율</th><th>해당 품목·서비스</th></tr></thead>
+    <tbody>
+      <tr><td>과세</td><td>10%</td><td>일반 상품·서비스 대부분</td></tr>
+      <tr><td>영세율</td><td>0%</td><td>수출품, 국제 용역</td></tr>
+      <tr><td>면세</td><td>없음</td><td>농산물, 의료, 교육, 금융 서비스</td></tr>
+    </tbody>
+  </table>
+
+  <h3>📊 금액별 부가세 계산 예시</h3>
+  <table>
+    <thead><tr><th>공급가액</th><th>부가세(10%)</th><th>VAT 포함 금액</th></tr></thead>
+    <tbody>
+      <tr><td>50만 원</td><td>5만 원</td><td><strong>55만 원</strong></td></tr>
+      <tr><td>100만 원</td><td>10만 원</td><td><strong>110만 원</strong></td></tr>
+      <tr><td>500만 원</td><td>50만 원</td><td><strong>550만 원</strong></td></tr>
+      <tr><td>1,000만 원</td><td>100만 원</td><td><strong>1,100만 원</strong></td></tr>
+    </tbody>
+  </table>
+
+  <h3>💡 사업자 필수 상식</h3>
+  <ul>
+    <li><strong>일반과세자</strong>: 매출 부가세 − 매입 부가세 = 납부세액</li>
+    <li><strong>간이과세자</strong>: 연 매출 8,000만 원 미만, 낮은 세율 적용</li>
+    <li><strong>면세사업자</strong>: 부가세 없음, 매입세액 공제도 불가</li>
+    <li><strong>신고 기한</strong>: 일반과세자 연 2회(1·7월), 간이과세자 연 1회(1월)</li>
+  </ul>
+
   <h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>부가가치세 면세 항목은 어떤 게 있나요?</summary><div class="faq-answer">기초생활필수품(쌀·채소 등), 의료·교육·금융 서비스, 토지 거래 등은 부가세 면세 대상입니다.</div></details>
-  <details><summary>간이과세자는 세율이 다른가요?</summary><div class="faq-answer">간이과세자는 업종별 부가가치율(15~40%)에 10%를 곱한 낮은 세율이 적용됩니다. 연 매출 4,800만원 미만 사업자에게 적용됩니다.</div></details>
-  <details><summary>부가세 신고는 언제 하나요?</summary><div class="faq-answer">일반과세자는 연 2회(1월·7월), 간이과세자는 연 1회(1월) 신고·납부합니다.</div></details>
+  <details><summary>프리랜서도 부가세를 내야 하나요?</summary><div class="faq-answer">사업자 등록한 프리랜서(개인사업자)는 부가세 신고 의무가 있습니다. 인적용역(강의, 저술 등)은 면세가 많으므로 항목을 확인하세요.</div></details>
+  <details><summary>간이과세자가 세금계산서를 발행할 수 있나요?</summary><div class="faq-answer">연 매출 4,800만 원 이상 간이과세자는 세금계산서 발행이 가능합니다. 미만이면 영수증만 발행 가능합니다.</div></details>
+  <details><summary>VAT 포함 가격에서 공급가를 역산하려면 어떻게 하나요?</summary><div class="faq-answer">VAT 포함 금액 ÷ 1.1 = 공급가액입니다. 이 계산기의 역산 기능으로 바로 확인할 수 있습니다.</div></details>
 </div>
 
 <script src="/share.js"></script>

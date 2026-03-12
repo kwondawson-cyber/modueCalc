@@ -146,10 +146,21 @@
 .seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
 .seo-section ul{padding-left:20px;margin-bottom:12px}
 .seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+.seo-section ol{padding-left:20px;margin-bottom:12px}
+.seo-section ol li{font-size:14px;color:#8b949e;line-height:1.9}
 .seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
 .seo-section .example-box{background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:16px 20px;margin:12px 0}
 .seo-section .example-box p{margin:0;font-size:13px;color:#8b949e;line-height:1.9}
 .seo-section .example-box strong{color:#00d4aa}
+.seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+.seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
+.seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
+.seo-section table tr:nth-child(even) td{background:#161b22}
+.seo-section table td strong{color:#00d4aa}
+.seo-section .tip-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .tip-box strong{color:#00d4aa}
+.seo-section .warn-box{background:rgba(255,107,107,0.05);border:1px solid rgba(255,107,107,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .warn-box strong{color:#ff6b6b}
 .seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
 .seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
 .seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
@@ -161,22 +172,36 @@
 <div class="seo-section">
   <h2>연차수당 계산기 사용법</h2>
   <h3>📌 사용방법</h3>
-  <p>통상임금과 미사용 연차일수를 입력하면 연차수당을 계산합니다. 연차는 1년 만근 시 15일 발생하며 근속연수에 따라 최대 25일까지 늘어납니다.</p>
+  <p>월 통상임금과 미사용 연차 일수를 입력하면 연차수당을 계산합니다. 퇴직 시 미사용 연차는 반드시 수당으로 지급받을 권리가 있습니다.</p>
   <h3>📐 계산 공식</h3>
-  <div class="formula-box">
-연차수당 = 1일 통상임금 × 미사용 연차일수
-1일 통상임금 = 월 통상임금 ÷ 209시간 × 8시간
-연차발생: 1년 미만(매월 1일), 1년 이상(15일~25일)
-  </div>
-  <h3>📊 예시 계산</h3>
-  <div class="example-box">
-    <p>월급 <strong>300만원</strong>, 미사용 연차 <strong>5일</strong></p>
-    <p>· 1일 통상임금: 3,000,000 ÷ 209 × 8 = <strong>114,833원</strong><br>· 연차수당: 114,833 × 5 = <strong>574,165원</strong></p>
-  </div>
+  <div class="formula-box">연차수당 = 1일 통상임금 × 미사용 연차일수
+1일 통상임금 = 월 통상임금 ÷ 209시간 × 8시간</div>
+  <h3>📊 연차 발생 기준 (근로기준법)</h3>
+  <table>
+    <thead><tr><th>재직기간</th><th>연차 발생</th><th>최대 연차</th></tr></thead>
+    <tbody>
+      <tr><td>1년 미만</td><td>매월 1일씩 최대 11일</td><td>11일</td></tr>
+      <tr><td>1~2년</td><td>15일</td><td>15일</td></tr>
+      <tr><td>3~4년</td><td>16일</td><td>16일</td></tr>
+      <tr><td>5~6년</td><td>17일</td><td>17일</td></tr>
+      <tr><td>7년 이상</td><td>2년마다 1일 가산</td><td>최대 25일</td></tr>
+    </tbody>
+  </table>
+  <h3>📊 월 급여별 연차수당 예시 (미사용 5일)</h3>
+  <table>
+    <thead><tr><th>월 급여</th><th>1일 통상임금</th><th>5일 연차수당</th></tr></thead>
+    <tbody>
+      <tr><td>250만 원</td><td>약 95,694원</td><td><strong>약 478,469원</strong></td></tr>
+      <tr><td>300만 원</td><td>약 114,833원</td><td><strong>약 574,163원</strong></td></tr>
+      <tr><td>400만 원</td><td>약 153,110원</td><td><strong>약 765,550원</strong></td></tr>
+      <tr><td>500만 원</td><td>약 191,388원</td><td><strong>약 956,938원</strong></td></tr>
+    </tbody>
+  </table>
+  <div class="warn-box"><strong>⚠️ 주의.</strong> 미지급 연차수당의 소멸시효는 3년입니다. 퇴직 후 3년 이내에 청구하지 않으면 권리가 소멸됩니다.</div>
   <h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>연차를 안 쓰면 자동으로 수당으로 받나요?</summary><div class="faq-answer">회사가 연차 사용을 촉진했는데도 사용하지 않은 경우 수당 지급 의무가 없을 수 있습니다. 촉진 절차를 거치지 않았다면 수당을 청구할 수 있습니다.</div></details>
-  <details><summary>1년 미만 근무자도 연차가 있나요?</summary><div class="faq-answer">네. 1년 미만은 매월 개근 시 1일씩 최대 11일 발생합니다. 1년이 되면 15일이 새로 발생하고 기존 11일은 소멸합니다.</div></details>
-  <details><summary>연차수당에 세금이 붙나요?</summary><div class="faq-answer">연차수당은 근로소득이므로 소득세·4대보험이 부과됩니다.</div></details>
+  <details><summary>회사가 연차를 강제로 소진시킬 수 있나요?</summary><div class="faq-answer">연차사용촉진제도를 적법하게 시행한 경우, 사용자는 미사용 연차에 대한 수당 지급 의무가 면제됩니다. 서면 통보 절차를 준수했는지 확인하세요.</div></details>
+  <details><summary>퇴사할 때 남은 연차를 모두 사용할 수 있나요?</summary><div class="faq-answer">원칙적으로 가능합니다. 사업주가 업무상 이유로 연차 사용을 제한할 수 있지만, 미사용분은 수당으로 지급해야 합니다.</div></details>
+  <details><summary>통상임금과 평균임금의 차이는 무엇인가요?</summary><div class="faq-answer">통상임금은 정기적·일률적으로 지급되는 임금(기본급+고정수당)이고, 평균임금은 최근 3개월 총 임금의 1일 평균입니다. 연차수당은 통상임금 기준입니다.</div></details>
 </div>
 
 <script src="/share.js"></script>

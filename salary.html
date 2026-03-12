@@ -745,10 +745,21 @@
 .seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
 .seo-section ul{padding-left:20px;margin-bottom:12px}
 .seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+.seo-section ol{padding-left:20px;margin-bottom:12px}
+.seo-section ol li{font-size:14px;color:#8b949e;line-height:1.9}
 .seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
 .seo-section .example-box{background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:16px 20px;margin:12px 0}
 .seo-section .example-box p{margin:0;font-size:13px;color:#8b949e;line-height:1.9}
 .seo-section .example-box strong{color:#00d4aa}
+.seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+.seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
+.seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
+.seo-section table tr:nth-child(even) td{background:#161b22}
+.seo-section table td strong{color:#00d4aa}
+.seo-section .tip-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .tip-box strong{color:#00d4aa}
+.seo-section .warn-box{background:rgba(255,107,107,0.05);border:1px solid rgba(255,107,107,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .warn-box strong{color:#ff6b6b}
 .seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
 .seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
 .seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
@@ -760,21 +771,44 @@
 <div class="seo-section">
   <h2>연봉 실수령액 계산기 사용법</h2>
   <h3>📌 사용방법</h3>
-  <p>연봉을 입력하면 4대보험(국민연금·건강보험·고용보험·산재보험)과 소득세·지방소득세를 자동으로 공제하여 월 실수령액을 계산합니다. 부양가족 수를 입력하면 소득세 공제액이 달라지므로 더 정확한 금액을 확인할 수 있습니다.</p>
+  <p>세전 연봉을 입력하면 국민연금·건강보험·장기요양보험·고용보험·소득세·지방소득세를 자동 공제해 월 실수령액을 계산합니다. 부양가족 수와 비과세 식대(월 20만 원)를 입력할수록 결과가 정확해집니다.</p>
+
   <h3>📐 계산 공식</h3>
-  <div class="formula-box">
-월 실수령액 = 월급 − 국민연금(4.5%) − 건강보험(3.545%) − 장기요양보험(건강보험료×12.95%) − 고용보험(0.9%) − 소득세(간이세액표) − 지방소득세(소득세×10%)
-  </div>
-  <h3>📊 예시 계산</h3>
-  <div class="example-box">
-    <p>연봉 <strong>4,000만원</strong>, 부양가족 1명 기준</p>
-    <p>· 월급: 3,333,333원<br>· 국민연금: 150,000원<br>· 건강보험: 118,160원<br>· 고용보험: 30,000원<br>· 소득세+지방세: 약 59,300원<br>· <strong>월 실수령액: 약 2,975,000원</strong></p>
-  </div>
+  <div class="formula-box">월 실수령액 = 월급 − 국민연금(4.5%) − 건강보험(3.545%) − 장기요양보험(건강보험료×12.95%) − 고용보험(0.9%) − 소득세(간이세액표) − 지방소득세(소득세×10%)</div>
+
+  <h3>📊 2025년 연봉별 실수령액 표</h3>
+  <p>아래 표는 부양가족 1명(본인), 비과세 식대 20만 원 기준입니다.</p>
+  <table>
+    <thead><tr><th>세전 연봉</th><th>월 세전</th><th>4대보험+세금</th><th>월 실수령액</th><th>연 실수령액</th></tr></thead>
+    <tbody>
+      <tr><td>3,000만 원</td><td>250만 원</td><td>약 34만 원</td><td><strong>약 216만 원</strong></td><td>약 2,590만 원</td></tr>
+      <tr><td>3,500만 원</td><td>292만 원</td><td>약 41만 원</td><td><strong>약 251만 원</strong></td><td>약 3,010만 원</td></tr>
+      <tr><td>4,000만 원</td><td>333만 원</td><td>약 48만 원</td><td><strong>약 285만 원</strong></td><td>약 3,420만 원</td></tr>
+      <tr><td>4,500만 원</td><td>375만 원</td><td>약 56만 원</td><td><strong>약 319만 원</strong></td><td>약 3,820만 원</td></tr>
+      <tr><td>5,000만 원</td><td>417만 원</td><td>약 65만 원</td><td><strong>약 352만 원</strong></td><td>약 4,220만 원</td></tr>
+      <tr><td>6,000만 원</td><td>500만 원</td><td>약 85만 원</td><td><strong>약 415만 원</strong></td><td>약 4,980만 원</td></tr>
+      <tr><td>7,000만 원</td><td>583만 원</td><td>약 108만 원</td><td><strong>약 475만 원</strong></td><td>약 5,700만 원</td></tr>
+      <tr><td>8,000만 원</td><td>667만 원</td><td>약 134만 원</td><td><strong>약 533만 원</strong></td><td>약 6,390만 원</td></tr>
+      <tr><td>1억 원</td><td>833만 원</td><td>약 192만 원</td><td><strong>약 641만 원</strong></td><td>약 7,690만 원</td></tr>
+    </tbody>
+  </table>
+
+  <h3>💡 실수령액을 높이는 방법</h3>
+  <ul>
+    <li><strong>식대 비과세 활용</strong>: 월 20만 원 한도 식대는 소득세·4대보험 산정 제외</li>
+    <li><strong>자가운전보조금</strong>: 월 20만 원 한도 비과세 처리 가능</li>
+    <li><strong>부양가족 등록</strong>: 부모·배우자·자녀 등록 시 소득세 공제 증가</li>
+    <li><strong>연금저축·IRP</strong>: 연말정산 세액공제로 환급액 증가</li>
+  </ul>
+
+  <div class="tip-box"><strong>💡 Tip.</strong> 연봉 협상 시 세전 연봉보다 실수령액 기준으로 비교하세요. 연봉이 100만 원 올라도 실수령 증가분은 70~80만 원 수준입니다.</div>
+
   <h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>연봉과 월급은 어떻게 다른가요?</summary><div class="faq-answer">연봉은 1년치 총급여이며, 월급은 연봉을 12로 나눈 금액입니다. 실수령액은 여기서 4대보험과 세금을 공제한 금액입니다.</div></details>
-  <details><summary>퇴직금은 연봉에 포함되나요?</summary><div class="faq-answer">회사마다 다릅니다. 퇴직금 포함 연봉이라면 실제 월급은 더 적을 수 있으므로 근로계약서를 확인하세요.</div></details>
-  <details><summary>부양가족 수가 많으면 세금이 줄어드나요?</summary><div class="faq-answer">네. 부양가족이 많을수록 소득세 간이세액표 기준 공제액이 커져 실수령액이 늘어납니다.</div></details>
-  <details><summary>비과세 항목은 어떻게 처리하나요?</summary><div class="faq-answer">식대(월 20만원), 자가운전보조금(월 20만원) 등 비과세 항목은 4대보험 및 소득세 산정 기준에서 제외됩니다.</div></details>
+  <details><summary>연봉과 월급은 어떻게 다른가요?</summary><div class="faq-answer">연봉은 1년 총급여이며 월급은 연봉 ÷ 12입니다. 실수령액은 여기서 4대보험·세금을 공제한 금액으로, 통상 연봉의 75~85% 수준입니다.</div></details>
+  <details><summary>퇴직금은 연봉에 포함되나요?</summary><div class="faq-answer">회사마다 다릅니다. 퇴직금 포함 연봉이라면 실제 월급은 연봉 ÷ 13으로 계산됩니다. 근로계약서에서 반드시 확인하세요.</div></details>
+  <details><summary>부양가족이 많으면 세금이 줄어드나요?</summary><div class="faq-answer">네. 부양가족이 많을수록 근로소득 간이세액표 기준 공제액이 커져 소득세가 줄고 실수령액이 늘어납니다.</div></details>
+  <details><summary>13월의 월급, 연말정산은 어떻게 되나요?</summary><div class="faq-answer">연말정산은 1년간 납부한 소득세와 실제 세금을 정산하는 과정입니다. 공제 항목이 많으면 환급, 적으면 추가 납부가 발생합니다. 이 계산기는 월별 예상액이므로 실제와 다소 차이가 있습니다.</div></details>
+  <details><summary>계약직·일용직도 4대보험을 내나요?</summary><div class="faq-answer">계약직은 정규직과 동일하게 4대보험이 적용됩니다. 일용직은 근무일수·소득에 따라 적용 여부가 달라지므로 개별 확인이 필요합니다.</div></details>
 </div>
 
 <script src="/share.js"></script>

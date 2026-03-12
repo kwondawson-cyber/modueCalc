@@ -126,10 +126,21 @@
 .seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
 .seo-section ul{padding-left:20px;margin-bottom:12px}
 .seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+.seo-section ol{padding-left:20px;margin-bottom:12px}
+.seo-section ol li{font-size:14px;color:#8b949e;line-height:1.9}
 .seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
 .seo-section .example-box{background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:16px 20px;margin:12px 0}
 .seo-section .example-box p{margin:0;font-size:13px;color:#8b949e;line-height:1.9}
 .seo-section .example-box strong{color:#00d4aa}
+.seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+.seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
+.seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
+.seo-section table tr:nth-child(even) td{background:#161b22}
+.seo-section table td strong{color:#00d4aa}
+.seo-section .tip-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .tip-box strong{color:#00d4aa}
+.seo-section .warn-box{background:rgba(255,107,107,0.05);border:1px solid rgba(255,107,107,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .warn-box strong{color:#ff6b6b}
 .seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
 .seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
 .seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
@@ -141,22 +152,48 @@
 <div class="seo-section">
   <h2>주휴수당 계산기 사용법</h2>
   <h3>📌 사용방법</h3>
-  <p>시급과 1주일 근무시간을 입력하면 주휴수당과 실질 시급을 계산합니다. 주 15시간 이상 근무하고 소정근무일을 개근한 경우 주휴수당이 발생합니다.</p>
+  <p>시급과 1주 근무시간을 입력하면 주휴수당과 실질 시급을 자동 계산합니다. 주 15시간 이상 근무하는 모든 근로자(아르바이트 포함)는 근로기준법에 따라 주휴수당을 받을 권리가 있습니다.</p>
+
   <h3>📐 계산 공식</h3>
-  <div class="formula-box">
-주휴수당 = (1주 소정근로시간 ÷ 40시간) × 8시간 × 시급
-실질 시급 = (주급 + 주휴수당) ÷ 총 근무시간
-  </div>
-  <h3>📊 예시 계산</h3>
-  <div class="example-box">
-    <p>시급 <strong>10,030원</strong>(2025년 최저임금), 주 <strong>25시간</strong> 근무</p>
-    <p>· 주휴수당: (25÷40) × 8 × 10,030 = <strong>50,150원</strong><br>· 주급: 250,750 + 50,150 = <strong>300,900원</strong><br>· 실질 시급: <strong>약 12,036원</strong></p>
-  </div>
+  <div class="formula-box">주휴수당 = (1주 소정근로시간 ÷ 40시간) × 8시간 × 시급
+실질 시급 = (주급 + 주휴수당) ÷ 실제 근무시간</div>
+
+  <h3>📊 2025년 최저시급 기준 주휴수당 표</h3>
+  <p>2025년 최저시급: <strong>10,030원</strong></p>
+  <table>
+    <thead><tr><th>주 근무시간</th><th>주휴수당</th><th>주급 합계</th><th>실질 시급</th></tr></thead>
+    <tbody>
+      <tr><td>15시간</td><td>약 30,090원</td><td>약 180,540원</td><td><strong>약 12,036원</strong></td></tr>
+      <tr><td>20시간</td><td>약 40,120원</td><td>약 240,720원</td><td><strong>약 12,036원</strong></td></tr>
+      <tr><td>25시간</td><td>약 50,150원</td><td>약 300,900원</td><td><strong>약 12,036원</strong></td></tr>
+      <tr><td>30시간</td><td>약 60,180원</td><td>약 361,080원</td><td><strong>약 12,036원</strong></td></tr>
+      <tr><td>35시간</td><td>약 70,210원</td><td>약 421,260원</td><td><strong>약 12,036원</strong></td></tr>
+      <tr><td>40시간 (풀타임)</td><td>약 80,240원</td><td>약 481,440원</td><td><strong>약 12,036원</strong></td></tr>
+    </tbody>
+  </table>
+
+  <h3>⚠️ 주휴수당 지급 조건</h3>
+  <ul>
+    <li>1주 소정근로시간이 <strong>15시간 이상</strong>일 것</li>
+    <li>해당 주 <strong>소정근로일 전부 개근</strong>할 것</li>
+    <li>다음 주에도 근로가 예정되어 있을 것 (마지막 주 제외)</li>
+  </ul>
+
+  <div class="warn-box"><strong>⚠️ 주의.</strong> 사업주가 주휴수당을 미지급하면 근로기준법 위반으로 2년 이하 징역 또는 2,000만 원 이하 벌금 처벌을 받을 수 있습니다.</div>
+
+  <h3>💡 알바생이 꼭 알아야 할 주휴수당 상식</h3>
+  <ul>
+    <li>편의점·카페·식당 등 업종 무관하게 동일 적용</li>
+    <li>사업장 규모(1인 이상)에 관계없이 지급 의무</li>
+    <li>주휴수당 미지급 시 고용노동부 신고 가능 (전화: 1350)</li>
+    <li>시급 협의 시 주휴수당 포함 여부 반드시 확인</li>
+  </ul>
+
   <h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>주 15시간 미만 일하면 주휴수당이 없나요?</summary><div class="faq-answer">네. 4주 평균 주 15시간 미만 근무자는 주휴수당이 발생하지 않습니다. 사업주가 이를 피하기 위해 의도적으로 15시간 미만으로 쪼개는 경우 '쪼개기 알바'라고 합니다.</div></details>
-  <details><summary>주휴수당을 안 주면 불법인가요?</summary><div class="faq-answer">네. 주휴수당 미지급은 근로기준법 위반으로 2년 이하 징역 또는 2,000만원 이하 벌금에 해당합니다. 고용노동부에 신고 가능합니다.</div></details>
-  <details><summary>시급에 주휴수당이 포함돼 있다는 말은?</summary><div class="faq-answer">일부 사업주가 "주휴수당 포함 시급"으로 계약하는 경우입니다. 이 경우 시급이 최저임금 이상인지, 주휴수당을 실제로 포함한 금액인지 확인이 필요합니다.</div></details>
-  <details><summary>2025년 최저임금은 얼마인가요?</summary><div class="faq-answer">2025년 최저임금은 시간당 10,030원입니다. 주 40시간 기준 월 환산액은 약 2,096,270원(주휴수당 포함)입니다.</div></details>
+  <details><summary>주 15시간 미만으로 쪼개서 계약하면 주휴수당을 안 줘도 되나요?</summary><div class="faq-answer">실제 근무시간이 15시간 이상이면 계약서와 관계없이 주휴수당을 지급해야 합니다. 이를 피하려고 쪼개기 계약을 강요하면 불법입니다.</div></details>
+  <details><summary>결근하면 그 주 주휴수당을 못 받나요?</summary><div class="faq-answer">네. 소정근로일에 1일이라도 결근하면 해당 주 주휴수당은 발생하지 않습니다. 단, 지각·조퇴는 결근이 아니므로 주휴수당이 발생합니다.</div></details>
+  <details><summary>단기 알바(1~2주)도 주휴수당을 받을 수 있나요?</summary><div class="faq-answer">주 15시간 이상이고 다음 주 근무가 예정되어 있다면 단기 알바도 주휴수당이 발생합니다. 단, 마지막 근무 주는 제외될 수 있습니다.</div></details>
+  <details><summary>월급제 직원도 주휴수당을 따로 받나요?</summary><div class="faq-answer">월급제의 경우 월급에 주휴수당이 포함되어 있습니다. 최저임금(209시간 기준)도 주휴수당 포함 금액입니다.</div></details>
 </div>
 
 <script src="/share.js"></script>

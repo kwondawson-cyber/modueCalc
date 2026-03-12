@@ -395,10 +395,21 @@
 .seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
 .seo-section ul{padding-left:20px;margin-bottom:12px}
 .seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+.seo-section ol{padding-left:20px;margin-bottom:12px}
+.seo-section ol li{font-size:14px;color:#8b949e;line-height:1.9}
 .seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
 .seo-section .example-box{background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:16px 20px;margin:12px 0}
 .seo-section .example-box p{margin:0;font-size:13px;color:#8b949e;line-height:1.9}
 .seo-section .example-box strong{color:#00d4aa}
+.seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+.seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
+.seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
+.seo-section table tr:nth-child(even) td{background:#161b22}
+.seo-section table td strong{color:#00d4aa}
+.seo-section .tip-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .tip-box strong{color:#00d4aa}
+.seo-section .warn-box{background:rgba(255,107,107,0.05);border:1px solid rgba(255,107,107,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .warn-box strong{color:#ff6b6b}
 .seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
 .seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
 .seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
@@ -408,23 +419,31 @@
 </style>
 
 <div class="seo-section">
-  <h2>디데이 계산기 사용법</h2>
+  <h2>디데이(D-day) 계산기 사용법</h2>
   <h3>📌 사용방법</h3>
-  <p>목표 날짜를 입력하면 오늘로부터 며칠이 남았는지(또는 지났는지) 계산합니다. 시험·결혼·기념일·여행 등 특별한 날을 관리하세요.</p>
-  <h3>📐 계산 공식</h3>
-  <div class="formula-box">
-D-day = 목표 날짜 − 오늘 날짜 (일 단위)
-양수: 목표일까지 남은 일수
-음수: 목표일로부터 지난 일수
-  </div>
-  <h3>📊 예시 계산</h3>
-  <div class="example-box">
-    <p>오늘 <strong>2025년 3월 12일</strong>, 목표일 <strong>2025년 11월 15일</strong></p>
-    <p>· D-248 → 목표일까지 <strong>248일</strong> 남음</p>
-  </div>
+  <p>시작일과 목표일을 입력하면 남은 날수(D-○○) 또는 경과 날수(D+○○)를 즉시 계산합니다. 수능, 결혼기념일, 전역일, 시험일 등 다양한 일정 관리에 활용하세요.</p>
+  <h3>📊 주요 기념일 D-day 계산 예시 (기준: 2026년 3월 12일)</h3>
+  <table>
+    <thead><tr><th>이벤트</th><th>날짜</th><th>D-day</th></tr></thead>
+    <tbody>
+      <tr><td>2026 수능</td><td>2026.11.19</td><td><strong>D-252</strong></td></tr>
+      <tr><td>2026 크리스마스</td><td>2026.12.25</td><td><strong>D-288</strong></td></tr>
+      <tr><td>2026 연말</td><td>2026.12.31</td><td><strong>D-294</strong></td></tr>
+    </tbody>
+  </table>
+  <h3>💡 D-day 활용 팁</h3>
+  <ul>
+    <li><strong>수능 D-day</strong>: 매년 11월 셋째 목요일 (2026년: 11월 19일)</li>
+    <li><strong>100일·200일 기념일</strong>: 연인·결혼기념일 관리</li>
+    <li><strong>전역일 계산</strong>: 군 입대일 기준 복무기간 계산</li>
+    <li><strong>프로젝트 마감</strong>: 업무 일정 관리</li>
+    <li><strong>임신 예정일</strong>: 임신 주수 계산기와 함께 활용</li>
+  </ul>
+  <div class="tip-box"><strong>💡 Tip.</strong> D-day 당일은 D-0 또는 D-day로 표시됩니다. 과거 날짜는 D+○○으로 경과일수를 보여줍니다.</div>
   <h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>D-day를 당일로 설정하면?</summary><div class="faq-answer">D-0이 됩니다. 내일이면 D-1, 어제면 D+1로 표시됩니다.</div></details>
-  <details><summary>100일·1000일 기념일은 어떻게 계산하나요?</summary><div class="faq-answer">시작일을 D-day로 설정하고 남은 일수를 확인하거나, 역산으로 '기준일 + 100일'을 입력해 날짜를 찾을 수 있습니다.</div></details>
+  <details><summary>윤년(2월 29일)도 정확히 계산되나요?</summary><div class="faq-answer">네. 윤년을 포함해 정확히 날수를 계산합니다. 2028년, 2032년 등 윤년에도 오차 없이 동작합니다.</div></details>
+  <details><summary>100일 기념일은 어떻게 계산하나요?</summary><div class="faq-answer">시작일을 1일로 보면 100일째는 시작일 + 99일입니다. 예를 들어 1월 1일 시작이면 4월 10일이 100일입니다.</div></details>
+  <details><summary>연인 사이 100일, 200일, 1년 기념일을 한 번에 볼 수 있나요?</summary><div class="faq-answer">시작일 기준으로 +99일, +199일, +364일로 각각 계산하면 기념일 날짜를 모두 확인할 수 있습니다.</div></details>
 </div>
 
 <script src="/share.js"></script>

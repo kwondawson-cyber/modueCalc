@@ -174,10 +174,21 @@
 .seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
 .seo-section ul{padding-left:20px;margin-bottom:12px}
 .seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+.seo-section ol{padding-left:20px;margin-bottom:12px}
+.seo-section ol li{font-size:14px;color:#8b949e;line-height:1.9}
 .seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
 .seo-section .example-box{background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:16px 20px;margin:12px 0}
 .seo-section .example-box p{margin:0;font-size:13px;color:#8b949e;line-height:1.9}
 .seo-section .example-box strong{color:#00d4aa}
+.seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+.seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
+.seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
+.seo-section table tr:nth-child(even) td{background:#161b22}
+.seo-section table td strong{color:#00d4aa}
+.seo-section .tip-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .tip-box strong{color:#00d4aa}
+.seo-section .warn-box{background:rgba(255,107,107,0.05);border:1px solid rgba(255,107,107,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .warn-box strong{color:#ff6b6b}
 .seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
 .seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
 .seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
@@ -189,21 +200,27 @@
 <div class="seo-section">
   <h2>전월세 전환율 계산기 사용법</h2>
   <h3>📌 사용방법</h3>
-  <p>전세금·월세 보증금·월세액을 입력하면 전월세 전환율을 계산합니다. 법정 전환율 상한(연 5.5%)을 초과하는지도 확인할 수 있습니다.</p>
+  <p>전세금과 월세·보증금을 입력하면 전환율을 계산하거나, 전환율을 입력해 적정 월세를 역산합니다. 법정 전월세 전환율(연 2.5%)도 함께 확인하세요.</p>
   <h3>📐 계산 공식</h3>
-  <div class="formula-box">
-전환율(%) = 월세 × 12 ÷ (전세금 − 보증금) × 100
-월세 → 전세 전환: (월세 × 12) ÷ 전환율 + 보증금
-법정 상한: 기준금리 + 3.5% (2024년 기준 약 5.5%)
-  </div>
-  <h3>📊 예시 계산</h3>
-  <div class="example-box">
-    <p>전세 <strong>3억원</strong> → 보증금 <strong>5,000만원</strong>에 월세 전환</p>
-    <p>· 전환 대상 금액: 2억 5,000만원<br>· 법정 상한 5.5% 적용<br>· 적정 월세: 2억 5,000만원 × 5.5% ÷ 12 = <strong>약 114,580원</strong></p>
-  </div>
+  <div class="formula-box">전환율(%) = 월세 × 12 ÷ (전세금 − 보증금) × 100
+적정 월세 = (전세금 − 보증금) × 전환율 ÷ 12</div>
+  <h3>📊 전세금별 적정 월세 (전환율 4% 기준)</h3>
+  <table>
+    <thead><tr><th>전세금</th><th>보증금</th><th>전환 대상</th><th>적정 월세</th></tr></thead>
+    <tbody>
+      <tr><td>2억</td><td>2,000만</td><td>1억 8,000만</td><td><strong>약 60만 원</strong></td></tr>
+      <tr><td>3억</td><td>3,000만</td><td>2억 7,000만</td><td><strong>약 90만 원</strong></td></tr>
+      <tr><td>4억</td><td>4,000만</td><td>3억 6,000만</td><td><strong>약 120만 원</strong></td></tr>
+      <tr><td>5억</td><td>5,000만</td><td>4억 5,000만</td><td><strong>약 150만 원</strong></td></tr>
+    </tbody>
+  </table>
+  <h3>⚖️ 법정 전월세 전환율이란?</h3>
+  <p>주택임대차보호법에 따라 전세에서 월세로 전환 시 적용할 수 있는 최고 전환율을 제한합니다. 현재 기준금리 + 대통령령 이율(2%)로 산정하며 약 2.5~4% 수준입니다.</p>
+  <div class="warn-box"><strong>⚠️ 주의.</strong> 집주인이 법정 전환율을 초과한 월세를 요구하면 초과분은 무효이며, 이미 납부한 금액은 반환 청구할 수 있습니다.</div>
   <h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>법정 전환율보다 높은 월세를 요구하면?</summary><div class="faq-answer">주택임대차보호법 위반입니다. 임차인은 초과 금액의 반환을 청구할 수 있으며, 분쟁 시 주택임대차분쟁조정위원회에 신청 가능합니다.</div></details>
-  <details><summary>전월세 신고제란?</summary><div class="faq-answer">2021년 6월부터 보증금 6,000만원 초과 또는 월세 30만원 초과 계약은 30일 이내 신고 의무가 있습니다.</div></details>
+  <details><summary>전세가 유리한가요, 월세가 유리한가요?</summary><div class="faq-answer">전세 보증금을 투자해 전환율보다 높은 수익을 낼 수 있다면 월세가 유리합니다. 반대로 목돈이 없거나 자금 운용이 어렵다면 전세가 유리할 수 있습니다.</div></details>
+  <details><summary>반전세란 무엇인가요?</summary><div class="faq-answer">반전세는 보증금을 전세보다 낮추고 나머지를 월세로 전환한 형태입니다. 보증금과 월세를 절충한 방식으로, 최근 전세 불안 상황에서 많이 활용됩니다.</div></details>
+  <details><summary>전월세 신고제란 무엇인가요?</summary><div class="faq-answer">보증금 6,000만 원 또는 월세 30만 원 초과 임대차 계약 시 30일 이내 신고 의무가 있습니다. 미신고 시 과태료가 부과될 수 있습니다.</div></details>
 </div>
 
 <script src="/share.js"></script>

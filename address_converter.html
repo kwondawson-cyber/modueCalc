@@ -201,10 +201,21 @@
 .seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
 .seo-section ul{padding-left:20px;margin-bottom:12px}
 .seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+.seo-section ol{padding-left:20px;margin-bottom:12px}
+.seo-section ol li{font-size:14px;color:#8b949e;line-height:1.9}
 .seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
 .seo-section .example-box{background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:16px 20px;margin:12px 0}
 .seo-section .example-box p{margin:0;font-size:13px;color:#8b949e;line-height:1.9}
 .seo-section .example-box strong{color:#00d4aa}
+.seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+.seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
+.seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
+.seo-section table tr:nth-child(even) td{background:#161b22}
+.seo-section table td strong{color:#00d4aa}
+.seo-section .tip-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .tip-box strong{color:#00d4aa}
+.seo-section .warn-box{background:rgba(255,107,107,0.05);border:1px solid rgba(255,107,107,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .warn-box strong{color:#ff6b6b}
 .seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
 .seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
 .seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
@@ -216,21 +227,37 @@
 <div class="seo-section">
   <h2>한글 주소 영문 변환기 사용법</h2>
   <h3>📌 사용방법</h3>
-  <p>도로명주소를 입력하면 행정안전부 공식 API 기반으로 영문 주소와 우편번호(ZIP Code)를 변환합니다. 국제 택배·해외 서류 작성 시 활용하세요.</p>
-  <h3>📐 계산 공식</h3>
-  <div class="formula-box">
-영문 주소 순서: 건물번호 → 도로명 → 시군구 → 시도 → Republic of Korea
-예: 서울특별시 강남구 테헤란로 152 → 152, Teheran-ro, Gangnam-gu, Seoul, Republic of Korea
-  </div>
-  <h3>📊 예시 변환</h3>
-  <div class="example-box">
-    <p>한글: <strong>서울특별시 강남구 테헤란로 421</strong></p>
-    <p>영문: <strong>421, Teheran-ro, Gangnam-gu, Seoul, Republic of Korea</strong><br>우편번호: <strong>06160</strong></p>
-  </div>
+  <p>도로명주소를 입력하면 행정안전부 공식 API 기반으로 영문 주소와 우편번호(ZIP)를 변환합니다. 해외 직구 배송지, 비자 서류, 영문 계약서 작성에 활용하세요.</p>
+  <h3>💡 정확한 변환을 위한 입력 팁</h3>
+  <ul>
+    <li>지번 주소보다 <strong>도로명주소</strong>로 입력하세요 (정확도 대폭 향상)</li>
+    <li>시·도 전체 명칭 포함 권장: <strong>서울특별시</strong> 강남구 테헤란로 421</li>
+    <li>아파트 동·호수는 변환 후 직접 추가: 501ho, 105dong</li>
+    <li>쉼표(,) 없이 입력하세요</li>
+    <li>도로명 모를 때: 네이버지도·카카오맵에서 도로명 확인 후 입력</li>
+  </ul>
+  <h3>📊 영문 주소 표기 방식</h3>
+  <table>
+    <thead><tr><th>한국어</th><th>영문 표기</th><th>의미</th></tr></thead>
+    <tbody>
+      <tr><td>서울특별시</td><td>Seoul</td><td>시</td></tr>
+      <tr><td>강남구</td><td>Gangnam-gu</td><td>구</td></tr>
+      <tr><td>테헤란로</td><td>Teheran-ro</td><td>로(대로)</td></tr>
+      <tr><td>22번길</td><td>22beon-gil</td><td>소로(길)</td></tr>
+      <tr><td>경기도</td><td>Gyeonggi-do</td><td>도</td></tr>
+    </tbody>
+  </table>
+  <h3>📮 해외 배송 영문 주소 작성 예시</h3>
+  <div class="formula-box">수령인: 홍길동 (Hong Gildong)
+주소 1: 421, Teheran-ro, Gangnam-gu
+주소 2: 501ho (101dong)
+도시: Seoul
+우편번호: 06193
+국가: Republic of Korea (KR)</div>
   <h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>지번 주소는 변환이 안 되나요?</summary><div class="faq-answer">지번 주소는 정확도가 낮을 수 있습니다. 도로명주소로 입력하면 더 정확한 결과를 얻을 수 있습니다. 도로명주소는 도로명주소 안내시스템(juso.go.kr)에서 확인하세요.</div></details>
-  <details><summary>아파트 동·호수는 영문으로 어떻게 쓰나요?</summary><div class="faq-answer">영문 주소 변환 후 'Apt. 동수, 호수'를 추가합니다. 예: 102동 501호 → Apt. 102, 501. 또는 '#102-501'로 쓰기도 합니다.</div></details>
-  <details><summary>해외 배송 시 영문 주소 형식은?</summary><div class="faq-answer">우체국 국제우편 기준: 수취인명 → 건물명/호수 → 도로명 → 도시 → 우편번호 → KOREA 순으로 기재합니다.</div></details>
+  <details><summary>영문 주소와 한국 주소 표기 순서가 다른 이유는 무엇인가요?</summary><div class="faq-answer">한국은 큰 단위(시→구→동→번지) 순서이지만, 영어권은 작은 단위(번지→도로명→도시→국가) 순서입니다. 해외 배송 양식은 역순으로 작성해야 합니다.</div></details>
+  <details><summary>영문 주소가 틀리면 배송이 반송되나요?</summary><div class="faq-answer">주요 정보(도로명, 번지, 도시, 우편번호)가 맞으면 대부분 배송됩니다. 하지만 미국·캐나다 배송의 경우 우편번호 오류 시 반송될 수 있으니 주의하세요.</div></details>
+  <details><summary>비자 신청서에는 어떤 형식으로 써야 하나요?</summary><div class="faq-answer">대부분의 비자 신청서는 영문 도로명주소 형식을 요구합니다. 이 변환기의 결과를 그대로 사용하거나, 상세주소(동·호수)를 영문으로 추가해 작성하세요.</div></details>
 </div>
 
 <script src="/share.js"></script>

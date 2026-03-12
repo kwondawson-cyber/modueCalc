@@ -256,10 +256,21 @@
 .seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
 .seo-section ul{padding-left:20px;margin-bottom:12px}
 .seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+.seo-section ol{padding-left:20px;margin-bottom:12px}
+.seo-section ol li{font-size:14px;color:#8b949e;line-height:1.9}
 .seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
 .seo-section .example-box{background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:16px 20px;margin:12px 0}
 .seo-section .example-box p{margin:0;font-size:13px;color:#8b949e;line-height:1.9}
 .seo-section .example-box strong{color:#00d4aa}
+.seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+.seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
+.seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
+.seo-section table tr:nth-child(even) td{background:#161b22}
+.seo-section table td strong{color:#00d4aa}
+.seo-section .tip-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .tip-box strong{color:#00d4aa}
+.seo-section .warn-box{background:rgba(255,107,107,0.05);border:1px solid rgba(255,107,107,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .warn-box strong{color:#ff6b6b}
 .seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
 .seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
 .seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
@@ -271,22 +282,37 @@
 <div class="seo-section">
   <h2>부동산 중개수수료 계산기 사용법</h2>
   <h3>📌 사용방법</h3>
-  <p>거래 유형(매매·전세·월세)과 거래금액을 입력하면 법정 최대 중개보수를 계산합니다. 2021년 10월 개정된 기준을 반영합니다.</p>
-  <h3>📐 계산 공식</h3>
-  <div class="formula-box">
-중개보수 = 거래금액 × 요율 (한도 내)
-[매매] 5천만원 미만 0.6% / 2억 미만 0.5% / 6억 미만 0.4% / 9억 미만 0.5% / 9억 이상 0.9% 이내 협의
-[전세] 5천만원 미만 0.5% / 1억 미만 0.4% / 3억 미만 0.3% / 6억 미만 0.4% / 6억 이상 0.8% 이내 협의
-  </div>
-  <h3>📊 예시 계산</h3>
-  <div class="example-box">
-    <p>아파트 매매 <strong>5억원</strong></p>
-    <p>· 적용 요율: 0.4%<br>· 최대 중개보수: <strong>2,000,000원 + VAT 200,000원</strong><br>· 실제 수수료는 협의 가능</p>
-  </div>
+  <p>거래 유형(매매·전세·월세)과 금액을 입력하면 법정 최고 중개보수를 계산합니다. 실제 수수료는 중개사와 협의해 이보다 낮게 계약할 수 있습니다.</p>
+  <h3>📊 2021년 개편 중개수수료 요율표</h3>
+  <table>
+    <thead><tr><th>거래 유형</th><th>거래금액</th><th>상한 요율</th></tr></thead>
+    <tbody>
+      <tr><td rowspan="4">매매·교환</td><td>5,000만 미만</td><td>0.6%</td></tr>
+      <tr><td>5,000만~2억</td><td>0.5%</td></tr>
+      <tr><td>2억~9억</td><td>0.4%</td></tr>
+      <tr><td>9억 이상</td><td>0.9% 이하 협의</td></tr>
+      <tr><td rowspan="3">전세·임대</td><td>5,000만 미만</td><td>0.5%</td></tr>
+      <tr><td>5,000만~1억</td><td>0.4%</td></tr>
+      <tr><td>1억~6억</td><td>0.3%</td></tr>
+      <tr><td>전세</td><td>6억 이상</td><td>0.8% 이하 협의</td></tr>
+    </tbody>
+  </table>
+  <h3>📊 거래금액별 수수료 예시</h3>
+  <table>
+    <thead><tr><th>거래 유형</th><th>금액</th><th>최고 수수료</th></tr></thead>
+    <tbody>
+      <tr><td>매매</td><td>3억</td><td><strong>120만 원</strong></td></tr>
+      <tr><td>매매</td><td>5억</td><td><strong>200만 원</strong></td></tr>
+      <tr><td>매매</td><td>10억</td><td><strong>최대 900만 원</strong></td></tr>
+      <tr><td>전세</td><td>3억</td><td><strong>90만 원</strong></td></tr>
+      <tr><td>전세</td><td>5억</td><td><strong>150만 원</strong></td></tr>
+    </tbody>
+  </table>
+  <div class="tip-box"><strong>💡 Tip.</strong> 수수료는 법정 상한이므로 반드시 협의해보세요. 대형 거래일수록 협의 여지가 크고, 부동산 앱을 통한 직거래로 수수료를 줄이는 방법도 있습니다.</div>
   <h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>중개수수료는 흥정이 되나요?</summary><div class="faq-answer">법정 요율은 '상한선'입니다. 그 이하로 협의는 가능하며, 상한을 초과하면 불법입니다.</div></details>
-  <details><summary>복비에 VAT(부가세)가 붙나요?</summary><div class="faq-answer">일반과세자 공인중개사는 중개보수에 VAT 10%가 추가됩니다. 간이과세자는 부가세가 포함된 금액으로 받습니다.</div></details>
-  <details><summary>매수자와 매도자 모두 수수료를 내나요?</summary><div class="faq-answer">네. 매수자와 매도자 각각 법정 요율 범위 내에서 중개보수를 부담합니다.</div></details>
+  <details><summary>매도자와 매수자 모두 수수료를 내나요?</summary><div class="faq-answer">네. 각각 자신이 이용한 중개사에게 별도로 지급합니다. 한 중개사가 양쪽을 모두 중개해도 각각에게 받습니다.</div></details>
+  <details><summary>월세 수수료는 어떻게 계산하나요?</summary><div class="faq-answer">월세는 보증금 + (월세 × 100)으로 환산한 금액을 기준으로 계산합니다. 예를 들어 보증금 1,000만 + 월세 50만이면 6,000만 원 기준으로 계산합니다.</div></details>
+  <details><summary>수수료에 VAT가 붙나요?</summary><div class="faq-answer">중개사가 일반과세자라면 수수료에 부가세 10%가 추가됩니다. 사전에 VAT 포함 여부를 확인하세요.</div></details>
 </div>
 
 <script src="/share.js"></script>

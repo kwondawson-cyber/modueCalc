@@ -399,10 +399,21 @@
 .seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
 .seo-section ul{padding-left:20px;margin-bottom:12px}
 .seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+.seo-section ol{padding-left:20px;margin-bottom:12px}
+.seo-section ol li{font-size:14px;color:#8b949e;line-height:1.9}
 .seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
 .seo-section .example-box{background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:16px 20px;margin:12px 0}
 .seo-section .example-box p{margin:0;font-size:13px;color:#8b949e;line-height:1.9}
 .seo-section .example-box strong{color:#00d4aa}
+.seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+.seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
+.seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
+.seo-section table tr:nth-child(even) td{background:#161b22}
+.seo-section table td strong{color:#00d4aa}
+.seo-section .tip-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .tip-box strong{color:#00d4aa}
+.seo-section .warn-box{background:rgba(255,107,107,0.05);border:1px solid rgba(255,107,107,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .warn-box strong{color:#ff6b6b}
 .seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
 .seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
 .seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
@@ -414,22 +425,47 @@
 <div class="seo-section">
   <h2>퇴직금 계산기 사용법</h2>
   <h3>📌 사용방법</h3>
-  <p>입사일·퇴사일과 최근 3개월 평균임금을 입력하면 법정 퇴직금을 자동으로 계산합니다. 근속연수 1년 미만이면 퇴직금이 발생하지 않으며, 1년 이상 근무한 경우 30일분 평균임금이 지급됩니다.</p>
+  <p>입사일, 퇴사일, 퇴직 전 3개월 총 임금을 입력하면 법정 퇴직금을 자동 계산합니다. 1년(365일) 이상 근무하고 주 평균 15시간 이상 일한 근로자라면 반드시 퇴직금을 받을 권리가 있습니다.</p>
+
   <h3>📐 계산 공식</h3>
-  <div class="formula-box">
-퇴직금 = 평균임금 × 30일 × (재직일수 ÷ 365)
-평균임금 = 최근 3개월 임금 합계 ÷ 최근 3개월 총 일수
-  </div>
-  <h3>📊 예시 계산</h3>
-  <div class="example-box">
-    <p>월급 <strong>300만원</strong>, 재직기간 <strong>3년</strong></p>
-    <p>· 평균임금: 약 98,360원/일<br>· 퇴직금: 98,360 × 30 × (1,095 ÷ 365)<br>· <strong>퇴직금: 약 8,850,000원 (세전)</strong></p>
-  </div>
+  <div class="formula-box">퇴직금 = 평균임금 × 30일 × (재직일수 ÷ 365)
+평균임금 = 퇴직 전 3개월 총 임금 ÷ 퇴직 전 3개월 총 일수</div>
+
+  <h3>📊 재직기간·급여별 퇴직금 예시</h3>
+  <table>
+    <thead><tr><th>재직기간</th><th>월 급여 250만</th><th>월 급여 300만</th><th>월 급여 400만</th><th>월 급여 500만</th></tr></thead>
+    <tbody>
+      <tr><td>1년</td><td>약 250만</td><td>약 300만</td><td>약 400만</td><td>약 500만</td></tr>
+      <tr><td>3년</td><td>약 750만</td><td>약 900만</td><td>약 1,200만</td><td>약 1,500만</td></tr>
+      <tr><td>5년</td><td>약 1,250만</td><td>약 1,500만</td><td>약 2,000만</td><td>약 2,500만</td></tr>
+      <tr><td>10년</td><td>약 2,500만</td><td>약 3,000만</td><td>약 4,000만</td><td>약 5,000만</td></tr>
+      <tr><td>20년</td><td>약 5,000만</td><td>약 6,000만</td><td>약 8,000만</td><td>약 1억</td></tr>
+    </tbody>
+  </table>
+
+  <h3>💡 평균임금에 포함되는 항목</h3>
+  <ul>
+    <li>기본급, 직책수당, 직무수당 등 정기적 임금</li>
+    <li>연장·야간·휴일근로수당</li>
+    <li>3개월 이내 지급된 상여금 (해당 기간 안분 적용)</li>
+    <li>연차수당 (전년도 미사용 연차보상금)</li>
+  </ul>
+
+  <div class="warn-box"><strong>⚠️ 주의.</strong> 퇴직금 미지급 시 퇴직일로부터 14일이 지나면 연 20% 지연이자가 발생합니다. 3년 이내 노동청에 신고하세요.</div>
+
+  <h3>🏦 IRP(개인형 퇴직연금) 연계</h3>
+  <p>2022년 4월부터 퇴직금 300만 원 초과 시 IRP 계좌로만 수령 가능합니다. IRP에 적립하면 퇴직소득세를 납부 유예할 수 있고, 55세 이후 연금으로 수령 시 세금 혜택이 있습니다.</p>
+  <ul>
+    <li>IRP 수령 후 즉시 해지: 퇴직소득세 전액 납부</li>
+    <li>55세 이후 연금 수령: 퇴직소득세의 30~40% 절감</li>
+  </ul>
+
   <h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>퇴직금에도 세금이 붙나요?</summary><div class="faq-answer">네. 퇴직소득세가 부과되지만 근속연수에 따라 공제액이 크기 때문에 일반 소득세보다 훨씬 낮습니다.</div></details>
-  <details><summary>계약직·아르바이트도 퇴직금을 받을 수 있나요?</summary><div class="faq-answer">4주 평균 주 15시간 이상, 1년 이상 근무하면 고용형태와 무관하게 퇴직금이 발생합니다.</div></details>
-  <details><summary>퇴직금을 안 주면 어떻게 하나요?</summary><div class="faq-answer">고용노동부 진정 또는 노동청에 신고할 수 있습니다. 퇴직 후 14일 이내에 지급하지 않으면 사용자는 지연이자(연 20%)를 부담합니다.</div></details>
-  <details><summary>DC형 퇴직연금이면 어떻게 다른가요?</summary><div class="faq-answer">DC(확정기여)형은 회사가 매년 연간 임금의 1/12 이상을 퇴직연금 계좌에 납입합니다. 계산 방식은 동일하지만 운용 실적에 따라 최종 수령액이 달라질 수 있습니다.</div></details>
+  <details><summary>퇴직금은 언제까지 지급받아야 하나요?</summary><div class="faq-answer">퇴직일로부터 14일 이내 지급이 원칙입니다. 당사자 합의로 연장할 수 있으나 합의 없이 늦으면 지연이자(연 20%)가 붙습니다.</div></details>
+  <details><summary>수습기간도 재직기간에 포함되나요?</summary><div class="faq-answer">네. 수습기간도 재직일수에 포함되어 퇴직금 산정 기준이 됩니다.</div></details>
+  <details><summary>퇴직금 중간정산은 언제 가능한가요?</summary><div class="faq-answer">원칙적으로 퇴직 시에만 지급하지만 무주택자 주택 구입, 본인·가족 의료비 부담, 파산·개인회생 등 법정 사유에 한해 중간정산이 가능합니다.</div></details>
+  <details><summary>권고사직·해고도 퇴직금을 받을 수 있나요?</summary><div class="faq-answer">네. 자발적 퇴사, 권고사직, 해고 등 퇴직 사유와 무관하게 요건을 갖추면 퇴직금을 받습니다.</div></details>
+  <details><summary>퇴직금에도 세금이 부과되나요?</summary><div class="faq-answer">퇴직소득세가 부과됩니다. 근속연수가 길수록 공제가 커져 세율이 낮아집니다. IRP로 수령 후 연금화하면 세금을 크게 줄일 수 있습니다.</div></details>
 </div>
 
 <script src="/share.js"></script>

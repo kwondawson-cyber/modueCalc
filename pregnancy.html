@@ -189,10 +189,21 @@
 .seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
 .seo-section ul{padding-left:20px;margin-bottom:12px}
 .seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+.seo-section ol{padding-left:20px;margin-bottom:12px}
+.seo-section ol li{font-size:14px;color:#8b949e;line-height:1.9}
 .seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
 .seo-section .example-box{background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:16px 20px;margin:12px 0}
 .seo-section .example-box p{margin:0;font-size:13px;color:#8b949e;line-height:1.9}
 .seo-section .example-box strong{color:#00d4aa}
+.seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+.seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
+.seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
+.seo-section table tr:nth-child(even) td{background:#161b22}
+.seo-section table td strong{color:#00d4aa}
+.seo-section .tip-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .tip-box strong{color:#00d4aa}
+.seo-section .warn-box{background:rgba(255,107,107,0.05);border:1px solid rgba(255,107,107,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .warn-box strong{color:#ff6b6b}
 .seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
 .seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
 .seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
@@ -204,22 +215,35 @@
 <div class="seo-section">
   <h2>임신 주수 계산기 사용법</h2>
   <h3>📌 사용방법</h3>
-  <p>마지막 생리 시작일을 입력하면 현재 임신 주수와 분만예정일(출산예정일), 트라이메스터(분기)를 계산합니다. 초음파 검사 결과와 약간의 차이가 있을 수 있습니다.</p>
+  <p>마지막 생리 첫날(LMP)을 입력하면 현재 임신 주수, 분기(트라이메스터), 분만예정일을 자동 계산합니다. 초음파 결과와 함께 참고용으로 활용하세요.</p>
   <h3>📐 계산 공식</h3>
-  <div class="formula-box">
-분만예정일(네겔레 공식) = 마지막 생리 시작일 + 280일(40주)
-임신 주수 = (오늘 − 마지막 생리일) ÷ 7
-1삼분기: 1~13주 / 2삼분기: 14~27주 / 3삼분기: 28~40주
-  </div>
-  <h3>📊 예시 계산</h3>
-  <div class="example-box">
-    <p>마지막 생리일 <strong>2025년 1월 1일</strong></p>
-    <p>· 분만예정일: <strong>2025년 10월 8일</strong><br>· 2025년 3월 12일 기준 임신 <strong>10주 1일</strong><br>· 현재: 1삼분기</p>
-  </div>
+  <div class="formula-box">분만예정일(EDD) = 마지막 생리 첫날 + 280일 (네겔레 공식)
+임신 주수 = (오늘 − 마지막 생리 첫날) ÷ 7</div>
+  <h3>📊 임신 주수별 발달 단계</h3>
+  <table>
+    <thead><tr><th>시기</th><th>주수</th><th>태아 발달</th><th>산모 변화</th></tr></thead>
+    <tbody>
+      <tr><td>1삼분기 (초기)</td><td>1~12주</td><td>심장 박동, 주요 장기 형성</td><td>입덧, 피로감</td></tr>
+      <tr><td>2삼분기 (중기)</td><td>13~27주</td><td>태동 시작, 성별 확인 가능</td><td>배 불러오기</td></tr>
+      <tr><td>3삼분기 (후기)</td><td>28~40주</td><td>폐 성숙, 체중 증가</td><td>잦은 소변, 부종</td></tr>
+    </tbody>
+  </table>
+  <h3>📊 주요 산전 검사 일정</h3>
+  <table>
+    <thead><tr><th>검사 시기</th><th>주요 검사</th></tr></thead>
+    <tbody>
+      <tr><td>6~8주</td><td>임신 확인, 심박 확인</td></tr>
+      <tr><td>11~13주</td><td>목덜미 투명대(NT) 검사, 1차 기형아 검사</td></tr>
+      <tr><td>16~18주</td><td>쿼드 검사(2차 기형아)</td></tr>
+      <tr><td>20~22주</td><td>정밀 초음파 (태아 기형 확인)</td></tr>
+      <tr><td>24~28주</td><td>임신성 당뇨 검사</td></tr>
+      <tr><td>36주 이후</td><td>태동 모니터링, 분만 준비</td></tr>
+    </tbody>
+  </table>
   <h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>임신 주수와 개월 수는 어떻게 다른가요?</summary><div class="faq-answer">임신은 주 단위로 계산합니다. 4주 = 1개월로 보면 10주 = 2개월 2주입니다. 병원에서는 주수로 표현하는 것이 정확합니다.</div></details>
-  <details><summary>생리가 불규칙하면 주수 계산이 부정확한가요?</summary><div class="faq-answer">네. 생리 주기가 28일이 아닌 경우 이 계산기의 결과와 차이가 생길 수 있습니다. 정확한 주수 확인은 초음파 검사가 필요합니다.</div></details>
-  <details><summary>분만예정일보다 일찍 태어나는 경우가 많나요?</summary><div class="faq-answer">전체 출산의 약 70%가 예정일 전후 2주 이내에 이루어집니다. 예정일 당일 출산은 5% 정도입니다.</div></details>
+  <details><summary>생리 주기가 불규칙하면 주수가 부정확한가요?</summary><div class="faq-answer">네. 이 계산기는 28일 주기 기준입니다. 주기가 다르면 초음파 검사 결과를 우선 신뢰하세요.</div></details>
+  <details><summary>분만예정일에 정확히 출산하나요?</summary><div class="faq-answer">예정일은 예측값이며, 실제 출산은 예정일 전후 2주 사이가 정상 범위입니다. 임신 37~42주 사이 출산을 만삭이라 합니다.</div></details>
+  <details><summary>국가 임신 지원 혜택은 무엇이 있나요?</summary><div class="faq-answer">국민행복카드(임신·출산 바우처 100만 원), 첫만남이용권(200만 원), 부모급여(매월 지급), 육아휴직 급여 등이 있습니다. 임신 확인 후 주민센터·온라인에서 신청하세요.</div></details>
 </div>
 
 <script src="/share.js"></script>

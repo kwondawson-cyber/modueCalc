@@ -482,10 +482,21 @@
 .seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
 .seo-section ul{padding-left:20px;margin-bottom:12px}
 .seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+.seo-section ol{padding-left:20px;margin-bottom:12px}
+.seo-section ol li{font-size:14px;color:#8b949e;line-height:1.9}
 .seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
 .seo-section .example-box{background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:16px 20px;margin:12px 0}
 .seo-section .example-box p{margin:0;font-size:13px;color:#8b949e;line-height:1.9}
 .seo-section .example-box strong{color:#00d4aa}
+.seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+.seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
+.seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
+.seo-section table tr:nth-child(even) td{background:#161b22}
+.seo-section table td strong{color:#00d4aa}
+.seo-section .tip-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .tip-box strong{color:#00d4aa}
+.seo-section .warn-box{background:rgba(255,107,107,0.05);border:1px solid rgba(255,107,107,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .warn-box strong{color:#ff6b6b}
 .seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
 .seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
 .seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
@@ -497,22 +508,37 @@
 <div class="seo-section">
   <h2>기초대사량 계산기 사용법</h2>
   <h3>📌 사용방법</h3>
-  <p>성별·나이·키·체중과 활동 수준을 입력하면 기초대사량(BMR)과 하루 권장 칼로리(TDEE)를 계산합니다. 체중 감량·유지·증량 목표별 칼로리도 제시합니다.</p>
-  <h3>📐 계산 공식</h3>
-  <div class="formula-box">
-[Mifflin-St Jeor 공식]
-남성: BMR = 10×체중 + 6.25×키 − 5×나이 + 5
-여성: BMR = 10×체중 + 6.25×키 − 5×나이 − 161
-TDEE = BMR × 활동계수 (좌식 1.2 / 가벼운 활동 1.375 / 보통 1.55 / 활동적 1.725)
-  </div>
-  <h3>📊 예시 계산</h3>
-  <div class="example-box">
-    <p>남성, <strong>30세</strong>, 키 <strong>175cm</strong>, 체중 <strong>70kg</strong>, 가벼운 활동</p>
-    <p>· BMR: 10×70 + 6.25×175 − 5×30 + 5 = <strong>1,723kcal</strong><br>· TDEE: 1,723 × 1.375 = <strong>2,369kcal</strong><br>· 감량 목표: 약 1,869kcal (−500kcal)</p>
-  </div>
+  <p>성별, 나이, 키(cm), 몸무게(kg)를 입력하면 기초대사량(BMR)과 활동 수준별 하루 권장 칼로리(TDEE)를 계산합니다. 다이어트·벌크업 목표에 맞는 칼로리 섭취 기준으로 활용하세요.</p>
+  <h3>📐 계산 공식 (Harris-Benedict 개정판)</h3>
+  <div class="formula-box">남성 BMR = 88.362 + (13.397 × 체중kg) + (4.799 × 키cm) − (5.677 × 나이)
+여성 BMR = 447.593 + (9.247 × 체중kg) + (3.098 × 키cm) − (4.330 × 나이)
+TDEE = BMR × 활동계수</div>
+  <h3>📊 활동 수준별 TDEE 계수</h3>
+  <table>
+    <thead><tr><th>활동 수준</th><th>계수</th><th>해당 상황</th></tr></thead>
+    <tbody>
+      <tr><td>거의 안 움직임</td><td>1.2</td><td>사무직, 하루 대부분 앉아서</td></tr>
+      <tr><td>가벼운 운동</td><td>1.375</td><td>주 1~3회 운동</td></tr>
+      <tr><td>보통 운동</td><td>1.55</td><td>주 3~5회 운동</td></tr>
+      <tr><td>격렬한 운동</td><td>1.725</td><td>주 6~7회 고강도 운동</td></tr>
+      <tr><td>매우 격렬</td><td>1.9</td><td>하루 2회 운동 또는 육체 노동</td></tr>
+    </tbody>
+  </table>
+  <h3>📊 체중별 기초대사량 참고표 (30세 기준)</h3>
+  <table>
+    <thead><tr><th>체중</th><th>남성 170cm</th><th>여성 160cm</th></tr></thead>
+    <tbody>
+      <tr><td>50kg</td><td>약 1,544 kcal</td><td>약 1,270 kcal</td></tr>
+      <tr><td>60kg</td><td>약 1,678 kcal</td><td>약 1,362 kcal</td></tr>
+      <tr><td>70kg</td><td>약 1,812 kcal</td><td>약 1,455 kcal</td></tr>
+      <tr><td>80kg</td><td>약 1,946 kcal</td><td>약 1,547 kcal</td></tr>
+    </tbody>
+  </table>
+  <div class="tip-box"><strong>💡 다이어트 기준.</strong> TDEE − 500kcal = 주당 약 0.5kg 감량 목표입니다. 무리한 식이제한보다 500kcal 적자가 건강하고 지속 가능합니다.</div>
   <h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>기초대사량보다 적게 먹으면 살이 빠지나요?</summary><div class="faq-answer">단기적으로는 빠질 수 있지만 기초대사량 미만 섭취는 근육 손실·기초대사량 저하를 유발합니다. TDEE에서 500kcal 정도 줄이는 것이 안전합니다.</div></details>
-  <details><summary>나이가 들면 기초대사량이 줄어드나요?</summary><div class="faq-answer">네. 10년마다 약 2~3% 감소합니다. 근육량 유지를 위한 근력 운동과 단백질 섭취가 중요합니다.</div></details>
+  <details><summary>기초대사량과 TDEE의 차이는 무엇인가요?</summary><div class="faq-answer">기초대사량(BMR)은 완전히 쉬는 상태에서 생존에 필요한 최소 칼로리입니다. TDEE는 실제 활동량을 반영한 하루 총 소비 칼로리입니다. 다이어트 기준은 TDEE를 사용하세요.</div></details>
+  <details><summary>나이가 들면 기초대사량이 왜 떨어지나요?</summary><div class="faq-answer">30세 이후 근육량이 매년 0.5~1%씩 감소하고, 근육은 지방보다 칼로리 소비가 많기 때문입니다. 근력 운동으로 근육량을 유지하면 대사량 저하를 늦출 수 있습니다.</div></details>
+  <details><summary>기초대사량보다 적게 먹으면 살이 더 빠지나요?</summary><div class="faq-answer">단기적으로는 체중이 줄지만 근손실과 대사 적응(요요)이 발생합니다. BMR 이하 섭취는 피하고 TDEE−500kcal 수준을 유지하세요.</div></details>
 </div>
 
 <script src="/share.js"></script>
