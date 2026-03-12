@@ -7,8 +7,6 @@
   style.textContent = `
     #calc-fab {
       position: fixed;
-      bottom: 28px;
-      right: 24px;
       height: 52px;
       padding: 0 20px 0 16px;
       background: linear-gradient(135deg, #00d4aa, #0095ff);
@@ -35,8 +33,6 @@
 
     #calc-panel {
       position: fixed;
-      bottom: 96px;
-      right: 24px;
       width: 320px;
       background: #161b22;
       border: 1px solid #30363d;
