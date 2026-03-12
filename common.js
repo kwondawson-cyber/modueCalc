@@ -202,19 +202,28 @@
     }, 100);
   }
 
-  // ⑨ 콤마 표시 (금액 입력만, 단위 레이블 있는 input 제외)
+  // ⑨ 콤마 표시 (금액 단위만: 원/만원, 나이/퍼센트/년 등은 제외)
+  var SKIP_UNITS = ['세','년','개월','%','일','kg','cm','m','ft','in','평','㎡','bpm'];
   function injectComma() {
     if (IS_HOME) return;
     document.querySelectorAll('input[type="number"]').forEach(function(inp){
       if (inp.dataset.ecComma) return;
-      // 단위 레이블(.input-unit)이 형제로 있으면 건너뜀
+      // 형제 단위 레이블 확인
       var wrapper = inp.parentNode;
-      if (wrapper && wrapper.querySelector('.input-unit')) return;
+      if (wrapper) {
+        var unitEl = wrapper.querySelector('.input-unit');
+        if (unitEl) {
+          var unitText = unitEl.textContent.trim();
+          // 금액 단위면 통과, 아니면 건너뜀
+          var isAmount = unitText === '원' || unitText === '만원' || unitText === '억원';
+          if (!isAmount) return;
+        }
+      }
       inp.dataset.ecComma = '1';
       var lbl = document.createElement('span');
       lbl.className = 'ec-comma';
       inp.parentNode.insertBefore(lbl, inp.nextSibling);
-      function fmt(){ var v=parseFloat(inp.value); lbl.textContent=isNaN(v)?'':v.toLocaleString('ko-KR'); }
+      function fmt(){ var v=parseFloat(inp.value); lbl.textContent=isNaN(v)?'':v.toLocaleString('ko-KR')+'원'; }
       inp.addEventListener('input', fmt);
       inp.addEventListener('change', fmt);
       fmt();
