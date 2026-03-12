@@ -432,7 +432,7 @@
     <div class="header">
       <h1>만 나이<br>계산기
     </h1>
-<button id="ec-fav" onclick="(function(){var p=location.pathname,k='ec_favs',f=JSON.parse(localStorage.getItem(k)||'[]'),has=f.includes(p);has?f=f.filter(function(x){return x!==p}):f.unshift(p);localStorage.setItem(k,JSON.stringify(f));var b=document.getElementById('ec-fav');b.innerHTML=f.includes(p)?'★ 즐겨찾기 됨':'☆ 즐겨찾기 추가';b.style.color=f.includes(p)?'#ffd700':'#8b949e';b.style.borderColor=f.includes(p)?'#ffd700':'#30363d';b.style.background=f.includes(p)?'rgba(255,215,0,0.08)':'transparent';var t=document.getElementById('ec-toast');if(t){t.textContent=f.includes(p)?'⭐ 즐겨찾기 추가됨 · 홈에서 확인':'즐겨찾기에서 제거됐습니다';t.style.opacity=1;t.style.transform='translateX(-50%) translateY(0)';setTimeout(function(){t.style.opacity=0;t.style.transform='translateX(-50%) translateY(20px)'},2600)}})()" style="display:inline-flex;align-items:center;gap:5px;border:1px solid #30363d;border-radius:30px;padding:7px 14px;font-size:13px;font-weight:600;color:#8b949e;cursor:pointer;background:transparent;margin-top:10px;font-family:'Noto Sans KR',sans-serif;transition:all 0.2s">☆ 즐겨찾기 추가</button>
+<button id="ec-fav" onclick="(function(){var p=location.pathname,k='ec_favs',f=JSON.parse(localStorage.getItem(k)||'[]'),has=f.includes(p);has?f=f.filter(function(x){return x!==p}):f.unshift(p);localStorage.setItem(k,JSON.stringify(f));var b=document.getElementById('ec-fav');b.innerHTML=f.includes(p)?'★ 자주 쓰는 계산기':'☆ 자주 쓰는 계산기 추가';b.style.color=f.includes(p)?'#ffd700':'#8b949e';b.style.borderColor=f.includes(p)?'#ffd700':'#30363d';b.style.background=f.includes(p)?'rgba(255,215,0,0.08)':'transparent';var t=document.getElementById('ec-toast');if(t){t.textContent=f.includes(p)?'📌 자주 쓰는 계산기에 추가됨':'자주 쓰는 계산기에서 제거됐습니다';t.style.opacity=1;t.style.transform='translateX(-50%) translateY(0)';setTimeout(function(){t.style.opacity=0;t.style.transform='translateX(-50%) translateY(20px)'},2600)}})()" style="display:inline-flex;align-items:center;gap:5px;border:1px solid #30363d;border-radius:30px;padding:7px 14px;font-size:13px;font-weight:600;color:#8b949e;cursor:pointer;background:transparent;margin-top:10px;font-family:'Noto Sans KR',sans-serif;transition:all 0.2s">☆ 자주 쓰는 계산기 추가</button>
       <p>만 나이 · 한국 나이 · 연 나이 한번에</p>
     </div>
 
@@ -715,6 +715,6 @@
   try{var v=localStorage.getItem('ec_memo');if(v){var t=document.getElementById('ec-memo-ta');if(t)t.value=v;}}catch(e){}
 })();
 </script>
-<script>(function(){try{var p=location.pathname,f=JSON.parse(localStorage.getItem('ec_favs')||'[]'),b=document.getElementById('ec-fav');if(b&&f.includes(p)){b.innerHTML='★ 즐겨찾기 됨';b.style.color='#ffd700';b.style.borderColor='#ffd700';b.style.background='rgba(255,215,0,0.08)';}}catch(e){}try{var v=localStorage.getItem('ec_memo');if(v){var t=document.getElementById('ec-memo-ta');if(t)t.value=v;}}catch(e){}})();</script>
+<script>(function(){try{var p=location.pathname,f=JSON.parse(localStorage.getItem('ec_favs')||'[]'),b=document.getElementById('ec-fav');if(b&&f.includes(p)){b.innerHTML='★ 자주 쓰는 계산기';b.style.color='#ffd700';b.style.borderColor='#ffd700';b.style.background='rgba(255,215,0,0.08)';}}catch(e){}try{var v=localStorage.getItem('ec_memo');if(v){var t=document.getElementById('ec-memo-ta');if(t)t.value=v;}}catch(e){}})();</script>
 </body>
 </html>

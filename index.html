@@ -77,6 +77,15 @@
     </div>
   </div>
 
+  <!-- 📌 자주 쓰는 계산기 섹션 -->
+  <div id="favSection" style="display:none;margin-bottom:32px">
+    <div class="category-header" style="margin-bottom:14px">
+      <div class="category-title">📌 자주 쓰는 계산기</div>
+      <span class="category-count" id="favCount">0</span>
+    </div>
+    <div class="cards-grid" id="favGrid"></div>
+  </div>
+
   <!-- 💰 금융 · 급여 -->
   <div class="category" data-cat>
     <div class="category-header">
@@ -322,14 +331,7 @@
     </div>
   </div>
 
-  <!-- ⭐ 즐겨찾기 섹션 -->
-  <div id="favSection" style="display:none;margin-bottom:32px">
-    <div class="category-header" style="margin-bottom:14px">
-      <div class="category-title">⭐ 즐겨찾기</div>
-      <span class="category-count" id="favCount">0</span>
-    </div>
-    <div class="cards-grid" id="favGrid"></div>
-  </div>
+
 
   <div class="footer">
     © 2026 모두의계산기 · everycalc.kr<br>
@@ -362,35 +364,72 @@
   }
 </script>
 <script src="/common.js"></script>
-<script src="/share.js"></script>
-<script src="/calculator.js"></script>
 <script>
-(function renderFavs() {
+(function(){
   function init() {
-    if (!window.__common) return setTimeout(init, 100);
-    const { CALC_LIST, getFavs } = window.__common;
-    const favs = getFavs();
-    if (!favs.length) return;
-    const section = document.getElementById('favSection');
-    const grid = document.getElementById('favGrid');
-    const countEl = document.getElementById('favCount');
-    section.style.display = '';
-    countEl.textContent = favs.length;
-    const searchBar = document.querySelector('.search-bar');
-    if (searchBar) searchBar.after(section);
-    favs.forEach(path => {
-      const calc = CALC_LIST.find(c => c.path === path);
-      if (!calc) return;
-      const a = document.createElement('a');
-      a.href = calc.path;
-      a.className = 'calc-card';
-      a.innerHTML = `<div class="card-emoji">${calc.emoji}</div><div class="card-name">${calc.title}</div><div class="card-desc">즐겨찾기</div>`;
-      grid.appendChild(a);
-    });
+    try {
+      var CALC_LIST = [
+        {title:'연봉 실수령액', path:'/salary',         emoji:'💰'},
+        {title:'퇴직금',        path:'/retirement',      emoji:'🏦'},
+        {title:'대출 이자',     path:'/loan',            emoji:'🏠'},
+        {title:'실업급여',      path:'/unemployment',    emoji:'📋'},
+        {title:'적금 만기',     path:'/savings',         emoji:'💳'},
+        {title:'물가상승률',    path:'/inflation',       emoji:'📈'},
+        {title:'국민연금',      path:'/pension',         emoji:'👴'},
+        {title:'중개수수료',    path:'/realestate',      emoji:'🏡'},
+        {title:'취득세',        path:'/acquisition',     emoji:'🏢'},
+        {title:'양도소득세',    path:'/capital_gains',   emoji:'📊'},
+        {title:'증여세·상속세', path:'/gift_tax',        emoji:'🎁'},
+        {title:'전월세 전환율', path:'/rent_conversion', emoji:'🔄'},
+        {title:'만 나이',       path:'/age',             emoji:'🎂'},
+        {title:'디데이',        path:'/dday',            emoji:'📅'},
+        {title:'영문 주소변환', path:'/address_converter',emoji:'📮'},
+        {title:'관세',          path:'/customs',         emoji:'✈️'},
+        {title:'골프 핸디캡',   path:'/golf_handicap',  emoji:'⛳'},
+        {title:'평↔제곱미터',  path:'/area_converter',  emoji:'📐'},
+        {title:'cm↔inch',      path:'/cm_inch',         emoji:'📏'},
+        {title:'BMI',           path:'/bmi',             emoji:'⚖️'},
+        {title:'기초대사량',    path:'/bmr',             emoji:'🔥'},
+        {title:'임신 주수',     path:'/pregnancy',       emoji:'🤱'},
+        {title:'혈압 정상범위', path:'/blood_pressure',  emoji:'❤️'},
+        {title:'칼로리',        path:'/calorie',         emoji:'🥗'},
+        {title:'환율',          path:'/exchange',        emoji:'💱'},
+        {title:'주휴수당',      path:'/weekly_holiday',  emoji:'📅'},
+        {title:'시급→월급',     path:'/hourly_salary',   emoji:'⏰'},
+        {title:'연차수당',      path:'/annual_leave',    emoji:'🌴'},
+        {title:'주식 수익률',   path:'/stock_return',    emoji:'📉'},
+        {title:'부가가치세',    path:'/vat',             emoji:'🧾'},
+        {title:'마진율',        path:'/margin',          emoji:'💹'},
+        {title:'건강보험료',    path:'/health_insurance',emoji:'🏥'},
+        {title:'소득세',        path:'/income_tax',      emoji:'🧮'},
+      ];
+      var favs = JSON.parse(localStorage.getItem('ec_favs') || '[]');
+      if (!favs.length) return;
+      var section = document.getElementById('favSection');
+      var grid = document.getElementById('favGrid');
+      var countEl = document.getElementById('favCount');
+      if (!section || !grid) return;
+      section.style.display = '';
+      if (countEl) countEl.textContent = favs.length;
+      grid.innerHTML = '';
+      favs.forEach(function(path) {
+        var calc = CALC_LIST.find(function(c){ return c.path === path; });
+        if (!calc) return;
+        var a = document.createElement('a');
+        a.href = calc.path;
+        a.className = 'calc-card';
+        a.innerHTML = '<div class="card-emoji">'+calc.emoji+'</div>'
+          + '<div class="card-name">'+calc.title+'</div>';
+        grid.appendChild(a);
+      });
+    } catch(e) {}
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
 })();
 </script>
+<script src="/share.js"></script>
+<script src="/calculator.js"></script>
+
 </body>
 </html>
