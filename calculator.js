@@ -153,8 +153,8 @@
   // FAB 버튼
   const fab = document.createElement('button');
   fab.id = 'calc-fab';
-  fab.innerHTML = '<span class="fab-icon">🔢</span><span class="fab-label">계산기 열기</span>';
-  fab.title = '계산기 열기';
+  fab.innerHTML = '<span class="fab-icon">🔢</span><span class="fab-label">계산기</span>';
+  fab.title = '계산기';
   document.body.appendChild(fab);
 
   // 패널
@@ -286,7 +286,7 @@
     if(fab.classList.contains('open')) {
       fab.innerHTML = '<span class="fab-icon">✕</span>';
     } else {
-      fab.innerHTML = '<span class="fab-icon">🔢</span><span class="fab-label">계산기 열기</span>';
+      fab.innerHTML = '<span class="fab-icon">🔢</span><span class="fab-label">계산기</span>';
     }
     panel.classList.toggle('visible');
   });
