@@ -317,113 +317,6 @@
     .home-btn:hover { background: rgba(0,212,170,0.18); transform: translateY(-2px); }
     .home-btn-emoji { font-size: 20px; line-height: 1; }
     .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
-    /* ── 즐겨찾기 ── */
-    .fav-pill {
-      display: inline-flex; align-items: center; gap: 5px;
-      border: 1px solid #30363d; border-radius: 30px;
-      padding: 7px 14px; font-size: 13px; font-weight: 600;
-      color: #8b949e; cursor: pointer; transition: all 0.2s;
-      font-family: 'Noto Sans KR', sans-serif; background: transparent; margin-top: 10px;
-    }
-    .fav-pill:hover { border-color: #ffd700; color: #ffd700; }
-    .fav-pill.active { border-color: #ffd700; color: #ffd700; background: rgba(255,215,0,0.08); }
-    /* ── 사이드 메모+계산기 버튼 (컨테이너 오른쪽 옆) ── */
-    .side-tools {
-      position: fixed;
-      left: calc(50% + 420px);
-      top: 160px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      z-index: 9990;
-    }
-    @media (max-width: 1100px) {
-      .side-tools {
-        left: auto; right: 14px; top: auto; bottom: 20px;
-        flex-direction: column; align-items: flex-end;
-      }
-    }
-    .side-pill {
-      display: inline-flex; align-items: center; gap: 6px;
-      height: 40px; padding: 0 16px; border-radius: 30px;
-      font-size: 13px; font-weight: 700;
-      font-family: 'Noto Sans KR', sans-serif;
-      cursor: pointer; white-space: nowrap;
-      transition: all 0.2s; border: none;
-    }
-    .memo-pill {
-      background: #21262d; border: 1px solid #30363d !important; color: #8b949e;
-    }
-    .memo-pill:hover, .memo-pill.open {
-      background: rgba(0,212,170,0.1); border-color: rgba(0,212,170,0.4) !important; color: #00d4aa;
-    }
-    /* ── 메모 패널 ── */
-    .memo-box {
-      position: fixed;
-      left: calc(50% + 420px);
-      top: 208px;
-      width: 220px;
-      background: #161b22; border: 1px solid #30363d;
-      border-radius: 14px; padding: 14px;
-      z-index: 9989; display: none;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-    }
-    .memo-box.open { display: block; }
-    @media (max-width: 1100px) {
-      .memo-box { left: auto; right: 14px; top: auto; bottom: 66px; width: 260px; }
-    }
-    .memo-box-hdr { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
-    .memo-box-title { font-size:11px; font-weight:700; color:#8b949e; }
-    .memo-clr { font-size:11px; color:#484f58; cursor:pointer; background:none; border:none; font-family:inherit; }
-    .memo-clr:hover { color:#ff6b6b; }
-    .memo-ta {
-      width:100%; height:190px; background:#0d1117; border:1px solid #30363d;
-      border-radius:8px; padding:10px; color:#e6edf3; font-size:12px;
-      font-family:'Noto Sans KR',sans-serif; line-height:1.7; resize:none; outline:none;
-    }
-    .memo-ta:focus { border-color:rgba(0,212,170,0.35); }
-    .memo-hint { font-size:10px; color:#484f58; margin-top:5px; text-align:right; }
-    /* ── calc-fab 위치 재정의 ── */
-    #calc-fab {
-      position: fixed !important;
-      left: calc(50% + 420px) !important;
-      top: 208px !important;
-      right: auto !important; bottom: auto !important;
-    }
-    #calc-panel {
-      position: fixed !important;
-      left: calc(50% + 420px) !important;
-      top: 256px !important;
-      right: auto !important; bottom: auto !important;
-      width: 300px !important;
-    }
-    @media (max-width: 1100px) {
-      #calc-fab { left:auto !important; right:14px !important; top:auto !important; bottom:66px !important; }
-      #calc-panel { left:auto !important; right:14px !important; top:auto !important; bottom:114px !important; width:320px !important; }
-    }
-    /* ── 관련 계산기 ── */
-    .related-wrap { max-width:640px; margin:0 auto 28px; padding:0 20px; }
-    .related-ttl { font-size:12px; font-weight:700; color:#8b949e; letter-spacing:1px; margin-bottom:10px; text-align:center; }
-    .related-row { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
-    .rel-card {
-      display:flex; flex-direction:column; align-items:center; gap:4px;
-      padding:11px 6px; background:#161b22; border:1px solid #30363d; border-radius:11px;
-      text-decoration:none; color:#8b949e; font-size:11px; font-weight:600;
-      font-family:'Noto Sans KR',sans-serif; transition:all 0.2s; text-align:center; line-height:1.3;
-    }
-    .rel-card:hover { border-color:rgba(0,212,170,0.4); color:#e6edf3; transform:translateY(-2px); }
-    .rel-card-emoji { font-size:18px; }
-    @media(max-width:600px){ .related-row{grid-template-columns:repeat(3,1fr)} }
-    /* ── 토스트 ── */
-    #ec-toast {
-      position:fixed; bottom:24px; left:50%;
-      transform:translateX(-50%) translateY(20px);
-      background:#161b22; border:1px solid rgba(0,212,170,0.4);
-      color:#e6edf3; padding:10px 18px; border-radius:30px;
-      font-size:13px; font-weight:600; opacity:0; transition:all 0.3s;
-      pointer-events:none; z-index:99999; font-family:'Noto Sans KR',sans-serif; white-space:nowrap;
-    }
-    #ec-toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
   </style>
 </head>
 <body>
@@ -433,7 +326,6 @@
     <div class="header">
       <h1>대출 이자<br>계산기
     </h1>
-<button id="ec-fav" onclick="(function(){var p=location.pathname,k='ec_favs',f=JSON.parse(localStorage.getItem(k)||'[]'),has=f.includes(p);has?f=f.filter(function(x){return x!==p}):f.unshift(p);localStorage.setItem(k,JSON.stringify(f));var b=document.getElementById('ec-fav');b.innerHTML=f.includes(p)?'★ 자주 쓰는 계산기':'☆ 자주 쓰는 계산기 추가';b.style.color=f.includes(p)?'#ffd700':'#8b949e';b.style.borderColor=f.includes(p)?'#ffd700':'#30363d';b.style.background=f.includes(p)?'rgba(255,215,0,0.08)':'transparent';var t=document.getElementById('ec-toast');if(t){t.textContent=f.includes(p)?'📌 자주 쓰는 계산기에 추가됨':'자주 쓰는 계산기에서 제거됐습니다';t.style.opacity=1;t.style.transform='translateX(-50%) translateY(0)';setTimeout(function(){t.style.opacity=0;t.style.transform='translateX(-50%) translateY(20px)'},2600)}})()" style="display:inline-flex;align-items:center;gap:5px;border:1px solid #30363d;border-radius:30px;padding:7px 14px;font-size:13px;font-weight:600;color:#8b949e;cursor:pointer;background:transparent;margin-top:10px;font-family:'Noto Sans KR',sans-serif;transition:all 0.2s">☆ 자주 쓰는 계산기 추가</button>
       <p>원리금균등 · 원금균등 · 만기일시 상환 비교</p>
     </div>
 
@@ -732,47 +624,6 @@
 </div>
 
 <script src="/common.js"></script><script src="/share.js"></script>
-<script>
-(function(){
-  var rel = document.createElement('div');
-  rel.id = 'ec-related';
-  rel.style.cssText = 'max-width:640px;margin:32px auto 0;padding:0 20px';
-  rel.innerHTML = '<div style="font-size:12px;font-weight:700;color:#8b949e;letter-spacing:1px;margin-bottom:10px;text-align:center;font-family:\'Noto Sans KR\',sans-serif">다른 계산기 보기</div>'
-    + '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px"><a href=\"/salary\" style=\"display:flex;flex-direction:column;align-items:center;gap:4px;padding:11px 6px;background:#161b22;border:1px solid #30363d;border-radius:11px;text-decoration:none;color:#8b949e;font-size:11px;font-weight:600;font-family:\'Noto Sans KR\',sans-serif;text-align:center;line-height:1.3\"><span style=\"font-size:18px\">💰</span><span>연봉 실수령액</span></a><a href=\"/age\" style=\"display:flex;flex-direction:column;align-items:center;gap:4px;padding:11px 6px;background:#161b22;border:1px solid #30363d;border-radius:11px;text-decoration:none;color:#8b949e;font-size:11px;font-weight:600;font-family:\'Noto Sans KR\',sans-serif;text-align:center;line-height:1.3\"><span style=\"font-size:18px\">🎂</span><span>만 나이</span></a><a href=\"/weekly_holiday\" style=\"display:flex;flex-direction:column;align-items:center;gap:4px;padding:11px 6px;background:#161b22;border:1px solid #30363d;border-radius:11px;text-decoration:none;color:#8b949e;font-size:11px;font-weight:600;font-family:\'Noto Sans KR\',sans-serif;text-align:center;line-height:1.3\"><span style=\"font-size:18px\">📅</span><span>주휴수당</span></a><a href=\"/bmi\" style=\"display:flex;flex-direction:column;align-items:center;gap:4px;padding:11px 6px;background:#161b22;border:1px solid #30363d;border-radius:11px;text-decoration:none;color:#8b949e;font-size:11px;font-weight:600;font-family:\'Noto Sans KR\',sans-serif;text-align:center;line-height:1.3\"><span style=\"font-size:18px\">⚖️</span><span>BMI</span></a></div>';
-  // share.js 이후에 실행되도록 setTimeout 사용
-  setTimeout(function(){
-    var container = document.querySelector('.container');
-    if(container) container.appendChild(rel);
-    else document.body.appendChild(rel);
-  }, 50);
-})();
-</script>
 <script src="/calculator.js"></script>
-<style>
-#calc-fab{position:fixed!important;left:calc(50% + 380px)!important;top:408px!important;right:auto!important;bottom:auto!important}
-#calc-panel{position:fixed!important;left:calc(50% + 380px)!important;top:456px!important;right:auto!important;bottom:auto!important;width:300px!important}
-@media(max-width:1100px){
-  #ec-side{left:auto!important;right:20px!important;top:360px!important}
-  #ec-memo-box{left:auto!important;right:20px!important;bottom:calc(100vh - 360px)!important;width:calc(min(100vw - 40px,300px))!important}
-  #calc-fab{left:auto!important;right:20px!important;top:408px!important;bottom:auto!important}
-  #calc-panel{left:auto!important;right:20px!important;top:456px!important;bottom:auto!important;width:calc(min(100vw - 40px,320px))!important}
-  #ec-memo-btn{height:46px!important;padding:0 16px!important;font-size:13px!important}
-}
-</style>
-<div id="ec-side" style="position:fixed;left:calc(50% + 380px);top:360px;z-index:9990;display:flex;flex-direction:column;gap:8px">
-<button id="ec-memo-btn" onclick="var b=document.getElementById('ec-memo-box');var open=b.style.display==='block';b.style.display=open?'none':'block';this.style.background=open?'linear-gradient(135deg,#667eea,#764ba2)':'linear-gradient(135deg,#ff6b6b,#ee0979)';this.style.boxShadow=open?'0 4px 20px rgba(102,126,234,0.5)':'0 4px 20px rgba(238,9,121,0.4)';this.querySelector('span').textContent=open?'메모':'닫기'" style="display:inline-flex;align-items:center;gap:8px;height:52px;padding:0 20px;border-radius:30px;font-size:14px;font-weight:700;font-family:'Noto Sans KR',sans-serif;cursor:pointer;white-space:nowrap;background:linear-gradient(135deg,#667eea,#764ba2);border:none;color:#fff;transition:all 0.2s;box-shadow:0 4px 20px rgba(102,126,234,0.5)">📝 <span>메모</span></button>
-</div>
-<div id="ec-memo-box" style="display:none;position:fixed;left:calc(50% + 380px);bottom:calc(100vh - 360px);width:300px;background:#161b22;border:1px solid #30363d;border-radius:14px;padding:14px;z-index:9989;box-shadow:0 8px 32px rgba(0,0,0,0.5)">
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="font-size:11px;font-weight:700;color:#8b949e">📝 메모 (이동해도 유지)</span><button onclick="document.getElementById('ec-memo-ta').value='';try{localStorage.removeItem('ec_memo')}catch(e){}" style="font-size:11px;color:#484f58;cursor:pointer;background:none;border:none;font-family:inherit">지우기</button></div>
-<textarea id="ec-memo-ta" oninput="try{localStorage.setItem('ec_memo',this.value)}catch(e){}" style="width:100%;height:240px;background:#0d1117;border:1px solid #30363d;border-radius:8px;padding:10px;color:#e6edf3;font-size:12px;font-family:'Noto Sans KR',sans-serif;line-height:1.7;resize:none;outline:none;box-sizing:border-box" placeholder="여기에 메모하세요"></textarea>
-<div style="font-size:10px;color:#484f58;margin-top:5px;text-align:right">브라우저 종료해도 유지됩니다</div>
-</div>
-<div id="ec-toast" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:#161b22;border:1px solid rgba(0,212,170,0.4);color:#e6edf3;padding:10px 18px;border-radius:30px;font-size:13px;font-weight:600;opacity:0;transition:all 0.3s;pointer-events:none;z-index:99999;font-family:'Noto Sans KR',sans-serif;white-space:nowrap"></div>
-<script>
-(function(){
-  try{var v=localStorage.getItem('ec_memo');if(v){var t=document.getElementById('ec-memo-ta');if(t)t.value=v;}}catch(e){}
-})();
-</script>
-<script>(function(){try{var p=location.pathname,f=JSON.parse(localStorage.getItem('ec_favs')||'[]'),b=document.getElementById('ec-fav');if(b&&f.includes(p)){b.innerHTML='★ 자주 쓰는 계산기';b.style.color='#ffd700';b.style.borderColor='#ffd700';b.style.background='rgba(255,215,0,0.08)';}}catch(e){}try{var v=localStorage.getItem('ec_memo');if(v){var t=document.getElementById('ec-memo-ta');if(t)t.value=v;}}catch(e){}})();</script>
 </body>
 </html>
