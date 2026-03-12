@@ -26,6 +26,28 @@
           "value": "text/plain"
         }
       ]
+    },
+    {
+      "source": "/sw.js",
+      "headers": [
+        {
+          "key": "Service-Worker-Allowed",
+          "value": "/"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/manifest.json",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/manifest+json"
+        }
+      ]
     }
   ],
   "rewrites": [
@@ -168,6 +190,30 @@
     {
       "source": "/faq",
       "destination": "/faq.html"
+    },
+    {
+      "source": "/lotto",
+      "destination": "/lotto.html"
+    },
+    {
+      "source": "/child_height",
+      "destination": "/child_height.html"
+    },
+    {
+      "source": "/parental_leave",
+      "destination": "/parental_leave.html"
+    },
+    {
+      "source": "/freelancer_tax",
+      "destination": "/freelancer_tax.html"
+    },
+    {
+      "source": "/gift_tax_sim",
+      "destination": "/gift_tax_sim.html"
+    },
+    {
+      "source": "/loan_limit",
+      "destination": "/loan_limit.html"
     }
   ]
 }

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#00d4aa" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="모두의계산기" />
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>증여세 절세 시뮬레이터 | 모두의계산기</title>
+  <meta name="description" content="증여세 절세 시뮬레이터. 공제 한도 활용 분할 증여 vs 일시 증여 세금 비교 계산기." />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+    .container{max-width:640px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
+    .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+    .header{text-align:center;margin-bottom:40px}
+    .header h1{font-size:clamp(28px,6vw,44px);font-weight:900;line-height:1.1;margin-bottom:10px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .header p{color:var(--text-muted);font-size:14px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:16px}
+    .card-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:20px}
+    .input-group{margin-bottom:18px}
+    .input-group label{display:block;font-size:13px;font-weight:500;color:var(--text-muted);margin-bottom:7px}
+    .input-wrapper{position:relative}
+    .input-wrapper input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:13px 60px 13px 16px;font-size:20px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none;transition:border-color .2s}
+    .input-wrapper input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,170,0.1)}
+    .input-unit{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--text-muted);font-weight:500;pointer-events:none}
+    select{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:13px 16px;font-size:16px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:var(--text);outline:none;cursor:pointer}
+    select:focus{border-color:var(--accent)}
+    .info-box{background:rgba(0,149,255,0.06);border:1px solid rgba(0,149,255,0.15);border-radius:10px;padding:12px 16px;font-size:12px;color:var(--text-muted);margin-bottom:18px;line-height:1.8}
+    .calc-btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;font-size:16px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:#000;cursor:pointer;transition:transform .15s,box-shadow .15s}
+    .calc-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,212,170,0.3)}
+    .result-card{display:none;animation:fadeUp .4s ease}.result-card.visible{display:block}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+    .c-box{background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center}
+    .c-box.winner{border-color:rgba(0,212,170,0.5);background:linear-gradient(135deg,rgba(0,212,170,0.1),rgba(0,149,255,0.05))}
+    .c-box .c-label{font-size:12px;color:var(--text-muted);font-weight:600;margin-bottom:10px}
+    .c-box .c-tax{font-family:'Montserrat',sans-serif;font-size:22px;font-weight:900;color:#ff6b6b}
+    .c-box.winner .c-tax{color:var(--accent)}
+    .c-box .c-unit{font-size:12px;color:var(--text-muted);margin-top:4px}
+    .c-box .c-badge{margin-top:8px;font-size:11px;font-weight:700;color:var(--accent)}
+    .detail-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);font-size:14px}
+    .detail-item:last-child{border-bottom:none}
+    .detail-item .d-label{color:var(--text-muted)}
+    .detail-item .d-value{font-weight:700}
+    .detail-item .d-value.accent{color:var(--accent)}
+    .detail-item .d-value.red{color:#ff6b6b}
+    .save-box{background:rgba(0,212,170,0.06);border:1px solid rgba(0,212,170,0.2);border-radius:12px;padding:18px;text-align:center;margin-top:12px}
+    .save-box .save-label{font-size:13px;color:var(--text-muted);margin-bottom:6px}
+    .save-box .save-value{font-family:'Montserrat',sans-serif;font-size:28px;font-weight:900;color:var(--accent)}
+    .notice{margin-top:16px;padding:13px 16px;background:rgba(255,165,0,0.05);border:1px solid rgba(255,165,0,0.15);border-radius:10px;font-size:12px;color:var(--text-muted);line-height:1.7}
+    .deduction-table{width:100%;border-collapse:collapse;font-size:13px}
+    .deduction-table th{background:var(--surface2);color:var(--text-muted);padding:8px 10px;text-align:left;border:1px solid var(--border)}
+    .deduction-table td{padding:8px 10px;border:1px solid var(--border);color:var(--text-muted)}
+    .deduction-table td:last-child{color:var(--accent);font-weight:700}
+    @media(max-width:480px){.card{padding:20px 16px}.compare-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="header">
+    <h1>증여세<br>절세 시뮬레이터</h1>
+    <p>일시 증여 vs 분할 증여 세금 비교</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💰 증여 정보 입력</div>
+    <div class="input-group">
+      <label>총 증여 금액</label>
+      <div class="input-wrapper">
+        <input type="number" id="giftAmount" value="100000000" min="0" />
+        <span class="input-unit">원</span>
+      </div>
+    </div>
+    <div class="input-group">
+      <label>수증자 (받는 사람) 관계</label>
+      <select id="relation">
+        <option value="50000000">배우자 (공제 6억원)</option>
+        <option value="50000000" selected>성인 자녀 (공제 5,000만원)</option>
+        <option value="20000000">미성년 자녀 (공제 2,000만원)</option>
+        <option value="50000000">사위·며느리 (공제 1,000만원)</option>
+        <option value="10000000">기타 친족 (공제 1,000만원)</option>
+      </select>
+    </div>
+    <div class="input-group">
+      <label>분할 횟수 (10년 단위)</label>
+      <select id="splitCount">
+        <option value="1">1회 (일시 증여)</option>
+        <option value="2" selected>2회 (10년 간격)</option>
+        <option value="3">3회 (10년 간격)</option>
+        <option value="4">4회 (10년 간격)</option>
+      </select>
+    </div>
+    <div class="info-box">
+      💡 증여세 공제 한도는 <strong>10년 합산 기준</strong>입니다.<br>
+      10년마다 공제 한도가 초기화되므로, 분할 증여 시 세금을 크게 줄일 수 있습니다.
+    </div>
+    <button class="calc-btn" onclick="calcGiftTax()">🎁 절세 시뮬레이션 시작</button>
+  </div>
+
+  <div class="card result-card" id="resultCard">
+    <div class="card-title">📊 일시 vs 분할 증여 비교</div>
+    <div class="compare-grid">
+      <div class="c-box" id="box-lump">
+        <div class="c-label">일시 증여</div>
+        <div class="c-tax" id="r-lump-tax">—</div>
+        <div class="c-unit">원</div>
+      </div>
+      <div class="c-box" id="box-split">
+        <div class="c-label" id="split-label">분할 증여</div>
+        <div class="c-tax" id="r-split-tax">—</div>
+        <div class="c-unit">원</div>
+        <div class="c-badge" id="split-badge"></div>
+      </div>
+    </div>
+    <div class="save-box">
+      <div class="save-label">분할 증여로 절세 가능 금액</div>
+      <div class="save-value" id="r-save">—</div>
+      <div style="font-size:12px;color:var(--text-muted);margin-top:4px">원 절약</div>
+    </div>
+    <div style="margin-top:16px">
+      <div class="detail-item"><span class="d-label">총 증여 금액</span><span class="d-value" id="r-total">—</span></div>
+      <div class="detail-item"><span class="d-label">1회당 증여액</span><span class="d-value" id="r-each">—</span></div>
+      <div class="detail-item"><span class="d-label">공제액 (1회당)</span><span class="d-value accent" id="r-deduct">—</span></div>
+      <div class="detail-item"><span class="d-label">1회당 과세표준</span><span class="d-value" id="r-base">—</span></div>
+    </div>
+    <div class="notice">⚠️ 증여세 절세 전략은 개인 상황에 따라 다릅니다. 부동산·주식 등 자산 증여는 시가 평가, 취득세 등 추가 비용이 발생할 수 있습니다. 실제 증여 전에 세무사 상담을 권장합니다.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📋 증여재산공제 한도 (10년 합산)</div>
+    <table class="deduction-table">
+      <tr><th>관계</th><th>공제 한도</th></tr>
+      <tr><td>배우자</td><td>6억원</td></tr>
+      <tr><td>직계존속 (부모→자녀, 성인)</td><td>5,000만원</td></tr>
+      <tr><td>직계존속 (부모→자녀, 미성년)</td><td>2,000만원</td></tr>
+      <tr><td>직계비속 (자녀→부모)</td><td>5,000만원</td></tr>
+      <tr><td>기타 친족 (형제·사위·며느리 등)</td><td>1,000만원</td></tr>
+    </table>
+  </div>
+</div>
+
+<style>
+.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
+.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
+.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}
+.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
+.seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
+.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
+.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
+.seo-section details[open] summary::after{content:'－'}
+.seo-section details[open]{background:#161b22}
+.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
+</style>
+<div class="seo-section">
+  <h2>증여세 절세 핵심 전략</h2>
+  <p>증여세에서 가장 강력한 절세 수단은 10년 단위 공제 한도를 최대한 활용하는 분할 증여입니다. 자녀에게 20년에 걸쳐 두 번 나눠 주면, 공제 한도가 두 번 적용되어 세금이 크게 줄어듭니다.</p>
+  <div class="formula-box">
+    증여세 = (증여금액 − 공제액) × 세율 − 누진공제<br>
+    세율: 1억 이하 10% / ~5억 20% / ~10억 30% / ~30억 40% / 초과 50%
+  </div>
+  <h3>🎯 자녀 증여 황금 플랜</h3>
+  <p>자녀 출생 직후부터 10년마다 2,000만원(미성년)→5,000만원(성인) 공제를 활용하면, 성인이 된 자녀에게 최대 수억 원을 무세 또는 저세율로 이전할 수 있습니다. 특히 부동산보다 현금을 먼저 증여하고 자녀 명의로 투자하는 전략이 효과적입니다.</p>
+  <h2>자주 묻는 질문 (FAQ)</h2>
+  <details><summary>부부간 증여는 얼마까지 세금이 없나요?</summary><div class="faq-answer">배우자 공제는 10년간 6억원입니다. 6억원 초과분에 대해서만 증여세가 발생합니다. 다만 이혼 시 재산 분할과 증여세 이슈가 복잡해질 수 있어 사전에 전문가 상담을 권장합니다.</div></details>
+  <details><summary>현금이 아닌 주식·부동산도 분할 증여가 가능한가요?</summary><div class="faq-answer">네, 가능합니다. 단, 주식은 증여일 전후 2개월 평균 종가로 평가하고, 부동산은 시가(감정평가액)를 기준으로 과세됩니다. 가치 상승 전에 증여하는 것이 절세에 유리합니다.</div></details>
+  <details><summary>국세청이 모르게 현금 증여는 가능한가요?</summary><div class="faq-answer">불법입니다. 국세청은 금융거래 내역을 통해 이상 자금 흐름을 추적합니다. 적발 시 증여세 본세 외에 신고불성실 가산세(20%)와 납부불성실 가산세가 추가됩니다.</div></details>
+  <details><summary>증여 후 5년 이내에 증여자가 사망하면 어떻게 되나요?</summary><div class="faq-answer">사전 증여 재산이 상속세 과세가액에 합산됩니다. 10년 이내 증여분은 상속세 계산 시 포함되므로, 증여 시기와 금액 계획을 꼼꼼히 세우는 것이 중요합니다.</div></details>
+</div>
+
+<script>
+function giftTax(amount, deduction) {
+  const base = Math.max(0, amount - deduction);
+  if (base <= 0) return 0;
+  let tax = 0;
+  if      (base <= 100000000)   tax = base * 0.10;
+  else if (base <= 500000000)   tax = 10000000  + (base - 100000000) * 0.20;
+  else if (base <= 1000000000)  tax = 90000000  + (base - 500000000) * 0.30;
+  else if (base <= 3000000000)  tax = 240000000 + (base - 1000000000) * 0.40;
+  else                          tax = 1040000000 + (base - 3000000000) * 0.50;
+  return Math.round(tax);
+}
+
+function calcGiftTax() {
+  const total     = parseFloat(document.getElementById('giftAmount').value) || 0;
+  const deduction = parseInt(document.getElementById('relation').value);
+  const splits    = parseInt(document.getElementById('splitCount').value);
+
+  // 일시 증여
+  const lumpTax = giftTax(total, deduction);
+
+  // 분할 증여
+  const eachAmount = total / splits;
+  const splitTaxPerTime = giftTax(eachAmount, deduction);
+  const splitTaxTotal = splitTaxPerTime * splits;
+
+  const save = Math.max(0, lumpTax - splitTaxTotal);
+  const fmt = v => v.toLocaleString('ko-KR') + '원';
+
+  document.getElementById('r-lump-tax').textContent  = lumpTax.toLocaleString();
+  document.getElementById('r-split-tax').textContent = splitTaxTotal.toLocaleString();
+  document.getElementById('r-save').textContent      = save.toLocaleString();
+  document.getElementById('r-total').textContent     = fmt(total);
+  document.getElementById('r-each').textContent      = fmt(Math.round(eachAmount));
+  document.getElementById('r-deduct').textContent    = fmt(deduction);
+  document.getElementById('r-base').textContent      = fmt(Math.max(0, Math.round(eachAmount - deduction)));
+  document.getElementById('split-label').textContent = splits + '회 분할 증여';
+
+  if (splitTaxTotal < lumpTax) {
+    document.getElementById('box-split').classList.add('winner');
+    document.getElementById('box-lump').classList.remove('winner');
+    document.getElementById('split-badge').textContent = '✅ 절세 유리';
+  } else {
+    document.getElementById('box-lump').classList.add('winner');
+    document.getElementById('box-split').classList.remove('winner');
+    document.getElementById('split-badge').textContent = '';
+  }
+
+  document.getElementById('resultCard').classList.add('visible');
+}
+</script>
+<script src="/common.js"></script><script src="/share.js"></script>
+<script src="/calculator.js"></script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(r => console.log('[PWA] SW registered:', r.scope))
+      .catch(e => console.warn('[PWA] SW failed:', e));
+  });
+}
+</script>
+</body>
+</html>

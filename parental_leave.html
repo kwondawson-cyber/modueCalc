@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#00d4aa" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="모두의계산기" />
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>육아휴직 급여 계산기 | 모두의계산기</title>
+  <meta name="description" content="2025년 육아휴직 급여 계산기. 월 통상임금 기준 육아휴직 급여, 6+6 부모 육아휴직 특례 실수령액을 계산하세요." />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+    .container{max-width:640px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
+    .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+    .header{text-align:center;margin-bottom:40px}
+    .header h1{font-size:clamp(28px,6vw,44px);font-weight:900;line-height:1.1;margin-bottom:10px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .header p{color:var(--text-muted);font-size:14px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:16px}
+    .card-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:20px}
+    .input-group{margin-bottom:18px}
+    .input-group label{display:block;font-size:13px;font-weight:500;color:var(--text-muted);margin-bottom:7px}
+    .input-wrapper{position:relative}
+    .input-wrapper input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:13px 60px 13px 16px;font-size:20px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none;transition:border-color .2s}
+    .input-wrapper input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,170,0.1)}
+    .input-unit{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--text-muted);font-weight:500;pointer-events:none}
+    select{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:13px 16px;font-size:16px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:var(--text);outline:none;cursor:pointer}
+    select:focus{border-color:var(--accent)}
+    .info-box{background:rgba(0,149,255,0.06);border:1px solid rgba(0,149,255,0.15);border-radius:10px;padding:12px 16px;font-size:12px;color:var(--text-muted);margin-bottom:18px;line-height:1.8}
+    .calc-btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;font-size:16px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:#000;cursor:pointer;transition:transform .15s,box-shadow .15s}
+    .calc-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,212,170,0.3)}
+    .result-card{display:none;animation:fadeUp .4s ease}.result-card.visible{display:block}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+    .s-box{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center}
+    .s-box.main{border-color:rgba(0,212,170,0.4);background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.04));grid-column:span 2}
+    .s-box .s-label{font-size:11px;color:var(--text-muted);font-weight:600;margin-bottom:6px}
+    .s-box .s-value{font-family:'Montserrat',sans-serif;font-size:22px;font-weight:900}
+    .s-box.main .s-value{font-size:32px;color:var(--accent)}
+    .s-box .s-unit{font-size:11px;color:var(--text-muted);margin-top:3px}
+    .detail-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);font-size:14px}
+    .detail-item:last-child{border-bottom:none}
+    .detail-item .d-label{color:var(--text-muted)}
+    .detail-item .d-value{font-weight:700}
+    .detail-item .d-value.accent{color:var(--accent)}
+    .notice{margin-top:16px;padding:13px 16px;background:rgba(255,165,0,0.05);border:1px solid rgba(255,165,0,0.15);border-radius:10px;font-size:12px;color:var(--text-muted);line-height:1.7}
+    .badge{display:inline-block;background:rgba(0,212,170,0.15);border:1px solid rgba(0,212,170,0.3);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;color:var(--accent);margin-left:6px}
+    @media(max-width:480px){.card{padding:20px 16px}.summary-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="header">
+    <h1>육아휴직 급여<br>계산기</h1>
+    <p>2025년 기준 · 6+6 부모 육아휴직 특례 반영</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">👶 정보 입력</div>
+    <div class="input-group">
+      <label>월 통상임금 (세전)</label>
+      <div class="input-wrapper">
+        <input type="number" id="salary" value="3000000" min="0" />
+        <span class="input-unit">원</span>
+      </div>
+    </div>
+    <div class="input-group">
+      <label>적용 유형</label>
+      <select id="leaveType">
+        <option value="normal">일반 육아휴직</option>
+        <option value="special6">6+6 부모 육아휴직 특례 (생후 18개월 이내)</option>
+      </select>
+    </div>
+    <div class="input-group" id="monthGroup">
+      <label>사용 개월 수 (최대 12개월)</label>
+      <div class="input-wrapper">
+        <input type="number" id="months" value="12" min="1" max="12" />
+        <span class="input-unit">개월</span>
+      </div>
+    </div>
+    <div class="info-box">
+      💡 <strong>일반 육아휴직</strong>: 통상임금의 80% (상한 150만원, 하한 70만원)<br>
+      💡 <strong>6+6 특례</strong>: 첫 6개월 통상임금의 100% (상한 200~450만원 단계적 적용)
+    </div>
+    <button class="calc-btn" onclick="calcLeave()">🍼 육아휴직 급여 계산하기</button>
+  </div>
+
+  <div class="card result-card" id="resultCard">
+    <div class="card-title">💰 계산 결과</div>
+    <div class="summary-grid">
+      <div class="s-box main">
+        <div class="s-label">월 육아휴직 급여</div>
+        <div class="s-value" id="r-monthly">—</div>
+        <div class="s-unit">원 / 월</div>
+      </div>
+      <div class="s-box">
+        <div class="s-label">총 수령 예상액</div>
+        <div class="s-value" id="r-total">—</div>
+        <div class="s-unit">원</div>
+      </div>
+      <div class="s-box">
+        <div class="s-label">통상임금 대비</div>
+        <div class="s-value" id="r-ratio">—</div>
+        <div class="s-unit">% 수준</div>
+      </div>
+    </div>
+    <div id="detail-section"></div>
+    <div class="notice">⚠️ 육아휴직 급여의 25%는 복직 후 6개월 뒤 지급되는 사후지급금 제도가 있습니다(2025년부터 일부 개선). 실제 지급액은 고용보험 가입 기간 및 조건에 따라 달라질 수 있으니 고용센터(1350)에 문의하세요.</div>
+  </div>
+</div>
+
+<style>
+.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
+.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
+.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}
+.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
+.seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
+.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
+.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
+.seo-section details[open] summary::after{content:'－'}
+.seo-section details[open]{background:#161b22}
+.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
+</style>
+<div class="seo-section">
+  <h2>2025년 육아휴직 급여 완벽 정리</h2>
+  <p>육아휴직 급여는 고용보험에서 지원하는 제도로, 만 8세 이하(또는 초등학교 2학년 이하) 자녀를 둔 근로자가 사용할 수 있습니다. 2025년부터 6+6 부모 육아휴직 특례가 확대 적용되었습니다.</p>
+  <div class="formula-box">
+    일반 육아휴직: 통상임금 × 80% (상한 150만원, 하한 70만원)<br>
+    6+6 특례 1개월: 통상임금 × 100% (상한 200만원)<br>
+    6+6 특례 2개월: 통상임금 × 100% (상한 250만원)<br>
+    6+6 특례 3~6개월: 통상임금 × 100% (상한 300~450만원)
+  </div>
+  <h3>📋 6+6 부모 육아휴직 특례란?</h3>
+  <p>생후 18개월 이내 자녀에 대해 부모가 동시에 또는 순차적으로 육아휴직을 사용할 경우, 각각 첫 6개월에 대해 통상임금 100%를 지급하는 특례입니다. 부부 합산 최대 2,100만원(각 1,050만원) 수준의 급여를 받을 수 있습니다.</p>
+  <h2>자주 묻는 질문 (FAQ)</h2>
+  <details><summary>육아휴직 급여 신청은 어디서 하나요?</summary><div class="faq-answer">고용보험 홈페이지(ei.go.kr) 또는 가까운 고용센터(전화 1350)에서 신청합니다. 휴직 시작일로부터 1개월 후부터 매월 신청 가능합니다.</div></details>
+  <details><summary>프리랜서·자영업자도 육아휴직 급여를 받을 수 있나요?</summary><div class="faq-answer">고용보험에 가입된 근로자만 받을 수 있습니다. 자영업자나 프리랜서는 고용보험 임의가입을 통해 일부 혜택을 받을 수 있으나, 육아휴직 급여는 적용되지 않습니다.</div></details>
+  <details><summary>육아휴직 중 다른 소득이 있으면 급여가 삭감되나요?</summary><div class="faq-answer">육아휴직 중 취업(주 15시간 이상 근무 또는 월 150만원 이상 소득)이 확인되면 급여 지급이 중단될 수 있습니다. 부업이나 아르바이트는 사전에 고용센터에 문의하세요.</div></details>
+  <details><summary>남성도 육아휴직을 쓸 수 있나요?</summary><div class="faq-answer">네, 남성 근로자도 동일하게 육아휴직을 사용할 수 있습니다. 6+6 특례는 부모 모두 사용해야 각자 혜택을 받을 수 있어 남성 육아휴직을 적극 장려하고 있습니다.</div></details>
+</div>
+
+<script>
+function calcLeave() {
+  const salary = parseFloat(document.getElementById('salary').value) || 0;
+  const type   = document.getElementById('leaveType').value;
+  const months = parseInt(document.getElementById('months').value) || 1;
+
+  let monthly = 0, detailHtml = '';
+
+  if (type === 'normal') {
+    const raw = salary * 0.8;
+    monthly = Math.min(Math.max(raw, 700000), 1500000);
+    detailHtml = `
+      <div class="detail-item"><span class="d-label">통상임금의 80%</span><span class="d-value">${Math.round(raw).toLocaleString()}원</span></div>
+      <div class="detail-item"><span class="d-label">상한액 적용</span><span class="d-value">1,500,000원</span></div>
+      <div class="detail-item"><span class="d-label">하한액 적용</span><span class="d-value">700,000원</span></div>
+      <div class="detail-item"><span class="d-label">월 수령액</span><span class="d-value accent">${Math.round(monthly).toLocaleString()}원</span></div>`;
+  } else {
+    // 6+6 특례: 월별 상한 200/250/300/350/400/450만원
+    const caps = [2000000, 2500000, 3000000, 3500000, 4000000, 4500000];
+    let totalSpecial = 0;
+    detailHtml = '';
+    for (let i = 0; i < Math.min(months, 6); i++) {
+      const m = Math.min(salary, caps[i]);
+      totalSpecial += m;
+      detailHtml += `<div class="detail-item"><span class="d-label">${i+1}개월차 (상한 ${(caps[i]/10000).toFixed(0)}만원)</span><span class="d-value accent">${m.toLocaleString()}원</span></div>`;
+    }
+    if (months > 6) {
+      const normalMonths = months - 6;
+      const normalRaw = salary * 0.8;
+      const normalM = Math.min(Math.max(normalRaw, 700000), 1500000);
+      totalSpecial += normalM * normalMonths;
+      detailHtml += `<div class="detail-item"><span class="d-label">7~${months}개월 (일반, 월)</span><span class="d-value">${Math.round(normalM).toLocaleString()}원</span></div>`;
+    }
+    monthly = totalSpecial / months;
+    document.getElementById('r-total').textContent = Math.round(totalSpecial).toLocaleString();
+  }
+
+  const total = Math.round(monthly * months);
+  const ratio = ((monthly / salary) * 100).toFixed(0);
+
+  document.getElementById('r-monthly').textContent = Math.round(monthly).toLocaleString();
+  document.getElementById('r-total').textContent   = total.toLocaleString();
+  document.getElementById('r-ratio').textContent   = ratio;
+  document.getElementById('detail-section').innerHTML = detailHtml;
+  document.getElementById('resultCard').classList.add('visible');
+}
+</script>
+<script src="/common.js"></script><script src="/share.js"></script>
+<script src="/calculator.js"></script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(r => console.log('[PWA] SW registered:', r.scope))
+      .catch(e => console.warn('[PWA] SW failed:', e));
+  });
+}
+</script>
+</body>
+</html>

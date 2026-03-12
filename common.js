@@ -55,6 +55,12 @@
     {title:'마진율',        path:'/margin',           emoji:'💹'},
     {title:'건강보험료',    path:'/health_insurance', emoji:'🏥'},
     {title:'소득세',        path:'/income_tax',       emoji:'🧮'},
+    {title:'로또 당첨금',   path:'/lotto',            emoji:'🎱'},
+    {title:'아이 예상키',   path:'/child_height',     emoji:'📏'},
+    {title:'육아휴직 급여', path:'/parental_leave',   emoji:'👶'},
+    {title:'프리랜서 세금', path:'/freelancer_tax',   emoji:'💼'},
+    {title:'증여세 절세',   path:'/gift_tax_sim',     emoji:'🎁'},
+    {title:'대출 한도',     path:'/loan_limit',       emoji:'🏦'},
   ];
 
   var POPULAR = ['/salary','/age','/weekly_holiday','/bmi','/exchange',
