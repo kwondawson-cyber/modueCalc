@@ -568,62 +568,55 @@
   // PWA 설치 배너
   (function() {
     var deferredPrompt = null;
-    var banner  = document.getElementById('pwa-banner');
+    var banner     = document.getElementById('pwa-banner');
     var installBtn = document.getElementById('pwa-install-btn');
     var closeBtn   = document.getElementById('pwa-close');
-    var DISMISSED_KEY = 'ec_pwa_dismissed';
 
-    // 이미 설치됐거나 닫은 적 있으면 표시 안 함
-    if (localStorage.getItem(DISMISSED_KEY)) return;
-    // standalone 모드(이미 설치됨)면 숨김
-    if (window.matchMedia('(display-mode: standalone)').matches) return;
+    // 이미 설치됨(standalone)이면 배너 숨김
+    if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) return;
 
-    // 삼성 인터넷만 Chrome 안내로 교체 (Edge·Chrome·웨일 등은 PWA 정상 지원)
+    // 삼성 인터넷 → Chrome 안내
     var isSamsung = /samsungbrowser/i.test(navigator.userAgent);
     if (isSamsung) {
       installBtn.textContent = 'Chrome으로 열기';
-      installBtn.addEventListener('click', function() {
+      installBtn.onclick = function() {
         alert('Chrome 브라우저에서 이 페이지를 열고\n설치하면 경고 없이 홈 화면에 추가돼요!\n\nChrome 앱 → everycalc.kr 접속 → 설치');
-      });
-      setTimeout(function() { banner.classList.add('show'); }, 1500);
+      };
     }
 
+    // iOS Safari → 공유버튼 안내
+    var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    if (isIOS && !isSamsung) {
+      installBtn.textContent = '추가 방법 보기';
+      installBtn.onclick = function() {
+        alert('Safari에서 하단 공유 버튼(□↑)을 누른 뒤\n"홈 화면에 추가"를 선택해 주세요!');
+      };
+    }
+
+    // beforeinstallprompt: 설치 버튼에만 연결 (배너 표시와 분리)
     window.addEventListener('beforeinstallprompt', function(e) {
       e.preventDefault();
       deferredPrompt = e;
-      // 페이지 로드 1.5초 후 배너 표시 (너무 즉각적이면 거슬림)
-      setTimeout(function() {
-        banner.classList.add('show');
-      }, 1500);
+      if (!isSamsung && !isIOS) {
+        installBtn.onclick = function() {
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice.then(function(result) {
+            if (result.outcome === 'accepted') {
+              banner.classList.remove('show');
+            }
+            deferredPrompt = null;
+          });
+        };
+      }
     });
 
-    installBtn.addEventListener('click', function() {
-      if (!deferredPrompt) return;
-      deferredPrompt.prompt();
-      deferredPrompt.userChoice.then(function(result) {
-        if (result.outcome === 'accepted') {
-          banner.classList.remove('show');
-          localStorage.setItem(DISMISSED_KEY, '1');
-        }
-        deferredPrompt = null;
-      });
-    });
-
+    // X: 이번 세션만 닫기
     closeBtn.addEventListener('click', function() {
       banner.classList.remove('show');
-      // X는 이번 세션만 닫기 (다음 방문엔 다시 표시)
     });
 
-    // iOS Safari는 beforeinstallprompt 없음 → 별도 안내
-    var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-    var isInStandalone = window.navigator.standalone;
-    if (isIOS && !isInStandalone && !localStorage.getItem(DISMISSED_KEY)) {
-      installBtn.textContent = '추가 방법 보기';
-      installBtn.addEventListener('click', function() {
-        alert('Safari에서 하단 공유 버튼(□↑)을 누른 뒤\n"홈 화면에 추가"를 선택해 주세요!');
-      }, { once: true });
-      setTimeout(function() { banner.classList.add('show'); }, 1500);
-    }
+    // 1.5초 후 항상 표시 (이벤트 여부 무관)
+    setTimeout(function() { banner.classList.add('show'); }, 1500);
   })();
   </script>
 </body>
