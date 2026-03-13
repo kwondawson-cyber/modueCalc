@@ -13,7 +13,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>연봉 실수령액 계산기 | 모두의계산기</title>
-  <meta name="description" content="2025년 최신 기준 연봉 실수령액 계산기. 4대보험, 소득세, 지방소득세 자동 계산. 월 실수령액을 정확하게 확인하세요." />
+  <meta name="description" content="연봉 실수령액 계산기 — 4대보험·소득세 자동 공제. 연봉 3,000~1억원 구간별 월 실수령액 비교표. 비과세 식대·교통비 활용 절세 방법 포함." />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
   <style>
@@ -487,7 +487,15 @@
     .home-btn-emoji { font-size: 20px; line-height: 1; }
     .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
       .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
-  </style>
+  
+.rel-section{margin:32px 0 8px}
+.rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
+.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+.rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+.rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
+</style>
 </head>
 <body>
   <div class="container">
@@ -788,46 +796,67 @@
 </style>
 
 <div class="seo-section">
-  <h2>연봉 실수령액 계산기 사용법</h2>
-  <h3>📌 사용방법</h3>
-  <p>세전 연봉을 입력하면 국민연금·건강보험·장기요양보험·고용보험·소득세·지방소득세를 자동 공제해 월 실수령액을 계산합니다. 부양가족 수와 비과세 식대(월 20만 원)를 입력할수록 결과가 정확해집니다.</p>
+  <h2>공제 항목을 알아야 실수령액이 보인다</h2>
+  <p>월급에서 빠져나가는 항목은 크게 두 가지입니다. 하나는 <strong>4대보험(국민연금·건강보험·장기요양보험·고용보험)</strong>이고, 다른 하나는 <strong>소득세와 지방소득세</strong>입니다. 이 두 가지를 합산한 금액이 공제액이며, 세전 월급에서 공제액을 뺀 것이 실제로 받는 실수령액입니다.</p>
 
-  <h3>📐 계산 공식</h3>
-  <div class="formula-box">월 실수령액 = 월급 − 국민연금(4.5%) − 건강보험(3.545%) − 장기요양보험(건강보험료×12.95%) − 고용보험(0.9%) − 소득세(간이세액표) − 지방소득세(소득세×10%)</div>
-
-  <h3>📊 2025년 연봉별 실수령액 표</h3>
-  <p>아래 표는 부양가족 1명(본인), 비과세 식대 20만 원 기준입니다.</p>
+  <h3>4대보험·소득세 공제율 정리</h3>
   <table>
-    <thead><tr><th>세전 연봉</th><th>월 세전</th><th>4대보험+세금</th><th>월 실수령액</th><th>연 실수령액</th></tr></thead>
+    <thead><tr><th>항목</th><th>근로자 부담률</th><th>월급 300만 원 기준</th></tr></thead>
     <tbody>
-      <tr><td>3,000만 원</td><td>250만 원</td><td>약 34만 원</td><td><strong>약 216만 원</strong></td><td>약 2,590만 원</td></tr>
-      <tr><td>3,500만 원</td><td>292만 원</td><td>약 41만 원</td><td><strong>약 251만 원</strong></td><td>약 3,010만 원</td></tr>
-      <tr><td>4,000만 원</td><td>333만 원</td><td>약 48만 원</td><td><strong>약 285만 원</strong></td><td>약 3,420만 원</td></tr>
-      <tr><td>4,500만 원</td><td>375만 원</td><td>약 56만 원</td><td><strong>약 319만 원</strong></td><td>약 3,820만 원</td></tr>
-      <tr><td>5,000만 원</td><td>417만 원</td><td>약 65만 원</td><td><strong>약 352만 원</strong></td><td>약 4,220만 원</td></tr>
-      <tr><td>6,000만 원</td><td>500만 원</td><td>약 85만 원</td><td><strong>약 415만 원</strong></td><td>약 4,980만 원</td></tr>
-      <tr><td>7,000만 원</td><td>583만 원</td><td>약 108만 원</td><td><strong>약 475만 원</strong></td><td>약 5,700만 원</td></tr>
-      <tr><td>8,000만 원</td><td>667만 원</td><td>약 134만 원</td><td><strong>약 533만 원</strong></td><td>약 6,390만 원</td></tr>
-      <tr><td>1억 원</td><td>833만 원</td><td>약 192만 원</td><td><strong>약 641만 원</strong></td><td>약 7,690만 원</td></tr>
+      <tr><td>국민연금</td><td>4.5%</td><td>135,000원</td></tr>
+      <tr><td>건강보험</td><td>3.545%</td><td>106,350원</td></tr>
+      <tr><td>장기요양보험</td><td>건강보험료의 12.95%</td><td>13,772원</td></tr>
+      <tr><td>고용보험</td><td>0.9%</td><td>27,000원</td></tr>
+      <tr><td>소득세 (간이세액, 부양1명)</td><td>과세표준 구간별</td><td>약 38,000원</td></tr>
+      <tr><td>지방소득세</td><td>소득세의 10%</td><td>약 3,800원</td></tr>
+      <tr><td><strong>합계</strong></td><td>—</td><td><strong>약 324,000원</strong></td></tr>
     </tbody>
   </table>
 
-  <h3>💡 실수령액을 높이는 방법</h3>
+  <h3>연봉별 월 실수령액 비교표</h3>
+  <p>부양가족 1명(본인만), 비과세 식대 20만 원 기준입니다. 실제 금액은 부양가족 수와 비과세 항목에 따라 달라집니다.</p>
+  <table>
+    <thead><tr><th>세전 연봉</th><th>월 세전</th><th>월 공제액</th><th>월 실수령액</th></tr></thead>
+    <tbody>
+      <tr><td>3,000만 원</td><td>250만 원</td><td>약 34만 원</td><td><strong>약 216만 원</strong></td></tr>
+      <tr><td>4,000만 원</td><td>333만 원</td><td>약 47만 원</td><td><strong>약 286만 원</strong></td></tr>
+      <tr><td>5,000만 원</td><td>417만 원</td><td>약 65만 원</td><td><strong>약 352만 원</strong></td></tr>
+      <tr><td>6,000만 원</td><td>500만 원</td><td>약 85만 원</td><td><strong>약 415만 원</strong></td></tr>
+      <tr><td>7,000만 원</td><td>583만 원</td><td>약 108만 원</td><td><strong>약 475만 원</strong></td></tr>
+      <tr><td>8,000만 원</td><td>667만 원</td><td>약 134만 원</td><td><strong>약 533만 원</strong></td></tr>
+      <tr><td>1억 원</td><td>833만 원</td><td>약 192만 원</td><td><strong>약 641만 원</strong></td></tr>
+    </tbody>
+  </table>
+
+  <h3>비과세 항목으로 실수령액 높이기</h3>
+  <p>비과세 항목은 4대보험 산정 기준(보수월액)과 소득세 과세표준에서 모두 제외됩니다. 회사와 합의해 급여 구조를 조정하면 실수령액을 높일 수 있습니다.</p>
   <ul>
-    <li><strong>식대 비과세 활용</strong>: 월 20만 원 한도 식대는 소득세·4대보험 산정 제외</li>
-    <li><strong>자가운전보조금</strong>: 월 20만 원 한도 비과세 처리 가능</li>
-    <li><strong>부양가족 등록</strong>: 부모·배우자·자녀 등록 시 소득세 공제 증가</li>
-    <li><strong>연금저축·IRP</strong>: 연말정산 세액공제로 환급액 증가</li>
+    <li><strong>식대</strong> — 월 20만 원 한도. 현금 식대뿐 아니라 구내식당 이용권도 포함됩니다.</li>
+    <li><strong>자가운전보조금</strong> — 월 20만 원 한도. 본인 명의 차량으로 업무 목적 운행 시 적용됩니다.</li>
+    <li><strong>출산·육아 수당</strong> — 자녀 1인당 월 20만 원 한도.</li>
+    <li><strong>연구보조비</strong> — 기업 부설 연구소·연구개발 전담 부서 소속자에게 월 20만 원 한도.</li>
   </ul>
 
-  <div class="tip-box"><strong>💡 Tip.</strong> 연봉 협상 시 세전 연봉보다 실수령액 기준으로 비교하세요. 연봉이 100만 원 올라도 실수령 증가분은 70~80만 원 수준입니다.</div>
+  <div class="tip-box"><strong>연봉 100만 원 인상의 실제 효과.</strong> 연봉이 100만 원 오르면 월로 나누면 약 83,000원인데, 여기서 4대보험과 소득세를 빼면 실제 손에 쥐는 증가분은 월 60,000~65,000원 수준입니다. 연봉 협상 시 세전 금액보다 <strong>실수령액 기준으로 비교</strong>하는 것이 정확합니다.</div>
 
-  <h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>연봉과 월급은 어떻게 다른가요?</summary><div class="faq-answer">연봉은 1년 총급여이며 월급은 연봉 ÷ 12입니다. 실수령액은 여기서 4대보험·세금을 공제한 금액으로, 통상 연봉의 75~85% 수준입니다.</div></details>
+  <h2>자주 묻는 질문</h2>
+  <details><summary>연봉과 월급은 어떻게 다른가요?</summary><div class="faq-answer">연봉은 1년 총급여이며 월급은 연봉 ÷ 12입니다. 실수령액은 여기서 4대보험·세금을 공제한 금액입니다.</div></details>
   <details><summary>퇴직금은 연봉에 포함되나요?</summary><div class="faq-answer">회사마다 다릅니다. 퇴직금 포함 연봉이라면 실제 월급은 연봉 ÷ 13으로 계산됩니다. 근로계약서에서 반드시 확인하세요.</div></details>
-  <details><summary>부양가족이 많으면 세금이 줄어드나요?</summary><div class="faq-answer">네. 부양가족이 많을수록 근로소득 간이세액표 기준 공제액이 커져 소득세가 줄고 실수령액이 늘어납니다.</div></details>
-  <details><summary>13월의 월급, 연말정산은 어떻게 되나요?</summary><div class="faq-answer">연말정산은 1년간 납부한 소득세와 실제 세금을 정산하는 과정입니다. 공제 항목이 많으면 환급, 적으면 추가 납부가 발생합니다. 이 계산기는 월별 예상액이므로 실제와 다소 차이가 있습니다.</div></details>
-  <details><summary>계약직·일용직도 4대보험을 내나요?</summary><div class="faq-answer">계약직은 정규직과 동일하게 4대보험이 적용됩니다. 일용직은 근무일수·소득에 따라 적용 여부가 달라지므로 개별 확인이 필요합니다.</div></details>
+  <details><summary>부양가족이 많으면 세금이 줄어드나요?</summary><div class="faq-answer">네. 부양가족이 많을수록 근로소득 간이세액표 기준 공제액이 커져 소득세가 줄어들고 실수령액이 늘어납니다. 배우자·자녀·부모님을 공제 대상으로 등록하세요.</div></details>
+  <details><summary>연말정산은 어떻게 되나요?</summary><div class="faq-answer">연말정산은 1년간 원천징수한 소득세와 실제 세금을 정산하는 과정입니다. 공제 항목(의료비·교육비·기부금 등)이 많으면 환급받고, 적으면 추가 납부합니다.</div></details>
+  <details><summary>계약직·일용직도 4대보험을 내나요?</summary><div class="faq-answer">계약직은 정규직과 동일하게 4대보험이 적용됩니다. 일용직은 1개월 이상 근무하고 월 60시간(주 15시간) 이상이면 적용됩니다.</div></details>
+
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/income_tax" class="rel-card"><span class="re">📋</span><span class="rn">소득세 계산기</span></a>
+  <a href="/health_insurance" class="rel-card"><span class="re">🏥</span><span class="rn">건강보험료</span></a>
+  <a href="/retirement" class="rel-card"><span class="re">💼</span><span class="rn">퇴직금 계산기</span></a>
+  <a href="/annual_leave" class="rel-card"><span class="re">📅</span><span class="rn">연차 계산기</span></a>
+  <a href="/salary_slip" class="rel-card"><span class="re">📄</span><span class="rn">급여명세서</span></a>
+  <a href="/pension" class="rel-card"><span class="re">🏦</span><span class="rn">국민연금</span></a>
+  </div>
+</div>
 </div>
 
 <script src="/common.js"></script><script src="/share.js"></script>

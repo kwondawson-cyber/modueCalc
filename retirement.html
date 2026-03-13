@@ -13,7 +13,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>퇴직금 계산기 | 모두의계산기</title>
-  <meta name="description" content="퇴직금 계산기. 재직기간과 평균임금으로 퇴직금을 정확하게 계산하세요. 2025년 근로기준법 기준." />
+  <meta name="description" content="퇴직금 계산기 — 재직기간·평균임금으로 법정 퇴직금 자동 계산. 근로기준법 기준 평균임금 포함 항목, 재직기간·급여별 예시, IRP 절세 효과 포함." />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
   <style>
@@ -248,7 +248,15 @@
     .home-btn-emoji { font-size: 20px; line-height: 1; }
     .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
       .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
-  </style>
+  
+.rel-section{margin:32px 0 8px}
+.rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
+.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+.rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+.rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
+</style>
 </head>
 <body>
   <div class="container">
@@ -452,49 +460,60 @@
 </style>
 
 <div class="seo-section">
-  <h2>퇴직금 계산기 사용법</h2>
-  <h3>📌 사용방법</h3>
-  <p>입사일, 퇴사일, 퇴직 전 3개월 총 임금을 입력하면 법정 퇴직금을 자동 계산합니다. 1년(365일) 이상 근무하고 주 평균 15시간 이상 일한 근로자라면 반드시 퇴직금을 받을 권리가 있습니다.</p>
+  <h2>퇴직금, 어떻게 계산되고 무엇이 포함되나</h2>
+  <p>퇴직금은 <strong>1년 이상, 주 평균 15시간 이상</strong> 근무한 모든 근로자에게 지급해야 하는 법정 급여입니다. 계산 기준이 되는 '평균임금'에는 단순 기본급 외에도 수당과 상여금 일부가 포함되므로, 실제 수령액은 기본급만 계산했을 때보다 높게 나오는 경우가 많습니다.</p>
 
-  <h3>📐 계산 공식</h3>
+  <h3>퇴직금 계산 공식</h3>
   <div class="formula-box">퇴직금 = 평균임금 × 30일 × (재직일수 ÷ 365)
 평균임금 = 퇴직 전 3개월 총 임금 ÷ 퇴직 전 3개월 총 일수</div>
+  <p>예를 들어 퇴직 전 3개월 임금 합계가 900만 원이고 해당 기간 일수가 92일이라면, 평균임금은 약 97,826원/일이 됩니다. 재직일수가 1,095일(3년)이라면 퇴직금은 97,826 × 30 × (1,095 ÷ 365) = 약 880만 원입니다.</p>
 
-  <h3>📊 재직기간·급여별 퇴직금 예시</h3>
+  <h3>평균임금에 포함되는 항목과 제외 항목</h3>
   <table>
-    <thead><tr><th>재직기간</th><th>월 급여 250만</th><th>월 급여 300만</th><th>월 급여 400만</th><th>월 급여 500만</th></tr></thead>
+    <thead><tr><th>포함 항목</th><th>제외 항목</th></tr></thead>
     <tbody>
-      <tr><td>1년</td><td>약 250만</td><td>약 300만</td><td>약 400만</td><td>약 500만</td></tr>
-      <tr><td>3년</td><td>약 750만</td><td>약 900만</td><td>약 1,200만</td><td>약 1,500만</td></tr>
-      <tr><td>5년</td><td>약 1,250만</td><td>약 1,500만</td><td>약 2,000만</td><td>약 2,500만</td></tr>
-      <tr><td>10년</td><td>약 2,500만</td><td>약 3,000만</td><td>약 4,000만</td><td>약 5,000만</td></tr>
-      <tr><td>20년</td><td>약 5,000만</td><td>약 6,000만</td><td>약 8,000만</td><td>약 1억</td></tr>
+      <tr><td>기본급, 직책·직무수당 등 정기 지급 임금</td><td>경조사비, 재해보상금</td></tr>
+      <tr><td>연장·야간·휴일 근로수당</td><td>실비변상적 성격의 금품 (출장비, 작업복 등)</td></tr>
+      <tr><td>퇴직 전 3개월 이내 지급된 상여금 (해당 기간 안분)</td><td>임시·일시적으로 지급된 급여</td></tr>
+      <tr><td>전년도 미사용 연차 보상금</td><td>복리후생 성격의 급여 (기숙사, 통근버스 등)</td></tr>
     </tbody>
   </table>
 
-  <h3>💡 평균임금에 포함되는 항목</h3>
-  <ul>
-    <li>기본급, 직책수당, 직무수당 등 정기적 임금</li>
-    <li>연장·야간·휴일근로수당</li>
-    <li>3개월 이내 지급된 상여금 (해당 기간 안분 적용)</li>
-    <li>연차수당 (전년도 미사용 연차보상금)</li>
-  </ul>
+  <h3>재직기간·급여별 퇴직금 예시</h3>
+  <table>
+    <thead><tr><th>재직기간</th><th>월 급여 250만</th><th>월 급여 350만</th><th>월 급여 500만</th></tr></thead>
+    <tbody>
+      <tr><td>1년</td><td>약 250만 원</td><td>약 350만 원</td><td>약 500만 원</td></tr>
+      <tr><td>3년</td><td>약 750만 원</td><td>약 1,050만 원</td><td>약 1,500만 원</td></tr>
+      <tr><td>5년</td><td>약 1,250만 원</td><td>약 1,750만 원</td><td>약 2,500만 원</td></tr>
+      <tr><td>10년</td><td>약 2,500만 원</td><td>약 3,500만 원</td><td>약 5,000만 원</td></tr>
+      <tr><td>20년</td><td>약 5,000만 원</td><td>약 7,000만 원</td><td>약 1억 원</td></tr>
+    </tbody>
+  </table>
 
-  <div class="warn-box"><strong>⚠️ 주의.</strong> 퇴직금 미지급 시 퇴직일로부터 14일이 지나면 연 20% 지연이자가 발생합니다. 3년 이내 노동청에 신고하세요.</div>
+  <h3>퇴직금 IRP로 받으면 세금이 줄어드는 이유</h3>
+  <p>퇴직금을 일시금으로 수령하면 퇴직소득세가 바로 징수됩니다. 반면 IRP(개인형 퇴직연금)로 이전한 뒤 55세 이후 10년 이상 연금으로 나눠 받으면 퇴직소득세를 40% 감면받습니다. 퇴직금 규모가 클수록 절세 효과가 커지므로, 퇴직 직후 IRP 이전 여부를 반드시 검토해 보세요.</p>
 
-  <h3>🏦 IRP(개인형 퇴직연금) 연계</h3>
-  <p>2022년 4월부터 퇴직금 300만 원 초과 시 IRP 계좌로만 수령 가능합니다. IRP에 적립하면 퇴직소득세를 납부 유예할 수 있고, 55세 이후 연금으로 수령 시 세금 혜택이 있습니다.</p>
-  <ul>
-    <li>IRP 수령 후 즉시 해지: 퇴직소득세 전액 납부</li>
-    <li>55세 이후 연금 수령: 퇴직소득세의 30~40% 절감</li>
-  </ul>
+  <div class="warn-box"><strong>⚠️ 퇴직금 미지급 시.</strong> 퇴직일로부터 14일이 지나도 지급되지 않으면 연 20%의 지연이자가 발생합니다. 3년 소멸시효 내에 관할 노동청에 진정을 제기하거나 고용노동부 민원마당(minwon.moel.go.kr)에서 온라인 신고할 수 있습니다.</div>
 
-  <h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>퇴직금은 언제까지 지급받아야 하나요?</summary><div class="faq-answer">퇴직일로부터 14일 이내 지급이 원칙입니다. 당사자 합의로 연장할 수 있으나 합의 없이 늦으면 지연이자(연 20%)가 붙습니다.</div></details>
-  <details><summary>수습기간도 재직기간에 포함되나요?</summary><div class="faq-answer">네. 수습기간도 재직일수에 포함되어 퇴직금 산정 기준이 됩니다.</div></details>
-  <details><summary>퇴직금 중간정산은 언제 가능한가요?</summary><div class="faq-answer">원칙적으로 퇴직 시에만 지급하지만 무주택자 주택 구입, 본인·가족 의료비 부담, 파산·개인회생 등 법정 사유에 한해 중간정산이 가능합니다.</div></details>
-  <details><summary>권고사직·해고도 퇴직금을 받을 수 있나요?</summary><div class="faq-answer">네. 자발적 퇴사, 권고사직, 해고 등 퇴직 사유와 무관하게 요건을 갖추면 퇴직금을 받습니다.</div></details>
-  <details><summary>퇴직금에도 세금이 부과되나요?</summary><div class="faq-answer">퇴직소득세가 부과됩니다. 근속연수가 길수록 공제가 커져 세율이 낮아집니다. IRP로 수령 후 연금화하면 세금을 크게 줄일 수 있습니다.</div></details>
+  <h2>자주 묻는 질문</h2>
+  <details><summary>수습 기간도 재직기간에 포함되나요?</summary><div class="faq-answer">네, 수습 기간도 근로 기간에 포함됩니다. 수습 중 급여가 낮더라도 평균임금 계산 시 해당 급여가 반영됩니다.</div></details>
+  <details><summary>권고사직을 당해도 퇴직금을 받을 수 있나요?</summary><div class="faq-answer">퇴직금은 퇴직 사유와 무관합니다. 자발적 퇴사, 권고사직, 해고 모두 1년 이상 근무했다면 퇴직금을 받을 권리가 있습니다.</div></details>
+  <details><summary>상여금이 많은 달 직전에 퇴직하면 유리한가요?</summary><div class="faq-answer">퇴직 전 3개월 평균임금을 기준으로 계산하므로, 상여금이 해당 3개월 안에 포함되면 퇴직금이 높아질 수 있습니다. 다만 상여금 지급 주기와 퇴직 시점을 맞추는 것은 개인 사정에 따라 다릅니다.</div></details>
+  <details><summary>DC형 퇴직연금 가입자도 이 계산기를 쓸 수 있나요?</summary><div class="faq-answer">DC형은 회사가 매년 연봉의 1/12를 적립하는 방식이라 이 계산기의 DB형 기준과 다릅니다. DC형의 최종 수령액은 적립금 누계에 운용 수익률이 더해진 금액입니다.</div></details>
+  <details><summary>프리랜서나 개인사업자도 퇴직금이 있나요?</summary><div class="faq-answer">퇴직금은 근로기준법상 '근로자'에게만 적용됩니다. 사업소득으로 신고하는 프리랜서나 개인사업자는 해당되지 않습니다. 단, 실질적으로 종속적 근로를 제공했다면 근로자성 인정 가능성이 있습니다.</div></details>
+
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/retirement_pension" class="rel-card"><span class="re">💼</span><span class="rn">퇴직연금</span></a>
+  <a href="/pension" class="rel-card"><span class="re">🏦</span><span class="rn">국민연금</span></a>
+  <a href="/salary" class="rel-card"><span class="re">💰</span><span class="rn">월급 실수령액</span></a>
+  <a href="/income_tax" class="rel-card"><span class="re">📋</span><span class="rn">소득세</span></a>
+  <a href="/annual_leave" class="rel-card"><span class="re">📅</span><span class="rn">연차 계산기</span></a>
+  <a href="/unemployment" class="rel-card"><span class="re">📋</span><span class="rn">실업급여</span></a>
+  </div>
+</div>
 </div>
 
 <script src="/common.js"></script><script src="/share.js"></script>

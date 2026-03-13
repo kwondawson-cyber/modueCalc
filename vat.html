@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-title" content="모두의계산기" />
   <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>부가가치세 계산기 | 모두의계산기</title>
-  <meta name="description" content="부가가치세 계산기. 공급가액과 VAT를 빠르게 계산하세요." />
+  <meta name="description" content="부가세(VAT) 계산기 — 공급가액·VAT포함가 상호 변환, 역산 지원. 과세·면세·영세율 구분, 세금계산서 작성 시 공급가액·세액 즉시 계산." />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
   <style>
@@ -71,7 +71,15 @@
     .home-btn:hover { background: rgba(0,212,170,0.18); transform: translateY(-2px); }
     .home-btn-emoji { font-size: 20px; line-height: 1; }
     .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
-  </style>
+  
+.rel-section{margin:32px 0 8px}
+.rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
+.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+.rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+.rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
+</style>
 </head>
 <body>
 <div class="container">
@@ -162,43 +170,55 @@
 </style>
 
 <div class="seo-section">
-  <h2>부가가치세 계산기 사용법</h2>
-  <h3>📌 사용방법</h3>
-  <p>공급가액 또는 VAT 포함 금액을 입력하면 부가세와 상대 금액을 즉시 계산합니다. 세금계산서 발행, 견적서 작성, 매입세액 공제 계산 시 활용하세요.</p>
+  <h2>부가가치세란 무엇이고 어떻게 계산하나</h2>
+  <p>부가가치세(VAT)는 상품이나 서비스가 거래될 때 발생하는 <strong>소비세</strong>입니다. 세율은 원칙적으로 10%이며, 최종 소비자가 부담하지만 사업자가 대신 징수해 납부하는 구조입니다. 사업자 입장에서는 매출 시 받은 세액에서 매입 시 낸 세액을 빼고 차액만 납부합니다.</p>
 
-  <h3>📊 과세 구분 정리</h3>
+  <h3>과세·면세·영세율의 차이</h3>
   <table>
-    <thead><tr><th>구분</th><th>세율</th><th>해당 품목·서비스</th></tr></thead>
+    <thead><tr><th>구분</th><th>세율</th><th>대표 품목·서비스</th><th>매입세액 공제</th></tr></thead>
     <tbody>
-      <tr><td>과세</td><td>10%</td><td>일반 상품·서비스 대부분</td></tr>
-      <tr><td>영세율</td><td>0%</td><td>수출품, 국제 용역</td></tr>
-      <tr><td>면세</td><td>없음</td><td>농산물, 의료, 교육, 금융 서비스</td></tr>
+      <tr><td><strong>과세</strong></td><td>10%</td><td>일반 상품, 외식, 소프트웨어</td><td>가능</td></tr>
+      <tr><td><strong>영세율</strong></td><td>0%</td><td>수출품, 국제 용역, 외국항행 선박·항공기</td><td>가능 (환급 대상)</td></tr>
+      <tr><td><strong>면세</strong></td><td>없음</td><td>미가공 농·축·수산물, 의료, 교육, 금융·보험</td><td>불가</td></tr>
     </tbody>
   </table>
+  <p>영세율과 면세는 둘 다 소비자에게 VAT를 받지 않는다는 점은 같지만, 영세율 사업자는 매입세액 환급을 받을 수 있고 면세 사업자는 받지 못합니다.</p>
 
-  <h3>📊 금액별 부가세 계산 예시</h3>
+  <h3>공급가액과 VAT 포함가 계산 예시</h3>
   <table>
-    <thead><tr><th>공급가액</th><th>부가세(10%)</th><th>VAT 포함 금액</th></tr></thead>
+    <thead><tr><th>공급가액 (VAT 제외)</th><th>부가세 (10%)</th><th>VAT 포함 총액</th></tr></thead>
     <tbody>
-      <tr><td>50만 원</td><td>5만 원</td><td><strong>55만 원</strong></td></tr>
-      <tr><td>100만 원</td><td>10만 원</td><td><strong>110만 원</strong></td></tr>
-      <tr><td>500만 원</td><td>50만 원</td><td><strong>550만 원</strong></td></tr>
-      <tr><td>1,000만 원</td><td>100만 원</td><td><strong>1,100만 원</strong></td></tr>
+      <tr><td>100,000원</td><td>10,000원</td><td><strong>110,000원</strong></td></tr>
+      <tr><td>500,000원</td><td>50,000원</td><td><strong>550,000원</strong></td></tr>
+      <tr><td>1,000,000원</td><td>100,000원</td><td><strong>1,100,000원</strong></td></tr>
+      <tr><td>5,000,000원</td><td>500,000원</td><td><strong>5,500,000원</strong></td></tr>
     </tbody>
   </table>
+  <p>반대로 VAT 포함 금액에서 공급가액을 역산할 때는 <strong>VAT 포함 금액 ÷ 1.1</strong>이 공급가액이 됩니다.</p>
 
-  <h3>💡 사업자 필수 상식</h3>
+  <h3>세금계산서 작성 시 알아야 할 것</h3>
   <ul>
-    <li><strong>일반과세자</strong>: 매출 부가세 − 매입 부가세 = 납부세액</li>
-    <li><strong>간이과세자</strong>: 연 매출 8,000만 원 미만, 낮은 세율 적용</li>
-    <li><strong>면세사업자</strong>: 부가세 없음, 매입세액 공제도 불가</li>
-    <li><strong>신고 기한</strong>: 일반과세자 연 2회(1·7월), 간이과세자 연 1회(1월)</li>
+    <li>세금계산서에 기재하는 금액은 <strong>공급가액</strong>(VAT 제외)과 <strong>세액</strong>을 분리해 표기합니다.</li>
+    <li>과세사업자 간 거래에서 세금계산서를 받지 않으면 매입세액 공제를 받지 못합니다.</li>
+    <li>전자세금계산서는 홈택스(hometax.go.kr)에서 무료로 발행할 수 있으며, 법인사업자와 직전 연도 공급가액 8,000만 원 이상 개인사업자는 전자세금계산서 의무 발행 대상입니다.</li>
   </ul>
 
-  <h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>프리랜서도 부가세를 내야 하나요?</summary><div class="faq-answer">사업자 등록한 프리랜서(개인사업자)는 부가세 신고 의무가 있습니다. 인적용역(강의, 저술 등)은 면세가 많으므로 항목을 확인하세요.</div></details>
-  <details><summary>간이과세자가 세금계산서를 발행할 수 있나요?</summary><div class="faq-answer">연 매출 4,800만 원 이상 간이과세자는 세금계산서 발행이 가능합니다. 미만이면 영수증만 발행 가능합니다.</div></details>
-  <details><summary>VAT 포함 가격에서 공급가를 역산하려면 어떻게 하나요?</summary><div class="faq-answer">VAT 포함 금액 ÷ 1.1 = 공급가액입니다. 이 계산기의 역산 기능으로 바로 확인할 수 있습니다.</div></details>
+  <h2>자주 묻는 질문</h2>
+  <details><summary>간이과세자도 부가세를 내나요?</summary><div class="faq-answer">간이과세자(연 매출 8,000만 원 미만)도 부가세를 납부하지만, 일반과세자보다 낮은 업종별 부가가치율을 적용해 세 부담이 적습니다. 연 매출 4,800만 원 미만이면 납부 의무가 면제됩니다.</div></details>
+  <details><summary>VAT 포함 가격에서 부가세만 떼어내려면?</summary><div class="faq-answer">VAT 포함 금액을 1.1로 나누면 공급가액이 나옵니다. 예를 들어 11만 원 ÷ 1.1 = 10만 원이 공급가액이고, 부가세는 1만 원입니다.</div></details>
+  <details><summary>면세 사업자가 일반 과세 상품을 구매하면 부가세를 환급받나요?</summary><div class="faq-answer">받지 못합니다. 면세 사업자는 매입세액 공제 대상이 아니기 때문에, 구매 시 낸 부가세를 환급받거나 공제할 수 없습니다.</div></details>
+
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/vat_biz" class="rel-card"><span class="re">🧾</span><span class="rn">사업자 부가세</span></a>
+  <a href="/income_tax" class="rel-card"><span class="re">📋</span><span class="rn">소득세</span></a>
+  <a href="/freelancer_tax" class="rel-card"><span class="re">💼</span><span class="rn">프리랜서 세금</span></a>
+  <a href="/margin" class="rel-card"><span class="re">💰</span><span class="rn">마진율</span></a>
+  <a href="/corporate_tax" class="rel-card"><span class="re">🏢</span><span class="rn">법인세</span></a>
+  <a href="/product_cost" class="rel-card"><span class="re">🏷️</span><span class="rn">원가 계산기</span></a>
+  </div>
+</div>
 </div>
 
 <script src="/common.js"></script><script src="/share.js"></script>
