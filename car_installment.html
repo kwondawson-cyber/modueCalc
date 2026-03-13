@@ -13,7 +13,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>자동차 할부 계산기 | 모두의계산기</title>
-  <meta name="description" content="자동차 할부 월 납입금, 총 이자, 실제 구매 비용 계산. 선수금·잔존가치·할부 기간별 비교." />
+  <meta name="description" content="자동차 할부 계산기 2025 — 선수금·잔존가치·할부 기간별 월 납입금·총 이자 자동 계산. 3,000만원 차량 36개월 할부 예시 포함." />
   <meta name="naver-site-verification" content="82ae9d4234997a93590385e408dc1119dfe6f61f" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
@@ -66,6 +66,19 @@
     details[open] summary::after{content:'－'}
     details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
     @media(max-width:480px){.result-grid{grid-template-columns:1fr}.row2{grid-template-columns:1fr}}
+
+    .related-section{margin-top:24px}
+    .related-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
+    .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+    .related-card{display:block;padding:14px 12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+    .related-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+    .related-card .rc-emoji{font-size:22px;display:block;margin-bottom:4px}
+    .related-card .rc-name{font-size:12px;font-weight:700;color:var(--text)}
+    .example-box{background:var(--surface2);border-radius:12px;padding:18px;margin:12px 0}
+    .example-box h3{font-size:14px;font-weight:700;color:var(--accent);margin-bottom:10px}
+    .example-step{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px;font-size:13px;color:var(--text-muted);line-height:1.7}
+    .example-step .num{background:var(--accent);color:#000;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;flex-shrink:0;margin-top:1px}
+    .example-result{background:rgba(0,212,170,0.1);border:1px solid rgba(0,212,170,0.3);border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;color:var(--accent);text-align:center;margin-top:8px}
   </style>
 </head>
 <body>
@@ -185,6 +198,37 @@ function calcHalbu() {
   document.getElementById('result').classList.add('show');
 }
 </script>
+
+  <div class="card">
+    <h2>🔢 자동차 할부 계산 예시</h2>
+    <div class="example-box">
+      <h3>📌 사례 — 차량가 3,000만원, 선수금 500만원, 연 6.9%, 36개월</h3>
+      <div class="example-step"><div class="num">1</div><span>할부 원금 = 3,000만 − 500만 = <strong>2,500만원</strong></span></div>
+      <div class="example-step"><div class="num">2</div><span>월 납입금(원리금균등) ≈ <strong>771,000원</strong></span></div>
+      <div class="example-step"><div class="num">3</div><span>36개월 총 납입 = 771,000 × 36 = <strong>27,756,000원</strong></span></div>
+      <div class="example-step"><div class="num">4</div><span>총 이자 = 27,756,000 − 25,000,000 = <strong>2,756,000원</strong></span></div>
+      <div class="example-result">선수금 포함 실제 차량 구매 비용 3,276만원</div>
+    </div>
+    <div class="example-box">
+      <h3>📌 할부 기간별 비교 (동일 조건, 연 6.9%)</h3>
+      <div class="example-step"><div class="num">1</div><span>24개월: 월 1,115,000원 · 총 이자 1,760,000원</span></div>
+      <div class="example-step"><div class="num">2</div><span>36개월: 월 771,000원 · 총 이자 2,756,000원</span></div>
+      <div class="example-step"><div class="num">3</div><span>60개월: 월 494,000원 · 총 이자 4,640,000원</span></div>
+      <div class="example-result">기간이 길수록 월 부담↓ 총 이자↑ — 여유 있으면 단기가 유리</div>
+    </div>
+  </div>
+  <div class="related-section">
+    <h2>📌 함께 쓰면 유용한 계산기</h2>
+    <div class="related-grid">
+      <a href="/car_lease" class="related-card"><span class="rc-emoji">🚗</span><span class="rc-name">장기렌트·리스</span></a>
+      <a href="/car_tax" class="related-card"><span class="rc-emoji">💳</span><span class="rc-name">자동차세</span></a>
+      <a href="/fuel_economy" class="related-card"><span class="rc-emoji">⛽</span><span class="rc-name">연비 계산기</span></a>
+      <a href="/loan" class="related-card"><span class="rc-emoji">💰</span><span class="rc-name">대출 계산기</span></a>
+      <a href="/vat" class="related-card"><span class="rc-emoji">🧾</span><span class="rc-name">부가세 계산기</span></a>
+      <a href="/income_tax" class="related-card"><span class="rc-emoji">📋</span><span class="rc-name">소득세 계산기</span></a>
+    </div>
+  </div>
+
 <script src="/common.js"></script><script src="/share.js"></script><script src="/calculator.js"></script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}</script>
 </body>

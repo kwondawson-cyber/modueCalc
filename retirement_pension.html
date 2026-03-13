@@ -13,7 +13,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>퇴직연금 수령액 계산기 | 모두의계산기</title>
-  <meta name="description" content="DB형·DC형·IRP 퇴직연금 예상 수령액, 연금 vs 일시금 세금 비교 계산기. 2025년 기준." />
+  <meta name="description" content="퇴직연금 계산기 2025 — DB형·DC형·IRP 유형별 예상 수령액 계산. 연금 vs 일시금 세금 비교, 연봉 5,000만원 10년 근속 기준 예시 포함." />
   <meta name="naver-site-verification" content="82ae9d4234997a93590385e408dc1119dfe6f61f" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
@@ -73,6 +73,19 @@
     details[open] summary::after{content:'－'}
     details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
     @media(max-width:480px){.result-grid{grid-template-columns:1fr}.row2{grid-template-columns:1fr}}
+
+    .related-section{margin-top:24px}
+    .related-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
+    .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+    .related-card{display:block;padding:14px 12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+    .related-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+    .related-card .rc-emoji{font-size:22px;display:block;margin-bottom:4px}
+    .related-card .rc-name{font-size:12px;font-weight:700;color:var(--text)}
+    .example-box{background:var(--surface2);border-radius:12px;padding:18px;margin:12px 0}
+    .example-box h3{font-size:14px;font-weight:700;color:var(--accent);margin-bottom:10px}
+    .example-step{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px;font-size:13px;color:var(--text-muted);line-height:1.7}
+    .example-step .num{background:var(--accent);color:#000;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;flex-shrink:0;margin-top:1px}
+    .example-result{background:rgba(0,212,170,0.1);border:1px solid rgba(0,212,170,0.3);border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;color:var(--accent);text-align:center;margin-top:8px}
   </style>
 </head>
 <body>
@@ -228,6 +241,36 @@ function calcPension(){
   document.getElementById('result').classList.add('show');
 }
 </script>
+
+  <div class="card">
+    <h2>🔢 퇴직연금 수령액 계산 예시</h2>
+    <div class="example-box">
+      <h3>📌 DB형 — 연봉 5,000만원, 10년 근속</h3>
+      <div class="example-step"><div class="num">1</div><span>최종 3개월 평균 월급 = 5,000만 ÷ 12 = <strong>4,166,667원</strong></span></div>
+      <div class="example-step"><div class="num">2</div><span>DB형 퇴직금 = 4,166,667 × 10년 = <strong>41,666,670원</strong></span></div>
+      <div class="example-step"><div class="num">3</div><span>IRP 이전 후 연금 수령 시 퇴직소득세 30~40% 감면 혜택</span></div>
+      <div class="example-result">일시금 수령보다 IRP 연금 수령 시 세금 약 30% 절감</div>
+    </div>
+    <div class="example-box">
+      <h3>📌 연금 vs 일시금 수령 세금 비교 (퇴직금 4,000만원)</h3>
+      <div class="example-step"><div class="num">1</div><span><strong>일시금</strong>: 퇴직소득세 약 2,800,000원 납부</span></div>
+      <div class="example-step"><div class="num">2</div><span><strong>IRP 이전 후 연금 수령</strong>: 세금 30% 감면 → 약 1,960,000원</span></div>
+      <div class="example-step"><div class="num">3</div><span>연금 수령 기간 10년 이상 시 추가 40% 감면 적용 가능</span></div>
+      <div class="example-result">IRP 연금 수령으로 840,000원 이상 세금 절감 가능</div>
+    </div>
+  </div>
+  <div class="related-section">
+    <h2>📌 함께 쓰면 유용한 계산기</h2>
+    <div class="related-grid">
+      <a href="/retirement" class="related-card"><span class="rc-emoji">💰</span><span class="rc-name">퇴직금 계산기</span></a>
+      <a href="/pension" class="related-card"><span class="rc-emoji">🏦</span><span class="rc-name">국민연금</span></a>
+      <a href="/salary" class="related-card"><span class="rc-emoji">💵</span><span class="rc-name">월급 실수령액</span></a>
+      <a href="/income_tax" class="related-card"><span class="rc-emoji">📋</span><span class="rc-name">소득세</span></a>
+      <a href="/insurance" class="related-card"><span class="rc-emoji">🛡️</span><span class="rc-name">보험료</span></a>
+      <a href="/savings" class="related-card"><span class="rc-emoji">💳</span><span class="rc-name">예적금 계산기</span></a>
+    </div>
+  </div>
+
 <script src="/common.js"></script><script src="/share.js"></script><script src="/calculator.js"></script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}</script>
 </body>

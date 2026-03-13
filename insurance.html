@@ -13,7 +13,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>보험료 계산기 | 모두의계산기</title>
-  <meta name="description" content="생명보험·실손보험·자동차보험 예상 보험료 계산. 나이·성별·보장범위별 월 보험료 가이드." />
+  <meta name="description" content="보험료 계산기 2025 — 나이·성별·보장범위별 생명보험·실손보험·자동차보험 예상 월 보험료 계산. 30대 남성 기준 보험료 비교 예시." />
   <meta name="naver-site-verification" content="82ae9d4234997a93590385e408dc1119dfe6f61f" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
@@ -74,6 +74,19 @@
     details[open] summary::after{content:'－'}
     details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
     @media(max-width:480px){.result-grid{grid-template-columns:1fr}.row2{grid-template-columns:1fr}}
+
+    .related-section{margin-top:24px}
+    .related-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
+    .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+    .related-card{display:block;padding:14px 12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+    .related-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+    .related-card .rc-emoji{font-size:22px;display:block;margin-bottom:4px}
+    .related-card .rc-name{font-size:12px;font-weight:700;color:var(--text)}
+    .example-box{background:var(--surface2);border-radius:12px;padding:18px;margin:12px 0}
+    .example-box h3{font-size:14px;font-weight:700;color:var(--accent);margin-bottom:10px}
+    .example-step{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px;font-size:13px;color:var(--text-muted);line-height:1.7}
+    .example-step .num{background:var(--accent);color:#000;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;flex-shrink:0;margin-top:1px}
+    .example-result{background:rgba(0,212,170,0.1);border:1px solid rgba(0,212,170,0.3);border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;color:var(--accent);text-align:center;margin-top:8px}
   </style>
 </head>
 <body>
@@ -204,6 +217,38 @@ function calcInsurance(){
   document.getElementById('result').classList.add('show');
 }
 </script>
+
+  <div class="card">
+    <h2>🔢 보험료 계산 예시</h2>
+    <div class="example-box">
+      <h3>📌 30대 남성 기준 월 보험료 가이드</h3>
+      <div class="example-step"><div class="num">1</div><span><strong>실손보험</strong>(30세 남): 월 12,000~18,000원 · 4세대 실손 기준</span></div>
+      <div class="example-step"><div class="num">2</div><span><strong>정기 생명보험</strong>(사망 1억, 20년): 월 20,000~35,000원</span></div>
+      <div class="example-step"><div class="num">3</div><span><strong>종신보험</strong>(사망 1억): 월 80,000~120,000원</span></div>
+      <div class="example-step"><div class="num">4</div><span><strong>암보험</strong>: 월 30,000~50,000원 (일반암 진단비 3,000만원 기준)</span></div>
+      <div class="example-result">30대 기준 실손+정기생명 조합이 비용 대비 보장 효율 최고</div>
+    </div>
+    <div class="example-box">
+      <h3>📌 나이별 보험료 변화 (실손 기준)</h3>
+      <div class="example-step"><div class="num">1</div><span>20대: 월 8,000~12,000원</span></div>
+      <div class="example-step"><div class="num">2</div><span>30대: 월 12,000~20,000원</span></div>
+      <div class="example-step"><div class="num">3</div><span>40대: 월 25,000~40,000원</span></div>
+      <div class="example-step"><div class="num">4</div><span>50대: 월 45,000~80,000원</span></div>
+      <div class="example-result">20대에 가입할수록 보험료 절감 — 갱신형은 나이 들수록 보험료 급증</div>
+    </div>
+  </div>
+  <div class="related-section">
+    <h2>📌 함께 쓰면 유용한 계산기</h2>
+    <div class="related-grid">
+      <a href="/health_insurance" class="related-card"><span class="rc-emoji">🏥</span><span class="rc-name">건강보험료</span></a>
+      <a href="/retirement_pension" class="related-card"><span class="rc-emoji">💼</span><span class="rc-name">퇴직연금</span></a>
+      <a href="/salary" class="related-card"><span class="rc-emoji">💰</span><span class="rc-name">월급 실수령액</span></a>
+      <a href="/income_tax" class="related-card"><span class="rc-emoji">📋</span><span class="rc-name">소득세</span></a>
+      <a href="/annual_leave" class="related-card"><span class="rc-emoji">📅</span><span class="rc-name">연차 계산기</span></a>
+      <a href="/parental_leave" class="related-card"><span class="rc-emoji">👶</span><span class="rc-name">육아휴직 급여</span></a>
+    </div>
+  </div>
+
 <script src="/common.js"></script><script src="/share.js"></script><script src="/calculator.js"></script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}</script>
 </body>

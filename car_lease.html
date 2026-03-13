@@ -13,7 +13,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>장기렌트 리스 계산기 | 모두의계산기</title>
-  <meta name="description" content="자동차 장기렌트, 운용리스 월 납입금 계산. 할부·리스·렌트 비용 비교로 최적 선택." />
+  <meta name="description" content="자동차 장기렌트·운용리스 계산기 2025 — 월 납입금·총비용·잔존가치 자동 계산. 할부·리스·렌트 3방식 비용 비교, 사업자 세제 혜택 포함." />
   <meta name="naver-site-verification" content="82ae9d4234997a93590385e408dc1119dfe6f61f" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
@@ -73,6 +73,19 @@
     details[open] summary::after{content:'－'}
     details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
     @media(max-width:480px){.result-grid{grid-template-columns:1fr}.row2{grid-template-columns:1fr}}
+
+    .related-section{margin-top:24px}
+    .related-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
+    .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+    .related-card{display:block;padding:14px 12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+    .related-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+    .related-card .rc-emoji{font-size:22px;display:block;margin-bottom:4px}
+    .related-card .rc-name{font-size:12px;font-weight:700;color:var(--text)}
+    .example-box{background:var(--surface2);border-radius:12px;padding:18px;margin:12px 0}
+    .example-box h3{font-size:14px;font-weight:700;color:var(--accent);margin-bottom:10px}
+    .example-step{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px;font-size:13px;color:var(--text-muted);line-height:1.7}
+    .example-step .num{background:var(--accent);color:#000;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;flex-shrink:0;margin-top:1px}
+    .example-result{background:rgba(0,212,170,0.1);border:1px solid rgba(0,212,170,0.3);border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;color:var(--accent);text-align:center;margin-top:8px}
   </style>
 </head>
 <body>
@@ -273,6 +286,36 @@ function calcCompare(){
   document.getElementById('result-compare').classList.add('show');
 }
 </script>
+
+  <div class="card">
+    <h2>🔢 할부·리스·렌트 비용 비교 예시</h2>
+    <div class="example-box">
+      <h3>📌 사례 — 차량가 4,000만원, 5년 이용</h3>
+      <div class="example-step"><div class="num">1</div><span><strong>할부(60개월, 연 6%)</strong>: 월 773,000원 · 5년 총 46,380,000원 → 차량 소유</span></div>
+      <div class="example-step"><div class="num">2</div><span><strong>운용리스(잔존 30%)</strong>: 월 550,000원 · 5년 총 33,000,000원 → 반납 또는 매입</span></div>
+      <div class="example-step"><div class="num">3</div><span><strong>장기렌트</strong>: 월 650,000원 · 5년 총 39,000,000원 → 보험·세금 포함</span></div>
+      <div class="example-result">리스가 월 부담 최저 · 렌트는 관리 편의성 최고 · 할부는 자산 취득</div>
+    </div>
+    <div class="example-box">
+      <h3>📌 사업자 세제 혜택 (개인사업자 기준)</h3>
+      <div class="example-step"><div class="num">1</div><span>운용리스 월 납입금 <strong>전액 비용 처리</strong> 가능 (단, 업무용 비율 적용)</span></div>
+      <div class="example-step"><div class="num">2</div><span>장기렌트 보험료·세금 포함 전액 비용 처리 → 세금 절감 효과</span></div>
+      <div class="example-step"><div class="num">3</div><span>연 800만원 납입 시 법인세율 9% 적용이면 약 72만원 세금 절감</span></div>
+      <div class="example-result">사업자라면 리스·렌트의 세제 혜택 반드시 계산 후 결정</div>
+    </div>
+  </div>
+  <div class="related-section">
+    <h2>📌 함께 쓰면 유용한 계산기</h2>
+    <div class="related-grid">
+      <a href="/car_installment" class="related-card"><span class="rc-emoji">💳</span><span class="rc-name">자동차 할부</span></a>
+      <a href="/car_tax" class="related-card"><span class="rc-emoji">🚗</span><span class="rc-name">자동차세</span></a>
+      <a href="/fuel_economy" class="related-card"><span class="rc-emoji">⛽</span><span class="rc-name">연비 계산기</span></a>
+      <a href="/income_tax" class="related-card"><span class="rc-emoji">📋</span><span class="rc-name">소득세</span></a>
+      <a href="/vat" class="related-card"><span class="rc-emoji">🧾</span><span class="rc-name">부가세 계산기</span></a>
+      <a href="/freelancer_tax" class="related-card"><span class="rc-emoji">💼</span><span class="rc-name">프리랜서 세금</span></a>
+    </div>
+  </div>
+
 <script src="/common.js"></script><script src="/share.js"></script><script src="/calculator.js"></script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}</script>
 </body>

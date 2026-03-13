@@ -13,7 +13,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>전세자금대출 계산기 | 모두의계산기</title>
-  <meta name="description" content="전세자금대출 한도, 월 이자, 총 이자 계산. 카카오뱅크·주택도시기금·시중은행 금리 비교까지." />
+  <meta name="description" content="전세자금대출 계산기 2025 — 버팀목·카카오뱅크·시중은행 금리별 월 이자·한도·총이자 자동 계산. 보증금 3억 기준 월 이자 비교 예시 포함." />
   <meta name="naver-site-verification" content="82ae9d4234997a93590385e408dc1119dfe6f61f" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
@@ -70,6 +70,19 @@
     details[open] summary::after{content:'－'}
     details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
     @media(max-width:480px){.result-grid{grid-template-columns:1fr}.row2{grid-template-columns:1fr}.affiliate-btns{flex-direction:column}}
+
+    .related-section{margin-top:24px}
+    .related-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
+    .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+    .related-card{display:block;padding:14px 12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+    .related-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+    .related-card .rc-emoji{font-size:22px;display:block;margin-bottom:4px}
+    .related-card .rc-name{font-size:12px;font-weight:700;color:var(--text)}
+    .example-box{background:var(--surface2);border-radius:12px;padding:18px;margin:12px 0}
+    .example-box h3{font-size:14px;font-weight:700;color:var(--accent);margin-bottom:10px}
+    .example-step{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px;font-size:13px;color:var(--text-muted);line-height:1.7}
+    .example-step .num{background:var(--accent);color:#000;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;flex-shrink:0;margin-top:1px}
+    .example-result{background:rgba(0,212,170,0.1);border:1px solid rgba(0,212,170,0.3);border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;color:var(--accent);text-align:center;margin-top:8px}
   </style>
 </head>
 <body>
@@ -207,6 +220,35 @@ function calcJeonse() {
   document.getElementById('result').classList.add('show');
 }
 </script>
+
+  <div class="card">
+    <h2>🔢 전세자금대출 계산 예시</h2>
+    <div class="example-box">
+      <h3>📌 사례 — 보증금 3억원, 연 3.8% 금리, 2년</h3>
+      <div class="example-step"><div class="num">1</div><span>월 이자 = 300,000,000 × 3.8% ÷ 12 = <strong>950,000원</strong></span></div>
+      <div class="example-step"><div class="num">2</div><span>2년(24개월) 총 이자 = 950,000 × 24 = <strong>22,800,000원</strong></span></div>
+      <div class="example-step"><div class="num">3</div><span>만기 시 원금 일시 상환 = <strong>300,000,000원</strong></span></div>
+      <div class="example-result">월 이자 95만원 · 2년 총 이자 2,280만원</div>
+    </div>
+    <div class="example-box">
+      <h3>📌 버팀목 vs 시중은행 금리 비교 (보증금 2억)</h3>
+      <div class="example-step"><div class="num">1</div><span>버팀목(연 2.1%): 월 이자 350,000원, 2년 총 8,400,000원</span></div>
+      <div class="example-step"><div class="num">2</div><span>시중은행(연 4.2%): 월 이자 700,000원, 2년 총 16,800,000원</span></div>
+      <div class="example-result">버팀목 대출 이용 시 2년간 약 840만원 절약</div>
+    </div>
+  </div>
+  <div class="related-section">
+    <h2>📌 함께 쓰면 유용한 계산기</h2>
+    <div class="related-grid">
+      <a href="/loan" class="related-card"><span class="rc-emoji">💰</span><span class="rc-name">대출 계산기</span></a>
+      <a href="/savings" class="related-card"><span class="rc-emoji">💵</span><span class="rc-name">예적금 계산기</span></a>
+      <a href="/realestate" class="related-card"><span class="rc-emoji">🏡</span><span class="rc-name">부동산 취득세</span></a>
+      <a href="/acquisition" class="related-card"><span class="rc-emoji">📋</span><span class="rc-name">취득세 계산기</span></a>
+      <a href="/rent_conversion" class="related-card"><span class="rc-emoji">🔄</span><span class="rc-name">전월세 전환</span></a>
+      <a href="/loan_limit" class="related-card"><span class="rc-emoji">📊</span><span class="rc-name">대출 한도</span></a>
+    </div>
+  </div>
+
 <script src="/common.js"></script><script src="/share.js"></script><script src="/calculator.js"></script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}</script>
 </body>
