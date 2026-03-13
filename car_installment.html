@@ -13,7 +13,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>자동차 할부 계산기 | 모두의계산기</title>
-  <meta name="description" content="자동차 할부 계산기 2025 — 선수금·잔존가치·할부 기간별 월 납입금·총 이자 자동 계산. 3,000만원 차량 36개월 할부 예시 포함." />
+  <meta name="description" content="자동차 할부 계산기 2025 — 차량가·선수금·금리·기간 입력으로 월 납입금·총이자 자동 계산. 3,000만원 차량 24·36·60개월 할부 비교표 포함." />
   <meta name="naver-site-verification" content="82ae9d4234997a93590385e408dc1119dfe6f61f" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
@@ -67,18 +67,48 @@
     details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
     @media(max-width:480px){.result-grid{grid-template-columns:1fr}.row2{grid-template-columns:1fr}}
 
-    .related-section{margin-top:24px}
     .related-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
-    .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
-    .related-card{display:block;padding:14px 12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
     .related-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
     .related-card .rc-emoji{font-size:22px;display:block;margin-bottom:4px}
     .related-card .rc-name{font-size:12px;font-weight:700;color:var(--text)}
-    .example-box{background:var(--surface2);border-radius:12px;padding:18px;margin:12px 0}
     .example-box h3{font-size:14px;font-weight:700;color:var(--accent);margin-bottom:10px}
-    .example-step{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px;font-size:13px;color:var(--text-muted);line-height:1.7}
     .example-step .num{background:var(--accent);color:#000;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;flex-shrink:0;margin-top:1px}
-    .example-result{background:rgba(0,212,170,0.1);border:1px solid rgba(0,212,170,0.3);border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;color:var(--accent);text-align:center;margin-top:8px}
+  
+    .seo-card h2{font-size:17px;font-weight:800;color:var(--text);margin-bottom:14px;line-height:1.4}
+    .seo-card h3{font-size:14px;font-weight:700;color:var(--accent);margin:16px 0 8px}
+    .seo-card p{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:10px}
+    .seo-card ul{padding-left:18px;margin-bottom:10px}
+    .seo-card ul li{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:4px}
+    .seo-card strong{color:var(--text)}
+    .example-table th{background:rgba(0,212,170,0.1);padding:8px 12px;text-align:left;color:var(--accent);font-weight:700;border:1px solid var(--border)}
+    .example-table td{padding:8px 12px;border:1px solid var(--border);color:var(--text-muted);line-height:1.7}
+    .example-table tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
+    .highlight-box strong{color:var(--accent)}
+    .related-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
+    .related-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+    .related-card .rc-emoji{font-size:22px;display:block;margin-bottom:4px}
+    .related-card .rc-name{font-size:12px;font-weight:700;color:var(--text)}
+
+    .seo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
+    .seo-card h2{font-size:17px;font-weight:800;color:var(--text);margin-bottom:14px;line-height:1.4}
+    .seo-card h3{font-size:14px;font-weight:700;color:var(--accent);margin:16px 0 8px}
+    .seo-card p{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:10px}
+    .seo-card ul{padding-left:18px;margin-bottom:10px}
+    .seo-card li{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:4px}
+    .seo-card strong{color:var(--text)}
+    .ex-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+    .ex-table th{background:rgba(0,212,170,0.1);padding:8px 12px;text-align:left;color:var(--accent);font-weight:700;border:1px solid var(--border)}
+    .ex-table td{padding:8px 12px;border:1px solid var(--border);color:var(--text-muted);line-height:1.7}
+    .ex-table tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
+    .hl-box{background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.25);border-radius:10px;padding:14px 16px;margin:14px 0;font-size:13px;color:var(--text);line-height:1.8}
+    .hl-box strong{color:var(--accent)}
+    .rel-section{margin-bottom:20px}
+    .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
+    .rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+    .rel-card{display:block;padding:14px 12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+    .rel-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+    .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+    .rel-card .rn{font-size:12px;font-weight:700;color:var(--text)}
   </style>
 </head>
 <body>
@@ -146,8 +176,26 @@
   </div>
 
   <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6079812618767597" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
-
-  <div class="card">
+  <div class="seo-card">
+    <h2>자동차 할부 월 납입금 계산법과 기간별 비교 (2025년)</h2>
+    <p>자동차 할부는 차량 구매 대금을 나눠 내는 방식으로 <strong>원리금균등상환</strong>이 일반적입니다. 선수금이 클수록, 할부 기간이 짧을수록 총 이자가 줄어들지만 월 부담은 커집니다. 아래 표로 기간별 실제 납입금을 비교해 보세요.</p>
+    <h3>📋 차량가 3,000만원 · 선수금 500만원 · 연 6.9% 기준</h3>
+    <table class="ex-table">
+      <tr><th>할부 기간</th><th>월 납입금</th><th>총 납입액</th><th>총 이자</th></tr>
+      <tr><td>24개월</td><td>약 1,115,000원</td><td>약 31,760,000원</td><td>약 1,760,000원</td></tr>
+      <tr><td>36개월</td><td>약 771,000원</td><td>약 32,756,000원</td><td>약 2,756,000원</td></tr>
+      <tr><td>48개월</td><td>약 598,000원</td><td>약 33,704,000원</td><td>약 3,704,000원</td></tr>
+      <tr><td>60개월</td><td>약 494,000원</td><td>약 34,640,000원</td><td>약 4,640,000원</td></tr>
+    </table>
+    <p style="font-size:12px;color:var(--text-muted);margin-top:-4px">※ 선수금 500만원 포함 실제 구매비용입니다. 제조사 무이자 할부 프로모션 적용 시 이자 0원 가능.</p>
+    <h3>💡 할부 vs 리스 vs 장기렌트 선택 기준</h3>
+    <ul>
+      <li><strong>할부:</strong> 만기 후 차량이 내 소유. 장기적으로 가장 저렴한 경우가 많음.</li>
+      <li><strong>운용리스:</strong> 잔존가치 설정으로 월 납입금 낮춤. 사업자 비용처리 가능.</li>
+      <li><strong>장기렌트:</strong> 보험·세금 포함 올인원. 관리 편의성 최고, 월 비용은 가장 높음.</li>
+    </ul>
+    <div class="hl-box">💡 <strong>이자 절감 팁:</strong> 선수금을 10%→30%로 올리면 동일 기간 총 이자가 약 30% 줄어듭니다. 제조사 무이자 할부 행사 기간을 노리는 것도 좋은 전략입니다.</div>
+  </div><div class="card">
     <h2>📐 계산 방식</h2>
     <div class="formula-box">
       <strong>일반 할부</strong> — 원리금균등상환<br>
@@ -198,37 +246,18 @@ function calcHalbu() {
   document.getElementById('result').classList.add('show');
 }
 </script>
-
-  <div class="card">
-    <h2>🔢 자동차 할부 계산 예시</h2>
-    <div class="example-box">
-      <h3>📌 사례 — 차량가 3,000만원, 선수금 500만원, 연 6.9%, 36개월</h3>
-      <div class="example-step"><div class="num">1</div><span>할부 원금 = 3,000만 − 500만 = <strong>2,500만원</strong></span></div>
-      <div class="example-step"><div class="num">2</div><span>월 납입금(원리금균등) ≈ <strong>771,000원</strong></span></div>
-      <div class="example-step"><div class="num">3</div><span>36개월 총 납입 = 771,000 × 36 = <strong>27,756,000원</strong></span></div>
-      <div class="example-step"><div class="num">4</div><span>총 이자 = 27,756,000 − 25,000,000 = <strong>2,756,000원</strong></span></div>
-      <div class="example-result">선수금 포함 실제 차량 구매 비용 3,276만원</div>
-    </div>
-    <div class="example-box">
-      <h3>📌 할부 기간별 비교 (동일 조건, 연 6.9%)</h3>
-      <div class="example-step"><div class="num">1</div><span>24개월: 월 1,115,000원 · 총 이자 1,760,000원</span></div>
-      <div class="example-step"><div class="num">2</div><span>36개월: 월 771,000원 · 총 이자 2,756,000원</span></div>
-      <div class="example-step"><div class="num">3</div><span>60개월: 월 494,000원 · 총 이자 4,640,000원</span></div>
-      <div class="example-result">기간이 길수록 월 부담↓ 총 이자↑ — 여유 있으면 단기가 유리</div>
-    </div>
   </div>
-  <div class="related-section">
+  <div class="rel-section">
     <h2>📌 함께 쓰면 유용한 계산기</h2>
-    <div class="related-grid">
-      <a href="/car_lease" class="related-card"><span class="rc-emoji">🚗</span><span class="rc-name">장기렌트·리스</span></a>
-      <a href="/car_tax" class="related-card"><span class="rc-emoji">💳</span><span class="rc-name">자동차세</span></a>
-      <a href="/fuel_economy" class="related-card"><span class="rc-emoji">⛽</span><span class="rc-name">연비 계산기</span></a>
-      <a href="/loan" class="related-card"><span class="rc-emoji">💰</span><span class="rc-name">대출 계산기</span></a>
-      <a href="/vat" class="related-card"><span class="rc-emoji">🧾</span><span class="rc-name">부가세 계산기</span></a>
-      <a href="/income_tax" class="related-card"><span class="rc-emoji">📋</span><span class="rc-name">소득세 계산기</span></a>
+    <div class="rel-grid">
+      <a href="/car_lease" class="rel-card"><span class="re">🚗</span><span class="rn">장기렌트·리스</span></a>
+      <a href="/car_tax" class="rel-card"><span class="re">💳</span><span class="rn">자동차세</span></a>
+      <a href="/fuel_economy" class="rel-card"><span class="re">⛽</span><span class="rn">연비 계산기</span></a>
+      <a href="/loan" class="rel-card"><span class="re">💰</span><span class="rn">대출 계산기</span></a>
+      <a href="/vat" class="rel-card"><span class="re">🧾</span><span class="rn">부가세 계산기</span></a>
+      <a href="/customs" class="rel-card"><span class="re">📦</span><span class="rn">관세 계산기</span></a>
     </div>
   </div>
-
 <script src="/common.js"></script><script src="/share.js"></script><script src="/calculator.js"></script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}</script>
 </body>

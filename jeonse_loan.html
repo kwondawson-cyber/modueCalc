@@ -13,7 +13,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>전세자금대출 계산기 | 모두의계산기</title>
-  <meta name="description" content="전세자금대출 계산기 2025 — 버팀목·카카오뱅크·시중은행 금리별 월 이자·한도·총이자 자동 계산. 보증금 3억 기준 월 이자 비교 예시 포함." />
+  <meta name="description" content="전세자금대출 계산기 2025 — 버팀목·청년버팀목·카카오뱅크·시중은행 금리 비교, 월 이자·2년 총이자 자동 계산. 보증금별 상품 비교표 포함." />
   <meta name="naver-site-verification" content="82ae9d4234997a93590385e408dc1119dfe6f61f" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
@@ -71,18 +71,48 @@
     details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
     @media(max-width:480px){.result-grid{grid-template-columns:1fr}.row2{grid-template-columns:1fr}.affiliate-btns{flex-direction:column}}
 
-    .related-section{margin-top:24px}
     .related-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
-    .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
-    .related-card{display:block;padding:14px 12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
     .related-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
     .related-card .rc-emoji{font-size:22px;display:block;margin-bottom:4px}
     .related-card .rc-name{font-size:12px;font-weight:700;color:var(--text)}
-    .example-box{background:var(--surface2);border-radius:12px;padding:18px;margin:12px 0}
     .example-box h3{font-size:14px;font-weight:700;color:var(--accent);margin-bottom:10px}
-    .example-step{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px;font-size:13px;color:var(--text-muted);line-height:1.7}
     .example-step .num{background:var(--accent);color:#000;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;flex-shrink:0;margin-top:1px}
-    .example-result{background:rgba(0,212,170,0.1);border:1px solid rgba(0,212,170,0.3);border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;color:var(--accent);text-align:center;margin-top:8px}
+  
+    .seo-card h2{font-size:17px;font-weight:800;color:var(--text);margin-bottom:14px;line-height:1.4}
+    .seo-card h3{font-size:14px;font-weight:700;color:var(--accent);margin:16px 0 8px}
+    .seo-card p{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:10px}
+    .seo-card ul{padding-left:18px;margin-bottom:10px}
+    .seo-card ul li{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:4px}
+    .seo-card strong{color:var(--text)}
+    .example-table th{background:rgba(0,212,170,0.1);padding:8px 12px;text-align:left;color:var(--accent);font-weight:700;border:1px solid var(--border)}
+    .example-table td{padding:8px 12px;border:1px solid var(--border);color:var(--text-muted);line-height:1.7}
+    .example-table tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
+    .highlight-box strong{color:var(--accent)}
+    .related-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
+    .related-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+    .related-card .rc-emoji{font-size:22px;display:block;margin-bottom:4px}
+    .related-card .rc-name{font-size:12px;font-weight:700;color:var(--text)}
+
+    .seo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
+    .seo-card h2{font-size:17px;font-weight:800;color:var(--text);margin-bottom:14px;line-height:1.4}
+    .seo-card h3{font-size:14px;font-weight:700;color:var(--accent);margin:16px 0 8px}
+    .seo-card p{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:10px}
+    .seo-card ul{padding-left:18px;margin-bottom:10px}
+    .seo-card li{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:4px}
+    .seo-card strong{color:var(--text)}
+    .ex-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+    .ex-table th{background:rgba(0,212,170,0.1);padding:8px 12px;text-align:left;color:var(--accent);font-weight:700;border:1px solid var(--border)}
+    .ex-table td{padding:8px 12px;border:1px solid var(--border);color:var(--text-muted);line-height:1.7}
+    .ex-table tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
+    .hl-box{background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.25);border-radius:10px;padding:14px 16px;margin:14px 0;font-size:13px;color:var(--text);line-height:1.8}
+    .hl-box strong{color:var(--accent)}
+    .rel-section{margin-bottom:20px}
+    .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
+    .rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+    .rel-card{display:block;padding:14px 12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+    .rel-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+    .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+    .rel-card .rn{font-size:12px;font-weight:700;color:var(--text)}
   </style>
 </head>
 <body>
@@ -156,8 +186,27 @@
   </div>
 
   <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6079812618767597" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
-
-  <div class="card">
+  <div class="seo-card">
+    <h2>전세자금대출이란? 종류·한도·금리 완벽 정리 (2025년)</h2>
+    <p>전세자금대출은 전세 보증금 마련을 위해 받는 대출로, 매달 이자만 납부하고 만기(2년)에 원금을 일시 상환하는 구조입니다. 일반 대출보다 금리가 낮아 월 부담이 적지만, 만기 시 목돈이 필요합니다. 소득 조건이 된다면 정책 대출(버팀목)을 먼저 확인하는 것이 핵심입니다.</p>
+    <h3>📋 전세자금대출 상품별 금리·한도 비교 (2025년 기준)</h3>
+    <table class="ex-table">
+      <tr><th>상품</th><th>대상</th><th>금리</th><th>한도</th></tr>
+      <tr><td><strong>버팀목 전세대출</strong></td><td>연소득 5,000만원 이하 무주택자</td><td>연 2.1~2.9%</td><td>최대 1.2억~2.4억</td></tr>
+      <tr><td><strong>청년 버팀목</strong></td><td>만 34세 이하, 연소득 5,000만원↓</td><td>연 1.8~2.7%</td><td>최대 2억</td></tr>
+      <tr><td><strong>카카오·토스뱅크</strong></td><td>신용점수 600점↑, 소득 제한 없음</td><td>연 3.5~4.5%</td><td>보증금의 80%</td></tr>
+      <tr><td><strong>시중은행</strong></td><td>소득 제한 없음</td><td>연 3.8~5.5%</td><td>보증금의 80%</td></tr>
+    </table>
+    <h3>💡 보증금별 월 이자 실제 계산 예시</h3>
+    <table class="ex-table">
+      <tr><th>보증금</th><th>버팀목 2.5%</th><th>시중은행 4.2%</th><th>2년 차이</th></tr>
+      <tr><td>1억원</td><td>월 208,000원</td><td>월 350,000원</td><td>약 340만원</td></tr>
+      <tr><td>2억원</td><td>월 416,000원</td><td>월 700,000원</td><td>약 684만원</td></tr>
+      <tr><td>3억원</td><td>월 625,000원</td><td>월 1,050,000원</td><td>약 1,020만원</td></tr>
+      <tr><td>4억원</td><td>월 833,000원</td><td>월 1,400,000원</td><td>약 1,360만원</td></tr>
+    </table>
+    <div class="hl-box">💡 <strong>핵심:</strong> 버팀목 vs 시중은행 금리 차이(약 1.7%p)로 보증금 2억 기준 2년간 약 <strong>684만원</strong> 차이가 납니다. 소득 조건만 된다면 정책 대출이 압도적으로 유리합니다.</div>
+  </div><div class="card">
     <h2>📚 전세자금대출 상품별 금리 (2025년 기준)</h2>
     <div class="formula-box">
       <strong>버팀목 전세대출 (청년)</strong> — 연소득 5,000만원 이하, 만 34세 이하<br>
@@ -220,35 +269,18 @@ function calcJeonse() {
   document.getElementById('result').classList.add('show');
 }
 </script>
-
-  <div class="card">
-    <h2>🔢 전세자금대출 계산 예시</h2>
-    <div class="example-box">
-      <h3>📌 사례 — 보증금 3억원, 연 3.8% 금리, 2년</h3>
-      <div class="example-step"><div class="num">1</div><span>월 이자 = 300,000,000 × 3.8% ÷ 12 = <strong>950,000원</strong></span></div>
-      <div class="example-step"><div class="num">2</div><span>2년(24개월) 총 이자 = 950,000 × 24 = <strong>22,800,000원</strong></span></div>
-      <div class="example-step"><div class="num">3</div><span>만기 시 원금 일시 상환 = <strong>300,000,000원</strong></span></div>
-      <div class="example-result">월 이자 95만원 · 2년 총 이자 2,280만원</div>
-    </div>
-    <div class="example-box">
-      <h3>📌 버팀목 vs 시중은행 금리 비교 (보증금 2억)</h3>
-      <div class="example-step"><div class="num">1</div><span>버팀목(연 2.1%): 월 이자 350,000원, 2년 총 8,400,000원</span></div>
-      <div class="example-step"><div class="num">2</div><span>시중은행(연 4.2%): 월 이자 700,000원, 2년 총 16,800,000원</span></div>
-      <div class="example-result">버팀목 대출 이용 시 2년간 약 840만원 절약</div>
-    </div>
   </div>
-  <div class="related-section">
+  <div class="rel-section">
     <h2>📌 함께 쓰면 유용한 계산기</h2>
-    <div class="related-grid">
-      <a href="/loan" class="related-card"><span class="rc-emoji">💰</span><span class="rc-name">대출 계산기</span></a>
-      <a href="/savings" class="related-card"><span class="rc-emoji">💵</span><span class="rc-name">예적금 계산기</span></a>
-      <a href="/realestate" class="related-card"><span class="rc-emoji">🏡</span><span class="rc-name">부동산 취득세</span></a>
-      <a href="/acquisition" class="related-card"><span class="rc-emoji">📋</span><span class="rc-name">취득세 계산기</span></a>
-      <a href="/rent_conversion" class="related-card"><span class="rc-emoji">🔄</span><span class="rc-name">전월세 전환</span></a>
-      <a href="/loan_limit" class="related-card"><span class="rc-emoji">📊</span><span class="rc-name">대출 한도</span></a>
+    <div class="rel-grid">
+      <a href="/loan" class="rel-card"><span class="re">💰</span><span class="rn">대출 계산기</span></a>
+      <a href="/savings" class="rel-card"><span class="re">💵</span><span class="rn">예적금 계산기</span></a>
+      <a href="/realestate" class="rel-card"><span class="re">🏡</span><span class="rn">부동산 취득세</span></a>
+      <a href="/rent_conversion" class="rel-card"><span class="re">🔄</span><span class="rn">전월세 전환</span></a>
+      <a href="/loan_limit" class="rel-card"><span class="re">📊</span><span class="rn">대출 한도</span></a>
+      <a href="/cheongak" class="rel-card"><span class="re">🏠</span><span class="rn">청약 가점</span></a>
     </div>
   </div>
-
 <script src="/common.js"></script><script src="/share.js"></script><script src="/calculator.js"></script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}</script>
 </body>
