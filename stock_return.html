@@ -172,7 +172,7 @@
     document.getElementById('d-tax').textContent=tax>0?`-${fmt(tax,market)} (${taxLabel})`:'없음';
     document.getElementById('d-net').innerHTML=`<span class="${isProfit?'green':'red'}">${isProfit?'+':''}${fmt(profit,market)}</span>`;
     document.getElementById('d-realrate').innerHTML=`<span class="${isProfit?'green':'red'}">${isProfit?'+':''}${rate}%</span>`;
-    const rc=document.getElementById('resultCard');rc.classList.add('visible');rc.scrollIntoView({behavior:'smooth',block:'nearest'});
+    const rc=document.getElementById('resultCard');rc.classList.add('visible');
   }
   window.onload=()=>calculate();
 </script>

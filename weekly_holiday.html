@@ -144,7 +144,7 @@
     document.getElementById('d-work').textContent=`${fmt(workPay)}원`;
     document.getElementById('d-holiday').textContent=`${fmt(holidayPay)}원`;
     document.getElementById('d-monthly').textContent=`${fmt(monthly)}원`;
-    const rc=document.getElementById('resultCard');rc.classList.add('visible');rc.scrollIntoView({behavior:'smooth',block:'nearest'});
+    const rc=document.getElementById('resultCard');rc.classList.add('visible');
   }
   window.onload=()=>calculate();
 </script>

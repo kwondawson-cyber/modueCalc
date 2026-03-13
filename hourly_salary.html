@@ -151,7 +151,7 @@
     document.getElementById('d-work').textContent=`${fmt(workPay)}원`;
     document.getElementById('d-holiday').textContent=inclHoliday&&weekHours>=15?`${fmt(holidayPay)}원`:'미포함';
     document.getElementById('d-daily').textContent=`${fmt(daily)}원`;
-    const rc=document.getElementById('resultCard');rc.classList.add('visible');rc.scrollIntoView({behavior:'smooth',block:'nearest'});
+    const rc=document.getElementById('resultCard');rc.classList.add('visible');
   }
   window.onload=()=>calculate();
 </script>

@@ -449,7 +449,6 @@
         notQualified.style.display = 'block';
         qualified.style.display = 'none';
         document.getElementById('resultCard').classList.add('visible');
-        document.getElementById('resultCard').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         return;
       }
 
@@ -487,7 +486,6 @@
       document.getElementById('d-monthly').textContent = `약 ${fmt(monthlyBenefit)}원`;
 
       document.getElementById('resultCard').classList.add('visible');
-      document.getElementById('resultCard').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 
     window.onload = () => calculate();

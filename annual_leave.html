@@ -164,7 +164,7 @@
     const currentY=parseInt(document.getElementById('years').value);
     document.getElementById('annualBody').innerHTML=annualDays.map(r=>`
       <tr class="${r.y===currentY?'current':''}"><td>${r.label}</td><td>${r.days}</td></tr>`).join('');
-    const rc=document.getElementById('resultCard');rc.classList.add('visible');rc.scrollIntoView({behavior:'smooth',block:'nearest'});
+    const rc=document.getElementById('resultCard');rc.classList.add('visible');
   }
   window.onload=()=>calculate();
 </script>

@@ -141,7 +141,7 @@
     document.getElementById('d-profit').textContent=`${fmt(profit)}원`;
     document.getElementById('d-margin').textContent=`${margin}%`;
     document.getElementById('d-markup').textContent=`${markup}%`;
-    const rc=document.getElementById('resultCard');rc.classList.add('visible');rc.scrollIntoView({behavior:'smooth',block:'nearest'});
+    const rc=document.getElementById('resultCard');rc.classList.add('visible');
   }
   window.onload=()=>calculate();
 </script>

@@ -126,7 +126,7 @@
     document.getElementById('d-supply').textContent=`${fmt(supply)}원`;
     document.getElementById('d-vat').textContent=`${fmt(vat)}원`;
     document.getElementById('d-total').textContent=`${fmt(total)}원`;
-    const rc=document.getElementById('resultCard');rc.classList.add('visible');rc.scrollIntoView({behavior:'smooth',block:'nearest'});
+    const rc=document.getElementById('resultCard');rc.classList.add('visible');
   }
   window.onload=()=>calculate();
 </script>
