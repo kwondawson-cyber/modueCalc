@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#00d4aa" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="모두의계산기" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>연차일수 계산기 | 모두의계산기</title>
+  <meta name="description" content="입사일 기준 법정 연차 자동 계산. 반차 입력, 잔여 연차 확인. 인사담당자·직장인 필수 연차 계산기 2025년 기준." />
+  <meta name="naver-site-verification" content="82ae9d4234997a93590385e408dc1119dfe6f61f" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--danger:#ff6b6b;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+    .container{max-width:680px;margin:0 auto;padding:40px 20px 100px;position:relative;z-index:1}
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;gap:2px;width:48px;height:48px;justify-content:center;border-radius:50%;background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.2);text-decoration:none;transition:all .2s}
+    .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+    .header{text-align:center;margin-bottom:32px}
+    .header h1{font-family:'Montserrat',sans-serif;font-size:clamp(22px,5vw,32px);font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+    .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
+    .header p{color:var(--text-muted);font-size:14px}
+    .badge{display:inline-block;padding:3px 10px;background:rgba(0,149,255,0.15);border:1px solid rgba(0,149,255,0.3);border-radius:20px;font-size:11px;color:var(--accent2);font-weight:700;margin-bottom:16px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
+    .card h2{font-size:15px;font-weight:700;margin-bottom:16px;color:var(--accent)}
+    .form-group{margin-bottom:14px}
+    label{display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px;font-weight:500}
+    input,select{width:100%;padding:11px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:15px;font-family:'Noto Sans KR',sans-serif;outline:none;transition:border-color .2s}
+    input:focus,select:focus{border-color:var(--accent)}
+    select option{background:var(--surface2)}
+    .btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#000;font-size:16px;font-weight:800;font-family:'Noto Sans KR',sans-serif;cursor:pointer;margin-top:4px;transition:opacity .2s}
+    .btn:hover{opacity:.9}
+    .btn-sm{padding:8px 16px;font-size:13px;border:none;border-radius:8px;cursor:pointer;font-family:'Noto Sans KR',sans-serif;font-weight:700;background:var(--surface2);color:var(--text);transition:all .2s}
+    .btn-sm:hover{background:rgba(0,212,170,0.15);color:var(--accent)}
+    .result-card{background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:var(--radius);padding:24px;margin-top:16px;display:none}
+    .result-card.show{display:block}
+    .result-main{text-align:center;margin-bottom:20px}
+    .result-label{font-size:13px;color:var(--text-muted);margin-bottom:6px}
+    .result-value{font-family:'Montserrat',sans-serif;font-size:40px;font-weight:900;color:var(--accent)}
+    .result-sub{font-size:13px;color:var(--text-muted);margin-top:4px}
+    .result-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:16px}
+    .result-item{background:var(--surface2);border-radius:10px;padding:12px;text-align:center}
+    .result-item-label{font-size:11px;color:var(--text-muted);margin-bottom:4px}
+    .result-item-value{font-size:18px;font-weight:700;color:var(--text)}
+    .result-item-value.warn{color:var(--danger)}
+    .usage-log{background:var(--surface2);border-radius:12px;padding:16px;margin-top:16px}
+    .usage-log h3{font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:12px}
+    .log-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
+    .log-row:last-child{border-bottom:none}
+    .log-type{padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700}
+    .log-type.full{background:rgba(0,212,170,0.15);color:var(--accent)}
+    .log-type.half{background:rgba(0,149,255,0.15);color:var(--accent2)}
+    .log-del{background:none;border:none;color:var(--danger);cursor:pointer;font-size:16px;padding:0 4px}
+    .add-row{display:flex;gap:8px;margin-top:12px;align-items:center}
+    .add-row input{flex:1;margin:0}
+    .progress-wrap{margin-top:16px}
+    .progress-label{display:flex;justify-content:space-between;font-size:12px;color:var(--text-muted);margin-bottom:6px}
+    .progress-bar{background:var(--surface2);border-radius:8px;height:12px;overflow:hidden}
+    .progress-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .5s}
+    .schedule-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px}
+    .schedule-table th{background:var(--surface2);padding:8px 10px;text-align:center;color:var(--text-muted);font-weight:600;border:1px solid var(--border)}
+    .schedule-table td{padding:8px 10px;text-align:center;border:1px solid var(--border);color:var(--text)}
+    .schedule-table tr:hover td{background:rgba(0,212,170,0.04)}
+    .formula-box{background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:14px 16px;margin:16px 0;font-size:13px;color:var(--text-muted);line-height:1.8}
+    .ad-slot{min-height:0;text-align:center;margin:16px 0}
+    .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    details{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden}
+    details summary{padding:12px 16px;cursor:pointer;font-size:14px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--surface)}
+    details summary::after{content:'＋';color:var(--accent);font-size:16px}
+    details[open] summary::after{content:'－'}
+    details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
+    @media(max-width:480px){.result-grid{grid-template-columns:1fr 1fr}.row2{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="header">
+    <h1><span class="emoji">📅</span> 연차일수 계산기</h1>
+    <p>입사일 기준 법정 연차 · 반차 포함 잔여 연차 계산</p>
+  </div>
+  <div style="text-align:center"><span class="badge">👔 인사담당자용</span></div>
+
+  <div class="card">
+    <h2>👤 직원 정보</h2>
+    <div class="row2">
+      <div class="form-group">
+        <label>입사일</label>
+        <input type="date" id="hireDate" />
+      </div>
+      <div class="form-group">
+        <label>기준일 (오늘)</label>
+        <input type="date" id="baseDate" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>연차 제도</label>
+      <select id="system">
+        <option value="labor">근로기준법 (입사일 기준)</option>
+        <option value="calendar">회계연도 기준 (1월 1일)</option>
+      </select>
+    </div>
+    <button class="btn" onclick="calcAnnual()">연차 계산</button>
+  </div>
+
+  <div class="result-card" id="result">
+    <div class="result-main">
+      <div class="result-label">잔여 연차</div>
+      <div class="result-value" id="rRemain">0일</div>
+      <div class="result-sub" id="rSub"></div>
+    </div>
+    <div class="result-grid">
+      <div class="result-item"><div class="result-item-label">총 발생 연차</div><div class="result-item-value" id="rTotal">-</div></div>
+      <div class="result-item"><div class="result-item-label">사용 연차</div><div class="result-item-value" id="rUsed">-</div></div>
+      <div class="result-item"><div class="result-item-label">잔여 연차</div><div class="result-item-value" id="rLeft">-</div></div>
+    </div>
+
+    <div class="progress-wrap">
+      <div class="progress-label"><span>사용률</span><span id="rPct">0%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    </div>
+
+    <!-- 연차 사용 입력 -->
+    <div class="usage-log" style="margin-top:20px">
+      <h3>✏️ 연차 사용 입력 (반차 포함)</h3>
+      <div id="logList"></div>
+      <div class="add-row">
+        <input type="date" id="addDate" style="flex:2" />
+        <select id="addType" style="flex:1.2">
+          <option value="1">연차 (1일)</option>
+          <option value="0.5">반차 (0.5일)</option>
+        </select>
+        <button class="btn-sm" onclick="addLog()">추가</button>
+      </div>
+    </div>
+
+    <!-- 연도별 발생 스케줄 -->
+    <div style="margin-top:20px">
+      <div style="font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:8px">📋 연도별 연차 발생 내역</div>
+      <table class="schedule-table"><thead><tr><th>연도</th><th>발생 시점</th><th>발생 일수</th></tr></thead><tbody id="scheduleBody"></tbody></table>
+    </div>
+  </div>
+
+  <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6079812618767597" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
+
+  <div class="card">
+    <h2>📐 연차 발생 기준 (근로기준법)</h2>
+    <div class="formula-box">
+      <strong>입사 1년 미만</strong> — 1개월 개근 시 1일 발생 (최대 11일)<br>
+      <strong>입사 1년~3년 미만</strong> — 15일 발생<br>
+      <strong>3년 이상</strong> — 15일 + 매 2년마다 1일 추가 (최대 25일)<br><br>
+      반차(0.5일)는 노사 합의 또는 취업규칙에 따라 사용 가능<br>
+      연차 사용 촉진 제도: 미사용 연차는 사용 촉진 후 보상 의무 면제 가능
+    </div>
+  </div>
+
+  <h2 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)">자주 묻는 질문</h2>
+  <details><summary>입사 첫해 연차는 어떻게 계산하나요?</summary><div class="faq-answer">입사 후 1년 미만 기간 동안은 1개월 개근 시 1일씩 발생하여 최대 11일입니다. 1년이 되는 날 추가로 15일이 한꺼번에 발생합니다. 단, 첫해 발생한 11일은 차감하지 않는 게 원칙입니다.</div></details>
+  <details><summary>반차는 어떻게 계산하나요?</summary><div class="faq-answer">반차는 연차 0.5일로 계산됩니다. 하루에 2번 사용하면 연차 1일 차감. 취업규칙에 반차 규정이 없으면 사용이 제한될 수 있으니 회사 규정을 먼저 확인하세요.</div></details>
+  <details><summary>연차는 언제까지 써야 하나요?</summary><div class="faq-answer">연차는 발생일로부터 1년 이내에 사용해야 합니다. 미사용 연차는 수당으로 받을 수 있습니다. 단, 사용자가 사용 촉진을 했음에도 미사용 시 수당 청구가 제한될 수 있습니다.</div></details>
+  <details><summary>최대 연차 25일은 언제 받나요?</summary><div class="faq-answer">입사 21년차부터 25일이 됩니다. 3년차에 1일 추가(16일), 5년차 17일, 7년차 18일... 이런 식으로 2년마다 1일씩 추가됩니다.</div></details>
+  <details><summary>계약직도 연차가 발생하나요?</summary><div class="faq-answer">네, 근로기준법은 고용 형태와 무관하게 1주 15시간 이상 근무하는 모든 근로자에게 적용됩니다. 계약직, 파트타임도 동일하게 연차가 발생합니다.</div></details>
+</div>
+
+<script>
+let logs = []; // {date, type(1|0.5)}
+
+function calcAnnual() {
+  const hire = new Date(document.getElementById('hireDate').value);
+  const base = new Date(document.getElementById('baseDate').value);
+  if (!hire || !base || isNaN(hire) || isNaN(base)) { alert('날짜를 입력해주세요.'); return; }
+  if (base < hire) { alert('기준일이 입사일보다 이릅니다.'); return; }
+
+  const schedule = getSchedule(hire, base);
+  const total = schedule.reduce((s, r) => s + r.days, 0);
+  const used = logs.reduce((s, l) => s + l.type, 0);
+  const remain = Math.max(total - used, 0);
+  const pct = total > 0 ? Math.round(used / total * 100) : 0;
+
+  const diffMs = base - hire;
+  const months = Math.floor(diffMs / (1000 * 60 * 60 * 24 * 30.44));
+  const years  = Math.floor(months / 12);
+  document.getElementById('rRemain').textContent = remain + '일';
+  document.getElementById('rSub').textContent = `입사 ${years}년 ${months % 12}개월차`;
+  document.getElementById('rTotal').textContent = total + '일';
+  document.getElementById('rUsed').textContent = used + '일';
+  document.getElementById('rLeft').textContent = remain + '일';
+  document.getElementById('rPct').textContent = pct + '%';
+  document.getElementById('progressFill').style.width = Math.min(pct, 100) + '%';
+
+  renderLog();
+  renderSchedule(schedule);
+  document.getElementById('result').classList.add('show');
+}
+
+function getSchedule(hire, base) {
+  const rows = [];
+  const diffMs = base - hire;
+  const totalDays = Math.floor(diffMs / 86400000);
+  const totalMonths = Math.floor(totalDays / 30.44);
+
+  // 1년 미만: 월 1일
+  const firstYearMonths = Math.min(totalMonths, 11);
+  if (firstYearMonths > 0) {
+    for (let m = 1; m <= firstYearMonths; m++) {
+      const d = new Date(hire);
+      d.setMonth(d.getMonth() + m);
+      if (d <= base) rows.push({ label: `${m}개월차`, date: fmtDate(d), days: 1 });
+    }
+  }
+  // 1년 이상: 연 발생
+  if (totalDays >= 365) {
+    for (let y = 1; y <= 30; y++) {
+      const d = new Date(hire);
+      d.setFullYear(d.getFullYear() + y);
+      if (d > base) break;
+      const extra = y >= 3 ? Math.floor((y - 1) / 2) : 0;
+      const days = Math.min(15 + extra, 25);
+      rows.push({ label: `${y}년차`, date: fmtDate(d), days });
+    }
+  }
+  return rows;
+}
+
+function fmtDate(d) { return d.toISOString().split('T')[0]; }
+
+function renderLog() {
+  const el = document.getElementById('logList');
+  if (!logs.length) { el.innerHTML = '<div style="font-size:12px;color:var(--text-muted);padding:8px 0">사용 내역이 없습니다.</div>'; return; }
+  el.innerHTML = logs.map((l, i) => `
+    <div class="log-row">
+      <span>${l.date}</span>
+      <span class="log-type ${l.type === 1 ? 'full' : 'half'}">${l.type === 1 ? '연차' : '반차'}</span>
+      <span>${l.type}일</span>
+      <button class="log-del" onclick="delLog(${i})">✕</button>
+    </div>`).join('');
+}
+
+function renderSchedule(rows) {
+  document.getElementById('scheduleBody').innerHTML = rows.map(r =>
+    `<tr><td>${r.label}</td><td>${r.date}</td><td><strong>${r.days}일</strong></td></tr>`
+  ).join('');
+}
+
+function addLog() {
+  const date = document.getElementById('addDate').value;
+  const type = +document.getElementById('addType').value;
+  if (!date) { alert('날짜를 선택해주세요.'); return; }
+  logs.push({ date, type });
+  logs.sort((a, b) => a.date.localeCompare(b.date));
+  calcAnnual();
+}
+
+function delLog(i) {
+  logs.splice(i, 1);
+  calcAnnual();
+}
+
+// 오늘 날짜 기본값
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('baseDate').value = new Date().toISOString().split('T')[0];
+});
+</script>
+<script src="/common.js"></script><script src="/share.js"></script><script src="/calculator.js"></script>
+<script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}</script>
+</body>
+</html>

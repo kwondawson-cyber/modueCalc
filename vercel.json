@@ -230,6 +230,42 @@
     {
       "source": "/fuel_economy",
       "destination": "/fuel_economy.html"
+    },
+    {
+      "source": "/jeonse_loan",
+      "destination": "/jeonse_loan.html"
+    },
+    {
+      "source": "/car_installment",
+      "destination": "/car_installment.html"
+    },
+    {
+      "source": "/car_lease",
+      "destination": "/car_lease.html"
+    },
+    {
+      "source": "/insurance",
+      "destination": "/insurance.html"
+    },
+    {
+      "source": "/retirement_pension",
+      "destination": "/retirement_pension.html"
+    },
+    {
+      "source": "/refund",
+      "destination": "/refund.html"
+    },
+    {
+      "source": "/annual_leave_hr",
+      "destination": "/annual_leave_hr.html"
+    },
+    {
+      "source": "/salary_slip",
+      "destination": "/salary_slip.html"
+    },
+    {
+      "source": "/corporate_tax",
+      "destination": "/corporate_tax.html"
     }
   ]
 }

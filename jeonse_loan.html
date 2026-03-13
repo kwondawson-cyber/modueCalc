@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#00d4aa" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="모두의계산기" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>전세자금대출 계산기 | 모두의계산기</title>
+  <meta name="description" content="전세자금대출 한도, 월 이자, 총 이자 계산. 카카오뱅크·주택도시기금·시중은행 금리 비교까지." />
+  <meta name="naver-site-verification" content="82ae9d4234997a93590385e408dc1119dfe6f61f" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--danger:#ff6b6b;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+    .container{max-width:680px;margin:0 auto;padding:40px 20px 100px;position:relative;z-index:1}
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;gap:2px;width:48px;height:48px;justify-content:center;border-radius:50%;background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.2);text-decoration:none;transition:all .2s}
+    .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+    .header{text-align:center;margin-bottom:32px}
+    .header h1{font-family:'Montserrat',sans-serif;font-size:clamp(22px,5vw,32px);font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+    .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
+    .header p{color:var(--text-muted);font-size:14px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
+    .card h2{font-size:15px;font-weight:700;margin-bottom:16px;color:var(--accent)}
+    .form-group{margin-bottom:14px}
+    label{display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px;font-weight:500}
+    input,select{width:100%;padding:11px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:15px;font-family:'Noto Sans KR',sans-serif;outline:none;transition:border-color .2s}
+    input:focus,select:focus{border-color:var(--accent)}
+    select option{background:var(--surface2)}
+    .btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#000;font-size:16px;font-weight:800;font-family:'Noto Sans KR',sans-serif;cursor:pointer;margin-top:4px;transition:opacity .2s}
+    .btn:hover{opacity:.9}
+    .result-card{background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:var(--radius);padding:24px;margin-top:16px;display:none}
+    .result-card.show{display:block}
+    .result-main{text-align:center;margin-bottom:20px}
+    .result-label{font-size:13px;color:var(--text-muted);margin-bottom:6px}
+    .result-value{font-family:'Montserrat',sans-serif;font-size:36px;font-weight:900;color:var(--accent)}
+    .result-sub{font-size:13px;color:var(--text-muted);margin-top:4px}
+    .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+    .result-item{background:var(--surface2);border-radius:10px;padding:12px;text-align:center}
+    .result-item-label{font-size:11px;color:var(--text-muted);margin-bottom:4px}
+    .result-item-value{font-size:16px;font-weight:700;color:var(--text)}
+    .affiliate-box{background:linear-gradient(135deg,rgba(0,149,255,0.1),rgba(0,212,170,0.06));border:1px solid rgba(0,149,255,0.3);border-radius:12px;padding:18px;margin-top:16px;text-align:center}
+    .affiliate-box p{font-size:13px;color:var(--text-muted);margin-bottom:12px}
+    .affiliate-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+    .affiliate-btn{display:inline-block;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:800;text-decoration:none;font-family:'Noto Sans KR',sans-serif;transition:opacity .2s}
+    .affiliate-btn:hover{opacity:.85}
+    .affiliate-btn-primary{background:linear-gradient(135deg,var(--accent2),var(--accent));color:#000}
+    .affiliate-btn-secondary{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
+    .info-box{background:rgba(255,215,0,0.06);border:1px solid rgba(255,215,0,0.2);border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:12px;color:#e6b800;line-height:1.7}
+    .formula-box{background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:14px 16px;margin:16px 0;font-size:13px;color:var(--text-muted);line-height:1.8}
+    .ad-slot{min-height:0;text-align:center;margin:16px 0}
+    .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .limit-bar{background:var(--surface2);border-radius:8px;height:10px;margin-top:8px;overflow:hidden}
+    .limit-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .5s}
+    details{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden}
+    details summary{padding:12px 16px;cursor:pointer;font-size:14px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--surface)}
+    details summary::after{content:'＋';color:var(--accent);font-size:16px}
+    details[open] summary::after{content:'－'}
+    details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
+    @media(max-width:480px){.result-grid{grid-template-columns:1fr}.row2{grid-template-columns:1fr}.affiliate-btns{flex-direction:column}}
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="header">
+    <h1><span class="emoji">🏠</span> 전세자금대출 계산기</h1>
+    <p>대출 한도 · 월 이자 · 총 이자 한번에 계산</p>
+  </div>
+
+  <div class="card">
+    <h2>📋 기본 정보</h2>
+    <div class="form-group">
+      <label>전세 보증금 (만원)</label>
+      <input type="number" id="deposit" placeholder="예: 30000" />
+    </div>
+    <div class="row2">
+      <div class="form-group">
+        <label>본인 자산 (만원)</label>
+        <input type="number" id="myAsset" placeholder="예: 5000" />
+      </div>
+      <div class="form-group">
+        <label>연소득 (만원)</label>
+        <input type="number" id="income" placeholder="예: 4000" />
+      </div>
+    </div>
+    <div class="row2">
+      <div class="form-group">
+        <label>대출 상품</label>
+        <select id="loanType">
+          <option value="huf_young">버팀목 전세대출 (청년)</option>
+          <option value="huf_general">버팀목 전세대출 (일반)</option>
+          <option value="kakao">카카오뱅크 전세대출</option>
+          <option value="bank">시중은행 일반</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>대출 기간</label>
+        <select id="loanTerm">
+          <option value="2">2년</option>
+          <option value="4">4년</option>
+          <option value="6">6년</option>
+          <option value="10">10년</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn" onclick="calcJeonse()">계산하기</button>
+  </div>
+
+  <div class="result-card" id="result">
+    <div class="result-main">
+      <div class="result-label">예상 대출 한도</div>
+      <div class="result-value" id="rLimit">0만원</div>
+      <div class="result-sub" id="rLimitSub"></div>
+    </div>
+    <div class="limit-bar"><div class="limit-fill" id="limitFill" style="width:0%"></div></div>
+    <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-top:4px"><span>0</span><span id="limitMax"></span></div>
+    <div class="result-grid">
+      <div class="result-item"><div class="result-item-label">적용 금리</div><div class="result-item-value" id="rRate">-</div></div>
+      <div class="result-item"><div class="result-item-label">월 이자</div><div class="result-item-value" id="rMonthly">-</div></div>
+      <div class="result-item"><div class="result-item-label">연간 이자</div><div class="result-item-value" id="rYearly">-</div></div>
+      <div class="result-item"><div class="result-item-label">총 이자 (기간 내)</div><div class="result-item-value" id="rTotal">-</div></div>
+    </div>
+    <div class="affiliate-box">
+      <p>💡 실제 한도와 금리는 은행별로 다릅니다. 여러 곳을 비교해 최저금리를 찾아보세요.</p>
+      <div class="affiliate-btns">
+        <a href="https://finda.co.kr" target="_blank" rel="nofollow sponsored" class="affiliate-btn affiliate-btn-primary">핀다에서 금리 비교</a>
+        <a href="https://toss.im" target="_blank" rel="nofollow sponsored" class="affiliate-btn affiliate-btn-secondary">토스 전세대출</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6079812618767597" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
+
+  <div class="card">
+    <h2>📚 전세자금대출 상품별 금리 (2025년 기준)</h2>
+    <div class="formula-box">
+      <strong>버팀목 전세대출 (청년)</strong> — 연소득 5,000만원 이하, 만 34세 이하<br>
+      금리: 연 1.5~2.7% · 한도: 수도권 2억원, 지방 1억6천<br><br>
+      <strong>버팀목 전세대출 (일반)</strong> — 부부합산 5,000만원 이하<br>
+      금리: 연 2.1~2.9% · 한도: 수도권 1억2천, 지방 8천만원<br><br>
+      <strong>카카오뱅크·시중은행</strong> — 소득 제한 없음<br>
+      금리: 연 3.5~5.5% (2025년 기준) · 한도: 보증금 80% 이내
+    </div>
+  </div>
+
+  <h2 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)">자주 묻는 질문</h2>
+  <details><summary>전세자금대출 한도는 어떻게 정해지나요?</summary><div class="faq-answer">일반적으로 전세 보증금의 80% 이내에서 대출이 가능합니다. 버팀목 대출은 상품별로 한도 상한이 정해져 있어요. 연소득과 DSR(총부채원리금상환비율)에 따라 실제 한도가 줄어들 수 있습니다.</div></details>
+  <details><summary>전세대출 이자는 어떻게 내나요?</summary><div class="faq-answer">전세자금대출은 일반 대출과 달리 원금은 만기에 한 번에 상환하고, 매달 이자만 납부하는 방식이 대부분입니다. 2년마다 연장 심사를 받습니다.</div></details>
+  <details><summary>버팀목 대출과 시중은행 대출 중 어디가 유리한가요?</summary><div class="faq-answer">소득 조건이 된다면 버팀목 대출이 금리가 훨씬 낮아 유리합니다. 단, 한도가 낮고 조건이 까다로운 편이에요. 보증금이 크거나 소득 요건을 충족 못하면 시중은행을 이용해야 합니다.</div></details>
+  <details><summary>전세대출 받으면 집 살 때 불이익이 있나요?</summary><div class="faq-answer">전세대출 자체는 주택담보대출 한도에 영향을 줄 수 있습니다. DSR 계산 시 전세대출 이자가 포함되므로, 추후 주택 구입 시 대출 한도가 줄어들 수 있어요.</div></details>
+  <details><summary>보증금이 4억이면 대출이 얼마나 되나요?</summary><div class="faq-answer">시중은행 기준 보증금의 80%인 3억 2천만원까지 가능하지만, DSR·소득 조건에 따라 줄어들 수 있습니다. 버팀목 대출은 한도 상한이 있어 1억 2천~2억원 수준입니다.</div></details>
+</div>
+
+<script>
+const RATES = {
+  huf_young:   { rate: 2.1, maxLimit: 20000, label: '버팀목 청년', limitPct: 0.8 },
+  huf_general: { rate: 2.5, maxLimit: 12000, label: '버팀목 일반', limitPct: 0.8 },
+  kakao:       { rate: 3.9, maxLimit: 999999, label: '카카오뱅크', limitPct: 0.8 },
+  bank:        { rate: 4.5, maxLimit: 999999, label: '시중은행',   limitPct: 0.8 },
+};
+
+function fmt(n) { return Math.round(n).toLocaleString() + '만원'; }
+
+function calcJeonse() {
+  const deposit  = +document.getElementById('deposit').value;
+  const myAsset  = +document.getElementById('myAsset').value || 0;
+  const income   = +document.getElementById('income').value || 9999;
+  const type     = document.getElementById('loanType').value;
+  const termYr   = +document.getElementById('loanTerm').value;
+  if (!deposit) { alert('전세 보증금을 입력해주세요.'); return; }
+
+  const p = RATES[type];
+  // 한도: 보증금 80%, 상품 상한, 자산 차감 고려
+  let limit = Math.min(deposit * p.limitPct, p.maxLimit);
+  // DSR 간이 계산: 연소득의 40% / 12 = 월 상환 여력 → 이자만 납부 기준
+  const dsrLimit = (income * 0.4) / (p.rate / 100);
+  limit = Math.min(limit, dsrLimit);
+  limit = Math.max(0, limit);
+
+  const rate     = p.rate / 100;
+  const monthly  = Math.round(limit * rate / 12);
+  const yearly   = monthly * 12;
+  const total    = yearly * termYr;
+  const pct      = Math.min(100, Math.round(limit / deposit * 100));
+
+  document.getElementById('rLimit').textContent    = fmt(limit);
+  document.getElementById('rLimitSub').textContent = `보증금 ${deposit.toLocaleString()}만원의 ${pct}%`;
+  document.getElementById('rRate').textContent     = p.rate.toFixed(1) + '%';
+  document.getElementById('rMonthly').textContent  = fmt(monthly);
+  document.getElementById('rYearly').textContent   = fmt(yearly);
+  document.getElementById('rTotal').textContent    = fmt(total);
+  document.getElementById('limitMax').textContent  = fmt(deposit);
+  document.getElementById('limitFill').style.width = pct + '%';
+  document.getElementById('result').classList.add('show');
+}
+</script>
+<script src="/common.js"></script><script src="/share.js"></script><script src="/calculator.js"></script>
+<script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}</script>
+</body>
+</html>

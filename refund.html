@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#00d4aa" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="모두의계산기" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>환불금액 계산기 | 모두의계산기</title>
+  <meta name="description" content="환불 금액 계산기. 위약금, 사용일수, 사용단가 입력으로 실제 환불받을 금액 계산. 학원·구독·여행 환불에 활용." />
+  <meta name="naver-site-verification" content="82ae9d4234997a93590385e408dc1119dfe6f61f" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--danger:#ff6b6b;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+    .container{max-width:680px;margin:0 auto;padding:40px 20px 100px;position:relative;z-index:1}
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;gap:2px;width:48px;height:48px;justify-content:center;border-radius:50%;background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.2);text-decoration:none;transition:all .2s}
+    .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+    .header{text-align:center;margin-bottom:32px}
+    .header h1{font-family:'Montserrat',sans-serif;font-size:clamp(22px,5vw,32px);font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+    .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
+    .header p{color:var(--text-muted);font-size:14px}
+    .tab-wrap{display:flex;gap:8px;margin-bottom:16px}
+    .tab{flex:1;padding:10px;text-align:center;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;border:1px solid var(--border);background:var(--surface2);color:var(--text-muted);transition:all .2s}
+    .tab.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000;border-color:transparent}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
+    .card h2{font-size:15px;font-weight:700;margin-bottom:16px;color:var(--accent)}
+    .form-group{margin-bottom:14px}
+    label{display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px;font-weight:500}
+    input,select{width:100%;padding:11px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:15px;font-family:'Noto Sans KR',sans-serif;outline:none;transition:border-color .2s}
+    input:focus,select:focus{border-color:var(--accent)}
+    select option{background:var(--surface2)}
+    .btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#000;font-size:16px;font-weight:800;font-family:'Noto Sans KR',sans-serif;cursor:pointer;margin-top:4px;transition:opacity .2s}
+    .btn:hover{opacity:.9}
+    .result-card{background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:var(--radius);padding:24px;margin-top:16px;display:none}
+    .result-card.show{display:block}
+    .result-main{text-align:center;margin-bottom:20px}
+    .result-label{font-size:13px;color:var(--text-muted);margin-bottom:6px}
+    .result-value{font-family:'Montserrat',sans-serif;font-size:36px;font-weight:900;color:var(--accent)}
+    .result-value.danger{color:var(--danger)}
+    .result-sub{font-size:13px;color:var(--text-muted);margin-top:4px}
+    .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+    .result-item{background:var(--surface2);border-radius:10px;padding:12px;text-align:center}
+    .result-item-label{font-size:11px;color:var(--text-muted);margin-bottom:4px}
+    .result-item-value{font-size:16px;font-weight:700;color:var(--text)}
+    .breakdown{background:var(--surface2);border-radius:12px;padding:16px;margin-top:16px}
+    .breakdown-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px}
+    .breakdown-row:last-child{border-bottom:none;font-weight:700;color:var(--accent)}
+    .breakdown-row.deduct{color:var(--danger)}
+    .formula-box{background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:14px 16px;margin:16px 0;font-size:13px;color:var(--text-muted);line-height:1.8}
+    .ad-slot{min-height:0;text-align:center;margin:16px 0}
+    .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    details{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden}
+    details summary{padding:12px 16px;cursor:pointer;font-size:14px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--surface)}
+    details summary::after{content:'＋';color:var(--accent);font-size:16px}
+    details[open] summary::after{content:'－'}
+    details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
+    @media(max-width:480px){.result-grid{grid-template-columns:1fr}.row2{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="header">
+    <h1><span class="emoji">💸</span> 환불금액 계산기</h1>
+    <p>위약금·사용일수·단가 계산으로 실제 환불액 확인</p>
+  </div>
+
+  <div class="tab-wrap">
+    <div class="tab active" onclick="switchTab('basic',this)">기본 환불</div>
+    <div class="tab" onclick="switchTab('academy',this)">학원 환불</div>
+    <div class="tab" onclick="switchTab('subscription',this)">구독 환불</div>
+  </div>
+
+  <!-- 기본 환불 -->
+  <div id="tab-basic">
+    <div class="card">
+      <h2>💳 기본 환불 계산</h2>
+      <div class="form-group"><label>결제 금액 (원)</label><input type="number" id="b-paid" placeholder="예: 500000" /></div>
+      <div class="row2">
+        <div class="form-group"><label>전체 기간 (일)</label><input type="number" id="b-total" placeholder="예: 90" /></div>
+        <div class="form-group"><label>사용 기간 (일)</label><input type="number" id="b-used" placeholder="예: 20" /></div>
+      </div>
+      <div class="row2">
+        <div class="form-group"><label>위약금 (원)</label><input type="number" id="b-penalty" placeholder="없으면 0" value="0" /></div>
+        <div class="form-group"><label>위약금 방식</label><select id="b-penalty-type"><option value="fixed">고정 금액</option><option value="pct">잔액 비율 (%)</option></select></div>
+      </div>
+      <div id="b-penalty-pct-wrap" style="display:none" class="form-group"><label>위약금 비율 (%)</label><input type="number" id="b-penalty-pct" placeholder="예: 10" value="10" /></div>
+      <button class="btn" onclick="calcBasic()">환불액 계산</button>
+    </div>
+    <div class="result-card" id="result-basic">
+      <div class="result-main">
+        <div class="result-label">예상 환불 금액</div>
+        <div class="result-value" id="rb-refund">0원</div>
+        <div class="result-sub" id="rb-sub"></div>
+      </div>
+      <div class="breakdown">
+        <div class="breakdown-row"><span>결제 금액</span><span id="rb-paid">-</span></div>
+        <div class="breakdown-row deduct"><span>사용 금액 (일할)</span><span id="rb-used-cost">-</span></div>
+        <div class="breakdown-row deduct"><span>위약금</span><span id="rb-penalty">-</span></div>
+        <div class="breakdown-row"><span>환불 예상액</span><span id="rb-final">-</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 학원 환불 -->
+  <div id="tab-academy" style="display:none">
+    <div class="card">
+      <h2>📚 학원 환불 계산 (할부거래법 기준)</h2>
+      <div class="form-group"><label>수강료 (원)</label><input type="number" id="a-paid" placeholder="예: 300000" /></div>
+      <div class="row2">
+        <div class="form-group"><label>총 수강 횟수</label><input type="number" id="a-total" placeholder="예: 20" /></div>
+        <div class="form-group"><label>수강한 횟수</label><input type="number" id="a-used" placeholder="예: 5" /></div>
+      </div>
+      <div class="form-group">
+        <label>수강 시작 후 경과</label>
+        <select id="a-period">
+          <option value="1">1개월 이내</option>
+          <option value="2">2개월 이내</option>
+          <option value="3">3개월 이내</option>
+          <option value="4">3개월 초과</option>
+        </select>
+      </div>
+      <button class="btn" onclick="calcAcademy()">환불액 계산</button>
+    </div>
+    <div class="result-card" id="result-academy">
+      <div class="result-main">
+        <div class="result-label">환불 예상액</div>
+        <div class="result-value" id="ra-refund">0원</div>
+        <div class="result-sub" id="ra-sub"></div>
+      </div>
+      <div class="breakdown">
+        <div class="breakdown-row"><span>납부 수강료</span><span id="ra-paid">-</span></div>
+        <div class="breakdown-row deduct"><span>공제액 (수강 비율)</span><span id="ra-used">-</span></div>
+        <div class="breakdown-row deduct"><span>위약금 (법정)</span><span id="ra-penalty">-</span></div>
+        <div class="breakdown-row"><span>환불 예상액</span><span id="ra-final">-</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 구독 환불 -->
+  <div id="tab-subscription" style="display:none">
+    <div class="card">
+      <h2>📱 구독 서비스 환불</h2>
+      <div class="form-group"><label>결제 금액 (원)</label><input type="number" id="s-paid" placeholder="예: 15900" /></div>
+      <div class="row2">
+        <div class="form-group"><label>구독 기간</label><select id="s-period"><option value="30">1개월(30일)</option><option value="90">3개월(90일)</option><option value="180">6개월(180일)</option><option value="365">1년(365일)</option></select></div>
+        <div class="form-group"><label>사용일 수</label><input type="number" id="s-used" placeholder="예: 10" /></div>
+      </div>
+      <div class="form-group"><label>환불 정책</label><select id="s-policy"><option value="daily">일할 계산 환불</option><option value="none">환불 불가</option><option value="full">전액 환불</option></select></div>
+      <button class="btn" onclick="calcSubscription()">환불액 계산</button>
+    </div>
+    <div class="result-card" id="result-sub">
+      <div class="result-main">
+        <div class="result-label">환불 예상액</div>
+        <div class="result-value" id="rs-refund">0원</div>
+        <div class="result-sub" id="rs-sub"></div>
+      </div>
+      <div class="breakdown">
+        <div class="breakdown-row"><span>결제 금액</span><span id="rs-paid">-</span></div>
+        <div class="breakdown-row deduct"><span>사용분 차감</span><span id="rs-used">-</span></div>
+        <div class="breakdown-row"><span>환불 예상액</span><span id="rs-final">-</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6079812618767597" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
+
+  <div class="card">
+    <h2>⚖️ 환불 관련 법령 요점</h2>
+    <div class="formula-box">
+      <strong>학원 환불 (평생교육법·할부거래법)</strong><br>
+      수강 시작 전: 전액 환불<br>
+      1개월 이내: 수강료 1/2 환불<br>
+      2개월 이내: 수강료 1/3 환불<br>
+      3개월 이내: 수강료 1/4 환불<br>
+      3개월 초과: 환불 불가 (단, 사업자 귀책 사유 시 전액 환불)<br><br>
+      <strong>통신판매·전자상거래</strong><br>
+      수령 후 7일 이내: 청약 철회 가능 → 전액 환불<br>
+      단, 디지털 콘텐츠·맞춤 제작품은 예외 적용
+    </div>
+  </div>
+
+  <h2 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)">자주 묻는 질문</h2>
+  <details><summary>학원비 환불을 거부하면 어떻게 해야 하나요?</summary><div class="faq-answer">학원은 할부거래법에 따라 환불 의무가 있습니다. 거부 시 한국소비자원(1372) 또는 교육청에 신고할 수 있습니다. 환불 요구 시 내용증명을 먼저 발송하는 것이 효과적입니다.</div></details>
+  <details><summary>위약금은 얼마까지 받을 수 있나요?</summary><div class="faq-answer">소비자 귀책으로 계약 해지 시 통상 잔여 금액의 10% 이내가 적정 위약금으로 봅니다. 과도한 위약금은 불공정 약관으로 무효가 될 수 있습니다.</div></details>
+  <details><summary>디지털 콘텐츠(OTT, 앱 구독)는 환불이 안 되나요?</summary><div class="faq-answer">디지털 콘텐츠는 일반적으로 청약 철회가 제한됩니다. 단, 서비스 오류·사업자 귀책 사유라면 환불 청구가 가능합니다. 약관을 꼼꼼히 확인하세요.</div></details>
+  <details><summary>환불 신청은 어디에 하나요?</summary><div class="faq-answer">한국소비자원 1372, 공정거래위원회, 카드사 분쟁 조정 등을 통해 신청할 수 있습니다. 카드 결제 시 카드사에 '매입 취소' 또는 '차지백'을 요청하는 방법도 있습니다.</div></details>
+  <details><summary>사용 단가 계산은 어떻게 하나요?</summary><div class="faq-answer">일할 계산의 경우 [총 결제액 ÷ 전체 기간] = 1일 단가입니다. 사용 금액 = 1일 단가 × 사용 일수. 환불액 = 총 결제액 - 사용 금액 - 위약금 순서로 계산합니다.</div></details>
+</div>
+
+<script>
+function fmtW(n){return Math.round(n).toLocaleString()+'원';}
+function switchTab(name,el){
+  ['basic','academy','subscription'].forEach(t=>document.getElementById('tab-'+t).style.display='none');
+  document.getElementById('tab-'+name).style.display='block';
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+document.getElementById('b-penalty-type').addEventListener('change',function(){
+  document.getElementById('b-penalty-pct-wrap').style.display=this.value==='pct'?'block':'none';
+});
+
+function calcBasic(){
+  const paid    = +document.getElementById('b-paid').value;
+  const total   = +document.getElementById('b-total').value;
+  const used    = +document.getElementById('b-used').value;
+  const pType   = document.getElementById('b-penalty-type').value;
+  const penalty0= +document.getElementById('b-penalty').value||0;
+  const penPct  = +document.getElementById('b-penalty-pct').value||0;
+  if(!paid||!total||used===null){alert('값을 모두 입력해주세요.');return;}
+  const dailyCost = paid/total;
+  const usedCost  = dailyCost*Math.min(used,total);
+  const remaining = paid-usedCost;
+  const penalty   = pType==='fixed'?penalty0:remaining*penPct/100;
+  const refund    = Math.max(remaining-penalty, 0);
+  document.getElementById('rb-paid').textContent     = fmtW(paid);
+  document.getElementById('rb-used-cost').textContent= '-'+fmtW(usedCost);
+  document.getElementById('rb-penalty').textContent  = '-'+fmtW(penalty);
+  document.getElementById('rb-final').textContent    = fmtW(refund);
+  document.getElementById('rb-refund').textContent   = fmtW(refund);
+  document.getElementById('rb-sub').textContent      = `사용 ${used}일 / 전체 ${total}일 (일할 ${Math.round(dailyCost).toLocaleString()}원/일)`;
+  document.getElementById('result-basic').classList.add('show');
+}
+
+function calcAcademy(){
+  const paid  = +document.getElementById('a-paid').value;
+  const total = +document.getElementById('a-total').value;
+  const used  = +document.getElementById('a-used').value;
+  const period= +document.getElementById('a-period').value;
+  if(!paid||!total){alert('값을 입력해주세요.');return;}
+  // 법정 환불률
+  const refundRates = {1:0.5, 2:0.333, 3:0.25, 4:0};
+  const baseRefund  = paid * (refundRates[period]??0);
+  const usedCost    = (paid/total)*used;
+  const penalty     = paid*0.1; // 법정 위약금 10%
+  const refund      = Math.max(baseRefund - penalty, 0);
+  document.getElementById('ra-paid').textContent   = fmtW(paid);
+  document.getElementById('ra-used').textContent   = '-'+fmtW(usedCost);
+  document.getElementById('ra-penalty').textContent= '-'+fmtW(penalty);
+  document.getElementById('ra-final').textContent  = fmtW(refund);
+  document.getElementById('ra-refund').textContent = fmtW(refund);
+  document.getElementById('ra-sub').textContent    = `수강 ${used}/${total}회 완료`;
+  document.getElementById('result-academy').classList.add('show');
+}
+
+function calcSubscription(){
+  const paid   = +document.getElementById('s-paid').value;
+  const period = +document.getElementById('s-period').value;
+  const used   = +document.getElementById('s-used').value;
+  const policy = document.getElementById('s-policy').value;
+  if(!paid||used===null){alert('값을 입력해주세요.');return;}
+  let refund=0, usedCost=0;
+  if(policy==='none'){ refund=0; usedCost=paid; }
+  else if(policy==='full'){ refund=paid; usedCost=0; }
+  else { usedCost=paid/period*Math.min(used,period); refund=Math.max(paid-usedCost,0); }
+  document.getElementById('rs-paid').textContent  = fmtW(paid);
+  document.getElementById('rs-used').textContent  = '-'+fmtW(usedCost);
+  document.getElementById('rs-final').textContent = fmtW(refund);
+  document.getElementById('rs-refund').textContent= fmtW(refund);
+  document.getElementById('rs-sub').textContent   = `${used}일 사용 / 전체 ${period}일`;
+  document.getElementById('result-sub').classList.add('show');
+}
+</script>
+<script src="/common.js"></script><script src="/share.js"></script><script src="/calculator.js"></script>
+<script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}</script>
+</body>
+</html>

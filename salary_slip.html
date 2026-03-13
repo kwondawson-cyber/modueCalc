@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#00d4aa" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="모두의계산기" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>급여명세서 계산기 | 모두의계산기</title>
+  <meta name="description" content="기본급·각종 수당 입력으로 4대보험·소득세 자동 공제. 실수령액과 급여명세서 양식 출력. 인사담당자 필수 계산기." />
+  <meta name="naver-site-verification" content="82ae9d4234997a93590385e408dc1119dfe6f61f" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--danger:#ff6b6b;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+    .container{max-width:680px;margin:0 auto;padding:40px 20px 100px;position:relative;z-index:1}
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;gap:2px;width:48px;height:48px;justify-content:center;border-radius:50%;background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.2);text-decoration:none;transition:all .2s}
+    .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+    .header{text-align:center;margin-bottom:32px}
+    .header h1{font-family:'Montserrat',sans-serif;font-size:clamp(22px,5vw,32px);font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+    .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
+    .header p{color:var(--text-muted);font-size:14px}
+    .badge{display:inline-block;padding:3px 10px;background:rgba(0,149,255,0.15);border:1px solid rgba(0,149,255,0.3);border-radius:20px;font-size:11px;color:var(--accent2);font-weight:700;margin-bottom:16px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
+    .card h2{font-size:15px;font-weight:700;margin-bottom:16px;color:var(--accent)}
+    .form-group{margin-bottom:14px}
+    label{display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px;font-weight:500}
+    input,select{width:100%;padding:11px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:15px;font-family:'Noto Sans KR',sans-serif;outline:none;transition:border-color .2s}
+    input:focus,select:focus{border-color:var(--accent)}
+    select option{background:var(--surface2)}
+    .allowance-row{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+    .allowance-row input{margin:0}
+    .allowance-row input.name-inp{flex:1.2}
+    .allowance-row input.amt-inp{flex:1.5}
+    .allowance-row select{flex:1;margin:0;padding:11px 10px}
+    .btn-del{background:none;border:1px solid var(--danger);color:var(--danger);border-radius:8px;padding:0 10px;height:44px;cursor:pointer;font-size:16px;flex-shrink:0}
+    .btn-add{width:100%;padding:10px;border:1px dashed var(--border);border-radius:10px;background:transparent;color:var(--text-muted);font-size:13px;font-family:'Noto Sans KR',sans-serif;cursor:pointer;transition:all .2s;margin-top:4px}
+    .btn-add:hover{border-color:var(--accent);color:var(--accent)}
+    .btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#000;font-size:16px;font-weight:800;font-family:'Noto Sans KR',sans-serif;cursor:pointer;margin-top:4px;transition:opacity .2s}
+    .btn:hover{opacity:.9}
+    .result-card{background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:var(--radius);padding:24px;margin-top:16px;display:none}
+    .result-card.show{display:block}
+    .result-main{text-align:center;margin-bottom:20px}
+    .result-label{font-size:13px;color:var(--text-muted);margin-bottom:6px}
+    .result-value{font-family:'Montserrat',sans-serif;font-size:36px;font-weight:900;color:var(--accent)}
+    /* 급여명세서 스타일 */
+    .payslip{background:#fff;color:#222;border-radius:12px;padding:24px;margin-top:16px;font-size:13px}
+    .payslip-title{text-align:center;font-size:18px;font-weight:900;margin-bottom:4px;color:#111}
+    .payslip-sub{text-align:center;font-size:12px;color:#666;margin-bottom:16px}
+    .payslip-section{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid #ddd;border-radius:8px;overflow:hidden;margin-bottom:12px}
+    .ps-col{border-right:1px solid #ddd}
+    .ps-col:last-child{border-right:none}
+    .ps-head{background:#f0fdf9;padding:8px 12px;font-weight:700;font-size:12px;color:#007a5e;border-bottom:1px solid #ddd}
+    .ps-row{display:flex;justify-content:space-between;padding:6px 12px;border-bottom:1px solid #eee;font-size:12px;color:#333}
+    .ps-row:last-child{border-bottom:none}
+    .ps-total{display:flex;justify-content:space-between;padding:10px 12px;background:#f8f8f8;font-weight:700;font-size:13px;color:#111;border-top:2px solid #ddd}
+    .ps-net{background:linear-gradient(135deg,#00d4aa,#0095ff);color:#fff;border-radius:8px;padding:14px;text-align:center;margin-top:8px}
+    .ps-net-label{font-size:12px;opacity:.85}
+    .ps-net-value{font-size:24px;font-weight:900;margin-top:2px}
+    .btn-print{width:100%;padding:12px;border:1px solid var(--border);border-radius:10px;background:var(--surface2);color:var(--text);font-size:14px;font-weight:700;font-family:'Noto Sans KR',sans-serif;cursor:pointer;margin-top:12px;transition:all .2s}
+    .btn-print:hover{border-color:var(--accent);color:var(--accent)}
+    .formula-box{background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:14px 16px;margin:16px 0;font-size:13px;color:var(--text-muted);line-height:1.8}
+    .ad-slot{min-height:0;text-align:center;margin:16px 0}
+    .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    details{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden}
+    details summary{padding:12px 16px;cursor:pointer;font-size:14px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--surface)}
+    details summary::after{content:'＋';color:var(--accent);font-size:16px}
+    details[open] summary::after{content:'－'}
+    details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
+    @media print{body{background:#fff}.container{padding:0 20px}.card,.result-card{box-shadow:none;border:1px solid #ccc}.payslip{border:1px solid #ccc}}
+    @media(max-width:480px){.row2{grid-template-columns:1fr}.payslip-section{grid-template-columns:1fr}.ps-col{border-right:none;border-bottom:1px solid #ddd}.ps-col:last-child{border-bottom:none}}
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="header">
+    <h1><span class="emoji">🧾</span> 급여명세서 계산기</h1>
+    <p>수당 직접 추가 · 4대보험·소득세 자동 계산 · 명세서 출력</p>
+  </div>
+  <div style="text-align:center"><span class="badge">👔 인사담당자용</span></div>
+
+  <div class="card">
+    <h2>👤 기본 정보</h2>
+    <div class="row2">
+      <div class="form-group"><label>이름 (선택)</label><input type="text" id="empName" placeholder="홍길동" /></div>
+      <div class="form-group"><label>지급 연월</label><input type="month" id="payMonth" /></div>
+    </div>
+    <div class="row2">
+      <div class="form-group"><label>부양가족 수 (본인 포함)</label><input type="number" id="dependents" value="1" min="1" max="10" /></div>
+      <div class="form-group"><label>20세 이하 자녀 수</label><input type="number" id="children" value="0" min="0" /></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>💰 지급 항목</h2>
+    <div id="allowanceList">
+      <div class="allowance-row">
+        <input class="name-inp" type="text" value="기본급" readonly style="color:var(--text-muted)" />
+        <input class="amt-inp" type="number" id="basicPay" placeholder="월 기본급 (원)" />
+        <select style="flex:0.8;opacity:0"><option>과세</option></select>
+        <button class="btn-del" style="opacity:0;pointer-events:none">✕</button>
+      </div>
+    </div>
+    <button class="btn-add" onclick="addAllowance()">＋ 수당 항목 추가 (식대·교통비·야근수당 등)</button>
+  </div>
+
+  <div class="card">
+    <h2>📋 공제 설정</h2>
+    <div class="row2">
+      <div class="form-group">
+        <label>국민연금</label>
+        <select id="npOpt"><option value="auto">자동 (4.5%)</option><option value="skip">미적용</option></select>
+      </div>
+      <div class="form-group">
+        <label>건강보험</label>
+        <select id="hiOpt"><option value="auto">자동 (3.545%)</option><option value="skip">미적용</option></select>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="form-group">
+        <label>고용보험</label>
+        <select id="eiOpt"><option value="auto">자동 (0.9%)</option><option value="skip">미적용</option></select>
+      </div>
+      <div class="form-group">
+        <label>소득세</label>
+        <select id="taxOpt"><option value="auto">자동 계산</option><option value="skip">미적용</option></select>
+      </div>
+    </div>
+  </div>
+
+  <button class="btn" onclick="calcPayslip()">급여명세서 계산</button>
+
+  <div class="result-card" id="result">
+    <div class="result-main">
+      <div class="result-label">실수령액</div>
+      <div class="result-value" id="rNet">0원</div>
+      <div class="result-sub" id="rSub"></div>
+    </div>
+
+    <div class="payslip" id="payslipBox">
+      <div class="payslip-title">급 여 명 세 서</div>
+      <div class="payslip-sub" id="ps-header"></div>
+      <div class="payslip-section">
+        <div class="ps-col">
+          <div class="ps-head">지급 항목</div>
+          <div id="ps-pay-rows"></div>
+          <div class="ps-total"><span>지급 합계</span><span id="ps-pay-total"></span></div>
+        </div>
+        <div class="ps-col">
+          <div class="ps-head">공제 항목</div>
+          <div id="ps-ded-rows"></div>
+          <div class="ps-total"><span>공제 합계</span><span id="ps-ded-total"></span></div>
+        </div>
+      </div>
+      <div class="ps-net">
+        <div class="ps-net-label">실수령액</div>
+        <div class="ps-net-value" id="ps-net-value"></div>
+      </div>
+    </div>
+    <button class="btn-print" onclick="window.print()">🖨️ 인쇄 / PDF 저장</button>
+  </div>
+
+  <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6079812618767597" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
+
+  <div class="card">
+    <h2>📐 2025년 4대보험 요율</h2>
+    <div class="formula-box">
+      <strong>국민연금</strong> — 4.5% (사용자 4.5% 별도)<br>
+      <strong>건강보험</strong> — 3.545% + 장기요양 0.4591% = 총 약 4.004%<br>
+      <strong>고용보험</strong> — 0.9%<br>
+      <strong>산재보험</strong> — 사용자 전액 부담 (근로자 부담 없음)<br><br>
+      소득세 = 근로소득 간이세액표 기준 (부양가족 수 반영)<br>
+      지방소득세 = 소득세의 10%
+    </div>
+  </div>
+
+  <h2 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)">자주 묻는 질문</h2>
+  <details><summary>식대·교통비는 비과세인가요?</summary><div class="faq-answer">식대는 월 20만원까지 비과세, 자가운전보조금은 월 20만원까지 비과세입니다. 비과세 항목은 4대보험·소득세 산정 기준 소득에서 제외됩니다.</div></details>
+  <details><summary>야근수당(연장근로수당)도 4대보험에 포함되나요?</summary><div class="faq-answer">네, 야근수당은 과세 소득으로 4대보험 보수월액에 포함됩니다. 단, 생산직 근로자 연장·야간·휴일수당은 연 240만원까지 비과세입니다.</div></details>
+  <details><summary>부양가족이 많으면 소득세가 줄어드나요?</summary><div class="faq-answer">네, 근로소득 간이세액표는 부양가족 수에 따라 공제가 달라집니다. 부양가족이 많을수록 원천징수 세액이 줄어들며, 연말정산에서 최종 확정됩니다.</div></details>
+  <details><summary>급여명세서 교부 의무가 있나요?</summary><div class="faq-answer">2021년 11월부터 상시근로자 30인 미만 사업장도 의무적으로 급여명세서를 교부해야 합니다. 서면 또는 전자문서 모두 가능하며, 미교부 시 과태료 부과 대상입니다.</div></details>
+  <details><summary>비과세 항목을 추가하면 어떻게 되나요?</summary><div class="faq-answer">비과세 항목은 총 지급액에는 포함되지만, 4대보험·소득세 계산 시 과세표준에서 제외됩니다. 이 계산기에서 '비과세' 선택 시 자동으로 반영됩니다.</div></details>
+</div>
+
+<script>
+let allowances = [];
+
+function addAllowance() {
+  const id = Date.now();
+  allowances.push(id);
+  const div = document.createElement('div');
+  div.className = 'allowance-row';
+  div.id = 'row-' + id;
+  div.innerHTML = `
+    <input class="name-inp" type="text" placeholder="수당명 (예: 식대)" />
+    <input class="amt-inp" type="number" placeholder="금액 (원)" />
+    <select style="flex:0.8;margin:0;padding:11px 10px"><option value="taxable">과세</option><option value="nontax">비과세</option></select>
+    <button class="btn-del" onclick="delAllowance(${id})">✕</button>`;
+  document.getElementById('allowanceList').appendChild(div);
+}
+
+function delAllowance(id) {
+  document.getElementById('row-' + id)?.remove();
+  allowances = allowances.filter(a => a !== id);
+}
+
+function calcPayslip() {
+  const basic = +document.getElementById('basicPay').value || 0;
+  const dependents = +document.getElementById('dependents').value || 1;
+  const children = +document.getElementById('children').value || 0;
+  const name = document.getElementById('empName').value || '직원';
+  const month = document.getElementById('payMonth').value || new Date().toISOString().slice(0, 7);
+
+  if (!basic) { alert('기본급을 입력해주세요.'); return; }
+
+  let payItems = [{ name: '기본급', amt: basic, taxable: true }];
+  let taxableSum = basic, nontaxSum = 0;
+
+  // 추가 수당 수집
+  document.querySelectorAll('#allowanceList .allowance-row:not(:first-child)').forEach(row => {
+    const nm = row.querySelector('.name-inp').value || '수당';
+    const amt = +row.querySelector('.amt-inp').value || 0;
+    const isTax = row.querySelector('select').value === 'taxable';
+    if (amt > 0) {
+      payItems.push({ name: nm, amt, taxable: isTax });
+      if (isTax) taxableSum += amt; else nontaxSum += amt;
+    }
+  });
+
+  const totalPay = taxableSum + nontaxSum;
+
+  // 4대보험
+  const np  = document.getElementById('npOpt').value === 'auto' ? Math.round(taxableSum * 0.045) : 0;
+  const hi  = document.getElementById('hiOpt').value === 'auto' ? Math.round(taxableSum * 0.03545) : 0;
+  const ltc = document.getElementById('hiOpt').value === 'auto' ? Math.round(hi * 0.1295) : 0;
+  const ei  = document.getElementById('eiOpt').value === 'auto' ? Math.round(taxableSum * 0.009) : 0;
+
+  // 소득세 (간이세액표 근사)
+  let incomeTax = 0;
+  if (document.getElementById('taxOpt').value === 'auto') {
+    const monthly = taxableSum / 10000; // 만원
+    const base = Math.max(0, monthly - 150); // 비과세150만 제외 근사
+    if (base <= 0) incomeTax = 0;
+    else if (base <= 100) incomeTax = Math.round(base * 0.006 * 10000);
+    else if (base <= 200) incomeTax = Math.round((base - 100) * 0.015 * 10000 + 6000);
+    else if (base <= 450) incomeTax = Math.round((base - 200) * 0.024 * 10000 + 21000);
+    else incomeTax = Math.round((base - 450) * 0.035 * 10000 + 81000);
+    // 부양가족 공제 (1인당 약 12,000원 감세)
+    const dep = dependents - 1;
+    incomeTax = Math.max(0, incomeTax - dep * 12000 - children * 12000);
+  }
+  const localTax = Math.round(incomeTax * 0.1);
+
+  const totalDed = np + hi + ltc + ei + incomeTax + localTax;
+  const net = totalPay - totalDed;
+
+  // 렌더
+  document.getElementById('rNet').textContent = net.toLocaleString() + '원';
+  document.getElementById('rSub').textContent = `${month} 지급 · ${name}`;
+  document.getElementById('ps-header').textContent = `${name}  |  ${month}  |  지급일: 매월 25일`;
+
+  const fmtW = n => n.toLocaleString() + '원';
+
+  document.getElementById('ps-pay-rows').innerHTML = payItems.map(p =>
+    `<div class="ps-row"><span>${p.name}${p.taxable ? '' : ' (비과세)'}</span><span>${fmtW(p.amt)}</span></div>`
+  ).join('');
+  document.getElementById('ps-pay-total').textContent = fmtW(totalPay);
+
+  const dedItems = [
+    { name: '국민연금', amt: np }, { name: '건강보험', amt: hi },
+    { name: '장기요양보험', amt: ltc }, { name: '고용보험', amt: ei },
+    { name: '소득세', amt: incomeTax }, { name: '지방소득세', amt: localTax },
+  ].filter(d => d.amt > 0);
+
+  document.getElementById('ps-ded-rows').innerHTML = dedItems.map(d =>
+    `<div class="ps-row"><span>${d.name}</span><span>${fmtW(d.amt)}</span></div>`
+  ).join('');
+  document.getElementById('ps-ded-total').textContent = fmtW(totalDed);
+  document.getElementById('ps-net-value').textContent = fmtW(net);
+  document.getElementById('result').classList.add('show');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('payMonth').value = new Date().toISOString().slice(0, 7);
+});
+</script>
+<script src="/common.js"></script><script src="/share.js"></script><script src="/calculator.js"></script>
+<script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}</script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#00d4aa" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="모두의계산기" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>보험료 계산기 | 모두의계산기</title>
+  <meta name="description" content="생명보험·실손보험·자동차보험 예상 보험료 계산. 나이·성별·보장범위별 월 보험료 가이드." />
+  <meta name="naver-site-verification" content="82ae9d4234997a93590385e408dc1119dfe6f61f" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--danger:#ff6b6b;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+    .container{max-width:680px;margin:0 auto;padding:40px 20px 100px;position:relative;z-index:1}
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;gap:2px;width:48px;height:48px;justify-content:center;border-radius:50%;background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.2);text-decoration:none;transition:all .2s}
+    .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+    .header{text-align:center;margin-bottom:32px}
+    .header h1{font-family:'Montserrat',sans-serif;font-size:clamp(22px,5vw,32px);font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+    .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
+    .header p{color:var(--text-muted);font-size:14px}
+    .notice{background:rgba(255,215,0,0.07);border:1px solid rgba(255,215,0,0.25);border-radius:10px;padding:12px 14px;margin-bottom:16px;font-size:12px;color:#e6b800;line-height:1.7}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
+    .card h2{font-size:15px;font-weight:700;margin-bottom:16px;color:var(--accent)}
+    .form-group{margin-bottom:14px}
+    label{display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px;font-weight:500}
+    input,select{width:100%;padding:11px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:15px;font-family:'Noto Sans KR',sans-serif;outline:none;transition:border-color .2s}
+    input:focus,select:focus{border-color:var(--accent)}
+    select option{background:var(--surface2)}
+    .checkbox-group{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+    .checkbox-item{display:flex;align-items:center;gap:6px;padding:7px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:13px;transition:all .2s}
+    .checkbox-item:has(input:checked){border-color:var(--accent);background:rgba(0,212,170,0.08);color:var(--accent)}
+    .checkbox-item input{width:auto;accent-color:var(--accent)}
+    .btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#000;font-size:16px;font-weight:800;font-family:'Noto Sans KR',sans-serif;cursor:pointer;margin-top:4px;transition:opacity .2s}
+    .btn:hover{opacity:.9}
+    .result-card{background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:var(--radius);padding:24px;margin-top:16px;display:none}
+    .result-card.show{display:block}
+    .result-main{text-align:center;margin-bottom:20px}
+    .result-label{font-size:13px;color:var(--text-muted);margin-bottom:6px}
+    .result-value{font-family:'Montserrat',sans-serif;font-size:36px;font-weight:900;color:var(--accent)}
+    .result-sub{font-size:13px;color:var(--text-muted);margin-top:4px}
+    .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+    .result-item{background:var(--surface2);border-radius:10px;padding:12px;text-align:center}
+    .result-item-label{font-size:11px;color:var(--text-muted);margin-bottom:4px}
+    .result-item-value{font-size:16px;font-weight:700;color:var(--text)}
+    .affiliate-box{background:linear-gradient(135deg,rgba(255,107,107,0.08),rgba(0,212,170,0.05));border:1px solid rgba(255,107,107,0.25);border-radius:12px;padding:18px;margin-top:16px;text-align:center}
+    .affiliate-box p{font-size:13px;color:var(--text-muted);margin-bottom:12px}
+    .affiliate-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+    .affiliate-btn{display:inline-block;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:800;text-decoration:none;font-family:'Noto Sans KR',sans-serif}
+    .affiliate-btn-primary{background:linear-gradient(135deg,#ff6b6b,#ff8e53);color:#fff}
+    .affiliate-btn-secondary{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
+    .range-bar{background:var(--surface2);border-radius:8px;height:8px;margin-top:8px;overflow:hidden;position:relative}
+    .range-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+    .range-label{display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-top:4px}
+    .formula-box{background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:14px 16px;margin:16px 0;font-size:13px;color:var(--text-muted);line-height:1.8}
+    .ad-slot{min-height:0;text-align:center;margin:16px 0}
+    .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    details{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden}
+    details summary{padding:12px 16px;cursor:pointer;font-size:14px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--surface)}
+    details summary::after{content:'＋';color:var(--accent);font-size:16px}
+    details[open] summary::after{content:'－'}
+    details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
+    @media(max-width:480px){.result-grid{grid-template-columns:1fr}.row2{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="header">
+    <h1><span class="emoji">🛡️</span> 보험료 계산기</h1>
+    <p>나이·성별·보장 조건별 예상 보험료 가이드</p>
+  </div>
+
+  <div class="notice">⚠️ 이 계산기는 <strong>참고용 예상 보험료</strong>입니다. 실제 보험료는 보험사·건강상태·직업 등에 따라 다릅니다.</div>
+
+  <div class="card">
+    <h2>👤 기본 정보</h2>
+    <div class="row2">
+      <div class="form-group">
+        <label>나이</label>
+        <input type="number" id="age" placeholder="예: 35" min="1" max="80" />
+      </div>
+      <div class="form-group">
+        <label>성별</label>
+        <select id="gender"><option value="m">남성</option><option value="f">여성</option></select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>흡연 여부</label>
+      <select id="smoke"><option value="0">비흡연</option><option value="1">흡연</option></select>
+    </div>
+    <div class="form-group">
+      <label>보험 종류 선택 (복수 가능)</label>
+      <div class="checkbox-group">
+        <label class="checkbox-item"><input type="checkbox" value="life" id="ch-life"> 종신보험</label>
+        <label class="checkbox-item"><input type="checkbox" value="silson" id="ch-silson" checked> 실손보험</label>
+        <label class="checkbox-item"><input type="checkbox" value="cancer" id="ch-cancer"> 암보험</label>
+        <label class="checkbox-item"><input type="checkbox" value="ci" id="ch-ci"> CI보험</label>
+        <label class="checkbox-item"><input type="checkbox" value="dementia" id="ch-dementia"> 치매보험</label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>보장 기간</label>
+      <select id="period"><option value="80">80세 만기</option><option value="90">90세 만기</option><option value="100" selected>100세 만기</option></select>
+    </div>
+    <button class="btn" onclick="calcInsurance()">예상 보험료 계산</button>
+  </div>
+
+  <div class="result-card" id="result">
+    <div class="result-main">
+      <div class="result-label">예상 월 보험료 합계</div>
+      <div class="result-value" id="rTotal">0원</div>
+      <div class="result-sub" id="rSub"></div>
+    </div>
+    <div id="rBreakdown" class="result-grid"></div>
+    <div id="rRange" style="margin-top:16px">
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px">예상 범위</div>
+      <div class="range-bar"><div class="range-fill" id="rangeFill" style="width:50%"></div></div>
+      <div class="range-label"><span id="rangeMin">-</span><span id="rangeMax">-</span></div>
+    </div>
+    <div class="affiliate-box">
+      <p>💡 같은 보장이라도 보험사마다 보험료가 최대 2배까지 차이납니다. 무료로 비교해보세요.</p>
+      <div class="affiliate-btns">
+        <a href="https://www.bomapp.co.kr" target="_blank" rel="nofollow sponsored" class="affiliate-btn affiliate-btn-primary">보맵에서 비교하기</a>
+        <a href="https://www.insurenet.co.kr" target="_blank" rel="nofollow sponsored" class="affiliate-btn affiliate-btn-secondary">보험넷 견적</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6079812618767597" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
+
+  <div class="card">
+    <h2>📊 나이별 평균 보험료 가이드</h2>
+    <div class="formula-box">
+      <strong>20대</strong> — 실손 1~2만원 / 종신 5~12만원 / 암 1~3만원<br>
+      <strong>30대</strong> — 실손 2~4만원 / 종신 8~20만원 / 암 2~5만원<br>
+      <strong>40대</strong> — 실손 4~8만원 / 종신 15~35만원 / 암 4~10만원<br>
+      <strong>50대</strong> — 실손 8~15만원 / 종신 가입 어려움 / 암 8~20만원<br><br>
+      ※ 흡연자는 비흡연자 대비 30~50% 보험료 추가. 여성은 일부 보험 저렴.
+    </div>
+  </div>
+
+  <h2 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)">자주 묻는 질문</h2>
+  <details><summary>실손보험은 꼭 가입해야 하나요?</summary><div class="faq-answer">실손보험은 병원 치료비를 실제 지출한 금액의 80~90%를 보장받는 상품으로, 대부분의 재정 전문가가 가장 먼저 가입을 권장합니다. 특히 젊을수록 보험료가 낮아 일찍 가입하는 것이 유리합니다.</div></details>
+  <details><summary>종신보험과 정기보험의 차이는 무엇인가요?</summary><div class="faq-answer">종신보험은 사망 시 언제든 보험금을 지급하며 해지 환급금이 있습니다. 정기보험은 정해진 기간 내 사망 시만 지급하지만 보험료가 훨씬 저렴합니다. 순수 보장 목적이라면 정기보험이 효율적입니다.</div></details>
+  <details><summary>보험료가 너무 비싸면 어떻게 줄일 수 있나요?</summary><div class="faq-answer">보장 금액을 낮추거나, 만기를 짧게 설정하거나, 납입 기간을 늘리는 방법이 있습니다. 또한 특약을 줄이거나 인터넷 전용 보험을 이용하면 보험료를 20~30% 절감할 수 있습니다.</div></details>
+  <details><summary>갱신형과 비갱신형 중 어떤 게 좋은가요?</summary><div class="faq-answer">갱신형은 초기 보험료가 낮지만 일정 기간마다 보험료가 오릅니다. 비갱신형은 처음부터 높지만 보험료가 고정됩니다. 장기적으로는 비갱신형이 유리한 경우가 많습니다.</div></details>
+  <details><summary>나이 들어서도 보험 가입이 가능한가요?</summary><div class="faq-answer">종신보험은 보통 60~65세까지 가입 가능합니다. 실손보험은 65세 이후 신규 가입이 어렵습니다. 고령자를 위한 실버보험·치매보험은 75~80세까지 가입 가능한 상품도 있습니다.</div></details>
+</div>
+
+<script>
+// 나이·성별·흡연 기반 간이 보험료 추정 (참고용)
+const BASE = {
+  life:    {label:'종신보험', base:12, ageF:0.35, genderM:1.3, smoke:1.4},
+  silson:  {label:'실손보험', base:2,  ageF:0.12, genderM:1.0, smoke:1.15},
+  cancer:  {label:'암보험',   base:3,  ageF:0.18, genderM:1.1, smoke:1.5},
+  ci:      {label:'CI보험',   base:10, ageF:0.28, genderM:1.2, smoke:1.35},
+  dementia:{label:'치매보험', base:5,  ageF:0.22, genderM:0.9, smoke:1.1},
+};
+
+function calcInsurance(){
+  const age    = +document.getElementById('age').value;
+  const gender = document.getElementById('gender').value;
+  const smoke  = +document.getElementById('smoke').value;
+  const period = +document.getElementById('period').value;
+  if(!age || age < 15 || age > 75){ alert('나이를 15~75 사이로 입력해주세요.'); return; }
+
+  const checked = ['life','silson','cancer','ci','dementia'].filter(id=>document.getElementById('ch-'+id).checked);
+  if(!checked.length){ alert('보험 종류를 하나 이상 선택해주세요.'); return; }
+
+  const periodMul = period === 80 ? 0.8 : period === 90 ? 0.9 : 1.0;
+  let total = 0, breakdown = '';
+
+  checked.forEach(key=>{
+    const b = BASE[key];
+    let p = b.base + (age - 20) * b.ageF;
+    p *= (gender === 'm' ? b.genderM : 1.0);
+    p *= (smoke ? b.smoke : 1.0);
+    p *= periodMul;
+    p = Math.max(p, 0.5);
+    total += p;
+    breakdown += `<div class="result-item"><div class="result-item-label">${b.label}</div><div class="result-item-value">${Math.round(p*1000).toLocaleString()}원</div></div>`;
+  });
+
+  const min = Math.round(total*0.7*1000), max = Math.round(total*1.4*1000);
+  document.getElementById('rTotal').textContent = Math.round(total*1000).toLocaleString()+'원';
+  document.getElementById('rSub').textContent   = `${age}세 ${gender==='m'?'남성':'여성'} · ${smoke?'흡연':'비흡연'} · ${period}세 만기`;
+  document.getElementById('rBreakdown').innerHTML = breakdown;
+  document.getElementById('rangeMin').textContent = min.toLocaleString()+'원';
+  document.getElementById('rangeMax').textContent = max.toLocaleString()+'원';
+  document.getElementById('result').classList.add('show');
+}
+</script>
+<script src="/common.js"></script><script src="/share.js"></script><script src="/calculator.js"></script>
+<script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}</script>
+</body>
+</html>
