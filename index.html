@@ -14,7 +14,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>모두의계산기 | 무료 계산기 모음</title>
   <meta name="naver-site-verification" content="82ae9d4234997a93590385e408dc1119dfe6f61f" />
-  <meta name="description" content="연봉 실수령액, 만 나이, 주휴수당, 환율, 국민연금, 칼로리 등 33가지 무료 계산기를 제공합니다." />
+  <meta name="description" content="연봉 실수령액, 만 나이, 주휴수당, 환율, 국민연금, 칼로리 등 42가지 무료 계산기를 제공합니다." />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="모두의계산기 | 무료 계산기 모음" />
   <meta property="og:description" content="연봉 실수령액, 만 나이, 주휴수당, 환율 등 33가지 무료 계산기. 회원가입 없이 바로 사용하세요." />
@@ -55,7 +55,10 @@
     .category-count{font-size:12px;color:var(--text-muted);background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:3px 10px;font-weight:600}
 
     /* 카드 그리드 */
-    .calc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+    .calc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    @media(max-width:900px){.calc-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:480px){.calc-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:340px){.calc-grid{grid-template-columns:1fr}}
     .calc-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;text-decoration:none;color:var(--text);transition:transform .2s,border-color .2s,box-shadow .2s;display:block;position:relative;overflow:hidden}
     .calc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));transform:scaleX(0);transition:transform .2s}
     .calc-card:hover{transform:translateY(-4px);border-color:rgba(0,212,170,0.3);box-shadow:0 12px 40px rgba(0,0,0,0.3)}
@@ -76,8 +79,7 @@
 
     .footer{text-align:center;margin-top:80px;color:var(--text-muted);font-size:13px;line-height:2.2;border-top:1px solid var(--border);padding-top:40px}
 
-    @media(max-width:600px){.calc-grid{grid-template-columns:1fr 1fr}}
-    @media(max-width:400px){.calc-grid{grid-template-columns:1fr}}
+    
 
     /* 자주 쓰는 계산기 컴팩트 카드 */
     .fav-grid {
@@ -465,12 +467,11 @@
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
   function filterCalcs() {
     const q = document.getElementById('searchInput').value.trim().toLowerCase();
     const cards = document.querySelectorAll('.calc-card');
     let visible = 0;
-
     cards.forEach(card => {
       const name = card.querySelector('.card-name').textContent.toLowerCase();
       const desc = card.querySelector('.card-desc').textContent.toLowerCase();
@@ -479,89 +480,25 @@
       card.classList.toggle('hidden', !match);
       if (match) visible++;
     });
-
-    // 카테고리 섹션 빈 경우 숨기기
     document.querySelectorAll('[data-cat]').forEach(cat => {
       const visibleCards = cat.querySelectorAll('.calc-card:not(.hidden)').length;
       cat.style.display = visibleCards === 0 ? 'none' : '';
     });
-
     document.getElementById('noResults').classList.toggle('visible', visible === 0);
   }
 </script>
-<script src="/common.js"></script>
-<script>
-(function(){
-  function init() {
-    try {
-      var CALC_LIST = [
-        {title:'연봉 실수령액', path:'/salary',         emoji:'💰'},
-        {title:'퇴직금',        path:'/retirement',      emoji:'🏦'},
-        {title:'대출 이자',     path:'/loan',            emoji:'🏠'},
-        {title:'실업급여',      path:'/unemployment',    emoji:'📋'},
-        {title:'적금 만기',     path:'/savings',         emoji:'💳'},
-        {title:'물가상승률',    path:'/inflation',       emoji:'📈'},
-        {title:'국민연금',      path:'/pension',         emoji:'👴'},
-        {title:'중개수수료',    path:'/realestate',      emoji:'🏡'},
-        {title:'취득세',        path:'/acquisition',     emoji:'🏢'},
-        {title:'양도소득세',    path:'/capital_gains',   emoji:'📊'},
-        {title:'증여세·상속세', path:'/gift_tax',        emoji:'🎁'},
-        {title:'전월세 전환율', path:'/rent_conversion', emoji:'🔄'},
-        {title:'만 나이',       path:'/age',             emoji:'🎂'},
-        {title:'디데이',        path:'/dday',            emoji:'📅'},
-        {title:'영문 주소변환', path:'/address_converter',emoji:'📮'},
-        {title:'관세',          path:'/customs',         emoji:'✈️'},
-        {title:'골프 핸디캡',   path:'/golf_handicap',  emoji:'⛳'},
-        {title:'날짜 계산기',    path:'/date_diff',       emoji:'📆'},
-        {title:'자동차 취득세',  path:'/car_tax',          emoji:'🚗'},
-        {title:'연비 계산기',    path:'/fuel_economy',     emoji:'⛽'},
-        {title:'평↔제곱미터',  path:'/area_converter',  emoji:'📐'},
-        {title:'cm↔inch',      path:'/cm_inch',         emoji:'📏'},
-        {title:'BMI',           path:'/bmi',             emoji:'⚖️'},
-        {title:'기초대사량',    path:'/bmr',             emoji:'🔥'},
-        {title:'임신 주수',     path:'/pregnancy',       emoji:'🤱'},
-        {title:'혈압 정상범위', path:'/blood_pressure',  emoji:'❤️'},
-        {title:'칼로리',        path:'/calorie',         emoji:'🥗'},
-        {title:'환율',          path:'/exchange',        emoji:'💱'},
-        {title:'주휴수당',      path:'/weekly_holiday',  emoji:'📅'},
-        {title:'시급→월급',     path:'/hourly_salary',   emoji:'⏰'},
-        {title:'연차수당',      path:'/annual_leave',    emoji:'🌴'},
-        {title:'주식 수익률',   path:'/stock_return',    emoji:'📉'},
-        {title:'부가가치세',    path:'/vat',             emoji:'🧾'},
-        {title:'마진율',        path:'/margin',          emoji:'💹'},
-        {title:'건강보험료',    path:'/health_insurance',emoji:'🏥'},
-        {title:'소득세',        path:'/income_tax',      emoji:'🧮'},
-      ];
-      var favs = JSON.parse(localStorage.getItem('ec_favs') || '[]');
-      if (!favs.length) return;
-      var section = document.getElementById('favSection');
-      var grid = document.getElementById('favGrid');
-      var countEl = document.getElementById('favCount');
-      if (!section || !grid) return;
-      section.style.display = '';
-      if (countEl) countEl.textContent = favs.length;
-      grid.innerHTML = '';
-      favs.slice(0, 9).forEach(function(path) {
-        var calc = CALC_LIST.find(function(c){ return c.path === path; });
-        if (!calc) return;
-              var a = document.createElement('a');
-        a.href = calc.path;
-        a.className = 'fav-card';
-        a.innerHTML = '<span class="fav-emoji">'+calc.emoji+'</span><span>'+calc.title+'</span>';
-        grid.appendChild(a);
-      });
-    })();
-  </script>
 
-  <script src="/common.js"></script>
-  <script src="/share.js"></script>
-  <script src="/calculator.js"></script>
-  <script>
+<script src="/common.js"></script>
+<script src="/share.js"></script>
+<script src="/calculator.js"></script>
+
+<script>
+  // SW 등록
   if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
+    window.addEventListener('load', function() {
       navigator.serviceWorker.register('/sw.js')
-        .then(r => console.log('[PWA] SW registered:', r.scope))
-        .catch(e => console.warn('[PWA] SW failed:', e));
+        .then(function(r) { console.log('[PWA] SW registered:', r.scope); })
+        .catch(function(e) { console.warn('[PWA] SW failed:', e); });
     });
   }
 
@@ -571,8 +508,9 @@
     var banner     = document.getElementById('pwa-banner');
     var installBtn = document.getElementById('pwa-install-btn');
     var closeBtn   = document.getElementById('pwa-close');
+    if (!banner || !installBtn || !closeBtn) return;
 
-    // 이미 설치됨(standalone)이면 배너 숨김
+    // 이미 설치됨(standalone)이면 숨김
     if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) return;
 
     // 삼성 인터넷 → Chrome 안내
@@ -593,7 +531,7 @@
       };
     }
 
-    // beforeinstallprompt: 설치 버튼에만 연결 (배너 표시와 분리)
+    // beforeinstallprompt: Chrome/Edge 설치 버튼 연결
     window.addEventListener('beforeinstallprompt', function(e) {
       e.preventDefault();
       deferredPrompt = e;
@@ -601,9 +539,7 @@
         installBtn.onclick = function() {
           deferredPrompt.prompt();
           deferredPrompt.userChoice.then(function(result) {
-            if (result.outcome === 'accepted') {
-              banner.classList.remove('show');
-            }
+            if (result.outcome === 'accepted') banner.classList.remove('show');
             deferredPrompt = null;
           });
         };
@@ -615,9 +551,9 @@
       banner.classList.remove('show');
     });
 
-    // 1.5초 후 항상 표시 (이벤트 여부 무관)
+    // 1.5초 후 항상 표시
     setTimeout(function() { banner.classList.add('show'); }, 1500);
   })();
-  </script>
+</script>
 </body>
 </html>
