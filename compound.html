@@ -13,7 +13,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>복리 계산기 | 모두의계산기</title>
-  <meta name="description" content="복리 계산기. 원금·이율·기간·적립금으로 복리 수익·원리합계 자동 계산. 단리 비교 및 연도별 자산 성장 그래프 제공." />
+  <meta name="description" content="복리 계산기 2026 — 원금·연 수익률·기간·추가 적립금으로 복리 원리합계·세후 수익 자동 계산. 단리 비교·연도별 자산 성장 그래프·72의 법칙 포함." />
   <meta name="naver-site-verification" content="82ae9d4234997a93590385e408dc1119dfe6f61f" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
@@ -76,6 +76,27 @@
     details[open] summary::after{content:'－'}
     details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
     @media(max-width:480px){.result-grid{grid-template-columns:1fr}.row2{grid-template-columns:1fr}.row3{grid-template-columns:1fr 1fr}}
+
+    .seo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
+    .seo-card h2{font-size:17px;font-weight:800;color:var(--text);margin-bottom:14px;line-height:1.4}
+    .seo-card h3{font-size:14px;font-weight:700;color:var(--accent);margin:16px 0 8px}
+    .seo-card p{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:10px}
+    .seo-card ul{padding-left:18px;margin-bottom:10px}
+    .seo-card li{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:4px}
+    .seo-card strong{color:var(--text)}
+    .ex-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+    .ex-table th{background:rgba(0,212,170,0.1);padding:8px 12px;text-align:left;color:var(--accent);font-weight:700;border:1px solid var(--border)}
+    .ex-table td{padding:8px 12px;border:1px solid var(--border);color:var(--text-muted);line-height:1.7}
+    .ex-table tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
+    .hl-box{background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.25);border-radius:10px;padding:14px 16px;margin:14px 0;font-size:13px;color:var(--text);line-height:1.8}
+    .hl-box strong{color:var(--accent)}
+    .rel-section{margin-bottom:20px}
+    .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
+    .rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+    .rel-card{display:block;padding:14px 12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+    .rel-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+    .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+    .rel-card .rn{font-size:12px;font-weight:700;color:var(--text)}
   </style>
 </head>
 <body>
@@ -161,6 +182,28 @@
   </div>
 
   <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6079812618767597" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
+  <div class="seo-card">
+    <h2>복리의 힘 — 단리 vs 복리 수익 비교와 72의 법칙 (2026년)</h2>
+    <p>복리는 <strong>"이자에 이자가 붙는" 효과</strong>로 기간이 길수록 단리와의 격차가 기하급수적으로 벌어집니다. 같은 연 7% 수익률이라도 10년에서는 차이가 크지 않지만, 30년이 지나면 복리가 단리보다 원금 대비 2배 이상 더 불어납니다.</p>
+    <h3>📋 원금 1,000만원 연 수익률별 복리 vs 단리 비교</h3>
+    <table class="ex-table">
+      <tr><th>수익률</th><th>10년 복리</th><th>10년 단리</th><th>20년 복리</th><th>20년 단리</th></tr>
+      <tr><td>연 4%</td><td>1,480만원</td><td>1,400만원</td><td>2,191만원</td><td>1,800만원</td></tr>
+      <tr><td>연 6%</td><td>1,791만원</td><td>1,600만원</td><td>3,207만원</td><td>2,200만원</td></tr>
+      <tr><td>연 8%</td><td>2,159만원</td><td>1,800만원</td><td>4,661만원</td><td>2,600만원</td></tr>
+      <tr><td>연 10%</td><td>2,594만원</td><td>2,000만원</td><td>6,727만원</td><td>3,000만원</td></tr>
+    </table>
+    <h3>💡 72의 법칙 — 원금이 2배 되는 기간</h3>
+    <table class="ex-table">
+      <tr><th>연 수익률</th><th>원금 2배 기간 (72 ÷ 수익률)</th><th>예시</th></tr>
+      <tr><td>4%</td><td>약 18년</td><td>1,000만 → 2,000만</td></tr>
+      <tr><td>6%</td><td>약 12년</td><td>1,000만 → 2,000만</td></tr>
+      <tr><td>8%</td><td>약 9년</td><td>1,000만 → 2,000만</td></tr>
+      <tr><td>10%</td><td>약 7.2년</td><td>1,000만 → 2,000만</td></tr>
+      <tr><td>12%</td><td>약 6년</td><td>1,000만 → 2,000만</td></tr>
+    </table>
+    <div class="hl-box">💡 <strong>복리 효과 극대화 전략:</strong> ① <strong>빨리 시작할수록</strong> 유리 — 25세 vs 35세 시작 차이가 30년 후 2배 이상 ② <strong>세금 유예 계좌 활용</strong> — ISA·연금저축·IRP는 운용 중 과세 이연으로 복리 효과 극대화 ③ <strong>수익 재투자</strong> — 배당·이자를 출금하지 않고 재투자해야 진짜 복리입니다.</div>
+  </div>
 
   <div class="card">
     <h2>📐 복리 공식</h2>
@@ -180,6 +223,17 @@
   <details><summary>월 복리와 연 복리의 차이는 얼마나 되나요?</summary><div class="faq-answer">같은 연 이율이라도 복리 주기가 짧을수록 최종 금액이 조금 더 큽니다. 연 5% 기준 10년 후 1,000만원의 경우 연 복리는 약 1,629만원, 월 복리는 약 1,647만원으로 차이가 크지는 않습니다.</div></details>
   <details><summary>ISA·연금저축으로 복리 효과를 높이는 법은?</summary><div class="faq-answer">ISA(개인종합자산관리계좌)는 연간 이자·배당에 세금이 유예되어 복리 효과가 극대화됩니다. 만기 시 200~400만원 비과세 혜택도 있습니다. 연금저축·IRP도 운용 수익에 과세이연이 적용되어 복리 효율이 높습니다.</div></details>
   <details><summary>인플레이션을 고려한 실질 수익률은 어떻게 계산하나요?</summary><div class="faq-answer">실질 수익률 ≈ 명목 수익률 − 인플레이션율입니다. 연 7% 수익률에 물가상승률 2.5%라면 실질 수익률은 약 4.5%입니다. 장기 투자일수록 인플레이션을 반드시 고려해야 실제 구매력 증가를 파악할 수 있습니다.</div></details>
+  <div class="rel-section">
+    <h2>📌 함께 쓰면 유용한 계산기</h2>
+    <div class="rel-grid">
+      <a href="/savings" class="rel-card"><span class="re">💵</span><span class="rn">예적금 계산기</span></a>
+      <a href="/stock_return" class="rel-card"><span class="re">📈</span><span class="rn">주식 수익률</span></a>
+      <a href="/inflation" class="rel-card"><span class="re">📊</span><span class="rn">물가 계산기</span></a>
+      <a href="/loan" class="rel-card"><span class="re">💰</span><span class="rn">대출 계산기</span></a>
+      <a href="/retirement_pension" class="rel-card"><span class="re">💼</span><span class="rn">퇴직연금</span></a>
+      <a href="/pension" class="rel-card"><span class="re">🏦</span><span class="rn">국민연금</span></a>
+    </div>
+  </div>
 </div>
 
 <script>

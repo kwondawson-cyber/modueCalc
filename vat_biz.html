@@ -13,7 +13,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>사업자 부가세 신고 계산기 | 모두의계산기</title>
-  <meta name="description" content="사업자 부가세 신고 계산기. 일반과세·간이과세 유형별 납부세액·환급세액 자동 계산. 매출세액·매입세액공제·불공제 항목 포함. 2026년 기준." />
+  <meta name="description" content="사업자 부가세 신고 계산기 2026 — 일반·간이과세자 유형별 납부·환급세액 자동 계산. 매출세액·매입세액공제·불공제 항목 입력, 업종별 간이과세 부가가치율 적용." />
   <meta name="naver-site-verification" content="82ae9d4234997a93590385e408dc1119dfe6f61f" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
@@ -80,6 +80,27 @@
     details[open] summary::after{content:'－'}
     details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
     @media(max-width:480px){.row2{grid-template-columns:1fr}.cost-row{grid-template-columns:1fr 120px 36px}}
+
+    .seo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
+    .seo-card h2{font-size:17px;font-weight:800;color:var(--text);margin-bottom:14px;line-height:1.4}
+    .seo-card h3{font-size:14px;font-weight:700;color:var(--accent);margin:16px 0 8px}
+    .seo-card p{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:10px}
+    .seo-card ul{padding-left:18px;margin-bottom:10px}
+    .seo-card li{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:4px}
+    .seo-card strong{color:var(--text)}
+    .ex-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+    .ex-table th{background:rgba(0,212,170,0.1);padding:8px 12px;text-align:left;color:var(--accent);font-weight:700;border:1px solid var(--border)}
+    .ex-table td{padding:8px 12px;border:1px solid var(--border);color:var(--text-muted);line-height:1.7}
+    .ex-table tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
+    .hl-box{background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.25);border-radius:10px;padding:14px 16px;margin:14px 0;font-size:13px;color:var(--text);line-height:1.8}
+    .hl-box strong{color:var(--accent)}
+    .rel-section{margin-bottom:20px}
+    .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
+    .rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+    .rel-card{display:block;padding:14px 12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+    .rel-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+    .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+    .rel-card .rn{font-size:12px;font-weight:700;color:var(--text)}
   </style>
 </head>
 <body>
@@ -171,6 +192,28 @@
   </div>
 
   <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6079812618767597" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
+  <div class="seo-card">
+    <h2>사업자 부가세 신고 방법과 납부세액 계산 (2026년 기준)</h2>
+    <p>부가가치세(VAT)는 물건이나 서비스를 판매할 때 소비자에게 징수해 국가에 납부하는 세금입니다. 사업자는 <strong>매출세액(징수한 VAT) − 매입세액(지출 시 낸 VAT) = 납부세액</strong> 구조로 신고합니다. 매입세액이 더 크면 환급을 받을 수 있습니다.</p>
+    <h3>📋 일반과세자 vs 간이과세자 비교</h3>
+    <table class="ex-table">
+      <tr><th>구분</th><th>일반과세자</th><th>간이과세자</th></tr>
+      <tr><td><strong>기준</strong></td><td>연 매출 8,000만원 이상</td><td>연 매출 8,000만원 미만</td></tr>
+      <tr><td><strong>세율</strong></td><td>매출의 10%</td><td>매출 × 업종별 부가가치율 × 10%</td></tr>
+      <tr><td><strong>매입세액 공제</strong></td><td>전액 공제 가능</td><td>세금계산서 수취분의 50%만</td></tr>
+      <tr><td><strong>납부의무 면제</strong></td><td>해당 없음</td><td>연 매출 4,800만원 미만 면제</td></tr>
+      <tr><td><strong>신고 횟수</strong></td><td>연 2회 (1기·2기)</td><td>연 1회 (1월)</td></tr>
+    </table>
+    <h3>💡 간이과세자 업종별 부가가치율</h3>
+    <table class="ex-table">
+      <tr><th>업종</th><th>부가가치율</th><th>연 매출 5,000만원 기준 납부세액</th></tr>
+      <tr><td><strong>소매업·음식점·숙박업</strong></td><td>40%</td><td>약 2,000,000원</td></tr>
+      <tr><td><strong>제조업·농업·어업</strong></td><td>30%</td><td>약 1,500,000원</td></tr>
+      <tr><td><strong>건설업·운수업</strong></td><td>20%</td><td>약 1,000,000원</td></tr>
+      <tr><td><strong>금융·보험·서비스업</strong></td><td>15%</td><td>약 750,000원</td></tr>
+    </table>
+    <div class="hl-box">💡 <strong>매입세액 공제 극대화 팁:</strong> 모든 사업 관련 지출 시 반드시 <strong>세금계산서 또는 신용카드 결제</strong>를 받으세요. 간이영수증(3만원 이상)은 공제 불가입니다. 전자세금계산서는 홈택스에서 무료로 발행·수취할 수 있습니다.</div>
+  </div>
 
   <div class="card">
     <h2>📋 부가세 신고 구조</h2>
@@ -193,6 +236,17 @@
   <details><summary>불공제 매입세액은 어떤 항목이 있나요?</summary><div class="faq-answer">접대비 관련 매입세액, 비영업용 승용차(9인 이하) 구입·유지비, 사업과 무관한 지출 등이 불공제 항목입니다. 5인승 이하 승용차 관련 비용은 매입세액 공제가 전혀 되지 않으니 주의하세요.</div></details>
   <details><summary>부가세 환급은 언제 받을 수 있나요?</summary><div class="faq-answer">일반 환급은 신고 후 30일 이내에 이루어집니다. 수출·시설투자 등으로 환급액이 큰 경우 조기환급 신청(신고 후 15일 이내)이 가능합니다. 국세청 홈택스에서 신고와 동시에 환급 계좌를 등록하면 빠르게 받을 수 있습니다.</div></details>
   <details><summary>전자세금계산서 의무 발행 대상은 누구인가요?</summary><div class="faq-answer">법인사업자와 직전 연도 공급가액 합계 1억원 이상인 개인사업자는 전자세금계산서 의무 발행 대상입니다. 2024년부터 기준이 2억원에서 1억원으로 낮아졌습니다. 미발행 시 공급가액의 0.5% 가산세가 부과됩니다.</div></details>
+  <div class="rel-section">
+    <h2>📌 함께 쓰면 유용한 계산기</h2>
+    <div class="rel-grid">
+      <a href="/corporate_tax" class="rel-card"><span class="re">🏢</span><span class="rn">법인세 계산기</span></a>
+      <a href="/income_tax" class="rel-card"><span class="re">📋</span><span class="rn">소득세</span></a>
+      <a href="/freelancer_tax" class="rel-card"><span class="re">💼</span><span class="rn">프리랜서 세금</span></a>
+      <a href="/vat" class="rel-card"><span class="re">🧾</span><span class="rn">부가세 계산기</span></a>
+      <a href="/margin" class="rel-card"><span class="re">💰</span><span class="rn">마진율 계산기</span></a>
+      <a href="/operating_profit" class="rel-card"><span class="re">📈</span><span class="rn">영업이익</span></a>
+    </div>
+  </div>
 </div>
 
 <script>
