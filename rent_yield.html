@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#00d4aa" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="모두의계산기" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>임대료 수익률 계산기 | 모두의계산기</title>
+  <meta name="description" content="상가·오피스텔·주택 임대료 수익률 계산기. 보증금·월세·취득가·관리비 입력으로 연 수익률·실질 수익률 자동 계산." />
+  <meta name="naver-site-verification" content="82ae9d4234997a93590385e408dc1119dfe6f61f" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--danger:#ff6b6b;--warn:#f5a623;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+    .container{max-width:680px;margin:0 auto;padding:40px 20px 100px;position:relative;z-index:1}
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;gap:2px;width:48px;height:48px;justify-content:center;border-radius:50%;background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.2);text-decoration:none;transition:all .2s}
+    .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+    .header{text-align:center;margin-bottom:28px}
+    .header h1{font-family:'Montserrat',sans-serif;font-size:clamp(22px,5vw,32px);font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+    .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
+    .header p{color:var(--text-muted);font-size:14px}
+    .badges{text-align:center;margin-bottom:16px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+    .badge{padding:3px 12px;background:rgba(0,212,170,0.1);border:1px solid rgba(0,212,170,0.25);border-radius:20px;font-size:11px;color:var(--accent);font-weight:700}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
+    .card h2{font-size:15px;font-weight:700;margin-bottom:16px;color:var(--accent)}
+    .form-group{margin-bottom:14px}
+    label{display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px;font-weight:500}
+    input,select{width:100%;padding:11px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:15px;font-family:'Noto Sans KR',sans-serif;outline:none;transition:border-color .2s}
+    input:focus,select:focus{border-color:var(--accent)}
+    select option{background:var(--surface2)}
+    .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .type-tabs{display:flex;gap:8px;margin-bottom:16px}
+    .type-tab{flex:1;padding:10px 8px;text-align:center;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;border:1px solid var(--border);background:var(--surface2);color:var(--text-muted);transition:all .2s;font-family:'Noto Sans KR',sans-serif}
+    .type-tab.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000;border-color:transparent}
+    .btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#000;font-size:16px;font-weight:800;font-family:'Noto Sans KR',sans-serif;cursor:pointer;margin-top:4px;transition:opacity .2s}
+    .btn:hover{opacity:.9}
+    .result-card{background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:var(--radius);padding:24px;margin-top:16px;display:none}
+    .result-card.show{display:block}
+    .result-main{text-align:center;margin-bottom:20px}
+    .result-label{font-size:13px;color:var(--text-muted);margin-bottom:6px}
+    .result-value{font-family:'Montserrat',sans-serif;font-size:44px;font-weight:900;color:var(--accent)}
+    .result-sub{font-size:13px;color:var(--text-muted);margin-top:4px}
+    .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+    .result-item{background:var(--surface2);border-radius:10px;padding:12px;text-align:center}
+    .result-item-label{font-size:11px;color:var(--text-muted);margin-bottom:4px}
+    .result-item-value{font-size:17px;font-weight:700;color:var(--text)}
+    .result-item-value.good{color:var(--accent)}
+    .result-item-value.warn{color:var(--warn)}
+    .result-item-value.bad{color:var(--danger)}
+    .breakdown{background:var(--surface2);border-radius:12px;padding:16px;margin-top:14px}
+    .breakdown h3{font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:10px}
+    .bd-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
+    .bd-row:last-child{border-bottom:none;font-weight:700;font-size:15px;color:var(--accent);padding-top:12px}
+    .bd-row.deduct span:last-child{color:var(--danger)}
+    .gauge-wrap{margin-top:20px;text-align:center}
+    .gauge-label{font-size:13px;color:var(--text-muted);margin-bottom:12px}
+    .gauge{position:relative;width:200px;height:100px;margin:0 auto}
+    .gauge-bg{fill:none;stroke:var(--surface2);stroke-width:20;stroke-linecap:round}
+    .gauge-fill{fill:none;stroke-width:20;stroke-linecap:round;transition:stroke-dashoffset .8s;transform:rotate(180deg);transform-origin:center}
+    .gauge-value{font-family:'Montserrat',sans-serif;font-size:24px;font-weight:900;fill:var(--accent)}
+    .gauge-sub{font-size:11px;fill:var(--text-muted)}
+    .rating-box{display:inline-block;padding:6px 16px;border-radius:20px;font-size:13px;font-weight:700;margin-top:10px}
+    .formula-box{background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:14px 16px;margin:16px 0;font-size:13px;color:var(--text-muted);line-height:1.8}
+    .ad-slot{min-height:0;text-align:center;margin:16px 0}
+    details{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden}
+    details summary{padding:12px 16px;cursor:pointer;font-size:14px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--surface)}
+    details summary::after{content:'＋';color:var(--accent);font-size:16px}
+    details[open] summary::after{content:'－'}
+    details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
+    @media(max-width:480px){.result-grid{grid-template-columns:1fr}.row2{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="header">
+    <h1><span class="emoji">🏢</span> 임대료 수익률 계산기</h1>
+    <p>상가·오피스텔·주택 보증금·월세로 연 수익률 계산</p>
+  </div>
+  <div class="badges">
+    <span class="badge">🏪 상가</span><span class="badge">🏠 오피스텔·주택</span><span class="badge">📊 수익률 분석</span>
+  </div>
+
+  <div class="card">
+    <h2>🏢 임대 유형</h2>
+    <div class="type-tabs">
+      <button class="type-tab active" onclick="selectType('rent',this)">월세 수익률</button>
+      <button class="type-tab" onclick="selectType('full',this)">전세 수익률</button>
+      <button class="type-tab" onclick="selectType('compare',this)">전월세 비교</button>
+    </div>
+  </div>
+
+  <div class="card" id="rent-section">
+    <h2>💰 임대 조건</h2>
+    <div class="row2">
+      <div class="form-group">
+        <label>매입가(취득가) (만원)</label>
+        <input type="number" id="buyPrice" placeholder="예: 30000" />
+      </div>
+      <div class="form-group">
+        <label>보증금 (만원)</label>
+        <input type="number" id="deposit" placeholder="예: 1000" value="0" />
+      </div>
+    </div>
+    <div class="row2">
+      <div class="form-group">
+        <label>월 임대료 (만원)</label>
+        <input type="number" id="monthly" placeholder="예: 150" />
+      </div>
+      <div class="form-group">
+        <label>월 관리비 수입 (만원)</label>
+        <input type="number" id="mgmt" placeholder="예: 10" value="0" />
+      </div>
+    </div>
+    <div class="card" style="background:var(--surface2);border-color:rgba(0,212,170,0.15);margin-top:4px;padding:16px">
+      <div style="font-size:13px;font-weight:700;color:var(--accent);margin-bottom:12px">💸 연간 비용 (선택)</div>
+      <div class="row2">
+        <div class="form-group">
+          <label>재산세·종부세 (연, 만원)</label>
+          <input type="number" id="tax" placeholder="예: 80" value="0" />
+        </div>
+        <div class="form-group">
+          <label>수선·유지비 (연, 만원)</label>
+          <input type="number" id="repair" placeholder="예: 30" value="0" />
+        </div>
+      </div>
+      <div class="row2">
+        <div class="form-group">
+          <label>공실 예상 기간 (개월/년)</label>
+          <input type="number" id="vacant" placeholder="예: 1" value="0" max="12" />
+        </div>
+        <div class="form-group">
+          <label>취득세 등 거래비용 (만원)</label>
+          <input type="number" id="acqCost" placeholder="예: 400" value="0" />
+        </div>
+      </div>
+    </div>
+    <button class="btn" onclick="calc()">수익률 계산하기</button>
+  </div>
+
+  <div class="result-card" id="result">
+    <div class="result-main">
+      <div class="result-label">연 실질 수익률</div>
+      <div class="result-value" id="r-rate">0%</div>
+      <div class="result-sub" id="r-sub"></div>
+    </div>
+
+    <div class="gauge-wrap">
+      <svg class="gauge" viewBox="0 0 200 110">
+        <path class="gauge-bg" d="M 20 100 A 80 80 0 0 1 180 100"/>
+        <path class="gauge-fill" id="gauge-fill" d="M 20 100 A 80 80 0 0 1 180 100" stroke="url(#gGrad)" stroke-dasharray="251" stroke-dashoffset="251"/>
+        <defs><linearGradient id="gGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#00d4aa"/><stop offset="100%" stop-color="#0095ff"/></linearGradient></defs>
+        <text class="gauge-value" x="100" y="90" text-anchor="middle" id="gauge-text">0%</text>
+        <text class="gauge-sub" x="100" y="108" text-anchor="middle">연 수익률</text>
+      </svg>
+      <div class="rating-box" id="rating-box">-</div>
+    </div>
+
+    <div class="result-grid">
+      <div class="result-item"><div class="result-item-label">표면 수익률 (세전)</div><div class="result-item-value good" id="r-gross">-</div></div>
+      <div class="result-item"><div class="result-item-label">순 수익률 (비용 차감)</div><div class="result-item-value good" id="r-net">-</div></div>
+      <div class="result-item"><div class="result-item-label">연 임대 수입</div><div class="result-item-value" id="r-annual-inc">-</div></div>
+      <div class="result-item"><div class="result-item-label">연 순수익</div><div class="result-item-value" id="r-annual-net">-</div></div>
+    </div>
+
+    <div class="breakdown">
+      <h3>💡 수익률 상세 계산</h3>
+      <div class="bd-row"><span>매입가</span><span id="bd-buy">-</span></div>
+      <div class="bd-row"><span>실투자금 (매입가 − 보증금 + 거래비용)</span><span id="bd-invest">-</span></div>
+      <div class="bd-row"><span>연 임대수입 (월세+관리비 × 가동월)</span><span id="bd-income">-</span></div>
+      <div class="bd-row deduct"><span>(−) 연 비용 (세금+수선)</span><span id="bd-cost">-</span></div>
+      <div class="bd-row"><span>= 연 순수익</span><span id="bd-net">-</span></div>
+    </div>
+  </div>
+
+  <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6079812618767597" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
+
+  <div class="card">
+    <h2>📐 수익률 계산 공식</h2>
+    <div class="formula-box">
+      <strong>표면 수익률</strong> = 연 임대수입 ÷ (매입가 − 보증금) × 100<br>
+      <strong>순 수익률</strong> = (연 임대수입 − 연 비용) ÷ 실투자금 × 100<br>
+      <strong>실투자금</strong> = 매입가 − 보증금 + 취득세 등 거래비용<br><br>
+      <strong>수익률 기준</strong><br>
+      5% 이상 — 우수 / 4~5% — 양호 / 3~4% — 보통 / 3% 미만 — 재검토 필요<br><br>
+      ※ 대출 이용 시 레버리지 효과로 자기자본 수익률은 높아질 수 있습니다.<br>
+      ※ 임대소득세(종합 또는 분리과세 2,000만원 이하)는 별도 고려 필요합니다.
+    </div>
+  </div>
+
+  <h2 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)">자주 묻는 질문</h2>
+  <details><summary>표면 수익률과 순 수익률 차이는 무엇인가요?</summary><div class="faq-answer">표면 수익률은 비용을 고려하지 않은 단순 계산입니다. 순 수익률은 재산세·수선비·공실 등 실제 비용을 차감한 수익률로, 이 수치가 진짜 투자 수익률입니다. 일반적으로 표면 대비 0.5~1%p 낮게 나옵니다.</div></details>
+  <details><summary>수익률 몇 % 이상이면 좋은 상가인가요?</summary><div class="faq-answer">상가는 일반적으로 연 4~6% 수익률을 기준으로 합니다. 서울 중심부는 3~4%, 외곽은 5~7%가 일반적입니다. 단, 공실 리스크와 임대료 상승 가능성을 함께 고려해야 합니다.</div></details>
+  <details><summary>임대소득에 세금이 얼마나 붙나요?</summary><div class="faq-answer">주택 임대수입 연 2,000만원 이하는 분리과세(15.4%) 또는 종합과세 선택 가능합니다. 2,000만원 초과 또는 상가 임대는 종합소득세로 신고합니다. 필요경비(60% 공제, 기본공제 400만원) 적용 후 세액이 결정됩니다.</div></details>
+  <details><summary>보증금을 낮추고 월세를 높이는 게 유리한가요?</summary><div class="faq-answer">임대인 입장에서는 월세가 높을수록 수익률이 높지만, 임차인 부담도 커져 공실 위험이 생길 수 있습니다. 시장 전환율(전월세 전환율)을 활용해 적정 수준을 찾는 게 좋습니다.</div></details>
+  <details><summary>전월세 전환율은 어떻게 계산하나요?</summary><div class="faq-answer">전월세 전환율 = 월세 × 12 ÷ (전세금 − 보증금) × 100입니다. 법정 상한은 기준금리 + 2%이며, 2025년 현재 약 5% 내외입니다. 전월세 전환율 계산기를 이용하면 전세↔월세 환산이 가능합니다.</div></details>
+</div>
+
+<script>
+const fw = n => Math.round(n).toLocaleString() + '만원';
+const fp = n => n.toFixed(2) + '%';
+let curType = 'rent';
+function selectType(t, el) {
+  curType = t;
+  document.querySelectorAll('.type-tab').forEach(x => x.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function calc() {
+  const buy     = +document.getElementById('buyPrice').value || 0;
+  const dep     = +document.getElementById('deposit').value || 0;
+  const mon     = +document.getElementById('monthly').value || 0;
+  const mgmt    = +document.getElementById('mgmt').value || 0;
+  const taxY    = +document.getElementById('tax').value || 0;
+  const repair  = +document.getElementById('repair').value || 0;
+  const vacant  = +document.getElementById('vacant').value || 0;
+  const acqCost = +document.getElementById('acqCost').value || 0;
+  if (!buy || !mon) { alert('매입가와 월 임대료를 입력해주세요.'); return; }
+
+  const opMonths   = 12 - vacant;
+  const annualInc  = (mon + mgmt) * opMonths;
+  const annualCost = taxY + repair;
+  const annualNet  = annualInc - annualCost;
+  const invest     = buy - dep + acqCost;
+  const grossRate  = invest > 0 ? annualInc / invest * 100 : 0;
+  const netRate    = invest > 0 ? annualNet / invest * 100 : 0;
+
+  document.getElementById('r-rate').textContent = fp(netRate);
+  document.getElementById('r-sub').textContent  = `실투자금 ${fw(invest)} · 연 순수익 ${fw(annualNet)}`;
+  document.getElementById('r-gross').textContent = fp(grossRate);
+  document.getElementById('r-net').textContent   = fp(netRate);
+  document.getElementById('r-annual-inc').textContent = fw(annualInc);
+  document.getElementById('r-annual-net').textContent = fw(annualNet);
+  document.getElementById('bd-buy').textContent    = fw(buy);
+  document.getElementById('bd-invest').textContent = fw(invest);
+  document.getElementById('bd-income').textContent = fw(annualInc);
+  document.getElementById('bd-cost').textContent   = '−' + fw(annualCost);
+  document.getElementById('bd-net').textContent    = fw(annualNet);
+
+  // 게이지 (최대 8% 기준)
+  const pct = Math.min(netRate / 8, 1);
+  const offset = 251 - 251 * pct;
+  document.getElementById('gauge-fill').style.strokeDashoffset = offset;
+  document.getElementById('gauge-text').textContent = fp(netRate);
+
+  let rating, rColor, rBg;
+  if (netRate >= 5) { rating = '우수 ⭐'; rColor='#000'; rBg='var(--accent)'; }
+  else if (netRate >= 4) { rating = '양호 👍'; rColor='#000'; rBg='var(--accent2)'; }
+  else if (netRate >= 3) { rating = '보통 😐'; rColor='#000'; rBg='var(--warn)'; }
+  else { rating = '재검토 ⚠️'; rColor='#fff'; rBg='var(--danger)'; }
+  const rb = document.getElementById('rating-box');
+  rb.textContent = rating; rb.style.background = rBg; rb.style.color = rColor;
+
+  document.getElementById('result').classList.add('show');
+}
+</script>
+<script src="/common.js"></script><script src="/share.js"></script><script src="/calculator.js"></script>
+<script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}</script>
+</body>
+</html>

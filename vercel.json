@@ -266,6 +266,34 @@
     {
       "source": "/corporate_tax",
       "destination": "/corporate_tax.html"
+    },
+    {
+      "source": "/product_cost",
+      "destination": "/product_cost.html"
+    },
+    {
+      "source": "/operating_profit",
+      "destination": "/operating_profit.html"
+    },
+    {
+      "source": "/breakeven",
+      "destination": "/breakeven.html"
+    },
+    {
+      "source": "/delivery_fee",
+      "destination": "/delivery_fee.html"
+    },
+    {
+      "source": "/card_fee",
+      "destination": "/card_fee.html"
+    },
+    {
+      "source": "/rent_yield",
+      "destination": "/rent_yield.html"
+    },
+    {
+      "source": "/part_time_cost",
+      "destination": "/part_time_cost.html"
     }
   ]
 }

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#00d4aa" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="모두의계산기" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>알바 인건비 계산기 | 모두의계산기</title>
+  <meta name="description" content="소상공인 알바 인건비 계산기. 시급·근무시간·주휴수당·4대보험 고용주 부담 포함 월 총 인건비 자동 계산. 2025년 최저시급 적용." />
+  <meta name="naver-site-verification" content="82ae9d4234997a93590385e408dc1119dfe6f61f" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--danger:#ff6b6b;--warn:#f5a623;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+    .container{max-width:680px;margin:0 auto;padding:40px 20px 100px;position:relative;z-index:1}
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;gap:2px;width:48px;height:48px;justify-content:center;border-radius:50%;background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.2);text-decoration:none;transition:all .2s}
+    .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+    .header{text-align:center;margin-bottom:28px}
+    .header h1{font-family:'Montserrat',sans-serif;font-size:clamp(22px,5vw,32px);font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+    .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
+    .header p{color:var(--text-muted);font-size:14px}
+    .badges{text-align:center;margin-bottom:16px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+    .badge{padding:3px 12px;background:rgba(0,212,170,0.1);border:1px solid rgba(0,212,170,0.25);border-radius:20px;font-size:11px;color:var(--accent);font-weight:700}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
+    .card h2{font-size:15px;font-weight:700;margin-bottom:16px;color:var(--accent)}
+    .form-group{margin-bottom:14px}
+    label{display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px;font-weight:500}
+    input,select{width:100%;padding:11px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:15px;font-family:'Noto Sans KR',sans-serif;outline:none;transition:border-color .2s}
+    input:focus,select:focus{border-color:var(--accent)}
+    select option{background:var(--surface2)}
+    .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+    .min-wage-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;background:rgba(0,212,170,0.1);border:1px solid rgba(0,212,170,0.2);border-radius:20px;font-size:12px;color:var(--accent);font-weight:700;cursor:pointer;transition:all .2s;margin-bottom:12px}
+    .min-wage-chip:hover{background:rgba(0,212,170,0.2)}
+    .staff-block{background:var(--surface2);border-radius:12px;padding:16px;margin-bottom:12px;position:relative}
+    .staff-block .staff-title{font-size:13px;font-weight:700;color:var(--accent);margin-bottom:12px}
+    .staff-block .remove-btn{position:absolute;top:14px;right:14px;background:none;border:1px solid var(--danger);color:var(--danger);border-radius:6px;width:28px;height:28px;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center}
+    .btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#000;font-size:16px;font-weight:800;font-family:'Noto Sans KR',sans-serif;cursor:pointer;margin-top:4px;transition:opacity .2s}
+    .btn:hover{opacity:.9}
+    .btn-add-staff{width:100%;padding:11px;border:1px dashed var(--border);border-radius:10px;background:transparent;color:var(--text-muted);font-size:13px;font-family:'Noto Sans KR',sans-serif;cursor:pointer;transition:all .2s;margin-bottom:12px}
+    .btn-add-staff:hover{border-color:var(--accent);color:var(--accent)}
+    .result-card{background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:var(--radius);padding:24px;margin-top:16px;display:none}
+    .result-card.show{display:block}
+    .result-main{text-align:center;margin-bottom:20px}
+    .result-label{font-size:13px;color:var(--text-muted);margin-bottom:6px}
+    .result-value{font-family:'Montserrat',sans-serif;font-size:36px;font-weight:900;color:var(--accent)}
+    .result-sub{font-size:13px;color:var(--text-muted);margin-top:4px}
+    .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+    .result-item{background:var(--surface2);border-radius:10px;padding:12px;text-align:center}
+    .result-item-label{font-size:11px;color:var(--text-muted);margin-bottom:4px}
+    .result-item-value{font-size:17px;font-weight:700;color:var(--text)}
+    .result-item-value.danger{color:var(--danger)}
+    .staff-result-table{width:100%;border-collapse:collapse;margin-top:14px;font-size:13px}
+    .staff-result-table th{background:var(--surface2);padding:9px 10px;text-align:center;color:var(--text-muted);font-weight:600;border:1px solid var(--border);font-size:12px}
+    .staff-result-table td{padding:9px 10px;text-align:right;border:1px solid var(--border)}
+    .staff-result-table td:first-child{text-align:left}
+    .staff-result-table tfoot td{font-weight:700;color:var(--accent);background:rgba(0,212,170,0.06)}
+    .insurance-box{background:var(--surface2);border-radius:12px;padding:16px;margin-top:14px}
+    .insurance-box h3{font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:10px}
+    .ins-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px}
+    .ins-row:last-child{border-bottom:none;font-weight:700;color:var(--accent);padding-top:10px;font-size:14px}
+    .ins-row .label{color:var(--text-muted)}
+    .formula-box{background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:14px 16px;margin:16px 0;font-size:13px;color:var(--text-muted);line-height:1.8}
+    .warn-box{background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.25);border-radius:10px;padding:12px 14px;font-size:12px;color:var(--warn);line-height:1.7;margin-bottom:16px}
+    .ad-slot{min-height:0;text-align:center;margin:16px 0}
+    details{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden}
+    details summary{padding:12px 16px;cursor:pointer;font-size:14px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--surface)}
+    details summary::after{content:'＋';color:var(--accent);font-size:16px}
+    details[open] summary::after{content:'－'}
+    details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
+    @media(max-width:480px){.result-grid{grid-template-columns:1fr}.row2{grid-template-columns:1fr}.row3{grid-template-columns:1fr 1fr}}
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="header">
+    <h1><span class="emoji">👥</span> 알바 인건비 계산기</h1>
+    <p>시급·주휴수당·4대보험 사업주 부담 포함 총 인건비</p>
+  </div>
+  <div class="badges">
+    <span class="badge">🏪 소상공인</span><span class="badge">2025년 최저시급</span><span class="badge">📊 다수 직원</span>
+  </div>
+
+  <div class="warn-box">⚠️ 2025년 최저시급 <strong>10,030원</strong>. 이를 하회하면 최저임금법 위반입니다.</div>
+
+  <div class="card">
+    <h2>👤 직원 추가</h2>
+    <div id="staff-list"></div>
+    <button class="btn-add-staff" onclick="addStaff()">＋ 직원 추가</button>
+    <button class="btn" onclick="calc()">총 인건비 계산하기</button>
+  </div>
+
+  <div class="result-card" id="result">
+    <div class="result-main">
+      <div class="result-label">월 총 인건비 (사업주 부담 합계)</div>
+      <div class="result-value" id="r-total">0원</div>
+      <div class="result-sub" id="r-sub"></div>
+    </div>
+    <div class="result-grid">
+      <div class="result-item"><div class="result-item-label">직원 급여 합계</div><div class="result-item-value" id="r-pay">-</div></div>
+      <div class="result-item"><div class="result-item-label">주휴수당 합계</div><div class="result-item-value" id="r-holiday">-</div></div>
+      <div class="result-item"><div class="result-item-label">4대보험 사업주 부담</div><div class="result-item-value danger" id="r-ins">-</div></div>
+      <div class="result-item"><div class="result-item-label">연간 총 인건비</div><div class="result-item-value" id="r-annual">-</div></div>
+    </div>
+
+    <table class="staff-result-table">
+      <thead><tr><th>이름</th><th>기본급</th><th>주휴수당</th><th>4대보험(고용주)</th><th>월 총비용</th></tr></thead>
+      <tbody id="staff-result-body"></tbody>
+      <tfoot id="staff-result-foot"></tfoot>
+    </table>
+
+    <div class="insurance-box">
+      <h3>🏦 4대보험 사업주 부담 요율 (2025)</h3>
+      <div class="ins-row"><span class="label">국민연금</span><span>4.5%</span></div>
+      <div class="ins-row"><span class="label">건강보험 + 장기요양</span><span>3.545% + 0.459% = 4.004%</span></div>
+      <div class="ins-row"><span class="label">고용보험 (사업주 측)</span><span>0.9%</span></div>
+      <div class="ins-row"><span class="label">산재보험 (업종별 상이)</span><span>평균 약 1.5%</span></div>
+      <div class="ins-row"><span>합계 (산재 제외)</span><span id="ins-total-rate">약 9.4%</span></div>
+    </div>
+  </div>
+
+  <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6079812618767597" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
+
+  <div class="card">
+    <h2>📐 인건비 계산 공식</h2>
+    <div class="formula-box">
+      <strong>주휴수당</strong> = 주 15시간 이상 근무 시 발생<br>
+      주휴수당 = (주 근무시간 ÷ 40) × 8시간 × 시급<br><br>
+      <strong>월 급여</strong> = (시급 × 주 근무시간 × 월 주수) + 주휴수당<br>
+      월 주수 = 365 ÷ 7 ÷ 12 ≈ 4.345주<br><br>
+      <strong>사업주 4대보험 총 요율 (근로자 측 제외)</strong><br>
+      국민연금 4.5% + 건강 4.004% + 고용 0.9% + 산재 ≈ 약 10.9%
+    </div>
+  </div>
+
+  <h2 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)">자주 묻는 질문</h2>
+  <details><summary>주휴수당은 모든 알바에게 줘야 하나요?</summary><div class="faq-answer">주 15시간 이상 근무하는 모든 근로자에게 의무 지급해야 합니다. 주 15시간 미만 단기 알바는 주휴수당이 발생하지 않습니다. 미지급 시 임금체불로 신고 대상입니다.</div></details>
+  <details><summary>4대보험은 사업주도 부담해야 하나요?</summary><div class="faq-answer">네, 4대보험은 근로자와 사업주가 각각 부담합니다. 국민연금 4.5%, 건강보험 3.545%, 고용보험 0.9%, 산재보험(전액 사업주 부담)이 사업주 측 주요 부담입니다. 실제 인건비는 급여 대비 약 10~12% 추가 비용이 발생합니다.</div></details>
+  <details><summary>주 15시간 미만으로 쪼개면 주휴수당·4대보험을 피할 수 있나요?</summary><div class="faq-answer">주 15시간 미만이면 주휴수당과 4대보험 의무가 없지만, 실무적으로 관리가 복잡하고 양질의 알바 구인이 어렵습니다. 또한 주 15시간 미만이라도 3개월 이상 계속 근무 시 퇴직금 발생 여부를 확인해야 합니다.</div></details>
+  <details><summary>알바도 퇴직금을 줘야 하나요?</summary><div class="faq-answer">1주 평균 15시간 이상, 1년 이상 계속 근무한 경우 알바도 퇴직금이 발생합니다. 퇴직금 = 30일 평균임금 × (근속일수 ÷ 365). 예를 들어 1년 근무한 알바의 퇴직금은 1개월 급여 수준입니다.</div></details>
+  <details><summary>야간·주말 알바는 수당이 더 붙나요?</summary><div class="faq-answer">오후 10시~오전 6시 야간 근무는 시급의 50% 가산수당이 발생합니다. 주 40시간 초과 연장근무, 휴일근무도 50% 가산. 단, 상시 5인 미만 사업장은 가산 의무가 없습니다.</div></details>
+</div>
+
+<script>
+const MIN_WAGE = 10030;
+let staffCount = 0;
+
+function addStaff() {
+  staffCount++;
+  const id = staffCount;
+  const div = document.createElement('div');
+  div.className = 'staff-block';
+  div.id = 'staff-' + id;
+  div.innerHTML = `
+    <div class="staff-title">직원 ${id}</div>
+    ${id > 1 ? `<button class="remove-btn" onclick="removeStaff(${id})">✕</button>` : ''}
+    <div class="row2">
+      <div class="form-group"><label>이름 (선택)</label><input type="text" id="name-${id}" placeholder="예: 김알바" /></div>
+      <div class="form-group">
+        <label>시급 (원)</label>
+        <div style="display:flex;gap:8px;align-items:center">
+          <input type="number" id="wage-${id}" placeholder="${MIN_WAGE}" value="${MIN_WAGE}" style="flex:1" />
+        </div>
+      </div>
+    </div>
+    <div class="row3">
+      <div class="form-group"><label>주 근무일수 (일)</label><input type="number" id="days-${id}" placeholder="5" value="5" min="1" max="6" /></div>
+      <div class="form-group"><label>하루 근무시간 (h)</label><input type="number" id="hours-${id}" placeholder="8" value="8" step="0.5" /></div>
+      <div class="form-group"><label>월 근무 주수</label><input type="number" id="weeks-${id}" placeholder="4.345" value="4.345" step="0.1" /></div>
+    </div>
+    <div class="row2">
+      <div class="form-group">
+        <label>주휴수당</label>
+        <select id="holi-${id}"><option value="auto">자동 계산</option><option value="skip">미적용</option></select>
+      </div>
+      <div class="form-group">
+        <label>4대보험 가입</label>
+        <select id="ins-${id}"><option value="yes">가입 (15h↑)</option><option value="no">미가입 (15h↓)</option></select>
+      </div>
+    </div>`;
+  document.getElementById('staff-list').appendChild(div);
+}
+
+function removeStaff(id) { document.getElementById('staff-' + id)?.remove(); }
+
+function calc() {
+  const blocks = document.querySelectorAll('.staff-block');
+  if (!blocks.length) { alert('직원을 추가해주세요.'); return; }
+
+  // 4대보험 사업주 요율
+  const NP_RATE = 0.045, HI_RATE = 0.04004, EI_RATE = 0.009, SI_RATE = 0.015;
+  const INS_RATE = NP_RATE + HI_RATE + EI_RATE + SI_RATE;
+
+  let rows = '', totalPay = 0, totalHoli = 0, totalIns = 0, totalAll = 0;
+
+  blocks.forEach(b => {
+    const id = b.id.replace('staff-','');
+    const name    = document.getElementById('name-'+id)?.value || `직원 ${id}`;
+    const wage    = +document.getElementById('wage-'+id)?.value || MIN_WAGE;
+    const days    = +document.getElementById('days-'+id)?.value || 5;
+    const hours   = +document.getElementById('hours-'+id)?.value || 8;
+    const weeks   = +document.getElementById('weeks-'+id)?.value || 4.345;
+    const holiOpt = document.getElementById('holi-'+id)?.value;
+    const insOpt  = document.getElementById('ins-'+id)?.value;
+
+    const weekHours = days * hours;
+    const basePay   = wage * weekHours * weeks;
+    const holiPay   = (holiOpt === 'auto' && weekHours >= 15)
+      ? (weekHours / 40) * 8 * wage * weeks : 0;
+    const grossPay  = basePay + holiPay;
+    const insCost   = insOpt === 'yes' ? grossPay * INS_RATE : 0;
+    const totalCost = grossPay + insCost;
+
+    totalPay  += basePay; totalHoli += holiPay;
+    totalIns  += insCost; totalAll  += totalCost;
+
+    const fw = n => Math.round(n).toLocaleString() + '원';
+    rows += `<tr><td>${name}</td><td>${fw(grossPay)}</td><td>${fw(holiPay)}</td><td>${fw(insCost)}</td><td><strong>${fw(totalCost)}</strong></td></tr>`;
+  });
+
+  const fw = n => Math.round(n).toLocaleString() + '원';
+  document.getElementById('r-total').textContent   = fw(totalAll);
+  document.getElementById('r-sub').textContent     = `직원 ${blocks.length}명 · 월 급여 ${fw(totalPay+totalHoli)} + 4대보험 ${fw(totalIns)}`;
+  document.getElementById('r-pay').textContent     = fw(totalPay);
+  document.getElementById('r-holiday').textContent = fw(totalHoli);
+  document.getElementById('r-ins').textContent     = fw(totalIns);
+  document.getElementById('r-annual').textContent  = fw(totalAll * 12);
+  document.getElementById('staff-result-body').innerHTML = rows;
+  document.getElementById('staff-result-foot').innerHTML =
+    `<tr><td>합계</td><td>${fw(totalPay)}</td><td>${fw(totalHoli)}</td><td>${fw(totalIns)}</td><td>${fw(totalAll)}</td></tr>`;
+
+  document.getElementById('result').classList.add('show');
+}
+
+// 첫 번째 직원 자동 추가
+addStaff();
+</script>
+<script src="/common.js"></script><script src="/share.js"></script><script src="/calculator.js"></script>
+<script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}</script>
+</body>
+</html>
