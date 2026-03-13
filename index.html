@@ -75,6 +75,7 @@
     .star-btn:hover{opacity:.7;transform:scale(1.2)}
     .star-btn.starred{opacity:1}
     .star-btn.starred svg{fill:#ffd700;stroke:#e6b800}
+    #favSection{display:block!important}
     .fav-empty{font-size:13px;color:var(--text-muted);padding:14px 18px;border:1px dashed var(--border);border-radius:12px;display:flex;align-items:center;gap:6px}
     .fav-card-del{background:none;border:none;color:#484f58;font-size:14px;cursor:pointer;padding:0 0 0 6px;line-height:1;flex-shrink:0}
     .fav-card-del:hover{color:#ff6b6b}
@@ -165,13 +166,13 @@
   </div>
 
   <!-- 📌 자주 쓰는 계산기 섹션 -->
-  <div id="favSection" style="display:block;margin-bottom:32px">
+  <div id="favSection" style="margin-bottom:32px">
     <div class="category-header" style="margin-bottom:14px">
       <div class="category-title">⭐ 자주 쓰는 계산기</div>
       <span class="category-count" id="favCount"></span>
     </div>
     <div id="favGrid" class="fav-grid"></div>
-    <div id="favEmpty" class="fav-empty" style="display:flex">
+    <div id="favEmpty" class="fav-empty">
       ⭐ 자주 사용하는 계산기의 별표를 눌러 여기에 추가해보세요
     </div>
   </div>
@@ -491,51 +492,49 @@
   }
 
   // 자주쓰기 섹션 렌더링
+  var CALC_LIST_HOME = [
+    {title:'연봉 실수령액',path:'/salary',emoji:'💰'},{title:'퇴직금',path:'/retirement',emoji:'🏦'},
+    {title:'대출 이자',path:'/loan',emoji:'🏠'},{title:'실업급여',path:'/unemployment',emoji:'📋'},
+    {title:'적금 만기',path:'/savings',emoji:'💳'},{title:'국민연금',path:'/pension',emoji:'👴'},
+    {title:'취득세',path:'/acquisition',emoji:'🏢'},{title:'양도소득세',path:'/capital_gains',emoji:'📊'},
+    {title:'증여세·상속세',path:'/gift_tax',emoji:'🎁'},{title:'전월세 전환율',path:'/rent_conversion',emoji:'🔄'},
+    {title:'만 나이',path:'/age',emoji:'🎂'},{title:'디데이',path:'/dday',emoji:'📅'},
+    {title:'BMI',path:'/bmi',emoji:'⚖️'},{title:'기초대사량',path:'/bmr',emoji:'🔥'},
+    {title:'임신 주수',path:'/pregnancy',emoji:'🤱'},{title:'환율',path:'/exchange',emoji:'💱'},
+    {title:'주휴수당',path:'/weekly_holiday',emoji:'📅'},{title:'시급→월급',path:'/hourly_salary',emoji:'⏰'},
+    {title:'연차수당',path:'/annual_leave',emoji:'🌴'},{title:'소득세',path:'/income_tax',emoji:'🧮'},
+    {title:'부가가치세',path:'/vat',emoji:'🧾'},{title:'마진율',path:'/margin',emoji:'💹'},
+    {title:'건강보험료',path:'/health_insurance',emoji:'🏥'},{title:'주식 수익률',path:'/stock_return',emoji:'📉'},
+    {title:'물가상승률',path:'/inflation',emoji:'📈'},{title:'중개수수료',path:'/realestate',emoji:'🏡'},
+    {title:'대출 한도',path:'/loan_limit',emoji:'🏦'},{title:'프리랜서 세금',path:'/freelancer_tax',emoji:'💼'},
+    {title:'증여세 시뮬레이터',path:'/gift_tax_sim',emoji:'💡'},{title:'관세',path:'/customs',emoji:'✈️'},
+    {title:'자동차 취득세',path:'/car_tax',emoji:'🚗'},{title:'연비',path:'/fuel_economy',emoji:'⛽'},
+    {title:'날짜 계산',path:'/date_diff',emoji:'📆'},{title:'평↔㎡',path:'/area_converter',emoji:'📐'},
+    {title:'cm↔inch',path:'/cm_inch',emoji:'📏'},{title:'골프 핸디캡',path:'/golf_handicap',emoji:'⛳'},
+    {title:'로또 당첨금',path:'/lotto',emoji:'🎰'},{title:'아이 예상키',path:'/child_height',emoji:'👦'},
+    {title:'육아휴직 급여',path:'/parental_leave',emoji:'👶'},{title:'혈압 정상범위',path:'/blood_pressure',emoji:'❤️'},
+    {title:'칼로리',path:'/calorie',emoji:'🥗'},{title:'영문주소변환',path:'/address_converter',emoji:'📮'}
+  ];
+
   function renderFavSection() {
     var favs = getFavs();
-    var grid  = document.getElementById('favGrid');
-    var empty = document.getElementById('favEmpty');
+    var grid    = document.getElementById('favGrid');
+    var empty   = document.getElementById('favEmpty');
     var countEl = document.getElementById('favCount');
-    if (!grid) return;
+    if (!grid || !empty) return;
 
     if (favs.length === 0) {
       grid.innerHTML = '';
-      if (empty) empty.style.display = 'flex';
+      empty.style.display = 'flex';
       if (countEl) countEl.textContent = '';
       return;
     }
-    if (empty) empty.style.display = 'none';
-    if (countEl) countEl.textContent = favs.length;
 
-    // CALC_LIST - common.js 또는 인라인 폴백
-    var CALC_LIST = (window.__common && window.__common.CALC_LIST && window.__common.CALC_LIST.length > 0)
-      ? window.__common.CALC_LIST
-      : [
-        {title:'연봉 실수령액',path:'/salary',emoji:'💰'},{title:'퇴직금',path:'/retirement',emoji:'🏦'},
-        {title:'대출 이자',path:'/loan',emoji:'🏠'},{title:'실업급여',path:'/unemployment',emoji:'📋'},
-        {title:'적금 만기',path:'/savings',emoji:'💳'},{title:'국민연금',path:'/pension',emoji:'👴'},
-        {title:'취득세',path:'/acquisition',emoji:'🏢'},{title:'양도소득세',path:'/capital_gains',emoji:'📊'},
-        {title:'증여세·상속세',path:'/gift_tax',emoji:'🎁'},{title:'전월세 전환율',path:'/rent_conversion',emoji:'🔄'},
-        {title:'만 나이',path:'/age',emoji:'🎂'},{title:'디데이',path:'/dday',emoji:'📅'},
-        {title:'BMI',path:'/bmi',emoji:'⚖️'},{title:'기초대사량',path:'/bmr',emoji:'🔥'},
-        {title:'임신 주수',path:'/pregnancy',emoji:'🤱'},{title:'환율',path:'/exchange',emoji:'💱'},
-        {title:'주휴수당',path:'/weekly_holiday',emoji:'📅'},{title:'시급→월급',path:'/hourly_salary',emoji:'⏰'},
-        {title:'연차수당',path:'/annual_leave',emoji:'🌴'},{title:'소득세',path:'/income_tax',emoji:'🧮'},
-        {title:'부가가치세',path:'/vat',emoji:'🧾'},{title:'마진율',path:'/margin',emoji:'💹'},
-        {title:'건강보험료',path:'/health_insurance',emoji:'🏥'},{title:'주식 수익률',path:'/stock_return',emoji:'📉'},
-        {title:'물가상승률',path:'/inflation',emoji:'📈'},{title:'중개수수료',path:'/realestate',emoji:'🏡'},
-        {title:'대출 한도',path:'/loan_limit',emoji:'🏦'},{title:'프리랜서 세금',path:'/freelancer_tax',emoji:'💼'},
-        {title:'증여세 시뮬레이터',path:'/gift_tax_sim',emoji:'💡'},{title:'관세',path:'/customs',emoji:'✈️'},
-        {title:'자동차 취득세',path:'/car_tax',emoji:'🚗'},{title:'연비',path:'/fuel_economy',emoji:'⛽'},
-        {title:'날짜 계산',path:'/date_diff',emoji:'📆'},{title:'평↔㎡',path:'/area_converter',emoji:'📐'},
-        {title:'cm↔inch',path:'/cm_inch',emoji:'📏'},{title:'골프 핸디캡',path:'/golf_handicap',emoji:'⛳'},
-        {title:'로또 당첨금',path:'/lotto',emoji:'🎰'},{title:'아이 예상키',path:'/child_height',emoji:'👦'},
-        {title:'육아휴직 급여',path:'/parental_leave',emoji:'👶'},{title:'혈압 정상범위',path:'/blood_pressure',emoji:'❤️'},
-        {title:'칼로리',path:'/calorie',emoji:'🥗'},{title:'영문주소변환',path:'/address_converter',emoji:'📮'}
-      ];
+    empty.style.display = 'none';
+    if (countEl) countEl.textContent = favs.length;
     grid.innerHTML = '';
     favs.slice(0, FAV_MAX).forEach(function(path) {
-      var calc = CALC_LIST.find(function(c){ return c.path === path; });
+      var calc = CALC_LIST_HOME.find(function(c){ return c.path === path; });
       if (!calc) return;
       var a = document.createElement('a');
       a.href = calc.path;
@@ -544,7 +543,6 @@
         '<span class="fav-emoji">' + calc.emoji + '</span>' +
         '<span>' + calc.title + '</span>' +
         '<button class="fav-card-del" data-path="' + path + '" title="제거">×</button>';
-      // 삭제 버튼 (링크 이동 막기)
       a.querySelector('.fav-card-del').addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -554,7 +552,7 @@
     });
   }
 
-  function toggleFav(path) {
+    function toggleFav(path) {
     var favs = getFavs();
     var idx = favs.indexOf(path);
     if (idx === -1) {
