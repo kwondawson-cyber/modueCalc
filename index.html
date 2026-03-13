@@ -499,8 +499,8 @@
     if (empty) empty.style.display = 'none';
     if (countEl) countEl.textContent = favs.length;
 
-    // CALC_LIST에서 경로 기반으로 카드 생성
-    var CALC_LIST = window.__common ? window.__common.CALC_LIST : [];
+    // CALC_LIST - common.js 로드 후이므로 window.__common 사용 가능
+    var CALC_LIST = (window.__common && window.__common.CALC_LIST) ? window.__common.CALC_LIST : [];
     grid.innerHTML = '';
     favs.slice(0, FAV_MAX).forEach(function(path) {
       var calc = CALC_LIST.find(function(c){ return c.path === path; });
@@ -551,9 +551,8 @@
     var favs = getFavs();
     document.querySelectorAll('.star-btn').forEach(function(btn) {
       var active = favs.includes(btn.dataset.path);
-      btn.textContent = active ? '★' : '☆';
       btn.classList.toggle('starred', active);
-      btn.title = active ? '자주쓰기 해제' : '자주 쓰는 계산기에 추가';
+      btn.setAttribute('aria-label', active ? '자주쓰기 해제' : '자주쓰기 추가');
     });
   }
 
@@ -565,6 +564,8 @@
       var btn = document.createElement('button');
       btn.className = 'star-btn';
       btn.dataset.path = path;
+      btn.setAttribute('aria-label', '자주쓰기');
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
       btn.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -576,14 +577,6 @@
   }
 
   // 초기화
-  document.addEventListener('DOMContentLoaded', function() {
-    // common.js 로드 후 실행되도록 약간 지연
-    setTimeout(function() {
-      injectStarButtons();
-      renderFavSection();
-    }, 50);
-  });
-
   function filterCalcs() {
     const q = document.getElementById('searchInput').value.trim().toLowerCase();
     const cards = document.querySelectorAll('.calc-card');
@@ -605,6 +598,11 @@
 </script>
 
 <script src="/common.js"></script>
+<script>
+  // common.js 로드 완료 후 즉시 자주쓰기 초기화
+  injectStarButtons();
+  renderFavSection();
+</script>
 <script src="/share.js"></script>
 <script src="/calculator.js"></script>
 
