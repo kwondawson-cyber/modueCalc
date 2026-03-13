@@ -13,7 +13,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>영업이익 계산기 | 모두의계산기</title>
-  <meta name="description" content="소상공인 영업이익 계산기. 매출·매출원가·판관비 입력으로 매출총이익·영업이익·순이익·이익률 자동 계산." />
+  <meta name="description" content="영업이익 계산기 2026 (소상공인) — 매출·매출원가·판관비 입력으로 매출총이익·영업이익·순이익·이익률 자동 계산. 음식점·카페 손익계산서 예시 포함." />
   <meta name="naver-site-verification" content="82ae9d4234997a93590385e408dc1119dfe6f61f" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
@@ -79,6 +79,27 @@
     details[open] summary::after{content:'－'}
     details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
     @media(max-width:480px){.result-grid{grid-template-columns:1fr}.cost-row{grid-template-columns:1fr 110px 36px}}
+
+    .seo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
+    .seo-card h2{font-size:17px;font-weight:800;color:var(--text);margin-bottom:14px;line-height:1.4}
+    .seo-card h3{font-size:14px;font-weight:700;color:var(--accent);margin:16px 0 8px}
+    .seo-card p{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:10px}
+    .seo-card ul{padding-left:18px;margin-bottom:10px}
+    .seo-card li{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:4px}
+    .seo-card strong{color:var(--text)}
+    .ex-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+    .ex-table th{background:rgba(0,212,170,0.1);padding:8px 12px;text-align:left;color:var(--accent);font-weight:700;border:1px solid var(--border)}
+    .ex-table td{padding:8px 12px;border:1px solid var(--border);color:var(--text-muted);line-height:1.7}
+    .ex-table tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
+    .hl-box{background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.25);border-radius:10px;padding:14px 16px;margin:14px 0;font-size:13px;color:var(--text);line-height:1.8}
+    .hl-box strong{color:var(--accent)}
+    .rel-section{margin-bottom:20px}
+    .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
+    .rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+    .rel-card{display:block;padding:14px 12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+    .rel-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+    .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+    .rel-card .rn{font-size:12px;font-weight:700;color:var(--text)}
   </style>
 </head>
 <body>
@@ -166,6 +187,29 @@
   </div>
 
   <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6079812618767597" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
+  <div class="seo-card">
+    <h2>소상공인 영업이익 계산법과 손익계산서 읽는 법 (2026년)</h2>
+    <p>영업이익은 단순히 "매출 − 비용"이 아닙니다. <strong>매출총이익(매출 − 매출원가) → 영업이익(매출총이익 − 판관비) → 순이익(영업이익 − 세금·이자)</strong> 3단계 구조로 계산됩니다. 각 단계의 이익률을 파악하면 어디서 수익이 새는지 정확히 찾을 수 있습니다.</p>
+    <h3>📋 손익계산서 구조와 이익 단계별 의미</h3>
+    <table class="ex-table">
+      <tr><th>항목</th><th>계산식</th><th>의미</th></tr>
+      <tr><td><strong>매출총이익</strong></td><td>매출 − 매출원가(재료비)</td><td>재료비를 제외한 이익</td></tr>
+      <tr><td><strong>영업이익</strong></td><td>매출총이익 − 판관비(인건비·임차료·광고비)</td><td>사업 운영으로 번 핵심 이익</td></tr>
+      <tr><td><strong>순이익</strong></td><td>영업이익 − 이자비용 − 법인(소득)세</td><td>최종적으로 남는 이익</td></tr>
+    </table>
+    <h3>💡 월 매출 1,000만원 음식점 손익 계산 예시</h3>
+    <table class="ex-table">
+      <tr><th>항목</th><th>금액</th><th>비율</th></tr>
+      <tr><td>매출</td><td>10,000,000원</td><td>100%</td></tr>
+      <tr><td>(−) 재료비 (식재료)</td><td>3,200,000원</td><td>32%</td></tr>
+      <tr><td><strong>매출총이익</strong></td><td><strong>6,800,000원</strong></td><td><strong>68%</strong></td></tr>
+      <tr><td>(−) 인건비</td><td>2,500,000원</td><td>25%</td></tr>
+      <tr><td>(−) 임차료</td><td>1,200,000원</td><td>12%</td></tr>
+      <tr><td>(−) 기타 판관비</td><td>500,000원</td><td>5%</td></tr>
+      <tr><td><strong>영업이익</strong></td><td><strong>2,600,000원</strong></td><td><strong>26%</strong></td></tr>
+    </table>
+    <div class="hl-box">💡 <strong>업종별 적정 영업이익률 기준:</strong> 음식점 15~25% · 카페 20~30% · 소매업 10~20% · 온라인쇼핑몰 10~25%. 영업이익률이 10% 미만이면 임차료·인건비 구조를 점검해야 합니다.</div>
+  </div>
 
   <div class="card">
     <h2>📐 영업이익 공식</h2>
@@ -185,6 +229,17 @@
   <details><summary>대표자 급여는 어떻게 처리하나요?</summary><div class="faq-answer">법인은 대표자 급여를 인건비로 처리할 수 있습니다. 개인사업자는 대표자 인건비가 비용으로 인정되지 않으므로, 순이익에서 본인 생활비를 별도로 계산해야 합니다.</div></details>
   <details><summary>영업이익률이 마이너스면 어떻게 해야 하나요?</summary><div class="faq-answer">손익분기점 계산기로 몇 명의 고객이 더 필요한지 확인하세요. 임차료·인건비 등 고정비를 줄이거나, 객단가를 높이거나, 원가율을 낮추는 방향으로 접근합니다.</div></details>
   <details><summary>배달앱 매출도 포함해야 하나요?</summary><div class="faq-answer">네, 배달앱 매출도 포함하세요. 단, 배달앱 수수료(9.8~15%)와 PG수수료를 판관비에 별도로 입력해야 정확한 수익성 분석이 됩니다.</div></details>
+  <div class="rel-section">
+    <h2>📌 함께 쓰면 유용한 계산기</h2>
+    <div class="rel-grid">
+      <a href="/breakeven" class="rel-card"><span class="re">⚖️</span><span class="rn">손익분기점</span></a>
+      <a href="/product_cost" class="rel-card"><span class="re">🏷️</span><span class="rn">원가 계산기</span></a>
+      <a href="/margin" class="rel-card"><span class="re">💰</span><span class="rn">마진율 계산기</span></a>
+      <a href="/delivery_fee" class="rel-card"><span class="re">🛵</span><span class="rn">배달앱 수수료</span></a>
+      <a href="/vat_biz" class="rel-card"><span class="re">🧾</span><span class="rn">사업자 부가세</span></a>
+      <a href="/card_fee" class="rel-card"><span class="re">💳</span><span class="rn">카드 수수료</span></a>
+    </div>
+  </div>
 </div>
 
 <script>

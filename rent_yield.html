@@ -13,7 +13,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>임대료 수익률 계산기 | 모두의계산기</title>
-  <meta name="description" content="상가·오피스텔·주택 임대료 수익률 계산기. 보증금·월세·취득가·관리비 입력으로 연 수익률·실질 수익률 자동 계산." />
+  <meta name="description" content="임대 수익률 계산기 2026 — 상가·오피스텔·주택 보증금·월세·취득가·관리비 입력으로 연 수익률·실질 수익률 자동 계산. 투자 대비 수익률 등급 판정." />
   <meta name="naver-site-verification" content="82ae9d4234997a93590385e408dc1119dfe6f61f" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
@@ -81,6 +81,27 @@
     details[open] summary::after{content:'－'}
     details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
     @media(max-width:480px){.result-grid{grid-template-columns:1fr}.row2{grid-template-columns:1fr}}
+
+    .seo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
+    .seo-card h2{font-size:17px;font-weight:800;color:var(--text);margin-bottom:14px;line-height:1.4}
+    .seo-card h3{font-size:14px;font-weight:700;color:var(--accent);margin:16px 0 8px}
+    .seo-card p{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:10px}
+    .seo-card ul{padding-left:18px;margin-bottom:10px}
+    .seo-card li{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:4px}
+    .seo-card strong{color:var(--text)}
+    .ex-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+    .ex-table th{background:rgba(0,212,170,0.1);padding:8px 12px;text-align:left;color:var(--accent);font-weight:700;border:1px solid var(--border)}
+    .ex-table td{padding:8px 12px;border:1px solid var(--border);color:var(--text-muted);line-height:1.7}
+    .ex-table tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
+    .hl-box{background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.25);border-radius:10px;padding:14px 16px;margin:14px 0;font-size:13px;color:var(--text);line-height:1.8}
+    .hl-box strong{color:var(--accent)}
+    .rel-section{margin-bottom:20px}
+    .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
+    .rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+    .rel-card{display:block;padding:14px 12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+    .rel-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+    .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+    .rel-card .rn{font-size:12px;font-weight:700;color:var(--text)}
   </style>
 </head>
 <body>
@@ -187,6 +208,31 @@
   </div>
 
   <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6079812618767597" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
+  <div class="seo-card">
+    <h2>상가·오피스텔 임대 수익률 계산법과 투자 기준 (2026년)</h2>
+    <p>임대 수익률은 단순 월세 × 12개월로만 계산하면 안 됩니다. <strong>취득세·재산세·수선비·공실 기간</strong> 등 실질 비용을 반영한 <strong>순수익률</strong>을 봐야 실제 투자 수익을 정확히 파악할 수 있습니다. 일반적으로 서울 도심 상가는 3~4%, 오피스텔은 4~5%, 수도권 외곽은 5~7% 수익률이 기준입니다.</p>
+    <h3>📋 임대 수익률 계산 공식</h3>
+    <table class="ex-table">
+      <tr><th>구분</th><th>계산식</th></tr>
+      <tr><td><strong>연 임대수익(세전)</strong></td><td>월세 × 12 + (보증금 × 시중금리)</td></tr>
+      <tr><td><strong>총 투자금</strong></td><td>매입가 + 취득세 + 중개수수료 − 보증금</td></tr>
+      <tr><td><strong>세전 수익률</strong></td><td>연 임대수익 ÷ 총 투자금 × 100</td></tr>
+      <tr><td><strong>순수익률 (실질)</strong></td><td>(연 임대수익 − 재산세·관리비·수선비) ÷ 총 투자금 × 100</td></tr>
+    </table>
+    <h3>💡 매입가 3억원 오피스텔 임대 수익률 계산 예시</h3>
+    <table class="ex-table">
+      <tr><th>항목</th><th>금액</th></tr>
+      <tr><td>매입가</td><td>300,000,000원</td></tr>
+      <tr><td>취득세 (4.6%)</td><td>13,800,000원</td></tr>
+      <tr><td>보증금</td><td>10,000,000원</td></tr>
+      <tr><td>총 투자금 (매입+취득세−보증금)</td><td>303,800,000원</td></tr>
+      <tr><td>월세</td><td>700,000원 (연 8,400,000원)</td></tr>
+      <tr><td><strong>세전 수익률</strong></td><td><strong>약 2.77%</strong></td></tr>
+      <tr><td>관리비·수선비·재산세 연간</td><td>약 1,200,000원</td></tr>
+      <tr><td><strong>순수익률 (실질)</strong></td><td><strong>약 2.37%</strong></td></tr>
+    </table>
+    <div class="hl-box">💡 <strong>투자 수익률 기준:</strong> 4% 이상 → 우량 / 3~4% → 보통 / 3% 미만 → 재검토 필요. 대출을 활용한 레버리지 투자라면 대출이자율보다 수익률이 높아야 플러스 레버리지 효과가 납니다.</div>
+  </div>
 
   <div class="card">
     <h2>📐 수익률 계산 공식</h2>
@@ -206,7 +252,18 @@
   <details><summary>수익률 몇 % 이상이면 좋은 상가인가요?</summary><div class="faq-answer">상가는 일반적으로 연 4~6% 수익률을 기준으로 합니다. 서울 중심부는 3~4%, 외곽은 5~7%가 일반적입니다. 단, 공실 리스크와 임대료 상승 가능성을 함께 고려해야 합니다.</div></details>
   <details><summary>임대소득에 세금이 얼마나 붙나요?</summary><div class="faq-answer">주택 임대수입 연 2,000만원 이하는 분리과세(15.4%) 또는 종합과세 선택 가능합니다. 2,000만원 초과 또는 상가 임대는 종합소득세로 신고합니다. 필요경비(60% 공제, 기본공제 400만원) 적용 후 세액이 결정됩니다.</div></details>
   <details><summary>보증금을 낮추고 월세를 높이는 게 유리한가요?</summary><div class="faq-answer">임대인 입장에서는 월세가 높을수록 수익률이 높지만, 임차인 부담도 커져 공실 위험이 생길 수 있습니다. 시장 전환율(전월세 전환율)을 활용해 적정 수준을 찾는 게 좋습니다.</div></details>
-  <details><summary>전월세 전환율은 어떻게 계산하나요?</summary><div class="faq-answer">전월세 전환율 = 월세 × 12 ÷ (전세금 − 보증금) × 100입니다. 법정 상한은 기준금리 + 2%이며, 2025년 현재 약 5% 내외입니다. 전월세 전환율 계산기를 이용하면 전세↔월세 환산이 가능합니다.</div></details>
+  <details><summary>전월세 전환율은 어떻게 계산하나요?</summary><div class="faq-answer">전월세 전환율 = 월세 × 12 ÷ (전세금 − 보증금) × 100입니다. 법정 상한은 기준금리 + 2%이며, 2026년 현재 약 5% 내외입니다. 전월세 전환율 계산기를 이용하면 전세↔월세 환산이 가능합니다.</div></details>
+  <div class="rel-section">
+    <h2>📌 함께 쓰면 유용한 계산기</h2>
+    <div class="rel-grid">
+      <a href="/realestate" class="rel-card"><span class="re">🏡</span><span class="rn">부동산 취득세</span></a>
+      <a href="/acquisition" class="rel-card"><span class="re">📋</span><span class="rn">취득세 계산기</span></a>
+      <a href="/rent_conversion" class="rel-card"><span class="re">🔄</span><span class="rn">전월세 전환</span></a>
+      <a href="/loan" class="rel-card"><span class="re">💰</span><span class="rn">대출 계산기</span></a>
+      <a href="/jeonse_loan" class="rel-card"><span class="re">🏠</span><span class="rn">전세자금대출</span></a>
+      <a href="/cheongak" class="rel-card"><span class="re">🏆</span><span class="rn">청약 가점</span></a>
+    </div>
+  </div>
 </div>
 
 <script>
