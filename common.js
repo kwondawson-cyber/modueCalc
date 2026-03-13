@@ -239,28 +239,8 @@
     });
   }
 
-  // ⑩ 홈 렌더링
-  function renderHomeFavs() {
-    if (!IS_HOME) return;
-    var section = document.getElementById('favSection');
-    var grid    = document.getElementById('favGrid');
-    var countEl = document.getElementById('favCount');
-    if (!section || !grid) return;
-    var favs = getFavs();
-    if (!favs.length) { section.style.display='none'; return; }
-    section.style.display = '';
-    if (countEl) countEl.textContent = favs.length;
-    grid.innerHTML = '';
-    favs.slice(0, CFG.favMax).forEach(function(path){
-      var calc = CALC_LIST.find(function(c){ return c.path===path; });
-      if (!calc) return;
-      var a = document.createElement('a');
-      a.href = calc.path;
-      a.className = 'fav-card';
-      a.innerHTML = '<span class="fav-emoji">'+calc.emoji+'</span><span>'+calc.title+'</span>';
-      grid.appendChild(a);
-    });
-  }
+  // ⑩ 홈 렌더링 - index.html의 renderFavSection이 담당
+  function renderHomeFavs() { return; }
 
   // ⑪ 실행
   function init() {
