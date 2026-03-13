@@ -157,12 +157,15 @@
   </div>
 
   <!-- 📌 자주 쓰는 계산기 섹션 -->
-  <div id="favSection" style="display:none;margin-bottom:32px">
+  <div id="favSection" style="margin-bottom:32px">
     <div class="category-header" style="margin-bottom:14px">
-      <div class="category-title">📌 자주 쓰는 계산기</div>
-      <span class="category-count" id="favCount">0</span>
+      <div class="category-title">⭐ 자주 쓰는 계산기</div>
+      <span class="category-count" id="favCount"></span>
     </div>
-    <div class="fav-grid" id="favGrid"></div>
+    <div id="favGrid" class="fav-grid"></div>
+    <div id="favEmpty" class="fav-empty">
+      각 계산기 카드의 <span class="fav-empty-star">☆</span> 를 눌러 추가해보세요
+    </div>
   </div>
 
   <!-- 💰 금융 · 급여 -->
@@ -468,6 +471,119 @@
 </div>
 
 <script>
+  // ── 자주 쓰는 계산기 (홈 전용) ──────────────────────────
+  var FAV_KEY = 'ec_favs';
+  var FAV_MAX = 9;
+
+  function getFavs() {
+    try { return JSON.parse(localStorage.getItem(FAV_KEY) || '[]'); } catch(e) { return []; }
+  }
+  function setFavs(f) {
+    try { localStorage.setItem(FAV_KEY, JSON.stringify(f)); } catch(e) {}
+  }
+
+  // 자주쓰기 섹션 렌더링
+  function renderFavSection() {
+    var favs = getFavs();
+    var grid  = document.getElementById('favGrid');
+    var empty = document.getElementById('favEmpty');
+    var countEl = document.getElementById('favCount');
+    if (!grid) return;
+
+    if (favs.length === 0) {
+      grid.innerHTML = '';
+      if (empty) empty.style.display = 'flex';
+      if (countEl) countEl.textContent = '';
+      return;
+    }
+    if (empty) empty.style.display = 'none';
+    if (countEl) countEl.textContent = favs.length;
+
+    // CALC_LIST에서 경로 기반으로 카드 생성
+    var CALC_LIST = window.__common ? window.__common.CALC_LIST : [];
+    grid.innerHTML = '';
+    favs.slice(0, FAV_MAX).forEach(function(path) {
+      var calc = CALC_LIST.find(function(c){ return c.path === path; });
+      if (!calc) return;
+      var a = document.createElement('a');
+      a.href = calc.path;
+      a.className = 'fav-card';
+      a.innerHTML =
+        '<span class="fav-emoji">' + calc.emoji + '</span>' +
+        '<span>' + calc.title + '</span>' +
+        '<button class="fav-card-del" data-path="' + path + '" title="제거">×</button>';
+      // 삭제 버튼 (링크 이동 막기)
+      a.querySelector('.fav-card-del').addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        removeFav(this.dataset.path);
+      });
+      grid.appendChild(a);
+    });
+  }
+
+  function toggleFav(path) {
+    var favs = getFavs();
+    var idx = favs.indexOf(path);
+    if (idx === -1) {
+      if (favs.length >= FAV_MAX) {
+        alert('자주 쓰는 계산기는 최대 ' + FAV_MAX + '개까지 추가할 수 있어요.');
+        return;
+      }
+      favs.unshift(path); // 맨 앞에 추가
+    } else {
+      favs.splice(idx, 1);
+    }
+    setFavs(favs);
+    renderFavSection();
+    updateAllStars();
+  }
+
+  function removeFav(path) {
+    var favs = getFavs().filter(function(p){ return p !== path; });
+    setFavs(favs);
+    renderFavSection();
+    updateAllStars();
+  }
+
+  // 모든 카드의 별 상태 갱신
+  function updateAllStars() {
+    var favs = getFavs();
+    document.querySelectorAll('.star-btn').forEach(function(btn) {
+      var active = favs.includes(btn.dataset.path);
+      btn.textContent = active ? '★' : '☆';
+      btn.classList.toggle('starred', active);
+      btn.title = active ? '자주쓰기 해제' : '자주 쓰는 계산기에 추가';
+    });
+  }
+
+  // 모든 calc-card에 별 버튼 삽입
+  function injectStarButtons() {
+    document.querySelectorAll('.calc-card[href]').forEach(function(card) {
+      if (card.querySelector('.star-btn')) return; // 중복 방지
+      var path = card.getAttribute('href');
+      var btn = document.createElement('button');
+      btn.className = 'star-btn';
+      btn.dataset.path = path;
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleFav(path);
+      });
+      card.appendChild(btn);
+    });
+    updateAllStars();
+  }
+
+  // 초기화
+  document.addEventListener('DOMContentLoaded', function() {
+    // common.js 로드 후 실행되도록 약간 지연
+    setTimeout(function() {
+      injectStarButtons();
+      renderFavSection();
+    }, 50);
+  });
+
   function filterCalcs() {
     const q = document.getElementById('searchInput').value.trim().toLowerCase();
     const cards = document.querySelectorAll('.calc-card');
