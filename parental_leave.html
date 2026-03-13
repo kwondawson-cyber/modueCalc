@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-title" content="모두의계산기" />
   <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>육아휴직 급여 계산기 | 모두의계산기</title>
-  <meta name="description" content="2025년 육아휴직 급여 계산기. 월 통상임금 기준 육아휴직 급여, 6+6 부모 육아휴직 특례 실수령액을 계산하세요." />
+  <meta name="description" content="육아휴직 급여 계산기. 월 통상임금 기준 육아휴직 급여, 6+6 부모 육아휴직 특례 실수령액을 계산하세요." />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
   <style>
@@ -60,14 +60,22 @@
     .notice{margin-top:16px;padding:13px 16px;background:rgba(255,165,0,0.05);border:1px solid rgba(255,165,0,0.15);border-radius:10px;font-size:12px;color:var(--text-muted);line-height:1.7}
     .badge{display:inline-block;background:rgba(0,212,170,0.15);border:1px solid rgba(0,212,170,0.3);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;color:var(--accent);margin-left:6px}
     @media(max-width:480px){.card{padding:20px 16px}.summary-grid{grid-template-columns:1fr}}
-  </style>
+  
+.rel-section{margin:32px 0 8px}
+.rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
+.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+.rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+.rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
+</style>
 </head>
 <body>
 <div class="container">
   <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
   <div class="header">
     <h1><span class="emoji">👶</span> 육아휴직 급여</h1>
-    <p>2025년 기준 · 6+6 부모 육아휴직 특례 반영</p>
+    <p>현행 기준 · 6+6 부모 육아휴직 특례 반영</p>
   </div>
 
   <div class="card">
@@ -120,7 +128,7 @@
       </div>
     </div>
     <div id="detail-section"></div>
-    <div class="notice">⚠️ 육아휴직 급여의 25%는 복직 후 6개월 뒤 지급되는 사후지급금 제도가 있습니다(2025년부터 일부 개선). 실제 지급액은 고용보험 가입 기간 및 조건에 따라 달라질 수 있으니 고용센터(1350)에 문의하세요.</div>
+    <div class="notice">⚠️ 육아휴직 급여의 25%는 복직 후 6개월 뒤 지급되는 사후지급금 제도가 있습니다(일부 개선 시행 중). 실제 지급액은 고용보험 가입 기간 및 조건에 따라 달라질 수 있으니 고용센터(1350)에 문의하세요.</div>
   </div>
 </div>
 
@@ -138,8 +146,8 @@
 .seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
 </style>
 <div class="seo-section">
-  <h2>2025년 육아휴직 급여 완벽 정리 — 6+6 특례까지</h2>
-  <p>육아휴직 급여는 고용보험에서 지원하는 제도로, 만 8세 이하(또는 초등학교 2학년 이하) 자녀를 둔 근로자가 최대 1년까지 사용할 수 있습니다. 2025년부터 6+6 부모 육아휴직 특례가 확대 적용되어 생후 18개월 이내 자녀라면 첫 6개월간 통상임금 100%를 받을 수 있습니다.</p>
+  <h2>육아휴직 급여 완벽 정리 — 6+6 특례까지</h2>
+  <p>육아휴직 급여는 고용보험에서 지원하는 제도로, 만 8세 이하(또는 초등학교 2학년 이하) 자녀를 둔 근로자가 최대 1년까지 사용할 수 있습니다. 6+6 부모 육아휴직 특례 확대 적용으로 생후 18개월 이내 자녀라면 첫 6개월간 통상임금 100%를 받을 수 있습니다.</p>
   <div class="formula-box">일반 육아휴직: 통상임금 × 80%  (상한 150만원, 하한 70만원)
 
 6+6 부모 육아휴직 특례 (생후 18개월 이내, 부모 각각):
@@ -169,6 +177,17 @@
   <details><summary>육아휴직 중 다른 소득이 있으면 급여가 삭감되나요?</summary><div class="faq-answer">육아휴직 중 취업(주 15시간 이상 근무 또는 월 150만원 이상 소득)이 확인되면 급여 지급이 중단될 수 있습니다. 소규모 부업이라도 사전에 고용센터(1350)에 문의하는 것이 안전합니다.</div></details>
   <details><summary>프리랜서·자영업자도 육아휴직 급여를 받을 수 있나요?</summary><div class="faq-answer">고용보험에 가입된 근로자만 받을 수 있습니다. 자영업자 고용보험에 임의가입한 경우 일부 혜택이 있을 수 있으나, 일반 육아휴직 급여는 적용되지 않습니다. 자영업자는 고용센터에 개별 문의하세요.</div></details>
   <details><summary>쌍둥이 출산 시 육아휴직을 두 번 쓸 수 있나요?</summary><div class="faq-answer">자녀 1명당 1년의 육아휴직 기간이 부여됩니다. 쌍둥이라면 각 아이에 대해 1년씩, 부모 1인당 최대 2년까지 사용할 수 있습니다. 단, 급여 지급 기간은 각 자녀별로 계산됩니다.</div></details>
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/unemployment" class="rel-card"><span class="re">📋</span><span class="rn">실업급여</span></a>
+  <a href="/salary" class="rel-card"><span class="re">💰</span><span class="rn">월급 실수령액</span></a>
+  <a href="/health_insurance" class="rel-card"><span class="re">🏥</span><span class="rn">건강보험료</span></a>
+  <a href="/annual_leave" class="rel-card"><span class="re">📅</span><span class="rn">연차수당</span></a>
+  <a href="/pregnancy" class="rel-card"><span class="re">🤰</span><span class="rn">임신 주수</span></a>
+  <a href="/weekly_holiday" class="rel-card"><span class="re">📆</span><span class="rn">주휴수당</span></a>
+  </div>
+</div>
 </div>
 
 <script>

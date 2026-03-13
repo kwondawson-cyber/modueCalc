@@ -13,7 +13,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>cm inch 변환 계산기 | 모두의계산기</title>
-  <meta name="description" content="센티미터(cm)를 인치(inch)로, 인치를 센티미터로 즉시 변환합니다. 키·화면 크기·신발 사이즈 변환에 활용하세요." />
+  <meta name="description" content="cm↔인치 변환 계산기 — 수치 입력 즉시 양방향 자동 변환. 한국인 평균 키 변환 참고표, TV·모니터 화면 크기 인치 환산, 피트·인치 표기법, 신발 사이즈 변환 포함." />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
   <style>
@@ -80,7 +80,15 @@
     .home-btn:hover { background: rgba(0,212,170,0.18); transform: translateY(-2px); }
     .home-btn-emoji { font-size: 20px; line-height: 1; }
     .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
-  </style>
+  
+.rel-section{margin:32px 0 8px}
+.rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
+.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+.rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+.rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
+</style>
 </head>
 <body>
 <div class="container">
@@ -195,8 +203,8 @@ function syncInch(el){
 .seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
 </style>
 <div class="seo-section">
-  <h2>cm inch 변환 계산기 사용법</h2>
-  <h3>📌 사용방법</h3>
+  <h2>cm와 인치 변환 — 키·TV·모니터 사이즈 단위 환산</h2>
+  <h3>cm↔인치 환산 공식</h3>
   <p>cm를 입력하면 인치(inch)와 피트+인치(ft+in)로 즉시 변환됩니다. 반대로 인치를 입력하면 cm로 변환됩니다. 키 변환, TV·모니터 화면 크기, 신발 사이즈, 골프채 길이 등에 활용하세요.</p>
   <h3>📐 변환 공식</h3>
   <div class="formula-box">1 inch = 2.54 cm
@@ -234,6 +242,17 @@ function syncInch(el){
   <details><summary>미국 여권·서류에 키를 기재할 때 어떻게 쓰나요?</summary><div class="faq-answer">피트+인치 형식으로 씁니다. 173cm → 5'8" 형식입니다. 이 계산기의 피트+인치 결과를 그대로 사용하세요.</div></details>
   <details><summary>신발 사이즈 275mm는 몇 인치인가요?</summary><div class="faq-answer">신발은 발 길이(mm) ÷ 25.4로 단순 변환하지 않고 브랜드별 US 사이즈 환산표를 사용합니다. 275mm는 대략 US 10(남성) 또는 US 11(여성)에 해당합니다.</div></details>
   <details><summary>1피트가 정확히 몇 cm인가요?</summary><div class="faq-answer">정확히 30.48cm입니다. 30cm와 혼동하기 쉽지만, 30이 아니라 30.48입니다.</div></details>
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/bmi" class="rel-card"><span class="re">⚖️</span><span class="rn">BMI</span></a>
+  <a href="/area_converter" class="rel-card"><span class="re">📐</span><span class="rn">평수 변환</span></a>
+  <a href="/child_height" class="rel-card"><span class="re">📏</span><span class="rn">아이 키 성장</span></a>
+  <a href="/bmr" class="rel-card"><span class="re">🔥</span><span class="rn">기초대사량</span></a>
+  <a href="/age" class="rel-card"><span class="re">🎂</span><span class="rn">나이 계산기</span></a>
+  <a href="/blood_pressure" class="rel-card"><span class="re">❤️</span><span class="rn">혈압 판정</span></a>
+  </div>
+</div>
 </div>
 <script src="/common.js"></script><script src="/share.js"></script>
 <script src="/calculator.js"></script>

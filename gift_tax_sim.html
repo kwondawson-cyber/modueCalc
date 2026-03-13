@@ -68,7 +68,15 @@
     .deduction-table td{padding:8px 10px;border:1px solid var(--border);color:var(--text-muted)}
     .deduction-table td:last-child{color:var(--accent);font-weight:700}
     @media(max-width:480px){.card{padding:20px 16px}.compare-grid{grid-template-columns:1fr}}
-  </style>
+  
+.rel-section{margin:32px 0 8px}
+.rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
+.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+.rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+.rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
+</style>
 </head>
 <body>
 <div class="container">
@@ -206,6 +214,17 @@
   <details><summary>현금이 아닌 주식·부동산도 분할 증여가 가능한가요?</summary><div class="faq-answer">네, 가능합니다. 주식은 증여일 전후 2개월 평균 종가로 평가하고, 부동산은 시가(감정평가액)를 기준으로 과세됩니다. 가치 상승 전에 증여하는 것이 절세에 유리합니다.</div></details>
   <details><summary>국세청이 모르게 현금 증여는 가능한가요?</summary><div class="faq-answer">불법입니다. 국세청은 금융거래 내역과 PCI 시스템으로 이상 자금 흐름을 추적합니다. 적발 시 증여세 본세 외에 신고불성실 가산세(20%)와 납부불성실 가산세가 추가됩니다.</div></details>
   <details><summary>증여 후 증여자가 사망하면 세금이 추가되나요?</summary><div class="faq-answer">사망 전 10년 이내 증여 재산은 상속세 과세가액에 합산됩니다. 이미 낸 증여세는 상속세에서 공제되지만, 재산이 클수록 상속세 과세표준이 올라가므로 증여 시기 계획이 중요합니다.</div></details>
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/gift_tax" class="rel-card"><span class="re">🎁</span><span class="rn">증여세</span></a>
+  <a href="/capital_gains" class="rel-card"><span class="re">💸</span><span class="rn">양도소득세</span></a>
+  <a href="/acquisition" class="rel-card"><span class="re">📋</span><span class="rn">취득세</span></a>
+  <a href="/income_tax" class="rel-card"><span class="re">📋</span><span class="rn">소득세</span></a>
+  <a href="/realestate" class="rel-card"><span class="re">🏡</span><span class="rn">중개수수료</span></a>
+  <a href="/savings" class="rel-card"><span class="re">💵</span><span class="rn">예적금 이자</span></a>
+  </div>
+</div>
 </div>
 
 <script>

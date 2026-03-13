@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-title" content="모두의계산기" />
   <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>물가상승률 계산기 | 모두의계산기</title>
-  <meta name="description" content="물가상승률 계산기. 과거 금액의 현재 가치, 현재 금액의 미래 가치를 인플레이션 기준으로 계산하세요." />
+  <meta name="description" content="물가상승률 계산기 — 연도별 소비자물가지수(CPI) 기반 실질 구매력 변화 계산. 한국 연도별 물가상승률(통계청), 실질금리, 연금 물가 연동, 자산 가치 변화 포함." />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
   <style>
@@ -82,7 +82,15 @@
     .home-btn:hover { background: rgba(0,212,170,0.18); transform: translateY(-2px); }
     .home-btn-emoji { font-size: 20px; line-height: 1; }
     .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
-  </style>
+  
+.rel-section{margin:32px 0 8px}
+.rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
+.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+.rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+.rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
+</style>
 </head>
 <body>
 <div class="container">
@@ -244,8 +252,8 @@
 </style>
 
 <div class="seo-section">
-  <h2>물가상승률 계산기 사용법</h2>
-  <h3>📌 사용방법</h3>
+  <h2>물가상승률이 내 돈의 가치를 어떻게 갉아먹나</h2>
+  <h3>물가상승률과 실질 가치 계산</h3>
   <p>금액, 기준 연도, 비교 연도, 물가상승률을 입력하면 과거 돈의 현재 가치 또는 현재 돈의 미래 가치를 계산합니다.</p>
   <h3>📐 계산 공식</h3>
   <div class="formula-box">미래가치 = 현재금액 × (1 + 물가상승률)ⁿ
@@ -275,6 +283,17 @@
   <h2>자주 묻는 질문 (FAQ)</h2>
   <details><summary>실질금리란 무엇인가요?</summary><div class="faq-answer">실질금리 = 명목금리 − 물가상승률입니다. 예금 금리가 3%인데 물가상승률이 4%라면 실질 구매력은 오히려 감소합니다.</div></details>
   <details><summary>국민연금 수령액도 물가를 반영하나요?</summary><div class="faq-answer">네. 국민연금은 매년 소비자물가상승률을 반영해 연금액을 재산정합니다. 2024년에는 3.6% 인상됐습니다.</div></details>
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/compound" class="rel-card"><span class="re">📈</span><span class="rn">복리 계산기</span></a>
+  <a href="/savings" class="rel-card"><span class="re">💵</span><span class="rn">예적금 이자</span></a>
+  <a href="/pension" class="rel-card"><span class="re">🏦</span><span class="rn">국민연금</span></a>
+  <a href="/stock_return" class="rel-card"><span class="re">📈</span><span class="rn">주식 수익률</span></a>
+  <a href="/loan" class="rel-card"><span class="re">💰</span><span class="rn">대출 이자</span></a>
+  <a href="/exchange" class="rel-card"><span class="re">💱</span><span class="rn">환율 계산기</span></a>
+  </div>
+</div>
 </div>
 
 <script src="/common.js"></script><script src="/share.js"></script>

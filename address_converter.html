@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-title" content="모두의계산기" />
   <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>한글 주소 영문 변환기 | 모두의계산기</title>
-  <meta name="description" content="한글 주소를 영문 주소로 변환하세요. 도로명주소 기준 영문 변환 및 우편번호 조회." />
+  <meta name="description" content="한글 주소 영문 변환기 — 도로명 주소 영문 자동 변환(행안부 Juso API). 영문 주소 순서, 해외 배송 주소 작성 예시, 비자 신청서 표기 방법, 국문·영문 표기 규칙 포함." />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
   <style>
@@ -80,7 +80,15 @@
     .home-btn:hover { background: rgba(0,212,170,0.18); transform: translateY(-2px); }
     .home-btn-emoji { font-size: 20px; line-height: 1; }
     .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
-  </style>
+  
+.rel-section{margin:32px 0 8px}
+.rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
+.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+.rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+.rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
+</style>
 </head>
 <body>
 <div class="container">
@@ -254,8 +262,8 @@
 </style>
 
 <div class="seo-section">
-  <h2>한글 주소 영문 변환기 사용법</h2>
-  <h3>📌 사용방법</h3>
+  <h2>한글 주소 영문 변환 — 해외 배송·비자 신청 주소 작성법</h2>
+  <h3>영문 주소 표기 구조</h3>
   <p>도로명주소를 입력하면 행정안전부 공식 API 기반으로 영문 주소와 우편번호(ZIP)를 변환합니다. 해외 직구 배송지, 비자 서류, 영문 계약서 작성에 활용하세요.</p>
   <h3>💡 정확한 변환을 위한 입력 팁</h3>
   <ul>
@@ -287,6 +295,17 @@
   <details><summary>영문 주소와 한국 주소 표기 순서가 다른 이유는 무엇인가요?</summary><div class="faq-answer">한국은 큰 단위(시→구→동→번지) 순서이지만, 영어권은 작은 단위(번지→도로명→도시→국가) 순서입니다. 해외 배송 양식은 역순으로 작성해야 합니다.</div></details>
   <details><summary>영문 주소가 틀리면 배송이 반송되나요?</summary><div class="faq-answer">주요 정보(도로명, 번지, 도시, 우편번호)가 맞으면 대부분 배송됩니다. 하지만 미국·캐나다 배송의 경우 우편번호 오류 시 반송될 수 있으니 주의하세요.</div></details>
   <details><summary>비자 신청서에는 어떤 형식으로 써야 하나요?</summary><div class="faq-answer">대부분의 비자 신청서는 영문 도로명주소 형식을 요구합니다. 이 변환기의 결과를 그대로 사용하거나, 상세주소(동·호수)를 영문으로 추가해 작성하세요.</div></details>
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/age" class="rel-card"><span class="re">🎂</span><span class="rn">나이 계산기</span></a>
+  <a href="/dday" class="rel-card"><span class="re">⏳</span><span class="rn">디데이</span></a>
+  <a href="/cm_inch" class="rel-card"><span class="re">📏</span><span class="rn">cm↔인치</span></a>
+  <a href="/area_converter" class="rel-card"><span class="re">📐</span><span class="rn">평수 변환</span></a>
+  <a href="/exchange" class="rel-card"><span class="re">💱</span><span class="rn">환율 계산기</span></a>
+  <a href="/customs" class="rel-card"><span class="re">📦</span><span class="rn">관세 계산기</span></a>
+  </div>
+</div>
 </div>
 
 <script src="/common.js"></script><script src="/share.js"></script>

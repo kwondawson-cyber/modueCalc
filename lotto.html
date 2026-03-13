@@ -61,7 +61,15 @@
     .prize-table tr:nth-child(1) td{color:var(--accent);font-weight:700}
     .notice{margin-top:16px;padding:13px 16px;background:rgba(255,165,0,0.05);border:1px solid rgba(255,165,0,0.15);border-radius:10px;font-size:12px;color:var(--text-muted);line-height:1.7}
     @media(max-width:480px){.card{padding:20px 16px}}
-  </style>
+  
+.rel-section{margin:32px 0 8px}
+.rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
+.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+.rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+.rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
+</style>
 </head>
 <body>
 <div class="container">
@@ -175,6 +183,17 @@
   <details><summary>여러 명이 공동 구매해서 나눠 받으면 세금이 줄어드나요?</summary><div class="faq-answer">네, 줄어듭니다. 공동 구매 시 각자 수령금액에 구간 세율을 개별 적용합니다. 20억을 5명이 나누면 1인당 4억으로 실효세율 24.75%가 적용돼 혼자 받을 때(31.4%)보다 세금 부담이 크게 줄어듭니다.</div></details>
   <details><summary>로또 당첨금을 가족에게 주면 증여세가 붙나요?</summary><div class="faq-answer">당첨금을 가족에게 이전하면 증여세가 발생할 수 있습니다. 배우자는 6억원, 성인 자녀는 5,000만원(미성년 2,000만원)까지 10년 합산 비과세 공제가 됩니다. 초과분에 대해 증여세를 신고·납부해야 합니다.</div></details>
   <details><summary>당첨금을 바로 안 찾으면 이자가 붙나요?</summary><div class="faq-answer">동행복권에서 1년 이내 수령 시 은행 예금이자 수준의 보관이자를 지급합니다. 당첨일로부터 1년이 지나면 당첨금이 국고로 귀속되므로 반드시 기간 내에 수령하세요.</div></details>
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/age" class="rel-card"><span class="re">🎂</span><span class="rn">나이 계산기</span></a>
+  <a href="/dday" class="rel-card"><span class="re">⏳</span><span class="rn">디데이</span></a>
+  <a href="/savings" class="rel-card"><span class="re">💵</span><span class="rn">예적금 이자</span></a>
+  <a href="/compound" class="rel-card"><span class="re">📈</span><span class="rn">복리</span></a>
+  <a href="/income_tax" class="rel-card"><span class="re">📋</span><span class="rn">소득세</span></a>
+  <a href="/inflation" class="rel-card"><span class="re">📊</span><span class="rn">물가상승률</span></a>
+  </div>
+</div>
 </div>
 
 <script>

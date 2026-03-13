@@ -13,7 +13,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>양도소득세 계산기 | 모두의계산기</title>
-  <meta name="description" content="양도소득세 계산기. 부동산 매도 시 양도차익, 공제 적용 후 세액을 2024년 기준으로 계산하세요." />
+  <meta name="description" content="양도소득세 계산기 — 보유기간·다주택 여부별 세율 자동 적용. 장기보유특별공제율, 1세대 1주택 비과세 요건, 필요경비 인정 항목, 예정·확정신고 안내 포함." />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
   <style>
@@ -76,7 +76,15 @@
     .home-btn:hover { background: rgba(0,212,170,0.18); transform: translateY(-2px); }
     .home-btn-emoji { font-size: 20px; line-height: 1; }
     .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
-  </style>
+  
+.rel-section{margin:32px 0 8px}
+.rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
+.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+.rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+.rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
+</style>
 </head>
 <body>
 <div class="container">
@@ -280,8 +288,8 @@
 </style>
 
 <div class="seo-section">
-  <h2>양도소득세 계산기 사용법</h2>
-  <h3>📌 사용방법</h3>
+  <h2>양도소득세, 실제 납부세액은 어떻게 계산되나</h2>
+  <h3>양도소득세 계산 구조</h3>
   <p>취득가액, 양도가액, 취득일, 양도일, 주택 수를 입력하면 양도차익·장기보유특별공제·기본공제·세율을 반영한 납부세액을 계산합니다.</p>
 
   <h3>📐 계산 공식</h3>
@@ -334,6 +342,17 @@
   <details><summary>양도소득세 예정신고와 확정신고 차이는 무엇인가요?</summary><div class="faq-answer">예정신고는 양도일 다음 달 말일로부터 2개월 이내 신고이며, 확정신고는 다음 해 5월에 합니다. 예정신고만 해도 됩니다.</div></details>
   <details><summary>부부 공동명의 주택은 세금이 줄어드나요?</summary><div class="faq-answer">양도소득을 50:50으로 나눠 각각 기본공제 250만 원과 누진세율을 적용받아 세금이 줄어드는 효과가 있습니다.</div></details>
   <details><summary>증여받은 주택을 팔면 취득가액은 어떻게 되나요?</summary><div class="faq-answer">증여받은 날의 시가(또는 공시가)가 취득가액이 됩니다. 이월과세 규정에 따라 직계존비속 증여 후 5년 내 양도 시 증여자 취득가 기준으로 과세됩니다.</div></details>
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/acquisition" class="rel-card"><span class="re">📋</span><span class="rn">취득세</span></a>
+  <a href="/gift_tax" class="rel-card"><span class="re">🎁</span><span class="rn">증여세</span></a>
+  <a href="/realestate" class="rel-card"><span class="re">🏡</span><span class="rn">중개수수료</span></a>
+  <a href="/income_tax" class="rel-card"><span class="re">📋</span><span class="rn">소득세</span></a>
+  <a href="/cheongak" class="rel-card"><span class="re">🏆</span><span class="rn">청약 가점</span></a>
+  <a href="/rent_yield" class="rel-card"><span class="re">📊</span><span class="rn">임대 수익률</span></a>
+  </div>
+</div>
 </div>
 
 <script src="/common.js"></script><script src="/share.js"></script>

@@ -13,7 +13,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>평 제곱미터 변환 계산기 | 모두의계산기</title>
-  <meta name="description" content="평수를 제곱미터(㎡)로, 제곱미터를 평수로 즉시 변환합니다. 아파트·오피스텔 면적 계산에 활용하세요." />
+  <meta name="description" content="평수↔제곱미터 변환 계산기 — 숫자 입력 즉시 양방향 변환. 아파트 평형별 전용·공급·계약면적 총정리, 공급면적과 전용면적 차이, 국민평형 84㎡의 의미 포함." />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
   <style>
@@ -80,7 +80,15 @@
     .home-btn:hover { background: rgba(0,212,170,0.18); transform: translateY(-2px); }
     .home-btn-emoji { font-size: 20px; line-height: 1; }
     .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
-  </style>
+  
+.rel-section{margin:32px 0 8px}
+.rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
+.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+.rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+.rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
+</style>
 </head>
 <body>
 <div class="container">
@@ -194,8 +202,8 @@ function renderArea(){
 .seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
 </style>
 <div class="seo-section">
-  <h2>평 제곱미터 변환 계산기 사용법</h2>
-  <h3>📌 사용방법</h3>
+  <h2>평수와 제곱미터 — 아파트 면적 표기 완전 정리</h2>
+  <h3>평↔㎡ 환산 공식</h3>
   <p>평수를 입력하면 제곱미터(㎡)로, 제곱미터를 입력하면 평수로 즉시 변환됩니다. 아파트 분양 면적, 전용면적 확인 시 가장 많이 사용하는 도구입니다.</p>
   <h3>📐 변환 공식</h3>
   <div class="formula-box">1평 = 3.30579㎡ (= 약 3.306㎡)
@@ -225,6 +233,17 @@ function renderArea(){
   <details><summary>84㎡가 왜 국민평형이 되었나요?</summary><div class="faq-answer">주택청약 및 분양가 상한제 기준이 85㎡ 이하(전용)에 적용되기 때문입니다. 규제 혜택을 받으면서 4인 가족이 생활할 수 있는 최적 크기로 시장이 수렴했습니다.</div></details>
   <details><summary>평수를 직접 계산하는 쉬운 방법은?</summary><div class="faq-answer">㎡ × 0.3을 하면 대략적인 평수가 나옵니다. 84㎡ × 0.3 = 25.2평으로 실제 25.4평과 근접합니다. 정확한 값은 이 계산기를 이용하세요.</div></details>
   <details><summary>상가·사무실도 같은 계산식을 쓰나요?</summary><div class="faq-answer">네. 상가·오피스·창고 모두 동일한 1평 = 3.30579㎡ 기준을 사용합니다.</div></details>
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/realestate" class="rel-card"><span class="re">🏡</span><span class="rn">중개수수료</span></a>
+  <a href="/acquisition" class="rel-card"><span class="re">📋</span><span class="rn">취득세</span></a>
+  <a href="/cheongak" class="rel-card"><span class="re">🏆</span><span class="rn">청약 가점</span></a>
+  <a href="/jeonse_loan" class="rel-card"><span class="re">🏠</span><span class="rn">전세자금대출</span></a>
+  <a href="/rent_yield" class="rel-card"><span class="re">📊</span><span class="rn">임대 수익률</span></a>
+  <a href="/cm_inch" class="rel-card"><span class="re">📏</span><span class="rn">cm↔인치</span></a>
+  </div>
+</div>
 </div>
 <script src="/common.js"></script><script src="/share.js"></script>
 <script src="/calculator.js"></script>

@@ -13,7 +13,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>골프 핸디캡 계산기 | 모두의계산기</title>
-  <meta name="description" content="골프 스코어와 코스 정보로 핸디캡 지수를 계산합니다. 공식 세계 핸디캡 시스템(WHS) 기준." />
+  <meta name="description" content="골프 핸디캡 계산기 — WHS(세계핸디캡시스템) 기준 핸디캡 지수 자동 계산. 코스 레이팅·슬로프 레이팅 입력, 라운드 수별 적용 차등 개수, 코스 핸디캡 환산, KGA 공식 인증 방법 포함." />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
   <style>
@@ -80,7 +80,15 @@
     .home-btn:hover { background: rgba(0,212,170,0.18); transform: translateY(-2px); }
     .home-btn-emoji { font-size: 20px; line-height: 1; }
     .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
-  </style>
+  
+.rel-section{margin:32px 0 8px}
+.rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
+.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+.rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+.rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
+</style>
 </head>
 <body>
 <div class="container">
@@ -200,8 +208,8 @@ function calcHandicap(){
 .seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
 </style>
 <div class="seo-section">
-  <h2>골프 핸디캡 계산기 사용법</h2>
-  <h3>📌 사용방법</h3>
+  <h2>골프 핸디캡 지수 계산법 — WHS 기준 완전 정리</h2>
+  <h3>핸디캡 지수 계산 구조</h3>
   <p>라운드별 타수, 코스 레이팅, 슬로프 레이팅을 입력하면 세계 핸디캡 시스템(WHS, World Handicap System) 기준 핸디캡 지수(Handicap Index)를 계산합니다. 최소 1라운드부터 최대 20라운드까지 입력 가능합니다.</p>
   <h3>📐 계산 공식 (WHS 기준)</h3>
   <div class="formula-box">스코어 차등 = (타수 − 코스레이팅) × 113 ÷ 슬로프레이팅
@@ -241,6 +249,17 @@ function calcHandicap(){
   <details><summary>핸디캡 지수가 낮을수록 좋은 건가요?</summary><div class="faq-answer">맞습니다. 핸디캡 지수 0이 스크래치, 마이너스면 투어 프로 수준입니다. 일반 주말 골퍼 평균은 약 15~25 수준입니다.</div></details>
   <details><summary>코스 핸디캡과 핸디캡 지수의 차이는 무엇인가요?</summary><div class="faq-answer">핸디캡 지수(Handicap Index)는 다른 코스와 비교 가능한 기준값이고, 코스 핸디캡(Course Handicap)은 특정 코스에서 받는 타수 이점입니다. 코스 핸디캡 = 핸디캡 지수 × 슬로프 ÷ 113 + (파 - 코스레이팅) 입니다.</div></details>
   <details><summary>한국에서 공식 핸디캡 인증을 받으려면?</summary><div class="faq-answer">한국골프협회(KGA) 또는 골프존·카카오VX 등 플랫폼을 통해 공식 WHS 핸디캡을 등록할 수 있습니다. 이 계산기는 자체 참고용입니다.</div></details>
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/age" class="rel-card"><span class="re">🎂</span><span class="rn">나이 계산기</span></a>
+  <a href="/bmi" class="rel-card"><span class="re">⚖️</span><span class="rn">BMI</span></a>
+  <a href="/calorie" class="rel-card"><span class="re">🍎</span><span class="rn">칼로리</span></a>
+  <a href="/bmr" class="rel-card"><span class="re">🔥</span><span class="rn">기초대사량</span></a>
+  <a href="/dday" class="rel-card"><span class="re">⏳</span><span class="rn">디데이</span></a>
+  <a href="/date_diff" class="rel-card"><span class="re">📅</span><span class="rn">날짜 계산기</span></a>
+  </div>
+</div>
 </div>
 <script src="/common.js"></script><script src="/share.js"></script>
 <script src="/calculator.js"></script>

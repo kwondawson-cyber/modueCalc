@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-title" content="모두의계산기" />
   <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>임신 주수 계산기 | 모두의계산기</title>
-  <meta name="description" content="임신 주수 계산기. 마지막 생리일 또는 출산예정일로 현재 임신 주수와 분만 예정일을 계산하세요." />
+  <meta name="description" content="임신 주수 계산기 — 마지막 생리 시작일로 현재 주수·분만 예정일 자동 계산. 주수별 태아 발달 단계, 주요 산전 검사 일정, 국가 임신 지원 혜택 안내 포함." />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
   <style>
@@ -82,7 +82,15 @@
     .home-btn:hover { background: rgba(0,212,170,0.18); transform: translateY(-2px); }
     .home-btn-emoji { font-size: 20px; line-height: 1; }
     .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
-  </style>
+  
+.rel-section{margin:32px 0 8px}
+.rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
+.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+.rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+.rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
+</style>
 </head>
 <body>
 <div class="container">
@@ -242,8 +250,8 @@
 </style>
 
 <div class="seo-section">
-  <h2>임신 주수 계산기 사용법</h2>
-  <h3>📌 사용방법</h3>
+  <h2>임신 주수와 분만 예정일 — 마지막 생리일로 계산하는 방법</h2>
+  <h3>임신 주수 산출 기준</h3>
   <p>마지막 생리 첫날(LMP)을 입력하면 현재 임신 주수, 분기(트라이메스터), 분만예정일을 자동 계산합니다. 초음파 결과와 함께 참고용으로 활용하세요.</p>
   <h3>📐 계산 공식</h3>
   <div class="formula-box">분만예정일(EDD) = 마지막 생리 첫날 + 280일 (네겔레 공식)
@@ -273,6 +281,17 @@
   <details><summary>생리 주기가 불규칙하면 주수가 부정확한가요?</summary><div class="faq-answer">네. 이 계산기는 28일 주기 기준입니다. 주기가 다르면 초음파 검사 결과를 우선 신뢰하세요.</div></details>
   <details><summary>분만예정일에 정확히 출산하나요?</summary><div class="faq-answer">예정일은 예측값이며, 실제 출산은 예정일 전후 2주 사이가 정상 범위입니다. 임신 37~42주 사이 출산을 만삭이라 합니다.</div></details>
   <details><summary>국가 임신 지원 혜택은 무엇이 있나요?</summary><div class="faq-answer">국민행복카드(임신·출산 바우처 100만 원), 첫만남이용권(200만 원), 부모급여(매월 지급), 육아휴직 급여 등이 있습니다. 임신 확인 후 주민센터·온라인에서 신청하세요.</div></details>
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/ovulation" class="rel-card"><span class="re">🗓</span><span class="rn">배란일·가임기</span></a>
+  <a href="/age" class="rel-card"><span class="re">🎂</span><span class="rn">나이 계산기</span></a>
+  <a href="/dday" class="rel-card"><span class="re">⏳</span><span class="rn">디데이</span></a>
+  <a href="/bmi" class="rel-card"><span class="re">⚖️</span><span class="rn">BMI</span></a>
+  <a href="/child_height" class="rel-card"><span class="re">📏</span><span class="rn">아이 키 성장</span></a>
+  <a href="/bmr" class="rel-card"><span class="re">🔥</span><span class="rn">기초대사량</span></a>
+  </div>
+</div>
 </div>
 
 <script src="/common.js"></script><script src="/share.js"></script>

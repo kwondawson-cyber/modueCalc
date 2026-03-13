@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-title" content="모두의계산기" />
   <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>적금 만기 계산기 | 모두의계산기</title>
-  <meta name="description" content="적금 만기 계산기. 단리·복리, 이자과세 적용 후 실수령액을 계산하세요." />
+  <meta name="description" content="예금·적금 이자 계산기 — 세후 실수령액, 이자 과세(15.4%)·비과세·세금우대 적용. 월 납입액·기간·금리별 만기 수령액 비교표 포함." />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
   <style>
@@ -78,7 +78,15 @@
     .home-btn:hover { background: rgba(0,212,170,0.18); transform: translateY(-2px); }
     .home-btn-emoji { font-size: 20px; line-height: 1; }
     .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
-  </style>
+  
+.rel-section{margin:32px 0 8px}
+.rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
+.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+.rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+.rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
+</style>
 </head>
 <body>
 <div class="container">
@@ -249,8 +257,8 @@
 </style>
 
 <div class="seo-section">
-  <h2>적금 만기 계산기 사용법</h2>
-  <h3>📌 사용방법</h3>
+  <h2>예금·적금 이자, 세금 떼면 실제로 얼마나 남나</h2>
+  <h3>단리와 복리, 이자 과세 구조</h3>
   <p>월 납입액, 연 금리, 납입 기간을 입력하면 세전·세후 만기 수령액과 이자수익을 계산합니다. 이자소득세 15.4%(소득세 14% + 지방소득세 1.4%)가 자동 차감됩니다.</p>
 
   <h3>📊 월 납입액·기간별 세후 수령액 (금리 4% 기준)</h3>
@@ -278,6 +286,17 @@
   <details><summary>적금을 중도 해지하면 이자를 얼마나 받나요?</summary><div class="faq-answer">중도 해지 시 약정 금리 대신 중도해지 금리(보통 0.1~1%)가 적용됩니다. 1년 만기 4% 적금을 6개월에 해지하면 실제 이자가 90% 이상 줄어듭니다.</div></details>
   <details><summary>비과세 한도를 초과하면 세금을 내나요?</summary><div class="faq-answer">일반 적금은 이자의 15.4%를 원천징수합니다. ISA·청년도약계좌 등 비과세 상품은 한도 내 이자가 비과세됩니다.</div></details>
   <details><summary>금리가 오르면 기존 적금 해지 후 재가입하는 게 유리한가요?</summary><div class="faq-answer">중도 해지 시 낮은 이자를 받는 손실과 새 상품의 금리 차이를 비교해야 합니다. 보통 금리차가 1.5% 이상일 때 재가입을 고려하세요.</div></details>
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/compound" class="rel-card"><span class="re">📈</span><span class="rn">복리 계산기</span></a>
+  <a href="/loan" class="rel-card"><span class="re">💰</span><span class="rn">대출 이자</span></a>
+  <a href="/inflation" class="rel-card"><span class="re">📊</span><span class="rn">물가상승률</span></a>
+  <a href="/stock_return" class="rel-card"><span class="re">📈</span><span class="rn">주식 수익률</span></a>
+  <a href="/retirement_pension" class="rel-card"><span class="re">💼</span><span class="rn">퇴직연금</span></a>
+  <a href="/pension" class="rel-card"><span class="re">🏦</span><span class="rn">국민연금</span></a>
+  </div>
+</div>
 </div>
 
 <script src="/common.js"></script><script src="/share.js"></script>

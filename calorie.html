@@ -13,7 +13,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>칼로리 계산기 | 모두의계산기</title>
-  <meta name="description" content="음식별 칼로리와 운동 소모 칼로리를 계산합니다. 다이어트·체중 관리에 활용하세요." />
+  <meta name="description" content="칼로리 계산기 — 음식 칼로리 조회·합산, 운동별 30분 소모 칼로리 자동 계산. 주요 음식 칼로리표, 체중별 운동 소모량, 다이어트 기준 칼로리(BMR 대비) 포함." />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
   <style>
@@ -80,7 +80,15 @@
     .home-btn:hover { background: rgba(0,212,170,0.18); transform: translateY(-2px); }
     .home-btn-emoji { font-size: 20px; line-height: 1; }
     .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
-  </style>
+  
+.rel-section{margin:32px 0 8px}
+.rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
+.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+.rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+.rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
+</style>
 </head>
 <body>
 <div class="container">
@@ -220,8 +228,8 @@ updateExercise();
 .seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
 </style>
 <div class="seo-section">
-  <h2>칼로리 계산기 사용법</h2>
-  <h3>📌 사용방법</h3>
+  <h2>음식 칼로리와 운동 소모량 — 체중 관리의 실질 기준</h2>
+  <h3>칼로리 수지 계산 구조</h3>
   <p>음식을 선택하고 섭취량(g)을 입력하면 칼로리를 계산합니다. 운동 소모 칼로리는 체중·운동 종류·시간으로 계산합니다. 다이어트 목표 설정, 식단 관리에 활용하세요.</p>
   <h3>📊 주요 음식 칼로리 총정리</h3>
   <table>
@@ -261,6 +269,17 @@ updateExercise();
   <details><summary>기초대사량보다 적게 먹으면 더 빨리 살이 빠지나요?</summary><div class="faq-answer">단기적으로는 체중이 줄지만 근육이 감소하고 기초대사량 자체가 낮아져 요요 위험이 커집니다. BMR 이하 식사는 권장하지 않습니다.</div></details>
   <details><summary>운동 칼로리 계산이 실제와 다를 수 있나요?</summary><div class="faq-answer">MET 기반 계산으로 개인 체지방률, 운동 강도, 근육량 차이를 반영하지 못합니다. 실제 소모량은 ±20% 오차가 있으며 참고용으로 사용하세요.</div></details>
   <details><summary>공칼로리란 무엇인가요?</summary><div class="faq-answer">칼로리는 있지만 영양소(단백질·비타민·무기질)가 거의 없는 열량입니다. 주류·설탕·가공식품이 대표적이며, 체지방은 늘리고 영양은 공급하지 못합니다.</div></details>
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/bmr" class="rel-card"><span class="re">🔥</span><span class="rn">기초대사량</span></a>
+  <a href="/bmi" class="rel-card"><span class="re">⚖️</span><span class="rn">BMI</span></a>
+  <a href="/blood_pressure" class="rel-card"><span class="re">❤️</span><span class="rn">혈압 판정</span></a>
+  <a href="/child_height" class="rel-card"><span class="re">📏</span><span class="rn">아이 키 성장</span></a>
+  <a href="/age" class="rel-card"><span class="re">🎂</span><span class="rn">나이 계산기</span></a>
+  <a href="/ovulation" class="rel-card"><span class="re">🗓</span><span class="rn">배란일</span></a>
+  </div>
+</div>
 </div>
 <script src="/common.js"></script><script src="/share.js"></script>
 <script src="/calculator.js"></script>

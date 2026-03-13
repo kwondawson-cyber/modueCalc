@@ -13,7 +13,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>취득세 계산기 | 모두의계산기</title>
-  <meta name="description" content="취득세 계산기. 주택 매매 취득세, 농어촌특별세, 지방교육세를 2024년 기준으로 계산하세요." />
+  <meta name="description" content="취득세 계산기 — 주택 수·면적·조정대상지역 여부에 따른 취득세율 자동 적용. 1주택·다주택 세율표, 감면 제도, 취득가액별 납부세액 예시 포함." />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
   <style>
@@ -99,7 +99,15 @@
     .home-btn-emoji { font-size: 20px; line-height: 1; }
     .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
       .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
-  </style>
+  
+.rel-section{margin:32px 0 8px}
+.rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
+.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+.rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+.rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
+</style>
 </head>
 <body>
   <div class="container">
@@ -192,7 +200,7 @@
       </div>
 
       <div class="notice">
-        <strong style="color:orange">⚠️ 안내</strong> 2024년 기준입니다. 일시적 2주택 특례, 생애최초 감면(200만원 한도), 신혼부부 감면 등 다양한 감면 혜택이 있으니 관할 구청에 문의하세요. 실제 납부액은 다를 수 있습니다.
+        <strong style="color:orange">⚠️ 안내</strong> 현행 기준입니다. 일시적 2주택 특례, 생애최초 감면(200만원 한도), 신혼부부 감면 등 다양한 감면 혜택이 있으니 관할 구청에 문의하세요. 실제 납부액은 다를 수 있습니다.
       </div>
     </div>
   </div>
@@ -319,11 +327,11 @@
 </style>
 
 <div class="seo-section">
-  <h2>취득세 계산기 사용법</h2>
-  <h3>📌 사용방법</h3>
+  <h2>취득세율은 주택 수·면적·거래 유형에 따라 달라진다</h2>
+  <h3>취득세 과세 기준과 세율 구조</h3>
   <p>주택 취득가액, 주택 수, 면적(85㎡ 초과 여부)을 입력하면 취득세·지방교육세·농어촌특별세를 포함한 총 납부세액을 계산합니다.</p>
 
-  <h3>📐 취득세율 (2024년 기준)</h3>
+  <h3>📐 취득세율 (현행 기준)</h3>
   <table>
     <thead><tr><th>구분</th><th>취득가액</th><th>취득세율</th><th>지방교육세</th><th>농특세</th></tr></thead>
     <tbody>
@@ -364,6 +372,17 @@
   <details><summary>분양권을 취득하면 바로 취득세를 내나요?</summary><div class="faq-answer">분양권 자체 취득 시 0.4%가 적용됩니다. 이후 건물 완공·등기 시 부동산 취득세를 별도로 납부합니다.</div></details>
   <details><summary>증여·상속으로 취득해도 취득세를 내나요?</summary><div class="faq-answer">네. 증여 취득은 시가 기준 3.5%(조정 12%), 상속 취득은 2.8%가 적용됩니다.</div></details>
   <details><summary>취득세는 어디서 납부하나요?</summary><div class="faq-answer">취득일로부터 60일 이내에 해당 부동산 소재지 시·군·구청에 신고·납부합니다. 위택스(wetax.go.kr)에서 온라인 납부도 가능합니다.</div></details>
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/realestate" class="rel-card"><span class="re">🏡</span><span class="rn">중개수수료</span></a>
+  <a href="/capital_gains" class="rel-card"><span class="re">💸</span><span class="rn">양도소득세</span></a>
+  <a href="/gift_tax" class="rel-card"><span class="re">🎁</span><span class="rn">증여세</span></a>
+  <a href="/cheongak" class="rel-card"><span class="re">🏆</span><span class="rn">청약 가점</span></a>
+  <a href="/rent_conversion" class="rel-card"><span class="re">🔄</span><span class="rn">전월세 전환</span></a>
+  <a href="/jeonse_loan" class="rel-card"><span class="re">🏠</span><span class="rn">전세자금대출</span></a>
+  </div>
+</div>
 </div>
 
 <script src="/common.js"></script><script src="/share.js"></script>

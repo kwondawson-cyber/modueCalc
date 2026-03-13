@@ -59,7 +59,15 @@
     .detail-item .d-value.accent{color:var(--accent)}
     .notice{margin-top:16px;padding:13px 16px;background:rgba(255,165,0,0.05);border:1px solid rgba(255,165,0,0.15);border-radius:10px;font-size:12px;color:var(--text-muted);line-height:1.7}
     @media(max-width:480px){.card{padding:20px 16px}.input-row{grid-template-columns:1fr}}
-  </style>
+  
+.rel-section{margin:32px 0 8px}
+.rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
+.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+.rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+.rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
+</style>
 </head>
 <body>
 <div class="container">
@@ -167,6 +175,17 @@
   <details><summary>성장호르몬 주사가 효과 있나요?</summary><div class="faq-answer">성장호르몬 결핍증이 진단된 경우 의료진의 처방 하에 투여합니다. 정상 범위 아이에게 무분별하게 투여하는 것은 효과가 제한적이며 부작용 위험이 있습니다. 반드시 소아내분비 전문의 상담이 필요합니다.</div></details>
   <details><summary>부모가 모두 작으면 아이도 무조건 작은가요?</summary><div class="faq-answer">유전은 60~80%의 영향을 미치지만 나머지 20~40%는 환경 요인입니다. 부모가 작더라도 충분한 영양, 규칙적인 수면, 적절한 운동을 통해 유전적 잠재키에 가까운 성장을 달성할 수 있습니다.</div></details>
   <details><summary>초등학생 때 키가 작아도 나중에 클 수 있나요?</summary><div class="faq-answer">늦게 크는 경우(late bloomer)가 있습니다. 골연령이 실제 나이보다 어리다면 성장 여력이 남아 있다는 뜻입니다. 반면 골연령이 실제 나이보다 빠르다면(성조숙증) 성장판이 일찍 닫혀 최종 키가 작아질 수 있습니다.</div></details>
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/bmi" class="rel-card"><span class="re">⚖️</span><span class="rn">BMI</span></a>
+  <a href="/bmr" class="rel-card"><span class="re">🔥</span><span class="rn">기초대사량</span></a>
+  <a href="/calorie" class="rel-card"><span class="re">🍎</span><span class="rn">칼로리</span></a>
+  <a href="/blood_pressure" class="rel-card"><span class="re">❤️</span><span class="rn">혈압</span></a>
+  <a href="/pregnancy" class="rel-card"><span class="re">🤰</span><span class="rn">임신 주수</span></a>
+  <a href="/ovulation" class="rel-card"><span class="re">🗓</span><span class="rn">배란일</span></a>
+  </div>
+</div>
 </div>
 
 <script>

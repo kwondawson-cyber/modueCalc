@@ -13,7 +13,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>자동차 취득세 계산기 — 신차·중고차 세금 계산 | 모두의계산기</title>
-  <meta name="description" content="자동차 취득세 계산기. 신차·중고차·전기차·경차 취득세를 차량 가격과 종류에 따라 자동 계산. 2025년 기준 세율 적용." />
+  <meta name="description" content="자동차 취득세 계산기. 신차·중고차·전기차·경차 취득세를 차량 가격과 종류에 따라 자동 계산. 기준 세율 적용." />
   <meta property="og:title" content="자동차 취득세 계산기 | 모두의계산기" />
   <meta property="og:description" content="신차·중고차·전기차·경차 취득세를 자동 계산. 등록세·공채 매입 비용까지 한눈에." />
   <meta property="og:image" content="https://www.everycalc.kr/og-image.png" />
@@ -76,7 +76,15 @@
     .badge { display: inline-block; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; background: rgba(0,212,170,0.15); color: var(--accent); margin-left: 6px; }
     .rate-tag { font-size: 12px; color: var(--accent); background: rgba(0,212,170,0.1); padding: 2px 8px; border-radius: 20px; }
     .ad-slot { margin: 16px 0; text-align: center; min-height: 0; background: rgba(255,255,255,0.02); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
-  </style>
+  
+.rel-section{margin:32px 0 8px}
+.rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
+.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+.rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+.rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
+</style>
 </head>
 <body>
 <div class="container">
@@ -180,10 +188,10 @@
 지방교육세 = 취득세 × 10%
 공채 매입비 = 차량가 × 공채 매입률 (지역·차종별 상이)
 
-2025년 차종별 취득세율:
+차종별 취득세율:
   일반 승용차:     7%
   경차 (1,000cc↓): 4%  (100만원 한도 감면 적용 시 더 낮을 수 있음)
-  전기차:          취득세 140만원 한도 감면 (2024년 기준, 2025년 연장 여부 확인 필요)
+  전기차:          취득세 140만원 한도 감면 (2024년 기준, 연장 여부 확인 필요)
   하이브리드:      취득세 40만원 한도 감면
   승합·화물:       5%</div>
 
@@ -208,6 +216,17 @@
   <details><summary>취득세는 언제 납부하나요?</summary><div class="faq-answer">차량 취득일(등록일)로부터 60일 이내에 관할 시·군·구청에 신고·납부해야 합니다. 온라인 위택스(wetax.go.kr)에서도 납부 가능합니다. 기한 내 미납 시 20% 가산세가 부과됩니다.</div></details>
   <details><summary>리스·장기 렌트 차량도 취득세를 내나요?</summary><div class="faq-answer">리스·장기 렌트는 소유권이 리스사·렌트사에 있어 계약자가 취득세를 직접 내지 않습니다. 다만 리스 종료 후 차량을 인수할 경우 잔존가액 기준으로 취득세가 발생합니다.</div></details>
   <details><summary>공채는 꼭 즉시 팔아야 하나요?</summary><div class="faq-answer">아닙니다. 만기(5~7년)까지 보유하면 원금과 이자를 받을 수 있습니다. 단, 이자율이 낮아(연 0~1%) 대부분은 즉시 매도하는 것이 현실적입니다. 장기 보유 시 이자 수익이 즉시 매도 손실보다 적을 수 있습니다.</div></details>
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/fuel_economy" class="rel-card"><span class="re">⛽</span><span class="rn">연비</span></a>
+  <a href="/car_installment" class="rel-card"><span class="re">💳</span><span class="rn">자동차 할부</span></a>
+  <a href="/car_lease" class="rel-card"><span class="re">🚗</span><span class="rn">장기렌트·리스</span></a>
+  <a href="/acquisition" class="rel-card"><span class="re">📋</span><span class="rn">취득세</span></a>
+  <a href="/income_tax" class="rel-card"><span class="re">📋</span><span class="rn">소득세</span></a>
+  <a href="/vat" class="rel-card"><span class="re">🧾</span><span class="rn">부가세</span></a>
+  </div>
+</div>
 </div>
 
 <script>

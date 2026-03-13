@@ -13,7 +13,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>국민연금 예상 수령액 계산기 | 모두의계산기</title>
-  <meta name="description" content="월 납입 보험료와 가입 기간으로 국민연금 예상 수령액을 계산합니다. 노후 준비 계획에 활용하세요." />
+  <meta name="description" content="국민연금 예상 수령액 계산기 — 월 소득·가입기간·수령 시작 나이별 자동 계산. 조기수령 감액, 연기수령 증액, 출생연도별 수급개시 나이표 포함." />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
   <style>
@@ -80,7 +80,15 @@
     .home-btn:hover { background: rgba(0,212,170,0.18); transform: translateY(-2px); }
     .home-btn-emoji { font-size: 20px; line-height: 1; }
     .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
-  </style>
+  
+.rel-section{margin:32px 0 8px}
+.rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
+.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+.rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+.rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
+</style>
 </head>
 <body>
 <div class="container">
@@ -213,8 +221,8 @@ function calcPension(){
 .seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
 </style>
 <div class="seo-section">
-  <h2>국민연금 예상 수령액 계산기 사용법</h2>
-  <h3>📌 사용방법</h3>
+  <h2>국민연금, 얼마나 내고 얼마나 받나</h2>
+  <h3>기본연금액 계산 구조</h3>
   <p>현재 나이, 가입 시작 나이, 월 소득을 입력하면 노령연금 예상 월 수령액을 계산합니다. 이 결과는 간이 산식 기반 참고값이며, 정확한 수령액은 국민연금공단(nps.or.kr)에서 개인 가입 이력 기준으로 확인하세요.</p>
   <h3>📐 계산 공식 (기본연금액)</h3>
   <div class="formula-box">기본연금액 = 1.2 × (A + B) / 2 × (가입개월수 / 240)
@@ -256,6 +264,17 @@ B = 본인 평균소득월액
   <details><summary>국민연금 수령 시 건강보험료가 오르나요?</summary><div class="faq-answer">연금 소득이 지역가입자 건강보험료 부과 기준에 포함됩니다. 연금 수령액이 클수록 건강보험료가 늘어날 수 있습니다.</div></details>
   <details><summary>배우자 사망 시 유족연금을 받을 수 있나요?</summary><div class="faq-answer">배우자가 국민연금 가입자였다면 유족연금(사망자 연금액의 40~60%)을 받을 수 있습니다. 단, 본인 노령연금과 유족연금 중 하나를 선택해야 합니다.</div></details>
   <details><summary>국민연금 최소 가입기간은 얼마인가요?</summary><div class="faq-answer">최소 10년(120개월) 이상 납부해야 노령연금을 받을 수 있습니다. 미만이면 반환일시금으로 납부액+이자를 일시 수령합니다.</div></details>
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/health_insurance" class="rel-card"><span class="re">🏥</span><span class="rn">건강보험료</span></a>
+  <a href="/retirement_pension" class="rel-card"><span class="re">💼</span><span class="rn">퇴직연금</span></a>
+  <a href="/retirement" class="rel-card"><span class="re">💵</span><span class="rn">퇴직금</span></a>
+  <a href="/inflation" class="rel-card"><span class="re">📊</span><span class="rn">물가상승률</span></a>
+  <a href="/savings" class="rel-card"><span class="re">💰</span><span class="rn">예적금 이자</span></a>
+  <a href="/income_tax" class="rel-card"><span class="re">📋</span><span class="rn">소득세</span></a>
+  </div>
+</div>
 </div>
 <script src="/common.js"></script><script src="/share.js"></script>
 <script src="/calculator.js"></script>

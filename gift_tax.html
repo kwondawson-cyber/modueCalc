@@ -13,7 +13,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>증여세·상속세 계산기 | 모두의계산기</title>
-  <meta name="description" content="증여세·상속세 계산기. 증여재산 공제 후 예상 세액을 2024년 기준으로 계산하세요." />
+  <meta name="description" content="증여세·상속세 계산기 — 관계별 증여재산공제 한도·누진세율 자동 적용. 혼인·출산 공제 신설, 10년 합산 규정, 세율표, 분산 증여 절세 전략 포함." />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
   <style>
@@ -83,7 +83,15 @@
     .home-btn:hover { background: rgba(0,212,170,0.18); transform: translateY(-2px); }
     .home-btn-emoji { font-size: 20px; line-height: 1; }
     .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
-  </style>
+  
+.rel-section{margin:32px 0 8px}
+.rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
+.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+.rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+.rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
+</style>
 </head>
 <body>
 <div class="container">
@@ -287,8 +295,8 @@
 </style>
 
 <div class="seo-section">
-  <h2>증여세·상속세 계산기 사용법</h2>
-  <h3>📌 사용방법</h3>
+  <h2>증여세 절세의 핵심 — 10년 공제 한도와 누진세율 구조</h2>
+  <h3>증여세 과세 구조와 공제 한도</h3>
   <p>증여(상속) 금액과 수증자 관계를 선택하면 공제액 적용 후 납부세액을 계산합니다. 10년 합산 증여액이 기준이므로 과거 증여 이력도 고려하세요.</p>
 
   <h3>📊 증여재산공제 한도</h3>
@@ -315,7 +323,7 @@
     </tbody>
   </table>
 
-  <h3>🎁 2024년 신설 혼인·출산 공제</h3>
+  <h3>🎁 신설 혼인·출산 공제</h3>
   <ul>
     <li>혼인 신고 전후 2년 이내 증여 시 1억 원 추가 공제</li>
     <li>자녀 출생 후 2년 이내 증여 시 1억 원 추가 공제</li>
@@ -326,6 +334,17 @@
   <details><summary>10년마다 증여 공제가 리셋되나요?</summary><div class="faq-answer">맞습니다. 증여재산공제는 10년 단위로 합산하므로 10년 후에는 다시 공제한도가 적용됩니다. 미리 계획하면 절세 효과가 큽니다.</div></details>
   <details><summary>현금 증여는 세금을 안 내도 되나요?</summary><div class="faq-answer">현금 증여도 증여세 신고 대상입니다. 공제 한도 이하라도 증여세 신고를 해두면 나중에 자금 출처 문제가 생겼을 때 유리합니다.</div></details>
   <details><summary>상속세와 증여세 중 어느 것이 유리한가요?</summary><div class="faq-answer">일반적으로 생전에 분산 증여해 상속세를 줄이는 전략이 유리합니다. 다만 사망 전 10년 이내 증여는 상속재산에 합산되므로 주의가 필요합니다.</div></details>
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/capital_gains" class="rel-card"><span class="re">💸</span><span class="rn">양도소득세</span></a>
+  <a href="/acquisition" class="rel-card"><span class="re">📋</span><span class="rn">취득세</span></a>
+  <a href="/income_tax" class="rel-card"><span class="re">📋</span><span class="rn">소득세</span></a>
+  <a href="/realestate" class="rel-card"><span class="re">🏡</span><span class="rn">중개수수료</span></a>
+  <a href="/inflation" class="rel-card"><span class="re">📊</span><span class="rn">물가상승률</span></a>
+  <a href="/savings" class="rel-card"><span class="re">💵</span><span class="rn">예적금 이자</span></a>
+  </div>
+</div>
 </div>
 
 <script src="/common.js"></script><script src="/share.js"></script>

@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-title" content="모두의계산기" />
   <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>지역가입자 건강보험료 계산기 | 모두의계산기</title>
-  <meta name="description" content="지역가입자 건강보험료 계산기. 소득·재산·자동차 점수를 바탕으로 월 보험료를 계산하세요." />
+  <meta name="description" content="건강보험료 계산기 — 직장·지역 가입자 보험료 자동 계산. 소득·재산·자동차 부과 기준, 퇴직 후 임의계속가입 vs 지역가입 비교, 피부양자 등록 조건 포함." />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
   <style>
@@ -76,14 +76,22 @@
     .home-btn:hover { background: rgba(0,212,170,0.18); transform: translateY(-2px); }
     .home-btn-emoji { font-size: 20px; line-height: 1; }
     .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
-  </style>
+  
+.rel-section{margin:32px 0 8px}
+.rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
+.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+.rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+.rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
+</style>
 </head>
 <body>
 <div class="container">
   <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
   <div class="header">
     <h1><span class="emoji">🏥</span> 건강보험료 계산기</h1>
-    <p>2024년 기준 소득·재산 점수 합산 계산</p>
+    <p>현행 기준 소득·재산 점수 합산 계산</p>
   </div>
   <div class="card">
     <div class="card-title">소득 정보</div>
@@ -238,10 +246,10 @@
 </style>
 
 <div class="seo-section">
-  <h2>지역가입자 건강보험료 계산기 사용법</h2>
-  <h3>📌 사용방법</h3>
-  <p>연 소득과 재산(주택·건물·토지·자동차 등)을 입력하면 2024년 기준 월 건강보험료를 계산합니다. 직장을 그만두거나 프리랜서·자영업자라면 지역가입자로 전환됩니다.</p>
-  <h3>📐 계산 공식 (2024년 기준)</h3>
+  <h2>직장·지역 가입자 건강보험료, 어떻게 다르게 계산되나</h2>
+  <h3>지역가입자 보험료 부과 기준</h3>
+  <p>연 소득과 재산(주택·건물·토지·자동차 등)을 입력하면 현행 기준 월 건강보험료를 계산합니다. 직장을 그만두거나 프리랜서·자영업자라면 지역가입자로 전환됩니다.</p>
+  <h3>📐 계산 공식 (현행 기준)</h3>
   <div class="formula-box">보험료 = (소득점수 + 재산점수) × 점수당 금액(208.4원)
 장기요양보험료 = 건강보험료 × 12.95%
 최저 보험료: 19,780원/월 (지역 최저한도)</div>
@@ -266,6 +274,17 @@
   <details><summary>퇴직 후 지역가입자와 임의계속가입 중 어느 것이 유리한가요?</summary><div class="faq-answer">지역가입자 보험료가 직장 보험료보다 높다면 임의계속가입(최대 36개월)이 유리합니다. 퇴직 후 지역 예상 보험료를 먼저 계산해보세요.</div></details>
   <details><summary>피부양자 등록 기준은 무엇인가요?</summary><div class="faq-answer">연 소득 2,000만 원 이하이고 재산과표 9억 원 이하인 경우 직장가입자의 피부양자로 등록해 보험료를 내지 않을 수 있습니다.</div></details>
   <details><summary>프리랜서 수입이 들쭉날쭉하면 어떻게 정산하나요?</summary><div class="faq-answer">전년도 소득을 기준으로 11월에 보험료가 정산됩니다. 소득이 줄었다면 조기 정산을 신청해 과납 보험료를 환급받을 수 있습니다.</div></details>
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/salary" class="rel-card"><span class="re">💰</span><span class="rn">월급 실수령액</span></a>
+  <a href="/pension" class="rel-card"><span class="re">🏦</span><span class="rn">국민연금</span></a>
+  <a href="/unemployment" class="rel-card"><span class="re">📋</span><span class="rn">실업급여</span></a>
+  <a href="/income_tax" class="rel-card"><span class="re">📋</span><span class="rn">소득세</span></a>
+  <a href="/retirement" class="rel-card"><span class="re">💵</span><span class="rn">퇴직금</span></a>
+  <a href="/health_insurance" class="rel-card"><span class="re">🏥</span><span class="rn">건강보험료</span></a>
+  </div>
+</div>
 </div>
 
 <script src="/common.js"></script><script src="/share.js"></script>

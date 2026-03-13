@@ -13,7 +13,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>부동산 중개수수료 계산기 | 모두의계산기</title>
-  <meta name="description" content="부동산 중개수수료 계산기. 매매, 전세, 월세 중개보수를 2024년 기준으로 계산하세요." />
+  <meta name="description" content="부동산 중개수수료 계산기 — 매매·전세·월세 유형별 요율 자동 적용. 2021년 개편 요율표, 거래금액별 수수료 예시, VAT·협의 가능 범위 안내 포함." />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
   <style>
@@ -92,7 +92,15 @@
     .home-btn-emoji { font-size: 20px; line-height: 1; }
     .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
       .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
-  </style>
+  
+.rel-section{margin:32px 0 8px}
+.rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
+.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+.rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+.rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
+</style>
 </head>
 <body>
   <div class="container">
@@ -309,8 +317,8 @@
 </style>
 
 <div class="seo-section">
-  <h2>부동산 중개수수료 계산기 사용법</h2>
-  <h3>📌 사용방법</h3>
+  <h2>부동산 중개수수료, 거래 유형별로 얼마를 내야 하나</h2>
+  <h3>중개수수료 요율 구조</h3>
   <p>거래 유형(매매·전세·월세)과 금액을 입력하면 법정 최고 중개보수를 계산합니다. 실제 수수료는 중개사와 협의해 이보다 낮게 계약할 수 있습니다.</p>
   <h3>📊 2021년 개편 중개수수료 요율표</h3>
   <table>
@@ -342,6 +350,17 @@
   <details><summary>매도자와 매수자 모두 수수료를 내나요?</summary><div class="faq-answer">네. 각각 자신이 이용한 중개사에게 별도로 지급합니다. 한 중개사가 양쪽을 모두 중개해도 각각에게 받습니다.</div></details>
   <details><summary>월세 수수료는 어떻게 계산하나요?</summary><div class="faq-answer">월세는 보증금 + (월세 × 100)으로 환산한 금액을 기준으로 계산합니다. 예를 들어 보증금 1,000만 + 월세 50만이면 6,000만 원 기준으로 계산합니다.</div></details>
   <details><summary>수수료에 VAT가 붙나요?</summary><div class="faq-answer">중개사가 일반과세자라면 수수료에 부가세 10%가 추가됩니다. 사전에 VAT 포함 여부를 확인하세요.</div></details>
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/acquisition" class="rel-card"><span class="re">📋</span><span class="rn">취득세</span></a>
+  <a href="/capital_gains" class="rel-card"><span class="re">💸</span><span class="rn">양도소득세</span></a>
+  <a href="/cheongak" class="rel-card"><span class="re">🏆</span><span class="rn">청약 가점</span></a>
+  <a href="/rent_conversion" class="rel-card"><span class="re">🔄</span><span class="rn">전월세 전환</span></a>
+  <a href="/jeonse_loan" class="rel-card"><span class="re">🏠</span><span class="rn">전세자금대출</span></a>
+  <a href="/rent_yield" class="rel-card"><span class="re">📊</span><span class="rn">임대 수익률</span></a>
+  </div>
+</div>
 </div>
 
 <script src="/common.js"></script><script src="/share.js"></script>
