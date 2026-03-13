@@ -294,6 +294,22 @@
     {
       "source": "/part_time_cost",
       "destination": "/part_time_cost.html"
+    },
+    {
+      "source": "/cheongak",
+      "destination": "/cheongak.html"
+    },
+    {
+      "source": "/ovulation",
+      "destination": "/ovulation.html"
+    },
+    {
+      "source": "/compound",
+      "destination": "/compound.html"
+    },
+    {
+      "source": "/vat_biz",
+      "destination": "/vat_biz.html"
     }
   ]
 }

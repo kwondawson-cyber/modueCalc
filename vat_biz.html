@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#00d4aa" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="모두의계산기" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>사업자 부가세 신고 계산기 | 모두의계산기</title>
+  <meta name="description" content="사업자 부가세 신고 계산기. 일반과세·간이과세 유형별 납부세액·환급세액 자동 계산. 매출세액·매입세액공제·불공제 항목 포함. 2025년 기준." />
+  <meta name="naver-site-verification" content="82ae9d4234997a93590385e408dc1119dfe6f61f" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--danger:#ff6b6b;--warn:#f5a623;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+    .container{max-width:680px;margin:0 auto;padding:40px 20px 100px;position:relative;z-index:1}
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;gap:2px;width:48px;height:48px;justify-content:center;border-radius:50%;background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.2);text-decoration:none;transition:all .2s}
+    .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+    .header{text-align:center;margin-bottom:28px}
+    .header h1{font-family:'Montserrat',sans-serif;font-size:clamp(22px,5vw,32px);font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+    .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
+    .header p{color:var(--text-muted);font-size:14px}
+    .badges{text-align:center;margin-bottom:16px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+    .badge{padding:3px 12px;background:rgba(0,212,170,0.1);border:1px solid rgba(0,212,170,0.25);border-radius:20px;font-size:11px;color:var(--accent);font-weight:700}
+    .type-tabs{display:flex;gap:8px;margin-bottom:16px}
+    .type-tab{flex:1;padding:12px 8px;text-align:center;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;border:1px solid var(--border);background:var(--surface2);color:var(--text-muted);transition:all .2s;font-family:'Noto Sans KR',sans-serif;line-height:1.4}
+    .type-tab.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000;border-color:transparent}
+    .type-tab small{display:block;font-size:11px;font-weight:400;margin-top:2px;opacity:.8}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
+    .card h2{font-size:15px;font-weight:700;margin-bottom:16px;color:var(--accent)}
+    .form-group{margin-bottom:14px}
+    label{display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px;font-weight:500}
+    input,select{width:100%;padding:11px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:15px;font-family:'Noto Sans KR',sans-serif;outline:none;transition:border-color .2s}
+    input:focus,select:focus{border-color:var(--accent)}
+    select option{background:var(--surface2)}
+    .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .cost-row{display:grid;grid-template-columns:1fr 160px 36px;gap:8px;align-items:center;margin-bottom:8px}
+    .cost-row input{margin:0;padding:10px 12px;font-size:14px}
+    .btn-del{background:none;border:1px solid var(--danger);color:var(--danger);border-radius:8px;width:36px;height:36px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .btn-del:hover{background:rgba(255,107,107,0.1)}
+    .btn-add{width:100%;padding:10px;border:1px dashed var(--border);border-radius:10px;background:transparent;color:var(--text-muted);font-size:13px;font-family:'Noto Sans KR',sans-serif;cursor:pointer;transition:all .2s;margin-top:4px}
+    .btn-add:hover{border-color:var(--accent);color:var(--accent)}
+    .section-total{display:flex;justify-content:flex-end;gap:8px;padding:8px 0 2px;font-size:13px;color:var(--text-muted);border-top:1px solid var(--border);margin-top:6px}
+    .section-total .v{font-weight:700;color:var(--accent)}
+    .btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#000;font-size:16px;font-weight:800;font-family:'Noto Sans KR',sans-serif;cursor:pointer;margin-top:8px;transition:opacity .2s}
+    .btn:hover{opacity:.9}
+    .result-card{background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:var(--radius);padding:24px;margin-top:16px;display:none}
+    .result-card.show{display:block}
+    .result-main{text-align:center;margin-bottom:20px}
+    .result-label{font-size:13px;color:var(--text-muted);margin-bottom:6px}
+    .result-value{font-family:'Montserrat',sans-serif;font-size:42px;font-weight:900}
+    .result-value.pay{color:var(--danger)}
+    .result-value.refund{color:var(--accent)}
+    .result-sub{font-size:13px;color:var(--text-muted);margin-top:4px}
+    .pnl{background:var(--surface2);border-radius:12px;overflow:hidden;margin-top:14px}
+    .pnl-row{display:flex;justify-content:space-between;padding:11px 16px;border-bottom:1px solid var(--border);font-size:13px}
+    .pnl-row:last-child{border-bottom:none}
+    .pnl-row.sub{background:rgba(0,212,170,0.06);font-weight:700}
+    .pnl-row.pay-row{background:rgba(255,107,107,0.06);font-weight:900;font-size:15px;color:var(--danger)}
+    .pnl-row.refund-row{background:rgba(0,212,170,0.1);font-weight:900;font-size:15px;color:var(--accent)}
+    .pnl-row .neg{color:var(--danger)}
+    .deadline-box{background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.25);border-radius:10px;padding:12px 14px;margin-top:14px;font-size:13px;color:var(--warn);line-height:1.8}
+    .formula-box{background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:14px 16px;margin:16px 0;font-size:13px;color:var(--text-muted);line-height:1.8}
+    .ad-slot{min-height:0;text-align:center;margin:16px 0}
+    details{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden}
+    details summary{padding:12px 16px;cursor:pointer;font-size:14px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--surface)}
+    details summary::after{content:'＋';color:var(--accent);font-size:16px}
+    details[open] summary::after{content:'－'}
+    details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
+    @media(max-width:480px){.row2{grid-template-columns:1fr}.cost-row{grid-template-columns:1fr 120px 36px}}
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="header">
+    <h1><span class="emoji">🧾</span> 사업자 부가세 신고 계산기</h1>
+    <p>일반과세·간이과세 유형별 납부·환급세액 계산</p>
+  </div>
+  <div class="badges"><span class="badge">💼 사업자</span><span class="badge">일반·간이과세</span><span class="badge">2025년 기준</span></div>
+
+  <!-- 과세 유형 탭 -->
+  <div class="type-tabs">
+    <button class="type-tab active" id="tab-general" onclick="switchType('general')">일반과세자<small>연 매출 8,000만원↑</small></button>
+    <button class="type-tab" id="tab-simple" onclick="switchType('simple')">간이과세자<small>연 매출 8,000만원↓</small></button>
+  </div>
+
+  <!-- 일반과세 섹션 -->
+  <div id="section-general">
+    <div class="card">
+      <h2>💰 매출세액 (신고기간 합계)</h2>
+      <div id="sales-list">
+        <div class="cost-row"><input type="text" value="과세 매출 (10%)" /><input type="number" placeholder="공급가액(원)" /><button class="btn-del" onclick="delRow(this)">✕</button></div>
+        <div class="cost-row"><input type="text" value="카드·현금영수증 매출" /><input type="number" placeholder="공급가액(원)" /><button class="btn-del" onclick="delRow(this)">✕</button></div>
+      </div>
+      <button class="btn-add" onclick="addRow('sales-list')">＋ 매출 항목 추가 (영세율 등)</button>
+      <div class="section-total">매출 합계 <span class="v" id="sales-ttl">0원</span></div>
+    </div>
+
+    <div class="card">
+      <h2>🧾 매입세액 공제 항목</h2>
+      <div id="input-list">
+        <div class="cost-row"><input type="text" value="세금계산서 수취분" /><input type="number" placeholder="공급가액(원)" /><button class="btn-del" onclick="delRow(this)">✕</button></div>
+        <div class="cost-row"><input type="text" value="신용카드 매입분" /><input type="number" placeholder="공급가액(원)" /><button class="btn-del" onclick="delRow(this)">✕</button></div>
+        <div class="cost-row"><input type="text" value="의제매입세액 (식재료 등)" /><input type="number" placeholder="공급가액(원)" /><button class="btn-del" onclick="delRow(this)">✕</button></div>
+      </div>
+      <button class="btn-add" onclick="addRow('input-list')">＋ 매입 항목 추가</button>
+      <div class="section-total">매입 합계 <span class="v" id="input-ttl">0원</span></div>
+    </div>
+
+    <div class="card">
+      <h2>🚫 불공제 매입세액 (선택)</h2>
+      <div id="nonded-list">
+        <div class="cost-row"><input type="text" value="접대비 관련 매입" /><input type="number" placeholder="VAT 금액(원)" /><div></div></div>
+        <div class="cost-row"><input type="text" value="비영업용 승용차 유지비" /><input type="number" placeholder="VAT 금액(원)" /><div></div></div>
+      </div>
+      <div style="font-size:12px;color:var(--text-muted);margin-top:4px">※ 불공제 항목은 VAT 금액 직접 입력</div>
+    </div>
+  </div>
+
+  <!-- 간이과세 섹션 -->
+  <div id="section-simple" style="display:none">
+    <div class="card">
+      <h2>💰 신고기간 매출 합계</h2>
+      <div class="row2">
+        <div class="form-group">
+          <label>총 매출 (부가세 포함, 원)</label>
+          <input type="number" id="simple-sales" placeholder="예: 50000000" />
+        </div>
+        <div class="form-group">
+          <label>업종 구분</label>
+          <select id="simple-type">
+            <option value="0.4">소매업·음식점·숙박 (40%)</option>
+            <option value="0.3">제조업·농업·어업 (30%)</option>
+            <option value="0.2">건설업·운수업·창고 (20%)</option>
+            <option value="0.15">금융·보험·서비스 (15%)</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>세금계산서 수취 매입 VAT 합계 (원)</label>
+        <input type="number" id="simple-input" placeholder="세금계산서 발급분 VAT만" value="0" />
+      </div>
+    </div>
+  </div>
+
+  <button class="btn" onclick="calc()">부가세 신고세액 계산하기</button>
+
+  <div class="result-card" id="result">
+    <div class="result-main">
+      <div class="result-label" id="r-label">납부할 부가세</div>
+      <div class="result-value" id="r-amount">0원</div>
+      <div class="result-sub" id="r-sub"></div>
+    </div>
+
+    <div class="pnl" id="r-pnl"></div>
+
+    <div class="deadline-box" id="r-deadline"></div>
+  </div>
+
+  <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6079812618767597" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
+
+  <div class="card">
+    <h2>📋 부가세 신고 구조</h2>
+    <div class="formula-box">
+      <strong>일반과세자</strong><br>
+      납부세액 = 매출세액(매출×10%) − 매입세액공제 − 기타공제<br>
+      0보다 작으면 환급 (조기환급 신청 가능)<br><br>
+      <strong>간이과세자</strong><br>
+      납부세액 = (매출 × 업종별 부가가치율 × 10%) − 세금계산서 수취 공제<br>
+      연 매출 4,800만원 이하: 납부의무 면제<br><br>
+      <strong>신고 기간</strong><br>
+      1기 (1~6월 매출): 7월 1일~25일 신고·납부<br>
+      2기 (7~12월 매출): 다음해 1월 1일~25일 신고·납부
+    </div>
+  </div>
+
+  <h2 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)">자주 묻는 질문</h2>
+  <details><summary>일반과세자와 간이과세자의 차이는 무엇인가요?</summary><div class="faq-answer">일반과세자는 매출의 10%를 매출세액으로 내고 매입세액을 전액 공제받습니다. 간이과세자는 업종별 부가가치율을 적용해 세액이 낮지만 매입세액 공제가 제한됩니다. 직전 연도 공급가액이 8,000만원 이상이면 일반과세자로 전환됩니다.</div></details>
+  <details><summary>매입세액 공제를 받으려면 어떤 서류가 필요한가요?</summary><div class="faq-answer">세금계산서(전자세금계산서 포함), 신용카드 매출전표·현금영수증이 필요합니다. 세금계산서는 발급자의 사업자번호·공급가액·세액이 정확히 기재된 것만 인정됩니다. 간이영수증(3만원 이상)은 공제 불가합니다.</div></details>
+  <details><summary>불공제 매입세액은 어떤 항목이 있나요?</summary><div class="faq-answer">접대비 관련 매입세액, 비영업용 승용차(9인 이하) 구입·유지비, 사업과 무관한 지출 등이 불공제 항목입니다. 5인승 이하 승용차 관련 비용은 매입세액 공제가 전혀 되지 않으니 주의하세요.</div></details>
+  <details><summary>부가세 환급은 언제 받을 수 있나요?</summary><div class="faq-answer">일반 환급은 신고 후 30일 이내에 이루어집니다. 수출·시설투자 등으로 환급액이 큰 경우 조기환급 신청(신고 후 15일 이내)이 가능합니다. 국세청 홈택스에서 신고와 동시에 환급 계좌를 등록하면 빠르게 받을 수 있습니다.</div></details>
+  <details><summary>전자세금계산서 의무 발행 대상은 누구인가요?</summary><div class="faq-answer">법인사업자와 직전 연도 공급가액 합계 1억원 이상인 개인사업자는 전자세금계산서 의무 발행 대상입니다. 2024년부터 기준이 2억원에서 1억원으로 낮아졌습니다. 미발행 시 공급가액의 0.5% 가산세가 부과됩니다.</div></details>
+</div>
+
+<script>
+const fw = n => Math.round(n).toLocaleString() + '원';
+let curType = 'general';
+
+function switchType(t) {
+  curType = t;
+  document.getElementById('section-general').style.display = t === 'general' ? '' : 'none';
+  document.getElementById('section-simple').style.display  = t === 'simple'  ? '' : 'none';
+  document.getElementById('tab-general').classList.toggle('active', t === 'general');
+  document.getElementById('tab-simple').classList.toggle('active', t === 'simple');
+}
+
+function sumList(id) {
+  return Array.from(document.querySelectorAll(`#${id} input[type=number]`))
+    .reduce((s,el) => s + (+el.value||0), 0);
+}
+function addRow(id) {
+  const d = document.createElement('div'); d.className = 'cost-row';
+  d.innerHTML = '<input type="text" placeholder="항목명" /><input type="number" placeholder="금액(원)" /><button class="btn-del" onclick="delRow(this)">✕</button>';
+  document.getElementById(id).appendChild(d);
+}
+function delRow(btn) { btn.closest('.cost-row').remove(); }
+
+document.addEventListener('input', () => {
+  document.getElementById('sales-ttl').textContent = fw(sumList('sales-list'));
+  document.getElementById('input-ttl').textContent = fw(sumList('input-list'));
+});
+
+function calc() {
+  if (curType === 'general') calcGeneral();
+  else calcSimple();
+}
+
+function calcGeneral() {
+  const salesBase = sumList('sales-list');
+  const inputBase = sumList('input-list');
+  const nondedVat = sumList('nonded-list');
+  const salesVat  = salesBase * 0.1;
+  const inputVat  = inputBase * 0.1;
+  const deductible = Math.max(inputVat - nondedVat, 0);
+  const payable = salesVat - deductible;
+  const isRefund = payable < 0;
+
+  document.getElementById('r-label').textContent  = isRefund ? '환급받을 부가세' : '납부할 부가세';
+  document.getElementById('r-amount').textContent = fw(Math.abs(payable));
+  document.getElementById('r-amount').className   = 'result-value ' + (isRefund ? 'refund' : 'pay');
+  document.getElementById('r-sub').textContent    = `매출세액 ${fw(salesVat)} − 공제세액 ${fw(deductible)}`;
+
+  document.getElementById('r-pnl').innerHTML = `
+    <div class="pnl-row"><span>과세 매출 합계 (공급가액)</span><span>${fw(salesBase)}</span></div>
+    <div class="pnl-row sub"><span>① 매출세액 (×10%)</span><span>${fw(salesVat)}</span></div>
+    <div class="pnl-row"><span class="neg">(−) 매입세액 (공급가액 × 10%)</span><span class="neg">${fw(inputVat)}</span></div>
+    <div class="pnl-row"><span class="neg">(+) 불공제 매입세액</span><span class="neg">${fw(nondedVat)}</span></div>
+    <div class="pnl-row sub"><span>② 공제세액 합계</span><span>${fw(deductible)}</span></div>
+    <div class="pnl-row ${isRefund?'refund-row':'pay-row'}"><span>${isRefund?'환급세액 (①−②)':'납부세액 (①−②)'}</span><span>${fw(Math.abs(payable))}</span></div>`;
+
+  setDeadline();
+  document.getElementById('result').classList.add('show');
+}
+
+function calcSimple() {
+  const sales    = +document.getElementById('simple-sales').value || 0;
+  const rate     = +document.getElementById('simple-type').value;
+  const inputVat = +document.getElementById('simple-input').value || 0;
+  const baseVat  = sales * rate * 0.1;
+  const inputDeduct = inputVat * 0.5; // 간이 세금계산서 공제 50%
+  const payable  = Math.max(baseVat - inputDeduct, 0);
+  const exempt   = sales < 48000000;
+
+  document.getElementById('r-label').textContent  = '납부할 부가세 (간이과세)';
+  document.getElementById('r-amount').textContent = fw(payable);
+  document.getElementById('r-amount').className   = 'result-value pay';
+  document.getElementById('r-sub').textContent    = exempt
+    ? '⚠️ 연 매출 4,800만원 미만 — 납부의무 면제 대상 (신고는 필요)'
+    : `부가가치율 ${(rate*100).toFixed(0)}% 적용 · 매출세액 ${fw(baseVat)}`;
+
+  document.getElementById('r-pnl').innerHTML = `
+    <div class="pnl-row"><span>총 매출 (부가세 포함)</span><span>${fw(sales)}</span></div>
+    <div class="pnl-row"><span>업종별 부가가치율</span><span>${(rate*100).toFixed(0)}%</span></div>
+    <div class="pnl-row sub"><span>① 부가세 (매출 × 부가가치율 × 10%)</span><span>${fw(baseVat)}</span></div>
+    <div class="pnl-row"><span class="neg">(−) 세금계산서 수취 공제 (VAT × 50%)</span><span class="neg">${fw(inputDeduct)}</span></div>
+    <div class="pnl-row ${exempt?'refund-row':'pay-row'}"><span>${exempt?'납부의무 면제 (4,800만원 미만)':'납부세액'}</span><span>${fw(payable)}</span></div>`;
+
+  setDeadline();
+  document.getElementById('result').classList.add('show');
+}
+
+function setDeadline() {
+  const now = new Date();
+  const m = now.getMonth() + 1;
+  let period, deadline;
+  if (m >= 1 && m <= 7) { period = '2024년 2기 (7~12월)'; deadline = '2025년 1월 27일 (월)'; }
+  else { period = '2025년 1기 (1~6월)'; deadline = '2025년 7월 25일 (금)'; }
+  document.getElementById('r-deadline').innerHTML =
+    `📅 <strong>신고 기간:</strong> ${period}<br>⏰ <strong>신고·납부 마감:</strong> ${deadline}<br>홈택스(hometax.go.kr) 또는 손택스 앱에서 신고하세요.`;
+}
+</script>
+<script src="/common.js"></script><script src="/share.js"></script><script src="/calculator.js"></script>
+<script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}</script>
+</body>
+</html>

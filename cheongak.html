@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#00d4aa" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="모두의계산기" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>청약 가점 계산기 | 모두의계산기</title>
+  <meta name="description" content="아파트 청약 가점 계산기 2025. 무주택기간·부양가족·청약통장 가입기간 3항목 자동 합산. 최대 84점 기준 경쟁력 분석." />
+  <meta name="naver-site-verification" content="82ae9d4234997a93590385e408dc1119dfe6f61f" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--danger:#ff6b6b;--warn:#f5a623;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+    .container{max-width:680px;margin:0 auto;padding:40px 20px 100px;position:relative;z-index:1}
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;gap:2px;width:48px;height:48px;justify-content:center;border-radius:50%;background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.2);text-decoration:none;transition:all .2s}
+    .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+    .header{text-align:center;margin-bottom:28px}
+    .header h1{font-family:'Montserrat',sans-serif;font-size:clamp(22px,5vw,32px);font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+    .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
+    .header p{color:var(--text-muted);font-size:14px}
+    .badges{text-align:center;margin-bottom:16px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+    .badge{padding:3px 12px;background:rgba(0,212,170,0.1);border:1px solid rgba(0,212,170,0.25);border-radius:20px;font-size:11px;color:var(--accent);font-weight:700}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
+    .card h2{font-size:15px;font-weight:700;margin-bottom:4px;color:var(--accent)}
+    .card-sub{font-size:12px;color:var(--text-muted);margin-bottom:16px}
+    .form-group{margin-bottom:14px}
+    label{display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px;font-weight:500}
+    select,input{width:100%;padding:11px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:15px;font-family:'Noto Sans KR',sans-serif;outline:none;transition:border-color .2s}
+    select:focus,input:focus{border-color:var(--accent)}
+    select option{background:var(--surface2)}
+    .score-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)}
+    .score-row:last-child{border-bottom:none}
+    .score-label{font-size:13px;color:var(--text-muted)}
+    .score-chip{font-family:'Montserrat',sans-serif;font-size:20px;font-weight:900;color:var(--accent);min-width:40px;text-align:right}
+    .btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#000;font-size:16px;font-weight:800;font-family:'Noto Sans KR',sans-serif;cursor:pointer;margin-top:4px;transition:opacity .2s}
+    .btn:hover{opacity:.9}
+    .result-card{background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:var(--radius);padding:24px;margin-top:16px;display:none}
+    .result-card.show{display:block}
+    .result-main{text-align:center;margin-bottom:20px}
+    .result-label{font-size:13px;color:var(--text-muted);margin-bottom:6px}
+    .result-value{font-family:'Montserrat',sans-serif;font-size:64px;font-weight:900;color:var(--accent);line-height:1}
+    .result-max{font-size:18px;color:var(--text-muted);font-weight:400}
+    .result-sub{font-size:13px;color:var(--text-muted);margin-top:8px}
+    .score-breakdown{background:var(--surface2);border-radius:12px;padding:16px;margin-top:16px}
+    .score-breakdown h3{font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:12px}
+    .sb-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
+    .sb-row:last-child{border-bottom:none;font-weight:700;font-size:15px;color:var(--accent);padding-top:12px}
+    .bar-section{margin-top:16px}
+    .bar-label{display:flex;justify-content:space-between;font-size:12px;color:var(--text-muted);margin-bottom:4px}
+    .bar-bg{background:var(--surface2);border-radius:8px;height:10px;overflow:hidden;margin-bottom:10px}
+    .bar-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .6s}
+    .rating-box{text-align:center;margin-top:16px;padding:14px;border-radius:12px}
+    .formula-box{background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:14px 16px;margin:16px 0;font-size:13px;color:var(--text-muted);line-height:1.8}
+    .ad-slot{min-height:0;text-align:center;margin:16px 0}
+    details{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden}
+    details summary{padding:12px 16px;cursor:pointer;font-size:14px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--surface)}
+    details summary::after{content:'＋';color:var(--accent);font-size:16px}
+    details[open] summary::after{content:'－'}
+    details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="header">
+    <h1><span class="emoji">🏠</span> 청약 가점 계산기</h1>
+    <p>무주택기간 · 부양가족 · 청약통장 가입기간 자동 합산</p>
+  </div>
+  <div class="badges"><span class="badge">🏠 아파트 청약</span><span class="badge">2025년 기준</span><span class="badge">최대 84점</span></div>
+
+  <!-- 무주택기간 -->
+  <div class="card">
+    <h2>① 무주택기간 <span style="font-weight:400;color:var(--text-muted)">(최대 32점)</span></h2>
+    <div class="card-sub">세대주 및 세대원 전원 무주택 기준 · 만 30세 미만 미혼은 최초 독립일부터 산정</div>
+    <div class="form-group">
+      <label>무주택 기간</label>
+      <select id="nohouse">
+        <option value="2">1년 미만 — 2점</option>
+        <option value="4">1년 이상 2년 미만 — 4점</option>
+        <option value="6">2년 이상 3년 미만 — 6점</option>
+        <option value="8">3년 이상 4년 미만 — 8점</option>
+        <option value="10">4년 이상 5년 미만 — 10점</option>
+        <option value="12">5년 이상 6년 미만 — 12점</option>
+        <option value="14">6년 이상 7년 미만 — 14점</option>
+        <option value="16">7년 이상 8년 미만 — 16점</option>
+        <option value="18">8년 이상 9년 미만 — 18점</option>
+        <option value="20">9년 이상 10년 미만 — 20점</option>
+        <option value="22">10년 이상 11년 미만 — 22점</option>
+        <option value="24">11년 이상 12년 미만 — 24점</option>
+        <option value="26">12년 이상 13년 미만 — 26점</option>
+        <option value="28">13년 이상 14년 미만 — 28점</option>
+        <option value="30">14년 이상 15년 미만 — 30점</option>
+        <option value="32">15년 이상 — 32점</option>
+      </select>
+    </div>
+    <div class="score-row"><span class="score-label">무주택기간 점수</span><span class="score-chip" id="s1">2</span></div>
+  </div>
+
+  <!-- 부양가족 -->
+  <div class="card">
+    <h2>② 부양가족 수 <span style="font-weight:400;color:var(--text-muted)">(최대 35점)</span></h2>
+    <div class="card-sub">주민등록표상 같이 사는 직계존속(부모·조부모 3년 이상)·직계비속·배우자 포함</div>
+    <div class="form-group">
+      <label>부양가족 수 (본인 제외)</label>
+      <select id="family">
+        <option value="5">0명 — 5점</option>
+        <option value="10">1명 — 10점</option>
+        <option value="15">2명 — 15점</option>
+        <option value="20">3명 — 20점</option>
+        <option value="25">4명 — 25점</option>
+        <option value="30">5명 — 30점</option>
+        <option value="35">6명 이상 — 35점</option>
+      </select>
+    </div>
+    <div class="score-row"><span class="score-label">부양가족 점수</span><span class="score-chip" id="s2">5</span></div>
+  </div>
+
+  <!-- 청약통장 -->
+  <div class="card">
+    <h2>③ 청약통장 가입기간 <span style="font-weight:400;color:var(--text-muted)">(최대 17점)</span></h2>
+    <div class="card-sub">주택청약종합저축 · 청약저축 · 청약부금 · 청약예금 모두 해당</div>
+    <div class="form-group">
+      <label>가입 기간</label>
+      <select id="savings">
+        <option value="1">6개월 미만 — 1점</option>
+        <option value="2">6개월 이상 1년 미만 — 2점</option>
+        <option value="3">1년 이상 2년 미만 — 3점</option>
+        <option value="4">2년 이상 3년 미만 — 4점</option>
+        <option value="5">3년 이상 4년 미만 — 5점</option>
+        <option value="6">4년 이상 5년 미만 — 6점</option>
+        <option value="7">5년 이상 6년 미만 — 7점</option>
+        <option value="8">6년 이상 7년 미만 — 8점</option>
+        <option value="9">7년 이상 8년 미만 — 9점</option>
+        <option value="10">8년 이상 9년 미만 — 10점</option>
+        <option value="11">9년 이상 10년 미만 — 11점</option>
+        <option value="12">10년 이상 11년 미만 — 12점</option>
+        <option value="13">11년 이상 12년 미만 — 13점</option>
+        <option value="14">12년 이상 13년 미만 — 14점</option>
+        <option value="15">13년 이상 14년 미만 — 15점</option>
+        <option value="16">14년 이상 15년 미만 — 16점</option>
+        <option value="17">15년 이상 — 17점</option>
+      </select>
+    </div>
+    <div class="score-row"><span class="score-label">청약통장 점수</span><span class="score-chip" id="s3">1</span></div>
+  </div>
+
+  <button class="btn" onclick="calc()">청약 가점 계산하기</button>
+
+  <div class="result-card" id="result">
+    <div class="result-main">
+      <div class="result-label">나의 청약 가점</div>
+      <div class="result-value" id="r-total">0<span class="result-max">/84</span></div>
+      <div class="result-sub" id="r-sub"></div>
+    </div>
+
+    <div class="score-breakdown">
+      <h3>📋 항목별 점수</h3>
+      <div class="sb-row"><span>① 무주택기간</span><span id="rb-1">-</span></div>
+      <div class="sb-row"><span>② 부양가족</span><span id="rb-2">-</span></div>
+      <div class="sb-row"><span>③ 청약통장 가입기간</span><span id="rb-3">-</span></div>
+      <div class="sb-row"><span>합계</span><span id="rb-total">-</span></div>
+    </div>
+
+    <div class="bar-section">
+      <div class="bar-label"><span>무주택기간 <span id="bp1"></span></span><span>최대 32점</span></div>
+      <div class="bar-bg"><div class="bar-fill" id="bar1" style="width:0%"></div></div>
+      <div class="bar-label"><span>부양가족 <span id="bp2"></span></span><span>최대 35점</span></div>
+      <div class="bar-bg"><div class="bar-fill" id="bar2" style="width:0%;background:linear-gradient(90deg,#0095ff,#00d4aa)"></div></div>
+      <div class="bar-label"><span>청약통장 <span id="bp3"></span></span><span>최대 17점</span></div>
+      <div class="bar-bg"><div class="bar-fill" id="bar3" style="width:0%;background:linear-gradient(90deg,#f5a623,#00d4aa)"></div></div>
+    </div>
+
+    <div class="rating-box" id="rating-box"></div>
+  </div>
+
+  <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6079812618767597" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
+
+  <div class="card">
+    <h2>📐 청약 가점 구조</h2>
+    <div class="formula-box">
+      <strong>총점 = 무주택기간(최대 32점) + 부양가족(최대 35점) + 청약통장(최대 17점) = 최대 84점</strong><br><br>
+      <strong>서울 인기 단지 당첨 가점 참고</strong><br>
+      강남·서초·송파 등 인기 지역: 60~70점대<br>
+      수도권 일반: 45~60점대 / 지방: 30~50점대<br><br>
+      가점제 물량: 전용 85㎡ 이하 민영주택 중 일부 (공고문 확인 필수)<br>
+      추첨제 병행: 가점 낮아도 추첨으로 당첨 가능
+    </div>
+  </div>
+
+  <h2 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)">자주 묻는 질문</h2>
+  <details><summary>무주택 기간은 언제부터 계산하나요?</summary><div class="faq-answer">만 30세 이상이면 결혼 전이라도 만 30세가 된 날부터 계산합니다. 만 30세 미만이면 혼인신고일 또는 최초 독립일부터 계산합니다. 이전에 주택을 소유했다면 처분한 날부터 다시 계산합니다.</div></details>
+  <details><summary>부양가족에 부모님도 포함되나요?</summary><div class="faq-answer">직계존속(부모·조부모)은 3년 이상 같은 주민등록표에 등재되어 있어야 부양가족으로 인정됩니다. 배우자와 자녀는 기간 제한 없이 인정됩니다. 형제·자매는 포함되지 않습니다.</div></details>
+  <details><summary>청약통장은 어떤 종류가 인정되나요?</summary><div class="faq-answer">주택청약종합저축, 청약저축, 청약부금, 청약예금 모두 인정됩니다. 청약통장을 다른 은행으로 이전해도 가입기간은 합산됩니다. 해지 후 재가입하면 기간이 초기화되니 주의하세요.</div></details>
+  <details><summary>가점제와 추첨제의 차이는 무엇인가요?</summary><div class="faq-answer">가점제는 점수 높은 순서로 당첨자를 선정합니다. 추첨제는 무작위 추첨으로 선정합니다. 전용 85㎡ 이하 민영주택은 가점제·추첨제를 일정 비율로 병행합니다. 공공분양은 별도 기준이 적용됩니다.</div></details>
+  <details><summary>가점을 높이려면 어떻게 해야 하나요?</summary><div class="faq-answer">단기간에 높이기 가장 쉬운 항목은 청약통장 가입기간입니다. 아직 미가입이라면 바로 개설하세요. 부양가족은 결혼·출산으로 늘어나며, 무주택기간은 시간이 지나면서 자연히 쌓입니다.</div></details>
+
+</div>
+<script>
+document.querySelectorAll('select').forEach(sel => {
+  sel.addEventListener('change', () => {
+    const map = { nohouse:'s1', family:'s2', savings:'s3' };
+    const chip = document.getElementById(map[sel.id]);
+    if(chip) chip.textContent = sel.value;
+  });
+});
+
+function calc() {
+  const s1 = +document.getElementById('nohouse').value;
+  const s2 = +document.getElementById('family').value;
+  const s3 = +document.getElementById('savings').value;
+  const total = s1 + s2 + s3;
+
+  document.getElementById('r-total').innerHTML = `${total}<span class="result-max">/84</span>`;
+  document.getElementById('rb-1').textContent = s1 + '점';
+  document.getElementById('rb-2').textContent = s2 + '점';
+  document.getElementById('rb-3').textContent = s3 + '점';
+  document.getElementById('rb-total').textContent = total + '점';
+
+  document.getElementById('bp1').textContent = s1+'점';
+  document.getElementById('bp2').textContent = s2+'점';
+  document.getElementById('bp3').textContent = s3+'점';
+  document.getElementById('bar1').style.width = (s1/32*100)+'%';
+  document.getElementById('bar2').style.width = (s2/35*100)+'%';
+  document.getElementById('bar3').style.width = (s3/17*100)+'%';
+
+  let grade, color, bg;
+  if(total>=65){grade='🏆 최상위권 — 서울 인기 단지 도전 가능';color='#000';bg='var(--accent)';}
+  else if(total>=55){grade='✅ 상위권 — 수도권·서울 외곽 경쟁력 있음';color='#000';bg='var(--accent2)';}
+  else if(total>=45){grade='📊 중위권 — 수도권 외곽·지방 광역시 도전';color='#000';bg='var(--warn)';}
+  else{grade='⚠️ 하위권 — 추첨제 물량 또는 가점 쌓기 필요';color='#fff';bg='var(--danger)';}
+
+  const rb = document.getElementById('rating-box');
+  rb.textContent = grade; rb.style.background = bg; rb.style.color = color;
+  rb.style.fontWeight = '700'; rb.style.fontSize = '14px';
+
+  const pct = total/84*100;
+  document.getElementById('r-sub').textContent = `전체 84점 중 ${pct.toFixed(1)}% 달성`;
+  document.getElementById('result').classList.add('show');
+}
+</script>
+<script src="/common.js"></script><script src="/share.js"></script><script src="/calculator.js"></script>
+<script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}</script>
+</body>
+</html>
