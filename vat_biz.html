@@ -13,7 +13,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>사업자 부가세 신고 계산기 | 모두의계산기</title>
-  <meta name="description" content="사업자 부가세 신고 계산기. 일반과세·간이과세 유형별 납부세액·환급세액 자동 계산. 매출세액·매입세액공제·불공제 항목 포함. 2025년 기준." />
+  <meta name="description" content="사업자 부가세 신고 계산기. 일반과세·간이과세 유형별 납부세액·환급세액 자동 계산. 매출세액·매입세액공제·불공제 항목 포함. 2026년 기준." />
   <meta name="naver-site-verification" content="82ae9d4234997a93590385e408dc1119dfe6f61f" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
@@ -89,7 +89,7 @@
     <h1><span class="emoji">🧾</span> 사업자 부가세 신고 계산기</h1>
     <p>일반과세·간이과세 유형별 납부·환급세액 계산</p>
   </div>
-  <div class="badges"><span class="badge">💼 사업자</span><span class="badge">일반·간이과세</span><span class="badge">2025년 기준</span></div>
+  <div class="badges"><span class="badge">💼 사업자</span><span class="badge">일반·간이과세</span><span class="badge">2026년 기준</span></div>
 
   <!-- 과세 유형 탭 -->
   <div class="type-tabs">
@@ -284,10 +284,17 @@ function calcSimple() {
 
 function setDeadline() {
   const now = new Date();
+  const curYear = now.getFullYear();
   const m = now.getMonth() + 1;
   let period, deadline;
-  if (m >= 1 && m <= 7) { period = '2024년 2기 (7~12월)'; deadline = '2025년 1월 27일 (월)'; }
-  else { period = '2025년 1기 (1~6월)'; deadline = '2025년 7월 25일 (금)'; }
+  if (m >= 1 && m <= 7) {
+    // 1~7월: 직전 해 2기 신고 기간 (이미 마감됐을 수 있음)
+    period = `${curYear-1}년 2기 (7~12월)`;
+    deadline = `${curYear}년 1월 27일`;
+  } else {
+    period = `${curYear}년 1기 (1~6월)`;
+    deadline = `${curYear}년 7월 25일`;
+  }
   document.getElementById('r-deadline').innerHTML =
     `📅 <strong>신고 기간:</strong> ${period}<br>⏰ <strong>신고·납부 마감:</strong> ${deadline}<br>홈택스(hometax.go.kr) 또는 손택스 앱에서 신고하세요.`;
 }
