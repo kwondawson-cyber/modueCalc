@@ -13,7 +13,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>연차일수 계산기 | 모두의계산기</title>
-  <meta name="description" content="입사일 기준 법정 연차 자동 계산. 반차 입력, 잔여 연차 확인. 인사담당자·직장인 필수 연차 계산기 2025년 기준." />
+  <meta name="description" content="연차 계산기 2026 (인사담당자·직장인) — 입사일 기준 법정 연차 자동 산정. 1년 미만 월 1일·2년차 15일·3년차 16일 자동 계산. 연차수당 계산 포함." />
   <meta name="naver-site-verification" content="82ae9d4234997a93590385e408dc1119dfe6f61f" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
@@ -82,6 +82,27 @@
     details[open] summary::after{content:'－'}
     details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
     @media(max-width:480px){.result-grid{grid-template-columns:1fr 1fr}.row2{grid-template-columns:1fr}}
+
+    .seo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
+    .seo-card h2{font-size:17px;font-weight:800;color:var(--text);margin-bottom:14px;line-height:1.4}
+    .seo-card h3{font-size:14px;font-weight:700;color:var(--accent);margin:16px 0 8px}
+    .seo-card p{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:10px}
+    .seo-card ul{padding-left:18px;margin-bottom:10px}
+    .seo-card li{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:4px}
+    .seo-card strong{color:var(--text)}
+    .ex-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+    .ex-table th{background:rgba(0,212,170,0.1);padding:8px 12px;text-align:left;color:var(--accent);font-weight:700;border:1px solid var(--border)}
+    .ex-table td{padding:8px 12px;border:1px solid var(--border);color:var(--text-muted);line-height:1.7}
+    .ex-table tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
+    .hl-box{background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.25);border-radius:10px;padding:14px 16px;margin:14px 0;font-size:13px;color:var(--text);line-height:1.8}
+    .hl-box strong{color:var(--accent)}
+    .rel-section{margin-bottom:20px}
+    .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
+    .rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+    .rel-card{display:block;padding:14px 12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+    .rel-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+    .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+    .rel-card .rn{font-size:12px;font-weight:700;color:var(--text)}
   </style>
 </head>
 <body>
@@ -154,6 +175,29 @@
   </div>
 
   <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6079812618767597" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
+  <div class="seo-card">
+    <h2>법정 연차 발생 기준 완벽 정리 (근로기준법 2026년 기준)</h2>
+    <p>연차휴가는 <strong>근로기준법 제60조</strong>에 따라 입사일 기준으로 발생합니다. 1년 미만 근로자는 매월 1일씩, 1년 이상 근로자는 15일이 기본이며 2년마다 1일씩 가산되어 최대 25일까지 늘어납니다. 인사담당자라면 입사일별 연차 일수를 정확히 파악해야 노무 리스크를 줄일 수 있습니다.</p>
+    <h3>📋 입사일별 연차 발생 일수 기준표</h3>
+    <table class="ex-table">
+      <tr><th>근속 기간</th><th>연간 연차 일수</th><th>비고</th></tr>
+      <tr><td>1년 미만</td><td>월 1일 (최대 11일)</td><td>매월 개근 시 발생</td></tr>
+      <tr><td>1년 이상 ~ 3년 미만</td><td>15일</td><td>기본 연차</td></tr>
+      <tr><td>3년 이상 ~ 5년 미만</td><td>16일</td><td>+1일 가산</td></tr>
+      <tr><td>5년 이상 ~ 7년 미만</td><td>17일</td><td>+2일 가산</td></tr>
+      <tr><td>10년 이상 ~ 12년 미만</td><td>20일</td><td>+5일 가산</td></tr>
+      <tr><td>21년 이상</td><td>25일 (최대)</td><td>상한선</td></tr>
+    </table>
+    <h3>💡 연차수당 계산 방법</h3>
+    <p>미사용 연차에 대해 회사가 연차 사용 촉진 조치를 취하지 않았다면 <strong>연차수당을 지급</strong>해야 합니다. 연차수당은 통상임금 기준으로 계산합니다.</p>
+    <table class="ex-table">
+      <tr><th>조건</th><th>계산식</th><th>예시 (월급 300만원)</th></tr>
+      <tr><td>1일 통상임금</td><td>월급 ÷ 209시간 × 8시간</td><td>약 114,833원/일</td></tr>
+      <tr><td>미사용 연차 5일</td><td>1일 통상임금 × 5</td><td>약 574,163원</td></tr>
+      <tr><td>미사용 연차 10일</td><td>1일 통상임금 × 10</td><td>약 1,148,325원</td></tr>
+    </table>
+    <div class="hl-box">💡 <strong>연차 소멸 주의:</strong> 미사용 연차는 발생일로부터 1년 후 소멸합니다. 회사가 <strong>연차 사용 촉진 통보</strong>를 서면으로 2회 했다면 미사용 연차에 대한 수당 지급 의무가 면제됩니다. 촉진 절차 없이 소멸시키면 수당 지급 의무가 발생합니다.</div>
+  </div>
 
   <div class="card">
     <h2>📐 연차 발생 기준 (근로기준법)</h2>
@@ -172,6 +216,17 @@
   <details><summary>연차는 언제까지 써야 하나요?</summary><div class="faq-answer">연차는 발생일로부터 1년 이내에 사용해야 합니다. 미사용 연차는 수당으로 받을 수 있습니다. 단, 사용자가 사용 촉진을 했음에도 미사용 시 수당 청구가 제한될 수 있습니다.</div></details>
   <details><summary>최대 연차 25일은 언제 받나요?</summary><div class="faq-answer">입사 21년차부터 25일이 됩니다. 3년차에 1일 추가(16일), 5년차 17일, 7년차 18일... 이런 식으로 2년마다 1일씩 추가됩니다.</div></details>
   <details><summary>계약직도 연차가 발생하나요?</summary><div class="faq-answer">네, 근로기준법은 고용 형태와 무관하게 1주 15시간 이상 근무하는 모든 근로자에게 적용됩니다. 계약직, 파트타임도 동일하게 연차가 발생합니다.</div></details>
+  <div class="rel-section">
+    <h2>📌 함께 쓰면 유용한 계산기</h2>
+    <div class="rel-grid">
+      <a href="/annual_leave" class="rel-card"><span class="re">📅</span><span class="rn">연차 발생 계산기</span></a>
+      <a href="/salary" class="rel-card"><span class="re">💰</span><span class="rn">월급 실수령액</span></a>
+      <a href="/weekly_holiday" class="rel-card"><span class="re">📆</span><span class="rn">주휴수당</span></a>
+      <a href="/parental_leave" class="rel-card"><span class="re">👶</span><span class="rn">육아휴직 급여</span></a>
+      <a href="/unemployment" class="rel-card"><span class="re">💼</span><span class="rn">실업급여</span></a>
+      <a href="/part_time_cost" class="rel-card"><span class="re">👥</span><span class="rn">알바 인건비</span></a>
+    </div>
+  </div>
 </div>
 
 <script>

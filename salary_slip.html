@@ -13,7 +13,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>급여명세서 계산기 | 모두의계산기</title>
-  <meta name="description" content="기본급·각종 수당 입력으로 4대보험·소득세 자동 공제. 실수령액과 급여명세서 양식 출력. 인사담당자 필수 계산기." />
+  <meta name="description" content="급여명세서 계산기 2026 — 기본급·식대·교통비·연장수당 입력으로 4대보험·소득세 자동 공제 후 실수령액 계산. 월급 300만원 기준 공제 내역 예시 포함." />
   <meta name="naver-site-verification" content="82ae9d4234997a93590385e408dc1119dfe6f61f" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
@@ -81,6 +81,27 @@
     details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
     @media print{body{background:#fff}.container{padding:0 20px}.card,.result-card{box-shadow:none;border:1px solid #ccc}.payslip{border:1px solid #ccc}}
     @media(max-width:480px){.row2{grid-template-columns:1fr}.payslip-section{grid-template-columns:1fr}.ps-col{border-right:none;border-bottom:1px solid #ddd}.ps-col:last-child{border-bottom:none}}
+
+    .seo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
+    .seo-card h2{font-size:17px;font-weight:800;color:var(--text);margin-bottom:14px;line-height:1.4}
+    .seo-card h3{font-size:14px;font-weight:700;color:var(--accent);margin:16px 0 8px}
+    .seo-card p{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:10px}
+    .seo-card ul{padding-left:18px;margin-bottom:10px}
+    .seo-card li{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:4px}
+    .seo-card strong{color:var(--text)}
+    .ex-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+    .ex-table th{background:rgba(0,212,170,0.1);padding:8px 12px;text-align:left;color:var(--accent);font-weight:700;border:1px solid var(--border)}
+    .ex-table td{padding:8px 12px;border:1px solid var(--border);color:var(--text-muted);line-height:1.7}
+    .ex-table tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
+    .hl-box{background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.25);border-radius:10px;padding:14px 16px;margin:14px 0;font-size:13px;color:var(--text);line-height:1.8}
+    .hl-box strong{color:var(--accent)}
+    .rel-section{margin-bottom:20px}
+    .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
+    .rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+    .rel-card{display:block;padding:14px 12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+    .rel-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+    .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+    .rel-card .rn{font-size:12px;font-weight:700;color:var(--text)}
   </style>
 </head>
 <body>
@@ -174,9 +195,32 @@
   </div>
 
   <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6079812618767597" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
+  <div class="seo-card">
+    <h2>급여명세서 공제 항목과 실수령액 계산법 (2026년 4대보험료율)</h2>
+    <p>월급에서 실제로 받는 금액이 줄어드는 이유는 <strong>4대보험(국민연금·건강보험·장기요양·고용보험)과 소득세·지방소득세</strong>가 공제되기 때문입니다. 2026년 기준 보험료율과 공제 계산 방식을 정확히 파악하면 급여 설계와 세금 절감에 활용할 수 있습니다.</p>
+    <h3>📋 2026년 기준 4대보험 공제율 (근로자 부담분)</h3>
+    <table class="ex-table">
+      <tr><th>항목</th><th>근로자 부담율</th><th>월급 300만원 기준</th></tr>
+      <tr><td><strong>국민연금</strong></td><td>4.5%</td><td>135,000원</td></tr>
+      <tr><td><strong>건강보험</strong></td><td>3.545%</td><td>106,350원</td></tr>
+      <tr><td><strong>장기요양보험</strong></td><td>건강보험료의 12.95%</td><td>약 13,772원</td></tr>
+      <tr><td><strong>고용보험</strong></td><td>0.9%</td><td>27,000원</td></tr>
+      <tr><td><strong>소득세 (간이세액)</strong></td><td>과세표준 구간별</td><td>약 53,000원</td></tr>
+      <tr><td><strong>지방소득세</strong></td><td>소득세의 10%</td><td>약 5,300원</td></tr>
+    </table>
+    <h3>💡 비과세 항목 활용해 실수령액 높이기</h3>
+    <table class="ex-table">
+      <tr><th>비과세 항목</th><th>한도</th><th>절세 효과 (소득세 15%)</th></tr>
+      <tr><td><strong>식대</strong></td><td>월 200,000원</td><td>연 약 360,000원 절감</td></tr>
+      <tr><td><strong>자가운전보조금</strong></td><td>월 200,000원</td><td>연 약 360,000원 절감</td></tr>
+      <tr><td><strong>출산·육아 수당</strong></td><td>월 200,000원</td><td>연 약 360,000원 절감</td></tr>
+      <tr><td><strong>연구보조비</strong></td><td>월 200,000원</td><td>연 약 360,000원 절감</td></tr>
+    </table>
+    <div class="hl-box">💡 <strong>월급 300만원 기준 실수령액:</strong> 총 공제액 약 340,000원 → 실수령 약 <strong>2,660,000원</strong> (공제율 약 11.3%). 식대·교통비 비과세 항목을 급여 설계에 포함하면 연간 수십만원의 세금을 절감할 수 있습니다.</div>
+  </div>
 
   <div class="card">
-    <h2>📐 2025년 4대보험 요율</h2>
+    <h2>📐 2026년 4대보험 요율</h2>
     <div class="formula-box">
       <strong>국민연금</strong> — 4.5% (사용자 4.5% 별도)<br>
       <strong>건강보험</strong> — 3.545% + 장기요양 0.4591% = 총 약 4.004%<br>
@@ -193,6 +237,17 @@
   <details><summary>부양가족이 많으면 소득세가 줄어드나요?</summary><div class="faq-answer">네, 근로소득 간이세액표는 부양가족 수에 따라 공제가 달라집니다. 부양가족이 많을수록 원천징수 세액이 줄어들며, 연말정산에서 최종 확정됩니다.</div></details>
   <details><summary>급여명세서 교부 의무가 있나요?</summary><div class="faq-answer">2021년 11월부터 상시근로자 30인 미만 사업장도 의무적으로 급여명세서를 교부해야 합니다. 서면 또는 전자문서 모두 가능하며, 미교부 시 과태료 부과 대상입니다.</div></details>
   <details><summary>비과세 항목을 추가하면 어떻게 되나요?</summary><div class="faq-answer">비과세 항목은 총 지급액에는 포함되지만, 4대보험·소득세 계산 시 과세표준에서 제외됩니다. 이 계산기에서 '비과세' 선택 시 자동으로 반영됩니다.</div></details>
+  <div class="rel-section">
+    <h2>📌 함께 쓰면 유용한 계산기</h2>
+    <div class="rel-grid">
+      <a href="/salary" class="rel-card"><span class="re">💰</span><span class="rn">월급 실수령액</span></a>
+      <a href="/income_tax" class="rel-card"><span class="re">📋</span><span class="rn">소득세 계산기</span></a>
+      <a href="/health_insurance" class="rel-card"><span class="re">🏥</span><span class="rn">건강보험료</span></a>
+      <a href="/annual_leave_hr" class="rel-card"><span class="re">📅</span><span class="rn">연차 계산기</span></a>
+      <a href="/weekly_holiday" class="rel-card"><span class="re">📆</span><span class="rn">주휴수당</span></a>
+      <a href="/part_time_cost" class="rel-card"><span class="re">👥</span><span class="rn">알바 인건비</span></a>
+    </div>
+  </div>
 </div>
 
 <script>
