@@ -257,7 +257,7 @@
     }
     @media (max-width: 500px) {
       .input-row { grid-template-columns: 1fr; }
-      .card { padding:32px 20px; }
+      .card { padding: 24px 20px; }
       .result-row { flex-direction: column; }
       .result-sub { text-align: left; }
     }
@@ -284,15 +284,6 @@
       .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
   
 
-.aff-wrap{margin:24px 0;text-align:center}
-.affiliate-banner{display:inline-flex;align-items:center;gap:14px;padding:12px 18px;background:rgba(255,107,107,0.06);border:1px solid rgba(255,107,107,0.2);border-radius:12px;text-decoration:none;transition:all .2s;width:100%;max-width:660px;box-sizing:border-box}
-.affiliate-banner:hover{border-color:rgba(255,107,107,0.4);background:rgba(255,107,107,0.1);transform:translateY(-2px)}
-.ab-icon{font-size:22px;flex-shrink:0}
-.ab-text{flex:1;min-width:0;text-align:left}
-.ab-title{font-size:13px;font-weight:700;color:#e6edf3;margin-bottom:3px}
-.ab-desc{font-size:11px;color:#8b949e;line-height:1.5}
-.ab-btn{flex-shrink:0;background:#ff6b6b;color:#fff;font-size:12px;font-weight:700;padding:7px 14px;border-radius:8px;white-space:nowrap}
-.aff-disclosure{font-size:10px;color:#484f58;margin-top:5px;text-align:center}
 .rel-section{margin:32px 0 8px}
 .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
 .rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
@@ -437,7 +428,7 @@
       </div>
 
       <div class="notice">
-        <strong style="color:orange">⚠️ 안내</strong> 본 계산기는 2026년 고용보험법 기준으로 계산됩니다. 1일 상한액 <strong style="color:var(--text)">66,000원</strong>, 하한액은 최저임금의 80% 기준입니다. 실제 수급액은 고용센터 심사 결과에 따라 다를 수 있습니다.
+        <strong style="color:orange">⚠️ 안내</strong> 본 계산기는 2026년 고용보험법 기준으로 계산됩니다. 1일 상한액 <strong style="color:var(--text)">68,100원</strong>, 하한액은 최저임금의 80% 기준입니다. 실제 수급액은 고용센터 심사 결과에 따라 다를 수 있습니다.
       </div>
     </div>
   </div>
@@ -479,9 +470,9 @@
       // 1일 실업급여 = 1일 평균임금 × 60%
       let dailyBenefit = dailyAvg * 0.6;
 
-      // 상한액: 66,000원 / 하한액: 최저임금(10,030원) × 8시간 × 80%
-      const upperLimit = 66000;
-      const lowerLimit = Math.round(10030 * 8 * 0.8); // 64,192원
+      // 상한액: 68,100원 / 하한액: 최저임금(10,320원) × 8시간 × 80%
+      const upperLimit = 68100;
+      const lowerLimit = Math.round(10320 * 8 * 0.8); // 66,048원
       const upperApplied = dailyBenefit > upperLimit;
       const lowerApplied = dailyBenefit < lowerLimit;
 
@@ -539,17 +530,6 @@
 .seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
 </style>
 
-
-<div class="aff-wrap">
-<a href="https://appu.kr/?i=12515685" class="affiliate-banner" target="_blank" rel="nofollow sponsored">
-  <span class="ab-icon">⚖️</span>
-  <div class="ab-text">
-    <div class="ab-title">개인회생·파산 무료 상담</div>
-    <div class="ab-desc">원금 감면·이자 동결·추심 중단</div>
-  </div>
-  <span class="ab-btn">무료 상담 →</span>
-</a>
-<div class="aff-disclosure">※ 이 링크는 제휴 마케팅(애드릭스)을 통해 수수료를 받을 수 있습니다.</div>
 </div>
 <div class="seo-section">
   <h2>실업급여 수급 자격부터 수령액까지 — 정확히 알고 받자</h2>
@@ -558,7 +538,7 @@
 
   <h3>📐 계산 공식</h3>
   <div class="formula-box">1일 구직급여 = 퇴직 전 평균임금 × 60%
-상한액: 66,000원 / 하한액: 최저임금의 80% × 8시간 = 64,192원 (2026년)
+상한액: 68,100원 / 하한액: 최저임금의 80% × 8시간 = 66,048원 (2026년)
 총 수령액 = 1일 구직급여 × 지급일수</div>
 
   <h3>📊 가입기간·연령별 수급일수</h3>
@@ -577,10 +557,10 @@
   <table>
     <thead><tr><th>퇴직 전 월 급여</th><th>1일 급여</th><th>120일 수령</th><th>180일 수령</th><th>240일 수령</th></tr></thead>
     <tbody>
-      <tr><td>200만 원</td><td>64,192원 (하한)</td><td>약 770만</td><td>약 1,155만</td><td>약 1,540만</td></tr>
-      <tr><td>300만 원</td><td>약 60,000원</td><td>약 720만</td><td>약 1,080만</td><td>약 1,440만</td></tr>
-      <tr><td>400만 원</td><td>66,000원 (상한)</td><td>약 792만</td><td>약 1,188만</td><td>약 1,584만</td></tr>
-      <tr><td>500만 원↑</td><td>66,000원 (상한)</td><td>약 792만</td><td>약 1,188만</td><td>약 1,584만</td></tr>
+      <tr><td>200만 원</td><td>66,048원 (하한)</td><td>약 793만</td><td>약 1,189만</td><td>약 1,585만</td></tr>
+      <tr><td>300만 원</td><td>66,048원 (하한)</td><td>약 793만</td><td>약 1,189만</td><td>약 1,585만</td></tr>
+      <tr><td>400만 원</td><td>68,100원 (상한)</td><td>약 817만</td><td>약 1,226만</td><td>약 1,634만</td></tr>
+      <tr><td>500만 원↑</td><td>68,100원 (상한)</td><td>약 817만</td><td>약 1,226만</td><td>약 1,634만</td></tr>
     </tbody>
   </table>
 
