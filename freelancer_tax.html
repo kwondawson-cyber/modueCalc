@@ -20,7 +20,7 @@
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
     body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
-    .container{max-width:800px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .container{max-width:640px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
     .home-btn-wrap{text-align:center;margin-bottom:8px}
     .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
     .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
@@ -30,7 +30,7 @@
     .header h1{font-size:clamp(28px,6vw,44px);font-weight:900;line-height:1.1;margin-bottom:10px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
     .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
     .header p{color:var(--text-muted);font-size:14px}
-    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:24px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:16px}
     .card-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:20px}
     .input-group{margin-bottom:18px}
     .input-group label{display:block;font-size:13px;font-weight:500;color:var(--text-muted);margin-bottom:7px}
@@ -45,7 +45,7 @@
     .calc-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,212,170,0.3)}
     .result-card{display:none;animation:fadeUp .4s ease}.result-card.visible{display:block}
     @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-    .summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
+    .summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
     .s-box{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center}
     .s-box.main{border-color:rgba(0,212,170,0.4);background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.04));grid-column:span 2}
     .s-box .s-label{font-size:11px;color:var(--text-muted);font-weight:600;margin-bottom:6px}
@@ -146,7 +146,28 @@
 .seo-section details[open] summary::after{content:'－'}
 .seo-section details[open]{background:#161b22}
 .seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
+
+.aff-wrap{margin:24px 0;text-align:center}
+.affiliate-banner{display:inline-flex;align-items:center;gap:14px;padding:14px 20px;background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:14px;text-decoration:none;color:var(--text);transition:all .2s;width:100%;max-width:660px;box-sizing:border-box}
+.affiliate-banner:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,212,170,0.15)}
+.ab-icon{font-size:28px;flex-shrink:0}
+.ab-text{flex:1;text-align:left}
+.ab-title{font-size:15px;font-weight:800;color:var(--text);margin-bottom:3px}
+.ab-desc{font-size:12px;color:var(--text-muted)}
+.ab-btn{font-size:13px;font-weight:700;color:var(--accent);white-space:nowrap;flex-shrink:0}
+.aff-disclosure{font-size:10px;color:#484f58;margin-top:5px;text-align:center}
 </style>
+<div class="aff-wrap">
+<a href="https://appu.kr/?i=12515716" class="affiliate-banner" target="_blank" rel="nofollow sponsored">
+  <span class="ab-icon">🌐</span>
+  <div class="ab-text">
+    <div class="ab-title">바른웹 홈페이지 제작</div>
+    <div class="ab-desc">월 3만원 · 도메인 무료 · 모바일 포함 · 내 소유 홈페이지</div>
+  </div>
+  <span class="ab-btn">무료 견적 →</span>
+</a>
+<div class="aff-disclosure">[광고] 이 링크는 제휴 마케팅(애드릭스)을 통해 수수료를 지급받습니다.</div>
+</div>
 <div class="seo-section">
   <h2>프리랜서·N잡러 세금 완벽 가이드 — 3.3%부터 종합소득세까지</h2>
   <p>프리랜서·N잡러는 소득을 받을 때 3.3%가 원천징수되고, 매년 5월 종합소득세를 신고해 정산합니다. 실제 납부할 세금은 단순경비율을 적용한 후 기본공제 등을 빼고 계산합니다. 연 수입이 낮다면 3.3%보다 실제 세금이 적어 환급받는 경우가 많습니다.</p>

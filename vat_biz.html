@@ -34,11 +34,11 @@
     .header p{color:var(--text-muted);font-size:14px}
     .badges{text-align:center;margin-bottom:16px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
     .badge{padding:3px 12px;background:rgba(0,212,170,0.1);border:1px solid rgba(0,212,170,0.25);border-radius:20px;font-size:11px;color:var(--accent);font-weight:700}
-    .type-tabs{display:flex;gap:8px;margin-bottom:24px}
+    .type-tabs{display:flex;gap:8px;margin-bottom:16px}
     .type-tab{flex:1;padding:12px 8px;text-align:center;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;border:1px solid var(--border);background:var(--surface2);color:var(--text-muted);transition:all .2s;font-family:'Noto Sans KR',sans-serif;line-height:1.4}
     .type-tab.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000;border-color:transparent}
     .type-tab small{display:block;font-size:11px;font-weight:400;margin-top:2px;opacity:.8}
-    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:32px;margin-bottom:24px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
     .card h2{font-size:15px;font-weight:700;margin-bottom:16px;color:var(--accent)}
     .form-group{margin-bottom:14px}
     label{display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px;font-weight:500}
@@ -56,7 +56,7 @@
     .section-total .v{font-weight:700;color:var(--accent)}
     .btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#000;font-size:16px;font-weight:800;font-family:'Noto Sans KR',sans-serif;cursor:pointer;margin-top:8px;transition:opacity .2s}
     .btn:hover{opacity:.9}
-    .result-card{background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:var(--radius);padding:32px;margin-top:16px;display:none}
+    .result-card{background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:var(--radius);padding:24px;margin-top:16px;display:none}
     .result-card.show{display:block}
     .result-main{text-align:center;margin-bottom:20px}
     .result-label{font-size:13px;color:var(--text-muted);margin-bottom:6px}
@@ -73,6 +73,7 @@
     .pnl-row .neg{color:var(--danger)}
     .deadline-box{background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.25);border-radius:10px;padding:12px 14px;margin-top:14px;font-size:13px;color:var(--warn);line-height:1.8}
     .formula-box{background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:14px 16px;margin:16px 0;font-size:13px;color:var(--text-muted);line-height:1.8}
+    .ad-slot{min-height:0;text-align:center;margin:16px 0}
     details{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden}
     details summary{padding:12px 16px;cursor:pointer;font-size:14px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--surface)}
     details summary::after{content:'＋';color:var(--accent);font-size:16px}
@@ -80,7 +81,7 @@
     details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
     @media(max-width:480px){.row2{grid-template-columns:1fr}.cost-row{grid-template-columns:1fr 120px 36px}}
 
-    .seo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:32px;margin-bottom:24px}
+    .seo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
     .seo-card h2{font-size:17px;font-weight:800;color:var(--text);margin-bottom:14px;line-height:1.4}
     .seo-card h3{font-size:14px;font-weight:700;color:var(--accent);margin:16px 0 8px}
     .seo-card p{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:10px}
@@ -100,7 +101,17 @@
     .rel-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
     .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
     .rel-card .rn{font-size:12px;font-weight:700;color:var(--text)}
-  </style>
+  
+.aff-wrap{margin:24px 0;text-align:center}
+.affiliate-banner{display:inline-flex;align-items:center;gap:14px;padding:14px 20px;background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:14px;text-decoration:none;color:var(--text);transition:all .2s;width:100%;max-width:660px;box-sizing:border-box}
+.affiliate-banner:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,212,170,0.15)}
+.ab-icon{font-size:28px;flex-shrink:0}
+.ab-text{flex:1;text-align:left}
+.ab-title{font-size:15px;font-weight:800;color:var(--text);margin-bottom:3px}
+.ab-desc{font-size:12px;color:var(--text-muted)}
+.ab-btn{font-size:13px;font-weight:700;color:var(--accent);white-space:nowrap;flex-shrink:0}
+.aff-disclosure{font-size:10px;color:#484f58;margin-top:5px;text-align:center}
+</style>
 </head>
 <body>
 <div class="container">
@@ -189,6 +200,19 @@
 
     <div class="deadline-box" id="r-deadline"></div>
   </div>
+
+  <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6079812618767597" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
+<div class="aff-wrap">
+<a href="https://appu.kr/?i=12515716" class="affiliate-banner" target="_blank" rel="nofollow sponsored">
+  <span class="ab-icon">🌐</span>
+  <div class="ab-text">
+    <div class="ab-title">바른웹 홈페이지 제작</div>
+    <div class="ab-desc">월 3만원 · 도메인 무료 · 모바일 포함 · 내 소유 홈페이지</div>
+  </div>
+  <span class="ab-btn">무료 견적 →</span>
+</a>
+<div class="aff-disclosure">[광고] 이 링크는 제휴 마케팅(애드릭스)을 통해 수수료를 지급받습니다.</div>
+</div>
   <div class="seo-card">
     <h2>사업자 부가세 신고 방법과 납부세액 계산 (2026년 기준)</h2>
     <p>부가가치세(VAT)는 물건이나 서비스를 판매할 때 소비자에게 징수해 국가에 납부하는 세금입니다. 사업자는 <strong>매출세액(징수한 VAT) − 매입세액(지출 시 낸 VAT) = 납부세액</strong> 구조로 신고합니다. 매입세액이 더 크면 환급을 받을 수 있습니다.</p>
