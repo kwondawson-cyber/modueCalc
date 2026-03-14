@@ -807,29 +807,31 @@
     // 이미 설치됨(standalone)이면 숨김
     if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) return;
 
-    // 삼성 인터넷 → Chrome 안내
     var isSamsung = /samsungbrowser/i.test(navigator.userAgent);
-    if (isSamsung) {
-      installBtn.textContent = 'Chrome으로 열기';
-      installBtn.onclick = function() {
-        alert('Chrome 브라우저에서 이 페이지를 열고\n설치하면 경고 없이 홈 화면에 추가돼요!\n\nChrome 앱 → everycalc.kr 접속 → 설치');
-      };
-    }
+    var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
 
     // iOS Safari → 공유버튼 안내
-    var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-    if (isIOS && !isSamsung) {
-      installBtn.textContent = '추가 방법 보기';
+    if (isIOS) {
+      installBtn.textContent = '홈 화면에 추가';
       installBtn.onclick = function() {
-        alert('Safari에서 하단 공유 버튼(□↑)을 누른 뒤\n"홈 화면에 추가"를 선택해 주세요!');
+        alert('Safari 하단 공유 버튼(□↑)을 누른 뒤\n"홈 화면에 추가"를 선택해 주세요!');
       };
     }
 
-    // beforeinstallprompt: Chrome/Edge 설치 버튼 연결
+    // 삼성 인터넷 → Chrome 안내
+    if (isSamsung) {
+      installBtn.textContent = 'Chrome으로 설치';
+      installBtn.onclick = function() {
+        alert('Chrome 앱에서 everycalc.kr을 열면\n홈 화면에 설치할 수 있어요!');
+      };
+    }
+
+    // Chrome/Edge → beforeinstallprompt 연결
     window.addEventListener('beforeinstallprompt', function(e) {
       e.preventDefault();
       deferredPrompt = e;
       if (!isSamsung && !isIOS) {
+        installBtn.textContent = '홈 화면에 설치';
         installBtn.onclick = function() {
           deferredPrompt.prompt();
           deferredPrompt.userChoice.then(function(result) {
@@ -840,4 +842,18 @@
       }
     });
 
-    // X: 이번 세�
+    // 닫기 버튼
+    closeBtn.addEventListener('click', function() {
+      banner.classList.remove('show');
+      try { localStorage.setItem('pwa_closed', '1'); } catch(e) {}
+    });
+
+    // 배너 표시: 2초 후 — iOS/삼성 포함 모든 환경에서 동작
+    setTimeout(function() {
+      try { if (localStorage.getItem('pwa_closed')) return; } catch(e) {}
+      banner.classList.add('show');
+    }, 2000);
+  })();
+</script>
+</body>
+</html>
