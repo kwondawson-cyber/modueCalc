@@ -36,7 +36,6 @@
     .header h1{font-size:clamp(28px,6vw,48px);font-weight:900;line-height:1.1;margin-bottom:12px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
     .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
     .header p{color:var(--text-muted);font-size:15px;font-weight:300}
-    /* 탭 — pill 스타일 */
     .tab-group{display:flex;gap:4px;background:var(--surface2);border-radius:12px;padding:4px;margin-bottom:20px}
     .tab-btn{flex:1;padding:12px;background:transparent;border:none;border-radius:9px;color:var(--text-muted);font-size:14px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .2s}
     .tab-btn.active{background:var(--surface);color:var(--accent);box-shadow:0 2px 8px rgba(0,0,0,0.3)}
@@ -76,124 +75,38 @@
     <h1><span class="emoji">⛽</span> 연비 계산기</h1>
     <p>실제 연비 · 주유 비용 · 연간 유류비 한 번에 계산</p>
   </div>
-
   <div class="card">
     <div class="tab-group">
       <button class="tab-btn active" onclick="switchTab('real',this)">실제 연비 계산</button>
       <button class="tab-btn" onclick="switchTab('trip',this)">목적지 비용 계산</button>
       <button class="tab-btn" onclick="switchTab('annual',this)">연간 유류비 계산</button>
     </div>
-
-    <!-- 탭 1: 실제 연비 -->
     <div class="tab-panel active" id="tab-real">
       <div class="card-title">⛽ 실제 연비 계산</div>
       <div class="info-box">💡 주유 후 주행 거리와 주유량을 입력하면 실제 연비를 계산합니다. 만탱크 → 주행 → 만탱크 방식이 가장 정확합니다.</div>
-      <div class="input-group">
-        <label>주행 거리</label>
-        <div class="input-wrapper">
-          <input type="number" id="r1-distance" placeholder="450" />
-          <span class="input-unit">km</span>
-        </div>
-      </div>
-      <div class="input-group">
-        <label>주유량</label>
-        <div class="input-wrapper">
-          <input type="number" id="r1-fuel" placeholder="40" />
-          <span class="input-unit">리터 (L)</span>
-        </div>
-      </div>
-      <div class="input-group">
-        <label>연료 종류</label>
-        <div class="seg-group" id="r1-fuelType">
-          <button class="seg-btn active" data-fuel="휘발유" onclick="selectFuel(this,'r1-fuelType')">휘발유</button>
-          <button class="seg-btn" data-fuel="경유" onclick="selectFuel(this,'r1-fuelType')">경유</button>
-          <button class="seg-btn" data-fuel="LPG" onclick="selectFuel(this,'r1-fuelType')">LPG</button>
-        </div>
-      </div>
-      <div class="input-group">
-        <label>리터당 유가 (선택)</label>
-        <div class="input-wrapper">
-          <input type="number" id="r1-price" placeholder="1650" />
-          <span class="input-unit">원/L</span>
-        </div>
-      </div>
+      <div class="input-group"><label>주행 거리</label><div class="input-wrapper"><input type="number" id="r1-distance" placeholder="450" /><span class="input-unit">km</span></div></div>
+      <div class="input-group"><label>주유량</label><div class="input-wrapper"><input type="number" id="r1-fuel" placeholder="40" /><span class="input-unit">리터 (L)</span></div></div>
+      <div class="input-group"><label>연료 종류</label><div class="seg-group" id="r1-fuelType"><button class="seg-btn active" data-fuel="휘발유" onclick="selectFuel(this,'r1-fuelType')">휘발유</button><button class="seg-btn" data-fuel="경유" onclick="selectFuel(this,'r1-fuelType')">경유</button><button class="seg-btn" data-fuel="LPG" onclick="selectFuel(this,'r1-fuelType')">LPG</button></div></div>
+      <div class="input-group"><label>리터당 유가 (선택)</label><div class="input-wrapper"><input type="number" id="r1-price" placeholder="1650" /><span class="input-unit">원/L</span></div></div>
       <button class="calc-btn" onclick="calcReal()">⛽ 연비 계산하기</button>
     </div>
-
-    <!-- 탭 2: 목적지 비용 -->
     <div class="tab-panel" id="tab-trip">
       <div class="card-title">🗺 목적지 주유 비용</div>
-      <div class="input-group">
-        <label>이동 거리</label>
-        <div class="input-wrapper">
-          <input type="number" id="r2-distance" placeholder="300" />
-          <span class="input-unit">km</span>
-        </div>
-      </div>
-      <div class="input-group">
-        <label>차량 연비</label>
-        <div class="input-wrapper">
-          <input type="number" id="r2-mpg" placeholder="12" />
-          <span class="input-unit">km/L</span>
-        </div>
-      </div>
-      <div class="input-group">
-        <label>연료 종류</label>
-        <div class="seg-group" id="r2-fuelType">
-          <button class="seg-btn active" data-fuel="휘발유" onclick="selectFuel(this,'r2-fuelType')">휘발유</button>
-          <button class="seg-btn" data-fuel="경유" onclick="selectFuel(this,'r2-fuelType')">경유</button>
-          <button class="seg-btn" data-fuel="LPG" onclick="selectFuel(this,'r2-fuelType')">LPG</button>
-          <button class="seg-btn" data-fuel="전기" onclick="selectFuel(this,'r2-fuelType')">전기차</button>
-        </div>
-      </div>
-      <div class="input-group">
-        <label id="r2-priceLabel">리터당 유가</label>
-        <div class="input-wrapper">
-          <input type="number" id="r2-price" placeholder="1650" />
-          <span class="input-unit" id="r2-unit">원/L</span>
-        </div>
-      </div>
+      <div class="input-group"><label>이동 거리</label><div class="input-wrapper"><input type="number" id="r2-distance" placeholder="300" /><span class="input-unit">km</span></div></div>
+      <div class="input-group"><label>차량 연비</label><div class="input-wrapper"><input type="number" id="r2-mpg" placeholder="12" /><span class="input-unit">km/L</span></div></div>
+      <div class="input-group"><label>연료 종류</label><div class="seg-group" id="r2-fuelType"><button class="seg-btn active" data-fuel="휘발유" onclick="selectFuel(this,'r2-fuelType')">휘발유</button><button class="seg-btn" data-fuel="경유" onclick="selectFuel(this,'r2-fuelType')">경유</button><button class="seg-btn" data-fuel="LPG" onclick="selectFuel(this,'r2-fuelType')">LPG</button><button class="seg-btn" data-fuel="전기" onclick="selectFuel(this,'r2-fuelType')">전기차</button></div></div>
+      <div class="input-group"><label id="r2-priceLabel">리터당 유가</label><div class="input-wrapper"><input type="number" id="r2-price" placeholder="1650" /><span class="input-unit" id="r2-unit">원/L</span></div></div>
       <button class="calc-btn" onclick="calcTrip()">🗺 비용 계산하기</button>
     </div>
-
-    <!-- 탭 3: 연간 유류비 -->
     <div class="tab-panel" id="tab-annual">
       <div class="card-title">📅 연간 유류비 계산</div>
-      <div class="input-group">
-        <label>월 주행 거리</label>
-        <div class="input-wrapper">
-          <input type="number" id="r3-monthly" placeholder="1500" />
-          <span class="input-unit">km/월</span>
-        </div>
-      </div>
-      <div class="input-group">
-        <label>차량 연비</label>
-        <div class="input-wrapper">
-          <input type="number" id="r3-mpg" placeholder="12" />
-          <span class="input-unit">km/L</span>
-        </div>
-      </div>
-      <div class="input-group">
-        <label>연료 종류</label>
-        <div class="seg-group" id="r3-fuelType">
-          <button class="seg-btn active" data-fuel="휘발유" onclick="selectFuel(this,'r3-fuelType')">휘발유</button>
-          <button class="seg-btn" data-fuel="경유" onclick="selectFuel(this,'r3-fuelType')">경유</button>
-          <button class="seg-btn" data-fuel="LPG" onclick="selectFuel(this,'r3-fuelType')">LPG</button>
-          <button class="seg-btn" data-fuel="전기" onclick="selectFuel(this,'r3-fuelType')">전기차</button>
-        </div>
-      </div>
-      <div class="input-group">
-        <label id="r3-priceLabel">리터당 유가</label>
-        <div class="input-wrapper">
-          <input type="number" id="r3-price" placeholder="1650" />
-          <span class="input-unit" id="r3-unit">원/L</span>
-        </div>
-      </div>
+      <div class="input-group"><label>월 주행 거리</label><div class="input-wrapper"><input type="number" id="r3-monthly" placeholder="1500" /><span class="input-unit">km/월</span></div></div>
+      <div class="input-group"><label>차량 연비</label><div class="input-wrapper"><input type="number" id="r3-mpg" placeholder="12" /><span class="input-unit">km/L</span></div></div>
+      <div class="input-group"><label>연료 종류</label><div class="seg-group" id="r3-fuelType"><button class="seg-btn active" data-fuel="휘발유" onclick="selectFuel(this,'r3-fuelType')">휘발유</button><button class="seg-btn" data-fuel="경유" onclick="selectFuel(this,'r3-fuelType')">경유</button><button class="seg-btn" data-fuel="LPG" onclick="selectFuel(this,'r3-fuelType')">LPG</button><button class="seg-btn" data-fuel="전기" onclick="selectFuel(this,'r3-fuelType')">전기차</button></div></div>
+      <div class="input-group"><label id="r3-priceLabel">리터당 유가</label><div class="input-wrapper"><input type="number" id="r3-price" placeholder="1650" /><span class="input-unit" id="r3-unit">원/L</span></div></div>
       <button class="calc-btn" onclick="calcAnnual()">📅 연간 비용 계산하기</button>
     </div>
   </div>
-
-  <!-- 결과 카드 -->
   <div class="card result-card" id="resultCard">
     <div class="card-title">📊 계산 결과</div>
     <div class="big-result">
@@ -202,8 +115,8 @@
       <div class="br-unit" id="r-mainUnit">km/L</div>
     </div>
     <div id="r-details"></div>
-  </div></div>
-
+  </div>
+</div>
 <style>
 .seo-section{max-width:800px;margin:0 auto;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
 .seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
@@ -224,48 +137,59 @@
 .rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
 .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
 .rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
-</style>
 
+.aff-wrap{margin:24px 0;text-align:center}
+.affiliate-banner{display:inline-flex;align-items:center;gap:14px;padding:14px 20px;background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:14px;text-decoration:none;color:var(--text);transition:all .2s;width:100%;max-width:660px;box-sizing:border-box}
+.affiliate-banner:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,212,170,0.15)}
+.ab-icon{font-size:28px;flex-shrink:0}
+.ab-text{flex:1;text-align:left}
+.ab-title{font-size:15px;font-weight:800;color:var(--text);margin-bottom:3px}
+.ab-desc{font-size:12px;color:var(--text-muted)}
+.ab-btn{font-size:13px;font-weight:700;color:var(--accent);white-space:nowrap;flex-shrink:0}
+.aff-disclosure{font-size:10px;color:#484f58;margin-top:5px;text-align:center}
+</style>
+<div class="aff-wrap">
+<a href="https://appu.kr/?i=12515713" class="affiliate-banner" target="_blank" rel="nofollow sponsored">
+  <span class="ab-icon">🚘</span>
+  <div class="ab-text">
+    <div class="ab-title">카바딜러 신차 딜러 혜택 비교</div>
+    <div class="ab-desc">전국 딜러 실시간 비교 · 캐시백·할인 한눈에 · 1분 무료 견적</div>
+  </div>
+  <span class="ab-btn">혜택 비교 →</span>
+</a>
+<div class="aff-disclosure">[광고] 이 링크는 제휴 마케팅(애드릭스)을 통해 수수료를 지급받습니다.</div>
+</div>
 <div class="seo-section">
   <h2>연비 계산기 완벽 가이드 — 실제 연비부터 연간 유류비까지</h2>
   <p>카탈로그 연비(공인 연비)와 실제 주행 연비는 다릅니다. 평균적으로 실제 연비는 공인 연비의 70~85% 수준입니다. 직접 측정한 실제 연비를 알아야 정확한 유류비를 계산할 수 있습니다.</p>
   <div class="formula-box">실제 연비 (km/L) = 주행 거리 (km) ÷ 소비 연료 (L)
-
 목적지 주유 비용 = 거리 ÷ 연비 × 리터당 유가
   예) 300km, 연비 12km/L, 유가 1,650원
   → 300 ÷ 12 × 1,650 = 41,250원
-
 연간 유류비 = 월 주행거리 × 12개월 ÷ 연비 × 리터당 유가</div>
-
   <h3>⛽ 연료별 평균 유가 (참고)</h3>
   <p>유가는 국제유가·환율·정유사 정책에 따라 매일 변합니다. 정확한 실시간 유가는 오피넷(opinet.co.kr)에서 확인하세요.</p>
   <div class="formula-box">휘발유:  약 1,550 ~ 1,750원/L
 경유:    약 1,400 ~ 1,600원/L
 LPG:     약 900 ~ 1,050원/L
 전기차:  약 50 ~ 80원/kWh  (공용 급속 충전 기준)</div>
-
   <h3>🔋 전기차 vs 내연기관 유류비 비교</h3>
   <p>전기차의 "연비"는 전비(km/kWh)로 표현합니다. 100kWh당 비용이 내연기관 리터 대비 약 1/4~1/5 수준이라 주행 비용이 크게 낮습니다. 단, 차량 구매 가격과 충전 인프라 접근성을 함께 고려해야 합니다.</p>
   <div class="formula-box">전기차 연간 유류비 예시 (월 1,500km, 전비 6km/kWh, 급속 70원/kWh):
   연간 소비: 1,500 × 12 ÷ 6 = 3,000 kWh
   연간 비용: 3,000 × 70원 = 210,000원
-
 휘발유차 동일 조건 (연비 12km/L, 1,650원/L):
   연간 소비: 18,000 ÷ 12 = 1,500L
   연간 비용: 1,500 × 1,650원 = 2,475,000원
-
   → 연간 약 230만원 절감</div>
-
   <h3>📉 연비를 높이는 실전 방법</h3>
   <p>급가속·급제동을 줄이는 것이 가장 효과적입니다. 타이어 공기압을 권장값(보통 33~35psi)으로 유지하면 연비가 2~3% 향상됩니다. 에어컨은 연비를 5~15% 낮출 수 있습니다. 불필요한 짐을 빼고 고속도로에서 100~110km/h 정속 주행을 유지하면 연비 개선에 도움이 됩니다.</p>
-
   <h2>자주 묻는 질문 (FAQ)</h2>
   <details><summary>공인 연비와 실제 연비는 왜 다른가요?</summary><div class="faq-answer">공인 연비는 실험실에서 표준 조건(에어컨 없음, 이상적 도로)으로 측정합니다. 실제 도로에서는 신호 대기, 에어컨 사용, 탑승 인원, 도로 경사 등 다양한 변수가 작용해 보통 공인 연비의 70~85% 수준이 실제 연비입니다.</div></details>
   <details><summary>연비 계산을 가장 정확하게 하는 방법은?</summary><div class="faq-answer">만탱크 법이 가장 정확합니다. ① 연료를 가득 채우고 주행거리를 초기화 → ② 일정 거리 주행 → ③ 다시 가득 채우면서 주유량 기록. 이때 주행거리 ÷ 주유량이 실제 연비입니다. 최소 300km 이상 주행 후 측정해야 오차가 줄어듭니다.</div></details>
   <details><summary>고속도로와 시내 연비 차이가 얼마나 나나요?</summary><div class="faq-answer">일반적으로 고속도로 연비가 시내보다 30~50% 높습니다. 신호 대기·저속 구간이 많은 시내 주행에서는 엔진 효율이 낮고, 브레이크 마찰로 에너지 손실이 큽니다. 하이브리드차는 시내에서 회생 제동이 작동해 고속도로와 연비 차이가 상대적으로 작습니다.</div></details>
   <details><summary>LPG차는 경유차보다 유류비가 저렴한가요?</summary><div class="faq-answer">리터당 가격은 LPG가 훨씬 싸지만, LPG의 에너지 밀도가 낮아 연비(km/L)가 낮습니다. 같은 차종 기준으로 LPG와 경유의 실제 주행 비용은 비슷하거나 LPG가 약간 저렴한 수준입니다.</div></details>
   <details><summary>전기차 전비(km/kWh)로 비용을 계산하려면?</summary><div class="faq-answer">전기차는 리터 대신 kWh를 단위로 씁니다. 주행 비용 = 거리 ÷ 전비(km/kWh) × 전기요금(원/kWh). 가정용 충전 시 약 200~300원/kWh, 공용 급속 충전기는 약 300~400원/kWh를 기준으로 합니다.</div></details>
-
   <div class="rel-section">
     <h2>📌 함께 쓰면 유용한 계산기</h2>
     <div class="rel-grid">
@@ -278,11 +202,9 @@ LPG:     약 900 ~ 1,050원/L
     </div>
   </div>
 </div>
-
 <script>
 let currentTab = 'real';
 const fuelTypes = {};
-
 function switchTab(tab, el) {
   currentTab = tab;
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -291,7 +213,6 @@ function switchTab(tab, el) {
   document.getElementById('tab-' + tab).classList.add('active');
   document.getElementById('resultCard').classList.remove('visible');
 }
-
 function selectFuel(btn, groupId) {
   document.querySelectorAll('#' + groupId + ' .seg-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
@@ -309,14 +230,12 @@ function selectFuel(btn, groupId) {
     document.getElementById('r3-price').placeholder = isEv ? '310' : '1650';
   }
 }
-
 function detailRow(label, value, accent) {
   return `<div class="detail-item"><span class="d-label">${label}</span><span class="d-value ${accent?'accent':''}">${value}</span></div>`;
 }
 function fmt(n, decimals=0) {
   return n.toLocaleString('ko-KR', {minimumFractionDigits:decimals, maximumFractionDigits:decimals});
 }
-
 function calcReal() {
   const dist  = parseFloat(document.getElementById('r1-distance').value) || 0;
   const fuel  = parseFloat(document.getElementById('r1-fuel').value) || 0;
@@ -336,7 +255,6 @@ function calcReal() {
     detailRow('공인 연비 추정', `약 ${fmt(mpg/0.77, 1)} km/L 차량 (실연비 77% 가정)`);
   document.getElementById('resultCard').classList.add('visible');
 }
-
 function calcTrip() {
   const dist  = parseFloat(document.getElementById('r2-distance').value) || 0;
   const mpg   = parseFloat(document.getElementById('r2-mpg').value) || 0;
@@ -357,7 +275,6 @@ function calcTrip() {
     detailRow('왕복 비용', fmt(cost * 2) + ' 원', true);
   document.getElementById('resultCard').classList.add('visible');
 }
-
 function calcAnnual() {
   const monthly = parseFloat(document.getElementById('r3-monthly').value) || 0;
   const mpg     = parseFloat(document.getElementById('r3-mpg').value) || 0;
@@ -380,7 +297,6 @@ function calcAnnual() {
     detailRow('하루 평균 유류비', fmt(annualCost / 365, 0) + ' 원');
   document.getElementById('resultCard').classList.add('visible');
 }
-
 fuelTypes['r1-fuelType'] = '휘발유';
 fuelTypes['r2-fuelType'] = '휘발유';
 fuelTypes['r3-fuelType'] = '휘발유';

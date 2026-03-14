@@ -76,53 +76,15 @@
     <h1><span class="emoji">🚗</span> 자동차 취득세 계산기</h1>
     <p>신차·중고차·전기차·경차 취득세 한 번에 계산</p>
   </div>
-
   <div class="card">
     <div class="card-title">🚗 차량 정보 입력</div>
-
-    <div class="input-group">
-      <label>차량 종류</label>
-      <div class="seg-group" id="carTypeGroup">
-        <button class="seg-btn active" data-type="일반" onclick="selectType(this)">일반 승용</button>
-        <button class="seg-btn" data-type="경차" onclick="selectType(this)">경차</button>
-        <button class="seg-btn" data-type="전기" onclick="selectType(this)">전기차</button>
-        <button class="seg-btn" data-type="하이브리드" onclick="selectType(this)">하이브리드</button>
-        <button class="seg-btn" data-type="승합" onclick="selectType(this)">승합/화물</button>
-      </div>
-    </div>
-
-    <div class="input-group">
-      <label>신차 / 중고차</label>
-      <div class="seg-group" id="newUsedGroup">
-        <button class="seg-btn active" data-used="new" onclick="selectUsed(this)">신차</button>
-        <button class="seg-btn" data-used="used" onclick="selectUsed(this)">중고차</button>
-      </div>
-    </div>
-
-    <div class="input-group">
-      <label>차량 가격 (구매가)</label>
-      <div class="input-wrapper">
-        <input type="number" id="carPrice" placeholder="35000000" />
-        <span class="input-unit">원</span>
-      </div>
-    </div>
-
-    <div class="input-group" id="regionGroup">
-      <label>등록 지역 (공채 매입 기준)</label>
-      <div class="seg-group">
-        <button class="seg-btn active" data-region="서울" onclick="selectRegion(this)">서울</button>
-        <button class="seg-btn" data-region="경기" onclick="selectRegion(this)">경기</button>
-        <button class="seg-btn" data-region="기타" onclick="selectRegion(this)">기타 광역시</button>
-        <button class="seg-btn" data-region="지방" onclick="selectRegion(this)">기타 지방</button>
-      </div>
-    </div>
-
-    <div class="info-box" id="infoBox">
-      📌 일반 승용차 취득세율 <strong>7%</strong> 적용 · 경차 4%, 전기차 취득세 감면 혜택 있음
-    </div>
+    <div class="input-group"><label>차량 종류</label><div class="seg-group" id="carTypeGroup"><button class="seg-btn active" data-type="일반" onclick="selectType(this)">일반 승용</button><button class="seg-btn" data-type="경차" onclick="selectType(this)">경차</button><button class="seg-btn" data-type="전기" onclick="selectType(this)">전기차</button><button class="seg-btn" data-type="하이브리드" onclick="selectType(this)">하이브리드</button><button class="seg-btn" data-type="승합" onclick="selectType(this)">승합/화물</button></div></div>
+    <div class="input-group"><label>신차 / 중고차</label><div class="seg-group" id="newUsedGroup"><button class="seg-btn active" data-used="new" onclick="selectUsed(this)">신차</button><button class="seg-btn" data-used="used" onclick="selectUsed(this)">중고차</button></div></div>
+    <div class="input-group"><label>차량 가격 (구매가)</label><div class="input-wrapper"><input type="number" id="carPrice" placeholder="35000000" /><span class="input-unit">원</span></div></div>
+    <div class="input-group" id="regionGroup"><label>등록 지역 (공채 매입 기준)</label><div class="seg-group"><button class="seg-btn active" data-region="서울" onclick="selectRegion(this)">서울</button><button class="seg-btn" data-region="경기" onclick="selectRegion(this)">경기</button><button class="seg-btn" data-region="기타" onclick="selectRegion(this)">기타 광역시</button><button class="seg-btn" data-region="지방" onclick="selectRegion(this)">기타 지방</button></div></div>
+    <div class="info-box" id="infoBox">📌 일반 승용차 취득세율 <strong>7%</strong> 적용 · 경차 4%, 전기차 취득세 감면 혜택 있음</div>
     <button class="calc-btn" onclick="calcCarTax()">🚗 취득세 계산하기</button>
   </div>
-
   <div class="card result-card" id="resultCard">
     <div class="card-title">💰 세금 계산 결과</div>
     <div class="big-result">
@@ -135,13 +97,10 @@
     <div class="detail-item"><span class="d-label">지방교육세 (취득세의 10%)</span><span class="d-value red" id="r-edu">—</span></div>
     <div class="detail-item"><span class="d-label">공채 매입비 (추정)</span><span class="d-value red" id="r-bond">—</span></div>
     <div class="detail-item"><span class="d-label">공채 할인 손실 (즉시 매도 시)</span><span class="d-value red" id="r-bondloss">—</span></div>
-    <div class="total-row">
-      <span>총 부대비용 (취득세+공채손실)</span>
-      <span id="r-total">—</span>
-    </div>
+    <div class="total-row"><span>총 부대비용 (취득세+공채손실)</span><span id="r-total">—</span></div>
     <div class="warn-box" id="r-note">⚠️ 실제 취득세는 과세표준(시가표준액)이 구매가보다 높으면 시가표준액 기준으로 부과됩니다.</div>
-  </div></div>
-
+  </div>
+</div>
 <style>
 .seo-section{max-width:800px;margin:0 auto;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
 .seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
@@ -151,8 +110,8 @@
 .seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
 .seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
 .seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
-.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
-.seo-section details[open] summary::after{content:'－'}
+.seo-section summary::after{content:"＋";color:#00d4aa;font-size:16px}
+.seo-section details[open] summary::after{content:"－"}
 .seo-section details[open]{background:#161b22}
 .seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
 .rel-section{margin-top:40px}
@@ -162,25 +121,42 @@
 .rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
 .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
 .rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
-</style>
 
+.aff-wrap{margin:24px 0;text-align:center}
+.affiliate-banner{display:inline-flex;align-items:center;gap:14px;padding:14px 20px;background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:14px;text-decoration:none;color:var(--text);transition:all .2s;width:100%;max-width:660px;box-sizing:border-box}
+.affiliate-banner:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,212,170,0.15)}
+.ab-icon{font-size:28px;flex-shrink:0}
+.ab-text{flex:1;text-align:left}
+.ab-title{font-size:15px;font-weight:800;color:var(--text);margin-bottom:3px}
+.ab-desc{font-size:12px;color:var(--text-muted)}
+.ab-btn{font-size:13px;font-weight:700;color:var(--accent);white-space:nowrap;flex-shrink:0}
+.aff-disclosure{font-size:10px;color:#484f58;margin-top:5px;text-align:center}
+</style>
+<div class="aff-wrap">
+<a href="https://appu.kr/?i=12515713" class="affiliate-banner" target="_blank" rel="nofollow sponsored">
+  <span class="ab-icon">🚘</span>
+  <div class="ab-text">
+    <div class="ab-title">카바딜러 신차 딜러 혜택 비교</div>
+    <div class="ab-desc">전국 딜러 실시간 비교 · 캐시백·할인 한눈에 · 1분 무료 견적</div>
+  </div>
+  <span class="ab-btn">혜택 비교 →</span>
+</a>
+<div class="aff-disclosure">[광고] 이 링크는 제휴 마케팅(애드릭스)을 통해 수수료를 지급받습니다.</div>
+</div>
 <div class="seo-section">
   <h2>자동차 취득세 완벽 정리 — 차종별 세율과 계산법</h2>
   <p>자동차를 구매할 때 차량 가격 외에 반드시 내야 하는 세금이 취득세입니다. 차량 종류에 따라 세율이 다르며, 취득세 외에 지방교육세와 공채 매입 비용도 추가됩니다.</p>
   <div class="formula-box">취득세 = 차량 과세표준 × 취득세율
 지방교육세 = 취득세 × 10%
 공채 매입비 = 차량가 × 공채 매입률 (지역·차종별 상이)
-
 차종별 취득세율:
   일반 승용차:      7%
   경차 (1,000cc↓): 4%  (100만원 한도 감면 적용 시 더 낮을 수 있음)
   전기차:           취득세 140만원 한도 감면
   하이브리드:       취득세 40만원 한도 감면
   승합·화물:        5%</div>
-
   <h3>🔑 공채 매입이란?</h3>
   <p>자동차를 등록할 때 지역개발채권(서울·경기) 또는 도시철도채권(광역시)을 의무적으로 매입해야 합니다. 대부분은 매입 즉시 시중은행에 할인해서 팔아버리는데, 이때 발생하는 할인 손실이 실질적인 추가 비용입니다. 서울 기준 일반 승용차는 차량가의 약 9~12%를 매입합니다.</p>
-
   <h3>📊 3,500만원 승용차 구매 시 예상 비용</h3>
   <div class="formula-box">차량가:       35,000,000원
 취득세 (7%):   2,450,000원
@@ -189,17 +165,14 @@
   공채 매입: 3,150,000원 → 즉시 매도 손실 약 630,000원
 ──────────────────────────────────────
 취득세+지교세+공채손실: 약 3,325,000원 (차량가의 약 9.5%)</div>
-
   <h3>🔋 전기차·하이브리드 취득세 감면</h3>
   <p>전기차는 취득세를 최대 140만원까지 감면받을 수 있습니다. 예를 들어 5,000만원 전기차의 취득세는 350만원이지만, 감면 후 210만원만 납부합니다. 하이브리드는 최대 40만원 감면됩니다. 감면 혜택은 매년 연장 여부를 확인해야 합니다.</p>
-
   <h2>자주 묻는 질문 (FAQ)</h2>
   <details><summary>중고차 취득세는 구매가 기준인가요?</summary><div class="faq-answer">중고차 취득세는 실제 구매가와 보험개발원이 정한 시가표준액 중 높은 금액을 기준으로 계산합니다. 싸게 샀더라도 시가표준액이 더 높으면 시가표준액 기준으로 취득세를 냅니다. 단, 구매가가 시가표준액보다 높으면 구매가 기준입니다.</div></details>
   <details><summary>경차 취득세 감면 기준은 무엇인가요?</summary><div class="faq-answer">배기량 1,000cc 이하, 길이 3.6m·너비 1.6m·높이 2.0m 이하 승용차가 경차입니다. 취득세율 4%에 추가로 100만원 한도 감면 혜택이 있어, 차량가 2,500만원 이하 경차는 취득세가 0원이 될 수 있습니다.</div></details>
   <details><summary>취득세는 언제 납부하나요?</summary><div class="faq-answer">차량 취득일(등록일)로부터 60일 이내에 관할 시·군·구청에 신고·납부해야 합니다. 온라인 위택스(wetax.go.kr)에서도 납부 가능합니다. 기한 내 미납 시 20% 가산세가 부과됩니다.</div></details>
   <details><summary>리스·장기 렌트 차량도 취득세를 내나요?</summary><div class="faq-answer">리스·장기 렌트는 소유권이 리스사·렌트사에 있어 계약자가 취득세를 직접 내지 않습니다. 다만 리스 종료 후 차량을 인수할 경우 잔존가액 기준으로 취득세가 발생합니다.</div></details>
   <details><summary>공채는 꼭 즉시 팔아야 하나요?</summary><div class="faq-answer">아닙니다. 만기(5~7년)까지 보유하면 원금과 이자를 받을 수 있습니다. 단, 이자율이 낮아(연 0~1%) 대부분은 즉시 매도하는 것이 현실적입니다.</div></details>
-
   <div class="rel-section">
     <h2>📌 함께 쓰면 유용한 계산기</h2>
     <div class="rel-grid">
@@ -212,12 +185,10 @@
     </div>
   </div>
 </div>
-
 <script>
 let carType = '일반';
 let isUsed = false;
 let region = '서울';
-
 const TAX_RATES = {'일반':0.07,'경차':0.04,'전기':0.07,'하이브리드':0.07,'승합':0.05};
 const DISCOUNT  = {'전기':1400000,'하이브리드':400000};
 const BOND_RATES = {
@@ -234,25 +205,20 @@ const INFO = {
   '하이브리드':'📌 하이브리드 취득세율 7% → <strong>최대 40만원 감면</strong> 적용',
   '승합':    '📌 승합·화물차 취득세율 <strong>5%</strong> 적용',
 };
-
 function selectType(btn) {
   document.querySelectorAll('#carTypeGroup .seg-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  carType = btn.dataset.type;
+  btn.classList.add('active'); carType = btn.dataset.type;
   document.getElementById('infoBox').innerHTML = INFO[carType];
 }
 function selectUsed(btn) {
   document.querySelectorAll('#newUsedGroup .seg-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  isUsed = btn.dataset.used === 'used';
+  btn.classList.add('active'); isUsed = btn.dataset.used === 'used';
 }
 function selectRegion(btn) {
   btn.closest('.seg-group').querySelectorAll('.seg-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  region = btn.dataset.region;
+  btn.classList.add('active'); region = btn.dataset.region;
 }
 function fmt(n) { return Math.round(n).toLocaleString('ko-KR') + '원'; }
-
 function calcCarTax() {
   const price = parseFloat(document.getElementById('carPrice').value) || 0;
   if (price <= 0) { alert('차량 가격을 입력하세요.'); return; }

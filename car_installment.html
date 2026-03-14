@@ -73,56 +73,34 @@
     <h1><span class="emoji">🚗</span> 자동차 할부 계산기</h1>
     <p>월 납입금 · 총 이자 · 실제 구매비용 계산</p>
   </div>
-
   <div class="card">
     <div class="card-title">🚘 차량 정보 입력</div>
     <div class="input-group">
       <label>차량 가격</label>
-      <div class="input-wrapper">
-        <input type="number" id="carPrice" placeholder="3500" />
-        <span class="input-unit">만원</span>
-      </div>
+      <div class="input-wrapper"><input type="number" id="carPrice" placeholder="3500" /><span class="input-unit">만원</span></div>
     </div>
     <div class="row2">
       <div class="input-group">
         <label>선수금</label>
-        <div class="input-wrapper">
-          <input type="number" id="downPayment" placeholder="0" value="0" />
-          <span class="input-unit">만원</span>
-        </div>
+        <div class="input-wrapper"><input type="number" id="downPayment" placeholder="0" value="0" /><span class="input-unit">만원</span></div>
       </div>
       <div class="input-group">
         <label>잔존가치 (선택)</label>
-        <div class="input-wrapper">
-          <input type="number" id="residual" placeholder="0이면 일반 할부" value="0" />
-          <span class="input-unit">만원</span>
-        </div>
+        <div class="input-wrapper"><input type="number" id="residual" placeholder="0이면 일반 할부" value="0" /><span class="input-unit">만원</span></div>
       </div>
     </div>
     <div class="row2">
       <div class="input-group">
         <label>할부 기간</label>
-        <div class="input-wrapper">
-          <select id="term">
-            <option value="24">24개월</option>
-            <option value="36" selected>36개월</option>
-            <option value="48">48개월</option>
-            <option value="60">60개월</option>
-            <option value="72">72개월</option>
-          </select>
-        </div>
+        <div class="input-wrapper"><select id="term"><option value="24">24개월</option><option value="36" selected>36개월</option><option value="48">48개월</option><option value="60">60개월</option><option value="72">72개월</option></select></div>
       </div>
       <div class="input-group">
         <label>할부 금리 (연)</label>
-        <div class="input-wrapper">
-          <input type="number" id="rate" placeholder="5.9" step="0.1" value="5.9" />
-          <span class="input-unit">%</span>
-        </div>
+        <div class="input-wrapper"><input type="number" id="rate" placeholder="5.9" step="0.1" value="5.9" /><span class="input-unit">%</span></div>
       </div>
     </div>
     <button class="btn" onclick="calcHalbu()">계산하기</button>
   </div>
-
   <div class="result-card" id="result">
     <div class="result-main">
       <div class="result-label">월 납입금</div>
@@ -135,8 +113,8 @@
       <div class="result-item"><div class="result-item-label">총 납입액</div><div class="result-item-value" id="rTotalPay">-</div></div>
       <div class="result-item"><div class="result-item-label">실제 구매비용</div><div class="result-item-value" id="rRealCost">-</div></div>
     </div>
-  </div></div>
-
+  </div>
+</div>
 <style>
 .seo-section{max-width:800px;margin:0 auto;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
 .seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
@@ -166,12 +144,31 @@
 .rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
 .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
 .rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
-</style>
 
+.aff-wrap{margin:24px 0;text-align:center}
+.affiliate-banner{display:inline-flex;align-items:center;gap:14px;padding:14px 20px;background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:14px;text-decoration:none;color:var(--text);transition:all .2s;width:100%;max-width:660px;box-sizing:border-box}
+.affiliate-banner:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,212,170,0.15)}
+.ab-icon{font-size:28px;flex-shrink:0}
+.ab-text{flex:1;text-align:left}
+.ab-title{font-size:15px;font-weight:800;color:var(--text);margin-bottom:3px}
+.ab-desc{font-size:12px;color:var(--text-muted)}
+.ab-btn{font-size:13px;font-weight:700;color:var(--accent);white-space:nowrap;flex-shrink:0}
+.aff-disclosure{font-size:10px;color:#484f58;margin-top:5px;text-align:center}
+</style>
+<div class="aff-wrap">
+<a href="https://appu.kr/?i=12515713" class="affiliate-banner" target="_blank" rel="nofollow sponsored">
+  <span class="ab-icon">🚘</span>
+  <div class="ab-text">
+    <div class="ab-title">카바딜러 신차 딜러 혜택 비교</div>
+    <div class="ab-desc">전국 딜러 실시간 비교 · 캐시백·할인 한눈에 · 1분 무료 견적</div>
+  </div>
+  <span class="ab-btn">혜택 비교 →</span>
+</a>
+<div class="aff-disclosure">[광고] 이 링크는 제휴 마케팅(애드릭스)을 통해 수수료를 지급받습니다.</div>
+</div>
 <div class="seo-section">
   <h2>자동차 할부 월 납입금 계산법과 기간별 비교 (2026년)</h2>
   <p>자동차 할부는 차량 구매 대금을 나눠 내는 방식으로 <strong>원리금균등상환</strong>이 일반적입니다. 선수금이 클수록, 할부 기간이 짧을수록 총 이자가 줄어들지만 월 부담은 커집니다. 아래 표로 기간별 실제 납입금을 비교해 보세요.</p>
-
   <h3>📋 차량가 3,000만원 · 선수금 500만원 · 연 6.9% 기준</h3>
   <table>
     <thead><tr><th>할부 기간</th><th>월 납입금</th><th>총 납입액</th><th>총 이자</th></tr></thead>
@@ -183,7 +180,6 @@
     </tbody>
   </table>
   <p style="font-size:12px;color:#8b949e;margin-top:-4px">※ 선수금 500만원 포함 실제 구매비용입니다. 제조사 무이자 할부 프로모션 적용 시 이자 0원 가능.</p>
-
   <h3>💡 할부 vs 리스 vs 장기렌트 선택 기준</h3>
   <ul>
     <li><strong>할부:</strong> 만기 후 차량이 내 소유. 장기적으로 가장 저렴한 경우가 많음.</li>
@@ -191,23 +187,19 @@
     <li><strong>장기렌트:</strong> 보험·세금 포함 올인원. 관리 편의성 최고, 월 비용은 가장 높음.</li>
   </ul>
   <div class="tip-box">💡 <strong>이자 절감 팁:</strong> 선수금을 10%→30%로 올리면 동일 기간 총 이자가 약 30% 줄어듭니다. 제조사 무이자 할부 행사 기간을 노리는 것도 좋은 전략입니다.</div>
-
   <h3>📐 계산 방식</h3>
-  <div class="formula-box">
-    일반 할부 — 원리금균등상환<br>
-    월 납입금 = 할부원금 × [r(1+r)ⁿ / ((1+r)ⁿ−1)]<br>
-    r = 월 금리(연금리÷12), n = 할부 개월 수<br><br>
-    잔존가치 할부(벌룬) — 마지막 회차에 잔존가치 일시 납부<br>
-    차량사 0% 할부 이벤트는 딜러 마진이 포함된 경우가 많으니 총 비용을 비교하세요.
-  </div>
+  <div class="formula-box">일반 할부 — 원리금균등상환
+월 납입금 = 할부원금 × [r(1+r)ⁿ / ((1+r)ⁿ−1)]
+r = 월 금리(연금리÷12), n = 할부 개월 수
 
+잔존가치 할부(벌룬) — 마지막 회차에 잔존가치 일시 납부
+차량사 0% 할부 이벤트는 딜러 마진이 포함된 경우가 많으니 총 비용을 비교하세요.</div>
   <h2>자주 묻는 질문</h2>
   <details><summary>자동차 할부 금리는 얼마나 되나요?</summary><div class="faq-answer">2026년 기준 캐피탈사 할부 금리는 연 4~8% 수준입니다. 제조사 금융사(현대캐피탈, KB캐피탈 등)는 이벤트에 따라 0~3%대도 가능하지만, 차량 가격에 마진이 포함된 경우가 많습니다.</div></details>
   <details><summary>선수금을 많이 내면 유리한가요?</summary><div class="faq-answer">선수금이 많을수록 할부 원금이 줄어 총 이자가 감소합니다. 단, 현금을 묶어두는 기회비용도 고려해야 합니다. 금리가 예금 금리보다 높다면 선수금을 늘리는 게 유리합니다.</div></details>
   <details><summary>잔존가치 할부란 무엇인가요?</summary><div class="faq-answer">잔존가치(벌룬) 할부는 차량의 일정 금액을 마지막에 한 번에 납부하는 방식입니다. 월 납입금이 낮아지지만 만기에 목돈이 필요하며, 이 금액으로 재리스·반납·구매를 선택할 수 있습니다.</div></details>
   <details><summary>할부 기간은 길수록 좋은가요?</summary><div class="faq-answer">할부 기간이 길면 월 납입금은 줄지만 총 이자가 늘어납니다. 일반적으로 36~48개월이 많이 선택됩니다. 감가상각이 빠른 차량은 길게 탈수록 불리할 수 있습니다.</div></details>
   <details><summary>중도 상환 수수료가 있나요?</summary><div class="faq-answer">캐피탈사마다 다르지만 할부는 중도상환 시 수수료가 발생하는 경우가 있습니다. 계약 전 중도상환 조건을 반드시 확인하세요.</div></details>
-
   <div class="rel-section">
     <h2>📌 함께 쓰면 유용한 계산기</h2>
     <div class="rel-grid">
@@ -220,7 +212,6 @@
     </div>
   </div>
 </div>
-
 <script>
 function fmt(n) { return Math.round(n).toLocaleString() + '만원'; }
 function calcHalbu() {
