@@ -22,7 +22,7 @@
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
     body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
-    .container{max-width:680px;margin:0 auto;padding:40px 20px 100px;position:relative;z-index:1}
+    .container{max-width:680px;margin:0 auto;padding:40px 20px 40px;position:relative;z-index:1}
     .home-btn-wrap{text-align:center;margin-bottom:8px}
     .home-btn{display:inline-flex;flex-direction:column;align-items:center;gap:2px;width:48px;height:48px;justify-content:center;border-radius:50%;background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.2);text-decoration:none;transition:all .2s}
     .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
@@ -51,12 +51,6 @@
     .result-item{background:var(--surface2);border-radius:10px;padding:12px;text-align:center}
     .result-item-label{font-size:11px;color:var(--text-muted);margin-bottom:4px}
     .result-item-value{font-size:16px;font-weight:700;color:var(--text)}
-    .affiliate-box{background:linear-gradient(135deg,rgba(0,149,255,0.1),rgba(0,212,170,0.06));border:1px solid rgba(0,149,255,0.3);border-radius:12px;padding:18px;margin-top:16px;text-align:center}
-    .affiliate-box p{font-size:13px;color:var(--text-muted);margin-bottom:12px}
-    .affiliate-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
-    .affiliate-btn{display:inline-block;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:800;text-decoration:none;font-family:'Noto Sans KR',sans-serif}
-    .affiliate-btn-primary{background:linear-gradient(135deg,var(--accent2),var(--accent));color:#000}
-    .affiliate-btn-secondary{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
     .formula-box{background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:14px 16px;margin:16px 0;font-size:13px;color:var(--text-muted);line-height:1.8}
     .ad-slot{min-height:0;text-align:center;margin:16px 0}
     .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
@@ -168,18 +162,10 @@
       <div class="result-item"><div class="result-item-label">총 납입액</div><div class="result-item-value" id="rTotalPay">-</div></div>
       <div class="result-item"><div class="result-item-label">실제 구매비용</div><div class="result-item-value" id="rRealCost">-</div></div>
     </div>
-    <div class="affiliate-box">
-      <p>💡 캐피탈사·딜러별 금리가 다릅니다. 비교 후 최저금리로 구매하세요.</p>
-      <div class="affiliate-btns">
-        <a href="https://www.kb차차차.com" target="_blank" rel="nofollow sponsored" class="affiliate-btn affiliate-btn-primary">KB차차차 견적</a>
-        <a href="https://encar.com" target="_blank" rel="nofollow sponsored" class="affiliate-btn affiliate-btn-secondary">엔카 시세 확인</a>
-      </div>
-    </div>
   </div>
 
   <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6079812618767597" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
   
-</div>
 <div class="seo-card">
     <h2>자동차 할부 월 납입금 계산법과 기간별 비교 (2026년)</h2>
     <p>자동차 할부는 차량 구매 대금을 나눠 내는 방식으로 <strong>원리금균등상환</strong>이 일반적입니다. 선수금이 클수록, 할부 기간이 짧을수록 총 이자가 줄어들지만 월 부담은 커집니다. 아래 표로 기간별 실제 납입금을 비교해 보세요.</p>
@@ -228,6 +214,7 @@
       <a href="/customs" class="rel-card"><span class="re">📦</span><span class="rn">관세 계산기</span></a>
     </div>
   </div>
+</div>
 <script>
 function fmt(n) { return Math.round(n).toLocaleString() + '만원'; }
 
