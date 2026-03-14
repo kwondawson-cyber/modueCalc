@@ -34,7 +34,7 @@
     .header p{color:var(--text-muted);font-size:14px}
     .badges{text-align:center;margin-bottom:16px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
     .badge{padding:3px 12px;background:rgba(0,212,170,0.1);border:1px solid rgba(0,212,170,0.25);border-radius:20px;font-size:11px;color:var(--accent);font-weight:700}
-    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:32px;margin-bottom:24px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
     .card h2{font-size:15px;font-weight:700;margin-bottom:16px;color:var(--accent)}
     .cost-row{display:grid;grid-template-columns:1fr 150px 36px;gap:8px;align-items:center;margin-bottom:8px}
     .cost-row input{margin:0;padding:10px 12px;font-size:14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Noto Sans KR',sans-serif;outline:none;width:100%;transition:border-color .2s}
@@ -47,7 +47,7 @@
     .section-total .v{font-weight:700}
     .btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#000;font-size:16px;font-weight:800;font-family:'Noto Sans KR',sans-serif;cursor:pointer;margin-top:8px;transition:opacity .2s}
     .btn:hover{opacity:.9}
-    .result-card{background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:var(--radius);padding:32px;margin-top:16px;display:none}
+    .result-card{background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:var(--radius);padding:24px;margin-top:16px;display:none}
     .result-card.show{display:block}
     .result-main{text-align:center;margin-bottom:20px}
     .result-label{font-size:13px;color:var(--text-muted);margin-bottom:6px}
@@ -72,6 +72,7 @@
     .bar-bg{background:var(--surface2);border-radius:8px;height:10px;overflow:hidden;margin-bottom:8px}
     .bar-fill{height:100%;border-radius:8px;transition:width .5s}
     .formula-box{background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:14px 16px;margin:16px 0;font-size:13px;color:var(--text-muted);line-height:1.8}
+    .ad-slot{min-height:0;text-align:center;margin:16px 0}
     details{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden}
     details summary{padding:12px 16px;cursor:pointer;font-size:14px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--surface)}
     details summary::after{content:'＋';color:var(--accent);font-size:16px}
@@ -79,7 +80,7 @@
     details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
     @media(max-width:480px){.result-grid{grid-template-columns:1fr}.cost-row{grid-template-columns:1fr 110px 36px}}
 
-    .seo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:32px;margin-bottom:24px}
+    .seo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
     .seo-card h2{font-size:17px;font-weight:800;color:var(--text);margin-bottom:14px;line-height:1.4}
     .seo-card h3{font-size:14px;font-weight:700;color:var(--accent);margin:16px 0 8px}
     .seo-card p{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:10px}
@@ -99,7 +100,17 @@
     .rel-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
     .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
     .rel-card .rn{font-size:12px;font-weight:700;color:var(--text)}
-  </style>
+  
+.aff-wrap{margin:24px 0;text-align:center}
+.affiliate-banner{display:inline-flex;align-items:center;gap:14px;padding:14px 20px;background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:14px;text-decoration:none;color:var(--text);transition:all .2s;width:100%;max-width:660px;box-sizing:border-box}
+.affiliate-banner:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,212,170,0.15)}
+.ab-icon{font-size:28px;flex-shrink:0}
+.ab-text{flex:1;text-align:left}
+.ab-title{font-size:15px;font-weight:800;color:var(--text);margin-bottom:3px}
+.ab-desc{font-size:12px;color:var(--text-muted)}
+.ab-btn{font-size:13px;font-weight:700;color:var(--accent);white-space:nowrap;flex-shrink:0}
+.aff-disclosure{font-size:10px;color:#484f58;margin-top:5px;text-align:center}
+</style>
 </head>
 <body>
 <div class="container">
@@ -184,6 +195,19 @@
       <div class="bar-bg"><div class="bar-fill" id="bar-op" style="width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2))"></div></div>
     </div>
   </div>
+
+  <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6079812618767597" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
+<div class="aff-wrap">
+<a href="https://appu.kr/?i=12515717" class="affiliate-banner" target="_blank" rel="nofollow sponsored">
+  <span class="ab-icon">📶</span>
+  <div class="ab-text">
+    <div class="ab-title">MODOO 인터넷 최대 48만원 지원</div>
+    <div class="ab-desc">월 16,500원부터 · 설치 당일 현금 즉시 지급 · 법정 최대 지원금</div>
+  </div>
+  <span class="ab-btn">혜택 확인 →</span>
+</a>
+<div class="aff-disclosure">[광고] 이 링크는 제휴 마케팅(애드릭스)을 통해 수수료를 지급받습니다.</div>
+</div>
   <div class="seo-card">
     <h2>소상공인 영업이익 계산법과 손익계산서 읽는 법 (2026년)</h2>
     <p>영업이익은 단순히 "매출 − 비용"이 아닙니다. <strong>매출총이익(매출 − 매출원가) → 영업이익(매출총이익 − 판관비) → 순이익(영업이익 − 세금·이자)</strong> 3단계 구조로 계산됩니다. 각 단계의 이익률을 파악하면 어디서 수익이 새는지 정확히 찾을 수 있습니다.</p>
