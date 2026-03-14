@@ -67,7 +67,6 @@
     .total-row span:last-child{color:var(--accent);font-size:20px}
     .badge{display:inline-block;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700;background:rgba(0,212,170,0.15);color:var(--accent);margin-left:6px}
     .rate-tag{font-size:12px;color:var(--accent);background:rgba(0,212,170,0.1);padding:2px 8px;border-radius:20px}
-    .ad-slot{text-align:center;margin:4px 0;min-height:0;overflow:hidden}
   </style>
 </head>
 <body>
@@ -141,12 +140,7 @@
       <span id="r-total">—</span>
     </div>
     <div class="warn-box" id="r-note">⚠️ 실제 취득세는 과세표준(시가표준액)이 구매가보다 높으면 시가표준액 기준으로 부과됩니다.</div>
-  </div>
-
-  <div class="ad-slot">
-    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6079812618767597" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
-  </div>
-</div>
+  </div></div>
 
 <style>
 .seo-section{max-width:800px;margin:0 auto;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
@@ -287,9 +281,7 @@ function calcCarTax() {
     : '⚠️ 신차 취득세는 출고가(VAT 포함) 기준입니다. 딜러 할인가가 아닌 과세표준으로 부과될 수 있습니다.';
   document.getElementById('resultCard').classList.add('visible');
 }
-</script>
-<script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
-<script src="/common.js"></script><script src="/share.js"></script><script src="/calculator.js"></script>
+</script><script src="/common.js"></script><script src="/share.js"></script><script src="/calculator.js"></script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{});});}</script>
 </body>
 </html>
