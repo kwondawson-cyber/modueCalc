@@ -32,29 +32,21 @@
     body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
     body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
     .container{max-width:960px;margin:0 auto;padding:60px 20px 100px;position:relative;z-index:1}
-
-    /* 헤더 */
     .header{text-align:center;margin-bottom:64px}
     .logo{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:4px;color:var(--accent);text-transform:uppercase;margin-bottom:20px}
     .header h1{font-size:clamp(32px,7vw,60px);font-weight:900;line-height:1.1;margin-bottom:16px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
     .header p{color:var(--text-muted);font-size:17px;font-weight:300;margin-bottom:24px}
     .count-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;background:rgba(0,212,170,0.07);border:1px solid rgba(0,212,170,0.2);border-radius:30px;font-size:13px;color:var(--text-muted)}
     .count-badge strong{color:var(--accent);font-family:'Montserrat',sans-serif;font-size:18px;font-weight:900}
-
-    /* 검색 */
     .search-wrap{max-width:480px;margin:28px auto 0;position:relative}
     .search-wrap input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:13px 48px 13px 18px;font-size:15px;font-family:'Noto Sans KR',sans-serif;color:var(--text);outline:none;transition:border-color .2s}
     .search-wrap input:focus{border-color:rgba(0,212,170,0.5);box-shadow:0 0 0 3px rgba(0,212,170,0.08)}
     .search-wrap input::placeholder{color:var(--text-muted)}
     .search-wrap .search-icon{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:18px;pointer-events:none}
-
-    /* 카테고리 */
     .category{margin-bottom:52px}
     .category-header{display:flex;align-items:center;gap:10px;margin-bottom:20px;padding-left:2px}
     .category-title{font-size:16px;font-weight:700;letter-spacing:1px;color:var(--accent)}
     .category-count{font-size:12px;color:var(--text-muted);background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:3px 10px;font-weight:600}
-
-    /* 카드 그리드 */
     .calc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
     @media(max-width:900px){.calc-grid{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:480px){.calc-grid{grid-template-columns:repeat(2,1fr)}}
@@ -80,76 +72,35 @@
     .fav-card-del{background:none;border:none;color:#484f58;font-size:14px;cursor:pointer;padding:0 0 0 6px;line-height:1;flex-shrink:0}
     .fav-card-del:hover{color:#ff6b6b}
     .card-desc{font-size:13px;color:var(--text-muted);line-height:1.6;font-weight:300}
-
-    /* 검색 하이라이트 */
     .calc-card.hidden{display:none}
     .no-results{display:none;text-align:center;padding:40px;color:var(--text-muted);font-size:14px}
     .no-results.visible{display:block}
-
     .footer{text-align:center;margin-top:80px;color:var(--text-muted);font-size:13px;line-height:2.2;border-top:1px solid var(--border);padding-top:40px}
-
-    
-
-    /* 자주 쓰는 계산기 컴팩트 카드 */
-    .fav-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-    .fav-card {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 18px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      text-decoration: none;
-      color: var(--text);
-      font-size: 15px;
-      font-weight: 700;
-      transition: transform .2s, border-color .2s, box-shadow .2s;
-      position: relative;
-      overflow: hidden;
-      white-space: nowrap;
-    }
-    .fav-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      transform: scaleX(0);
-      transition: transform .2s;
-    }
-    .fav-card:hover { transform: translateY(-3px); border-color: rgba(0,212,170,0.3); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
-    .fav-card:hover::before { transform: scaleX(1); }
-    .fav-card .fav-emoji { font-size: 22px; line-height: 1; }
-
-  /* PWA 설치 배너 */
-  #pwa-banner{display:none;align-items:center;gap:12px;background:linear-gradient(135deg,rgba(0,212,170,0.12),rgba(0,149,255,0.08));border:1px solid rgba(0,212,170,0.3);border-radius:14px;padding:14px 16px;margin-bottom:20px;animation:fadeUp .4s ease}
-  #pwa-banner.show{display:flex}
-  .pwa-icon{font-size:28px;flex-shrink:0}
-  .pwa-text{flex:1;min-width:0}
-  .pwa-text strong{display:block;font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px}
-  .pwa-text span{font-size:11px;color:var(--text-muted)}
-  .pwa-install-btn{flex-shrink:0;padding:8px 16px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:20px;color:#000;font-size:12px;font-weight:800;font-family:'Noto Sans KR',sans-serif;cursor:pointer;white-space:nowrap;transition:transform .15s}
-  .pwa-install-btn:hover{transform:translateY(-1px)}
-  .pwa-close{flex-shrink:0;background:none;border:none;color:var(--text-muted);font-size:18px;cursor:pointer;padding:0 0 0 4px;line-height:1}
+    .fav-grid{display:flex;flex-wrap:wrap;gap:10px}
+    .fav-card{display:inline-flex;align-items:center;gap:10px;padding:12px 18px;background:var(--surface);border:1px solid var(--border);border-radius:14px;text-decoration:none;color:var(--text);font-size:15px;font-weight:700;transition:transform .2s,border-color .2s,box-shadow .2s;position:relative;overflow:hidden;white-space:nowrap}
+    .fav-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));transform:scaleX(0);transition:transform .2s}
+    .fav-card:hover{transform:translateY(-3px);border-color:rgba(0,212,170,0.3);box-shadow:0 8px 24px rgba(0,0,0,0.3)}
+    .fav-card:hover::before{transform:scaleX(1)}
+    .fav-card .fav-emoji{font-size:22px;line-height:1}
+    #pwa-banner{display:none;align-items:center;gap:12px;background:linear-gradient(135deg,rgba(0,212,170,0.12),rgba(0,149,255,0.08));border:1px solid rgba(0,212,170,0.3);border-radius:14px;padding:14px 16px;margin-bottom:20px;animation:fadeUp .4s ease}
+    #pwa-banner.show{display:flex}
+    .pwa-icon{font-size:28px;flex-shrink:0}
+    .pwa-text{flex:1;min-width:0}
+    .pwa-text strong{display:block;font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px}
+    .pwa-text span{font-size:11px;color:var(--text-muted)}
+    .pwa-install-btn{flex-shrink:0;padding:8px 16px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:20px;color:#000;font-size:12px;font-weight:800;font-family:'Noto Sans KR',sans-serif;cursor:pointer;white-space:nowrap;transition:transform .15s}
+    .pwa-install-btn:hover{transform:translateY(-1px)}
+    .pwa-close{flex-shrink:0;background:none;border:none;color:var(--text-muted);font-size:18px;cursor:pointer;padding:0 0 0 4px;line-height:1}
   </style>
 </head>
 <body>
 <div class="container">
-
-  <!-- 헤더 -->
   <div class="header">
     <div class="logo">Everycalc · everycalc.kr</div>
     <h1>모두의계산기</h1>
     <p>생활에 필요한 모든 계산기, 무료로 한번에</p>
     <div class="count-badge">총 <strong>62</strong>개 계산기 무료 제공</div>
   </div>
-
-  <!-- PWA 설치 배너 -->
   <div id="pwa-banner">
     <div class="pwa-icon">📲</div>
     <div class="pwa-text">
@@ -159,13 +110,10 @@
     <button class="pwa-install-btn" id="pwa-install-btn">Chrome으로 설치</button>
     <button class="pwa-close" id="pwa-close" aria-label="닫기">×</button>
   </div>
-
   <div class="search-wrap">
     <input type="text" id="searchInput" placeholder="계산기 검색... (예: 주휴수당, 환율, BMI)" oninput="filterCalcs()" />
     <span class="search-icon">🔍</span>
   </div>
-
-  <!-- 📌 자주 쓰는 계산기 섹션 -->
   <div id="favSection" style="margin-bottom:32px">
     <div class="category-header" style="margin-bottom:14px">
       <div class="category-title">⭐ 자주 쓰는 계산기</div>
@@ -176,437 +124,128 @@
       ⭐ 자주 사용하는 계산기의 별표를 눌러 여기에 추가해보세요
     </div>
   </div>
-
-  <!-- 💰 금융 · 급여 -->
   <div class="category" data-cat>
-    <div class="category-header">
-      <div class="category-title">💰 금융 · 급여</div>
-      <span class="category-count">5</span>
-    </div>
+    <div class="category-header"><div class="category-title">💰 금융 · 급여</div><span class="category-count">5</span></div>
     <div class="calc-grid">
-      <a href="/salary" class="calc-card" data-keywords="연봉 실수령액 월급 세금 4대보험">
-        <div class="card-top"><span class="card-emoji">💵</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">연봉 실수령액 계산기</div>
-        <div class="card-desc">4대보험·소득세 자동 계산. 월 실수령액 확인</div>
-      </a>
-      <a href="/retirement" class="calc-card" data-keywords="퇴직금 재직기간 평균임금">
-        <div class="card-top"><span class="card-emoji">🏦</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">퇴직금 계산기</div>
-        <div class="card-desc">재직기간, 평균임금 기준 퇴직금 계산</div>
-      </a>
-      <a href="/unemployment" class="calc-card" data-keywords="실업급여 고용보험 구직급여">
-        <div class="card-top"><span class="card-emoji">📋</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">실업급여 계산기</div>
-        <div class="card-desc">고용보험 기준 실업급여 예상액 계산</div>
-      </a>
-      <a href="/pension" class="calc-card" data-keywords="국민연금 예상 수령액 노령연금 노후 연금 수령">
-        <div class="card-top"><span class="card-emoji">👴</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">국민연금 수령액</div>
-        <div class="card-desc">가입기간·소득 기준 예상 수령액 계산</div>
-      </a>
-      <a href="/savings" class="calc-card" data-keywords="적금 만기 단리 복리 세후">
-        <div class="card-top"><span class="card-emoji">💰</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">적금 만기 계산기</div>
-        <div class="card-desc">단리·복리·세후 실수령액 계산</div>
-      </a>
+      <a href="/salary" class="calc-card" data-keywords="연봉 실수령액 월급 세금 4대보험"><div class="card-top"><span class="card-emoji">💵</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">연봉 실수령액 계산기</div><div class="card-desc">4대보험·소득세 자동 계산. 월 실수령액 확인</div></a>
+      <a href="/retirement" class="calc-card" data-keywords="퇴직금 재직기간 평균임금"><div class="card-top"><span class="card-emoji">🏦</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">퇴직금 계산기</div><div class="card-desc">재직기간, 평균임금 기준 퇴직금 계산</div></a>
+      <a href="/unemployment" class="calc-card" data-keywords="실업급여 고용보험 구직급여"><div class="card-top"><span class="card-emoji">📋</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">실업급여 계산기</div><div class="card-desc">고용보험 기준 실업급여 예상액 계산</div></a>
+      <a href="/pension" class="calc-card" data-keywords="국민연금 예상 수령액 노령연금 노후 연금 수령"><div class="card-top"><span class="card-emoji">👴</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">국민연금 수령액</div><div class="card-desc">가입기간·소득 기준 예상 수령액 계산</div></a>
+      <a href="/savings" class="calc-card" data-keywords="적금 만기 단리 복리 세후"><div class="card-top"><span class="card-emoji">💰</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">적금 만기 계산기</div><div class="card-desc">단리·복리·세후 실수령액 계산</div></a>
     </div>
   </div>
-
-  <!-- 💳 대출·보험·연금 -->
   <div class="category" data-cat>
-    <div class="category-header">
-      <div class="category-title">💳 대출·보험·연금</div>
-      <span class="category-count">5</span>
-    </div>
+    <div class="category-header"><div class="category-title">💳 대출·보험·연금</div><span class="category-count">5</span></div>
     <div class="calc-grid">
-      <a href="/loan" class="calc-card" data-keywords="대출 이자 원리금 상환 월상환액">
-        <div class="card-top"><span class="card-emoji">🏧</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">대출 이자 계산기</div>
-        <div class="card-desc">원리금균등·원금균등 월 상환액 계산</div>
-      </a>
-      <a href="/loan_limit" class="calc-card" data-keywords="대출한도 DSR DTI 주택담보대출 최대대출">
-        <div class="card-top"><span class="card-emoji">🏦</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">대출 한도 계산기<span class="badge badge-hot">HOT</span></div>
-        <div class="card-desc">DSR 기준 최대 대출 가능 금액 계산</div>
-      </a>
-      <a href="/jeonse_loan" class="calc-card" data-keywords="전세자금대출 버팀목 한도 월이자 금리">
-        <div class="card-top"><span class="card-emoji">🏠</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">전세자금대출 계산기<span class="badge badge-new">NEW</span></div>
-        <div class="card-desc">버팀목·시중은행 한도·월이자·금리 비교</div>
-      </a>
-      <a href="/insurance" class="calc-card" data-keywords="보험료 실손 종신 암보험 월보험료">
-        <div class="card-top"><span class="card-emoji">🛡️</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">보험료 계산기<span class="badge badge-new">NEW</span></div>
-        <div class="card-desc">나이·성별·보장 조건별 예상 보험료 안내</div>
-      </a>
-      <a href="/retirement_pension" class="calc-card" data-keywords="퇴직연금 DB DC IRP 수령액 연금 일시금">
-        <div class="card-top"><span class="card-emoji">💼</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">퇴직연금 수령액 계산기<span class="badge badge-new">NEW</span></div>
-        <div class="card-desc">DB·DC·IRP 예상 수령액·세금 비교</div>
-      </a>
+      <a href="/loan" class="calc-card" data-keywords="대출 이자 원리금 상환 월상환액"><div class="card-top"><span class="card-emoji">🏧</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">대출 이자 계산기</div><div class="card-desc">원리금균등·원금균등 월 상환액 계산</div></a>
+      <a href="/loan_limit" class="calc-card" data-keywords="대출한도 DSR DTI 주택담보대출 최대대출"><div class="card-top"><span class="card-emoji">🏦</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">대출 한도 계산기<span class="badge badge-hot">HOT</span></div><div class="card-desc">DSR 기준 최대 대출 가능 금액 계산</div></a>
+      <a href="/jeonse_loan" class="calc-card" data-keywords="전세자금대출 버팀목 한도 월이자 금리"><div class="card-top"><span class="card-emoji">🏠</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">전세자금대출 계산기<span class="badge badge-new">NEW</span></div><div class="card-desc">버팀목·시중은행 한도·월이자·금리 비교</div></a>
+      <a href="/insurance" class="calc-card" data-keywords="보험료 실손 종신 암보험 월보험료"><div class="card-top"><span class="card-emoji">🛡️</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">보험료 계산기<span class="badge badge-new">NEW</span></div><div class="card-desc">나이·성별·보장 조건별 예상 보험료 안내</div></a>
+      <a href="/retirement_pension" class="calc-card" data-keywords="퇴직연금 DB DC IRP 수령액 연금 일시금"><div class="card-top"><span class="card-emoji">💼</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">퇴직연금 수령액 계산기<span class="badge badge-new">NEW</span></div><div class="card-desc">DB·DC·IRP 예상 수령액·세금 비교</div></a>
     </div>
   </div>
-
-
-  <!-- 👷 노동 · 급여 -->
   <div class="category" data-cat>
-    <div class="category-header">
-      <div class="category-title">👷 노동 · 급여</div>
-      <span class="category-count">6</span>
-    </div>
+    <div class="category-header"><div class="category-title">👷 노동 · 급여</div><span class="category-count">6</span></div>
     <div class="calc-grid">
-      <a href="/weekly_holiday" class="calc-card" data-keywords="주휴수당 시급 주급 알바">
-        <div class="card-top"><span class="card-emoji">📅</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">주휴수당 계산기<span class="badge badge-new">NEW</span></div>
-        <div class="card-desc">주 15시간 이상 근무 시 주휴수당·실질 시급 계산</div>
-      </a>
-      <a href="/hourly_salary" class="calc-card" data-keywords="시급 월급 연봉 주휴수당 알바">
-        <div class="card-top"><span class="card-emoji">⏰</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">시급 → 월급 계산기<span class="badge badge-new">NEW</span></div>
-        <div class="card-desc">시급에서 주급·월급·연봉 환산 (주휴수당 포함)</div>
-      </a>
-      <a href="/annual_leave" class="calc-card" data-keywords="연차 수당 미사용 연차수당">
-        <div class="card-top"><span class="card-emoji">🏖️</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">연차수당 계산기<span class="badge badge-new">NEW</span></div>
-        <div class="card-desc">미사용 연차 보상금·연차 발생 기준 계산</div>
-      </a>
-
-      <a href="/annual_leave_hr" class="calc-card" data-keywords="연차 일수 반차 입사일 법정 잔여">
-        <div class="card-top"><span class="card-emoji">📅</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">연차일수 계산기<span class="badge badge-new">NEW</span></div>
-        <div class="card-desc">입사일 기준 법정 연차·반차 포함 잔여 연차</div>
-      </a>
-      <a href="/salary_slip" class="calc-card" data-keywords="급여명세서 수당 4대보험 실수령액 인사">
-        <div class="card-top"><span class="card-emoji">🧾</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">급여명세서 계산기<span class="badge badge-new">NEW</span></div>
-        <div class="card-desc">수당 직접 추가·4대보험 자동 공제·명세서 출력</div>
-      </a>
-      <a href="/parental_leave" class="calc-card" data-keywords="육아휴직 급여 6+6 특례 통상임금">
-        <div class="card-top"><span class="card-emoji">👶</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">육아휴직 급여 계산기<span class="badge badge-hot">HOT</span></div>
-        <div class="card-desc">6+6 특례 포함 육아휴직 급여 계산</div>
-      </a>
+      <a href="/weekly_holiday" class="calc-card" data-keywords="주휴수당 시급 주급 알바"><div class="card-top"><span class="card-emoji">📅</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">주휴수당 계산기<span class="badge badge-new">NEW</span></div><div class="card-desc">주 15시간 이상 근무 시 주휴수당·실질 시급 계산</div></a>
+      <a href="/hourly_salary" class="calc-card" data-keywords="시급 월급 연봉 주휴수당 알바"><div class="card-top"><span class="card-emoji">⏰</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">시급 → 월급 계산기<span class="badge badge-new">NEW</span></div><div class="card-desc">시급에서 주급·월급·연봉 환산 (주휴수당 포함)</div></a>
+      <a href="/annual_leave" class="calc-card" data-keywords="연차 수당 미사용 연차수당"><div class="card-top"><span class="card-emoji">🏖️</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">연차수당 계산기<span class="badge badge-new">NEW</span></div><div class="card-desc">미사용 연차 보상금·연차 발생 기준 계산</div></a>
+      <a href="/annual_leave_hr" class="calc-card" data-keywords="연차 일수 반차 입사일 법정 잔여"><div class="card-top"><span class="card-emoji">📅</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">연차일수 계산기<span class="badge badge-new">NEW</span></div><div class="card-desc">입사일 기준 법정 연차·반차 포함 잔여 연차</div></a>
+      <a href="/salary_slip" class="calc-card" data-keywords="급여명세서 수당 4대보험 실수령액 인사"><div class="card-top"><span class="card-emoji">🧾</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">급여명세서 계산기<span class="badge badge-new">NEW</span></div><div class="card-desc">수당 직접 추가·4대보험 자동 공제·명세서 출력</div></a>
+      <a href="/parental_leave" class="calc-card" data-keywords="육아휴직 급여 6+6 특례 통상임금"><div class="card-top"><span class="card-emoji">👶</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">육아휴직 급여 계산기<span class="badge badge-hot">HOT</span></div><div class="card-desc">6+6 특례 포함 육아휴직 급여 계산</div></a>
     </div>
   </div>
-
-  <!-- 📈 투자 · 주식 -->
   <div class="category" data-cat>
-    <div class="category-header">
-      <div class="category-title">📈 투자 · 주식 · 부동산</div>
-      <span class="category-count">7</span>
-    </div>
+    <div class="category-header"><div class="category-title">📈 투자 · 주식 · 부동산</div><span class="category-count">7</span></div>
     <div class="calc-grid">
-      <a href="/stock_return" class="calc-card" data-keywords="주식 수익률 손익 매수 매도 국내 해외">
-        <div class="card-top"><span class="card-emoji">📊</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">주식 수익률 계산기<span class="badge badge-hot">HOT</span></div>
-        <div class="card-desc">매수·매도가로 손익·세후 수익률 계산 (국내·해외)</div>
-      </a>
-      <a href="/compound" class="calc-card" data-keywords="복리 단리 수익 투자 이율 자산">
-        <div class="card-top"><span class="card-emoji">📊</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">복리 계산기<span class="badge badge-new">NEW</span></div>
-        <div class="card-desc">원금·이율·기간으로 복리 수익 및 성장 그래프</div>
-      </a>
-      <a href="/exchange" class="calc-card" data-keywords="환율 달러 엔화 유로 위안 원화 실시간">
-        <div class="card-top"><span class="card-emoji">💱</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">환율 계산기<span class="badge badge-live">실시간</span></div>
-        <div class="card-desc">실시간 환율 기준 달러·엔화·유로 원화 환산</div>
-      </a>
-      <a href="/inflation" class="calc-card" data-keywords="물가상승률 화폐가치 현재가치 미래가치">
-        <div class="card-top"><span class="card-emoji">📉</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">물가상승률 계산기</div>
-        <div class="card-desc">과거 금액의 현재·미래 가치 계산</div>
-      </a>
-      <a href="/rent_conversion" class="calc-card" data-keywords="전월세 전환율 전세 월세 보증금">
-        <div class="card-top"><span class="card-emoji">🔄</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">전월세 전환율 계산기</div>
-        <div class="card-desc">전세↔월세 적정 전환 금액 계산</div>
-      </a>
-      <a href="/cheongak" class="calc-card" data-keywords="청약 가점 아파트 청약통장 무주택 부양가족">
-        <div class="card-top"><span class="card-emoji">🏠</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">청약 가점 계산기<span class="badge badge-new">NEW</span></div>
-        <div class="card-desc">무주택기간·부양가족·청약통장 3항목 자동 합산</div>
-      </a>
-      <a href="/realestate" class="calc-card" data-keywords="중개수수료 부동산 복비 매매 전세">
-        <div class="card-top"><span class="card-emoji">🏡</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">부동산 중개수수료 계산기</div>
-        <div class="card-desc">매매·전세·월세 중개보수 계산</div>
-      </a>
+      <a href="/stock_return" class="calc-card" data-keywords="주식 수익률 손익 매수 매도 국내 해외"><div class="card-top"><span class="card-emoji">📊</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">주식 수익률 계산기<span class="badge badge-hot">HOT</span></div><div class="card-desc">매수·매도가로 손익·세후 수익률 계산 (국내·해외)</div></a>
+      <a href="/compound" class="calc-card" data-keywords="복리 단리 수익 투자 이율 자산"><div class="card-top"><span class="card-emoji">📊</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">복리 계산기<span class="badge badge-new">NEW</span></div><div class="card-desc">원금·이율·기간으로 복리 수익 및 성장 그래프</div></a>
+      <a href="/exchange" class="calc-card" data-keywords="환율 달러 엔화 유로 위안 원화 실시간"><div class="card-top"><span class="card-emoji">💱</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">환율 계산기<span class="badge badge-live">실시간</span></div><div class="card-desc">실시간 환율 기준 달러·엔화·유로 원화 환산</div></a>
+      <a href="/inflation" class="calc-card" data-keywords="물가상승률 화폐가치 현재가치 미래가치"><div class="card-top"><span class="card-emoji">📉</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">물가상승률 계산기</div><div class="card-desc">과거 금액의 현재·미래 가치 계산</div></a>
+      <a href="/rent_conversion" class="calc-card" data-keywords="전월세 전환율 전세 월세 보증금"><div class="card-top"><span class="card-emoji">🔄</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">전월세 전환율 계산기</div><div class="card-desc">전세↔월세 적정 전환 금액 계산</div></a>
+      <a href="/cheongak" class="calc-card" data-keywords="청약 가점 아파트 청약통장 무주택 부양가족"><div class="card-top"><span class="card-emoji">🏠</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">청약 가점 계산기<span class="badge badge-new">NEW</span></div><div class="card-desc">무주택기간·부양가족·청약통장 3항목 자동 합산</div></a>
+      <a href="/realestate" class="calc-card" data-keywords="중개수수료 부동산 복비 매매 전세"><div class="card-top"><span class="card-emoji">🏡</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">부동산 중개수수료 계산기</div><div class="card-desc">매매·전세·월세 중개보수 계산</div></a>
     </div>
   </div>
-
-  <!-- 💸 세금 -->
   <div class="category" data-cat>
-    <div class="category-header">
-      <div class="category-title">💸 세금</div>
-      <span class="category-count">7</span>
-    </div>
+    <div class="category-header"><div class="category-title">💸 세금</div><span class="category-count">7</span></div>
     <div class="calc-grid">
-      <a href="/income_tax" class="calc-card" data-keywords="종합소득세 기타소득세 소득세 강연료 원고료">
-        <div class="card-top"><span class="card-emoji">🧾</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">소득세 계산기<span class="badge badge-new">NEW</span></div>
-        <div class="card-desc">종합소득세·기타소득세 납부세액 계산 (2024년 기준)</div>
-      </a>
-      <a href="/capital_gains" class="calc-card" data-keywords="양도소득세 부동산 매도 양도차익">
-        <div class="card-top"><span class="card-emoji">🏘️</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">양도소득세 계산기</div>
-        <div class="card-desc">부동산 매도 시 양도차익·세액 계산</div>
-      </a>
-      <a href="/gift_tax" class="calc-card" data-keywords="증여세 상속세 공제 증여">
-        <div class="card-top"><span class="card-emoji">🎁</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">증여세·상속세 계산기</div>
-        <div class="card-desc">공제 적용 후 예상 세액 계산</div>
-      </a>
-      <a href="/gift_tax_sim" class="calc-card" data-keywords="증여세 절세 분할증여 시뮬레이터 절세전략">
-        <div class="card-top"><span class="card-emoji">💡</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">증여세 절세 시뮬레이터<span class="badge badge-new">NEW</span></div>
-        <div class="card-desc">일시 vs 분할 증여 절세 비교 시뮬레이션</div>
-      </a>
-      <a href="/acquisition" class="calc-card" data-keywords="취득세 주택 농어촌특별세">
-        <div class="card-top"><span class="card-emoji">📝</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">취득세 계산기</div>
-        <div class="card-desc">주택 취득세, 농어촌특별세 계산</div>
-      </a>
-      <a href="/vat" class="calc-card" data-keywords="부가가치세 VAT 공급가액 세금계산서">
-        <div class="card-top"><span class="card-emoji">🧮</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">부가가치세 계산기<span class="badge badge-new">NEW</span></div>
-        <div class="card-desc">공급가액 ↔ VAT 포함가 빠른 계산</div>
-      </a>
-      <a href="/customs" class="calc-card" data-keywords="관세 해외직구 부가세 수입 직구 세금 미국 일본">
-        <div class="card-top"><span class="card-emoji">✈️</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">관세 계산기</div>
-        <div class="card-desc">해외 직구 관세·부가세 자동 계산</div>
-      </a>
-  </div>
-
-
-  <!-- 🏢 사업자·소상공인 -->
-  <div class="category" data-cat>
-    <div class="category-header">
-      <div class="category-title">🏢 사업자·소상공인</div>
-      <span class="category-count">13</span>
-    </div>
-    <div class="calc-grid">
-      <a href="/margin" class="calc-card" data-keywords="마진율 마크업 원가 판매가 순이익">
-        <div class="card-top"><span class="card-emoji">💹</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">마진율 계산기<span class="badge badge-new">NEW</span></div>
-        <div class="card-desc">원가·판매가로 마진율·마크업·순이익 계산</div>
-      </a>
-      <a href="/health_insurance" class="calc-card" data-keywords="지역가입자 건강보험료 지역 보험료 소득 재산">
-        <div class="card-top"><span class="card-emoji">🏥</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">지역가입자 건강보험료<span class="badge badge-new">NEW</span></div>
-        <div class="card-desc">소득·재산 점수 기반 월 보험료 계산 (2024년)</div>
-      </a>
-      <a href="/address_converter" class="calc-card" data-keywords="주소 영문 변환 영어주소 도로명 우편번호">
-        <div class="card-top"><span class="card-emoji">🌐</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">한글 주소 영문 변환기<span class="badge badge-new">NEW</span></div>
-        <div class="card-desc">도로명주소 기준 공식 영문 주소 변환</div>
-      </a>
-      <a href="/freelancer_tax" class="calc-card" data-keywords="프리랜서 세금 3.3% 종합소득세 N잡">
-        <div class="card-top"><span class="card-emoji">💼</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">프리랜서 세금 계산기<span class="badge badge-new">NEW</span></div>
-        <div class="card-desc">3.3% 원천징수·종합소득세·건강보험료 예상</div>
-      </a>
-      <a href="/vat_biz" class="calc-card" data-keywords="부가세 신고 사업자 일반과세 간이과세 환급">
-        <div class="card-top"><span class="card-emoji">🧾</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">사업자 부가세 신고 계산기<span class="badge badge-new">NEW</span></div>
-        <div class="card-desc">일반·간이과세 유형별 납부·환급세액 계산</div>
-      </a>
-      <a href="/corporate_tax" class="calc-card" data-keywords="법인세 세율 과세표준 지방소득세 분납">
-        <div class="card-top"><span class="card-emoji">🏢</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">법인세 계산기<span class="badge badge-new">NEW</span></div>
-        <div class="card-desc">과세표준 구간별 세율·지방소득세·분납 계산</div>
-      </a>
-      <a href="/product_cost" class="calc-card" data-keywords="원가 마진 판매가 재료비 소상공인 카페">
-        <div class="card-top"><span class="card-emoji">🏷️</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">제품 원가 계산기<span class="badge badge-new">NEW</span></div>
-        <div class="card-desc">재료비·인건비·포장비로 원가·마진·적정 판매가 계산</div>
-      </a>
-      <a href="/operating_profit" class="calc-card" data-keywords="영업이익 순이익 매출 판관비 손익계산서">
-        <div class="card-top"><span class="card-emoji">📈</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">영업이익 계산기<span class="badge badge-new">NEW</span></div>
-        <div class="card-desc">매출·원가·판관비로 손익계산서 자동 작성</div>
-      </a>
-      <a href="/breakeven" class="calc-card" data-keywords="손익분기점 BEP 고정비 변동비 창업">
-        <div class="card-top"><span class="card-emoji">⚖️</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">손익분기점 계산기<span class="badge badge-new">NEW</span></div>
-        <div class="card-desc">고정비·변동비·단가로 BEP 수량·매출 계산</div>
-      </a>
-      <a href="/delivery_fee" class="calc-card" data-keywords="배달앱 수수료 배달의민족 쿠팡이츠 실수익">
-        <div class="card-top"><span class="card-emoji">🛵</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">배달앱 수수료 계산기<span class="badge badge-new">NEW</span></div>
-        <div class="card-desc">배민·쿠팡이츠·요기요 수수료 공제 후 실수익</div>
-      </a>
-      <a href="/card_fee" class="calc-card" data-keywords="카드수수료 우대 영세 중소가맹점 실수령">
-        <div class="card-top"><span class="card-emoji">💳</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">카드 수수료 계산기<span class="badge badge-new">NEW</span></div>
-        <div class="card-desc">영세·중소가맹점 우대수수료 월 실수령액 계산</div>
-      </a>
-      <a href="/rent_yield" class="calc-card" data-keywords="임대료 수익률 상가 오피스텔 투자 수익">
-        <div class="card-top"><span class="card-emoji">🏢</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">임대료 수익률 계산기<span class="badge badge-new">NEW</span></div>
-        <div class="card-desc">보증금·월세·취득가로 연 수익률 계산</div>
-      </a>
-      <a href="/part_time_cost" class="calc-card" data-keywords="알바 인건비 주휴수당 4대보험 사업주 최저시급">
-        <div class="card-top"><span class="card-emoji">👥</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">알바 인건비 계산기<span class="badge badge-new">NEW</span></div>
-        <div class="card-desc">시급·주휴수당·4대보험 포함 월 총 인건비</div>
-      </a>
+      <a href="/income_tax" class="calc-card" data-keywords="종합소득세 기타소득세 소득세 강연료 원고료"><div class="card-top"><span class="card-emoji">🧾</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">소득세 계산기<span class="badge badge-new">NEW</span></div><div class="card-desc">종합소득세·기타소득세 납부세액 계산 (2024년 기준)</div></a>
+      <a href="/capital_gains" class="calc-card" data-keywords="양도소득세 부동산 매도 양도차익"><div class="card-top"><span class="card-emoji">🏘️</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">양도소득세 계산기</div><div class="card-desc">부동산 매도 시 양도차익·세액 계산</div></a>
+      <a href="/gift_tax" class="calc-card" data-keywords="증여세 상속세 공제 증여"><div class="card-top"><span class="card-emoji">🎁</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">증여세·상속세 계산기</div><div class="card-desc">공제 적용 후 예상 세액 계산</div></a>
+      <a href="/gift_tax_sim" class="calc-card" data-keywords="증여세 절세 분할증여 시뮬레이터 절세전략"><div class="card-top"><span class="card-emoji">💡</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">증여세 절세 시뮬레이터<span class="badge badge-new">NEW</span></div><div class="card-desc">일시 vs 분할 증여 절세 비교 시뮬레이션</div></a>
+      <a href="/acquisition" class="calc-card" data-keywords="취득세 주택 농어촌특별세"><div class="card-top"><span class="card-emoji">📝</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">취득세 계산기</div><div class="card-desc">주택 취득세, 농어촌특별세 계산</div></a>
+      <a href="/vat" class="calc-card" data-keywords="부가가치세 VAT 공급가액 세금계산서"><div class="card-top"><span class="card-emoji">🧮</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">부가가치세 계산기<span class="badge badge-new">NEW</span></div><div class="card-desc">공급가액 ↔ VAT 포함가 빠른 계산</div></a>
+      <a href="/customs" class="calc-card" data-keywords="관세 해외직구 부가세 수입 직구 세금 미국 일본"><div class="card-top"><span class="card-emoji">✈️</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">관세 계산기</div><div class="card-desc">해외 직구 관세·부가세 자동 계산</div></a>
     </div>
   </div>
-
-  <!-- 🚗 자동차 -->
   <div class="category" data-cat>
-    <div class="category-header">
-      <div class="category-title">🚗 자동차</div>
-      <span class="category-count">4</span>
-    </div>
+    <div class="category-header"><div class="category-title">🏢 사업자·소상공인</div><span class="category-count">13</span></div>
     <div class="calc-grid">
-      <a href="/car_installment" class="calc-card" data-keywords="자동차 할부 월납입금 이자 선수금">
-        <div class="card-top"><span class="card-emoji">🚗</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">자동차 할부 계산기<span class="badge badge-new">NEW</span></div>
-        <div class="card-desc">월 납입금·총 이자·실제 구매비용 계산</div>
-      </a>
-      <a href="/car_lease" class="calc-card" data-keywords="장기렌트 리스 할부 비교 월납입 잔존가치">
-        <div class="card-top"><span class="card-emoji">🚙</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">장기렌트·리스 계산기<span class="badge badge-new">NEW</span></div>
-        <div class="card-desc">렌트·리스·할부 3가지 비교 계산</div>
-      </a>
-      <a href="/car_tax" class="calc-card" data-keywords="자동차 취득세 신차 중고차 전기차 경차">
-        <div class="card-top"><span class="card-emoji">🚘</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">자동차 취득세</div>
-        <div class="card-desc">신차·중고·전기차 취득세 계산</div>
-      </a>
-      <a href="/fuel_economy" class="calc-card" data-keywords="연비 계산 주유비 유류비 휘발유 경유 전기차">
-        <div class="card-top"><span class="card-emoji">⛽</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">연비 계산기</div>
-        <div class="card-desc">실제 연비·주유비·연간 유류비 계산</div>
-      </a>
+      <a href="/margin" class="calc-card" data-keywords="마진율 마크업 원가 판매가 순이익"><div class="card-top"><span class="card-emoji">💹</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">마진율 계산기<span class="badge badge-new">NEW</span></div><div class="card-desc">원가·판매가로 마진율·마크업·순이익 계산</div></a>
+      <a href="/health_insurance" class="calc-card" data-keywords="지역가입자 건강보험료 지역 보험료 소득 재산"><div class="card-top"><span class="card-emoji">🏥</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">지역가입자 건강보험료<span class="badge badge-new">NEW</span></div><div class="card-desc">소득·재산 점수 기반 월 보험료 계산 (2024년)</div></a>
+      <a href="/address_converter" class="calc-card" data-keywords="주소 영문 변환 영어주소 도로명 우편번호"><div class="card-top"><span class="card-emoji">🌐</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">한글 주소 영문 변환기<span class="badge badge-new">NEW</span></div><div class="card-desc">도로명주소 기준 공식 영문 주소 변환</div></a>
+      <a href="/freelancer_tax" class="calc-card" data-keywords="프리랜서 세금 3.3% 종합소득세 N잡"><div class="card-top"><span class="card-emoji">💼</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">프리랜서 세금 계산기<span class="badge badge-new">NEW</span></div><div class="card-desc">3.3% 원천징수·종합소득세·건강보험료 예상</div></a>
+      <a href="/vat_biz" class="calc-card" data-keywords="부가세 신고 사업자 일반과세 간이과세 환급"><div class="card-top"><span class="card-emoji">🧾</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">사업자 부가세 신고 계산기<span class="badge badge-new">NEW</span></div><div class="card-desc">일반·간이과세 유형별 납부·환급세액 계산</div></a>
+      <a href="/corporate_tax" class="calc-card" data-keywords="법인세 세율 과세표준 지방소득세 분납"><div class="card-top"><span class="card-emoji">🏢</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">법인세 계산기<span class="badge badge-new">NEW</span></div><div class="card-desc">과세표준 구간별 세율·지방소득세·분납 계산</div></a>
+      <a href="/product_cost" class="calc-card" data-keywords="원가 마진 판매가 재료비 소상공인 카페"><div class="card-top"><span class="card-emoji">🏷️</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">제품 원가 계산기<span class="badge badge-new">NEW</span></div><div class="card-desc">재료비·인건비·포장비로 원가·마진·적정 판매가 계산</div></a>
+      <a href="/operating_profit" class="calc-card" data-keywords="영업이익 순이익 매출 판관비 손익계산서"><div class="card-top"><span class="card-emoji">📈</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">영업이익 계산기<span class="badge badge-new">NEW</span></div><div class="card-desc">매출·원가·판관비로 손익계산서 자동 작성</div></a>
+      <a href="/breakeven" class="calc-card" data-keywords="손익분기점 BEP 고정비 변동비 창업"><div class="card-top"><span class="card-emoji">⚖️</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">손익분기점 계산기<span class="badge badge-new">NEW</span></div><div class="card-desc">고정비·변동비·단가로 BEP 수량·매출 계산</div></a>
+      <a href="/delivery_fee" class="calc-card" data-keywords="배달앱 수수료 배달의민족 쿠팡이츠 실수익"><div class="card-top"><span class="card-emoji">🛵</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">배달앱 수수료 계산기<span class="badge badge-new">NEW</span></div><div class="card-desc">배민·쿠팡이츠·요기요 수수료 공제 후 실수익</div></a>
+      <a href="/card_fee" class="calc-card" data-keywords="카드수수료 우대 영세 중소가맹점 실수령"><div class="card-top"><span class="card-emoji">💳</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">카드 수수료 계산기<span class="badge badge-new">NEW</span></div><div class="card-desc">영세·중소가맹점 우대수수료 월 실수령액 계산</div></a>
+      <a href="/rent_yield" class="calc-card" data-keywords="임대료 수익률 상가 오피스텔 투자 수익"><div class="card-top"><span class="card-emoji">🏢</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">임대료 수익률 계산기<span class="badge badge-new">NEW</span></div><div class="card-desc">보증금·월세·취득가로 연 수익률 계산</div></a>
+      <a href="/part_time_cost" class="calc-card" data-keywords="알바 인건비 주휴수당 4대보험 사업주 최저시급"><div class="card-top"><span class="card-emoji">👥</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">알바 인건비 계산기<span class="badge badge-new">NEW</span></div><div class="card-desc">시급·주휴수당·4대보험 포함 월 총 인건비</div></a>
     </div>
   </div>
-
-
-  <!-- 💪 건강 · 신체 -->
   <div class="category" data-cat>
-    <div class="category-header">
-      <div class="category-title">💪 건강 · 신체</div>
-      <span class="category-count">7</span>
-    </div>
+    <div class="category-header"><div class="category-title">🚗 자동차</div><span class="category-count">4</span></div>
     <div class="calc-grid">
-      <a href="/bmi" class="calc-card" data-keywords="BMI 체질량지수 비만도 적정체중">
-        <div class="card-top"><span class="card-emoji">⚖️</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">BMI 계산기</div>
-        <div class="card-desc">체질량지수, 비만도, 적정 체중 계산</div>
-      </a>
-      <a href="/bmr" class="calc-card" data-keywords="기초대사량 칼로리 하루 권장">
-        <div class="card-top"><span class="card-emoji">🔥</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">기초대사량 계산기</div>
-        <div class="card-desc">하루 권장 칼로리, 기초대사량 계산</div>
-      </a>
-      <a href="/calorie" class="calc-card" data-keywords="칼로리 열량 다이어트 음식 운동 소모 kcal">
-        <div class="card-top"><span class="card-emoji">🥗</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">칼로리 계산기</div>
-        <div class="card-desc">음식 칼로리·운동 소모량 계산</div>
-      </a>
-      <a href="/blood_pressure" class="calc-card" data-keywords="혈압 정상범위 고혈압 저혈압 수축기 이완기">
-        <div class="card-top"><span class="card-emoji">❤️</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">혈압 정상범위</div>
-        <div class="card-desc">수축기·이완기 혈압 판정</div>
-      </a>
-      <a href="/child_height" class="calc-card" data-keywords="아이 예상키 키 유전 부모키 성장 예측 미드패런탈">
-        <div class="card-top"><span class="card-emoji">👦</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">아이 예상키 계산기<span class="badge badge-hot">HOT</span></div>
-        <div class="card-desc">부모 키로 자녀 예상 최종키 계산 (미드패런탈)</div>
-      </a>
-      <a href="/pregnancy" class="calc-card" data-keywords="임신 주수 분만예정일 출산 트라이메스터">
-        <div class="card-top"><span class="card-emoji">🤰</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">임신 주수 계산기</div>
-        <div class="card-desc">현재 주수·분만예정일·트라이메스터 계산</div>
-      </a>
-      <a href="/ovulation" class="calc-card" data-keywords="배란일 가임기 생리주기 임신 가능성">
-        <div class="card-top"><span class="card-emoji">🌸</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">배란일·가임기 계산기<span class="badge badge-new">NEW</span></div>
-        <div class="card-desc">생리 주기로 배란 예정일·임신 가능 기간 계산</div>
-      </a>
+      <a href="/car_installment" class="calc-card" data-keywords="자동차 할부 월납입금 이자 선수금"><div class="card-top"><span class="card-emoji">🚗</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">자동차 할부 계산기<span class="badge badge-new">NEW</span></div><div class="card-desc">월 납입금·총 이자·실제 구매비용 계산</div></a>
+      <a href="/car_lease" class="calc-card" data-keywords="장기렌트 리스 할부 비교 월납입 잔존가치"><div class="card-top"><span class="card-emoji">🚙</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">장기렌트·리스 계산기<span class="badge badge-new">NEW</span></div><div class="card-desc">렌트·리스·할부 3가지 비교 계산</div></a>
+      <a href="/car_tax" class="calc-card" data-keywords="자동차 취득세 신차 중고차 전기차 경차"><div class="card-top"><span class="card-emoji">🚘</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">자동차 취득세</div><div class="card-desc">신차·중고·전기차 취득세 계산</div></a>
+      <a href="/fuel_economy" class="calc-card" data-keywords="연비 계산 주유비 유류비 휘발유 경유 전기차"><div class="card-top"><span class="card-emoji">⛽</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">연비 계산기</div><div class="card-desc">실제 연비·주유비·연간 유류비 계산</div></a>
     </div>
   </div>
-
-
-  <!-- 📅 날짜 · 생활 -->
   <div class="category" data-cat>
-    <div class="category-header">
-      <div class="category-title">📅 날짜 · 생활</div>
-      <span class="category-count">8</span>
-    </div>
+    <div class="category-header"><div class="category-title">💪 건강 · 신체</div><span class="category-count">7</span></div>
     <div class="calc-grid">
-      <a href="/age" class="calc-card" data-keywords="만나이 한국나이 생일 나이 띠 별자리">
-        <div class="card-top"><span class="card-emoji">🎂</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">만 나이 계산기</div>
-        <div class="card-desc">만 나이·한국 나이·다음 생일 D-day</div>
-      </a>
-      <a href="/area_converter" class="calc-card" data-keywords="평 제곱미터 평수 면적 아파트 평형 변환">
-        <div class="card-top"><span class="card-emoji">📐</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">평 ↔ 제곱미터</div>
-        <div class="card-desc">평수·㎡ 즉시 변환, 아파트 면적 확인</div>
-      </a>
-      <a href="/cm_inch" class="calc-card" data-keywords="cm inch 센티미터 인치 피트 키 변환">
-        <div class="card-top"><span class="card-emoji">📏</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">cm ↔ inch</div>
-        <div class="card-desc">센티미터·인치·피트 즉시 변환</div>
-      </a>
-      <a href="/golf_handicap" class="calc-card" data-keywords="골프 핸디캡 스코어 코스레이팅 슬로프">
-        <div class="card-top"><span class="card-emoji">⛳</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">골프 핸디캡</div>
-        <div class="card-desc">WHS 기준 핸디캡 지수 계산</div>
-      </a>
-      <a href="/date_diff" class="calc-card" data-keywords="날짜 계산 일수 기간 며칠 D+100 계약">
-        <div class="card-top"><span class="card-emoji">📆</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">날짜 계산기</div>
-        <div class="card-desc">두 날짜 사이 일수·주·개월 계산</div>
-      </a>
-      <a href="/dday" class="calc-card" data-keywords="디데이 날짜 카운트다운 기념일">
-        <div class="card-top"><span class="card-emoji">📆</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">디데이 계산기</div>
-        <div class="card-desc">특별한 날까지 남은 날수 계산</div>
-      </a>
-      <a href="/refund" class="calc-card" data-keywords="환불 위약금 사용일수 학원 구독 계산">
-        <div class="card-top"><span class="card-emoji">💸</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">환불금액 계산기<span class="badge badge-new">NEW</span></div>
-        <div class="card-desc">위약금·사용일수·단가로 실제 환불액 계산</div>
-      </a>
-
-      <a href="/lotto" class="calc-card" data-keywords="로또 당첨금 세금 실수령액 1등 2등">
-        <div class="card-top"><span class="card-emoji">🎱</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
-        <div class="card-name">로또 당첨금 계산기<span class="badge badge-hot">HOT</span></div>
-        <div class="card-desc">등수별 세금 22% 공제 후 실수령액 계산</div>
-      </a>
+      <a href="/bmi" class="calc-card" data-keywords="BMI 체질량지수 비만도 적정체중"><div class="card-top"><span class="card-emoji">⚖️</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">BMI 계산기</div><div class="card-desc">체질량지수, 비만도, 적정 체중 계산</div></a>
+      <a href="/bmr" class="calc-card" data-keywords="기초대사량 칼로리 하루 권장"><div class="card-top"><span class="card-emoji">🔥</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">기초대사량 계산기</div><div class="card-desc">하루 권장 칼로리, 기초대사량 계산</div></a>
+      <a href="/calorie" class="calc-card" data-keywords="칼로리 열량 다이어트 음식 운동 소모 kcal"><div class="card-top"><span class="card-emoji">🥗</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">칼로리 계산기</div><div class="card-desc">음식 칼로리·운동 소모량 계산</div></a>
+      <a href="/blood_pressure" class="calc-card" data-keywords="혈압 정상범위 고혈압 저혈압 수축기 이완기"><div class="card-top"><span class="card-emoji">❤️</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">혈압 정상범위</div><div class="card-desc">수축기·이완기 혈압 판정</div></a>
+      <a href="/child_height" class="calc-card" data-keywords="아이 예상키 키 유전 부모키 성장 예측 미드패런탈"><div class="card-top"><span class="card-emoji">👦</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">아이 예상키 계산기<span class="badge badge-hot">HOT</span></div><div class="card-desc">부모 키로 자녀 예상 최종키 계산 (미드패런탈)</div></a>
+      <a href="/pregnancy" class="calc-card" data-keywords="임신 주수 분만예정일 출산 트라이메스터"><div class="card-top"><span class="card-emoji">🤰</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">임신 주수 계산기</div><div class="card-desc">현재 주수·분만예정일·트라이메스터 계산</div></a>
+      <a href="/ovulation" class="calc-card" data-keywords="배란일 가임기 생리주기 임신 가능성"><div class="card-top"><span class="card-emoji">🌸</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">배란일·가임기 계산기<span class="badge badge-new">NEW</span></div><div class="card-desc">생리 주기로 배란 예정일·임신 가능 기간 계산</div></a>
     </div>
   </div>
-
-
-
+  <div class="category" data-cat>
+    <div class="category-header"><div class="category-title">📅 날짜 · 생활</div><span class="category-count">8</span></div>
+    <div class="calc-grid">
+      <a href="/age" class="calc-card" data-keywords="만나이 한국나이 생일 나이 띠 별자리"><div class="card-top"><span class="card-emoji">🎂</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">만 나이 계산기</div><div class="card-desc">만 나이·한국 나이·다음 생일 D-day</div></a>
+      <a href="/area_converter" class="calc-card" data-keywords="평 제곱미터 평수 면적 아파트 평형 변환"><div class="card-top"><span class="card-emoji">📐</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">평 ↔ 제곱미터</div><div class="card-desc">평수·㎡ 즉시 변환, 아파트 면적 확인</div></a>
+      <a href="/cm_inch" class="calc-card" data-keywords="cm inch 센티미터 인치 피트 키 변환"><div class="card-top"><span class="card-emoji">📏</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">cm ↔ inch</div><div class="card-desc">센티미터·인치·피트 즉시 변환</div></a>
+      <a href="/golf_handicap" class="calc-card" data-keywords="골프 핸디캡 스코어 코스레이팅 슬로프"><div class="card-top"><span class="card-emoji">⛳</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">골프 핸디캡</div><div class="card-desc">WHS 기준 핸디캡 지수 계산</div></a>
+      <a href="/date_diff" class="calc-card" data-keywords="날짜 계산 일수 기간 며칠 D+100 계약"><div class="card-top"><span class="card-emoji">📆</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">날짜 계산기</div><div class="card-desc">두 날짜 사이 일수·주·개월 계산</div></a>
+      <a href="/dday" class="calc-card" data-keywords="디데이 날짜 카운트다운 기념일"><div class="card-top"><span class="card-emoji">📆</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">디데이 계산기</div><div class="card-desc">특별한 날까지 남은 날수 계산</div></a>
+      <a href="/refund" class="calc-card" data-keywords="환불 위약금 사용일수 학원 구독 계산"><div class="card-top"><span class="card-emoji">💸</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">환불금액 계산기<span class="badge badge-new">NEW</span></div><div class="card-desc">위약금·사용일수·단가로 실제 환불액 계산</div></a>
+      <a href="/lotto" class="calc-card" data-keywords="로또 당첨금 세금 실수령액 1등 2등"><div class="card-top"><span class="card-emoji">🎱</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">로또 당첨금 계산기<span class="badge badge-hot">HOT</span></div><div class="card-desc">등수별 세금 22% 공제 후 실수령액 계산</div></a>
+    </div>
+  </div>
   <div class="footer">
     <div style="margin-bottom:20px;display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap">
       <a href="/faq" style="display:inline-flex;align-items:center;gap:6px;background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.3);border-radius:30px;padding:9px 20px;color:#00d4aa;text-decoration:none;font-size:15px;font-weight:700;transition:all 0.2s" onmouseover="this.style.background='rgba(0,212,170,0.16)'" onmouseout="this.style.background='rgba(0,212,170,0.08)'">💬 자주 묻는 질문</a>
-      <a href="/cdn-cgi/l/email-protection#e88b87869c898b9ca88d9e8d9a918b89848bc6839a" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.04);border:1px solid #30363d;border-radius:30px;padding:9px 20px;color:#8b949e;text-decoration:none;font-size:14px;font-weight:600;transition:all 0.2s" onmouseover="this.style.color='#e6edf3'" onmouseout="this.style.color='#8b949e'">✉️ 계산기 요청 · 광고·제휴 문의 <span class="__cf_email__" data-cfemail="bbd8d4d5cfdad8cffbdecddec9c2d8dad7d895d0c9">[email&#160;protected]</span></a>
+      <a href="/cdn-cgi/l/email-protection#cdaea2a3b9acaeb98da8bba8bfb4aeaca1aee3a6bf" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.04);border:1px solid #30363d;border-radius:30px;padding:9px 20px;color:#8b949e;text-decoration:none;font-size:14px;font-weight:600;transition:all 0.2s" onmouseover="this.style.color='#e6edf3'" onmouseout="this.style.color='#8b949e'">✉️ 계산기 요청 · 광고·제휴 문의 <span class="__cf_email__" data-cfemail="44272b2a3025273004213221363d272528276a2f36">[email&#160;protected]</span></a>
     </div>
     © 2026 모두의계산기 · everycalc.kr<br>
-    본 사이트의 모든 계산 결과는 참고용이며 실제와 다를 수 있습니다.
+    본 사이트의 모든 계산 결과는 참고용이며 실제와 다를 수 있습니다.<br>
+    <span style="font-size:11px;color:#484f58">이 사이트는 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공 받습니다.</span>
   </div>
 </div>
-
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-  // ── 자주 쓰는 계산기 (홈 전용) ──────────────────────────
   var FAV_KEY = 'ec_favs';
   var FAV_MAX = 9;
-
-  function getFavs() {
-    try { return JSON.parse(localStorage.getItem(FAV_KEY) || '[]'); } catch(e) { return []; }
-  }
-  function setFavs(f) {
-    try { localStorage.setItem(FAV_KEY, JSON.stringify(f)); } catch(e) {}
-  }
-
-  // 자주쓰기 섹션 렌더링
+  function getFavs() { try { return JSON.parse(localStorage.getItem(FAV_KEY) || '[]'); } catch(e) { return []; } }
+  function setFavs(f) { try { localStorage.setItem(FAV_KEY, JSON.stringify(f)); } catch(e) {} }
   var CALC_LIST_HOME = [
     {title:'연봉 실수령액',path:'/salary',emoji:'💰'},{title:'퇴직금',path:'/retirement',emoji:'🏦'},
     {title:'대출 이자',path:'/loan',emoji:'🏠'},{title:'실업급여',path:'/unemployment',emoji:'📋'},
@@ -629,212 +268,40 @@
     {title:'로또 당첨금',path:'/lotto',emoji:'🎰'},{title:'아이 예상키',path:'/child_height',emoji:'👦'},
     {title:'육아휴직 급여',path:'/parental_leave',emoji:'👶'},{title:'혈압 정상범위',path:'/blood_pressure',emoji:'❤️'},
     {title:'칼로리',path:'/calorie',emoji:'🥗'},{title:'영문주소변환',path:'/address_converter',emoji:'📮'},
-  {title:'연차 일수',path:'/annual_leave_hr',emoji:'📅'},
-  {title:'급여명세서',path:'/salary_slip',emoji:'📄'},
-  {title:'복리 계산기',path:'/compound',emoji:'📈'},
-  {title:'법인세',path:'/corporate_tax',emoji:'🏢'},
-  {title:'사업자 부가세',path:'/vat_biz',emoji:'🧾'},
-  {title:'전세자금대출',path:'/jeonse_loan',emoji:'🏠'},
-  {title:'보험료',path:'/insurance',emoji:'🛡'},
-  {title:'퇴직연금',path:'/retirement_pension',emoji:'💼'},
-  {title:'자동차 할부',path:'/car_installment',emoji:'💳'},
-  {title:'장기렌트·리스',path:'/car_lease',emoji:'🚗'},
-  {title:'청약 가점',path:'/cheongak',emoji:'🏆'},
-  {title:'배란일·가임기',path:'/ovulation',emoji:'🗓'},
-  {title:'원가 계산기',path:'/product_cost',emoji:'🏷'},
-  {title:'영업이익',path:'/operating_profit',emoji:'📊'},
-  {title:'손익분기점',path:'/breakeven',emoji:'⚖️'},
-  {title:'배달앱 수수료',path:'/delivery_fee',emoji:'🛵'},
-  {title:'카드 수수료',path:'/card_fee',emoji:'💳'},
-  {title:'임대 수익률',path:'/rent_yield',emoji:'🏘'},
-  {title:'알바 인건비',path:'/part_time_cost',emoji:'👥'},
-  {title:'환불 계산기',path:'/refund',emoji:'💸'}
+    {title:'연차 일수',path:'/annual_leave_hr',emoji:'📅'},{title:'급여명세서',path:'/salary_slip',emoji:'📄'},
+    {title:'복리 계산기',path:'/compound',emoji:'📈'},{title:'법인세',path:'/corporate_tax',emoji:'🏢'},
+    {title:'사업자 부가세',path:'/vat_biz',emoji:'🧾'},{title:'전세자금대출',path:'/jeonse_loan',emoji:'🏠'},
+    {title:'보험료',path:'/insurance',emoji:'🛡'},{title:'퇴직연금',path:'/retirement_pension',emoji:'💼'},
+    {title:'자동차 할부',path:'/car_installment',emoji:'💳'},{title:'장기렌트·리스',path:'/car_lease',emoji:'🚗'},
+    {title:'청약 가점',path:'/cheongak',emoji:'🏆'},{title:'배란일·가임기',path:'/ovulation',emoji:'🗓'},
+    {title:'원가 계산기',path:'/product_cost',emoji:'🏷'},{title:'영업이익',path:'/operating_profit',emoji:'📊'},
+    {title:'손익분기점',path:'/breakeven',emoji:'⚖️'},{title:'배달앱 수수료',path:'/delivery_fee',emoji:'🛵'},
+    {title:'카드 수수료',path:'/card_fee',emoji:'💳'},{title:'임대 수익률',path:'/rent_yield',emoji:'🏘'},
+    {title:'알바 인건비',path:'/part_time_cost',emoji:'👥'},{title:'환불 계산기',path:'/refund',emoji:'💸'}
   ];
-
   function renderFavSection() {
-    var favs = getFavs();
-    var grid    = document.getElementById('favGrid');
-    var empty   = document.getElementById('favEmpty');
-    var countEl = document.getElementById('favCount');
-    if (!grid || !empty) return;
-
-    if (favs.length === 0) {
-      grid.innerHTML = '';
-      empty.style.display = 'flex';
-      if (countEl) countEl.textContent = '';
-      return;
-    }
-
-    empty.style.display = 'none';
-    if (countEl) countEl.textContent = favs.length;
-    grid.innerHTML = '';
-    favs.slice(0, FAV_MAX).forEach(function(path) {
-      var calc = CALC_LIST_HOME.find(function(c){ return c.path === path; });
-      if (!calc) return;
-      var a = document.createElement('a');
-      a.href = calc.path;
-      a.className = 'fav-card';
-      a.innerHTML =
-        '<span class="fav-emoji">' + calc.emoji + '</span>' +
-        '<span>' + calc.title + '</span>' +
-        '<button class="fav-card-del" data-path="' + path + '" title="제거">×</button>';
-      a.querySelector('.fav-card-del').addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        removeFav(this.dataset.path);
-      });
+    var favs=getFavs(),grid=document.getElementById('favGrid'),empty=document.getElementById('favEmpty'),countEl=document.getElementById('favCount');
+    if(!grid||!empty)return;
+    if(favs.length===0){grid.innerHTML='';empty.style.display='flex';if(countEl)countEl.textContent='';return;}
+    empty.style.display='none';if(countEl)countEl.textContent=favs.length;grid.innerHTML='';
+    favs.slice(0,FAV_MAX).forEach(function(path){
+      var calc=CALC_LIST_HOME.find(function(c){return c.path===path;});if(!calc)return;
+      var a=document.createElement('a');a.href=calc.path;a.className='fav-card';
+      a.innerHTML='<span class="fav-emoji">'+calc.emoji+'</span><span>'+calc.title+'</span><button class="fav-card-del" data-path="'+path+'" title="제거">×</button>';
+      a.querySelector('.fav-card-del').addEventListener('click',function(e){e.preventDefault();e.stopPropagation();removeFav(this.dataset.path);});
       grid.appendChild(a);
     });
   }
-
-    function toggleFav(path) {
-    var favs = getFavs();
-    var idx = favs.indexOf(path);
-    if (idx === -1) {
-      if (favs.length >= FAV_MAX) {
-        alert('자주 쓰는 계산기는 최대 ' + FAV_MAX + '개까지 추가할 수 있어요.');
-        return;
-      }
-      favs.unshift(path); // 맨 앞에 추가
-    } else {
-      favs.splice(idx, 1);
-    }
-    setFavs(favs);
-    renderFavSection();
-    updateAllStars();
-  }
-
-  function removeFav(path) {
-    var favs = getFavs().filter(function(p){ return p !== path; });
-    setFavs(favs);
-    renderFavSection();
-    updateAllStars();
-  }
-
-  // 모든 카드의 별 상태 갱신
-  function updateAllStars() {
-    var favs = getFavs();
-    document.querySelectorAll('.star-btn').forEach(function(btn) {
-      var active = favs.includes(btn.dataset.path);
-      btn.classList.toggle('starred', active);
-      btn.setAttribute('aria-label', active ? '자주쓰기 해제' : '자주쓰기 추가');
-    });
-  }
-
-  // 모든 calc-card에 별 버튼 삽입
-  function injectStarButtons() {
-    document.querySelectorAll('.calc-card[href]').forEach(function(card) {
-      var path = card.getAttribute('href');
-      var btn = card.querySelector('.star-btn');
-      if (!btn) return;
-      btn.dataset.path = path;
-      btn.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        toggleFav(path);
-      });
-    });
-    updateAllStars();
-  }
-
-  // 초기화
-  function filterCalcs() {
-    const q = document.getElementById('searchInput').value.trim().toLowerCase();
-    const cards = document.querySelectorAll('.calc-card');
-    let visible = 0;
-    cards.forEach(card => {
-      const name = card.querySelector('.card-name').textContent.toLowerCase();
-      const desc = card.querySelector('.card-desc').textContent.toLowerCase();
-      const keywords = (card.dataset.keywords || '').toLowerCase();
-      const match = !q || name.includes(q) || desc.includes(q) || keywords.includes(q);
-      card.classList.toggle('hidden', !match);
-      if (match) visible++;
-    });
-    document.querySelectorAll('[data-cat]').forEach(cat => {
-      const visibleCards = cat.querySelectorAll('.calc-card:not(.hidden)').length;
-      cat.style.display = visibleCards === 0 ? 'none' : '';
-    });
-    document.getElementById('noResults').classList.toggle('visible', visible === 0);
-  }
+  function toggleFav(path){var favs=getFavs(),idx=favs.indexOf(path);if(idx===-1){if(favs.length>=FAV_MAX){alert('자주 쓰는 계산기는 최대 '+FAV_MAX+'개까지 추가할 수 있어요.');return;}favs.unshift(path);}else{favs.splice(idx,1);}setFavs(favs);renderFavSection();updateAllStars();}
+  function removeFav(path){var favs=getFavs().filter(function(p){return p!==path;});setFavs(favs);renderFavSection();updateAllStars();}
+  function updateAllStars(){var favs=getFavs();document.querySelectorAll('.star-btn').forEach(function(btn){var active=favs.includes(btn.dataset.path);btn.classList.toggle('starred',active);btn.setAttribute('aria-label',active?'자주쓰기 해제':'자주쓰기 추가');});}
+  function injectStarButtons(){document.querySelectorAll('.calc-card[href]').forEach(function(card){var path=card.getAttribute('href'),btn=card.querySelector('.star-btn');if(!btn)return;btn.dataset.path=path;btn.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();toggleFav(path);});});updateAllStars();}
+  function filterCalcs(){const q=document.getElementById('searchInput').value.trim().toLowerCase();const cards=document.querySelectorAll('.calc-card');let visible=0;cards.forEach(card=>{const name=card.querySelector('.card-name').textContent.toLowerCase();const desc=card.querySelector('.card-desc').textContent.toLowerCase();const keywords=(card.dataset.keywords||'').toLowerCase();const match=!q||name.includes(q)||desc.includes(q)||keywords.includes(q);card.classList.toggle('hidden',!match);if(match)visible++;});document.querySelectorAll('[data-cat]').forEach(cat=>{const visibleCards=cat.querySelectorAll('.calc-card:not(.hidden)').length;cat.style.display=visibleCards===0?'none':'';});document.getElementById('noResults').classList.toggle('visible',visible===0);}
 </script>
-
 <script src="/common.js"></script>
-<script>
-  // common.js 로드 완료 후 즉시 자주쓰기 초기화
-  injectStarButtons();
-  renderFavSection();
-</script>
+<script>injectStarButtons();renderFavSection();</script>
 <script src="/share.js"></script>
 <script src="/calculator.js"></script>
-
 <script>
-  // SW 등록
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
-      navigator.serviceWorker.register('/sw.js')
-        .then(function(r) { console.log('[PWA] SW registered:', r.scope); })
-        .catch(function(e) { console.warn('[PWA] SW failed:', e); });
-    });
-  }
-
-  // PWA 설치 배너
-  (function() {
-    var deferredPrompt = null;
-    var banner     = document.getElementById('pwa-banner');
-    var installBtn = document.getElementById('pwa-install-btn');
-    var closeBtn   = document.getElementById('pwa-close');
-    if (!banner || !installBtn || !closeBtn) return;
-
-    // 이미 설치됨(standalone)이면 숨김
-    if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) return;
-
-    var isSamsung = /samsungbrowser/i.test(navigator.userAgent);
-    var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-
-    // iOS Safari → 공유버튼 안내
-    if (isIOS) {
-      installBtn.textContent = '홈 화면에 추가';
-      installBtn.onclick = function() {
-        alert('Safari 하단 공유 버튼(□↑)을 누른 뒤\n"홈 화면에 추가"를 선택해 주세요!');
-      };
-    }
-
-    // 삼성 인터넷 → Chrome 안내
-    if (isSamsung) {
-      installBtn.textContent = 'Chrome으로 설치';
-      installBtn.onclick = function() {
-        alert('Chrome 앱에서 everycalc.kr을 열면\n홈 화면에 설치할 수 있어요!');
-      };
-    }
-
-    // Chrome/Edge → beforeinstallprompt 연결
-    window.addEventListener('beforeinstallprompt', function(e) {
-      e.preventDefault();
-      deferredPrompt = e;
-      if (!isSamsung && !isIOS) {
-        installBtn.textContent = '홈 화면에 설치';
-        installBtn.onclick = function() {
-          deferredPrompt.prompt();
-          deferredPrompt.userChoice.then(function(result) {
-            if (result.outcome === 'accepted') banner.classList.remove('show');
-            deferredPrompt = null;
-          });
-        };
-      }
-    });
-
-    // 닫기 버튼
-    closeBtn.addEventListener('click', function() {
-      banner.classList.remove('show');
-      try { localStorage.setItem('pwa_closed', '1'); } catch(e) {}
-    });
-
-    // 배너 표시: 2초 후 — iOS/삼성 포함 모든 환경에서 동작
-    setTimeout(function() {
-      try { if (localStorage.getItem('pwa_closed')) return; } catch(e) {}
-      banner.classList.add('show');
-    }, 2000);
-  })();
-</script>
-</body>
-</html>
+  if('serviceWorker'in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').then(function(r){console.log('[PWA] SW registered:',r.scope);}).catch(function(e){console.warn('[PWA] SW failed:',e);});});}
+  (function(){var deferredPrompt=null,banner=document.getElementById('pwa-banner'),installBtn=document.getElementById('pwa-install-btn'),closeBtn=document.getElementById('pwa-close');if(!banner||!installBtn||!closeBtn)return;if(window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone)return;var isSamsung=/samsungbrowser/i.test(navigator.userAgent),isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);if(isIOS){installBtn.textContent='홈 화면에 추가';installBtn.onclick=function(){alert('Safari 하단 공유 버튼(□↑)을 누른 뒤\n"홈 화면에 추가"를 선택해 주세요!');}}if(isSamsung){installBtn.textContent='Chrome으로 설치';installBtn.onclick=function(){alert('Chrome 앱에서 everycalc.kr을 열면\n홈 화면에 설치할 수 있어요!');}}window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferredPrompt=e;if(!isSamsung&&!isIOS){installBtn.textContent='홈 화면에 설치';installBtn.onclick=function(){deferredPrompt.prompt();deferredPrompt.userChoice.then(function(result){if(result.outcome==='accepted')banner.classList.remove('show');deferredPrompt=null;});};}});closeBtn.addEventListener('click',functi
