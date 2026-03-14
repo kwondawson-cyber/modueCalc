@@ -25,6 +25,7 @@
     .container{max-width:800px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
     .header{text-align:center;margin-bottom:48px}
     .header h1{font-size:clamp(28px,6vw,48px);font-weight:900;line-height:1.1;margin-bottom:12px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
     .header p{color:var(--text-muted);font-size:15px;font-weight:300}
 
     /* 탭 — pill 스타일 (fuel_economy 기준) */
@@ -70,18 +71,24 @@
     .affiliate-btn{display:inline-block;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:800;text-decoration:none;font-family:'Noto Sans KR',sans-serif}
     .affiliate-btn-primary{background:linear-gradient(135deg,var(--accent2),var(--accent));color:#000}
     .affiliate-btn-secondary{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
-    .ad-slot{min-height:0;text-align:center;margin:20px 0}
+    .ad-slot{text-align:center;margin:4px 0;min-height:0;overflow:hidden}
     details{border:1px solid var(--border);border-radius:10px;margin-bottom:10px;overflow:hidden}
     details summary{padding:14px 18px;cursor:pointer;font-size:14px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center}
     details summary::after{content:'＋';color:var(--accent);font-size:16px}
     details[open] summary::after{content:'－'}
     details .faq-answer{padding:0 18px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;gap:2px;width:48px;height:48px;justify-content:center;border-radius:50%;background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.2);text-decoration:none;transition:all .2s}
+    .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
   </style>
 </head>
 <body>
 <div class="container">
+  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
   <div class="header">
-    <h1>🚙 장기렌트·리스 계산기</h1>
+    <h1><span class="emoji">🚙</span> 장기렌트·리스 계산기</h1>
     <p>월 납입금 계산 · 할부 vs 렌트 vs 리스 비교</p>
   </div>
 

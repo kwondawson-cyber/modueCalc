@@ -25,6 +25,7 @@
     .container{max-width:800px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
     .header{text-align:center;margin-bottom:48px}
     .header h1{font-size:clamp(28px,6vw,48px);font-weight:900;line-height:1.1;margin-bottom:12px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
     .header p{color:var(--text-muted);font-size:15px;font-weight:300}
     .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:32px;margin-bottom:20px}
     .card-title{font-size:13px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:24px}
@@ -53,18 +54,24 @@
     .result-item-label{font-size:11px;color:var(--text-muted);margin-bottom:6px}
     .result-item-value{font-size:18px;font-weight:700;color:var(--text);font-family:'Montserrat',sans-serif}
     .formula-box{background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:16px 20px;margin:16px 0;font-size:13px;color:var(--text-muted);line-height:1.9}
-    .ad-slot{min-height:0;text-align:center;margin:20px 0}
+    .ad-slot{text-align:center;margin:4px 0;min-height:0;overflow:hidden}
     details{border:1px solid var(--border);border-radius:10px;margin-bottom:10px;overflow:hidden}
     details summary{padding:14px 18px;cursor:pointer;font-size:14px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center}
     details summary::after{content:'＋';color:var(--accent);font-size:16px}
     details[open] summary::after{content:'－'}
     details .faq-answer{padding:0 18px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;gap:2px;width:48px;height:48px;justify-content:center;border-radius:50%;background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.2);text-decoration:none;transition:all .2s}
+    .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
   </style>
 </head>
 <body>
 <div class="container">
+  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
   <div class="header">
-    <h1>🚗 자동차 할부 계산기</h1>
+    <h1><span class="emoji">🚗</span> 자동차 할부 계산기</h1>
     <p>월 납입금 · 총 이자 · 실제 구매비용 계산</p>
   </div>
 
