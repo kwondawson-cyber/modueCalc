@@ -20,7 +20,7 @@
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
     body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
-    .container{max-width:800px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .container{max-width:640px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
     .home-btn-wrap{text-align:center;margin-bottom:8px}
     .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
     .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
@@ -30,7 +30,7 @@
     .header h1{font-size:clamp(28px,6vw,44px);font-weight:900;line-height:1.1;margin-bottom:10px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
     .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
     .header p{color:var(--text-muted);font-size:14px}
-    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:24px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:16px}
     .card-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:20px}
     .input-group{margin-bottom:18px}
     .input-group label{display:block;font-size:13px;font-weight:500;color:var(--text-muted);margin-bottom:7px}
@@ -47,7 +47,7 @@
     .calc-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,212,170,0.3)}
     .result-card{display:none;animation:fadeUp .4s ease}.result-card.visible{display:block}
     @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-    .height-display{text-align:center;padding:32px 20px;background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.04));border:1px solid rgba(0,212,170,0.3);border-radius:14px;margin-bottom:24px}
+    .height-display{text-align:center;padding:32px 20px;background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.04));border:1px solid rgba(0,212,170,0.3);border-radius:14px;margin-bottom:16px}
     .height-display .hd-label{font-size:13px;color:var(--text-muted);margin-bottom:8px}
     .height-display .hd-value{font-family:'Montserrat',sans-serif;font-size:56px;font-weight:900;color:var(--accent)}
     .height-display .hd-unit{font-size:20px;color:var(--text-muted);margin-left:4px}
@@ -146,7 +146,28 @@
 .seo-section details[open]{background:#161b22}
 .seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
 .seo-section .warn-box{background:rgba(255,165,0,0.05);border:1px solid rgba(255,165,0,0.2);border-radius:10px;padding:14px 18px;font-size:13px;color:#8b949e;line-height:1.8;margin:16px 0}
+
+.aff-wrap{margin:24px 0;text-align:center}
+.affiliate-banner{display:inline-flex;align-items:center;gap:14px;padding:14px 20px;background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:14px;text-decoration:none;color:var(--text);transition:all .2s;width:100%;max-width:660px;box-sizing:border-box}
+.affiliate-banner:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,212,170,0.15)}
+.ab-icon{font-size:28px;flex-shrink:0}
+.ab-text{flex:1;text-align:left}
+.ab-title{font-size:15px;font-weight:800;color:var(--text);margin-bottom:3px}
+.ab-desc{font-size:12px;color:var(--text-muted)}
+.ab-btn{font-size:13px;font-weight:700;color:var(--accent);white-space:nowrap;flex-shrink:0}
+.aff-disclosure{font-size:10px;color:#484f58;margin-top:5px;text-align:center}
 </style>
+<div class="aff-wrap">
+<a href="https://appu.kr/?i=12515714" class="affiliate-banner" target="_blank" rel="nofollow sponsored">
+  <span class="ab-icon">🌿</span>
+  <div class="ab-text">
+    <div class="ab-title">린바디한의원 여궁 무료 체험</div>
+    <div class="ab-desc">한방 질수축 에센스 · 무료 체험 2세트 증정</div>
+  </div>
+  <span class="ab-btn">무료 체험 →</span>
+</a>
+<div class="aff-disclosure">[광고] 이 링크는 제휴 마케팅(애드릭스)을 통해 수수료를 지급받습니다.</div>
+</div>
 <div class="seo-section">
   <h2>아이 예상키 계산 공식 완벽 정리 — 미드패런탈 공식이란?</h2>
   <p>아이의 예상키를 계산하는 가장 신뢰도 높은 방법은 <strong>미드패런탈 공식(Mid-Parental Height, MPH)</strong>입니다. 소아청소년과에서 실제로 사용하는 공식으로, 부모의 키를 바탕으로 자녀의 유전적 신장 잠재력을 추정합니다. 오차 범위는 ±8.5cm입니다.</p>
