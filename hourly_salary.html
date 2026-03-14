@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-title" content="모두의계산기" />
   <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>시급 월급 계산기 | 모두의계산기</title>
-  <meta name="description" content="시급 월급 계산기 — 시급·주 근무시간 입력으로 주휴수당 포함 월급·연봉 자동 환산. 2026년 최저시급 10,030원 기준표, 209시간 계산 근거, 수습기간 감액 규정 포함." />
+  <meta name="description" content="시급 월급 계산기 — 시급·주 근무시간 입력으로 주휴수당 포함 월급·연봉 자동 환산. 2026년 최저시급 10,320원 기준표, 209시간 계산 근거, 수습기간 감액 규정 포함." />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
   <style>
@@ -20,13 +20,13 @@
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
     body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
-    .container{max-width:800px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
-    .nav{text-align:center;margin-bottom:48px}.nav a{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:3px;color:var(--accent);text-decoration:none;text-transform:uppercase}
+    .container{max-width:640px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .nav{text-align:center;margin-bottom:32px}.nav a{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:3px;color:var(--accent);text-decoration:none;text-transform:uppercase}
     .header{text-align:center;margin-bottom:40px}
     .header h1{font-size:clamp(28px,6vw,44px);font-weight:900;line-height:1.1;margin-bottom:10px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
     .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
     .header p{color:var(--text-muted);font-size:14px}
-    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:24px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:16px}
     .card-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:20px}
     .input-group{margin-bottom:18px}
     .input-group label{display:block;font-size:13px;font-weight:500;color:var(--text-muted);margin-bottom:7px}
@@ -49,7 +49,7 @@
     .calc-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,212,170,0.3)}
     .result-card{display:none;animation:fadeUp .4s ease}.result-card.visible{display:block}
     @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-    .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px}
+    .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
     .r-box{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:18px;text-align:center}
     .r-box.main{border-color:rgba(0,212,170,0.4);grid-column:1/-1;background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.04))}
     .r-box .r-label{font-size:11px;color:var(--text-muted);font-weight:600;margin-bottom:8px}
@@ -102,8 +102,8 @@
     <div class="card-title">근무 정보</div>
     <div class="input-group">
       <label>시급</label>
-      <div class="input-wrapper"><input type="number" id="hourly" value="10030" /><span class="input-unit">원</span></div>
-      <input type="range" id="hourlySlider" min="10030" max="50000" step="100" value="10030" />
+      <div class="input-wrapper"><input type="number" id="hourly" value="10320" /><span class="input-unit">원</span></div>
+      <input type="range" id="hourlySlider" min="10320" max="50000" step="100" value="10320" />
     </div>
     <div class="input-row">
       <div class="input-group">
@@ -201,7 +201,7 @@
   <h3>📐 계산 공식</h3>
   <div class="formula-box">월급 = 시급 × 월 소정근로시간(209시간, 주 40시간 기준)
 209시간 = (40시간 + 8시간 주휴) × 52주 ÷ 12개월</div>
-  <h3>📊 2026년 최저시급(10,030원) 기준 월급·연봉</h3>
+  <h3>📊 2026년 최저시급(10,320원) 기준 월급·연봉</h3>
   <table>
     <thead><tr><th>주 근무시간</th><th>주급(주휴 포함)</th><th>월급(주휴 포함)</th><th>연봉 환산</th></tr></thead>
     <tbody>
@@ -215,13 +215,13 @@
   <table>
     <thead><tr><th>시급</th><th>월급</th><th>연봉</th></tr></thead>
     <tbody>
-      <tr><td>10,030원 (최저)</td><td><strong>2,096,270원</strong></td><td>약 2,516만</td></tr>
+      <tr><td>10,320원 (최저)</td><td><strong>2,156,880원</strong></td><td>약 2,516만</td></tr>
       <tr><td>12,000원</td><td>2,508,000원</td><td>약 3,010만</td></tr>
       <tr><td>15,000원</td><td>3,135,000원</td><td>약 3,762만</td></tr>
       <tr><td>20,000원</td><td>4,180,000원</td><td>약 5,016만</td></tr>
     </tbody>
   </table>
-  <div class="warn-box"><strong>⚠️ 주의.</strong> 2026년 최저시급은 10,030원입니다. 이보다 낮은 금액으로 계약하면 최저임금법 위반으로 사업주가 처벌받습니다.</div>
+  <div class="warn-box"><strong>⚠️ 주의.</strong> 2026년 최저시급은 10,320원입니다. 이보다 낮은 금액으로 계약하면 최저임금법 위반으로 사업주가 처벌받습니다.</div>
   <h2>자주 묻는 질문 (FAQ)</h2>
   <details><summary>209시간은 어떻게 계산되나요?</summary><div class="faq-answer">주 40시간 근무 + 주휴 8시간 = 주 48시간이며, 1개월 평균 주수(52주÷12)를 곱하면 약 209시간이 됩니다. 이것이 최저임금 산정 기준 시간입니다.</div></details>
   <details><summary>식대, 교통비도 시급에 포함되나요?</summary><div class="faq-answer">2019년부터 정기·일률 지급 식비·교통비 일부가 최저임금 산입 범위에 포함됩니다. 다만 월 2.2만 원(식비 기준) 초과분부터 산입됩니다.</div></details>
