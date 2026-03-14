@@ -20,133 +20,98 @@
   <style>
     :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--danger:#ff6b6b;--radius:16px}
     *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
     body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
-    .container{max-width:680px;margin:0 auto;padding:40px 20px 40px;position:relative;z-index:1}
-    .home-btn-wrap{text-align:center;margin-bottom:8px}
-    .home-btn{display:inline-flex;flex-direction:column;align-items:center;gap:2px;width:48px;height:48px;justify-content:center;border-radius:50%;background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.2);text-decoration:none;transition:all .2s}
-    .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
-    .home-btn-emoji{font-size:20px;line-height:1}
-    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
-    .header{text-align:center;margin-bottom:32px}
-    .header h1{font-family:'Montserrat',sans-serif;font-size:clamp(22px,5vw,32px);font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
-    .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
-    .header p{color:var(--text-muted);font-size:14px}
-    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
-    .card h2{font-size:15px;font-weight:700;margin-bottom:16px;color:var(--accent)}
-    .form-group{margin-bottom:14px}
-    label{display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px;font-weight:500}
-    input,select{width:100%;padding:11px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:15px;font-family:'Noto Sans KR',sans-serif;outline:none;transition:border-color .2s}
-    input:focus,select:focus{border-color:var(--accent)}
-    select option{background:var(--surface2)}
-    .btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#000;font-size:16px;font-weight:800;font-family:'Noto Sans KR',sans-serif;cursor:pointer;margin-top:4px;transition:opacity .2s}
+    .container{max-width:800px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .header{text-align:center;margin-bottom:48px}
+    .header h1{font-size:clamp(28px,6vw,48px);font-weight:900;line-height:1.1;margin-bottom:12px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .header p{color:var(--text-muted);font-size:15px;font-weight:300}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:32px;margin-bottom:20px}
+    .card-title{font-size:13px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:24px}
+    .input-group{margin-bottom:24px}
+    .input-group label{display:block;font-size:14px;font-weight:500;color:var(--text-muted);margin-bottom:8px}
+    .input-wrapper{position:relative}
+    .input-wrapper input,.input-wrapper select{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:16px 70px 16px 20px;font-size:22px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none;transition:border-color .2s,box-shadow .2s}
+    .input-wrapper select{font-size:16px;font-family:'Noto Sans KR',sans-serif;cursor:pointer}
+    .input-wrapper input:focus,.input-wrapper select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,170,0.1)}
+    .input-wrapper select option{background:var(--surface2)}
+    .input-unit{position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--text-muted);font-weight:500;pointer-events:none}
+    .row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    @media(max-width:480px){.row2{grid-template-columns:1fr}}
+    .btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#000;font-size:17px;font-weight:800;font-family:'Noto Sans KR',sans-serif;cursor:pointer;margin-top:4px;transition:opacity .2s}
     .btn:hover{opacity:.9}
-    .result-card{background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:var(--radius);padding:24px;margin-top:16px;display:none}
-    .result-card.show{display:block}
-    .result-main{text-align:center;margin-bottom:20px}
-    .result-label{font-size:13px;color:var(--text-muted);margin-bottom:6px}
-    .result-value{font-family:'Montserrat',sans-serif;font-size:36px;font-weight:900;color:var(--accent)}
-    .result-sub{font-size:13px;color:var(--text-muted);margin-top:4px}
-    .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
-    .result-item{background:var(--surface2);border-radius:10px;padding:12px;text-align:center}
-    .result-item-label{font-size:11px;color:var(--text-muted);margin-bottom:4px}
-    .result-item-value{font-size:16px;font-weight:700;color:var(--text)}
-    .formula-box{background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:14px 16px;margin:16px 0;font-size:13px;color:var(--text-muted);line-height:1.8}
-    .ad-slot{min-height:0;text-align:center;margin:16px 0}
-    .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    details{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden}
-    details summary{padding:12px 16px;cursor:pointer;font-size:14px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--surface)}
+    .result-card{background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:var(--radius);padding:32px;margin-top:20px;display:none}
+    .result-card.visible{display:block}
+    .result-main{text-align:center;margin-bottom:24px}
+    .result-label{font-size:13px;color:var(--text-muted);margin-bottom:8px}
+    .result-value{font-family:'Montserrat',sans-serif;font-size:42px;font-weight:900;color:var(--accent)}
+    .result-value span{font-size:20px;font-weight:700}
+    .result-sub{font-size:13px;color:var(--text-muted);margin-top:6px}
+    .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+    @media(max-width:480px){.result-grid{grid-template-columns:1fr}}
+    .result-item{background:var(--surface2);border-radius:10px;padding:16px;text-align:center}
+    .result-item-label{font-size:11px;color:var(--text-muted);margin-bottom:6px}
+    .result-item-value{font-size:18px;font-weight:700;color:var(--text);font-family:'Montserrat',sans-serif}
+    .formula-box{background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:16px 20px;margin:16px 0;font-size:13px;color:var(--text-muted);line-height:1.9}
+    .ad-slot{min-height:0;text-align:center;margin:20px 0}
+    details{border:1px solid var(--border);border-radius:10px;margin-bottom:10px;overflow:hidden}
+    details summary{padding:14px 18px;cursor:pointer;font-size:14px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center}
     details summary::after{content:'＋';color:var(--accent);font-size:16px}
     details[open] summary::after{content:'－'}
-    details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
-    @media(max-width:480px){.result-grid{grid-template-columns:1fr}.row2{grid-template-columns:1fr}}
-
-    .related-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
-    .related-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
-    .related-card .rc-emoji{font-size:22px;display:block;margin-bottom:4px}
-    .related-card .rc-name{font-size:12px;font-weight:700;color:var(--text)}
-    .example-box h3{font-size:14px;font-weight:700;color:var(--accent);margin-bottom:10px}
-    .example-step .num{background:var(--accent);color:#000;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;flex-shrink:0;margin-top:1px}
-  
-    .seo-card h2{font-size:17px;font-weight:800;color:var(--text);margin-bottom:14px;line-height:1.4}
-    .seo-card h3{font-size:14px;font-weight:700;color:var(--accent);margin:16px 0 8px}
-    .seo-card p{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:10px}
-    .seo-card ul{padding-left:18px;margin-bottom:10px}
-    .seo-card ul li{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:4px}
-    .seo-card strong{color:var(--text)}
-    .example-table th{background:rgba(0,212,170,0.1);padding:8px 12px;text-align:left;color:var(--accent);font-weight:700;border:1px solid var(--border)}
-    .example-table td{padding:8px 12px;border:1px solid var(--border);color:var(--text-muted);line-height:1.7}
-    .example-table tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
-    .highlight-box strong{color:var(--accent)}
-    .related-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
-    .related-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
-    .related-card .rc-emoji{font-size:22px;display:block;margin-bottom:4px}
-    .related-card .rc-name{font-size:12px;font-weight:700;color:var(--text)}
-
-    .seo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
-    .seo-card h2{font-size:17px;font-weight:800;color:var(--text);margin-bottom:14px;line-height:1.4}
-    .seo-card h3{font-size:14px;font-weight:700;color:var(--accent);margin:16px 0 8px}
-    .seo-card p{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:10px}
-    .seo-card ul{padding-left:18px;margin-bottom:10px}
-    .seo-card li{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:4px}
-    .seo-card strong{color:var(--text)}
-    .ex-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
-    .ex-table th{background:rgba(0,212,170,0.1);padding:8px 12px;text-align:left;color:var(--accent);font-weight:700;border:1px solid var(--border)}
-    .ex-table td{padding:8px 12px;border:1px solid var(--border);color:var(--text-muted);line-height:1.7}
-    .ex-table tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
-    .hl-box{background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.25);border-radius:10px;padding:14px 16px;margin:14px 0;font-size:13px;color:var(--text);line-height:1.8}
-    .hl-box strong{color:var(--accent)}
-    
-
-.rel-section{margin-bottom:20px}
-    .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
-    .rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
-    .rel-card{display:block;padding:14px 12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
-    .rel-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
-    .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
-    .rel-card .rn{font-size:12px;font-weight:700;color:var(--text)}
-
-    .seo-wrap{max-width:680px;margin:0 auto;padding:0 20px 60px;position:relative;z-index:1}
+    details .faq-answer{padding:0 18px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
   </style>
 </head>
 <body>
 <div class="container">
-  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
   <div class="header">
-    <h1><span class="emoji">🚗</span> 자동차 할부 계산기</h1>
+    <h1>🚗 자동차 할부 계산기</h1>
     <p>월 납입금 · 총 이자 · 실제 구매비용 계산</p>
   </div>
 
   <div class="card">
-    <h2>🚘 차량 정보</h2>
-    <div class="form-group">
-      <label>차량 가격 (만원)</label>
-      <input type="number" id="carPrice" placeholder="예: 3500" />
+    <div class="card-title">🚘 차량 정보 입력</div>
+    <div class="input-group">
+      <label>차량 가격</label>
+      <div class="input-wrapper">
+        <input type="number" id="carPrice" placeholder="3500" />
+        <span class="input-unit">만원</span>
+      </div>
     </div>
     <div class="row2">
-      <div class="form-group">
-        <label>선수금 (만원)</label>
-        <input type="number" id="downPayment" placeholder="예: 500" value="0" />
+      <div class="input-group">
+        <label>선수금</label>
+        <div class="input-wrapper">
+          <input type="number" id="downPayment" placeholder="0" value="0" />
+          <span class="input-unit">만원</span>
+        </div>
       </div>
-      <div class="form-group">
+      <div class="input-group">
+        <label>잔존가치 (선택)</label>
+        <div class="input-wrapper">
+          <input type="number" id="residual" placeholder="0이면 일반 할부" value="0" />
+          <span class="input-unit">만원</span>
+        </div>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="input-group">
         <label>할부 기간</label>
-        <select id="term">
-          <option value="24">24개월</option>
-          <option value="36" selected>36개월</option>
-          <option value="48">48개월</option>
-          <option value="60">60개월</option>
-          <option value="72">72개월</option>
-        </select>
+        <div class="input-wrapper">
+          <select id="term">
+            <option value="24">24개월</option>
+            <option value="36" selected>36개월</option>
+            <option value="48">48개월</option>
+            <option value="60">60개월</option>
+            <option value="72">72개월</option>
+          </select>
+        </div>
       </div>
-    </div>
-    <div class="row2">
-      <div class="form-group">
-        <label>할부 금리 (연 %)</label>
-        <input type="number" id="rate" placeholder="예: 5.9" step="0.1" value="5.9" />
-      </div>
-      <div class="form-group">
-        <label>잔존가치 (만원, 선택)</label>
-        <input type="number" id="residual" placeholder="0이면 일반 할부" value="0" />
+      <div class="input-group">
+        <label>할부 금리 (연)</label>
+        <div class="input-wrapper">
+          <input type="number" id="rate" placeholder="5.9" step="0.1" value="5.9" />
+          <span class="input-unit">%</span>
+        </div>
       </div>
     </div>
     <button class="btn" onclick="calcHalbu()">계산하기</button>
@@ -155,8 +120,8 @@
   <div class="result-card" id="result">
     <div class="result-main">
       <div class="result-label">월 납입금</div>
-      <div class="result-value" id="rMonthly">0만원</div>
-      
+      <div class="result-value" id="rMonthly">0<span>만원</span></div>
+      <div class="result-sub" id="rSub"></div>
     </div>
     <div class="result-grid">
       <div class="result-item"><div class="result-item-label">할부 원금</div><div class="result-item-value" id="rPrincipal">-</div></div>
@@ -168,59 +133,93 @@
 
   <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6079812618767597" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
 </div>
-<div class="seo-wrap">
-<div class="seo-card">
-    <h2>자동차 할부 월 납입금 계산법과 기간별 비교 (2026년)</h2>
-    <p>자동차 할부는 차량 구매 대금을 나눠 내는 방식으로 <strong>원리금균등상환</strong>이 일반적입니다. 선수금이 클수록, 할부 기간이 짧을수록 총 이자가 줄어들지만 월 부담은 커집니다. 아래 표로 기간별 실제 납입금을 비교해 보세요.</p>
-    <h3>📋 차량가 3,000만원 · 선수금 500만원 · 연 6.9% 기준</h3>
-    <table class="ex-table">
-      <tr><th>할부 기간</th><th>월 납입금</th><th>총 납입액</th><th>총 이자</th></tr>
+
+<style>
+.seo-section{max-width:800px;margin:0 auto;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
+.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
+.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}
+.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
+.seo-section ul{padding-left:20px;margin-bottom:12px}
+.seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+.seo-section strong{color:#e6edf3}
+.seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
+.seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+.seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
+.seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
+.seo-section table tr:nth-child(even) td{background:#161b22}
+.seo-section table td strong{color:#00d4aa}
+.seo-section .tip-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .tip-box strong{color:#00d4aa}
+.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
+.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
+.seo-section details[open] summary::after{content:'－'}
+.seo-section details[open]{background:#161b22}
+.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
+.rel-section{margin-top:40px}
+.rel-section h2{font-size:16px;font-weight:700;margin-bottom:14px;color:#e6edf3;border:none;padding:0}
+.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+.rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+.rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
+</style>
+
+<div class="seo-section">
+  <h2>자동차 할부 월 납입금 계산법과 기간별 비교 (2026년)</h2>
+  <p>자동차 할부는 차량 구매 대금을 나눠 내는 방식으로 <strong>원리금균등상환</strong>이 일반적입니다. 선수금이 클수록, 할부 기간이 짧을수록 총 이자가 줄어들지만 월 부담은 커집니다. 아래 표로 기간별 실제 납입금을 비교해 보세요.</p>
+
+  <h3>📋 차량가 3,000만원 · 선수금 500만원 · 연 6.9% 기준</h3>
+  <table>
+    <thead><tr><th>할부 기간</th><th>월 납입금</th><th>총 납입액</th><th>총 이자</th></tr></thead>
+    <tbody>
       <tr><td>24개월</td><td>약 1,115,000원</td><td>약 31,760,000원</td><td>약 1,760,000원</td></tr>
       <tr><td>36개월</td><td>약 771,000원</td><td>약 32,756,000원</td><td>약 2,756,000원</td></tr>
       <tr><td>48개월</td><td>약 598,000원</td><td>약 33,704,000원</td><td>약 3,704,000원</td></tr>
-      <tr><td>60개월</td><td>약 494,000원</td><td>약 34,640,000원</td><td>약 4,640,000원</td></tr>
-    </table>
-    <p style="font-size:12px;color:var(--text-muted);margin-top:-4px">※ 선수금 500만원 포함 실제 구매비용입니다. 제조사 무이자 할부 프로모션 적용 시 이자 0원 가능.</p>
-    <h3>💡 할부 vs 리스 vs 장기렌트 선택 기준</h3>
-    <ul>
-      <li><strong>할부:</strong> 만기 후 차량이 내 소유. 장기적으로 가장 저렴한 경우가 많음.</li>
-      <li><strong>운용리스:</strong> 잔존가치 설정으로 월 납입금 낮춤. 사업자 비용처리 가능.</li>
-      <li><strong>장기렌트:</strong> 보험·세금 포함 올인원. 관리 편의성 최고, 월 비용은 가장 높음.</li>
-    </ul>
-    <div class="hl-box">💡 <strong>이자 절감 팁:</strong> 선수금을 10%→30%로 올리면 동일 기간 총 이자가 약 30% 줄어듭니다. 제조사 무이자 할부 행사 기간을 노리는 것도 좋은 전략입니다.</div>
-  </div><div class="card">
-    <h2>📐 계산 방식</h2>
-    <div class="formula-box">
-      <strong>일반 할부</strong> — 원리금균등상환<br>
-      월 납입금 = 할부원금 × [r(1+r)ⁿ / ((1+r)ⁿ-1)]<br>
-      r = 월 금리(연금리÷12), n = 할부 개월 수<br><br>
-      <strong>잔존가치 할부 (벌룬)</strong> — 마지막 회차에 잔존가치 일시 납부<br>
-      차량사 0% 할부 이벤트는 딜러 마진이 포함된 경우가 많으니 총 비용을 비교하세요.
-    </div>
+      <tr><td>60개월</td><td>약 494,000원</td><td>약 34,640,000원</td><td><strong>약 4,640,000원</strong></td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:12px;color:#8b949e;margin-top:-4px">※ 선수금 500만원 포함 실제 구매비용입니다. 제조사 무이자 할부 프로모션 적용 시 이자 0원 가능.</p>
+
+  <h3>💡 할부 vs 리스 vs 장기렌트 선택 기준</h3>
+  <ul>
+    <li><strong>할부:</strong> 만기 후 차량이 내 소유. 장기적으로 가장 저렴한 경우가 많음.</li>
+    <li><strong>운용리스:</strong> 잔존가치 설정으로 월 납입금 낮춤. 사업자 비용처리 가능.</li>
+    <li><strong>장기렌트:</strong> 보험·세금 포함 올인원. 관리 편의성 최고, 월 비용은 가장 높음.</li>
+  </ul>
+  <div class="tip-box">💡 <strong>이자 절감 팁:</strong> 선수금을 10%→30%로 올리면 동일 기간 총 이자가 약 30% 줄어듭니다. 제조사 무이자 할부 행사 기간을 노리는 것도 좋은 전략입니다.</div>
+
+  <h3>📐 계산 방식</h3>
+  <div class="formula-box">
+    일반 할부 — 원리금균등상환<br>
+    월 납입금 = 할부원금 × [r(1+r)ⁿ / ((1+r)ⁿ−1)]<br>
+    r = 월 금리(연금리÷12), n = 할부 개월 수<br><br>
+    잔존가치 할부(벌룬) — 마지막 회차에 잔존가치 일시 납부<br>
+    차량사 0% 할부 이벤트는 딜러 마진이 포함된 경우가 많으니 총 비용을 비교하세요.
   </div>
 
-  <h2 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)">자주 묻는 질문</h2>
+  <h2>자주 묻는 질문</h2>
   <details><summary>자동차 할부 금리는 얼마나 되나요?</summary><div class="faq-answer">2026년 기준 캐피탈사 할부 금리는 연 4~8% 수준입니다. 제조사 금융사(현대캐피탈, KB캐피탈 등)는 이벤트에 따라 0~3%대도 가능하지만, 차량 가격에 마진이 포함된 경우가 많습니다.</div></details>
   <details><summary>선수금을 많이 내면 유리한가요?</summary><div class="faq-answer">선수금이 많을수록 할부 원금이 줄어 총 이자가 감소합니다. 단, 현금을 묶어두는 기회비용도 고려해야 합니다. 금리가 예금 금리보다 높다면 선수금을 늘리는 게 유리합니다.</div></details>
-  <details><summary>잔존가치 할부란 무엇인가요?</summary><div class="faq-answer">잔존가치(벌룬) 할부는 차량의 일정 금액(잔존가치)을 마지막에 한 번에 납부하는 방식입니다. 월 납입금이 낮아지지만 만기에 목돈이 필요하며, 이 금액으로 재리스·반납·구매를 선택할 수 있습니다.</div></details>
+  <details><summary>잔존가치 할부란 무엇인가요?</summary><div class="faq-answer">잔존가치(벌룬) 할부는 차량의 일정 금액을 마지막에 한 번에 납부하는 방식입니다. 월 납입금이 낮아지지만 만기에 목돈이 필요하며, 이 금액으로 재리스·반납·구매를 선택할 수 있습니다.</div></details>
   <details><summary>할부 기간은 길수록 좋은가요?</summary><div class="faq-answer">할부 기간이 길면 월 납입금은 줄지만 총 이자가 늘어납니다. 일반적으로 36~48개월이 많이 선택됩니다. 감가상각이 빠른 차량은 길게 탈수록 불리할 수 있습니다.</div></details>
   <details><summary>중도 상환 수수료가 있나요?</summary><div class="faq-answer">캐피탈사마다 다르지만 할부는 중도상환 시 수수료가 발생하는 경우가 있습니다. 계약 전 중도상환 조건을 반드시 확인하세요.</div></details>
 
-<div class="rel-section">
+  <div class="rel-section">
     <h2>📌 함께 쓰면 유용한 계산기</h2>
     <div class="rel-grid">
-      <a href="/car_lease" class="rel-card"><span class="re">🚗</span><span class="rn">장기렌트·리스</span></a>
-      <a href="/car_tax" class="rel-card"><span class="re">💳</span><span class="rn">자동차세</span></a>
+      <a href="/car_lease" class="rel-card"><span class="re">🚙</span><span class="rn">장기렌트·리스</span></a>
+      <a href="/car_tax" class="rel-card"><span class="re">🚘</span><span class="rn">자동차 취득세</span></a>
       <a href="/fuel_economy" class="rel-card"><span class="re">⛽</span><span class="rn">연비 계산기</span></a>
-      <a href="/loan" class="rel-card"><span class="re">💰</span><span class="rn">대출 계산기</span></a>
+      <a href="/loan" class="rel-card"><span class="re">🏧</span><span class="rn">대출 이자</span></a>
       <a href="/vat" class="rel-card"><span class="re">🧾</span><span class="rn">부가세 계산기</span></a>
-      <a href="/customs" class="rel-card"><span class="re">📦</span><span class="rn">관세 계산기</span></a>
+      <a href="/income_tax" class="rel-card"><span class="re">📋</span><span class="rn">소득세 계산기</span></a>
     </div>
   </div>
 </div>
+
 <script>
 function fmt(n) { return Math.round(n).toLocaleString() + '만원'; }
-
 function calcHalbu() {
   const price    = +document.getElementById('carPrice').value;
   const down     = +document.getElementById('downPayment').value || 0;
@@ -228,29 +227,22 @@ function calcHalbu() {
   const annRate  = +document.getElementById('rate').value;
   const residual = +document.getElementById('residual').value || 0;
   if (!price || !annRate) { alert('차량 가격과 금리를 입력해주세요.'); return; }
-
   const principal = price - down - residual;
   const r = annRate / 100 / 12;
-  let monthly;
-  if (r === 0) {
-    monthly = principal / n;
-  } else {
-    monthly = principal * r * Math.pow(1+r,n) / (Math.pow(1+r,n)-1);
-  }
-  const totalPay   = monthly * n + residual;
-  const totalInt   = totalPay - principal - residual;
-  const realCost   = down + totalPay;
-
-  document.getElementById('rMonthly').textContent   = fmt(monthly);
-  document.getElementById('rSub').textContent       = `${n}개월 · 연 ${annRate}%`;
+  const monthly = r === 0 ? principal / n : principal * r * Math.pow(1+r,n) / (Math.pow(1+r,n)-1);
+  const totalPay = monthly * n + residual;
+  const totalInt = totalPay - principal - residual;
+  const realCost = down + totalPay;
+  document.getElementById('rMonthly').innerHTML = Math.round(monthly).toLocaleString() + '<span>만원</span>';
+  document.getElementById('rSub').textContent   = `${n}개월 · 연 ${annRate}%`;
   document.getElementById('rPrincipal').textContent = fmt(principal);
   document.getElementById('rInterest').textContent  = fmt(totalInt);
   document.getElementById('rTotalPay').textContent  = fmt(totalPay);
   document.getElementById('rRealCost').textContent  = fmt(realCost);
-  document.getElementById('result').classList.add('show');
+  document.getElementById('result').classList.add('visible');
 }
 </script>
 <script src="/common.js"></script><script src="/share.js"></script><script src="/calculator.js"></script>
-<script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}</script>
+<script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{});});}</script>
 </body>
 </html>

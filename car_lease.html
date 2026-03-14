@@ -20,147 +20,145 @@
   <style>
     :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--danger:#ff6b6b;--radius:16px}
     *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
     body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
-    .container{max-width:680px;margin:0 auto;padding:40px 20px 100px;position:relative;z-index:1}
-    .home-btn-wrap{text-align:center;margin-bottom:8px}
-    .home-btn{display:inline-flex;flex-direction:column;align-items:center;gap:2px;width:48px;height:48px;justify-content:center;border-radius:50%;background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.2);text-decoration:none;transition:all .2s}
-    .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
-    .home-btn-emoji{font-size:20px;line-height:1}
-    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
-    .header{text-align:center;margin-bottom:32px}
-    .header h1{font-family:'Montserrat',sans-serif;font-size:clamp(22px,5vw,32px);font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
-    .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
-    .header p{color:var(--text-muted);font-size:14px}
-    .tab-wrap{display:flex;gap:8px;margin-bottom:16px}
-    .tab{flex:1;padding:10px;text-align:center;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;border:1px solid var(--border);background:var(--surface2);color:var(--text-muted);transition:all .2s}
-    .tab.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000;border-color:transparent}
-    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
-    .card h2{font-size:15px;font-weight:700;margin-bottom:16px;color:var(--accent)}
-    .form-group{margin-bottom:14px}
-    label{display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px;font-weight:500}
-    input,select{width:100%;padding:11px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:15px;font-family:'Noto Sans KR',sans-serif;outline:none;transition:border-color .2s}
-    input:focus,select:focus{border-color:var(--accent)}
-    select option{background:var(--surface2)}
-    .btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#000;font-size:16px;font-weight:800;font-family:'Noto Sans KR',sans-serif;cursor:pointer;margin-top:4px;transition:opacity .2s}
+    .container{max-width:800px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .header{text-align:center;margin-bottom:48px}
+    .header h1{font-size:clamp(28px,6vw,48px);font-weight:900;line-height:1.1;margin-bottom:12px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .header p{color:var(--text-muted);font-size:15px;font-weight:300}
+
+    /* 탭 — pill 스타일 (fuel_economy 기준) */
+    .tab-group{display:flex;gap:4px;background:var(--surface2);border-radius:12px;padding:4px;margin-bottom:20px}
+    .tab-btn{flex:1;padding:12px;background:transparent;border:none;border-radius:9px;color:var(--text-muted);font-size:14px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .2s}
+    .tab-btn.active{background:var(--surface);color:var(--accent);box-shadow:0 2px 8px rgba(0,0,0,0.3)}
+    .tab-panel{display:none}
+    .tab-panel.active{display:block}
+
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:32px;margin-bottom:20px}
+    .card-title{font-size:13px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:24px}
+    .input-group{margin-bottom:24px}
+    .input-group label{display:block;font-size:14px;font-weight:500;color:var(--text-muted);margin-bottom:8px}
+    .input-wrapper{position:relative}
+    .input-wrapper input,.input-wrapper select{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:16px 70px 16px 20px;font-size:22px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none;transition:border-color .2s,box-shadow .2s}
+    .input-wrapper select{font-size:16px;font-family:'Noto Sans KR',sans-serif;cursor:pointer}
+    .input-wrapper input:focus,.input-wrapper select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,170,0.1)}
+    .input-wrapper select option{background:var(--surface2)}
+    .input-unit{position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--text-muted);font-weight:500;pointer-events:none}
+    .row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    @media(max-width:480px){.row2{grid-template-columns:1fr}}
+    .btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#000;font-size:17px;font-weight:800;font-family:'Noto Sans KR',sans-serif;cursor:pointer;margin-top:4px;transition:opacity .2s}
     .btn:hover{opacity:.9}
-    .result-card{background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:var(--radius);padding:24px;margin-top:16px;display:none}
-    .result-card.show{display:block}
-    .result-main{text-align:center;margin-bottom:20px}
-    .result-label{font-size:13px;color:var(--text-muted);margin-bottom:6px}
-    .result-value{font-family:'Montserrat',sans-serif;font-size:36px;font-weight:900;color:var(--accent)}
-    .result-sub{font-size:13px;color:var(--text-muted);margin-top:4px}
-    .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
-    .result-item{background:var(--surface2);border-radius:10px;padding:12px;text-align:center}
-    .result-item-label{font-size:11px;color:var(--text-muted);margin-bottom:4px}
-    .result-item-value{font-size:16px;font-weight:700;color:var(--text)}
+    .result-card{background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:var(--radius);padding:32px;margin-top:20px;display:none}
+    .result-card.visible{display:block}
+    .result-main{text-align:center;margin-bottom:24px}
+    .result-label{font-size:13px;color:var(--text-muted);margin-bottom:8px}
+    .result-value{font-family:'Montserrat',sans-serif;font-size:42px;font-weight:900;color:var(--accent)}
+    .result-value span{font-size:20px;font-weight:700}
+    .result-sub{font-size:13px;color:var(--text-muted);margin-top:6px}
+    .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+    @media(max-width:480px){.result-grid{grid-template-columns:1fr}}
+    .result-item{background:var(--surface2);border-radius:10px;padding:16px;text-align:center}
+    .result-item-label{font-size:11px;color:var(--text-muted);margin-bottom:6px}
+    .result-item-value{font-size:18px;font-weight:700;color:var(--text);font-family:'Montserrat',sans-serif}
     .compare-table{width:100%;border-collapse:collapse;margin-top:16px;font-size:13px}
-    .compare-table th{background:var(--surface2);padding:10px;text-align:center;color:var(--text-muted);font-weight:600;border:1px solid var(--border)}
-    .compare-table td{padding:10px;text-align:center;border:1px solid var(--border);color:var(--text)}
+    .compare-table th{background:var(--surface2);padding:12px;text-align:center;color:var(--text-muted);font-weight:600;border:1px solid var(--border)}
+    .compare-table td{padding:12px;text-align:center;border:1px solid var(--border);color:var(--text)}
     .compare-table tr.highlight td{color:var(--accent);font-weight:700}
-    .affiliate-box{background:linear-gradient(135deg,rgba(0,149,255,0.1),rgba(0,212,170,0.06));border:1px solid rgba(0,149,255,0.3);border-radius:12px;padding:18px;margin-top:16px;text-align:center}
+    .affiliate-box{background:linear-gradient(135deg,rgba(0,149,255,0.1),rgba(0,212,170,0.06));border:1px solid rgba(0,149,255,0.3);border-radius:12px;padding:18px;margin-top:20px;text-align:center}
     .affiliate-box p{font-size:13px;color:var(--text-muted);margin-bottom:12px}
     .affiliate-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
     .affiliate-btn{display:inline-block;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:800;text-decoration:none;font-family:'Noto Sans KR',sans-serif}
     .affiliate-btn-primary{background:linear-gradient(135deg,var(--accent2),var(--accent));color:#000}
     .affiliate-btn-secondary{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
-    .formula-box{background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:14px 16px;margin:16px 0;font-size:13px;color:var(--text-muted);line-height:1.8}
-    .ad-slot{min-height:0;text-align:center;margin:16px 0}
-    .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    details{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden}
-    details summary{padding:12px 16px;cursor:pointer;font-size:14px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--surface)}
+    .ad-slot{min-height:0;text-align:center;margin:20px 0}
+    details{border:1px solid var(--border);border-radius:10px;margin-bottom:10px;overflow:hidden}
+    details summary{padding:14px 18px;cursor:pointer;font-size:14px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center}
     details summary::after{content:'＋';color:var(--accent);font-size:16px}
     details[open] summary::after{content:'－'}
-    details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
-    @media(max-width:480px){.result-grid{grid-template-columns:1fr}.row2{grid-template-columns:1fr}}
-
-    .related-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
-    .related-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
-    .related-card .rc-emoji{font-size:22px;display:block;margin-bottom:4px}
-    .related-card .rc-name{font-size:12px;font-weight:700;color:var(--text)}
-    .example-box h3{font-size:14px;font-weight:700;color:var(--accent);margin-bottom:10px}
-    .example-step .num{background:var(--accent);color:#000;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;flex-shrink:0;margin-top:1px}
-  
-    .seo-card h2{font-size:17px;font-weight:800;color:var(--text);margin-bottom:14px;line-height:1.4}
-    .seo-card h3{font-size:14px;font-weight:700;color:var(--accent);margin:16px 0 8px}
-    .seo-card p{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:10px}
-    .seo-card ul{padding-left:18px;margin-bottom:10px}
-    .seo-card ul li{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:4px}
-    .seo-card strong{color:var(--text)}
-    .example-table th{background:rgba(0,212,170,0.1);padding:8px 12px;text-align:left;color:var(--accent);font-weight:700;border:1px solid var(--border)}
-    .example-table td{padding:8px 12px;border:1px solid var(--border);color:var(--text-muted);line-height:1.7}
-    .example-table tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
-    .highlight-box strong{color:var(--accent)}
-    .related-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
-    .related-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
-    .related-card .rc-emoji{font-size:22px;display:block;margin-bottom:4px}
-    .related-card .rc-name{font-size:12px;font-weight:700;color:var(--text)}
-
-    .seo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
-    .seo-card h2{font-size:17px;font-weight:800;color:var(--text);margin-bottom:14px;line-height:1.4}
-    .seo-card h3{font-size:14px;font-weight:700;color:var(--accent);margin:16px 0 8px}
-    .seo-card p{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:10px}
-    .seo-card ul{padding-left:18px;margin-bottom:10px}
-    .seo-card li{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:4px}
-    .seo-card strong{color:var(--text)}
-    .ex-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
-    .ex-table th{background:rgba(0,212,170,0.1);padding:8px 12px;text-align:left;color:var(--accent);font-weight:700;border:1px solid var(--border)}
-    .ex-table td{padding:8px 12px;border:1px solid var(--border);color:var(--text-muted);line-height:1.7}
-    .ex-table tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
-    .hl-box{background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.25);border-radius:10px;padding:14px 16px;margin:14px 0;font-size:13px;color:var(--text);line-height:1.8}
-    .hl-box strong{color:var(--accent)}
-    
-
-.rel-section{margin-bottom:20px}
-    .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
-    .rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
-    .rel-card{display:block;padding:14px 12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
-    .rel-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
-    .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
-    .rel-card .rn{font-size:12px;font-weight:700;color:var(--text)}
+    details .faq-answer{padding:0 18px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
   </style>
 </head>
 <body>
 <div class="container">
-  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
   <div class="header">
-    <h1><span class="emoji">🚙</span> 장기렌트·리스 계산기</h1>
-    <p>월 납입금 계산 · 할부vs렌트vs리스 비교</p>
+    <h1>🚙 장기렌트·리스 계산기</h1>
+    <p>월 납입금 계산 · 할부 vs 렌트 vs 리스 비교</p>
   </div>
 
-  <div class="tab-wrap">
-    <div class="tab active" onclick="switchTab('rent',this)">장기렌트</div>
-    <div class="tab" onclick="switchTab('lease',this)">운용리스</div>
-    <div class="tab" onclick="switchTab('compare',this)">3가지 비교</div>
+  <!-- 탭 버튼 -->
+  <div class="tab-group">
+    <button class="tab-btn active" onclick="switchTab('rent', this)">장기렌트</button>
+    <button class="tab-btn" onclick="switchTab('lease', this)">운용리스</button>
+    <button class="tab-btn" onclick="switchTab('compare', this)">3가지 비교</button>
   </div>
 
-  <!-- 장기렌트 -->
-  <div id="tab-rent">
+  <!-- 장기렌트 탭 -->
+  <div class="tab-panel active" id="tab-rent">
     <div class="card">
-      <h2>🚗 장기렌트 계산</h2>
-      <div class="form-group"><label>차량 가격 (만원)</label><input type="number" id="r-price" placeholder="예: 3500" /></div>
-      <div class="row2">
-        <div class="form-group"><label>계약 기간</label><select id="r-term"><option value="36">36개월</option><option value="48" selected>48개월</option><option value="60">60개월</option></select></div>
-        <div class="form-group"><label>선납금 비율 (%)</label><input type="number" id="r-prepay" placeholder="10~30" value="20" /></div>
+      <div class="card-title">🚗 장기렌트 계산</div>
+      <div class="input-group">
+        <label>차량 가격</label>
+        <div class="input-wrapper">
+          <input type="number" id="r-price" placeholder="3500" />
+          <span class="input-unit">만원</span>
+        </div>
       </div>
       <div class="row2">
-        <div class="form-group"><label>보증금 비율 (%)</label><input type="number" id="r-deposit" placeholder="예: 10" value="10" /></div>
-        <div class="form-group"><label>잔존가치 비율 (%)</label><input type="number" id="r-residual" placeholder="예: 40" value="40" /></div>
+        <div class="input-group">
+          <label>계약 기간</label>
+          <div class="input-wrapper">
+            <select id="r-term">
+              <option value="36">36개월</option>
+              <option value="48" selected>48개월</option>
+              <option value="60">60개월</option>
+            </select>
+          </div>
+        </div>
+        <div class="input-group">
+          <label>선납금 비율</label>
+          <div class="input-wrapper">
+            <input type="number" id="r-prepay" placeholder="20" value="20" />
+            <span class="input-unit">%</span>
+          </div>
+        </div>
       </div>
-      <div class="form-group"><label>렌트료 금리 (연 %)</label><input type="number" id="r-rate" placeholder="예: 7.5" step="0.1" value="7.5" /></div>
+      <div class="row2">
+        <div class="input-group">
+          <label>보증금 비율</label>
+          <div class="input-wrapper">
+            <input type="number" id="r-deposit" placeholder="10" value="10" />
+            <span class="input-unit">%</span>
+          </div>
+        </div>
+        <div class="input-group">
+          <label>잔존가치 비율</label>
+          <div class="input-wrapper">
+            <input type="number" id="r-residual" placeholder="40" value="40" />
+            <span class="input-unit">%</span>
+          </div>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>렌트료 금리 (연)</label>
+        <div class="input-wrapper">
+          <input type="number" id="r-rate" placeholder="7.5" step="0.1" value="7.5" />
+          <span class="input-unit">%</span>
+        </div>
+      </div>
       <button class="btn" onclick="calcRent()">계산하기</button>
     </div>
+
     <div class="result-card" id="result-rent">
       <div class="result-main">
         <div class="result-label">월 렌트료</div>
-        <div class="result-value" id="rr-monthly">0만원</div>
-        
+        <div class="result-value" id="rr-monthly">0<span>만원</span></div>
+        <div class="result-sub" id="rr-sub"></div>
       </div>
       <div class="result-grid">
         <div class="result-item"><div class="result-item-label">선납금</div><div class="result-item-value" id="rr-prepay">-</div></div>
         <div class="result-item"><div class="result-item-label">보증금 (만기 환급)</div><div class="result-item-value" id="rr-deposit">-</div></div>
         <div class="result-item"><div class="result-item-label">총 납입액</div><div class="result-item-value" id="rr-total">-</div></div>
-        <div class="result-item"><div class="result-item-label">실제 비용 (보증금 제외)</div><div class="result-item-value" id="rr-real">-</div></div>
+        <div class="result-item"><div class="result-item-label">실제 비용</div><div class="result-item-value" id="rr-real">-</div></div>
       </div>
       <div class="affiliate-box">
         <p>💡 렌트사별 조건이 달라요. 여러 견적을 비교해보세요.</p>
@@ -172,23 +170,51 @@
     </div>
   </div>
 
-  <!-- 운용리스 -->
-  <div id="tab-lease" style="display:none">
+  <!-- 운용리스 탭 -->
+  <div class="tab-panel" id="tab-lease">
     <div class="card">
-      <h2>📄 운용리스 계산</h2>
-      <div class="form-group"><label>차량 가격 (만원)</label><input type="number" id="l-price" placeholder="예: 3500" /></div>
-      <div class="row2">
-        <div class="form-group"><label>계약 기간</label><select id="l-term"><option value="36">36개월</option><option value="48" selected>48개월</option><option value="60">60개월</option></select></div>
-        <div class="form-group"><label>잔존가치 비율 (%)</label><input type="number" id="l-residual" placeholder="예: 45" value="45" /></div>
+      <div class="card-title">📄 운용리스 계산</div>
+      <div class="input-group">
+        <label>차량 가격</label>
+        <div class="input-wrapper">
+          <input type="number" id="l-price" placeholder="3500" />
+          <span class="input-unit">만원</span>
+        </div>
       </div>
-      <div class="form-group"><label>리스료 금리 (연 %)</label><input type="number" id="l-rate" placeholder="예: 5.5" step="0.1" value="5.5" /></div>
+      <div class="row2">
+        <div class="input-group">
+          <label>계약 기간</label>
+          <div class="input-wrapper">
+            <select id="l-term">
+              <option value="36">36개월</option>
+              <option value="48" selected>48개월</option>
+              <option value="60">60개월</option>
+            </select>
+          </div>
+        </div>
+        <div class="input-group">
+          <label>잔존가치 비율</label>
+          <div class="input-wrapper">
+            <input type="number" id="l-residual" placeholder="45" value="45" />
+            <span class="input-unit">%</span>
+          </div>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>리스료 금리 (연)</label>
+        <div class="input-wrapper">
+          <input type="number" id="l-rate" placeholder="5.5" step="0.1" value="5.5" />
+          <span class="input-unit">%</span>
+        </div>
+      </div>
       <button class="btn" onclick="calcLease()">계산하기</button>
     </div>
+
     <div class="result-card" id="result-lease">
       <div class="result-main">
         <div class="result-label">월 리스료</div>
-        <div class="result-value" id="rl-monthly">0만원</div>
-        
+        <div class="result-value" id="rl-monthly">0<span>만원</span></div>
+        <div class="result-sub" id="rl-sub"></div>
       </div>
       <div class="result-grid">
         <div class="result-item"><div class="result-item-label">리스 원금</div><div class="result-item-value" id="rl-principal">-</div></div>
@@ -200,16 +226,38 @@
   </div>
 
   <!-- 비교 탭 -->
-  <div id="tab-compare" style="display:none">
+  <div class="tab-panel" id="tab-compare">
     <div class="card">
-      <h2>⚖️ 할부 vs 렌트 vs 리스 비교</h2>
-      <div class="form-group"><label>차량 가격 (만원)</label><input type="number" id="c-price" placeholder="예: 3500" /></div>
+      <div class="card-title">⚖️ 할부 vs 렌트 vs 리스 비교</div>
+      <div class="input-group">
+        <label>차량 가격</label>
+        <div class="input-wrapper">
+          <input type="number" id="c-price" placeholder="3500" />
+          <span class="input-unit">만원</span>
+        </div>
+      </div>
       <div class="row2">
-        <div class="form-group"><label>선납/선수금 (만원)</label><input type="number" id="c-down" value="0" /></div>
-        <div class="form-group"><label>계약 기간</label><select id="c-term"><option value="36">36개월</option><option value="48" selected>48개월</option><option value="60">60개월</option></select></div>
+        <div class="input-group">
+          <label>선납/선수금</label>
+          <div class="input-wrapper">
+            <input type="number" id="c-down" value="0" />
+            <span class="input-unit">만원</span>
+          </div>
+        </div>
+        <div class="input-group">
+          <label>계약 기간</label>
+          <div class="input-wrapper">
+            <select id="c-term">
+              <option value="36">36개월</option>
+              <option value="48" selected>48개월</option>
+              <option value="60">60개월</option>
+            </select>
+          </div>
+        </div>
       </div>
       <button class="btn" onclick="calcCompare()">비교하기</button>
     </div>
+
     <div class="result-card" id="result-compare">
       <table class="compare-table">
         <thead><tr><th>구분</th><th>할부</th><th>장기렌트</th><th>운용리스</th></tr></thead>
@@ -226,63 +274,94 @@
   </div>
 
   <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6079812618767597" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
-  
 </div>
-<div class="seo-card">
-    <h2>장기렌트 vs 운용리스 vs 할부 — 2026년 완벽 비교 가이드</h2>
-    <p>자동차를 이용하는 방법은 크게 <strong>할부·운용리스·장기렌트</strong> 세 가지입니다. 소유 목적, 사업자 여부, 월 예산에 따라 유리한 방식이 다릅니다. 5년 기준 총비용을 직접 비교해 보세요.</p>
-    <h3>📋 차량가 4,000만원 · 5년 이용 기준 총비용 비교</h3>
-    <table class="ex-table">
-      <tr><th>구분</th><th>월 납입금</th><th>5년 총비용</th><th>만기 후</th><th>사업자 세제</th></tr>
+
+<style>
+.seo-section{max-width:800px;margin:0 auto;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
+.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
+.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}
+.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
+.seo-section ul{padding-left:20px;margin-bottom:12px}
+.seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+.seo-section strong{color:#e6edf3}
+.seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+.seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
+.seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
+.seo-section table tr:nth-child(even) td{background:#161b22}
+.seo-section table td strong{color:#00d4aa}
+.seo-section .tip-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .tip-box strong{color:#00d4aa}
+.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
+.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
+.seo-section details[open] summary::after{content:'－'}
+.seo-section details[open]{background:#161b22}
+.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
+.rel-section{margin-top:40px}
+.rel-section h2{font-size:16px;font-weight:700;margin-bottom:14px;color:#e6edf3;border:none;padding:0}
+.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+.rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+.rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
+</style>
+
+<div class="seo-section">
+  <h2>장기렌트 vs 운용리스 vs 할부 — 2026년 완벽 비교 가이드</h2>
+  <p>자동차를 이용하는 방법은 크게 <strong>할부·운용리스·장기렌트</strong> 세 가지입니다. 소유 목적, 사업자 여부, 월 예산에 따라 유리한 방식이 다릅니다. 5년 기준 총비용을 직접 비교해 보세요.</p>
+
+  <h3>📋 차량가 4,000만원 · 5년 이용 기준 총비용 비교</h3>
+  <table>
+    <thead><tr><th>구분</th><th>월 납입금</th><th>5년 총비용</th><th>만기 후</th><th>사업자 세제</th></tr></thead>
+    <tbody>
       <tr><td><strong>할부 (연 6%, 60개월)</strong></td><td>약 773,000원</td><td>약 4,638만원</td><td>차량 소유</td><td>감가상각 처리</td></tr>
       <tr><td><strong>운용리스 (잔존 30%)</strong></td><td>약 560,000원</td><td>약 3,360만원</td><td>반납 또는 매입</td><td>리스료 전액 비용</td></tr>
       <tr><td><strong>장기렌트</strong></td><td>약 680,000원</td><td>약 4,080만원</td><td>반납</td><td>렌트료 전액 비용</td></tr>
-    </table>
-    <h3>💼 사업자에게 리스·렌트가 유리한 이유</h3>
-    <p>개인사업자·법인은 운용리스 납입금과 장기렌트료를 <strong>전액 비용으로 처리</strong>할 수 있습니다. 월 납입금 70만원 기준 연간 840만원이 비용으로 인정되며, 법인세율 9% 적용 시 연간 약 <strong>75만원</strong>의 세금을 절감할 수 있습니다.</p>
-    <ul>
-      <li><strong>차량 소유가 목적:</strong> 할부 → 만기 후 자산이 됩니다.</li>
-      <li><strong>월 납입금 최소화 + 사업자:</strong> 운용리스 → 잔존가치 설정으로 납입금 낮춤.</li>
-      <li><strong>보험·세금 포함 올인원:</strong> 장기렌트 → 관리 번거로움 없음.</li>
-    </ul>
-    <div class="hl-box">💡 <strong>선택 가이드:</strong> 개인 소유 목적 → <strong>할부</strong> | 사업자 절세 + 저렴한 월 납입 → <strong>운용리스</strong> | 유지관리 포함 편의성 → <strong>장기렌트</strong></div>
-  </div><div class="card">
-    <h2>📌 장기렌트 vs 리스 핵심 차이</h2>
-    <div class="formula-box">
-      <strong>장기렌트</strong> — 차량을 빌리는 개념. 보험·세금·정비 일부 포함. 만기 반납 또는 인수.<br>
-      사업자는 렌트비 전액 비용처리 가능 (단, 업무용 차량)<br><br>
-      <strong>운용리스</strong> — 금융상품 개념. 보험·세금은 본인 부담. 만기 잔존가치로 인수·반납 선택.<br>
-      사업자는 감가상각·이자 비용처리 가능<br><br>
-      <strong>개인 사용자</strong>는 대부분 장기렌트가 편리. 사업자는 절세 측면에서 리스가 유리할 수 있음.
-    </div>
-  </div>
+    </tbody>
+  </table>
 
-  <h2 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)">자주 묻는 질문</h2>
+  <h3>💼 사업자에게 리스·렌트가 유리한 이유</h3>
+  <p>개인사업자·법인은 운용리스 납입금과 장기렌트료를 <strong>전액 비용으로 처리</strong>할 수 있습니다. 월 납입금 70만원 기준 연간 840만원이 비용으로 인정되며, 법인세율 9% 적용 시 연간 약 <strong>75만원</strong>의 세금을 절감할 수 있습니다.</p>
+  <ul>
+    <li><strong>차량 소유가 목적:</strong> 할부 → 만기 후 자산이 됩니다.</li>
+    <li><strong>월 납입금 최소화 + 사업자:</strong> 운용리스 → 잔존가치 설정으로 납입금 낮춤.</li>
+    <li><strong>보험·세금 포함 올인원:</strong> 장기렌트 → 관리 번거로움 없음.</li>
+  </ul>
+  <div class="tip-box">💡 <strong>선택 가이드:</strong> 개인 소유 목적 → <strong>할부</strong> | 사업자 절세 + 저렴한 월 납입 → <strong>운용리스</strong> | 유지관리 포함 편의성 → <strong>장기렌트</strong></div>
+
+  <h3>📌 장기렌트 vs 리스 핵심 차이</h3>
+  <p><strong>장기렌트</strong>는 차량을 빌리는 개념으로, 보험·세금·정비 일부가 포함되어 있습니다. <strong>운용리스</strong>는 금융상품 개념으로 보험·세금은 본인 부담이지만 잔존가치 설정으로 월 납입금이 낮습니다. 개인 사용자는 대부분 장기렌트가 편리하고, 사업자는 절세 측면에서 리스가 유리할 수 있습니다.</p>
+
+  <h2>자주 묻는 질문</h2>
   <details><summary>장기렌트와 리스 중 어떤 게 더 저렴한가요?</summary><div class="faq-answer">동일 차량 기준 운용리스가 보통 월 납입금이 낮습니다. 장기렌트는 보험·세금이 포함된 대신 렌트료가 높게 책정됩니다. 총 비용 기준으로는 차이가 크지 않지만, 사업자라면 절세 효과를 고려해야 합니다.</div></details>
   <details><summary>선납금은 내는 것이 유리한가요?</summary><div class="faq-answer">선납금이 많을수록 월 납입금이 낮아집니다. 단, 중도 해지 시 선납금 환급이 제한될 수 있으니 계약 전 조건을 꼼꼼히 확인하세요.</div></details>
   <details><summary>만기 후 차량을 살 수 있나요?</summary><div class="faq-answer">장기렌트는 만기 시 잔존가치로 인수 가능한 경우가 많습니다. 운용리스는 잔존가치로 구매하거나 반납을 선택합니다. 계약 시 인수 조건을 미리 확인하세요.</div></details>
   <details><summary>중도 해지하면 위약금이 있나요?</summary><div class="faq-answer">네, 대부분 중도 해지 시 위약금이 발생합니다. 계약 기간의 잔여 렌트료 일부를 부담해야 하는 경우가 많습니다. 계약서 중도 해지 조항을 반드시 확인하세요.</div></details>
   <details><summary>개인 사업자도 장기렌트 비용처리가 되나요?</summary><div class="faq-answer">업무용 차량으로 사용하는 경우 렌트비를 비용으로 처리할 수 있습니다. 단, 개인 목적 사용이 혼재하면 비율에 따라 인정받습니다. 세무사 확인을 권장드립니다.</div></details>
 
-<div class="rel-section">
+  <div class="rel-section">
     <h2>📌 함께 쓰면 유용한 계산기</h2>
     <div class="rel-grid">
       <a href="/car_installment" class="rel-card"><span class="re">💳</span><span class="rn">자동차 할부</span></a>
-      <a href="/car_tax" class="rel-card"><span class="re">🚗</span><span class="rn">자동차세</span></a>
+      <a href="/car_tax" class="rel-card"><span class="re">🚘</span><span class="rn">자동차 취득세</span></a>
       <a href="/fuel_economy" class="rel-card"><span class="re">⛽</span><span class="rn">연비 계산기</span></a>
-      <a href="/income_tax" class="rel-card"><span class="re">📋</span><span class="rn">소득세</span></a>
+      <a href="/income_tax" class="rel-card"><span class="re">📋</span><span class="rn">소득세 계산기</span></a>
       <a href="/freelancer_tax" class="rel-card"><span class="re">💼</span><span class="rn">프리랜서 세금</span></a>
       <a href="/vat_biz" class="rel-card"><span class="re">🧾</span><span class="rn">사업자 부가세</span></a>
     </div>
   </div>
+</div>
+
 <script>
 function fmt(n){return Math.round(n).toLocaleString()+'만원';}
-function switchTab(name,el){
-  ['rent','lease','compare'].forEach(t=>document.getElementById('tab-'+t).style.display='none');
-  document.getElementById('tab-'+name).style.display='block';
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+
+function switchTab(name, el) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
   el.classList.add('active');
 }
+
 function calcRent(){
   const price=+document.getElementById('r-price').value;
   const term=+document.getElementById('r-term').value;
@@ -295,14 +374,15 @@ function calcRent(){
   const principal=price-prepay-dep-residual;
   const monthly=rate===0?principal/term:principal*rate*Math.pow(1+rate,term)/(Math.pow(1+rate,term)-1);
   const total=prepay+dep+monthly*term;
-  document.getElementById('rr-monthly').textContent=fmt(monthly);
+  document.getElementById('rr-monthly').innerHTML=Math.round(monthly).toLocaleString()+'<span>만원</span>';
   document.getElementById('rr-sub').textContent=`${term}개월 · 연 ${document.getElementById('r-rate').value}%`;
   document.getElementById('rr-prepay').textContent=fmt(prepay);
   document.getElementById('rr-deposit').textContent=fmt(dep);
   document.getElementById('rr-total').textContent=fmt(total);
   document.getElementById('rr-real').textContent=fmt(total-dep);
-  document.getElementById('result-rent').classList.add('show');
+  document.getElementById('result-rent').classList.add('visible');
 }
+
 function calcLease(){
   const price=+document.getElementById('l-price').value;
   const term=+document.getElementById('l-term').value;
@@ -312,27 +392,25 @@ function calcLease(){
   const residual=price*resPct, principal=price-residual;
   const monthly=rate===0?principal/term:principal*rate*Math.pow(1+rate,term)/(Math.pow(1+rate,term)-1);
   const total=monthly*term;
-  document.getElementById('rl-monthly').textContent=fmt(monthly);
+  document.getElementById('rl-monthly').innerHTML=Math.round(monthly).toLocaleString()+'<span>만원</span>';
   document.getElementById('rl-sub').textContent=`${term}개월 · 연 ${document.getElementById('l-rate').value}%`;
   document.getElementById('rl-principal').textContent=fmt(principal);
   document.getElementById('rl-residual').textContent=fmt(residual);
   document.getElementById('rl-total').textContent=fmt(total);
   document.getElementById('rl-interest').textContent=fmt(total-principal);
-  document.getElementById('result-lease').classList.add('show');
+  document.getElementById('result-lease').classList.add('visible');
 }
+
 function calcCompare(){
   const price=+document.getElementById('c-price').value;
   const down=+document.getElementById('c-down').value||0;
   const term=+document.getElementById('c-term').value;
   if(!price){alert('차량 가격을 입력해주세요.');return;}
-  // 할부 (연 5.9%, 선수금=down)
   const hr=5.9/100/12, hPrincipal=price-down;
   const hMonthly=hPrincipal*hr*Math.pow(1+hr,term)/(Math.pow(1+hr,term)-1);
-  // 렌트 (선납금 20%, 보증금10%, 잔존40%, 연7.5%)
   const rPrepay=price*0.2,rDep=price*0.1,rRes=price*0.4,rr=7.5/100/12;
   const rPrincipal=price-rPrepay-rDep-rRes;
   const rMonthly=rPrincipal*rr*Math.pow(1+rr,term)/(Math.pow(1+rr,term)-1);
-  // 리스 (잔존45%, 연5.5%)
   const lRes=price*0.45,lr=5.5/100/12,lPrincipal=price-lRes;
   const lMonthly=lPrincipal*lr*Math.pow(1+lr,term)/(Math.pow(1+lr,term)-1);
   document.getElementById('c-monthly-h').textContent=fmt(hMonthly);
@@ -344,10 +422,10 @@ function calcCompare(){
   document.getElementById('c-total-h').textContent=fmt(down+hMonthly*term);
   document.getElementById('c-total-r').textContent=fmt(rPrepay+rMonthly*term);
   document.getElementById('c-total-l').textContent=fmt(lMonthly*term);
-  document.getElementById('result-compare').classList.add('show');
+  document.getElementById('result-compare').classList.add('visible');
 }
 </script>
 <script src="/common.js"></script><script src="/share.js"></script><script src="/calculator.js"></script>
-<script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}</script>
+<script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{});});}</script>
 </body>
 </html>
