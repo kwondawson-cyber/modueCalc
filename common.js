@@ -2,6 +2,20 @@
 //  모두의계산기 common.js  v4
 //  이 파일 하나만 수정하면 전체 반영됩니다
 // ═══════════════════════════════════════════════
+
+// Google Analytics
+(function(){
+  var s=document.createElement('script');
+  s.async=true;
+  s.src='https://www.googletagmanager.com/gtag/js?id=G-E7GYSXR7WJ';
+  document.head.appendChild(s);
+  window.dataLayer=window.dataLayer||[];
+  function gtag(){dataLayer.push(arguments);}
+  window.gtag=gtag;
+  gtag('js',new Date());
+  gtag('config','G-E7GYSXR7WJ');
+})();
+
 (function () {
 
   // ① 설정값 ─ 여기만 바꾸면 전체 반영
