@@ -306,3 +306,8 @@
   if('serviceWorker'in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').then(function(r){console.log('[PWA] SW registered:',r.scope);}).catch(function(e){console.warn('[PWA] SW failed:',e);});});}
   (function(){var deferredPrompt=null,banner=document.getElementById('pwa-banner'),installBtn=document.getElementById('pwa-install-btn'),closeBtn=document.getElementById('pwa-close');if(!banner||!installBtn||!closeBtn)return;if(window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone)return;var isSamsung=/samsungbrowser/i.test(navigator.userAgent),isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);if(isIOS){installBtn.textContent='홈 화면에 추가';installBtn.onclick=function(){alert('Safari 하단 공유 버튼(□↑)을 누른 뒤\n"홈 화면에 추가"를 선택해 주세요!');}}if(isSamsung){installBtn.textContent='Chrome으로 설치';installBtn.onclick=function(){alert('Chrome 앱에서 everycalc.kr을 열면\n홈 화면에 설치할 수 있어요!');}}window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferredPrompt=e;if(!isSamsung&&!isIOS){installBtn.textContent='홈 화면에 설치';installBtn.onclick=function(){deferredPrompt.prompt();deferredPrompt.userChoice.then(function(result){if(result.outcome==='accepted')banner.classList.remove('show');deferredPrompt=null;});};}});closeBtn.addEventListener('click',function(){banner.classList.remove('show');try{localStorage.setItem('pwa_closed','1');}catch(e){}});setTimeout(function(){try{if(localStorage.getItem('pwa_closed'))return;}catch(e){}banner.classList.add('show');},2000);})();
 </script>
+<script>
+(function(){var u='contact',d='everycalc.kr';var el=document.getElementById('footer-email');if(el)el.textContent=u+'@'+d;})();
+</script>
+</body>
+</html>
