@@ -257,6 +257,85 @@
   <details><summary>자연주기법(임신 피임)은 얼마나 효과적인가요?</summary><div class="faq-answer">자연주기법(가임기 피임)의 피임 실패율은 이상적 사용 시 약 1~5%, 일반적 사용 시 10~25%로 콘돔·피임약보다 높습니다. 생리 주기가 불규칙하거나 스트레스가 많은 경우 더욱 부정확해집니다. 피임이 목적이라면 의사와 상담 후 적합한 피임 방법을 선택하는 것이 안전합니다.</div></details>
 </div>
 
+<script>
+const fmtDate = d => `${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일`;
+const fmtShort = d => `${d.getMonth()+1}/${d.getDate()}`;
+const addDays = (d, n) => { const r = new Date(d); r.setDate(r.getDate()+n); return r; };
+const isSameDay = (a, b) => a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate();
+
+function calc() {
+  const lp = document.getElementById('lastPeriod').value;
+  if (!lp) { alert('마지막 생리 시작일을 입력해주세요.'); return; }
+
+  const lastPeriod = new Date(lp);
+  const cycle     = +document.getElementById('cycle').value;
+  const duration  = +document.getElementById('duration').value;
+
+  // 배란일 = 다음 생리 예정일 - 14일
+  const nextPeriod  = addDays(lastPeriod, cycle);
+  const ovulation   = addDays(nextPeriod, -14);
+  const fertileStart = addDays(ovulation, -5);
+  const fertileEnd  = addDays(ovulation, 1);
+
+  document.getElementById('r-ovulation').textContent    = fmtDate(ovulation);
+  document.getElementById('r-fertile-start').textContent = fmtDate(fertileStart);
+  document.getElementById('r-fertile-end').textContent   = fmtDate(fertileEnd);
+  document.getElementById('r-next-period').textContent   = fmtDate(nextPeriod);
+
+  // 캘린더 생성
+  drawCalendar(lastPeriod, duration, fertileStart, fertileEnd, ovulation);
+}
+
+function drawCalendar(lastPeriod, duration, fertileStart, fertileEnd, ovulation) {
+  const today = new Date();
+  const year  = lastPeriod.getMonth() === today.getMonth() ? today.getFullYear() : lastPeriod.getFullYear();
+  const month = lastPeriod.getMonth() === today.getMonth() ? today.getMonth()    : lastPeriod.getMonth();
+
+  const firstDay = new Date(year, month, 1);
+  const lastDay  = new Date(year, month+1, 0);
+  const grid     = document.getElementById('calGrid');
+  if (!grid) return;
+
+  // 요일 헤더
+  const days = ['일','월','화','수','목','금','토'];
+  let html = days.map(d => `<div class="cal-day-header">${d}</div>`).join('');
+
+  // 빈 칸
+  for (let i = 0; i < firstDay.getDay(); i++) html += '<div></div>';
+
+  for (let d = 1; d <= lastDay.getDate(); d++) {
+    const cur = new Date(year, month, d);
+    let cls = 'cal-day';
+    let style = '';
+
+    // 생리 기간
+    const periodEnd = new Date(lastPeriod); periodEnd.setDate(lastPeriod.getDate() + duration - 1);
+    if (cur >= lastPeriod && cur <= periodEnd) style = 'background:rgba(255,107,157,0.35)';
+
+    // 가임기
+    if (cur >= fertileStart && cur <= fertileEnd) style = 'background:rgba(0,212,170,0.25)';
+
+    // 배란일
+    if (isSameDay(cur, ovulation)) style = 'background:linear-gradient(135deg,rgba(255,107,157,0.6),rgba(0,212,170,0.5));font-weight:900';
+
+    // 오늘
+    const todayOutline = isSameDay(cur, today) ? ';outline:2px solid #f5a623;border-radius:50%' : '';
+
+    html += `<div class="${cls}" style="${style}${todayOutline}">${d}</div>`;
+  }
+
+  grid.innerHTML = html;
+}
+
+// 오늘 날짜 기본값
+document.addEventListener('DOMContentLoaded', () => {
+  const today = new Date();
+  const y = today.getFullYear();
+  const m = String(today.getMonth()+1).padStart(2,'0');
+  const d = String(today.getDate()).padStart(2,'0');
+  document.getElementById('lastPeriod').value = `${y}-${m}-01`;
+});
+</script>
 <script src="/common.js"></script><script src="/share.js"></script><script src="/calculator.js"></script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}</script>
 </body>
