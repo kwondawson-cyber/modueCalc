@@ -98,6 +98,8 @@
     {title:'임대 수익률',   path:'/rent_yield',       emoji:'🏘️'},
     {title:'알바 인건비',   path:'/part_time_cost',   emoji:'👥'},
     {title:'환불 계산기',   path:'/refund',           emoji:'💸'},
+  {path:'/etf_return',  title:'ETF 수익률 계산기',    emoji:'📊'},
+  {path:'/dividend',    title:'배당금 수익률 계산기',  emoji:'💵'},
   ];
 
   var POPULAR = ['/salary','/age','/weekly_holiday','/bmi','/exchange',

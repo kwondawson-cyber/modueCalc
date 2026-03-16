@@ -207,4 +207,6 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  <url><loc>https://www.everycalc.kr/etf_return</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.everycalc.kr/dividend</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 </urlset>
