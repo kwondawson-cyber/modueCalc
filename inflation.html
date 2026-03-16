@@ -127,7 +127,7 @@
       </div>
       <div class="input-group">
         <label id="year2Label">현재/목표 연도</label>
-        <div class="input-wrapper"><input type="number" id="endYear" value="2025" min="1970" max="2050" /><span class="input-unit">년</span></div>
+        <div class="input-wrapper"><input type="number" id="endYear" min="1970" max="2100" /><span class="input-unit">년</span></div>
       </div>
     </div>
 
@@ -226,7 +226,10 @@
     const rc=document.getElementById('resultCard');
     rc.classList.add('visible');
   }
-  window.onload=()=>calculate();
+  window.onload=()=>{
+    document.getElementById('endYear').value = new Date().getFullYear();
+    calculate();
+  };
 </script>
 
 <style>
