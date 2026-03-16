@@ -560,41 +560,43 @@
   </div>
 </div>
 <div class="seo-section">
-  <h2>기초대사량(BMR)과 하루 필요 칼로리(TDEE) 계산법</h2>
-  <h3>Harris-Benedict 공식과 활동계수</h3>
-  <p>성별, 나이, 키(cm), 몸무게(kg)를 입력하면 기초대사량(BMR)과 활동 수준별 하루 권장 칼로리(TDEE)를 계산합니다. 다이어트·벌크업 목표에 맞는 칼로리 섭취 기준으로 활용하세요.</p>
-  <h3>📐 계산 공식 (Harris-Benedict 개정판)</h3>
-  <div class="formula-box">남성 BMR = 88.362 + (13.397 × 체중kg) + (4.799 × 키cm) − (5.677 × 나이)
-여성 BMR = 447.593 + (9.247 × 체중kg) + (3.098 × 키cm) − (4.330 × 나이)
-TDEE = BMR × 활동계수</div>
-  <h3>📊 활동 수준별 TDEE 계수</h3>
-  <table>
-    <thead><tr><th>활동 수준</th><th>계수</th><th>해당 상황</th></tr></thead>
-    <tbody>
-      <tr><td>거의 안 움직임</td><td>1.2</td><td>사무직, 하루 대부분 앉아서</td></tr>
-      <tr><td>가벼운 운동</td><td>1.375</td><td>주 1~3회 운동</td></tr>
-      <tr><td>보통 운동</td><td>1.55</td><td>주 3~5회 운동</td></tr>
-      <tr><td>격렬한 운동</td><td>1.725</td><td>주 6~7회 고강도 운동</td></tr>
-      <tr><td>매우 격렬</td><td>1.9</td><td>하루 2회 운동 또는 육체 노동</td></tr>
-    </tbody>
-  </table>
-  <h3>📊 체중별 기초대사량 참고표 (30세 기준)</h3>
-  <table>
-    <thead><tr><th>체중</th><th>남성 170cm</th><th>여성 160cm</th></tr></thead>
-    <tbody>
-      <tr><td>50kg</td><td>약 1,544 kcal</td><td>약 1,270 kcal</td></tr>
-      <tr><td>60kg</td><td>약 1,678 kcal</td><td>약 1,362 kcal</td></tr>
-      <tr><td>70kg</td><td>약 1,812 kcal</td><td>약 1,455 kcal</td></tr>
-      <tr><td>80kg</td><td>약 1,946 kcal</td><td>약 1,547 kcal</td></tr>
-    </tbody>
-  </table>
-  <div class="tip-box"><strong>💡 다이어트 기준.</strong> TDEE − 500kcal = 주당 약 0.5kg 감량 목표입니다. 무리한 식이제한보다 500kcal 적자가 건강하고 지속 가능합니다.</div>
-  <h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>기초대사량과 TDEE의 차이는 무엇인가요?</summary><div class="faq-answer">기초대사량(BMR)은 완전히 쉬는 상태에서 생존에 필요한 최소 칼로리입니다. TDEE는 실제 활동량을 반영한 하루 총 소비 칼로리입니다. 다이어트 기준은 TDEE를 사용하세요.</div></details>
-  <details><summary>나이가 들면 기초대사량이 왜 떨어지나요?</summary><div class="faq-answer">30세 이후 근육량이 매년 0.5~1%씩 감소하고, 근육은 지방보다 칼로리 소비가 많기 때문입니다. 근력 운동으로 근육량을 유지하면 대사량 저하를 늦출 수 있습니다.</div></details>
-  <details><summary>기초대사량보다 적게 먹으면 살이 더 빠지나요?</summary><div class="faq-answer">단기적으로는 체중이 줄지만 근손실과 대사 적응(요요)이 발생합니다. BMR 이하 섭취는 피하고 TDEE−500kcal 수준을 유지하세요.</div></details>
-</div>
+  <h2>기초대사량 계산기 — BMR·TDEE 완벽 이해와 다이어트 적용</h2>
+  <h3>기초대사량(BMR)이란 무엇인가?</h3>
+  <p><strong>기초대사량(BMR, Basal Metabolic Rate)</strong>은 아무것도 하지 않고 쉬는 상태에서 생명 유지에 필요한 최소 칼로리입니다. 호흡·체온 유지·장기 기능에 소모되는 에너지로, 하루 총 소비 칼로리(TDEE)의 60~70%를 차지합니다. 다이어트 설계의 출발점이 됩니다.</p>
+  <h3>📐 기초대사량 계산 공식 (해리스-베네딕트 개정식)</h3>
+  <div class="formula-box">남성 BMR = 66.47 + (13.75 × 체중kg) + (5.003 × 키cm) − (6.755 × 나이)
+여성 BMR = 655.1 + (9.563 × 체중kg) + (1.850 × 키cm) − (4.676 × 나이)
 
+하루 총 소비 칼로리(TDEE) = BMR × 활동 계수
+활동 계수: 비활동 1.2 / 가벼운 활동 1.375 / 중간 1.55 / 활발 1.725</div>
+  <h3>📊 성별·나이별 평균 기초대사량 (체중 60kg 기준)</h3>
+  <table>
+    <thead><tr><th>나이</th><th>남성 BMR</th><th>여성 BMR</th></tr></thead>
+    <tbody>
+      <tr><td>20대</td><td>약 1,650~1,750kcal</td><td>약 1,350~1,450kcal</td></tr>
+      <tr><td>30대</td><td>약 1,600~1,700kcal</td><td>약 1,300~1,400kcal</td></tr>
+      <tr><td>40대</td><td>약 1,550~1,650kcal</td><td>약 1,250~1,350kcal</td></tr>
+      <tr><td>50대</td><td>약 1,500~1,600kcal</td><td>약 1,200~1,300kcal</td></tr>
+    </tbody>
+  </table>
+  <h3>📊 활동 수준별 하루 권장 칼로리 (BMR 1,500kcal 기준)</h3>
+  <table>
+    <thead><tr><th>활동 수준</th><th>활동 계수</th><th>TDEE</th><th>다이어트 목표</th></tr></thead>
+    <tbody>
+      <tr><td>거의 운동 안 함</td><td>1.2</td><td>1,800kcal</td><td>1,300kcal (−500)</td></tr>
+      <tr><td>가벼운 운동 (주 1~3회)</td><td>1.375</td><td>2,063kcal</td><td>1,563kcal (−500)</td></tr>
+      <tr><td>중간 운동 (주 3~5회)</td><td>1.55</td><td>2,325kcal</td><td>1,825kcal (−500)</td></tr>
+      <tr><td>고강도 운동 (주 6~7회)</td><td>1.725</td><td>2,588kcal</td><td>2,088kcal (−500)</td></tr>
+    </tbody>
+  </table>
+  <div class="tip-box"><strong>💡 다이어트 활용 원칙.</strong> TDEE에서 하루 500kcal 적게 먹으면 주 약 0.5kg 감량이 가능합니다. BMR 이하로 극단적 칼로리 제한을 하면 근육 손실·대사 감소로 역효과가 납니다. 근력 운동으로 근육량을 늘리면 기초대사량도 높아져 장기적으로 유리합니다.</div>
+  <h2>자주 묻는 질문 (FAQ)</h2>
+  <details><summary>기초대사량보다 적게 먹으면 살이 더 빠지나요?</summary><div class="faq-answer">단기적으로 체중이 빠질 수 있지만, 장기적으로는 근육 손실·기초대사량 감소·요요 현상으로 이어집니다. 극단적 칼로리 제한은 영양 결핍·탈모·면역력 저하 등 건강 문제를 일으킬 수 있어 권장하지 않습니다.</div></details>
+  <details><summary>기초대사량이 높을수록 살 빠지기 쉬운가요?</summary><div class="faq-answer">네. 기초대사량이 높으면 같은 양을 먹어도 더 많은 칼로리가 소모됩니다. 근육 1kg은 지방 1kg보다 약 3~5배 더 많은 칼로리를 소비합니다. 근력 운동으로 근육량을 늘리는 것이 기초대사량을 높이는 가장 효과적인 방법입니다.</div></details>
+  <details><summary>나이가 들면 왜 기초대사량이 줄어드나요?</summary><div class="faq-answer">나이가 들수록 근육량이 자연 감소(근감소증)하고 호르몬 분비가 줄어들어 기초대사량이 낮아집니다. 30대부터 매 10년마다 기초대사량이 약 1~2% 감소하는 것으로 알려져 있습니다. 꾸준한 근력 운동과 충분한 단백질 섭취로 이를 완화할 수 있습니다.</div></details>
+  <details><summary>미피린식 vs 해리스-베네딕트 공식 중 어느 것이 더 정확한가요?</summary><div class="faq-answer">미피린(Mifflin-St Jeor) 공식이 현대인에게 더 정확하다는 연구 결과가 많습니다. 해리스-베네딕트 공식은 1919년에 개발된 오래된 공식으로, 현대인의 생활 패턴에는 미피린 공식이 더 잘 맞는 경향이 있습니다. 어떤 공식이든 개인차가 있으므로 실제 체중 변화를 관찰하며 조정하는 것이 중요합니다.</div></details>
+  <details><summary>다이어트 중 탄수화물·단백질·지방 비율은 어떻게 설정하나요?</summary><div class="faq-answer">일반적으로 탄수화물 40~50%·단백질 25~35%·지방 20~25% 비율이 다이어트 시 권장됩니다. 단백질을 체중 1kg당 1.5~2g 섭취하면 근육 손실을 최소화할 수 있습니다. 탄수화물을 급격히 줄이는 키토제닉 다이어트는 단기 효과는 있지만 장기 유지가 어렵습니다.</div></details>
+</div>
 <script src="/common.js"></script><script src="/share.js"></script>
 <script src="/calculator.js"></script>
 <script>

@@ -258,43 +258,43 @@ updateCustoms();
   </div>
 </div>
 <div class="seo-section">
-  <h2>해외직구 관세와 부가세 — 면세 한도와 실제 납부 금액</h2>
-  <h3>관세와 부가세 부과 구조</h3>
-  <p>구매 국가, 물품 금액, 배송비, 환율, 관세율을 입력하면 관세와 부가세(VAT 10%)를 자동 계산합니다. 해외 직구 전 실제 총 비용을 미리 확인하세요.</p>
-  <h3>📊 해외직구 면세 기준 (2024년 기준)</h3>
+  <h2>해외직구 관세 계산기 — 면세 한도·품목별 관세율 완벽 정리</h2>
+  <h3>해외직구 관세와 부가세 부과 구조</h3>
+  <p>해외직구 물품에는 <strong>관세</strong>와 <strong>부가가치세(10%)</strong>가 부과됩니다. 부가세 과세표준은 물품가격+배송비+관세의 합산 금액입니다. 미국 직구는 목록통관 기준 <strong>200달러 이하</strong> 전액 면세이며, 그 외 국가는 <strong>150달러 이하</strong>가 면세 기준입니다.</p>
+  <h3>📐 관세 및 부가세 계산 공식</h3>
+  <div class="formula-box">과세가격(원화) = (물품가 + 배송비) × 환율
+관세 = 과세가격 × 관세율
+부가세 = (과세가격 + 관세) × 10%
+총 납부세금 = 관세 + 부가세</div>
+  <h3>📊 국가별 해외직구 면세 한도 (2024년 기준)</h3>
   <table>
-    <thead><tr><th>구입 국가</th><th>면세 한도</th><th>적용 범위</th></tr></thead>
+    <thead><tr><th>국가</th><th>면세 한도</th><th>통관 방식</th></tr></thead>
     <tbody>
-      <tr><td>미국</td><td><strong>200달러 이하</strong></td><td>목록통관 (일반 상품)</td></tr>
-      <tr><td>미국 (일반통관)</td><td>150달러 이하</td><td>건강기능식품·의약품 등</td></tr>
-      <tr><td>유럽·일본·기타</td><td>150달러(USD 환산) 이하</td><td>일반통관 기준</td></tr>
-      <tr><td>중국</td><td>동일</td><td>관세청 기준 동일</td></tr>
+      <tr><td>미국</td><td>200달러 이하</td><td>목록통관 (일반 상품)</td></tr>
+      <tr><td>미국 (건강기능식품·의약품)</td><td>150달러 이하</td><td>일반통관 필수</td></tr>
+      <tr><td>유럽·일본·기타</td><td>150달러(USD 환산) 이하</td><td>일반통관</td></tr>
+      <tr><td>중국</td><td>150달러 이하</td><td>관세청 기준 동일</td></tr>
     </tbody>
   </table>
-  <h3>📊 품목별 관세율 참고</h3>
+  <h3>📊 품목별 관세율 참고표</h3>
   <table>
     <thead><tr><th>품목</th><th>관세율</th><th>비고</th></tr></thead>
     <tbody>
       <tr><td>전자제품·컴퓨터</td><td>0~8%</td><td>HS코드별 상이</td></tr>
       <tr><td>의류·신발</td><td>13%</td><td>신발은 품목별 상이</td></tr>
-      <tr><td>가방·지갑</td><td>20%</td><td>원산지 증명 확인</td></tr>
-      <tr><td>화장품</td><td>6.5~8%</td><td></td></tr>
+      <tr><td>가방·잡화</td><td>20%</td><td>원산지 증명 확인</td></tr>
+      <tr><td>화장품</td><td>6.5~8%</td><td>—</td></tr>
       <tr><td>건강기능식품</td><td>8%</td><td>일반통관 필수</td></tr>
       <tr><td>주류</td><td>30~40%</td><td>주세 별도 부과</td></tr>
     </tbody>
   </table>
-  <h3>💡 직구 세금 절약 팁</h3>
-  <ul>
-    <li>미국 직구는 <strong>200달러 이하</strong>(목록통관) 유지 → 관세·부가세 완전 면제</li>
-    <li>여러 물건은 <strong>분리 주문</strong>으로 각각 면세 한도 이하 유지</li>
-    <li><strong>배송대행지</strong> 이용 시 합포장 배송은 합산 과세 주의</li>
-    <li>개인 사용 목적 증빙이 없으면 상업 수입으로 간주될 수 있음</li>
-  </ul>
-  <div class="warn-box"><strong>⚠️ 주의.</strong> 건강기능식품·의약품·식품·동식물은 목록통관 불가로 일반통관 대상입니다. 면세 한도 내라도 통관 시 별도 검역·허가가 필요할 수 있습니다.</div>
+  <div class="tip-box"><strong>💡 관세 절약 팁.</strong> ① 미국 직구는 200달러 이하(목록통관) 유지 시 관세·부가세 완전 면제 ② 여러 물건은 분리 주문으로 각각 면세 한도 이하 유지 ③ 배송대행지 이용 시 합포장 배송은 합산 과세 주의 ④ 건강기능식품·의약품·식품은 목록통관 불가이므로 별도 검역 허가 필요할 수 있습니다.</div>
   <h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>관세와 부가세를 같이 내야 하나요?</summary><div class="faq-answer">네. 관세 과세 대상이면 관세와 함께 부가세(VAT 10%)도 납부합니다. 부가세 과세표준은 (물품가+배송비+관세)의 합산 금액입니다.</div></details>
-  <details><summary>직구 물품이 통관 보류되면 어떻게 되나요?</summary><div class="faq-answer">세관에서 과세 통보서가 발송됩니다. 고지된 세금을 납부하면 물품을 수령할 수 있고, 납부하지 않으면 반송 또는 폐기됩니다.</div></details>
+  <details><summary>관세와 부가세를 같이 내야 하나요?</summary><div class="faq-answer">네. 관세 과세 대상이면 관세와 함께 부가세(10%)도 납부합니다. 부가세 과세표준은 물품가+배송비+관세의 합산 금액으로, 관세가 높을수록 부가세도 증가합니다.</div></details>
+  <details><summary>직구 물품이 통관 보류되면 어떻게 되나요?</summary><div class="faq-answer">세관에서 과세 통보서가 발송됩니다. 고지된 세금을 납부하면 수령할 수 있고, 납부하지 않으면 반송 또는 폐기됩니다. 목록통관 불가 품목(건강기능식품·식품 등)은 추가 서류 제출이 필요할 수 있습니다.</div></details>
   <details><summary>목록통관과 일반통관 중 어느 것이 빠른가요?</summary><div class="faq-answer">목록통관이 훨씬 빠릅니다. 세관 심사 없이 데이터 확인만으로 통관되어 보통 1~3일 내 수령 가능합니다. 일반통관은 서류 심사로 수일~수주가 소요될 수 있습니다.</div></details>
+  <details><summary>배송대행지를 이용할 때 관세 계산은 어떻게 하나요?</summary><div class="faq-answer">배송대행지를 통한 배송도 동일하게 관세가 부과됩니다. 여러 쇼핑몰 물건을 합포장하면 합산 금액으로 과세되어 면세 한도를 초과할 수 있습니다. 배송대행지의 실제 배송비도 과세가격에 포함됩니다.</div></details>
+  <details><summary>개인 사용 목적 직구도 상업 수입으로 간주될 수 있나요?</summary><div class="faq-answer">동일 품목을 다수 구매하거나 반복 구매하면 상업 수입으로 간주될 수 있습니다. 일반적으로 개인 사용 목적이 명확한 소량 구매는 문제없지만, 대량 구매는 세관에서 목적을 확인할 수 있습니다.</div></details>
 </div>
 <script src="/common.js"></script><script src="/share.js"></script>
 <script src="/calculator.js"></script>
