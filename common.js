@@ -233,10 +233,11 @@
 
   // ⑧ 관련 계산기
   function injectRelated() {
-    // rel-section을 share-section 바로 뒤로 이동 + 카드 5개로 제한
+    // seo 기준으로 share → rel → seo 순서로 재배치
     setTimeout(function(){
-      var rel = document.querySelector('.rel-section');
+      var rel   = document.querySelector('.rel-section');
       var share = document.querySelector('.share-section');
+      var seo   = document.querySelector('.seo-section, .seo-card, .seo-wrap');
       if (!rel) return;
 
       // 카드 5개 초과이면 마지막 카드 제거
@@ -246,11 +247,18 @@
         cards = rel.querySelectorAll('.rel-card');
       }
 
-      // share-section 뒤로 이동
-      if (share && share.parentNode) {
+      if (seo && seo.parentNode) {
+        // rel을 seo 바로 앞으로
+        seo.parentNode.insertBefore(rel, seo);
+        // share를 rel 바로 앞으로 → 최종: share → rel → seo
+        if (share && share.parentNode) {
+          rel.parentNode.insertBefore(share, rel);
+        }
+      } else if (share && share.parentNode) {
+        // seo 없는 경우 기존 방식
         share.parentNode.insertBefore(rel, share.nextSibling);
       }
-    }, 300);
+    }, 350);
   }
 
   // ⑨ 콤마 표시 (금액 단위만: 원/만원, 나이/퍼센트/년 등은 제외)
