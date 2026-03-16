@@ -228,8 +228,19 @@
 
   // ⑧ 관련 계산기
   function injectRelated() {
-    // 비활성화: rel-section이 각 HTML에 직접 포함됨
-    return;
+    // rel-section을 공유하기 앞으로 동적 이동 + 카드 5개로 제한
+    setTimeout(function(){
+      var rel = document.querySelector('.rel-section');
+      var share = document.querySelector('.share-section');
+      if (!rel || !share) return;
+
+      // 카드 6개 이상이면 마지막 카드 제거
+      var cards = rel.querySelectorAll('.rel-card');
+      if (cards.length >= 6) cards[cards.length - 1].remove();
+
+      // rel-section을 share-section 바로 앞으로 이동
+      share.parentNode.insertBefore(rel, share);
+    }, 200);
   }
     var others = CALC_LIST.filter(function(c){ return c.path !== PATH; });
     others.sort(function(a,b){ var ai=POPULAR.indexOf(a.path),bi=POPULAR.indexOf(b.path); return (ai<0?99:ai)-(bi<0?99:bi); });
