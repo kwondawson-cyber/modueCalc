@@ -269,10 +269,11 @@
 const fw = n => Math.round(n).toLocaleString() + '원';
 let vatType = 'general';
 
-function switchTab(type, el) {
+function switchType(type) {
   vatType = type;
-  document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
+  document.querySelectorAll('.type-tab').forEach(t => t.classList.remove('active'));
+  const tabEl = document.getElementById('tab-' + type);
+  if (tabEl) tabEl.classList.add('active');
   document.getElementById('section-general').style.display = type === 'general' ? 'block' : 'none';
   document.getElementById('section-simple').style.display = type === 'simple' ? 'block' : 'none';
 }
