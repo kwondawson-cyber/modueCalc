@@ -34,21 +34,21 @@
       background-image: linear-gradient(rgba(0,212,170,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,170,0.03) 1px, transparent 1px);
       background-size: 40px 40px; pointer-events: none; z-index: 0;
     }
-    .container { max-width:800px; margin: 0 auto; padding: 40px 20px 80px; position: relative; z-index: 1; }
+    .container { max-width: 640px; margin: 0 auto; padding: 40px 20px 80px; position: relative; z-index: 1; }
     .home-btn-wrap{text-align:center;margin-bottom:8px}
     .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
     .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
     .home-btn-emoji{font-size:20px;line-height:1}
     .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
-    .header{text-align:center;margin-bottom:48px}
-    .header h1{font-family:'Montserrat',sans-serif;font-size:clamp(28px,6vw,48px);font-weight:900;line-height:1.1;margin-bottom:8px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .header{text-align:center;margin-bottom:32px}
+    .header h1{font-family:'Montserrat',sans-serif;font-size:clamp(22px,5vw,36px);font-weight:900;line-height:1.1;margin-bottom:8px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
     .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
     .header p{color:var(--text-muted);font-size:14px}
-    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding:32px; margin-bottom: 16px; }
-    .card-title { font-size: 13px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing:2px; margin-bottom: 20px; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 16px; }
+    .card-title { font-size: 13px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 20px; }
     .input-row { display: flex; gap: 12px; align-items: flex-end; margin-bottom: 16px; }
     .input-group { flex: 1; }
-    .input-group label { display: block; font-size:14px;color:var(--text-muted);margin-bottom:8px;font-weight:500; }
+    .input-group label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 8px; font-weight: 500; }
     .input-wrapper { position: relative; display: flex; align-items: center; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; transition: border-color .2s; }
     .input-wrapper:focus-within { border-color: var(--accent); }
     .input-wrapper input[type="date"] { width: 100%; padding: 12px 14px; font-size: 15px; background: transparent; border: none; outline: none; color: var(--text); font-family: 'Noto Sans KR', sans-serif; }
@@ -62,7 +62,7 @@
     .calc-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,212,170,0.3); }
     .result-card { display: none; }
     .result-card.visible { display: block; }
-    .big-result { text-align: center; padding:32px 0 20px; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+    .big-result { text-align: center; padding: 24px 0 20px; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
     .br-label { font-size: 13px; color: var(--text-muted); margin-bottom: 8px; }
     .br-value { font-family: 'Montserrat', sans-serif; font-size: clamp(42px,10vw,64px); font-weight: 900; color: var(--accent); line-height: 1; }
     .br-unit { font-size: 16px; color: var(--text-muted); margin-top: 6px; }
@@ -83,12 +83,20 @@
   
 .rel-section{margin:32px 0 8px}
 .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
-.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
 .rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
 .rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
 .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
 .rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
 </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7GYSXR7WJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
 </head>
 <body>
 <div class="container">
@@ -96,6 +104,10 @@
   <div class="header">
     <h1><span class="emoji">📆</span> 날짜 계산기</h1>
     <p>두 날짜 사이의 일수·주·개월·연도를 한 번에 계산</p>
+  </div>
+
+  <div class="ad-slot">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6079812618767597" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
   </div>
 
   <div class="card">
@@ -142,6 +154,10 @@
       <div class="detail-item"><span class="d-label">종료 요일</span><span class="d-value accent" id="r-endday">—</span></div>
     </div>
   </div>
+
+  <div class="ad-slot">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6079812618767597" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  </div>
 </div>
 
 <style>
@@ -157,6 +173,16 @@
 .seo-section details[open]{background:#161b22}
 .seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
 </style>
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/dday" class="rel-card"><span class="re">⏳</span><span class="rn">디데이</span></a>
+  <a href="/age" class="rel-card"><span class="re">🎂</span><span class="rn">나이 계산기</span></a>
+  <a href="/annual_leave" class="rel-card"><span class="re">📅</span><span class="rn">연차수당</span></a>
+  <a href="/pregnancy" class="rel-card"><span class="re">🤰</span><span class="rn">임신 주수</span></a>
+  <a href="/retirement" class="rel-card"><span class="re">💵</span><span class="rn">퇴직금</span></a>
+  </div>
+</div>
 <div class="seo-section">
   <h2>날짜 계산기 — 일수 계산의 모든 것</h2>
   <p>날짜 계산은 생각보다 헷갈립니다. 가장 흔한 혼란은 <strong>시작일 포함 여부</strong>입니다. 법령·계약서에서는 보통 "초일 산입" 또는 "초일 불산입"을 명시하는데, 기본값은 시작일 제외(초일 불산입)이 일반적입니다.</p>
@@ -182,17 +208,6 @@
   <details><summary>날짜 계산에서 1년은 몇 일인가요?</summary><div class="faq-answer">일반적으로 1년은 365일(윤년은 366일)입니다. 이 계산기의 "약 몇 년"은 365.25일을 기준으로 계산한 근사값입니다. 법적·행정적 계산에서는 만 1년 = 365일 또는 해당 날짜의 전년도 동일 날짜 기준으로 산정합니다.</div></details>
   <details><summary>두 날짜가 같으면 0일인가요?</summary><div class="faq-answer">시작일 제외 기준으로는 0일(당일)이고, 시작일 포함 기준으로는 1일이 됩니다. 생일·기념일 당일을 "1일차"로 세려면 시작일 포함 기준을 사용하세요.</div></details>
   <details><summary>100일·1000일 기념일은 어떻게 계산하나요?</summary><div class="faq-answer">커플 기념일의 경우 만난 날 당일을 1일로 계산하는 것이 일반적입니다. 즉 시작일 포함 기준으로 99일을 더한 날이 100일 기념일입니다. 예를 들어 1월 1일에 만났다면 100일은 4월 10일(윤년 아닌 경우)입니다.</div></details>
-<div class="rel-section">
-  <h2>📌 함께 쓰면 유용한 계산기</h2>
-  <div class="rel-grid">
-  <a href="/dday" class="rel-card"><span class="re">⏳</span><span class="rn">디데이</span></a>
-  <a href="/age" class="rel-card"><span class="re">🎂</span><span class="rn">나이 계산기</span></a>
-  <a href="/annual_leave" class="rel-card"><span class="re">📅</span><span class="rn">연차수당</span></a>
-  <a href="/pregnancy" class="rel-card"><span class="re">🤰</span><span class="rn">임신 주수</span></a>
-  <a href="/retirement" class="rel-card"><span class="re">💵</span><span class="rn">퇴직금</span></a>
-  <a href="/ovulation" class="rel-card"><span class="re">🗓</span><span class="rn">배란일</span></a>
-  </div>
-</div>
 </div>
 
 <script>
@@ -253,6 +268,10 @@ function calcDiff(){
 // 기본값: 오늘 ~ 오늘
 document.getElementById('startDate').value = todayStr();
 document.getElementById('endDate').value = todayStr();
+</script>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+(adsbygoogle = window.adsbygoogle || []).push({});
 </script>
 <script src="/common.js"></script><script src="/share.js"></script>
 <script src="/calculator.js"></script>

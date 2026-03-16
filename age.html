@@ -302,7 +302,7 @@
 
     @media (max-width: 480px) {
       .age-grid { grid-template-columns: 1fr; }
-      .card { padding:32px 20px; }
+      .card { padding: 24px 20px; }
     }
 
     /* ── 홈 버튼 ── */
@@ -328,12 +328,20 @@
   
 .rel-section{margin:32px 0 8px}
 .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
-.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
 .rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
 .rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
 .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
 .rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
 </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7GYSXR7WJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
 </head>
 <body>
   <div class="container">
@@ -550,7 +558,16 @@
 .seo-section details[open]{background:#161b22}
 .seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
 </style>
-
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/dday" class="rel-card"><span class="re">⏳</span><span class="rn">디데이</span></a>
+  <a href="/date_diff" class="rel-card"><span class="re">📅</span><span class="rn">날짜 계산기</span></a>
+  <a href="/retirement" class="rel-card"><span class="re">💵</span><span class="rn">퇴직금</span></a>
+  <a href="/pension" class="rel-card"><span class="re">🏦</span><span class="rn">국민연금</span></a>
+  <a href="/pregnancy" class="rel-card"><span class="re">🤰</span><span class="rn">임신 주수</span></a>
+  </div>
+</div>
 <div class="seo-section">
   <h2>만 나이·연 나이·한국식 나이 — 세 가지 계산법 완전 정리</h2>
   <h3>나이 계산 방식 비교</h3>
@@ -580,17 +597,6 @@
   <details><summary>국민연금·기초연금은 만 나이 기준인가요?</summary><div class="faq-answer">네. 국민연금 수령 개시(만 63~65세), 기초연금(만 65세 이상) 등 모두 만 나이 기준입니다.</div></details>
   <details><summary>병역 의무도 만 나이 기준으로 바뀌었나요?</summary><div class="faq-answer">병역법은 연 나이 기준을 병행해 사용하며, 입영 대상은 입영 연도 기준 연 나이로 판단합니다. 병무청에 직접 확인하세요.</div></details>
   <details><summary>음주·흡연 가능 나이도 만 나이로 바뀌었나요?</summary><div class="faq-answer">네. 만 19세 이상(생일 기준)부터 음주·흡연이 가능합니다. 연도만 따지는 방식에서 실제 생일 기준으로 강화됐습니다.</div></details>
-<div class="rel-section">
-  <h2>📌 함께 쓰면 유용한 계산기</h2>
-  <div class="rel-grid">
-  <a href="/dday" class="rel-card"><span class="re">⏳</span><span class="rn">디데이</span></a>
-  <a href="/date_diff" class="rel-card"><span class="re">📅</span><span class="rn">날짜 계산기</span></a>
-  <a href="/retirement" class="rel-card"><span class="re">💵</span><span class="rn">퇴직금</span></a>
-  <a href="/pension" class="rel-card"><span class="re">🏦</span><span class="rn">국민연금</span></a>
-  <a href="/pregnancy" class="rel-card"><span class="re">🤰</span><span class="rn">임신 주수</span></a>
-  <a href="/ovulation" class="rel-card"><span class="re">🗓</span><span class="rn">배란일</span></a>
-  </div>
-</div>
 </div>
 
 <script src="/common.js"></script><script src="/share.js"></script>

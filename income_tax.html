@@ -20,13 +20,13 @@
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
     body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
-    .container{max-width:800px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
-    .nav{text-align:center;margin-bottom:48px}.nav a{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:3px;color:var(--accent);text-decoration:none;text-transform:uppercase}
+    .container{max-width:640px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .nav{text-align:center;margin-bottom:32px}.nav a{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:3px;color:var(--accent);text-decoration:none;text-transform:uppercase}
     .header{text-align:center;margin-bottom:40px}
     .header h1{font-size:clamp(28px,6vw,44px);font-weight:900;line-height:1.1;margin-bottom:10px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
     .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
     .header p{color:var(--text-muted);font-size:14px}
-    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:24px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:16px}
     .card-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:20px}
     .tab-group{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:22px}
     .tab-btn{padding:12px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;font-size:14px;font-weight:600;font-family:'Noto Sans KR',sans-serif;color:var(--text-muted);cursor:pointer;transition:all .2s}
@@ -44,7 +44,7 @@
     .calc-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,212,170,0.3)}
     .result-card{display:none;animation:fadeUp .4s ease}.result-card.visible{display:block}
     @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-    .result-highlight{background:linear-gradient(135deg,rgba(0,212,170,0.1),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.3);border-radius:var(--radius);padding:32px 28px;text-align:center;margin-bottom:24px}
+    .result-highlight{background:linear-gradient(135deg,rgba(0,212,170,0.1),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.3);border-radius:var(--radius);padding:24px 28px;text-align:center;margin-bottom:16px}
     .r-label{font-size:12px;color:var(--accent);font-weight:700;letter-spacing:1px;margin-bottom:8px}
     .r-amount{font-family:'Montserrat',sans-serif;font-size:clamp(32px,7vw,50px);font-weight:900;color:#fff}
     .r-amount span{font-size:18px;color:var(--text-muted)}
@@ -83,12 +83,20 @@
   
 .rel-section{margin:32px 0 8px}
 .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
-.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
 .rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
 .rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
 .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
 .rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
 </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7GYSXR7WJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
 </head>
 <body>
 <div class="container">
@@ -320,7 +328,16 @@
 .seo-section details[open]{background:#161b22}
 .seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
 </style>
-
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/salary" class="rel-card"><span class="re">💰</span><span class="rn">월급 실수령액</span></a>
+  <a href="/freelancer_tax" class="rel-card"><span class="re">💼</span><span class="rn">프리랜서 세금</span></a>
+  <a href="/corporate_tax" class="rel-card"><span class="re">🏢</span><span class="rn">법인세</span></a>
+  <a href="/vat_biz" class="rel-card"><span class="re">🧾</span><span class="rn">사업자 부가세</span></a>
+  <a href="/retirement" class="rel-card"><span class="re">💵</span><span class="rn">퇴직금</span></a>
+  </div>
+</div>
 <div class="seo-section">
   <h2>종합소득세 구조 — 누진세율과 과세표준 계산 방법</h2>
   <p>소득세는 <strong>과세표준(소득 − 각종 공제) 구간에 따라 세율이 높아지는 누진세</strong>입니다. 전체 소득에 단일 세율을 곱하는 방식이 아니라, 구간을 나눠 각 구간까지의 금액에 해당 세율을 적용한 뒤 합산하는 구조입니다. 예를 들어 과세표준 6,000만 원이라면 전부에 24%가 적용되는 게 아니라, 1,400만까지는 6%, 그 초과분 3,600만은 15%, 나머지 1,000만은 24%가 각각 적용됩니다.</p>
@@ -365,18 +382,6 @@
   <details><summary>종합소득세와 근로소득세는 다른 건가요?</summary><div class="faq-answer">근로소득세는 종합소득세의 일부입니다. 직장인은 회사가 매달 원천징수하고 연말정산으로 정산합니다. 다른 소득(사업·이자·배당 등)이 있다면 다음 해 5월에 합산해 종합소득세 신고를 해야 합니다.</div></details>
   <details><summary>3.3% 원천징수와 종합소득세는 어떤 관계인가요?</summary><div class="faq-answer">프리랜서·사업소득자에게 지급할 때 원천징수하는 3.3%(소득세 3% + 지방소득세 0.3%)는 가납세액입니다. 5월 종합소득세 신고 시 실제 세액과 비교해 더 낸 만큼 환급받거나, 부족하면 추가 납부합니다.</div></details>
   <details><summary>기타소득과 사업소득은 어떻게 구분되나요?</summary><div class="faq-answer">일시적·우발적으로 발생한 소득은 기타소득(강연료, 원고료 등)이고, 계속·반복적으로 용역을 제공하면 사업소득으로 분류됩니다. 기타소득은 필요경비 60% 공제 후 20%로 분리과세를 선택할 수 있습니다.</div></details>
-
-<div class="rel-section">
-  <h2>📌 함께 쓰면 유용한 계산기</h2>
-  <div class="rel-grid">
-  <a href="/salary" class="rel-card"><span class="re">💰</span><span class="rn">월급 실수령액</span></a>
-  <a href="/freelancer_tax" class="rel-card"><span class="re">💼</span><span class="rn">프리랜서 세금</span></a>
-  <a href="/corporate_tax" class="rel-card"><span class="re">🏢</span><span class="rn">법인세</span></a>
-  <a href="/vat_biz" class="rel-card"><span class="re">🧾</span><span class="rn">사업자 부가세</span></a>
-  <a href="/retirement" class="rel-card"><span class="re">💵</span><span class="rn">퇴직금</span></a>
-  <a href="/pension" class="rel-card"><span class="re">🏦</span><span class="rn">국민연금</span></a>
-  </div>
-</div>
 </div>
 
 <script src="/common.js"></script><script src="/share.js"></script>

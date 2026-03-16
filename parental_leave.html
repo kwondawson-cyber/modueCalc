@@ -20,7 +20,7 @@
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
     body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
-    .container{max-width:800px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .container{max-width:640px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
     .home-btn-wrap{text-align:center;margin-bottom:8px}
     .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
     .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
@@ -30,7 +30,7 @@
     .header h1{font-size:clamp(28px,6vw,44px);font-weight:900;line-height:1.1;margin-bottom:10px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
     .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
     .header p{color:var(--text-muted);font-size:14px}
-    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:24px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:16px}
     .card-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:20px}
     .input-group{margin-bottom:18px}
     .input-group label{display:block;font-size:13px;font-weight:500;color:var(--text-muted);margin-bottom:7px}
@@ -45,7 +45,7 @@
     .calc-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,212,170,0.3)}
     .result-card{display:none;animation:fadeUp .4s ease}.result-card.visible{display:block}
     @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-    .summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
+    .summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
     .s-box{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center}
     .s-box.main{border-color:rgba(0,212,170,0.4);background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.04));grid-column:span 2}
     .s-box .s-label{font-size:11px;color:var(--text-muted);font-weight:600;margin-bottom:6px}
@@ -63,12 +63,20 @@
   
 .rel-section{margin:32px 0 8px}
 .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
-.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
 .rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
 .rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
 .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
 .rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
 </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7GYSXR7WJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
 </head>
 <body>
 <div class="container">
@@ -145,6 +153,16 @@
 .seo-section details[open]{background:#161b22}
 .seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
 </style>
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/unemployment" class="rel-card"><span class="re">📋</span><span class="rn">실업급여</span></a>
+  <a href="/salary" class="rel-card"><span class="re">💰</span><span class="rn">월급 실수령액</span></a>
+  <a href="/health_insurance" class="rel-card"><span class="re">🏥</span><span class="rn">건강보험료</span></a>
+  <a href="/annual_leave" class="rel-card"><span class="re">📅</span><span class="rn">연차수당</span></a>
+  <a href="/pregnancy" class="rel-card"><span class="re">🤰</span><span class="rn">임신 주수</span></a>
+  </div>
+</div>
 <div class="seo-section">
   <h2>육아휴직 급여 완벽 정리 — 6+6 특례까지</h2>
   <p>육아휴직 급여는 고용보험에서 지원하는 제도로, 만 8세 이하(또는 초등학교 2학년 이하) 자녀를 둔 근로자가 최대 1년까지 사용할 수 있습니다. 6+6 부모 육아휴직 특례 확대 적용으로 생후 18개월 이내 자녀라면 첫 6개월간 통상임금 100%를 받을 수 있습니다.</p>
@@ -177,17 +195,6 @@
   <details><summary>육아휴직 중 다른 소득이 있으면 급여가 삭감되나요?</summary><div class="faq-answer">육아휴직 중 취업(주 15시간 이상 근무 또는 월 150만원 이상 소득)이 확인되면 급여 지급이 중단될 수 있습니다. 소규모 부업이라도 사전에 고용센터(1350)에 문의하는 것이 안전합니다.</div></details>
   <details><summary>프리랜서·자영업자도 육아휴직 급여를 받을 수 있나요?</summary><div class="faq-answer">고용보험에 가입된 근로자만 받을 수 있습니다. 자영업자 고용보험에 임의가입한 경우 일부 혜택이 있을 수 있으나, 일반 육아휴직 급여는 적용되지 않습니다. 자영업자는 고용센터에 개별 문의하세요.</div></details>
   <details><summary>쌍둥이 출산 시 육아휴직을 두 번 쓸 수 있나요?</summary><div class="faq-answer">자녀 1명당 1년의 육아휴직 기간이 부여됩니다. 쌍둥이라면 각 아이에 대해 1년씩, 부모 1인당 최대 2년까지 사용할 수 있습니다. 단, 급여 지급 기간은 각 자녀별로 계산됩니다.</div></details>
-<div class="rel-section">
-  <h2>📌 함께 쓰면 유용한 계산기</h2>
-  <div class="rel-grid">
-  <a href="/unemployment" class="rel-card"><span class="re">📋</span><span class="rn">실업급여</span></a>
-  <a href="/salary" class="rel-card"><span class="re">💰</span><span class="rn">월급 실수령액</span></a>
-  <a href="/health_insurance" class="rel-card"><span class="re">🏥</span><span class="rn">건강보험료</span></a>
-  <a href="/annual_leave" class="rel-card"><span class="re">📅</span><span class="rn">연차수당</span></a>
-  <a href="/pregnancy" class="rel-card"><span class="re">🤰</span><span class="rn">임신 주수</span></a>
-  <a href="/weekly_holiday" class="rel-card"><span class="re">📆</span><span class="rn">주휴수당</span></a>
-  </div>
-</div>
 </div>
 
 <script>

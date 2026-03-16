@@ -291,7 +291,7 @@
     }
     @media (max-width: 480px) {
       .input-row { grid-template-columns: 1fr; }
-      .card { padding:32px 20px; }
+      .card { padding: 24px 20px; }
       .bmi-number { font-size: 56px; }
     }
 
@@ -318,12 +318,20 @@
   
 .rel-section{margin:32px 0 8px}
 .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
-.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
 .rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
 .rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
 .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
 .rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
 </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7GYSXR7WJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
 </head>
 <body>
   <div class="container">
@@ -543,7 +551,16 @@
 .seo-section details[open]{background:#161b22}
 .seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
 </style>
-
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/bmr" class="rel-card"><span class="re">🔥</span><span class="rn">기초대사량</span></a>
+  <a href="/calorie" class="rel-card"><span class="re">🍎</span><span class="rn">칼로리</span></a>
+  <a href="/blood_pressure" class="rel-card"><span class="re">❤️</span><span class="rn">혈압 판정</span></a>
+  <a href="/child_height" class="rel-card"><span class="re">📏</span><span class="rn">아이 키 성장</span></a>
+  <a href="/ovulation" class="rel-card"><span class="re">🗓</span><span class="rn">배란일</span></a>
+  </div>
+</div>
 <div class="seo-section">
   <h2>BMI 수치가 의미하는 것 — 정상 범위와 한국인 비만 기준</h2>
   <h3>BMI 계산 공식과 한계</h3>
@@ -584,17 +601,6 @@
   <details><summary>BMI 정상인데 뱃살이 많으면 건강에 문제가 있나요?</summary><div class="faq-answer">네. 복부 내장지방은 BMI와 별개로 심혈관 질환·당뇨 위험을 높입니다. 허리둘레를 함께 측정하세요.</div></details>
   <details><summary>근육이 많은 운동선수는 BMI가 높게 나오는 이유는?</summary><div class="faq-answer">BMI는 체지방과 근육을 구분하지 않습니다. 근육이 많으면 체중이 높아 BMI도 올라가지만 실제 건강 위험은 낮습니다.</div></details>
   <details><summary>어린이·청소년 BMI는 성인과 다르게 해석하나요?</summary><div class="faq-answer">네. 성장기에는 성별·연령별 백분위수(5~85% 정상)로 평가합니다. 이 계산기는 성인 기준입니다.</div></details>
-<div class="rel-section">
-  <h2>📌 함께 쓰면 유용한 계산기</h2>
-  <div class="rel-grid">
-  <a href="/bmr" class="rel-card"><span class="re">🔥</span><span class="rn">기초대사량</span></a>
-  <a href="/calorie" class="rel-card"><span class="re">🍎</span><span class="rn">칼로리</span></a>
-  <a href="/blood_pressure" class="rel-card"><span class="re">❤️</span><span class="rn">혈압 판정</span></a>
-  <a href="/child_height" class="rel-card"><span class="re">📏</span><span class="rn">아이 키 성장</span></a>
-  <a href="/ovulation" class="rel-card"><span class="re">🗓</span><span class="rn">배란일</span></a>
-  <a href="/pregnancy" class="rel-card"><span class="re">🤰</span><span class="rn">임신 주수</span></a>
-  </div>
-</div>
 </div>
 
 <script src="/common.js"></script><script src="/share.js"></script>

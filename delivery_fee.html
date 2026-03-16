@@ -96,7 +96,7 @@
     .hl-box strong{color:var(--accent)}
     .rel-section{margin-bottom:20px}
     .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
-    .rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+    .rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
     .rel-card{display:block;padding:14px 12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
     .rel-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
     .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
@@ -112,6 +112,14 @@
 .ab-btn{font-size:13px;font-weight:700;color:var(--accent);white-space:nowrap;flex-shrink:0}
 .aff-disclosure{font-size:10px;color:#484f58;margin-top:5px;text-align:center}
 </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7GYSXR7WJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
 </head>
 <body>
 <div class="container">
@@ -217,7 +225,17 @@
 </a>
 <div class="aff-disclosure">[광고] 이 링크는 제휴 마케팅(애드릭스)을 통해 수수료를 지급받습니다.</div>
 </div>
-  <div class="seo-card">
+  <div class="rel-section">
+    <h2>📌 함께 쓰면 유용한 계산기</h2>
+    <div class="rel-grid">
+      <a href="/operating_profit" class="rel-card"><span class="re">📈</span><span class="rn">영업이익</span></a>
+      <a href="/card_fee" class="rel-card"><span class="re">💳</span><span class="rn">카드 수수료</span></a>
+      <a href="/breakeven" class="rel-card"><span class="re">⚖️</span><span class="rn">손익분기점</span></a>
+      <a href="/product_cost" class="rel-card"><span class="re">🏷️</span><span class="rn">원가 계산기</span></a>
+      <a href="/part_time_cost" class="rel-card"><span class="re">👥</span><span class="rn">알바 인건비</span></a>
+    </div>
+  </div>
+<div class="seo-card">
     <h2>배달의민족 vs 쿠팡이츠 vs 요기요 수수료 완전 비교 (2026년)</h2>
     <p>배달앱 수수료는 <strong>플랫폼 중개 수수료 + PG(결제) 수수료</strong>로 구성됩니다. 앱별로 수수료 구조가 다르고 배달비 정책도 달라 단순 비율만 보면 실수익 차이를 정확히 파악하기 어렵습니다. 주문금액별 실수익을 직접 계산해 비교해 보세요.</p>
     <h3>📋 3대 배달앱 수수료 구조 비교 (2026년 기준)</h3>
@@ -257,17 +275,7 @@
   <details><summary>포장 주문은 수수료가 낮은가요?</summary><div class="faq-answer">네, 포장 주문은 배달 주문보다 수수료가 낮습니다. 배달의민족 포장 6.8%, 쿠팡이츠 포장 1%, 요기요 포장 9.7% 수준입니다. 포장 주문 비율을 높이면 수익성이 개선됩니다.</div></details>
   <details><summary>배달앱 여러 곳에 입점하면 유리한가요?</summary><div class="faq-answer">멀티 입점으로 주문량을 늘릴 수 있지만 관리 부담이 증가합니다. 각 앱의 광고비·수수료를 비교해 가장 수익성 높은 1~2곳에 집중하는 전략도 유효합니다.</div></details>
   <details><summary>자체 배달 앱 구축이 나을까요?</summary><div class="faq-answer">자체 주문 채널(네이버 스마트플레이스, 카카오 주문하기 등)은 수수료가 낮지만 트래픽이 적습니다. 배달앱으로 신규 고객을 유입하고, 재방문 고객은 자체 채널로 유도하는 전략이 효과적입니다.</div></details>
-  <div class="rel-section">
-    <h2>📌 함께 쓰면 유용한 계산기</h2>
-    <div class="rel-grid">
-      <a href="/operating_profit" class="rel-card"><span class="re">📈</span><span class="rn">영업이익</span></a>
-      <a href="/card_fee" class="rel-card"><span class="re">💳</span><span class="rn">카드 수수료</span></a>
-      <a href="/breakeven" class="rel-card"><span class="re">⚖️</span><span class="rn">손익분기점</span></a>
-      <a href="/product_cost" class="rel-card"><span class="re">🏷️</span><span class="rn">원가 계산기</span></a>
-      <a href="/part_time_cost" class="rel-card"><span class="re">👥</span><span class="rn">알바 인건비</span></a>
-      <a href="/vat_biz" class="rel-card"><span class="re">🧾</span><span class="rn">사업자 부가세</span></a>
-    </div>
-  </div>
+  
 </div>
 
 <script>

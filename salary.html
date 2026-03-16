@@ -461,7 +461,7 @@
 
     /* Responsive */
     @media (max-width: 600px) {
-      .card { padding:32px 20px; }
+      .card { padding: 24px 20px; }
       .options-grid { grid-template-columns: 1fr; }
       .monthly-highlight { flex-direction: column; }
       .annual-summary { text-align: left; }
@@ -490,12 +490,20 @@
   
 .rel-section{margin:32px 0 8px}
 .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
-.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
 .rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
 .rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
 .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
 .rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
 </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7GYSXR7WJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
 </head>
 <body>
   <div class="container">
@@ -794,7 +802,16 @@
 .seo-section details[open]{background:#161b22}
 .seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
 </style>
-
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/income_tax" class="rel-card"><span class="re">📋</span><span class="rn">소득세 계산기</span></a>
+  <a href="/health_insurance" class="rel-card"><span class="re">🏥</span><span class="rn">건강보험료</span></a>
+  <a href="/retirement" class="rel-card"><span class="re">💼</span><span class="rn">퇴직금 계산기</span></a>
+  <a href="/annual_leave" class="rel-card"><span class="re">📅</span><span class="rn">연차 계산기</span></a>
+  <a href="/salary_slip" class="rel-card"><span class="re">📄</span><span class="rn">급여명세서</span></a>
+  </div>
+</div>
 <div class="seo-section">
   <h2>공제 항목을 알아야 실수령액이 보인다</h2>
   <p>월급에서 빠져나가는 항목은 크게 두 가지입니다. 하나는 <strong>4대보험(국민연금·건강보험·장기요양보험·고용보험)</strong>이고, 다른 하나는 <strong>소득세와 지방소득세</strong>입니다. 이 두 가지를 합산한 금액이 공제액이며, 세전 월급에서 공제액을 뺀 것이 실제로 받는 실수령액입니다.</p>
@@ -845,18 +862,6 @@
   <details><summary>부양가족이 많으면 세금이 줄어드나요?</summary><div class="faq-answer">네. 부양가족이 많을수록 근로소득 간이세액표 기준 공제액이 커져 소득세가 줄어들고 실수령액이 늘어납니다. 배우자·자녀·부모님을 공제 대상으로 등록하세요.</div></details>
   <details><summary>연말정산은 어떻게 되나요?</summary><div class="faq-answer">연말정산은 1년간 원천징수한 소득세와 실제 세금을 정산하는 과정입니다. 공제 항목(의료비·교육비·기부금 등)이 많으면 환급받고, 적으면 추가 납부합니다.</div></details>
   <details><summary>계약직·일용직도 4대보험을 내나요?</summary><div class="faq-answer">계약직은 정규직과 동일하게 4대보험이 적용됩니다. 일용직은 1개월 이상 근무하고 월 60시간(주 15시간) 이상이면 적용됩니다.</div></details>
-
-<div class="rel-section">
-  <h2>📌 함께 쓰면 유용한 계산기</h2>
-  <div class="rel-grid">
-  <a href="/income_tax" class="rel-card"><span class="re">📋</span><span class="rn">소득세 계산기</span></a>
-  <a href="/health_insurance" class="rel-card"><span class="re">🏥</span><span class="rn">건강보험료</span></a>
-  <a href="/retirement" class="rel-card"><span class="re">💼</span><span class="rn">퇴직금 계산기</span></a>
-  <a href="/annual_leave" class="rel-card"><span class="re">📅</span><span class="rn">연차 계산기</span></a>
-  <a href="/salary_slip" class="rel-card"><span class="re">📄</span><span class="rn">급여명세서</span></a>
-  <a href="/pension" class="rel-card"><span class="re">🏦</span><span class="rn">국민연금</span></a>
-  </div>
-</div>
 </div>
 
 <script src="/common.js"></script><script src="/share.js"></script>

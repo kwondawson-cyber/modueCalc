@@ -34,7 +34,7 @@
     .header p{color:var(--text-muted);font-size:14px}
     .badges{text-align:center;margin-bottom:16px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
     .badge{padding:3px 12px;background:rgba(0,212,170,0.1);border:1px solid rgba(0,212,170,0.25);border-radius:20px;font-size:11px;color:var(--accent);font-weight:700}
-    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:32px;margin-bottom:24px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
     .card h2{font-size:15px;font-weight:700;margin-bottom:16px;color:var(--accent)}
     .form-group{margin-bottom:14px}
     label{display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px;font-weight:500}
@@ -45,7 +45,7 @@
     .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
     .btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#000;font-size:16px;font-weight:800;font-family:'Noto Sans KR',sans-serif;cursor:pointer;margin-top:4px;transition:opacity .2s}
     .btn:hover{opacity:.9}
-    .result-card{background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:var(--radius);padding:32px;margin-top:16px;display:none}
+    .result-card{background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:var(--radius);padding:24px;margin-top:16px;display:none}
     .result-card.show{display:block}
     .result-main{text-align:center;margin-bottom:20px}
     .result-label{font-size:13px;color:var(--text-muted);margin-bottom:6px}
@@ -69,6 +69,7 @@
     .tbl tr:last-child td{border-bottom:none;color:var(--accent);font-weight:700}
     .tbl tr:hover td{background:rgba(0,212,170,0.04)}
     .formula-box{background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:14px 16px;margin:16px 0;font-size:13px;color:var(--text-muted);line-height:1.8}
+    .ad-slot{min-height:0;text-align:center;margin:16px 0}
     details{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden}
     details summary{padding:12px 16px;cursor:pointer;font-size:14px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--surface)}
     details summary::after{content:'＋';color:var(--accent);font-size:16px}
@@ -76,7 +77,7 @@
     details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
     @media(max-width:480px){.result-grid{grid-template-columns:1fr}.row2{grid-template-columns:1fr}.row3{grid-template-columns:1fr 1fr}}
 
-    .seo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:32px;margin-bottom:24px}
+    .seo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
     .seo-card h2{font-size:17px;font-weight:800;color:var(--text);margin-bottom:14px;line-height:1.4}
     .seo-card h3{font-size:14px;font-weight:700;color:var(--accent);margin:16px 0 8px}
     .seo-card p{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:10px}
@@ -91,12 +92,20 @@
     .hl-box strong{color:var(--accent)}
     .rel-section{margin-bottom:20px}
     .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
-    .rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+    .rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
     .rel-card{display:block;padding:14px 12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
     .rel-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
     .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
     .rel-card .rn{font-size:12px;font-weight:700;color:var(--text)}
   </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7GYSXR7WJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
 </head>
 <body>
 <div class="container">
@@ -179,6 +188,18 @@
       </table>
     </div>
   </div>
+
+  <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6079812618767597" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
+<div class="rel-section">
+    <h2>📌 함께 쓰면 유용한 계산기</h2>
+    <div class="rel-grid">
+      <a href="/savings" class="rel-card"><span class="re">💵</span><span class="rn">예적금 계산기</span></a>
+      <a href="/stock_return" class="rel-card"><span class="re">📈</span><span class="rn">주식 수익률</span></a>
+      <a href="/inflation" class="rel-card"><span class="re">📊</span><span class="rn">물가 계산기</span></a>
+      <a href="/loan" class="rel-card"><span class="re">💰</span><span class="rn">대출 계산기</span></a>
+      <a href="/retirement_pension" class="rel-card"><span class="re">💼</span><span class="rn">퇴직연금</span></a>
+    </div>
+  </div>
   <div class="seo-card">
     <h2>복리의 힘 — 단리 vs 복리 수익 비교와 72의 법칙 (2026년)</h2>
     <p>복리는 <strong>"이자에 이자가 붙는" 효과</strong>로 기간이 길수록 단리와의 격차가 기하급수적으로 벌어집니다. 같은 연 7% 수익률이라도 10년에서는 차이가 크지 않지만, 30년이 지나면 복리가 단리보다 원금 대비 2배 이상 더 불어납니다.</p>
@@ -220,17 +241,6 @@
   <details><summary>월 복리와 연 복리의 차이는 얼마나 되나요?</summary><div class="faq-answer">같은 연 이율이라도 복리 주기가 짧을수록 최종 금액이 조금 더 큽니다. 연 5% 기준 10년 후 1,000만원의 경우 연 복리는 약 1,629만원, 월 복리는 약 1,647만원으로 차이가 크지는 않습니다.</div></details>
   <details><summary>ISA·연금저축으로 복리 효과를 높이는 법은?</summary><div class="faq-answer">ISA(개인종합자산관리계좌)는 연간 이자·배당에 세금이 유예되어 복리 효과가 극대화됩니다. 만기 시 200~400만원 비과세 혜택도 있습니다. 연금저축·IRP도 운용 수익에 과세이연이 적용되어 복리 효율이 높습니다.</div></details>
   <details><summary>인플레이션을 고려한 실질 수익률은 어떻게 계산하나요?</summary><div class="faq-answer">실질 수익률 ≈ 명목 수익률 − 인플레이션율입니다. 연 7% 수익률에 물가상승률 2.5%라면 실질 수익률은 약 4.5%입니다. 장기 투자일수록 인플레이션을 반드시 고려해야 실제 구매력 증가를 파악할 수 있습니다.</div></details>
-  <div class="rel-section">
-    <h2>📌 함께 쓰면 유용한 계산기</h2>
-    <div class="rel-grid">
-      <a href="/savings" class="rel-card"><span class="re">💵</span><span class="rn">예적금 계산기</span></a>
-      <a href="/stock_return" class="rel-card"><span class="re">📈</span><span class="rn">주식 수익률</span></a>
-      <a href="/inflation" class="rel-card"><span class="re">📊</span><span class="rn">물가 계산기</span></a>
-      <a href="/loan" class="rel-card"><span class="re">💰</span><span class="rn">대출 계산기</span></a>
-      <a href="/retirement_pension" class="rel-card"><span class="re">💼</span><span class="rn">퇴직연금</span></a>
-      <a href="/pension" class="rel-card"><span class="re">🏦</span><span class="rn">국민연금</span></a>
-    </div>
-  </div>
 </div>
 
 <script>

@@ -84,12 +84,20 @@
   
 .rel-section{margin:32px 0 8px}
 .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
-.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
 .rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
 .rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
 .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
 .rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
 </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7GYSXR7WJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
 </head>
 <body>
 <div class="container">
@@ -193,7 +201,16 @@
 .seo-section details[open]{background:#161b22}
 .seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
 </style>
-
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/weekly_holiday" class="rel-card"><span class="re">📆</span><span class="rn">주휴수당</span></a>
+  <a href="/salary" class="rel-card"><span class="re">💰</span><span class="rn">월급 실수령액</span></a>
+  <a href="/annual_leave" class="rel-card"><span class="re">📅</span><span class="rn">연차수당</span></a>
+  <a href="/part_time_cost" class="rel-card"><span class="re">👥</span><span class="rn">알바 인건비</span></a>
+  <a href="/retirement" class="rel-card"><span class="re">💵</span><span class="rn">퇴직금</span></a>
+  </div>
+</div>
 <div class="seo-section">
   <h2>시급에서 월급까지 — 주휴수당 포함 실수령액 계산법</h2>
   <h3>시급·월급 환산 공식</h3>
@@ -226,17 +243,6 @@
   <details><summary>209시간은 어떻게 계산되나요?</summary><div class="faq-answer">주 40시간 근무 + 주휴 8시간 = 주 48시간이며, 1개월 평균 주수(52주÷12)를 곱하면 약 209시간이 됩니다. 이것이 최저임금 산정 기준 시간입니다.</div></details>
   <details><summary>식대, 교통비도 시급에 포함되나요?</summary><div class="faq-answer">2019년부터 정기·일률 지급 식비·교통비 일부가 최저임금 산입 범위에 포함됩니다. 다만 월 2.2만 원(식비 기준) 초과분부터 산입됩니다.</div></details>
   <details><summary>수습기간에 최저임금을 깎을 수 있나요?</summary><div class="faq-answer">1년 이상 근로계약 시 수습 3개월간 최저임금의 90%까지 지급 가능합니다. 단순 노무직은 수습 감액이 불가합니다.</div></details>
-<div class="rel-section">
-  <h2>📌 함께 쓰면 유용한 계산기</h2>
-  <div class="rel-grid">
-  <a href="/weekly_holiday" class="rel-card"><span class="re">📆</span><span class="rn">주휴수당</span></a>
-  <a href="/salary" class="rel-card"><span class="re">💰</span><span class="rn">월급 실수령액</span></a>
-  <a href="/annual_leave" class="rel-card"><span class="re">📅</span><span class="rn">연차수당</span></a>
-  <a href="/part_time_cost" class="rel-card"><span class="re">👥</span><span class="rn">알바 인건비</span></a>
-  <a href="/retirement" class="rel-card"><span class="re">💵</span><span class="rn">퇴직금</span></a>
-  <a href="/unemployment" class="rel-card"><span class="re">📋</span><span class="rn">실업급여</span></a>
-  </div>
-</div>
 </div>
 
 <script src="/common.js"></script><script src="/share.js"></script>

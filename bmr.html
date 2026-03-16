@@ -47,7 +47,7 @@
       z-index: 0;
     }
     .container {
-      max-width:800px;
+      max-width: 640px;
       margin: 0 auto;
       padding: 40px 20px 80px;
       position: relative;
@@ -287,7 +287,7 @@
     @media (max-width: 480px) {
       .input-row { grid-template-columns: 1fr; }
       .result-grid { grid-template-columns: 1fr; }
-      .card { padding:32px 20px; }
+      .card { padding: 24px 20px; }
     }
 
     /* ── 홈 버튼 ── */
@@ -313,12 +313,20 @@
   
 .rel-section{margin:32px 0 8px}
 .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
-.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
 .rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
 .rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
 .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
 .rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
 </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7GYSXR7WJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
 </head>
 <body>
   <div class="container">
@@ -541,7 +549,16 @@
 .seo-section details[open]{background:#161b22}
 .seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
 </style>
-
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/calorie" class="rel-card"><span class="re">🍎</span><span class="rn">칼로리</span></a>
+  <a href="/bmi" class="rel-card"><span class="re">⚖️</span><span class="rn">BMI</span></a>
+  <a href="/blood_pressure" class="rel-card"><span class="re">❤️</span><span class="rn">혈압 판정</span></a>
+  <a href="/child_height" class="rel-card"><span class="re">📏</span><span class="rn">아이 키 성장</span></a>
+  <a href="/age" class="rel-card"><span class="re">🎂</span><span class="rn">나이 계산기</span></a>
+  </div>
+</div>
 <div class="seo-section">
   <h2>기초대사량(BMR)과 하루 필요 칼로리(TDEE) 계산법</h2>
   <h3>Harris-Benedict 공식과 활동계수</h3>
@@ -576,17 +593,6 @@ TDEE = BMR × 활동계수</div>
   <details><summary>기초대사량과 TDEE의 차이는 무엇인가요?</summary><div class="faq-answer">기초대사량(BMR)은 완전히 쉬는 상태에서 생존에 필요한 최소 칼로리입니다. TDEE는 실제 활동량을 반영한 하루 총 소비 칼로리입니다. 다이어트 기준은 TDEE를 사용하세요.</div></details>
   <details><summary>나이가 들면 기초대사량이 왜 떨어지나요?</summary><div class="faq-answer">30세 이후 근육량이 매년 0.5~1%씩 감소하고, 근육은 지방보다 칼로리 소비가 많기 때문입니다. 근력 운동으로 근육량을 유지하면 대사량 저하를 늦출 수 있습니다.</div></details>
   <details><summary>기초대사량보다 적게 먹으면 살이 더 빠지나요?</summary><div class="faq-answer">단기적으로는 체중이 줄지만 근손실과 대사 적응(요요)이 발생합니다. BMR 이하 섭취는 피하고 TDEE−500kcal 수준을 유지하세요.</div></details>
-<div class="rel-section">
-  <h2>📌 함께 쓰면 유용한 계산기</h2>
-  <div class="rel-grid">
-  <a href="/calorie" class="rel-card"><span class="re">🍎</span><span class="rn">칼로리</span></a>
-  <a href="/bmi" class="rel-card"><span class="re">⚖️</span><span class="rn">BMI</span></a>
-  <a href="/blood_pressure" class="rel-card"><span class="re">❤️</span><span class="rn">혈압 판정</span></a>
-  <a href="/child_height" class="rel-card"><span class="re">📏</span><span class="rn">아이 키 성장</span></a>
-  <a href="/age" class="rel-card"><span class="re">🎂</span><span class="rn">나이 계산기</span></a>
-  <a href="/ovulation" class="rel-card"><span class="re">🗓</span><span class="rn">배란일</span></a>
-  </div>
-</div>
 </div>
 
 <script src="/common.js"></script><script src="/share.js"></script>

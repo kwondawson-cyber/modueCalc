@@ -28,11 +28,11 @@
     .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
     .home-btn-emoji{font-size:20px;line-height:1}
     .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
-    .header{text-align:center;margin-bottom:48px}
+    .header{text-align:center;margin-bottom:32px}
     .header h1{font-family:'Montserrat',sans-serif;font-size:clamp(22px,5vw,32px);font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
     .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
     .header p{color:var(--text-muted);font-size:14px}
-    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:32px;margin-bottom:24px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
     .card h2{font-size:15px;font-weight:700;margin-bottom:16px;color:var(--accent)}
     .form-group{margin-bottom:14px}
     label{display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px;font-weight:500}
@@ -41,7 +41,7 @@
     select option{background:var(--surface2)}
     .btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#000;font-size:16px;font-weight:800;font-family:'Noto Sans KR',sans-serif;cursor:pointer;margin-top:4px;transition:opacity .2s}
     .btn:hover{opacity:.9}
-    .result-card{background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:var(--radius);padding:32px;margin-top:16px;display:none}
+    .result-card{background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:var(--radius);padding:24px;margin-top:16px;display:none}
     .result-card.show{display:block}
     .result-main{text-align:center;margin-bottom:20px}
     .result-label{font-size:13px;color:var(--text-muted);margin-bottom:6px}
@@ -60,6 +60,7 @@
     .affiliate-btn-secondary{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
     .info-box{background:rgba(255,215,0,0.06);border:1px solid rgba(255,215,0,0.2);border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:12px;color:#e6b800;line-height:1.7}
     .formula-box{background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:14px 16px;margin:16px 0;font-size:13px;color:var(--text-muted);line-height:1.8}
+    .ad-slot{min-height:0;text-align:center;margin:16px 0}
     .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
     .limit-bar{background:var(--surface2);border-radius:8px;height:10px;margin-top:8px;overflow:hidden}
     .limit-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .5s}
@@ -92,7 +93,7 @@
     .related-card .rc-emoji{font-size:22px;display:block;margin-bottom:4px}
     .related-card .rc-name{font-size:12px;font-weight:700;color:var(--text)}
 
-    .seo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:32px;margin-bottom:24px}
+    .seo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
     .seo-card h2{font-size:17px;font-weight:800;color:var(--text);margin-bottom:14px;line-height:1.4}
     .seo-card h3{font-size:14px;font-weight:700;color:var(--accent);margin:16px 0 8px}
     .seo-card p{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:10px}
@@ -107,12 +108,20 @@
     .hl-box strong{color:var(--accent)}
     .rel-section{margin-bottom:20px}
     .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
-    .rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+    .rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
     .rel-card{display:block;padding:14px 12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
     .rel-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
     .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
     .rel-card .rn{font-size:12px;font-weight:700;color:var(--text)}
   </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7GYSXR7WJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
 </head>
 <body>
 <div class="container">
@@ -183,6 +192,18 @@
       </div>
     </div>
   </div>
+
+  <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6079812618767597" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
+<div class="rel-section">
+    <h2>📌 함께 쓰면 유용한 계산기</h2>
+    <div class="rel-grid">
+      <a href="/loan" class="rel-card"><span class="re">💰</span><span class="rn">대출 계산기</span></a>
+      <a href="/savings" class="rel-card"><span class="re">💵</span><span class="rn">예적금 계산기</span></a>
+      <a href="/realestate" class="rel-card"><span class="re">🏡</span><span class="rn">부동산 취득세</span></a>
+      <a href="/rent_conversion" class="rel-card"><span class="re">🔄</span><span class="rn">전월세 전환</span></a>
+      <a href="/loan_limit" class="rel-card"><span class="re">📊</span><span class="rn">대출 한도</span></a>
+    </div>
+  </div>
   <div class="seo-card">
     <h2>전세자금대출이란? 종류·한도·금리 완벽 정리 (2026년)</h2>
     <p>전세자금대출은 전세 보증금 마련을 위해 받는 대출로, 매달 이자만 납부하고 만기(2년)에 원금을 일시 상환하는 구조입니다. 일반 대출보다 금리가 낮아 월 부담이 적지만, 만기 시 목돈이 필요합니다. 소득 조건이 된다면 정책 대출(버팀목)을 먼저 확인하는 것이 핵심입니다.</p>
@@ -221,18 +242,6 @@
   <details><summary>버팀목 대출과 시중은행 대출 중 어디가 유리한가요?</summary><div class="faq-answer">소득 조건이 된다면 버팀목 대출이 금리가 훨씬 낮아 유리합니다. 단, 한도가 낮고 조건이 까다로운 편이에요. 보증금이 크거나 소득 요건을 충족 못하면 시중은행을 이용해야 합니다.</div></details>
   <details><summary>전세대출 받으면 집 살 때 불이익이 있나요?</summary><div class="faq-answer">전세대출 자체는 주택담보대출 한도에 영향을 줄 수 있습니다. DSR 계산 시 전세대출 이자가 포함되므로, 추후 주택 구입 시 대출 한도가 줄어들 수 있어요.</div></details>
   <details><summary>보증금이 4억이면 대출이 얼마나 되나요?</summary><div class="faq-answer">시중은행 기준 보증금의 80%인 3억 2천만원까지 가능하지만, DSR·소득 조건에 따라 줄어들 수 있습니다. 버팀목 대출은 한도 상한이 있어 1억 2천~2억원 수준입니다.</div></details>
-
-<div class="rel-section">
-    <h2>📌 함께 쓰면 유용한 계산기</h2>
-    <div class="rel-grid">
-      <a href="/loan" class="rel-card"><span class="re">💰</span><span class="rn">대출 계산기</span></a>
-      <a href="/savings" class="rel-card"><span class="re">💵</span><span class="rn">예적금 계산기</span></a>
-      <a href="/realestate" class="rel-card"><span class="re">🏡</span><span class="rn">부동산 취득세</span></a>
-      <a href="/rent_conversion" class="rel-card"><span class="re">🔄</span><span class="rn">전월세 전환</span></a>
-      <a href="/loan_limit" class="rel-card"><span class="re">📊</span><span class="rn">대출 한도</span></a>
-      <a href="/cheongak" class="rel-card"><span class="re">🏠</span><span class="rn">청약 가점</span></a>
-    </div>
-  </div>
 </div>
 
 <script>

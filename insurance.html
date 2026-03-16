@@ -28,12 +28,12 @@
     .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
     .home-btn-emoji{font-size:20px;line-height:1}
     .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
-    .header{text-align:center;margin-bottom:48px}
+    .header{text-align:center;margin-bottom:32px}
     .header h1{font-family:'Montserrat',sans-serif;font-size:clamp(22px,5vw,32px);font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
     .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
     .header p{color:var(--text-muted);font-size:14px}
     .notice{background:rgba(255,215,0,0.07);border:1px solid rgba(255,215,0,0.25);border-radius:10px;padding:12px 14px;margin-bottom:16px;font-size:12px;color:#e6b800;line-height:1.7}
-    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:32px;margin-bottom:24px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
     .card h2{font-size:15px;font-weight:700;margin-bottom:16px;color:var(--accent)}
     .form-group{margin-bottom:14px}
     label{display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px;font-weight:500}
@@ -46,7 +46,7 @@
     .checkbox-item input{width:auto;accent-color:var(--accent)}
     .btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#000;font-size:16px;font-weight:800;font-family:'Noto Sans KR',sans-serif;cursor:pointer;margin-top:4px;transition:opacity .2s}
     .btn:hover{opacity:.9}
-    .result-card{background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:var(--radius);padding:32px;margin-top:16px;display:none}
+    .result-card{background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:var(--radius);padding:24px;margin-top:16px;display:none}
     .result-card.show{display:block}
     .result-main{text-align:center;margin-bottom:20px}
     .result-label{font-size:13px;color:var(--text-muted);margin-bottom:6px}
@@ -66,6 +66,7 @@
     .range-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,var(--accent),var(--accent2))}
     .range-label{display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-top:4px}
     .formula-box{background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:14px 16px;margin:16px 0;font-size:13px;color:var(--text-muted);line-height:1.8}
+    .ad-slot{min-height:0;text-align:center;margin:16px 0}
     .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
     details{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden}
     details summary{padding:12px 16px;cursor:pointer;font-size:14px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--surface)}
@@ -96,7 +97,7 @@
     .related-card .rc-emoji{font-size:22px;display:block;margin-bottom:4px}
     .related-card .rc-name{font-size:12px;font-weight:700;color:var(--text)}
 
-    .seo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:32px;margin-bottom:24px}
+    .seo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
     .seo-card h2{font-size:17px;font-weight:800;color:var(--text);margin-bottom:14px;line-height:1.4}
     .seo-card h3{font-size:14px;font-weight:700;color:var(--accent);margin:16px 0 8px}
     .seo-card p{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:10px}
@@ -111,12 +112,20 @@
     .hl-box strong{color:var(--accent)}
     .rel-section{margin-bottom:20px}
     .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
-    .rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+    .rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
     .rel-card{display:block;padding:14px 12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
     .rel-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
     .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
     .rel-card .rn{font-size:12px;font-weight:700;color:var(--text)}
   </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7GYSXR7WJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
 </head>
 <body>
 <div class="container">
@@ -181,6 +190,18 @@
       </div>
     </div>
   </div>
+
+  <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6079812618767597" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
+<div class="rel-section">
+    <h2>📌 함께 쓰면 유용한 계산기</h2>
+    <div class="rel-grid">
+      <a href="/health_insurance" class="rel-card"><span class="re">🏥</span><span class="rn">건강보험료</span></a>
+      <a href="/retirement_pension" class="rel-card"><span class="re">💼</span><span class="rn">퇴직연금</span></a>
+      <a href="/salary" class="rel-card"><span class="re">💰</span><span class="rn">월급 실수령액</span></a>
+      <a href="/income_tax" class="rel-card"><span class="re">📋</span><span class="rn">소득세</span></a>
+      <a href="/parental_leave" class="rel-card"><span class="re">👶</span><span class="rn">육아휴직 급여</span></a>
+    </div>
+  </div>
   <div class="seo-card">
     <h2>나이별 월 보험료 비교와 보험 선택 가이드 (2026년)</h2>
     <p>보험료는 나이·성별·건강 상태에 따라 크게 달라집니다. 특히 <strong>갱신형 보험</strong>은 나이가 들수록 보험료가 급격히 오르므로, 장기 가입이라면 비갱신형을 선택하는 것이 유리합니다. 아래 표로 연령별 예상 보험료를 확인하세요.</p>
@@ -216,18 +237,6 @@
   <details><summary>보험료가 너무 비싸면 어떻게 줄일 수 있나요?</summary><div class="faq-answer">보장 금액을 낮추거나, 만기를 짧게 설정하거나, 납입 기간을 늘리는 방법이 있습니다. 또한 특약을 줄이거나 인터넷 전용 보험을 이용하면 보험료를 20~30% 절감할 수 있습니다.</div></details>
   <details><summary>갱신형과 비갱신형 중 어떤 게 좋은가요?</summary><div class="faq-answer">갱신형은 초기 보험료가 낮지만 일정 기간마다 보험료가 오릅니다. 비갱신형은 처음부터 높지만 보험료가 고정됩니다. 장기적으로는 비갱신형이 유리한 경우가 많습니다.</div></details>
   <details><summary>나이 들어서도 보험 가입이 가능한가요?</summary><div class="faq-answer">종신보험은 보통 60~65세까지 가입 가능합니다. 실손보험은 65세 이후 신규 가입이 어렵습니다. 고령자를 위한 실버보험·치매보험은 75~80세까지 가입 가능한 상품도 있습니다.</div></details>
-
-<div class="rel-section">
-    <h2>📌 함께 쓰면 유용한 계산기</h2>
-    <div class="rel-grid">
-      <a href="/health_insurance" class="rel-card"><span class="re">🏥</span><span class="rn">건강보험료</span></a>
-      <a href="/retirement_pension" class="rel-card"><span class="re">💼</span><span class="rn">퇴직연금</span></a>
-      <a href="/salary" class="rel-card"><span class="re">💰</span><span class="rn">월급 실수령액</span></a>
-      <a href="/income_tax" class="rel-card"><span class="re">📋</span><span class="rn">소득세</span></a>
-      <a href="/parental_leave" class="rel-card"><span class="re">👶</span><span class="rn">육아휴직 급여</span></a>
-      <a href="/pension" class="rel-card"><span class="re">🏦</span><span class="rn">국민연금</span></a>
-    </div>
-  </div>
 </div>
 
 <script>

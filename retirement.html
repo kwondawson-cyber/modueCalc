@@ -225,7 +225,7 @@
     }
     @media (max-width: 500px) {
       .input-row { grid-template-columns: 1fr; }
-      .card { padding:32px 20px; }
+      .card { padding: 24px 20px; }
     }
 
     /* ── 홈 버튼 ── */
@@ -251,12 +251,20 @@
   
 .rel-section{margin:32px 0 8px}
 .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
-.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
 .rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
 .rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
 .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
 .rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
 </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7GYSXR7WJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
 </head>
 <body>
   <div class="container">
@@ -458,7 +466,16 @@
 .seo-section details[open]{background:#161b22}
 .seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
 </style>
-
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/retirement_pension" class="rel-card"><span class="re">💼</span><span class="rn">퇴직연금</span></a>
+  <a href="/pension" class="rel-card"><span class="re">🏦</span><span class="rn">국민연금</span></a>
+  <a href="/salary" class="rel-card"><span class="re">💰</span><span class="rn">월급 실수령액</span></a>
+  <a href="/income_tax" class="rel-card"><span class="re">📋</span><span class="rn">소득세</span></a>
+  <a href="/annual_leave" class="rel-card"><span class="re">📅</span><span class="rn">연차 계산기</span></a>
+  </div>
+</div>
 <div class="seo-section">
   <h2>퇴직금, 어떻게 계산되고 무엇이 포함되나</h2>
   <p>퇴직금은 <strong>1년 이상, 주 평균 15시간 이상</strong> 근무한 모든 근로자에게 지급해야 하는 법정 급여입니다. 계산 기준이 되는 '평균임금'에는 단순 기본급 외에도 수당과 상여금 일부가 포함되므로, 실제 수령액은 기본급만 계산했을 때보다 높게 나오는 경우가 많습니다.</p>
@@ -502,18 +519,6 @@
   <details><summary>상여금이 많은 달 직전에 퇴직하면 유리한가요?</summary><div class="faq-answer">퇴직 전 3개월 평균임금을 기준으로 계산하므로, 상여금이 해당 3개월 안에 포함되면 퇴직금이 높아질 수 있습니다. 다만 상여금 지급 주기와 퇴직 시점을 맞추는 것은 개인 사정에 따라 다릅니다.</div></details>
   <details><summary>DC형 퇴직연금 가입자도 이 계산기를 쓸 수 있나요?</summary><div class="faq-answer">DC형은 회사가 매년 연봉의 1/12를 적립하는 방식이라 이 계산기의 DB형 기준과 다릅니다. DC형의 최종 수령액은 적립금 누계에 운용 수익률이 더해진 금액입니다.</div></details>
   <details><summary>프리랜서나 개인사업자도 퇴직금이 있나요?</summary><div class="faq-answer">퇴직금은 근로기준법상 '근로자'에게만 적용됩니다. 사업소득으로 신고하는 프리랜서나 개인사업자는 해당되지 않습니다. 단, 실질적으로 종속적 근로를 제공했다면 근로자성 인정 가능성이 있습니다.</div></details>
-
-<div class="rel-section">
-  <h2>📌 함께 쓰면 유용한 계산기</h2>
-  <div class="rel-grid">
-  <a href="/retirement_pension" class="rel-card"><span class="re">💼</span><span class="rn">퇴직연금</span></a>
-  <a href="/pension" class="rel-card"><span class="re">🏦</span><span class="rn">국민연금</span></a>
-  <a href="/salary" class="rel-card"><span class="re">💰</span><span class="rn">월급 실수령액</span></a>
-  <a href="/income_tax" class="rel-card"><span class="re">📋</span><span class="rn">소득세</span></a>
-  <a href="/annual_leave" class="rel-card"><span class="re">📅</span><span class="rn">연차 계산기</span></a>
-  <a href="/unemployment" class="rel-card"><span class="re">📋</span><span class="rn">실업급여</span></a>
-  </div>
-</div>
 </div>
 
 <script src="/common.js"></script><script src="/share.js"></script>

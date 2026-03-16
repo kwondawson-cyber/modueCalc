@@ -96,7 +96,7 @@
     .hl-box strong{color:var(--accent)}
     .rel-section{margin-bottom:20px}
     .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
-    .rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+    .rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
     .rel-card{display:block;padding:14px 12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
     .rel-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
     .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
@@ -112,6 +112,14 @@
 .ab-btn{font-size:13px;font-weight:700;color:var(--accent);white-space:nowrap;flex-shrink:0}
 .aff-disclosure{font-size:10px;color:#484f58;margin-top:5px;text-align:center}
 </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7GYSXR7WJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
 </head>
 <body>
 <div class="container">
@@ -213,7 +221,17 @@
 </a>
 <div class="aff-disclosure">[광고] 이 링크는 제휴 마케팅(애드릭스)을 통해 수수료를 지급받습니다.</div>
 </div>
-  <div class="seo-card">
+  <div class="rel-section">
+    <h2>📌 함께 쓰면 유용한 계산기</h2>
+    <div class="rel-grid">
+      <a href="/corporate_tax" class="rel-card"><span class="re">🏢</span><span class="rn">법인세 계산기</span></a>
+      <a href="/income_tax" class="rel-card"><span class="re">📋</span><span class="rn">소득세</span></a>
+      <a href="/freelancer_tax" class="rel-card"><span class="re">💼</span><span class="rn">프리랜서 세금</span></a>
+      <a href="/vat" class="rel-card"><span class="re">🧾</span><span class="rn">부가세 계산기</span></a>
+      <a href="/margin" class="rel-card"><span class="re">💰</span><span class="rn">마진율 계산기</span></a>
+    </div>
+  </div>
+<div class="seo-card">
     <h2>사업자 부가세 신고 방법과 납부세액 계산 (2026년 기준)</h2>
     <p>부가가치세(VAT)는 물건이나 서비스를 판매할 때 소비자에게 징수해 국가에 납부하는 세금입니다. 사업자는 <strong>매출세액(징수한 VAT) − 매입세액(지출 시 낸 VAT) = 납부세액</strong> 구조로 신고합니다. 매입세액이 더 크면 환급을 받을 수 있습니다.</p>
     <h3>📋 일반과세자 vs 간이과세자 비교</h3>
@@ -257,17 +275,7 @@
   <details><summary>불공제 매입세액은 어떤 항목이 있나요?</summary><div class="faq-answer">접대비 관련 매입세액, 비영업용 승용차(9인 이하) 구입·유지비, 사업과 무관한 지출 등이 불공제 항목입니다. 5인승 이하 승용차 관련 비용은 매입세액 공제가 전혀 되지 않으니 주의하세요.</div></details>
   <details><summary>부가세 환급은 언제 받을 수 있나요?</summary><div class="faq-answer">일반 환급은 신고 후 30일 이내에 이루어집니다. 수출·시설투자 등으로 환급액이 큰 경우 조기환급 신청(신고 후 15일 이내)이 가능합니다. 국세청 홈택스에서 신고와 동시에 환급 계좌를 등록하면 빠르게 받을 수 있습니다.</div></details>
   <details><summary>전자세금계산서 의무 발행 대상은 누구인가요?</summary><div class="faq-answer">법인사업자와 직전 연도 공급가액 합계 1억원 이상인 개인사업자는 전자세금계산서 의무 발행 대상입니다. 2024년부터 기준이 2억원에서 1억원으로 낮아졌습니다. 미발행 시 공급가액의 0.5% 가산세가 부과됩니다.</div></details>
-  <div class="rel-section">
-    <h2>📌 함께 쓰면 유용한 계산기</h2>
-    <div class="rel-grid">
-      <a href="/corporate_tax" class="rel-card"><span class="re">🏢</span><span class="rn">법인세 계산기</span></a>
-      <a href="/income_tax" class="rel-card"><span class="re">📋</span><span class="rn">소득세</span></a>
-      <a href="/freelancer_tax" class="rel-card"><span class="re">💼</span><span class="rn">프리랜서 세금</span></a>
-      <a href="/vat" class="rel-card"><span class="re">🧾</span><span class="rn">부가세 계산기</span></a>
-      <a href="/margin" class="rel-card"><span class="re">💰</span><span class="rn">마진율 계산기</span></a>
-      <a href="/operating_profit" class="rel-card"><span class="re">📈</span><span class="rn">영업이익</span></a>
-    </div>
-  </div>
+  
 </div>
 
 <script>

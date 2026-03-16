@@ -29,7 +29,7 @@
       background-image: linear-gradient(rgba(0,212,170,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,170,0.03) 1px, transparent 1px);
       background-size: 40px 40px; pointer-events: none; z-index: 0;
     }
-    .container { max-width:800px; margin: 0 auto; padding: 40px 20px 80px; position: relative; z-index: 1; }
+    .container { max-width: 640px; margin: 0 auto; padding: 40px 20px 80px; position: relative; z-index: 1; }
     .nav { text-align: center; margin-bottom: 32px; }
     .nav a { font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 3px; color: var(--accent); text-decoration: none; text-transform: uppercase; }
     .header { text-align: center; margin-bottom: 40px; }
@@ -55,7 +55,7 @@
     .result-card { display: none; animation: fadeUp 0.4s ease; }
     .result-card.visible { display: block; }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
-    .result-highlight { background: linear-gradient(135deg, rgba(0,212,170,0.1), rgba(0,149,255,0.05)); border: 1px solid rgba(0,212,170,0.3); border-radius: var(--radius); padding:32px 28px; text-align: center; margin-bottom: 16px; }
+    .result-highlight { background: linear-gradient(135deg, rgba(0,212,170,0.1), rgba(0,149,255,0.05)); border: 1px solid rgba(0,212,170,0.3); border-radius: var(--radius); padding: 24px 28px; text-align: center; margin-bottom: 16px; }
     .r-label { font-size: 12px; color: var(--accent); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
     .r-amount { font-family: 'Montserrat', sans-serif; font-size: clamp(36px, 8vw, 52px); font-weight: 900; color: #fff; }
     .r-amount span { font-size: 18px; color: var(--text-muted); }
@@ -102,12 +102,20 @@
   
 .rel-section{margin:32px 0 8px}
 .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
-.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
 .rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
 .rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
 .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
 .rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
 </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7GYSXR7WJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
 </head>
 <body>
   <div class="container">
@@ -325,7 +333,16 @@
 .seo-section details[open]{background:#161b22}
 .seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
 </style>
-
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/realestate" class="rel-card"><span class="re">🏡</span><span class="rn">중개수수료</span></a>
+  <a href="/capital_gains" class="rel-card"><span class="re">💸</span><span class="rn">양도소득세</span></a>
+  <a href="/gift_tax" class="rel-card"><span class="re">🎁</span><span class="rn">증여세</span></a>
+  <a href="/cheongak" class="rel-card"><span class="re">🏆</span><span class="rn">청약 가점</span></a>
+  <a href="/rent_conversion" class="rel-card"><span class="re">🔄</span><span class="rn">전월세 전환</span></a>
+  </div>
+</div>
 <div class="seo-section">
   <h2>취득세율은 주택 수·면적·거래 유형에 따라 달라진다</h2>
   <h3>취득세 과세 기준과 세율 구조</h3>
@@ -372,17 +389,6 @@
   <details><summary>분양권을 취득하면 바로 취득세를 내나요?</summary><div class="faq-answer">분양권 자체 취득 시 0.4%가 적용됩니다. 이후 건물 완공·등기 시 부동산 취득세를 별도로 납부합니다.</div></details>
   <details><summary>증여·상속으로 취득해도 취득세를 내나요?</summary><div class="faq-answer">네. 증여 취득은 시가 기준 3.5%(조정 12%), 상속 취득은 2.8%가 적용됩니다.</div></details>
   <details><summary>취득세는 어디서 납부하나요?</summary><div class="faq-answer">취득일로부터 60일 이내에 해당 부동산 소재지 시·군·구청에 신고·납부합니다. 위택스(wetax.go.kr)에서 온라인 납부도 가능합니다.</div></details>
-<div class="rel-section">
-  <h2>📌 함께 쓰면 유용한 계산기</h2>
-  <div class="rel-grid">
-  <a href="/realestate" class="rel-card"><span class="re">🏡</span><span class="rn">중개수수료</span></a>
-  <a href="/capital_gains" class="rel-card"><span class="re">💸</span><span class="rn">양도소득세</span></a>
-  <a href="/gift_tax" class="rel-card"><span class="re">🎁</span><span class="rn">증여세</span></a>
-  <a href="/cheongak" class="rel-card"><span class="re">🏆</span><span class="rn">청약 가점</span></a>
-  <a href="/rent_conversion" class="rel-card"><span class="re">🔄</span><span class="rn">전월세 전환</span></a>
-  <a href="/jeonse_loan" class="rel-card"><span class="re">🏠</span><span class="rn">전세자금대출</span></a>
-  </div>
-</div>
 </div>
 
 <script src="/common.js"></script><script src="/share.js"></script>

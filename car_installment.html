@@ -65,6 +65,14 @@
     .home-btn-emoji{font-size:20px;line-height:1}
     .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
   </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7GYSXR7WJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
 </head>
 <body>
 <div class="container">
@@ -115,6 +123,7 @@
     </div>
   </div>
 </div>
+
 <style>
 .seo-section{max-width:800px;margin:0 auto;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
 .seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
@@ -139,7 +148,7 @@
 .seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
 .rel-section{margin-top:40px}
 .rel-section h2{font-size:16px;font-weight:700;margin-bottom:14px;color:#e6edf3;border:none;padding:0}
-.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
 .rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
 .rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
 .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
@@ -166,6 +175,16 @@
 </a>
 <div class="aff-disclosure">[광고] 이 링크는 제휴 마케팅(애드릭스)을 통해 수수료를 지급받습니다.</div>
 </div>
+<div class="rel-section">
+    <h2>📌 함께 쓰면 유용한 계산기</h2>
+    <div class="rel-grid">
+      <a href="/car_lease" class="rel-card"><span class="re">🚙</span><span class="rn">장기렌트·리스</span></a>
+      <a href="/car_tax" class="rel-card"><span class="re">🚘</span><span class="rn">자동차 취득세</span></a>
+      <a href="/fuel_economy" class="rel-card"><span class="re">⛽</span><span class="rn">연비 계산기</span></a>
+      <a href="/loan" class="rel-card"><span class="re">🏧</span><span class="rn">대출 이자</span></a>
+      <a href="/vat" class="rel-card"><span class="re">🧾</span><span class="rn">부가세 계산기</span></a>
+    </div>
+  </div>
 <div class="seo-section">
   <h2>자동차 할부 월 납입금 계산법과 기간별 비교 (2026년)</h2>
   <p>자동차 할부는 차량 구매 대금을 나눠 내는 방식으로 <strong>원리금균등상환</strong>이 일반적입니다. 선수금이 클수록, 할부 기간이 짧을수록 총 이자가 줄어들지만 월 부담은 커집니다. 아래 표로 기간별 실제 납입금을 비교해 보세요.</p>
@@ -200,17 +219,6 @@ r = 월 금리(연금리÷12), n = 할부 개월 수
   <details><summary>잔존가치 할부란 무엇인가요?</summary><div class="faq-answer">잔존가치(벌룬) 할부는 차량의 일정 금액을 마지막에 한 번에 납부하는 방식입니다. 월 납입금이 낮아지지만 만기에 목돈이 필요하며, 이 금액으로 재리스·반납·구매를 선택할 수 있습니다.</div></details>
   <details><summary>할부 기간은 길수록 좋은가요?</summary><div class="faq-answer">할부 기간이 길면 월 납입금은 줄지만 총 이자가 늘어납니다. 일반적으로 36~48개월이 많이 선택됩니다. 감가상각이 빠른 차량은 길게 탈수록 불리할 수 있습니다.</div></details>
   <details><summary>중도 상환 수수료가 있나요?</summary><div class="faq-answer">캐피탈사마다 다르지만 할부는 중도상환 시 수수료가 발생하는 경우가 있습니다. 계약 전 중도상환 조건을 반드시 확인하세요.</div></details>
-  <div class="rel-section">
-    <h2>📌 함께 쓰면 유용한 계산기</h2>
-    <div class="rel-grid">
-      <a href="/car_lease" class="rel-card"><span class="re">🚙</span><span class="rn">장기렌트·리스</span></a>
-      <a href="/car_tax" class="rel-card"><span class="re">🚘</span><span class="rn">자동차 취득세</span></a>
-      <a href="/fuel_economy" class="rel-card"><span class="re">⛽</span><span class="rn">연비 계산기</span></a>
-      <a href="/loan" class="rel-card"><span class="re">🏧</span><span class="rn">대출 이자</span></a>
-      <a href="/vat" class="rel-card"><span class="re">🧾</span><span class="rn">부가세 계산기</span></a>
-      <a href="/income_tax" class="rel-card"><span class="re">📋</span><span class="rn">소득세 계산기</span></a>
-    </div>
-  </div>
 </div>
 <script>
 function fmt(n) { return Math.round(n).toLocaleString() + '만원'; }

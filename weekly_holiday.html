@@ -78,12 +78,20 @@
   
 .rel-section{margin:32px 0 8px}
 .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
-.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
 .rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
 .rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
 .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
 .rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
 </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7GYSXR7WJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
 </head>
 <body>
 <div class="container">
@@ -186,7 +194,16 @@
 .seo-section details[open]{background:#161b22}
 .seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
 </style>
-
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/hourly_salary" class="rel-card"><span class="re">⏰</span><span class="rn">시급 계산기</span></a>
+  <a href="/salary" class="rel-card"><span class="re">💰</span><span class="rn">월급 실수령액</span></a>
+  <a href="/annual_leave" class="rel-card"><span class="re">📅</span><span class="rn">연차수당</span></a>
+  <a href="/part_time_cost" class="rel-card"><span class="re">👥</span><span class="rn">알바 인건비</span></a>
+  <a href="/unemployment" class="rel-card"><span class="re">📋</span><span class="rn">실업급여</span></a>
+  </div>
+</div>
 <div class="seo-section">
   <h2>주휴수당이란 무엇이고, 얼마를 받을 수 있나</h2>
   <h3>주휴수당 발생 조건과 계산 공식</h3>
@@ -232,17 +249,6 @@
   <details><summary>결근하면 그 주 주휴수당을 못 받나요?</summary><div class="faq-answer">네. 소정근로일에 1일이라도 결근하면 해당 주 주휴수당은 발생하지 않습니다. 단, 지각·조퇴는 결근이 아니므로 주휴수당이 발생합니다.</div></details>
   <details><summary>단기 알바(1~2주)도 주휴수당을 받을 수 있나요?</summary><div class="faq-answer">주 15시간 이상이고 다음 주 근무가 예정되어 있다면 단기 알바도 주휴수당이 발생합니다. 단, 마지막 근무 주는 제외될 수 있습니다.</div></details>
   <details><summary>월급제 직원도 주휴수당을 따로 받나요?</summary><div class="faq-answer">월급제의 경우 월급에 주휴수당이 포함되어 있습니다. 최저임금(209시간 기준)도 주휴수당 포함 금액입니다.</div></details>
-<div class="rel-section">
-  <h2>📌 함께 쓰면 유용한 계산기</h2>
-  <div class="rel-grid">
-  <a href="/hourly_salary" class="rel-card"><span class="re">⏰</span><span class="rn">시급 계산기</span></a>
-  <a href="/salary" class="rel-card"><span class="re">💰</span><span class="rn">월급 실수령액</span></a>
-  <a href="/annual_leave" class="rel-card"><span class="re">📅</span><span class="rn">연차수당</span></a>
-  <a href="/part_time_cost" class="rel-card"><span class="re">👥</span><span class="rn">알바 인건비</span></a>
-  <a href="/unemployment" class="rel-card"><span class="re">📋</span><span class="rn">실업급여</span></a>
-  <a href="/health_insurance" class="rel-card"><span class="re">🏥</span><span class="rn">건강보험료</span></a>
-  </div>
-</div>
 </div>
 
 <script src="/common.js"></script><script src="/share.js"></script>

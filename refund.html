@@ -28,14 +28,14 @@
     .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
     .home-btn-emoji{font-size:20px;line-height:1}
     .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
-    .header{text-align:center;margin-bottom:48px}
+    .header{text-align:center;margin-bottom:32px}
     .header h1{font-family:'Montserrat',sans-serif;font-size:clamp(22px,5vw,32px);font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
     .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
     .header p{color:var(--text-muted);font-size:14px}
-    .tab-wrap{display:flex;gap:8px;margin-bottom:24px}
+    .tab-wrap{display:flex;gap:8px;margin-bottom:16px}
     .tab{flex:1;padding:10px;text-align:center;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;border:1px solid var(--border);background:var(--surface2);color:var(--text-muted);transition:all .2s}
     .tab.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000;border-color:transparent}
-    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:32px;margin-bottom:24px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
     .card h2{font-size:15px;font-weight:700;margin-bottom:16px;color:var(--accent)}
     .form-group{margin-bottom:14px}
     label{display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px;font-weight:500}
@@ -44,7 +44,7 @@
     select option{background:var(--surface2)}
     .btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#000;font-size:16px;font-weight:800;font-family:'Noto Sans KR',sans-serif;cursor:pointer;margin-top:4px;transition:opacity .2s}
     .btn:hover{opacity:.9}
-    .result-card{background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:var(--radius);padding:32px;margin-top:16px;display:none}
+    .result-card{background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:var(--radius);padding:24px;margin-top:16px;display:none}
     .result-card.show{display:block}
     .result-main{text-align:center;margin-bottom:20px}
     .result-label{font-size:13px;color:var(--text-muted);margin-bottom:6px}
@@ -60,6 +60,7 @@
     .breakdown-row:last-child{border-bottom:none;font-weight:700;color:var(--accent)}
     .breakdown-row.deduct{color:var(--danger)}
     .formula-box{background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:14px 16px;margin:16px 0;font-size:13px;color:var(--text-muted);line-height:1.8}
+    .ad-slot{min-height:0;text-align:center;margin:16px 0}
     .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
     details{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden}
     details summary{padding:12px 16px;cursor:pointer;font-size:14px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--surface)}
@@ -68,7 +69,7 @@
     details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
     @media(max-width:480px){.result-grid{grid-template-columns:1fr}.row2{grid-template-columns:1fr}}
 
-    .seo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:32px;margin-bottom:24px}
+    .seo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
     .seo-card h2{font-size:17px;font-weight:800;color:var(--text);margin-bottom:14px;line-height:1.4}
     .seo-card h3{font-size:14px;font-weight:700;color:var(--accent);margin:16px 0 8px}
     .seo-card p{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:10px}
@@ -83,12 +84,20 @@
     .hl-box strong{color:var(--accent)}
     .rel-section{margin-bottom:20px}
     .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
-    .rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+    .rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
     .rel-card{display:block;padding:14px 12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
     .rel-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
     .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
     .rel-card .rn{font-size:12px;font-weight:700;color:var(--text)}
   </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7GYSXR7WJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
 </head>
 <body>
 <div class="container">
@@ -195,6 +204,18 @@
       </div>
     </div>
   </div>
+
+  <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6079812618767597" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
+<div class="rel-section">
+    <h2>📌 함께 쓰면 유용한 계산기</h2>
+    <div class="rel-grid">
+      <a href="/vat" class="rel-card"><span class="re">🧾</span><span class="rn">부가세 계산기</span></a>
+      <a href="/margin" class="rel-card"><span class="re">💰</span><span class="rn">마진율 계산기</span></a>
+      <a href="/product_cost" class="rel-card"><span class="re">🏷️</span><span class="rn">원가 계산기</span></a>
+      <a href="/income_tax" class="rel-card"><span class="re">📋</span><span class="rn">소득세</span></a>
+      <a href="/date_diff" class="rel-card"><span class="re">📅</span><span class="rn">날짜 계산기</span></a>
+    </div>
+  </div>
   <div class="seo-card">
     <h2>환불 위약금 기준과 실제 계산 방법 (2026년 소비자분쟁해결기준)</h2>
     <p>환불 금액은 단순히 결제금액에서 사용 금액을 빼는 게 아닙니다. 공정거래위원회 <strong>소비자분쟁해결기준</strong>에 따라 업종별로 위약금 요율이 다르게 적용됩니다. 특히 학원·여행·구독 서비스는 환불 시점(사용 기간 비율)에 따라 돌려받는 금액이 크게 달라집니다.</p>
@@ -241,17 +262,6 @@
   <details><summary>디지털 콘텐츠(OTT, 앱 구독)는 환불이 안 되나요?</summary><div class="faq-answer">디지털 콘텐츠는 일반적으로 청약 철회가 제한됩니다. 단, 서비스 오류·사업자 귀책 사유라면 환불 청구가 가능합니다. 약관을 꼼꼼히 확인하세요.</div></details>
   <details><summary>환불 신청은 어디에 하나요?</summary><div class="faq-answer">한국소비자원 1372, 공정거래위원회, 카드사 분쟁 조정 등을 통해 신청할 수 있습니다. 카드 결제 시 카드사에 '매입 취소' 또는 '차지백'을 요청하는 방법도 있습니다.</div></details>
   <details><summary>사용 단가 계산은 어떻게 하나요?</summary><div class="faq-answer">일할 계산의 경우 [총 결제액 ÷ 전체 기간] = 1일 단가입니다. 사용 금액 = 1일 단가 × 사용 일수. 환불액 = 총 결제액 - 사용 금액 - 위약금 순서로 계산합니다.</div></details>
-  <div class="rel-section">
-    <h2>📌 함께 쓰면 유용한 계산기</h2>
-    <div class="rel-grid">
-      <a href="/vat" class="rel-card"><span class="re">🧾</span><span class="rn">부가세 계산기</span></a>
-      <a href="/margin" class="rel-card"><span class="re">💰</span><span class="rn">마진율 계산기</span></a>
-      <a href="/product_cost" class="rel-card"><span class="re">🏷️</span><span class="rn">원가 계산기</span></a>
-      <a href="/income_tax" class="rel-card"><span class="re">📋</span><span class="rn">소득세</span></a>
-      <a href="/date_diff" class="rel-card"><span class="re">📅</span><span class="rn">날짜 계산기</span></a>
-      <a href="/dday" class="rel-card"><span class="re">⏳</span><span class="rn">디데이 계산기</span></a>
-    </div>
-  </div>
 </div>
 
 <script>

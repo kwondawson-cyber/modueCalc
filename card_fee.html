@@ -94,7 +94,7 @@
     .hl-box strong{color:var(--accent)}
     .rel-section{margin-bottom:20px}
     .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
-    .rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+    .rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
     .rel-card{display:block;padding:14px 12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
     .rel-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
     .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
@@ -110,6 +110,14 @@
 .ab-btn{font-size:13px;font-weight:700;color:var(--accent);white-space:nowrap;flex-shrink:0}
 .aff-disclosure{font-size:10px;color:#484f58;margin-top:5px;text-align:center}
 </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7GYSXR7WJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
 </head>
 <body>
 <div class="container">
@@ -223,7 +231,17 @@
 </a>
 <div class="aff-disclosure">[광고] 이 링크는 제휴 마케팅(애드릭스)을 통해 수수료를 지급받습니다.</div>
 </div>
-  <div class="seo-card">
+  <div class="rel-section">
+    <h2>📌 함께 쓰면 유용한 계산기</h2>
+    <div class="rel-grid">
+      <a href="/delivery_fee" class="rel-card"><span class="re">🛵</span><span class="rn">배달앱 수수료</span></a>
+      <a href="/operating_profit" class="rel-card"><span class="re">📈</span><span class="rn">영업이익</span></a>
+      <a href="/breakeven" class="rel-card"><span class="re">⚖️</span><span class="rn">손익분기점</span></a>
+      <a href="/vat_biz" class="rel-card"><span class="re">🧾</span><span class="rn">사업자 부가세</span></a>
+      <a href="/margin" class="rel-card"><span class="re">💰</span><span class="rn">마진율 계산기</span></a>
+    </div>
+  </div>
+<div class="seo-card">
     <h2>소상공인 카드 수수료 구간과 우대수수료율 완벽 정리 (2026년)</h2>
     <p>신용카드 가맹점 수수료는 연 매출 규모에 따라 <strong>영세·중소·일반 가맹점</strong>으로 구분되며 수수료율이 다르게 적용됩니다. 특히 연 매출 3억원 이하 영세가맹점은 우대수수료율이 적용돼 부담을 크게 줄일 수 있습니다.</p>
     <h3>📋 2026년 카드 가맹점 수수료율 구간표</h3>
@@ -265,17 +283,7 @@
   <details><summary>카드 매출 세금계산서도 발급해야 하나요?</summary><div class="faq-answer">카드 매출은 세금계산서 발급 의무가 없습니다(소비자 거래). 단, 사업자 간 거래에서 법인카드로 결제받은 경우 세금계산서 발급 요청 시 발급해야 합니다.</div></details>
   <details><summary>수수료가 너무 높다면 어떻게 하나요?</summary><div class="faq-answer">현금영수증, 제로페이 활용으로 수수료를 절감할 수 있습니다. 제로페이는 연 매출 8억원 이하 소상공인에게 수수료 0%입니다. 단, 소비자 QR 결제로 이용 빈도가 낮을 수 있습니다.</div></details>
   <details><summary>카드 수수료는 비용 처리가 되나요?</summary><div class="faq-answer">네, 카드 수수료는 사업 관련 지급 수수료로 전액 비용 처리됩니다. 세금신고 시 지급수수료 항목으로 처리하면 됩니다.</div></details>
-  <div class="rel-section">
-    <h2>📌 함께 쓰면 유용한 계산기</h2>
-    <div class="rel-grid">
-      <a href="/delivery_fee" class="rel-card"><span class="re">🛵</span><span class="rn">배달앱 수수료</span></a>
-      <a href="/operating_profit" class="rel-card"><span class="re">📈</span><span class="rn">영업이익</span></a>
-      <a href="/breakeven" class="rel-card"><span class="re">⚖️</span><span class="rn">손익분기점</span></a>
-      <a href="/vat_biz" class="rel-card"><span class="re">🧾</span><span class="rn">사업자 부가세</span></a>
-      <a href="/margin" class="rel-card"><span class="re">💰</span><span class="rn">마진율 계산기</span></a>
-      <a href="/product_cost" class="rel-card"><span class="re">🏷️</span><span class="rn">원가 계산기</span></a>
-    </div>
-  </div>
+  
 </div>
 
 <script>

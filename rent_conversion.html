@@ -20,13 +20,13 @@
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
     body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
-    .container{max-width:800px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
-    .nav{text-align:center;margin-bottom:48px}.nav a{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:3px;color:var(--accent);text-decoration:none;text-transform:uppercase}
+    .container{max-width:640px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .nav{text-align:center;margin-bottom:32px}.nav a{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:3px;color:var(--accent);text-decoration:none;text-transform:uppercase}
     .header{text-align:center;margin-bottom:40px}
     .header h1{font-size:clamp(24px,5vw,38px);font-weight:900;line-height:1.1;margin-bottom:10px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
     .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
     .header p{color:var(--text-muted);font-size:14px}
-    .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;margin-bottom:24px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;margin-bottom:16px}
     .card-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:20px}
     .tab-group{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:22px}
     .tab-btn{padding:13px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;font-size:14px;font-weight:600;font-family:'Noto Sans KR',sans-serif;color:var(--text-muted);cursor:pointer;transition:all .2s}
@@ -46,7 +46,7 @@
     .result-card{display:none;animation:fadeUp .4s ease}
     .result-card.visible{display:block}
     @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-    .result-highlight{background:linear-gradient(135deg,rgba(0,212,170,0.1),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.3);border-radius:16px;padding:32px 28px;text-align:center;margin-bottom:24px}
+    .result-highlight{background:linear-gradient(135deg,rgba(0,212,170,0.1),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.3);border-radius:16px;padding:24px 28px;text-align:center;margin-bottom:16px}
     .r-label{font-size:12px;color:var(--accent);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
     .r-amount{font-family:'Montserrat',sans-serif;font-size:clamp(34px,7vw,50px);font-weight:900;color:#fff}
     .r-amount span{font-size:18px;color:var(--text-muted)}
@@ -80,12 +80,20 @@
   
 .rel-section{margin:32px 0 8px}
 .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
-.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
 .rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
 .rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
 .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
 .rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
 </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7GYSXR7WJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
 </head>
 <body>
 <div class="container">
@@ -233,7 +241,16 @@
 .seo-section details[open]{background:#161b22}
 .seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
 </style>
-
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/cheongak" class="rel-card"><span class="re">🏆</span><span class="rn">청약 가점</span></a>
+  <a href="/acquisition" class="rel-card"><span class="re">📋</span><span class="rn">취득세</span></a>
+  <a href="/jeonse_loan" class="rel-card"><span class="re">🏠</span><span class="rn">전세자금대출</span></a>
+  <a href="/rent_yield" class="rel-card"><span class="re">📊</span><span class="rn">임대 수익률</span></a>
+  <a href="/loan" class="rel-card"><span class="re">💰</span><span class="rn">대출 이자</span></a>
+  </div>
+</div>
 <div class="seo-section">
   <h2>전세를 월세로 바꿀 때 — 전환율로 따지는 유·불리</h2>
   <h3>전월세 전환율 계산 구조</h3>
@@ -258,17 +275,6 @@
   <details><summary>전세가 유리한가요, 월세가 유리한가요?</summary><div class="faq-answer">전세 보증금을 투자해 전환율보다 높은 수익을 낼 수 있다면 월세가 유리합니다. 반대로 목돈이 없거나 자금 운용이 어렵다면 전세가 유리할 수 있습니다.</div></details>
   <details><summary>반전세란 무엇인가요?</summary><div class="faq-answer">반전세는 보증금을 전세보다 낮추고 나머지를 월세로 전환한 형태입니다. 보증금과 월세를 절충한 방식으로, 최근 전세 불안 상황에서 많이 활용됩니다.</div></details>
   <details><summary>전월세 신고제란 무엇인가요?</summary><div class="faq-answer">보증금 6,000만 원 또는 월세 30만 원 초과 임대차 계약 시 30일 이내 신고 의무가 있습니다. 미신고 시 과태료가 부과될 수 있습니다.</div></details>
-<div class="rel-section">
-  <h2>📌 함께 쓰면 유용한 계산기</h2>
-  <div class="rel-grid">
-  <a href="/cheongak" class="rel-card"><span class="re">🏆</span><span class="rn">청약 가점</span></a>
-  <a href="/acquisition" class="rel-card"><span class="re">📋</span><span class="rn">취득세</span></a>
-  <a href="/jeonse_loan" class="rel-card"><span class="re">🏠</span><span class="rn">전세자금대출</span></a>
-  <a href="/rent_yield" class="rel-card"><span class="re">📊</span><span class="rn">임대 수익률</span></a>
-  <a href="/loan" class="rel-card"><span class="re">💰</span><span class="rn">대출 이자</span></a>
-  <a href="/realestate" class="rel-card"><span class="re">🏡</span><span class="rn">중개수수료</span></a>
-  </div>
-</div>
 </div>
 
 <script src="/common.js"></script><script src="/share.js"></script>

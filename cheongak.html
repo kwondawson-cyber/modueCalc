@@ -34,9 +34,9 @@
     .header p{color:var(--text-muted);font-size:14px}
     .badges{text-align:center;margin-bottom:16px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
     .badge{padding:3px 12px;background:rgba(0,212,170,0.1);border:1px solid rgba(0,212,170,0.25);border-radius:20px;font-size:11px;color:var(--accent);font-weight:700}
-    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:32px;margin-bottom:24px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
     .card h2{font-size:15px;font-weight:700;margin-bottom:4px;color:var(--accent)}
-    .card-sub{font-size:12px;color:var(--text-muted);margin-bottom:24px}
+    .card-sub{font-size:12px;color:var(--text-muted);margin-bottom:16px}
     .form-group{margin-bottom:14px}
     label{display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px;font-weight:500}
     select,input{width:100%;padding:11px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:15px;font-family:'Noto Sans KR',sans-serif;outline:none;transition:border-color .2s}
@@ -48,7 +48,7 @@
     .score-chip{font-family:'Montserrat',sans-serif;font-size:20px;font-weight:900;color:var(--accent);min-width:40px;text-align:right}
     .btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#000;font-size:16px;font-weight:800;font-family:'Noto Sans KR',sans-serif;cursor:pointer;margin-top:4px;transition:opacity .2s}
     .btn:hover{opacity:.9}
-    .result-card{background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:var(--radius);padding:32px;margin-top:16px;display:none}
+    .result-card{background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:var(--radius);padding:24px;margin-top:16px;display:none}
     .result-card.show{display:block}
     .result-main{text-align:center;margin-bottom:20px}
     .result-label{font-size:13px;color:var(--text-muted);margin-bottom:6px}
@@ -65,13 +65,14 @@
     .bar-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .6s}
     .rating-box{text-align:center;margin-top:16px;padding:14px;border-radius:12px}
     .formula-box{background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:14px 16px;margin:16px 0;font-size:13px;color:var(--text-muted);line-height:1.8}
+    .ad-slot{min-height:0;text-align:center;margin:16px 0}
     details{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden}
     details summary{padding:12px 16px;cursor:pointer;font-size:14px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--surface)}
     details summary::after{content:'＋';color:var(--accent);font-size:16px}
     details[open] summary::after{content:'－'}
     details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
 
-    .seo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:32px;margin-bottom:24px}
+    .seo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
     .seo-card h2{font-size:17px;font-weight:800;color:var(--text);margin-bottom:14px;line-height:1.4}
     .seo-card h3{font-size:14px;font-weight:700;color:var(--accent);margin:16px 0 8px}
     .seo-card p{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:10px}
@@ -86,12 +87,20 @@
     .hl-box strong{color:var(--accent)}
     .rel-section{margin-bottom:20px}
     .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
-    .rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+    .rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
     .rel-card{display:block;padding:14px 12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
     .rel-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
     .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
     .rel-card .rn{font-size:12px;font-weight:700;color:var(--text)}
   </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7GYSXR7WJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
 </head>
 <body>
 <div class="container">
@@ -206,6 +215,18 @@
 
     <div class="rating-box" id="rating-box"></div>
   </div>
+
+  <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6079812618767597" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
+<div class="rel-section">
+    <h2>📌 함께 쓰면 유용한 계산기</h2>
+    <div class="rel-grid">
+      <a href="/realestate" class="rel-card"><span class="re">🏡</span><span class="rn">부동산 취득세</span></a>
+      <a href="/rent_conversion" class="rel-card"><span class="re">🔄</span><span class="rn">전월세 전환</span></a>
+      <a href="/jeonse_loan" class="rel-card"><span class="re">🏠</span><span class="rn">전세자금대출</span></a>
+      <a href="/rent_yield" class="rel-card"><span class="re">📊</span><span class="rn">임대 수익률</span></a>
+      <a href="/loan" class="rel-card"><span class="re">💰</span><span class="rn">대출 계산기</span></a>
+    </div>
+  </div>
   <div class="seo-card">
     <h2>아파트 청약 가점제 완벽 이해 — 항목별 점수와 전략 (2026년)</h2>
     <p>청약 가점제는 <strong>무주택기간(최대 32점) + 부양가족 수(최대 35점) + 청약통장 가입기간(최대 17점)</strong> 세 항목 합산 최대 84점으로 당첨자를 선정합니다. 점수가 높을수록 인기 단지에 당첨될 확률이 높아지며, 서울 강남권은 60점 이상이어야 경쟁이 됩니다.</p>
@@ -253,17 +274,6 @@
   <details><summary>청약통장은 어떤 종류가 인정되나요?</summary><div class="faq-answer">주택청약종합저축, 청약저축, 청약부금, 청약예금 모두 인정됩니다. 청약통장을 다른 은행으로 이전해도 가입기간은 합산됩니다. 해지 후 재가입하면 기간이 초기화되니 주의하세요.</div></details>
   <details><summary>가점제와 추첨제의 차이는 무엇인가요?</summary><div class="faq-answer">가점제는 점수 높은 순서로 당첨자를 선정합니다. 추첨제는 무작위 추첨으로 선정합니다. 전용 85㎡ 이하 민영주택은 가점제·추첨제를 일정 비율로 병행합니다. 공공분양은 별도 기준이 적용됩니다.</div></details>
   <details><summary>가점을 높이려면 어떻게 해야 하나요?</summary><div class="faq-answer">단기간에 높이기 가장 쉬운 항목은 청약통장 가입기간입니다. 아직 미가입이라면 바로 개설하세요. 부양가족은 결혼·출산으로 늘어나며, 무주택기간은 시간이 지나면서 자연히 쌓입니다.</div></details>
-  <div class="rel-section">
-    <h2>📌 함께 쓰면 유용한 계산기</h2>
-    <div class="rel-grid">
-      <a href="/realestate" class="rel-card"><span class="re">🏡</span><span class="rn">부동산 취득세</span></a>
-      <a href="/rent_conversion" class="rel-card"><span class="re">🔄</span><span class="rn">전월세 전환</span></a>
-      <a href="/jeonse_loan" class="rel-card"><span class="re">🏠</span><span class="rn">전세자금대출</span></a>
-      <a href="/rent_yield" class="rel-card"><span class="re">📊</span><span class="rn">임대 수익률</span></a>
-      <a href="/loan" class="rel-card"><span class="re">💰</span><span class="rn">대출 계산기</span></a>
-      <a href="/loan_limit" class="rel-card"><span class="re">📋</span><span class="rn">대출 한도</span></a>
-    </div>
-  </div>
 
 </div>
 <script>

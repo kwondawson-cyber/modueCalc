@@ -91,7 +91,7 @@
     .hl-box strong{color:var(--accent)}
     .rel-section{margin-bottom:20px}
     .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
-    .rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+    .rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
     .rel-card{display:block;padding:14px 12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
     .rel-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
     .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
@@ -107,6 +107,14 @@
 .ab-btn{font-size:13px;font-weight:700;color:var(--accent);white-space:nowrap;flex-shrink:0}
 .aff-disclosure{font-size:10px;color:#484f58;margin-top:5px;text-align:center}
 </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7GYSXR7WJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
 </head>
 <body>
 <div class="container">
@@ -199,7 +207,17 @@
 </a>
 <div class="aff-disclosure">[광고] 이 링크는 제휴 마케팅(애드릭스)을 통해 수수료를 지급받습니다.</div>
 </div>
-  <div class="seo-card">
+  <div class="rel-section">
+    <h2>📌 함께 쓰면 유용한 계산기</h2>
+    <div class="rel-grid">
+      <a href="/income_tax" class="rel-card"><span class="re">📋</span><span class="rn">소득세 계산기</span></a>
+      <a href="/vat_biz" class="rel-card"><span class="re">🧾</span><span class="rn">사업자 부가세</span></a>
+      <a href="/freelancer_tax" class="rel-card"><span class="re">💼</span><span class="rn">프리랜서 세금</span></a>
+      <a href="/vat" class="rel-card"><span class="re">💳</span><span class="rn">부가세 계산기</span></a>
+      <a href="/margin" class="rel-card"><span class="re">💰</span><span class="rn">마진율 계산기</span></a>
+    </div>
+  </div>
+<div class="seo-card">
     <h2>2026년 법인세율 구간과 납부세액 계산 방법</h2>
     <p>법인세는 기업의 각 사업연도 소득에 부과되는 세금으로, 과세표준 구간에 따라 <strong>누진세율(9%~24%)</strong>이 적용됩니다. 납부세액에는 법인세의 10%인 지방소득세가 추가됩니다. 중소기업은 세액공제·감면 특례가 적용될 수 있어 실제 세 부담이 낮아질 수 있습니다.</p>
     <h3>📋 2026년 법인세율 구간표</h3>
@@ -246,17 +264,7 @@
   <details><summary>중소기업은 세율이 다른가요?</summary><div class="faq-answer">2026년 현재 중소기업도 동일 세율이 적용됩니다. 단, 중소기업 특별세액감면·연구개발비 세액공제 등 다양한 세제 혜택을 활용하면 실효 세율을 낮출 수 있습니다.</div></details>
   <details><summary>배당하면 추가로 세금을 내나요?</summary><div class="faq-answer">법인이 법인세를 납부한 후 주주에게 배당 시, 주주는 배당소득에 대해 추가로 소득세(15.4% 원천징수)를 납부합니다. 이중과세 조정을 위한 배당세액공제 제도가 있습니다.</div></details>
   <details><summary>결손금이 있으면 법인세가 없나요?</summary><div class="faq-answer">과세표준이 0 이하이면 납부할 법인세가 없습니다. 결손금은 최대 10년간 이월하여 향후 이익에서 공제할 수 있습니다. 전기 이익의 60% 한도로 소급공제도 가능합니다.</div></details>
-  <div class="rel-section">
-    <h2>📌 함께 쓰면 유용한 계산기</h2>
-    <div class="rel-grid">
-      <a href="/income_tax" class="rel-card"><span class="re">📋</span><span class="rn">소득세 계산기</span></a>
-      <a href="/vat_biz" class="rel-card"><span class="re">🧾</span><span class="rn">사업자 부가세</span></a>
-      <a href="/freelancer_tax" class="rel-card"><span class="re">💼</span><span class="rn">프리랜서 세금</span></a>
-      <a href="/vat" class="rel-card"><span class="re">💳</span><span class="rn">부가세 계산기</span></a>
-      <a href="/margin" class="rel-card"><span class="re">💰</span><span class="rn">마진율 계산기</span></a>
-      <a href="/operating_profit" class="rel-card"><span class="re">📈</span><span class="rn">영업이익</span></a>
-    </div>
-  </div>
+  
 </div>
 
 <script>

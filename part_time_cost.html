@@ -98,7 +98,7 @@
     .hl-box strong{color:var(--accent)}
     .rel-section{margin-bottom:20px}
     .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
-    .rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+    .rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
     .rel-card{display:block;padding:14px 12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
     .rel-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
     .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
@@ -114,6 +114,14 @@
 .ab-btn{font-size:13px;font-weight:700;color:var(--accent);white-space:nowrap;flex-shrink:0}
 .aff-disclosure{font-size:10px;color:#484f58;margin-top:5px;text-align:center}
 </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7GYSXR7WJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
 </head>
 <body>
 <div class="container">
@@ -176,7 +184,17 @@
 </a>
 <div class="aff-disclosure">[광고] 이 링크는 제휴 마케팅(애드릭스)을 통해 수수료를 지급받습니다.</div>
 </div>
-  <div class="seo-card">
+  <div class="rel-section">
+    <h2>📌 함께 쓰면 유용한 계산기</h2>
+    <div class="rel-grid">
+      <a href="/salary" class="rel-card"><span class="re">💰</span><span class="rn">월급 실수령액</span></a>
+      <a href="/weekly_holiday" class="rel-card"><span class="re">📆</span><span class="rn">주휴수당</span></a>
+      <a href="/annual_leave_hr" class="rel-card"><span class="re">📅</span><span class="rn">연차 계산기</span></a>
+      <a href="/salary_slip" class="rel-card"><span class="re">📋</span><span class="rn">급여명세서</span></a>
+      <a href="/health_insurance" class="rel-card"><span class="re">🏥</span><span class="rn">건강보험료</span></a>
+    </div>
+  </div>
+<div class="seo-card">
     <h2>2026년 최저시급과 알바 인건비 총비용 계산 방법</h2>
     <p>알바생에게 지급하는 시급이 전부가 아닙니다. 사업주는 <strong>주휴수당 + 4대보험 사업주 부담분</strong>까지 부담해야 실제 인건비가 됩니다. 주 15시간 이상 근무 시 주휴수당이 발생하고, 월 60시간 이상이면 4대보험 의무 가입 대상이 됩니다.</p>
     <h3>📋 2026년 최저시급 기준 주 40시간 근무 인건비 계산</h3>
@@ -220,17 +238,7 @@
   <details><summary>주 15시간 미만으로 쪼개면 주휴수당·4대보험을 피할 수 있나요?</summary><div class="faq-answer">주 15시간 미만이면 주휴수당과 4대보험 의무가 없지만, 실무적으로 관리가 복잡하고 양질의 알바 구인이 어렵습니다. 또한 주 15시간 미만이라도 3개월 이상 계속 근무 시 퇴직금 발생 여부를 확인해야 합니다.</div></details>
   <details><summary>알바도 퇴직금을 줘야 하나요?</summary><div class="faq-answer">1주 평균 15시간 이상, 1년 이상 계속 근무한 경우 알바도 퇴직금이 발생합니다. 퇴직금 = 30일 평균임금 × (근속일수 ÷ 365). 예를 들어 1년 근무한 알바의 퇴직금은 1개월 급여 수준입니다.</div></details>
   <details><summary>야간·주말 알바는 수당이 더 붙나요?</summary><div class="faq-answer">오후 10시~오전 6시 야간 근무는 시급의 50% 가산수당이 발생합니다. 주 40시간 초과 연장근무, 휴일근무도 50% 가산. 단, 상시 5인 미만 사업장은 가산 의무가 없습니다.</div></details>
-  <div class="rel-section">
-    <h2>📌 함께 쓰면 유용한 계산기</h2>
-    <div class="rel-grid">
-      <a href="/salary" class="rel-card"><span class="re">💰</span><span class="rn">월급 실수령액</span></a>
-      <a href="/weekly_holiday" class="rel-card"><span class="re">📆</span><span class="rn">주휴수당</span></a>
-      <a href="/annual_leave_hr" class="rel-card"><span class="re">📅</span><span class="rn">연차 계산기</span></a>
-      <a href="/salary_slip" class="rel-card"><span class="re">📋</span><span class="rn">급여명세서</span></a>
-      <a href="/health_insurance" class="rel-card"><span class="re">🏥</span><span class="rn">건강보험료</span></a>
-      <a href="/operating_profit" class="rel-card"><span class="re">📈</span><span class="rn">영업이익</span></a>
-    </div>
-  </div>
+  
 </div>
 
 <script>
