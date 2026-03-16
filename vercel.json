@@ -310,6 +310,14 @@
     {
       "source": "/vat_biz",
       "destination": "/vat_biz.html"
+    },
+    {
+      "source": "/etf_return",
+      "destination": "/etf_return.html"
+    },
+    {
+      "source": "/dividend",
+      "destination": "/dividend.html"
     }
   ]
 }
