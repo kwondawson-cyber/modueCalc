@@ -231,34 +231,17 @@
     if (open) document.getElementById('ec-memo-ta').focus();
   }
 
-  // ⑧ 관련 계산기
+  // ⑧ 관련 계산기 (카드 5개 제한만 담당 — 위치 이동은 share.js에서 처리)
   function injectRelated() {
-    // seo 기준으로 share → rel → seo 순서로 재배치
     setTimeout(function(){
-      var rel   = document.querySelector('.rel-section');
-      var share = document.querySelector('.share-section');
-      var seo   = document.querySelector('.seo-section, .seo-card, .seo-wrap');
+      var rel = document.querySelector('.rel-section');
       if (!rel) return;
-
-      // 카드 5개 초과이면 마지막 카드 제거
       var cards = rel.querySelectorAll('.rel-card');
       while (cards.length > 5) {
         cards[cards.length - 1].remove();
         cards = rel.querySelectorAll('.rel-card');
       }
-
-      if (seo && seo.parentNode) {
-        // rel을 seo 바로 앞으로
-        seo.parentNode.insertBefore(rel, seo);
-        // share를 rel 바로 앞으로 → 최종: share → rel → seo
-        if (share && share.parentNode) {
-          rel.parentNode.insertBefore(share, rel);
-        }
-      } else if (share && share.parentNode) {
-        // seo 없는 경우 기존 방식
-        share.parentNode.insertBefore(rel, share.nextSibling);
-      }
-    }, 350);
+    }, 100);
   }
 
   // ⑨ 콤마 표시 (금액 단위만: 원/만원, 나이/퍼센트/년 등은 제외)

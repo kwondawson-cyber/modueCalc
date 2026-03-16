@@ -142,14 +142,24 @@
     const section = document.createElement('div');
     section.className = 'share-section';
     section.innerHTML = '<div class="share-title">이 계산기 공유하기</div><div class="share-buttons"><button class="share-btn kakao" onclick="window.__share.kakao()"><span class="sb-icon">💬</span>카카오톡</button><button class="share-btn twitter" onclick="window.__share.twitter()"><span class="sb-icon">🐦</span>트위터</button><button class="share-btn facebook" onclick="window.__share.facebook()"><span class="sb-icon">📘</span>페이스북</button><button class="share-btn copy" onclick="window.__share.copy()"><span class="sb-icon">🔗</span>링크복사</button></div>';
-    // rel-section 앞에 삽입, 없으면 container 끝에
+
+    const seoSection = document.querySelector('.seo-section, .seo-card, .seo-wrap');
     const relSection = document.querySelector('.rel-section');
-    if (relSection && relSection.parentNode) {
-      relSection.parentNode.insertBefore(section, relSection);
+
+    if (seoSection && seoSection.parentNode) {
+      // 1) share를 seo 바로 앞에 삽입
+      seoSection.parentNode.insertBefore(section, seoSection);
+      // 2) rel을 share 바로 뒤(seo 바로 앞)에 삽입 → 최종: share → rel → seo
+      if (relSection) {
+        seoSection.parentNode.insertBefore(relSection, seoSection);
+      }
     } else {
       const container = document.querySelector('.container');
       if (container) container.appendChild(section);
       else document.body.appendChild(section);
+      if (relSection) {
+        (container || document.body).appendChild(relSection);
+      }
     }
   }
 
