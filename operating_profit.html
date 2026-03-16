@@ -80,7 +80,7 @@
     details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
     @media(max-width:480px){.result-grid{grid-template-columns:1fr}.cost-row{grid-template-columns:1fr 110px 36px}}
 
-    .seo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
+    .seo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px;max-width:680px;margin-left:auto;margin-right:auto;margin-top:0}
     .seo-card h2{font-size:17px;font-weight:800;color:var(--text);margin-bottom:14px;line-height:1.4}
     .seo-card h3{font-size:14px;font-weight:700;color:var(--accent);margin:16px 0 8px}
     .seo-card p{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:10px}
@@ -93,7 +93,7 @@
     .ex-table tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
     .hl-box{background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.25);border-radius:10px;padding:14px 16px;margin:14px 0;font-size:13px;color:var(--text);line-height:1.8}
     .hl-box strong{color:var(--accent)}
-    .rel-section{margin-bottom:20px}
+    .rel-section{margin-bottom:20px;max-width:680px;margin-left:auto;margin-right:auto}
     .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
     .rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
     .rel-card{display:block;padding:14px 12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
@@ -101,7 +101,7 @@
     .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
     .rel-card .rn{font-size:12px;font-weight:700;color:var(--text)}
   
-.aff-wrap{margin:24px 0;text-align:center}
+.aff-wrap{margin:24px auto;text-align:center;max-width:680px}
 .affiliate-banner{display:inline-flex;align-items:center;gap:14px;padding:14px 20px;background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:14px;text-decoration:none;color:var(--text);transition:all .2s;width:100%;max-width:660px;box-sizing:border-box}
 .affiliate-banner:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,212,170,0.15)}
 .ab-icon{font-size:28px;flex-shrink:0}
@@ -215,6 +215,17 @@
       <a href="/vat_biz" class="rel-card"><span class="re">🧾</span><span class="rn">사업자 부가세</span></a>
     </div>
   </div>
+<div class="aff-wrap">
+<a href="https://appu.kr/?i=12515717" class="affiliate-banner" target="_blank" rel="nofollow sponsored">
+  <span class="ab-icon">🌐</span>
+  <div class="ab-text">
+    <div class="ab-title">MODOO 인터넷</div>
+    <div class="ab-desc">합리적인 인터넷 요금제 · 설치비 무료</div>
+  </div>
+  <span class="ab-btn">신청하기 →</span>
+</a>
+<div class="aff-disclosure">[광고] 이 링크는 제휴 마케팅(애드릭스)을 통해 수수료를 지급받습니다.</div>
+</div>
 <div class="seo-card">
     <h2>소상공인 영업이익 계산법과 손익계산서 읽는 법 (2026년)</h2>
     <p>영업이익은 단순히 "매출 − 비용"이 아닙니다. <strong>매출총이익(매출 − 매출원가) → 영업이익(매출총이익 − 판관비) → 순이익(영업이익 − 세금·이자)</strong> 3단계 구조로 계산됩니다. 각 단계의 이익률을 파악하면 어디서 수익이 새는지 정확히 찾을 수 있습니다.</p>
@@ -237,96 +248,213 @@
       <tr><td><strong>영업이익</strong></td><td><strong>2,600,000원</strong></td><td><strong>26%</strong></td></tr>
     </table>
     <div class="hl-box">💡 <strong>업종별 적정 영업이익률 기준:</strong> 음식점 15~25% · 카페 20~30% · 소매업 10~20% · 온라인쇼핑몰 10~25%. 영업이익률이 10% 미만이면 임차료·인건비 구조를 점검해야 합니다.</div>
-<div class="aff-wrap">
-<a href="https://appu.kr/?i=12515717" class="affiliate-banner" target="_blank" rel="nofollow sponsored">
-  <span class="ab-icon">📶</span>
-  <div class="ab-text">
-    <div class="ab-title">MODOO 인터넷 최대 48만원 지원</div>
-    <div class="ab-desc">월 16,500원부터 · 설치 당일 현금 즉시 지급 · 법정 최대 지원금</div>
-  <span class="ab-btn">혜택 확인 →</span>
-</a>
-<div class="aff-disclosure">[광고] 이 링크는 제휴 마케팅(애드릭스)을 통해 수수료를 지급받습니다.</div>
-  <div class="card">
-    <h2>📐 영업이익 공식</h2>
-    <div class="formula-box">
-      <strong>매출총이익</strong> = 매출액 − 매출원가<br>
-      <strong>영업이익</strong> = 매출총이익 − 판매관리비<br>
-      <strong>순이익(세전)</strong> = 영업이익 − 영업외비용<br><br>
-      <strong>업종별 적정 영업이익률</strong><br>
-      카페·음식점 10~20% · 소매업 5~15% · 제조업 8~15%<br>
-      영업이익률 10% 미만이면 손익분기점 분석을 권장합니다.
-  <h2 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)">자주 묻는 질문</h2>
-  <details><summary>영업이익과 순이익의 차이는 무엇인가요?</summary><div class="faq-answer">영업이익은 본업(매출)에서 원가와 판관비를 뺀 이익입니다. 순이익은 여기서 이자비용·영업외손익까지 반영한 최종 이익이에요. 사업의 본질적 수익성은 영업이익률로 봅니다.</div></details>
-  <details><summary>카드수수료는 어디에 넣어야 하나요?</summary><div class="faq-answer">카드 수수료와 배달앱 수수료는 판매관리비에 포함합니다. 매출의 일정 비율로 발생하므로 변동비 성격이지만, 일반적으로 판관비로 처리합니다.</div></details>
-  <details><summary>대표자 급여는 어떻게 처리하나요?</summary><div class="faq-answer">법인은 대표자 급여를 인건비로 처리할 수 있습니다. 개인사업자는 대표자 인건비가 비용으로 인정되지 않으므로, 순이익에서 본인 생활비를 별도로 계산해야 합니다.</div></details>
-  <details><summary>영업이익률이 마이너스면 어떻게 해야 하나요?</summary><div class="faq-answer">손익분기점 계산기로 몇 명의 고객이 더 필요한지 확인하세요. 임차료·인건비 등 고정비를 줄이거나, 객단가를 높이거나, 원가율을 낮추는 방향으로 접근합니다.</div></details>
-  <details><summary>배달앱 매출도 포함해야 하나요?</summary><div class="faq-answer">네, 배달앱 매출도 포함하세요. 단, 배달앱 수수료(9.8~15%)와 PG수수료를 판관비에 별도로 입력해야 정확한 수익성 분석이 됩니다.</div></details>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#00d4aa" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="모두의계산기" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>영업이익 계산기 | 모두의계산기</title>
+  <meta name="description" content="영업이익 계산기 2026 (소상공인) — 매출·매출원가·판관비 입력으로 매출총이익·영업이익·순이익·이익률 자동 계산. 음식점·카페 손익계산서 예시 포함." />
+  <meta name="naver-site-verification" content="82ae9d4234997a93590385e408dc1119dfe6f61f" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--danger:#ff6b6b;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+    .container{max-width:680px;margin:0 auto;padding:40px 20px 100px;position:relative;z-index:1}
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;gap:2px;width:48px;height:48px;justify-content:center;border-radius:50%;background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.2);text-decoration:none;transition:all .2s}
+    .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+    .header{text-align:center;margin-bottom:28px}
+    .header h1{font-family:'Montserrat',sans-serif;font-size:clamp(22px,5vw,32px);font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+    .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
+    .header p{color:var(--text-muted);font-size:14px}
+    .badges{text-align:center;margin-bottom:16px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+    .badge{padding:3px 12px;background:rgba(0,212,170,0.1);border:1px solid rgba(0,212,170,0.25);border-radius:20px;font-size:11px;color:var(--accent);font-weight:700}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
+    .card h2{font-size:15px;font-weight:700;margin-bottom:16px;color:var(--accent)}
+    .cost-row{display:grid;grid-template-columns:1fr 150px 36px;gap:8px;align-items:center;margin-bottom:8px}
+    .cost-row input{margin:0;padding:10px 12px;font-size:14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Noto Sans KR',sans-serif;outline:none;width:100%;transition:border-color .2s}
+    .cost-row input:focus{border-color:var(--accent)}
+    .btn-del{background:none;border:1px solid var(--danger);color:var(--danger);border-radius:8px;width:36px;height:36px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .btn-del:hover{background:rgba(255,107,107,0.1)}
+    .btn-add{width:100%;padding:10px;border:1px dashed var(--border);border-radius:10px;background:transparent;color:var(--text-muted);font-size:13px;font-family:'Noto Sans KR',sans-serif;cursor:pointer;transition:all .2s;margin-top:4px}
+    .btn-add:hover{border-color:var(--accent);color:var(--accent)}
+    .section-total{display:flex;justify-content:flex-end;gap:8px;padding:8px 0 2px;font-size:13px;color:var(--text-muted);border-top:1px solid var(--border);margin-top:6px}
+    .section-total .v{font-weight:700}
+    .btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#000;font-size:16px;font-weight:800;font-family:'Noto Sans KR',sans-serif;cursor:pointer;margin-top:8px;transition:opacity .2s}
+    .btn:hover{opacity:.9}
+    .result-card{background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:var(--radius);padding:24px;margin-top:16px;display:block}
+    .result-card.show{display:block}
+    .result-main{text-align:center;margin-bottom:20px}
+    .result-label{font-size:13px;color:var(--text-muted);margin-bottom:6px}
+    .result-value{font-family:'Montserrat',sans-serif;font-size:38px;font-weight:900;color:var(--accent)}
+    .result-value.danger{color:var(--danger)}
+    .result-sub{font-size:13px;color:var(--text-muted);margin-top:4px}
+    .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+    .result-item{background:var(--surface2);border-radius:10px;padding:12px;text-align:center}
+    .result-item-label{font-size:11px;color:var(--text-muted);margin-bottom:4px}
+    .result-item-value{font-size:17px;font-weight:700;color:var(--text)}
+    .result-item-value.good{color:var(--accent)}
+    .result-item-value.bad{color:var(--danger)}
+    .pnl{background:var(--surface2);border-radius:12px;overflow:hidden;margin-top:16px}
+    .pnl-row{display:flex;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--border);font-size:13px}
+    .pnl-row:last-child{border-bottom:none}
+    .pnl-row.sub{background:rgba(0,212,170,0.06);font-weight:700;color:var(--accent)}
+    .pnl-row.total{background:linear-gradient(135deg,rgba(0,212,170,0.14),rgba(0,149,255,0.08));font-weight:900;font-size:15px;color:var(--accent)}
+    .pnl-row.total.neg{color:var(--danger)}
+    .pnl-row .neg{color:var(--danger)}
+    .bar-wrap{margin-top:16px}
+    .bar-label{display:flex;justify-content:space-between;font-size:12px;color:var(--text-muted);margin-bottom:4px}
+    .bar-bg{background:var(--surface2);border-radius:8px;height:10px;overflow:hidden;margin-bottom:8px}
+    .bar-fill{height:100%;border-radius:8px;transition:width .5s}
+    .formula-box{background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:14px 16px;margin:16px 0;font-size:13px;color:var(--text-muted);line-height:1.8}
+    .ad-slot{min-height:0;text-align:center;margin:16px 0}
+    details{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden}
+    details summary{padding:12px 16px;cursor:pointer;font-size:14px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--surface)}
+    details summary::after{content:'＋';color:var(--accent);font-size:16px}
+    details[open] summary::after{content:'－'}
+    details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
+    @media(max-width:480px){.result-grid{grid-template-columns:1fr}.cost-row{grid-template-columns:1fr 110px 36px}}
+
+    .seo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px;max-width:680px;margin-left:auto;margin-right:auto;margin-top:0}
+    .seo-card h2{font-size:17px;font-weight:800;color:var(--text);margin-bottom:14px;line-height:1.4}
+    .seo-card h3{font-size:14px;font-weight:700;color:var(--accent);margin:16px 0 8px}
+    .seo-card p{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:10px}
+    .seo-card ul{padding-left:18px;margin-bottom:10px}
+    .seo-card li{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:4px}
+    .seo-card strong{color:var(--text)}
+    .ex-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+    .ex-table th{background:rgba(0,212,170,0.1);padding:8px 12px;text-align:left;color:var(--accent);font-weight:700;border:1px solid var(--border)}
+    .ex-table td{padding:8px 12px;border:1px solid var(--border);color:var(--text-muted);line-height:1.7}
+    .ex-table tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
+    .hl-box{background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.25);border-radius:10px;padding:14px 16px;margin:14px 0;font-size:13px;color:var(--text);line-height:1.8}
+    .hl-box strong{color:var(--accent)}
+    .rel-section{margin-bottom:20px;max-width:680px;margin-left:auto;margin-right:auto}
+    .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
+    .rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+    .rel-card{display:block;padding:14px 12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+    .rel-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+    .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+    .rel-card .rn{font-size:12px;font-weight:700;color:var(--text)}
+  
+.aff-wrap{margin:24px auto;text-align:center;max-width:680px}
+.affiliate-banner{display:inline-flex;align-items:center;gap:14px;padding:14px 20px;background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:14px;text-decoration:none;color:var(--text);transition:all .2s;width:100%;max-width:660px;box-sizing:border-box}
+.affiliate-banner:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,212,170,0.15)}
+.ab-icon{font-size:28px;flex-shrink:0}
+.ab-text{flex:1;text-align:left}
+.ab-title{font-size:15px;font-weight:800;color:var(--text);margin-bottom:3px}
+.ab-desc{font-size:12px;color:var(--text-muted)}
+.ab-btn{font-size:13px;font-weight:700;color:var(--accent);white-space:nowrap;flex-shrink:0}
+.aff-disclosure{font-size:10px;color:#484f58;margin-top:5px;text-align:center}
+</style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7GYSXR7WJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
+</head>
+<body>
+<div class="container">
+  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="header">
+    <h1><span class="emoji">📈</span> 영업이익 계산기</h1>
+    <p>매출·원가·판관비로 손익계산서 자동 작성</p>
+  </div>
+  <div class="badges">
+    <span class="badge">🏪 소상공인</span><span class="badge">📊 손익 분석</span><span class="badge">💡 월·연간</span>
   </div>
 
-<script>
-const fw = n => Math.round(n).toLocaleString() + '원';
-const fp = n => n.toFixed(1) + '%';
+  <div class="card">
+    <h2>💰 매출액</h2>
+    <div id="rev-list">
+      <div class="cost-row"><input type="text" value="매장 매출" /><input type="number" placeholder="월 금액(원)" /><button class="btn-del" onclick="delRow(this)">✕</button></div>
+    </div>
+    <button class="btn-add" onclick="addRow('rev-list')">＋ 매출 항목 추가 (배달·온라인 등)</button>
+    <div class="section-total">합계 <span class="v" id="rev-ttl">0원</span></div>
+  </div>
 
-function sumList(id) {
-  return Array.from(document.querySelectorAll(`#${id} input[type=number]`))
-    .reduce((s,el) => s + (+el.value||0), 0);
-}
-function addRow(id, del=true) {
-  const d = document.createElement('div');
-  d.className = 'cost-row';
-  d.innerHTML = `<input type="text" placeholder="항목명" /><input type="number" placeholder="금액(원)" />${del?'<button class="btn-del" onclick="delRow(this)">✕</button>':'<div></div>'}`;
-  document.getElementById(id).appendChild(d);
-}
-function delRow(btn) { btn.closest('.cost-row').remove(); }
+  <div class="card">
+    <h2>🥩 매출원가 (재료비·상품구입비)</h2>
+    <div id="cogs-list">
+      <div class="cost-row"><input type="text" value="재료비·식재료" /><input type="number" placeholder="월 금액(원)" /><button class="btn-del" onclick="delRow(this)">✕</button></div>
+    </div>
+    <button class="btn-add" onclick="addRow('cogs-list')">＋ 원가 항목 추가</button>
+    <div class="section-total">합계 <span class="v" id="cogs-ttl" style="color:var(--danger)">0원</span></div>
+  </div>
 
-document.addEventListener('input', () => {
-  document.getElementById('rev-ttl').textContent   = fw(sumList('rev-list'));
-  document.getElementById('cogs-ttl').textContent  = fw(sumList('cogs-list'));
-  document.getElementById('opex-ttl').textContent  = fw(sumList('opex-list'));
-});
+  <div class="card">
+    <h2>🏪 판매관리비 (고정비·운영비)</h2>
+    <div id="opex-list">
+      <div class="cost-row"><input type="text" value="임차료" /><input type="number" placeholder="월 금액(원)" /><button class="btn-del" onclick="delRow(this)">✕</button></div>
+      <div class="cost-row"><input type="text" value="인건비 합계" /><input type="number" placeholder="월 금액(원)" /><button class="btn-del" onclick="delRow(this)">✕</button></div>
+      <div class="cost-row"><input type="text" value="전기·수도·가스" /><input type="number" placeholder="월 금액(원)" /><button class="btn-del" onclick="delRow(this)">✕</button></div>
+      <div class="cost-row"><input type="text" value="카드수수료·PG" /><input type="number" placeholder="월 금액(원)" /><button class="btn-del" onclick="delRow(this)">✕</button></div>
+    </div>
+    <button class="btn-add" onclick="addRow('opex-list')">＋ 비용 추가 (광고·보험·배달앱 등)</button>
+    <div class="section-total">합계 <span class="v" id="opex-ttl" style="color:var(--danger)">0원</span></div>
+  </div>
 
-function calc() {
-  const rev   = sumList('rev-list');
-  const cogs  = sumList('cogs-list');
-  const opex  = sumList('opex-list');
-  const nonop = sumList('nonop-list');
-  if (!rev) { alert('매출액을 입력해주세요.'); return; }
+  <div class="card">
+    <h2>🏦 영업외 비용 (이자 등, 선택)</h2>
+    <div id="nonop-list">
+      <div class="cost-row"><input type="text" value="대출이자" /><input type="number" placeholder="월 금액(원)" /><div></div></div>
+    </div>
+    <button class="btn-add" onclick="addRow('nonop-list', false)">＋ 항목 추가</button>
+  </div>
 
-  const gross = rev - cogs;
-  const op    = gross - opex;
-  const net   = op - nonop;
-  const grossR = rev ? gross/rev*100 : 0;
-  const opR    = rev ? op/rev*100 : 0;
-  const cogsR  = rev ? cogs/rev*100 : 0;
-  const opexR  = rev ? opex/rev*100 : 0;
+  <button class="btn" onclick="calc()">영업이익 계산하기</button>
 
-  document.getElementById('r-op').textContent = fw(op);
-  document.getElementById('r-op').className   = 'result-value' + (op < 0 ? ' danger' : '');
-  document.getElementById('r-sub').textContent = `영업이익률 ${fp(opR)} · 매출총이익률 ${fp(grossR)}`;
-  document.getElementById('r-gross-rate').textContent = fp(grossR);
-  document.getElementById('r-op-rate').textContent    = fp(opR);
-  document.getElementById('r-net').textContent        = fw(net);
-  document.getElementById('r-annual').textContent     = fw(net * 12);
+  <div class="result-card" id="result">
+    <div class="result-main">
+      <div class="result-label">월 영업이익</div>
+      <div class="result-value" id="r-op">0원</div>
+      <div class="result-sub" id="r-sub"></div>
+    </div>
+    <div class="result-grid">
+      <div class="result-item"><div class="result-item-label">매출총이익률</div><div class="result-item-value good" id="r-gross-rate">-</div></div>
+      <div class="result-item"><div class="result-item-label">영업이익률</div><div class="result-item-value good" id="r-op-rate">-</div></div>
+      <div class="result-item"><div class="result-item-label">월 순이익 (세전)</div><div class="result-item-value" id="r-net">-</div></div>
+      <div class="result-item"><div class="result-item-label">연간 예상 순이익</div><div class="result-item-value" id="r-annual">-</div></div>
+    </div>
 
-  document.getElementById('pl-rev').textContent   = fw(rev);
-  document.getElementById('pl-cogs').textContent  = fw(cogs);
-  document.getElementById('pl-gross').textContent = fw(gross);
-  document.getElementById('pl-opex').textContent  = fw(opex);
-  document.getElementById('pl-op').textContent    = fw(op);
-  document.getElementById('pl-nonop').textContent = fw(nonop);
-  document.getElementById('pl-net').textContent   = fw(net);
-  document.getElementById('pl-net-row').className = 'pnl-row total' + (net < 0 ? ' neg' : '');
+    <div class="pnl">
+      <div class="pnl-row"><span>매출액</span><span id="pl-rev">-</span></div>
+      <div class="pnl-row"><span class="neg">(−) 매출원가</span><span class="neg" id="pl-cogs">-</span></div>
+      <div class="pnl-row sub"><span>= 매출총이익</span><span id="pl-gross">-</span></div>
+      <div class="pnl-row"><span class="neg">(−) 판매관리비</span><span class="neg" id="pl-opex">-</span></div>
+      <div class="pnl-row sub"><span>= 영업이익</span><span id="pl-op">-</span></div>
+      <div class="pnl-row"><span class="neg">(−) 영업외비용</span><span class="neg" id="pl-nonop">-</span></div>
+      <div class="pnl-row total" id="pl-net-row"><span>= 순이익 (세전)</span><span id="pl-net">-</span></div>
+    </div>
 
-  document.getElementById('bar-cost-pct').textContent = fp(cogsR);
-  document.getElementById('bar-opex-pct').textContent = fp(opexR);
-  document.getElementById('bar-op-pct').textContent   = fp(opR);
-  document.getElementById('bar-cost').style.width = Math.min(cogsR, 100) + '%';
-  document.getElementById('bar-opex').style.width = Math.min(opexR, 100) + '%';
-  document.getElementById('bar-op').style.width   = Math.max(Math.min(opR, 100), 0) + '%';
+    <div class="bar-wrap">
+      <div class="bar-label"><span>원가율 (원가÷매출)</span><span id="bar-cost-pct">-</span></div>
+      <div class="bar-bg"><div class="bar-fill" id="bar-cost" style="width:0%;background:var(--danger);opacity:.7"></div></div>
+      <div class="bar-label"><span>판관비율</span><span id="bar-opex-pct">-</span></div>
+      <div class="bar-bg"><div class="bar-fill" id="bar-opex" style="width:0%;background:var(--warn,#f5a623);opacity:.8"></div></div>
+      <div class="bar-label"><span>영업이익률</span><span id="bar-op-pct">-</span></div>
+      <div class="bar-bg"><div class="bar-fill" id="bar-op" style="width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2))"></div></div>
+    </div>
+  </div>
 
-  document.getElementById('result').classList.add('show');
-}
-</script>
+</div>
 <script src="/common.js"></script><script src="/share.js"></script><script src="/calculator.js"></script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}</script>
 </body>
