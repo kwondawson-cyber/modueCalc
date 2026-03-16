@@ -228,36 +228,24 @@
 
   // ⑧ 관련 계산기
   function injectRelated() {
-    // rel-section을 공유하기 앞으로 동적 이동 + 카드 5개로 제한
+    // rel-section을 share-section 바로 뒤로 이동 + 카드 5개로 제한
     setTimeout(function(){
       var rel = document.querySelector('.rel-section');
       var share = document.querySelector('.share-section');
-      if (!rel || !share) return;
+      if (!rel) return;
 
-      // 카드 6개 이상이면 마지막 카드 제거
+      // 카드 5개 초과이면 마지막 카드 제거
       var cards = rel.querySelectorAll('.rel-card');
-      if (cards.length >= 6) cards[cards.length - 1].remove();
+      while (cards.length > 5) {
+        cards[cards.length - 1].remove();
+        cards = rel.querySelectorAll('.rel-card');
+      }
 
-      // rel-section을 share-section 바로 앞으로 이동
-      share.parentNode.insertBefore(rel, share);
-    }, 200);
-  }
-    var others = CALC_LIST.filter(function(c){ return c.path !== PATH; });
-    others.sort(function(a,b){ var ai=POPULAR.indexOf(a.path),bi=POPULAR.indexOf(b.path); return (ai<0?99:ai)-(bi<0?99:bi); });
-    var wrap = document.createElement('div');
-    wrap.id = 'ec-related';
-    wrap.innerHTML =
-      '<div style="font-size:12px;font-weight:700;color:#8b949e;letter-spacing:1px;margin-bottom:10px;text-align:center;font-family:\'Noto Sans KR\',sans-serif">다른 계산기 보기</div>' +
-      '<div class="ec-rel-grid">' +
-      others.slice(0,4).map(function(c){
-        return '<a href="'+c.path+'" class="ec-rel-card"><span class="ec-rel-emoji">'+c.emoji+'</span><span>'+c.title+'</span></a>';
-      }).join('') +
-      '</div>';
-    setTimeout(function(){
-      var share = document.querySelector('.share-section');
-      if (share && share.parentNode) share.parentNode.insertBefore(wrap, share.nextSibling);
-      else { var con = document.querySelector('.container'); (con || document.body).appendChild(wrap); }
-    }, 100);
+      // share-section 뒤로 이동
+      if (share && share.parentNode) {
+        share.parentNode.insertBefore(rel, share.nextSibling);
+      }
+    }, 300);
   }
 
   // ⑨ 콤마 표시 (금액 단위만: 원/만원, 나이/퍼센트/년 등은 제외)
