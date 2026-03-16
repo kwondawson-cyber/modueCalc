@@ -179,7 +179,10 @@
     <div class="hl-box">💡 <strong>환불 거절 시 대처법:</strong> ① 업체에 소비자분쟁해결기준 조문을 명시해 서면 요청 → ② 한국소비자원 피해구제 신청 (국번없이 1372) → ③ 소액사건심판(소가 3,000만원 이하 간이 소송) 순으로 대응하세요.</div>
   <!-- 학원 환불 -->
   <div id="tab-academy" style="display:none">
-    <div class="card">
+</div>
+<div class="seo-card">
+  <h3 style="font-size:15px;font-weight:700;color:var(--accent);margin-bottom:12px">📐 계산 공식 및 기준</h3>
+
       <h2>📚 학원 환불 계산 (할부거래법 기준)</h2>
       <div class="form-group"><label>수강료 (원)</label><input type="number" id="a-paid" placeholder="예: 300000" /></div>
       <div class="row2">
@@ -206,7 +209,6 @@
         <div class="breakdown-row"><span>환불 예상액</span><span id="ra-final">-</span></div>
   <!-- 구독 환불 -->
   <div id="tab-subscription" style="display:none">
-    <div class="card">
       <h2>📱 구독 서비스 환불</h2>
       <div class="form-group"><label>결제 금액 (원)</label><input type="number" id="s-paid" placeholder="예: 15900" /></div>
       <div class="row2">
@@ -223,9 +225,7 @@
         <div class="breakdown-row"><span>결제 금액</span><span id="rs-paid">-</span></div>
         <div class="breakdown-row deduct"><span>사용분 차감</span><span id="rs-used">-</span></div>
         <div class="breakdown-row"><span>환불 예상액</span><span id="rs-final">-</span></div>
-  <div class="card">
     <h2>⚖️ 환불 관련 법령 요점</h2>
-    <div class="formula-box">
       <strong>학원 환불 (평생교육법·할부거래법)</strong><br>
       수강 시작 전: 전액 환불<br>
       1개월 이내: 수강료 1/2 환불<br>
@@ -235,13 +235,14 @@
       <strong>통신판매·전자상거래</strong><br>
       수령 후 7일 이내: 청약 철회 가능 → 전액 환불<br>
       단, 디지털 콘텐츠·맞춤 제작품은 예외 적용
-  <h2 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)">자주 묻는 질문</h2>
+</div>
+<div style="max-width:680px;margin:0 auto;padding:0 20px">
   <details><summary>학원비 환불을 거부하면 어떻게 해야 하나요?</summary><div class="faq-answer">학원은 할부거래법에 따라 환불 의무가 있습니다. 거부 시 한국소비자원(1372) 또는 교육청에 신고할 수 있습니다. 환불 요구 시 내용증명을 먼저 발송하는 것이 효과적입니다.</div></details>
   <details><summary>위약금은 얼마까지 받을 수 있나요?</summary><div class="faq-answer">소비자 귀책으로 계약 해지 시 통상 잔여 금액의 10% 이내가 적정 위약금으로 봅니다. 과도한 위약금은 불공정 약관으로 무효가 될 수 있습니다.</div></details>
   <details><summary>디지털 콘텐츠(OTT, 앱 구독)는 환불이 안 되나요?</summary><div class="faq-answer">디지털 콘텐츠는 일반적으로 청약 철회가 제한됩니다. 단, 서비스 오류·사업자 귀책 사유라면 환불 청구가 가능합니다. 약관을 꼼꼼히 확인하세요.</div></details>
   <details><summary>환불 신청은 어디에 하나요?</summary><div class="faq-answer">한국소비자원 1372, 공정거래위원회, 카드사 분쟁 조정 등을 통해 신청할 수 있습니다. 카드 결제 시 카드사에 '매입 취소' 또는 '차지백'을 요청하는 방법도 있습니다.</div></details>
   <details><summary>사용 단가 계산은 어떻게 하나요?</summary><div class="faq-answer">일할 계산의 경우 [총 결제액 ÷ 전체 기간] = 1일 단가입니다. 사용 금액 = 1일 단가 × 사용 일수. 환불액 = 총 결제액 - 사용 금액 - 위약금 순서로 계산합니다.</div></details>
-  </div>
+</div>
 
 <script>
 function fmtW(n){return Math.round(n).toLocaleString()+'원';}
