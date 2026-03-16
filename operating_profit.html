@@ -258,6 +258,70 @@ EBITDA = 영업이익 + 감가상각비 + 무형자산상각비</div>
   <details><summary>원가율을 낮추는 가장 효과적인 방법은?</summary><div class="faq-answer">① 대량 구매 협상으로 재료 단가 인하 ② 공정 자동화·효율화로 인건비 절감 ③ 불량률 감소로 재작업 비용 축소 ④ 외주 vs 내재화 비용 비교 분석 ⑤ 원자재 공동 구매(동종업체 협력). 원가율 1% 절감이 영업이익률 1%p 직접 개선으로 이어지므로 지속적인 원가 관리가 필요합니다.</div></details>
 </div>
 
+
+<script>
+const fw = n => Math.round(n).toLocaleString() + '원';
+
+function addRow(listId, canDel=true) {
+  const list = document.getElementById(listId);
+  if (!list) return;
+  const row = document.createElement('div');
+  row.className = 'cost-row';
+  row.innerHTML = `<input type="text" placeholder="항목명" /><input type="number" placeholder="월 금액(원)" />${canDel ? '<button class="btn-del" onclick="delRow(this)">✕</button>' : ''}`;
+  list.appendChild(row);
+}
+
+function delRow(btn) { btn.closest('.cost-row').remove(); }
+
+function getListTotal(listId) {
+  const rows = document.querySelectorAll(`#${listId} .cost-row input[type="number"]`);
+  return Array.from(rows).reduce((s, i) => s + (+i.value || 0), 0);
+}
+
+function calc() {
+  const rev = getListTotal('rev-list');
+  const cogs = getListTotal('cogs-list');
+  const opex = getListTotal('opex-list');
+  const nonop = getListTotal('nonop-list');
+
+  const gross = rev - cogs;
+  const grossRate = rev > 0 ? (gross / rev * 100) : 0;
+  const opProfit = gross - opex;
+  const opRate = rev > 0 ? (opProfit / rev * 100) : 0;
+  const netProfit = opProfit + nonop;
+  const netRate = rev > 0 ? (netProfit / rev * 100) : 0;
+
+  // P&L 표 업데이트
+  document.getElementById('pl-rev') && (document.getElementById('pl-rev').textContent = fw(rev));
+  document.getElementById('pl-cogs') && (document.getElementById('pl-cogs').textContent = fw(cogs));
+  document.getElementById('pl-gross') && (document.getElementById('pl-gross').textContent = fw(gross) + ' (' + grossRate.toFixed(1) + '%)');
+  document.getElementById('pl-opex') && (document.getElementById('pl-opex').textContent = fw(opex));
+  document.getElementById('pl-op') && (document.getElementById('pl-op').textContent = fw(opProfit) + ' (' + opRate.toFixed(1) + '%)');
+  document.getElementById('pl-nonop') && (document.getElementById('pl-nonop').textContent = fw(nonop));
+  document.getElementById('pl-net') && (document.getElementById('pl-net').textContent = fw(netProfit) + ' (' + netRate.toFixed(1) + '%)');
+
+  // 결과 카드
+  document.getElementById('r-op') && (document.getElementById('r-op').textContent = fw(opProfit));
+  document.getElementById('r-op-rate') && (document.getElementById('r-op-rate').textContent = opRate.toFixed(1) + '%');
+  document.getElementById('r-gross-rate') && (document.getElementById('r-gross-rate').textContent = grossRate.toFixed(1) + '%');
+  document.getElementById('r-net') && (document.getElementById('r-net').textContent = fw(netProfit));
+  document.getElementById('r-sub') && (document.getElementById('r-sub').textContent = `매출 ${fw(rev)} 기준`);
+
+  // 수익성 등급
+  const rating = opRate >= 15 ? '우수' : opRate >= 8 ? '양호' : opRate >= 3 ? '보통' : '개선필요';
+  document.getElementById('r-rating') && (document.getElementById('r-rating').textContent = rating);
+
+  document.getElementById('result') && (document.getElementById('result').style.display = 'block');
+
+  // 소계 업데이트
+  const revTtl = document.getElementById('rev-ttl');
+  const cogsTtl = document.getElementById('cogs-ttl');
+  const opexTtl = document.getElementById('opex-ttl');
+  if (revTtl) revTtl.textContent = fw(rev);
+  if (cogsTtl) cogsTtl.textContent = fw(cogs);
+  if (opexTtl) opexTtl.textContent = fw(opex);
+}
+</script>
 <script src="/common.js"></script><script src="/share.js"></script><script src="/calculator.js"></script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}</script>
 </body>

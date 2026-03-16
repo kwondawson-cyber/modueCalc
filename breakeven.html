@@ -252,6 +252,69 @@ BEP 매출 = 300만 ÷ 40% = 750만원</div>
   <details><summary>BEP를 낮추는 가장 효과적인 방법은?</summary><div class="faq-answer">① 고정비 절감(임대료 절감·재택 전환·인력 효율화) ② 단가 인상으로 공헌이익률 향상 ③ 변동비 절감(재료비 협상·공정 개선) ④ 제품 믹스 최적화(공헌이익률 높은 제품 위주 판매). BEP가 낮을수록 리스크가 줄고 경기 침체에도 생존 가능성이 높아집니다.</div></details>
 </div>
 
+
+<script>
+const fw = n => Math.round(n).toLocaleString() + '원';
+
+function addRow(listId) {
+  const list = document.getElementById(listId || 'fixed-list');
+  if (!list) return;
+  const row = document.createElement('div');
+  row.className = 'cost-row';
+  row.innerHTML = '<input type="text" placeholder="항목명" /><input type="number" placeholder="월 금액(원)" /><button class="btn-del" onclick="delRow(this)">✕</button>';
+  list.appendChild(row);
+}
+
+function delRow(btn) { btn.closest('.cost-row').remove(); }
+
+function getListTotal(listId) {
+  const rows = document.querySelectorAll(`#${listId} .cost-row input[type="number"]`);
+  return Array.from(rows).reduce((s, i) => s + (+i.value || 0), 0);
+}
+
+function calc() {
+  const price = +document.getElementById('price').value || 0;
+  const varUnit = +document.getElementById('varUnit').value || 0;
+  const fixedTotal = getListTotal('fixed-list') || +document.getElementById('fixed-ttl')?.value || 0;
+  const curQty = +document.getElementById('curQty').value || 0;
+
+  if (!price) { alert('판매가를 입력해주세요.'); return; }
+  if (varUnit >= price) { alert('변동비가 판매가 이상입니다. 수익이 발생하지 않습니다.'); return; }
+
+  const contrib = price - varUnit; // 단위 공헌이익
+  const contribRate = contrib / price;
+  const bepQty = fixedTotal > 0 ? Math.ceil(fixedTotal / contrib) : 0;
+  const bepRev = fixedTotal > 0 ? fixedTotal / contribRate : 0;
+  const curRev = price * curQty;
+  const curProfit = contrib * curQty - fixedTotal;
+  const marginQty = Math.max(curQty - bepQty, 0);
+  const marginRate = curQty > 0 ? (marginQty / curQty * 100) : 0;
+
+  document.getElementById('r-bep') && (document.getElementById('r-bep').textContent = bepQty.toLocaleString() + '개');
+  document.getElementById('r-bep-rev') && (document.getElementById('r-bep-rev').textContent = fw(bepRev));
+  document.getElementById('r-cm-rate') && (document.getElementById('r-cm-rate').textContent = (contribRate * 100).toFixed(1) + '%');
+  document.getElementById('r-margin-qty') && (document.getElementById('r-margin-qty').textContent = marginQty.toLocaleString() + '개');
+  document.getElementById('r-margin-rate') && (document.getElementById('r-margin-rate').textContent = marginRate.toFixed(1) + '%');
+  document.getElementById('r-sub') && (document.getElementById('r-sub').textContent = `고정비 ${fw(fixedTotal)} / 공헌이익 ${fw(contrib)}/개`);
+
+  // 시나리오 표
+  const tbody = document.getElementById('scenario-body');
+  if (tbody && bepQty > 0) {
+    tbody.innerHTML = '';
+    const steps = [Math.floor(bepQty*0.5), Math.floor(bepQty*0.8), bepQty, Math.ceil(bepQty*1.2), Math.ceil(bepQty*1.5)];
+    steps.forEach(q => {
+      const rev = price * q;
+      const cost = fixedTotal + varUnit * q;
+      const profit = rev - cost;
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${q.toLocaleString()}</td><td>${fw(rev)}</td><td>${fw(cost)}</td><td style="color:${profit>=0?'var(--accent)':'var(--danger)'}">${profit>=0?'+':''}${fw(profit)}</td>`;
+      tbody.appendChild(tr);
+    });
+  }
+
+  document.getElementById('result') && (document.getElementById('result').style.display = 'block');
+}
+</script>
 <script src="/common.js"></script><script src="/share.js"></script><script src="/calculator.js"></script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}</script>
 </body>

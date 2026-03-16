@@ -248,6 +248,62 @@
   <details><summary>중소기업 특별세액감면은 어떻게 받나요?</summary><div class="faq-answer">조세특례제한법에 따른 중소기업 특별세액감면은 업종·지역·규모에 따라 법인세의 5~30%를 감면받습니다. 감면 대상 업종(제조·건설·음식점 등)에 해당하는지, 수도권 과밀억제권역 여부 등을 확인해야 합니다. 법인세 신고 시 세액감면 신청서를 함께 제출해야 합니다.</div></details>
 </div>
 
+
+<script>
+const fw = n => Math.round(n).toLocaleString() + '원';
+const fp = n => n.toFixed(2) + '%';
+
+function calc() {
+  const base = +document.getElementById('taxBase').value * 10000 || 0;
+  const corpType = document.getElementById('corpType').value;
+  const prepaid = +document.getElementById('prepaid').value * 10000 || 0;
+  const localOpt = document.getElementById('localTaxOpt').value;
+
+  if (!base) { alert('과세표준을 입력해주세요.'); return; }
+
+  // 2026년 법인세율 (2023 개정 반영)
+  let tax = 0;
+  const brackets = [
+    { limit: 200000000, rate: 0.09, deduct: 0 },
+    { limit: 20000000000, rate: 0.19, deduct: 20000000 },
+    { limit: 300000000000, rate: 0.21, deduct: 60000000 },
+    { limit: Infinity, rate: 0.24, deduct: 960000000 }
+  ];
+
+  // 중소기업 세액감면 (기본 적용 안함 - 별도 신청 필요)
+  for (const b of brackets) {
+    if (base <= b.limit) {
+      tax = base * b.rate - b.deduct;
+      break;
+    }
+  }
+  if (tax < 0) tax = 0;
+
+  const localTax = localOpt === 'yes' ? tax * 0.1 : 0;
+  const total = tax + localTax;
+  const finalPay = Math.max(total - prepaid, 0);
+  const effRate = base > 0 ? (total / base * 100) : 0;
+
+  document.getElementById('rTotal').textContent = fw(base);
+  document.getElementById('rSub').textContent = `법인세 ${fp(tax/base*100)} 적용`;
+  document.getElementById('rCorp').textContent = fw(tax);
+  document.getElementById('rLocal').textContent = localOpt === 'yes' ? fw(localTax) : '미포함';
+  document.getElementById('rEffRate').textContent = fp(effRate);
+  document.getElementById('rFinal').textContent = fw(finalPay);
+
+  // 세율 구간 표
+  const rows = document.getElementById('breakdownRows');
+  if (rows) {
+    rows.innerHTML = brackets.slice(0,4).map((b, i) => {
+      const names = ['2억 이하', '2억~200억', '200억~3000억', '3000억 초과'];
+      const rates = ['9%', '19%', '21%', '24%'];
+      return `<tr><td>${names[i]}</td><td>${rates[i]}</td></tr>`;
+    }).join('');
+  }
+
+  document.getElementById('result') && (document.getElementById('result').style.display = 'block');
+}
+</script>
 <script src="/common.js"></script><script src="/share.js"></script><script src="/calculator.js"></script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}</script>
 </body>

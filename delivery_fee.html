@@ -267,6 +267,76 @@
   <details><summary>배달앱 수수료가 너무 높으면 어떻게 해야 하나요?</summary><div class="faq-answer">① 자체 주문 앱 구축(비용 대비 효과 검토) ② 네이버 주문·카카오 주문 등 저수수료 채널 활용 ③ SNS·단골 고객 자체 채널로 포장 주문 유도 ④ 단가가 높은 메뉴 개발로 건당 수익 향상 ⑤ 공동 배달 대행 업체 활용으로 배달비 절감. 배달앱 의존도를 낮추는 장기적 전략이 필요합니다.</div></details>
 </div>
 
+
+<script>
+const fw = n => Math.round(n).toLocaleString() + '원';
+const APPS = {
+  baemin:  { name:'배달의민족(배민1플러스)', rate:6.8,  pg:1.0, info:'배민1플러스 기준. 배달비 별도. 요금제에 따라 상이합니다.' },
+  coupang: { name:'쿠팡이츠', rate:9.8,  pg:0.3, info:'쿠팡이츠 정률제 수수료. 배달비 포함 기준.' },
+  yogiyo:  { name:'요기요', rate:12.5, pg:1.0, info:'요기요 기본 수수료. 배달비 별도.' },
+  custom:  { name:'직접입력', rate:null, pg:null, info:'수수료율을 직접 입력하세요.' }
+};
+let selectedApp = 'baemin';
+
+function selectApp(app, el) {
+  selectedApp = app;
+  document.querySelectorAll('.app-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  const d = APPS[app];
+  document.getElementById('preset-info').textContent = d.info;
+  if (app !== 'custom') {
+    document.getElementById('platformRate').value = d.rate;
+    document.getElementById('pgRate').value = d.pg;
+  }
+}
+
+// 초기화
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('preset-info').textContent = APPS.baemin.info;
+  document.getElementById('platformRate').value = APPS.baemin.rate;
+});
+
+function calc() {
+  const orderAmt = +document.getElementById('orderAmt').value || 0;
+  const orderCnt = +document.getElementById('orderCnt').value || 0;
+  const platformRate = +document.getElementById('platformRate').value || 0;
+  const pgRate = +document.getElementById('pgRate').value || 0;
+  const delivFee = +document.getElementById('delivFee').value || 0;
+  const adFee = +document.getElementById('adFee').value || 0;
+
+  if (!orderAmt || !orderCnt) { alert('주문금액과 건수를 입력해주세요.'); return; }
+
+  const monthSales = orderAmt * orderCnt;
+  const platformFee = monthSales * platformRate / 100;
+  const pgFee = monthSales * pgRate / 100;
+  const totalDelivFee = delivFee * orderCnt;
+  const totalFee = platformFee + pgFee + totalDelivFee + adFee;
+  const netIncome = monthSales - totalFee;
+  const perOrder = netIncome / orderCnt;
+  const totalRate = (totalFee / monthSales * 100).toFixed(1);
+  const netRate = (netIncome / monthSales * 100).toFixed(1);
+
+  document.getElementById('r-net').textContent = fw(netIncome);
+  document.getElementById('r-sub').textContent = `월 ${orderCnt}건 × 건당 ${fw(orderAmt)}`;
+  document.getElementById('r-per-order').textContent = fw(perOrder);
+  document.getElementById('r-total-rate').textContent = totalRate + '%';
+  document.getElementById('r-fee-total').textContent = fw(totalFee);
+  document.getElementById('r-net-rate').textContent = netRate + '%';
+
+  // 상세 내역
+  const bd = document.getElementById('r-breakdown');
+  if (bd) {
+    document.getElementById('bd-sales').textContent = fw(monthSales);
+    document.getElementById('bd-platform-fee').textContent = '-' + fw(platformFee);
+    document.getElementById('bd-pg-fee').textContent = '-' + fw(pgFee);
+    document.getElementById('bd-deliv-fee').textContent = '-' + fw(totalDelivFee);
+    document.getElementById('bd-ad-fee').textContent = '-' + fw(adFee);
+    document.getElementById('bd-net').textContent = fw(netIncome);
+  }
+
+  document.getElementById('result').style.display = 'block';
+}
+</script>
 <script src="/common.js"></script><script src="/share.js"></script><script src="/calculator.js"></script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}</script>
 </body>

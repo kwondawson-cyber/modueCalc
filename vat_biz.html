@@ -264,6 +264,78 @@
   <details><summary>부가세 신고를 직접 해야 하나요, 세무사에게 맡겨야 하나요?</summary><div class="faq-answer">거래가 단순한 소규모 사업자는 홈택스에서 직접 신고가 가능합니다. 거래가 복잡하거나 환급이 있는 경우, 또는 세금계산서 오류 위험이 있는 경우 세무사에게 맡기는 것이 안전합니다. 세무사 수수료는 연 50~200만원 수준으로 절세 효과와 비교해 결정하세요.</div></details>
 </div>
 
+
+<script>
+const fw = n => Math.round(n).toLocaleString() + '원';
+let vatType = 'general';
+
+function switchTab(type, el) {
+  vatType = type;
+  document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('section-general').style.display = type === 'general' ? 'block' : 'none';
+  document.getElementById('section-simple').style.display = type === 'simple' ? 'block' : 'none';
+}
+
+function addRow(listId, isDeductible) {
+  const list = document.getElementById(listId);
+  if (!list) return;
+  const row = document.createElement('div');
+  row.className = 'cost-row';
+  row.innerHTML = `<input type="text" placeholder="항목명" /><input type="number" placeholder="금액(원)" /><button class="btn-del" onclick="delRow(this)">✕</button>`;
+  list.appendChild(row);
+}
+
+function delRow(btn) {
+  btn.closest('.cost-row').remove();
+  updateTotal();
+}
+
+function getTotal(listId) {
+  const rows = document.querySelectorAll(`#${listId} .cost-row input[type="number"]`);
+  return Array.from(rows).reduce((s, i) => s + (+i.value || 0), 0);
+}
+
+function updateTotal() {
+  const sales = getTotal('sales-list');
+  const input = getTotal('input-list');
+  const st = document.getElementById('sales-ttl');
+  const it = document.getElementById('input-ttl');
+  if (st) st.textContent = fw(sales * 0.1) + ' (부가세)';
+  if (it) it.textContent = fw(input * 0.1) + ' (공제액)';
+}
+
+function calc() {
+  if (vatType === 'general') {
+    const sales = getTotal('sales-list');
+    const input = getTotal('input-list');
+    const nonded = getTotal('nonded-list');
+    const salesVat = sales * 0.1;
+    const inputVat = input * 0.1;
+    const nondedVat = nonded * 0.1;
+    const payable = salesVat - inputVat + nondedVat;
+
+    document.getElementById('r-sales-vat') && (document.getElementById('r-sales-vat').textContent = fw(salesVat));
+    document.getElementById('r-input-vat') && (document.getElementById('r-input-vat').textContent = '-' + fw(inputVat));
+    document.getElementById('r-nonded-vat') && (document.getElementById('r-nonded-vat').textContent = fw(nondedVat));
+    document.getElementById('r-payable') && (document.getElementById('r-payable').textContent = fw(Math.abs(payable)));
+    document.getElementById('r-type') && (document.getElementById('r-type').textContent = payable >= 0 ? '납부세액' : '환급세액');
+  } else {
+    const sales = +document.getElementById('simple-sales').value * 10000 || 0;
+    const type = document.getElementById('simple-type').value;
+    const rates = { retail: 0.15, mfg: 0.20, construct: 0.30, service: 0.40 };
+    const rate = rates[type] || 0.15;
+    const vat = sales * 0.1 * rate;
+    document.getElementById('simple-result') && (document.getElementById('simple-result').textContent = fw(vat));
+  }
+  document.getElementById('result') && (document.getElementById('result').style.display = 'block');
+}
+
+// 입력 이벤트
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('#sales-list input, #input-list input').forEach(i => i.addEventListener('input', updateTotal));
+});
+</script>
 <script src="/common.js"></script><script src="/share.js"></script><script src="/calculator.js"></script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}</script>
 </body>

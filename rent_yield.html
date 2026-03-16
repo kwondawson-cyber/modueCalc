@@ -280,6 +280,79 @@
   <details><summary>임대사업자 등록을 해야 하나요?</summary><div class="faq-answer">임대사업자 등록은 의무가 아니지만, 등록 시 취득세·재산세 감면, 임대소득 필요경비율 상향(60%), 종부세 합산 배제 등 혜택이 있습니다. 단, 임대료 인상 제한(연 5%), 의무 임대 기간(4~10년) 등 제약도 따릅니다. 혜택과 제약을 비교해 등록 여부를 결정하세요.</div></details>
 </div>
 
+
+<script>
+const fw = n => Math.round(n).toLocaleString() + '원';
+const fp = n => n.toFixed(2) + '%';
+let currentType = 'rent';
+
+function selectType(type, el) {
+  currentType = type;
+  document.querySelectorAll('.type-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  // 월세 섹션만 있으므로 전세/비교는 안내
+  const rs = document.getElementById('rent-section');
+  if (rs) rs.style.display = (type === 'compare') ? 'none' : 'block';
+}
+
+function setGauge(rate) {
+  const pct = Math.min(rate, 15) / 15;
+  const total = 251;
+  const fill = total * (1 - pct);
+  const el = document.getElementById('gauge-fill');
+  if (el) el.style.strokeDashoffset = fill;
+  const t = document.getElementById('gauge-text');
+  if (t) t.textContent = rate.toFixed(2) + '%';
+}
+
+function getRating(rate) {
+  if (rate >= 6) return { text:'우수 수익률', cls:'good' };
+  if (rate >= 4) return { text:'양호 수익률', cls:'good' };
+  if (rate >= 2) return { text:'보통 수익률', cls:'' };
+  return { text:'낮은 수익률', cls:'danger' };
+}
+
+function calc() {
+  const buyPrice = (+document.getElementById('buyPrice').value || 0) * 10000;
+  const deposit = (+document.getElementById('deposit').value || 0) * 10000;
+  const monthly = (+document.getElementById('monthly').value || 0) * 10000;
+  const mgmt = (+document.getElementById('mgmt').value || 0) * 10000;
+  const tax = (+document.getElementById('tax').value || 0) * 10000;
+  const repair = (+document.getElementById('repair').value || 0) * 10000;
+  const vacant = +document.getElementById('vacant').value || 0;
+  const acqCost = (+document.getElementById('acqCost').value || 0) * 10000;
+
+  if (!buyPrice) { alert('매입가를 입력해주세요.'); return; }
+
+  const activeMonths = 12 - vacant;
+  const annualIncome = (monthly + mgmt) * activeMonths;
+  const annualCost = tax + repair;
+  const annualNet = annualIncome - annualCost;
+  const investAmt = buyPrice - deposit + acqCost;
+  const grossRate = buyPrice > 0 ? (annualIncome / buyPrice * 100) : 0;
+  const netRate = investAmt > 0 ? (annualNet / investAmt * 100) : 0;
+
+  document.getElementById('r-rate').textContent = netRate.toFixed(2) + '%';
+  document.getElementById('r-sub').textContent = `실투자금 ${(investAmt/10000).toLocaleString()}만원 기준`;
+  document.getElementById('r-gross').textContent = grossRate.toFixed(2) + '%';
+  document.getElementById('r-net').textContent = netRate.toFixed(2) + '%';
+  document.getElementById('r-annual-inc').textContent = fw(annualIncome);
+  document.getElementById('r-annual-net').textContent = fw(annualNet);
+
+  document.getElementById('bd-buy').textContent = fw(buyPrice);
+  document.getElementById('bd-invest').textContent = fw(investAmt);
+  document.getElementById('bd-income').textContent = fw(annualIncome);
+  document.getElementById('bd-cost').textContent = fw(annualCost);
+  document.getElementById('bd-net').textContent = fw(annualNet);
+
+  setGauge(netRate);
+  const r = getRating(netRate);
+  const rb = document.getElementById('rating-box');
+  if (rb) { rb.textContent = r.text; rb.className = 'rating-box ' + r.cls; }
+
+  document.getElementById('result').style.display = 'block';
+}
+</script>
 <script src="/common.js"></script><script src="/share.js"></script><script src="/calculator.js"></script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}</script>
 </body>

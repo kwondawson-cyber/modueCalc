@@ -227,6 +227,117 @@
   <details><summary>알바를 시켰는데 일을 못 하면 해고가 가능한가요?</summary><div class="faq-answer">근로기간이 3개월 미만이면 해고 예고(30일 전 통보 또는 30일치 급여 지급) 의무가 없습니다. 단, 부당해고 문제를 피하려면 명확한 근거(규정 위반·결근 등)가 있어야 합니다. 계약 기간이 정해진 단기 알바는 계약 만료로 종료하면 됩니다.</div></details>
 </div>
 
+
+<script>
+const fw = n => Math.round(n).toLocaleString() + '원';
+const MIN_WAGE = 10320;
+// 4대보험 사업주 부담률 (2026)
+const INS_NPS   = 0.045;   // 국민연금
+const INS_HI    = 0.03545; // 건강보험
+const INS_LTC   = 0.00459; // 장기요양 (건강보험의 12.95%)
+const INS_EMP   = 0.009;   // 고용보험
+const INS_TOTAL = INS_NPS + INS_HI + INS_LTC + INS_EMP; // ~9.404%
+
+let staffCount = 0;
+
+function addStaff() {
+  staffCount++;
+  const id = staffCount;
+  const div = document.createElement('div');
+  div.className = 'staff-row';
+  div.id = 'staff-' + id;
+  div.innerHTML = `
+    <div class="staff-header">
+      <span class="staff-num">직원 ${id}</span>
+      <button class="btn-remove" onclick="removeStaff(${id})">✕</button>
+    </div>
+    <div class="row2">
+      <div class="form-group">
+        <label>이름(선택)</label>
+        <input type="text" id="s${id}-name" placeholder="직원 ${id}" />
+      </div>
+      <div class="form-group">
+        <label>시급 (원)</label>
+        <input type="number" id="s${id}-wage" value="${MIN_WAGE}" min="${MIN_WAGE}" />
+      </div>
+    </div>
+    <div class="row2">
+      <div class="form-group">
+        <label>주 근무시간</label>
+        <input type="number" id="s${id}-hours" placeholder="예: 40" value="40" />
+      </div>
+      <div class="form-group">
+        <label>근무 형태</label>
+        <select id="s${id}-type">
+          <option value="full">주 5일 (풀타임)</option>
+          <option value="part">주 3~4일 (파트타임)</option>
+          <option value="custom">직접입력</option>
+        </select>
+      </div>
+    </div>`;
+  document.getElementById('staff-list').appendChild(div);
+}
+
+function removeStaff(id) {
+  const el = document.getElementById('staff-' + id);
+  if (el) el.remove();
+}
+
+function calc() {
+  const rows = document.querySelectorAll('.staff-row');
+  if (rows.length === 0) { alert('직원을 추가해주세요.'); return; }
+
+  let totalPay = 0, totalHoliday = 0, totalIns = 0;
+  const results = [];
+
+  rows.forEach(row => {
+    const id = row.id.replace('staff-', '');
+    const name = document.getElementById(`s${id}-name`)?.value || `직원 ${id}`;
+    const wage = +document.getElementById(`s${id}-wage`)?.value || MIN_WAGE;
+    const hours = +document.getElementById(`s${id}-hours`)?.value || 40;
+
+    // 월 소정근로시간 계산
+    const weeklyHoliday = hours >= 15 ? (hours / 5) : 0;
+    const monthHours = (hours + weeklyHoliday) * (365 / 12 / 7);
+    const monthPay = wage * monthHours;
+    const holidayPay = wage * weeklyHoliday * (365 / 12 / 7);
+    const ins = monthPay * INS_TOTAL;
+    const totalCost = monthPay + ins;
+
+    totalPay += monthPay;
+    totalHoliday += holidayPay;
+    totalIns += ins;
+    results.push({ name, monthPay, holidayPay, ins, totalCost });
+  });
+
+  const grandTotal = totalPay + totalIns;
+
+  document.getElementById('r-total').textContent = fw(grandTotal);
+  document.getElementById('r-sub').textContent = `직원 ${results.length}명 합산 (월급+주휴+4대보험)`;
+  document.getElementById('r-pay').textContent = fw(totalPay);
+  document.getElementById('r-holiday').textContent = fw(totalHoliday);
+  document.getElementById('r-ins').textContent = fw(totalIns);
+  document.getElementById('r-annual').textContent = fw(grandTotal * 12);
+
+  const tbody = document.getElementById('staff-result-body');
+  tbody.innerHTML = '';
+  results.forEach(r => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${r.name}</td><td>${fw(r.monthPay - r.holidayPay)}</td><td>${fw(r.holidayPay)}</td><td>${fw(r.ins)}</td><td><strong>${fw(r.totalCost)}</strong></td>`;
+    tbody.appendChild(tr);
+  });
+
+  const tfoot = document.getElementById('staff-result-foot');
+  if (tfoot) {
+    tfoot.innerHTML = `<tr><td><strong>합계</strong></td><td>${fw(totalPay - totalHoliday)}</td><td>${fw(totalHoliday)}</td><td>${fw(totalIns)}</td><td><strong>${fw(grandTotal)}</strong></td></tr>`;
+  }
+
+  document.getElementById('result').style.display = 'block';
+}
+
+// 페이지 로드 시 직원 1명 자동 추가
+document.addEventListener('DOMContentLoaded', () => { addStaff(); });
+</script>
 <script src="/common.js"></script><script src="/share.js"></script><script src="/calculator.js"></script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}</script>
 </body>

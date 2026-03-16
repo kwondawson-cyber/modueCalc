@@ -276,6 +276,72 @@
   <details><summary>온라인 결제(PG사) 수수료는 어떻게 되나요?</summary><div class="faq-answer">온라인 쇼핑몰에서 사용하는 PG(결제대행)사 수수료는 결제 금액의 1.5~3.5% 수준입니다. 카카오페이·네이버페이 등 간편결제는 1.5~2.5%, 신용카드 직납은 2~3.5%가 일반적입니다. 오프라인 가맹점과 달리 우대 수수료율 적용이 제한적인 경우가 있으므로 PG사와 직접 협상하는 것이 유리합니다.</div></details>
 </div>
 
+
+<script>
+const fw = n => Math.round(n).toLocaleString() + '원';
+const TIERS = [
+  { name:'영세', rate:0.5, range:'연 3억 이하' },
+  { name:'중소 1', rate:1.1, range:'3억~5억' },
+  { name:'중소 2', rate:1.25, range:'5억~10억' },
+  { name:'중소 3', rate:1.5, range:'10억~30억' },
+  { name:'일반', rate:2.0, range:'30억 초과' },
+  { name:'직접입력', rate:null, range:'수동설정' }
+];
+let selectedRate = 0.5;
+
+function selectTier(idx, el) {
+  document.querySelectorAll('.tier-card').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  const ci = document.getElementById('custom-input');
+  if (idx === 5) {
+    ci.style.display = 'block';
+    const v = parseFloat(document.getElementById('customRate').value);
+    selectedRate = isNaN(v) ? 0 : v;
+  } else {
+    ci.style.display = 'none';
+    selectedRate = TIERS[idx].rate;
+  }
+}
+
+function calc() {
+  const v = parseFloat(document.getElementById('customRate')?.value);
+  const ci = document.getElementById('custom-input');
+  if (ci.style.display !== 'none' && !isNaN(v)) selectedRate = v;
+
+  const cardSales = +document.getElementById('cardSales').value || 0;
+  const cashSales = +document.getElementById('cashSales').value || 0;
+  const totalSales = cardSales + cashSales;
+  if (!cardSales) { alert('월 카드 매출을 입력해주세요.'); return; }
+
+  const fee = cardSales * selectedRate / 100;
+  const net = totalSales - fee;
+  const netRate = totalSales > 0 ? ((net / totalSales) * 100).toFixed(1) : 0;
+
+  document.getElementById('r-fee').textContent = fw(fee);
+  document.getElementById('r-sub').textContent = `수수료율 ${selectedRate}% 적용`;
+  document.getElementById('r-card-sales').textContent = fw(cardSales);
+  document.getElementById('r-net').textContent = fw(net);
+  document.getElementById('r-annual-fee').textContent = fw(fee * 12);
+  document.getElementById('r-net-rate').textContent = netRate + '%';
+  document.getElementById('bd-total-sales').textContent = fw(totalSales);
+  document.getElementById('bd-rate-show').textContent = `(${selectedRate}%)`;
+  document.getElementById('bd-fee').textContent = '-' + fw(fee);
+  document.getElementById('bd-net').textContent = fw(net);
+
+  // 비교 표
+  const tbody = document.getElementById('compare-body');
+  tbody.innerHTML = '';
+  TIERS.slice(0, 5).forEach(t => {
+    const f = cardSales * t.rate / 100;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${t.name} (${t.range})</td><td>${t.rate}%</td><td>${fw(f)}</td><td>${fw(f*12)}</td>`;
+    if (t.rate === selectedRate) tr.style.background = 'rgba(0,212,170,0.08)';
+    tbody.appendChild(tr);
+  });
+
+  document.getElementById('result').style.display = 'block';
+}
+</script>
 <script src="/common.js"></script><script src="/share.js"></script><script src="/calculator.js"></script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}</script>
 </body>
