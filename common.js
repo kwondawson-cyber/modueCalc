@@ -228,7 +228,9 @@
 
   // ⑧ 관련 계산기
   function injectRelated() {
-    if (IS_HOME || document.getElementById('ec-related')) return;
+    // 비활성화: rel-section이 각 HTML에 직접 포함됨
+    return;
+  }
     var others = CALC_LIST.filter(function(c){ return c.path !== PATH; });
     others.sort(function(a,b){ var ai=POPULAR.indexOf(a.path),bi=POPULAR.indexOf(b.path); return (ai<0?99:ai)-(bi<0?99:bi); });
     var wrap = document.createElement('div');

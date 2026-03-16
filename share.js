@@ -142,9 +142,15 @@
     const section = document.createElement('div');
     section.className = 'share-section';
     section.innerHTML = '<div class="share-title">이 계산기 공유하기</div><div class="share-buttons"><button class="share-btn kakao" onclick="window.__share.kakao()"><span class="sb-icon">💬</span>카카오톡</button><button class="share-btn twitter" onclick="window.__share.twitter()"><span class="sb-icon">🐦</span>트위터</button><button class="share-btn facebook" onclick="window.__share.facebook()"><span class="sb-icon">📘</span>페이스북</button><button class="share-btn copy" onclick="window.__share.copy()"><span class="sb-icon">🔗</span>링크복사</button></div>';
-    const container = document.querySelector('.container');
-    if (container) container.appendChild(section);
-    else document.body.appendChild(section);
+    // rel-section 앞에 삽입, 없으면 container 끝에
+    const relSection = document.querySelector('.rel-section');
+    if (relSection && relSection.parentNode) {
+      relSection.parentNode.insertBefore(section, relSection);
+    } else {
+      const container = document.querySelector('.container');
+      if (container) container.appendChild(section);
+      else document.body.appendChild(section);
+    }
   }
 
   window.__share = { kakao: shareKakao, twitter: shareTwitter, facebook: shareFacebook, copy: copyLink };
