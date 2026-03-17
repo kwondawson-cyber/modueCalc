@@ -181,7 +181,7 @@
       <div class="detail-item"><span class="d-label">정부 기여금</span><span class="d-value green" id="d-contrib">-</span></div>
       <div class="detail-item"><span class="d-label">세금</span><span class="d-value" id="d-tax">0원 (비과세 혜택)</span></div>
       <div class="detail-item"><span class="d-label">이자+기여금 합계</span><span class="d-value accent" id="d-total-benefit">-</span></div>
-      <div class="detail-item"><span class="d-label">실질 수익률 (연 환산)</span><span class="d-value accent" id="d-yield">-</span></div>
+      <div class="detail-item"><span class="d-label">실질 수익률 (세전 환산 · 연)</span><span class="d-value accent" id="d-yield">-</span></div>
     </div>
     <div class="notice">
       ⚠️ 은행 금리는 2026년 6월 출시 시점에 확정됩니다. 실제 수령액과 다를 수 있으며, 만기 전 해지 시 정부 기여금 미지급 및 이자에 15.4% 세금이 부과됩니다.
@@ -235,7 +235,10 @@
     const govContrib = m * contribRate * months;
     const netTotal = principal + grossInterest + govContrib;
     const totalBenefit = grossInterest + govContrib;
-    const effectiveRate = (totalBenefit / principal / 3 * 100).toFixed(2);
+    // 적금은 매달 납입하므로 평균 투자 원금 = m × (months+1) / 2
+    const avgPrincipal = m * (months + 1) / 2;
+    // 비과세 세전 환산: 일반 과세 적금으로 동일 수익을 얻으려면 필요한 세전 수익률
+    const effectiveRate = (totalBenefit / (1 - 0.154) / avgPrincipal / 3 * 100).toFixed(2);
 
     document.getElementById('s-net').textContent = fmt(netTotal);
     document.getElementById('s-principal').textContent = fmt(principal);
