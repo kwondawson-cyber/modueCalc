@@ -20,7 +20,7 @@
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
     body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
-    .container{max-width:640px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .container{max-width:640px;margin:0 auto;padding:40px 20px 20px;position:relative;z-index:1}
     .home-btn-wrap{text-align:center;margin-bottom:8px}
     .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all .2s}
     .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
@@ -65,7 +65,7 @@
     .detail-item .d-value.accent{color:var(--accent)}
     .detail-item .d-value.green{color:#4caf50}
     .notice{margin-top:16px;padding:13px 16px;background:rgba(255,165,0,0.05);border:1px solid rgba(255,165,0,0.15);border-radius:10px;font-size:12px;color:var(--text-muted);line-height:1.7}
-    .ad-slot{margin:16px 0;text-align:center}
+    .ad-slot{margin:8px 0;text-align:center;min-height:0}
     @media(max-width:480px){.card{padding:20px 16px}.summary-grid{grid-template-columns:1fr}}
     .rel-section{margin:32px 0 8px}
     .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
@@ -74,7 +74,7 @@
     .rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
     .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
     .rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
-    .seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
+    .seo-section{max-width:680px;margin:32px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
     .seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
     .seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}
     .seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
@@ -249,7 +249,7 @@
   window.onload = () => calculate();
 </script>
 
-<div class="rel-section" style="max-width:640px;margin:0 auto;padding:0 20px">
+<div class="rel-section" style="max-width:640px;margin:16px auto 0;padding:0 20px">
   <h2>📌 함께 쓰면 유용한 계산기</h2>
   <div class="rel-grid">
     <a href="/savings" class="rel-card"><span class="re">💳</span><span class="rn">적금만기</span></a>
@@ -261,6 +261,14 @@
 </div>
 
 <div class="seo-section">
+  <a href="https://gatheringmoney.com/%ec%b2%ad%eb%85%84%eb%af%b8%eb%9e%98%ec%a0%81%ea%b8%88-%ea%b0%80%ec%9e%85%ec%a1%b0%ea%b1%b4-%ec%88%98%eb%a0%b9%ec%95%a1-%ec%8b%a0%ec%b2%ad%eb%b0%a9%eb%b2%95-%ec%b4%9d-%ec%a0%95%eb%a6%ac-2026/" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,rgba(0,212,170,0.07),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:14px;padding:16px 20px;text-decoration:none;margin-bottom:8px;transition:all .2s" onmouseover="this.style.borderColor='rgba(0,212,170,0.5)';this.style.background='linear-gradient(135deg,rgba(0,212,170,0.12),rgba(0,149,255,0.08))'" onmouseout="this.style.borderColor='rgba(0,212,170,0.25)';this.style.background='linear-gradient(135deg,rgba(0,212,170,0.07),rgba(0,149,255,0.05))'">
+    <span style="font-size:28px;flex-shrink:0">📖</span>
+    <div style="flex:1;min-width:0">
+      <div style="font-size:13px;font-weight:800;color:#e6edf3;margin-bottom:4px;line-height:1.4">청년미래적금 완벽 가이드 – 가입조건, 수령액, 신청방법 총 정리 (2026)</div>
+      <div style="font-size:11px;color:#8b949e">gatheringmoney.com · 자세히 보기 →</div>
+    </div>
+  </a>
+
   <h2>🌱 청년미래적금이란? — 2026년 핵심 가이드</h2>
   <p><strong>청년미래적금</strong>은 만 19~34세 청년이 월 최대 50만원을 저축하면 정부가 기여금을 지원해 3년 만기 시 최대 <strong>약 2,200만원</strong>을 수령할 수 있는 정책형 적금입니다. 2026년 6월 출시 예정으로, 청년도약계좌(5년)보다 만기가 짧고 기여금 비율이 더 높습니다. 은행 이자는 비과세 혜택까지 적용되어 실질 수익률이 일반 적금 대비 현저히 높습니다.</p>
 
