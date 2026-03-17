@@ -2,3 +2,5 @@ User-agent: *
 Allow: /
 
 Sitemap: https://www.everycalc.kr/sitemap.xml
+
+#DaumWebMasterTool:d6b1b23a2c0bbbc37bedbc51f4f729be0a4a1c3070a32641fe8a1a474913eb09:qWG8UaQARlwTVsFN7pwJfg==
