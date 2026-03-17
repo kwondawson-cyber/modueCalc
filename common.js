@@ -41,6 +41,7 @@
     {title:'대출 이자',     path:'/loan',             emoji:'🏠'},
     {title:'실업급여',      path:'/unemployment',     emoji:'📋'},
     {title:'적금 만기',     path:'/savings',          emoji:'💳'},
+    {title:'청년미래적금', path:'/cheongmirae',      emoji:'🌱'},
     {title:'물가상승률',    path:'/inflation',        emoji:'📈'},
     {title:'국민연금',      path:'/pension',          emoji:'👴'},
     {title:'중개수수료',    path:'/realestate',       emoji:'🏡'},

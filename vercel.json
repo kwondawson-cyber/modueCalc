@@ -80,6 +80,10 @@
       "destination": "/savings.html"
     },
     {
+      "source": "/cheongmirae",
+      "destination": "/cheongmirae.html"
+    },
+    {
       "source": "/inflation",
       "destination": "/inflation.html"
     },
