@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-title" content="모두의계산기" />
   <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>적금 만기 계산기 | 모두의계산기</title>
-  <meta name="description" content="예금·적금 이자 계산기 — 세후 실수령액, 이자 과세(15.4%)·비과세·세금우대 적용. 월 납입액·기간·금리별 만기 수령액 비교표 포함." />
+  <meta name="description" content="적금 만기 계산기 2026 — 정기적금·정기예금 세후 수령액 자동 계산. 단리 공식, 이자소득세 15.4%·세금우대 9.9%·비과세 자동 적용. 월 납입액·기간·금리별 비교표 제공." />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
   <style>
@@ -109,10 +109,9 @@
 
     <div class="input-group">
       <label>적금 유형</label>
-      <div class="tab-group">
+      <div class="tab-group" style="grid-template-columns:1fr 1fr">
         <button class="tab-btn active" onclick="setType('regular')" id="tab-regular">📅 정기적금</button>
         <button class="tab-btn" onclick="setType('lump')" id="tab-lump">💰 정기예금</button>
-        <button class="tab-btn" onclick="setType('youth')" id="tab-youth">🌱 청년미래적금</button>
       </div>
     </div>
 
@@ -123,33 +122,6 @@
     <div class="input-group" id="lump-group" style="display:none">
       <label>예치 원금</label>
       <div class="input-wrapper"><input type="number" id="lump" value="10000000" /><span class="input-unit">원</span></div>
-    </div>
-
-    <!-- 청년미래적금 전용 입력 -->
-    <div id="youth-group" style="display:none">
-      <div class="notice" style="margin-bottom:16px;margin-top:0">
-        🌱 <strong style="color:var(--accent)">2026년 6월 출시 예정</strong> · 만 19~34세 · 월 최대 50만원 · 3년 만기 · 비과세
-      </div>
-      <div class="input-group">
-        <label>월 납입금 (최대 50만원)</label>
-        <div class="input-wrapper"><input type="number" id="youth-monthly" value="500000" max="500000" /><span class="input-unit">원</span></div>
-        <input type="range" id="youth-slider" min="10000" max="500000" step="10000" value="500000" />
-      </div>
-      <div class="input-group">
-        <label>가입 유형</label>
-        <div class="tab-group">
-          <button class="tab-btn active" onclick="setYouthType('general')" id="tab-youth-general">일반형 (기여금 6%)</button>
-          <button class="tab-btn" onclick="setYouthType('premium')" id="tab-youth-premium">우대형 (기여금 12%)</button>
-        </div>
-        <div style="font-size:11px;color:var(--text-muted);margin-top:8px;line-height:1.7">
-          우대형: 중소기업 신규취업자(입사 6개월 이내) 또는 소득 3,600만원 이하 재직자·소상공인
-        </div>
-      </div>
-      <div class="input-group">
-        <label>은행 기본 금리 (연)</label>
-        <div class="input-wrapper"><input type="number" id="youth-rate" value="4.5" step="0.1" /><span class="input-unit">%</span></div>
-        <input type="range" id="youth-rate-slider" min="1" max="10" step="0.1" value="4.5" />
-      </div>
     </div>
 
     <div class="input-group">
@@ -197,7 +169,6 @@
       </div>
       <div class="detail-item"><span class="d-label" id="label-gross">세전 이자</span><span class="d-value" id="d-gross">-</span></div>
       <div class="detail-item"><span class="d-label" id="label-tax">이자 세금</span><span class="d-value" id="d-tax">-</span></div>
-      <div class="detail-item" id="row-gov-contrib" style="display:none"><span class="d-label">정부 기여금</span><span class="d-value accent" id="d-gov-contrib">-</span></div>
       <div class="detail-item"><span class="d-label" id="label-net-int">세후 이자</span><span class="d-value accent" id="d-net-int">-</span></div>
       <div class="detail-item"><span class="d-label">실질 수익률</span><span class="d-value accent" id="d-yield">-</span></div>
     </div>
@@ -207,43 +178,19 @@
   </div>
 </div>
 <script>
-  let savType='regular', taxRate=0.154, youthType='general';
+  let savType='regular', taxRate=0.154;
 
   document.getElementById('rateSlider').addEventListener('input',e=>{document.getElementById('rate').value=e.target.value});
   document.getElementById('rate').addEventListener('input',e=>{document.getElementById('rateSlider').value=e.target.value});
   document.getElementById('periodSlider').addEventListener('input',e=>{document.getElementById('period').value=e.target.value});
   document.getElementById('period').addEventListener('input',e=>{document.getElementById('periodSlider').value=e.target.value});
-  document.getElementById('youth-slider').addEventListener('input',e=>{document.getElementById('youth-monthly').value=e.target.value});
-  document.getElementById('youth-monthly').addEventListener('input',e=>{document.getElementById('youth-slider').value=e.target.value});
-  document.getElementById('youth-rate-slider').addEventListener('input',e=>{document.getElementById('youth-rate').value=e.target.value});
-  document.getElementById('youth-rate').addEventListener('input',e=>{document.getElementById('youth-rate-slider').value=e.target.value});
 
   function setType(t){
     savType=t;
-    const isYouth = t==='youth';
     document.getElementById('tab-regular').classList.toggle('active',t==='regular');
     document.getElementById('tab-lump').classList.toggle('active',t==='lump');
-    document.getElementById('tab-youth').classList.toggle('active',isYouth);
     document.getElementById('monthly-group').style.display=t==='regular'?'block':'none';
     document.getElementById('lump-group').style.display=t==='lump'?'block':'none';
-    document.getElementById('youth-group').style.display=isYouth?'block':'none';
-    document.getElementById('period-group').style.display=isYouth?'none':'block';
-    document.getElementById('tax-group').style.display=isYouth?'none':'block';
-    document.getElementById('calc-btn').textContent=isYouth?'🌱 만기 수령액 계산하기':'💳 만기 수령액 계산하기';
-    // 청년미래적금은 비과세 고정
-    if(isYouth) taxRate=0;
-    // 라벨 원복 (일반/예금 탭)
-    if(!isYouth){
-      document.getElementById('label-gross').textContent='세전 이자';
-      document.getElementById('label-tax').textContent='이자 세금';
-      document.getElementById('label-net-int').textContent='세후 이자';
-      document.getElementById('row-gov-contrib').style.display='none';
-    }
-  }
-  function setYouthType(t){
-    youthType=t;
-    document.getElementById('tab-youth-general').classList.toggle('active',t==='general');
-    document.getElementById('tab-youth-premium').classList.toggle('active',t==='premium');
   }
   function setTax(r){
     taxRate=r;
@@ -255,9 +202,6 @@
   function fmt(n){return Math.round(n).toLocaleString('ko-KR')}
 
   function calculate(){
-    if(savType==='youth'){
-      calculateYouth(); return;
-    }
     const annualRate=parseFloat(document.getElementById('rate').value)/100;
     const months=parseInt(document.getElementById('period').value);
     let principal=0, grossInterest=0;
@@ -286,36 +230,6 @@
     document.getElementById('resultCard').classList.add('visible');
   }
 
-  function calculateYouth(){
-    const m = Math.min(parseFloat(document.getElementById('youth-monthly').value)||0, 500000);
-    const annualRate = parseFloat(document.getElementById('youth-rate').value)/100;
-    const months = 36;
-    const contribRate = youthType==='premium' ? 0.12 : 0.06;
-
-    const principal = m * months;
-    let grossInterest = 0;
-    for(let i=1;i<=months;i++) grossInterest += m*annualRate*((months-i+1)/12);
-    const govContrib = m * contribRate * months;
-    const netTotal = principal + grossInterest + govContrib;
-    const totalBenefit = grossInterest + govContrib;
-    const effectiveRate = (totalBenefit / principal / 3 * 100).toFixed(2);
-
-    // 라벨 변경
-    document.getElementById('label-gross').textContent = '은행 이자 (비과세)';
-    document.getElementById('label-tax').textContent = '세금';
-    document.getElementById('label-net-int').textContent = '이자+기여금 합계';
-    document.getElementById('row-gov-contrib').style.display = '';
-
-    document.getElementById('s-net').textContent=fmt(netTotal);
-    document.getElementById('s-principal').textContent=fmt(principal);
-    document.getElementById('s-interest').textContent=fmt(totalBenefit);
-    document.getElementById('d-gross').textContent=`${fmt(grossInterest)}원`;
-    document.getElementById('d-tax').textContent=`0원 (비과세 혜택)`;
-    document.getElementById('d-gov-contrib').textContent=`${fmt(govContrib)}원 (납입액의 ${(contribRate*100).toFixed(0)}%)`;
-    document.getElementById('d-net-int').textContent=`${fmt(totalBenefit)}원`;
-    document.getElementById('d-yield').textContent=`연 ${effectiveRate}% 효과`;
-    document.getElementById('resultCard').classList.add('visible');
-  }
   window.onload=()=>calculate();
 </script>
 
@@ -352,93 +266,106 @@
   <h2>📌 함께 쓰면 유용한 계산기</h2>
   <div class="rel-grid">
   <a href="/compound" class="rel-card"><span class="re">📈</span><span class="rn">복리 계산기</span></a>
-  <a href="/loan" class="rel-card"><span class="re">💰</span><span class="rn">대출 이자</span></a>
+  <a href="/cheongmirae" class="rel-card"><span class="re">🌱</span><span class="rn">청년미래적금</span></a>
   <a href="/inflation" class="rel-card"><span class="re">📊</span><span class="rn">물가상승률</span></a>
   <a href="/stock_return" class="rel-card"><span class="re">📈</span><span class="rn">주식 수익률</span></a>
   <a href="/retirement_pension" class="rel-card"><span class="re">💼</span><span class="rn">퇴직연금</span></a>
   </div>
 </div>
 <div class="seo-section">
-  <h2>🌱 청년미래적금 완벽 가이드 — 2026년 6월 출시</h2>
-  <p><strong>청년미래적금</strong>은 만 19~34세 청년이 월 최대 50만원을 저축하면 정부가 기여금을 지원해 3년 만기 시 최대 <strong>약 2,200만원</strong>을 수령할 수 있는 정책형 적금입니다. 청년도약계좌(5년)보다 만기가 짧고, 기여금 비율은 더 높아진 것이 핵심입니다.</p>
+  <h2>적금·예금 만기 수령액 계산 공식 완전 해설</h2>
+  <p>적금과 예금은 이자 계산 방식이 다릅니다. <strong>정기적금</strong>은 매월 납입하므로 각 회차마다 남은 기간에 비례한 이자가 붙고, <strong>정기예금</strong>은 원금 전체에 대해 예치 기간 전체의 이자가 한 번에 붙습니다. 같은 금리라도 예금이 적금보다 이자가 약 2배 많은 이유가 이 구조 차이에 있습니다.</p>
 
-  <h3>📋 청년미래적금 핵심 스펙</h3>
-  <table>
-    <thead><tr><th>항목</th><th>내용</th></tr></thead>
-    <tbody>
-      <tr><td>출시 시기</td><td><strong>2026년 6월 예정</strong></td></tr>
-      <tr><td>가입 대상</td><td>만 19~34세, 개인소득 6,000만원 이하, 가구 중위소득 200% 이하</td></tr>
-      <tr><td>만기</td><td>3년 (36개월)</td></tr>
-      <tr><td>월 납입 한도</td><td>최대 50만원 (자유적립식)</td></tr>
-      <tr><td>정부 기여금</td><td>일반형 6% / 우대형 12%</td></tr>
-      <tr><td>이자 과세</td><td>비과세</td></tr>
-      <tr><td>최대 수령액</td><td>약 2,200만원 (월 50만원 × 36개월, 우대형 기준)</td></tr>
-    </tbody>
-  </table>
+  <h3>📐 정기적금 단리 이자 계산 공식</h3>
+  <div class="formula-box">
+세전 이자 = Σ (월납입액 × 연이율 × 잔여개월 ÷ 12)
+           = 월납입액 × 연이율 × n(n+1) ÷ (2 × 12)
 
-  <h3>💡 일반형 vs 우대형 차이</h3>
-  <table>
-    <thead><tr><th>구분</th><th>일반형</th><th>우대형</th></tr></thead>
-    <tbody>
-      <tr><td>기여금 비율</td><td>납입액의 6%</td><td>납입액의 12%</td></tr>
-      <tr><td>소득 조건</td><td>개인소득 6,000만원 이하</td><td>개인소득 3,600만원 이하</td></tr>
-      <tr><td>추가 조건</td><td>가구 중위소득 200% 이하</td><td>중소기업 신규취업(입사 6개월 이내) 또는 소상공인</td></tr>
-      <tr><td>월 50만원 3년 기여금</td><td>약 108만원</td><td>약 216만원</td></tr>
-    </tbody>
-  </table>
+세후 수령액 = 원금 + 세전이자 × (1 − 세율)
+원금 = 월납입액 × 납입개월(n)
 
-  <h3>📊 월 납입액별 예상 수령액 (은행 금리 4.5% 가정)</h3>
-  <table>
-    <thead><tr><th>월 납입액</th><th>원금</th><th>일반형 수령액</th><th>우대형 수령액</th></tr></thead>
-    <tbody>
-      <tr><td>20만원</td><td>720만원</td><td>약 793만원</td><td>약 836만원</td></tr>
-      <tr><td>30만원</td><td>1,080만원</td><td>약 1,189만원</td><td>약 1,254만원</td></tr>
-      <tr><td>50만원</td><td>1,800만원</td><td>약 1,982만원</td><td>약 2,090만원</td></tr>
-    </tbody>
-  </table>
-  <p style="font-size:12px;color:var(--text-muted);margin-top:-8px">※ 은행 금리는 출시 시점에 확정됩니다. 실제 수령액과 다를 수 있습니다.</p>
+예) 월 50만원 · 연 4% · 12개월 · 일반과세(15.4%)
+  세전이자 = 500,000 × 0.04 × 78/12 = 130,000원
+  세후이자 = 130,000 × 0.846 = 109,980원
+  세후 수령액 = 6,000,000 + 109,980 = 6,109,980원
+  </div>
 
-  <div class="tip-box">💡 <strong>청년도약계좌 가입자라면?</strong> 청년도약계좌에서 청년미래적금으로 갈아타기(환승)가 허용될 예정입니다. 우대형 조건을 충족한다면 기여금이 2배라 갈아타는 것이 유리할 수 있습니다. 6월 출시 공고를 반드시 확인하세요.</div>
+  <h3>📐 정기예금 이자 계산 공식</h3>
+  <div class="formula-box">
+세전 이자 = 원금 × 연이율 × 예치개월 ÷ 12
+세후 수령액 = 원금 + 세전이자 × (1 − 세율)
 
-  <h3>⚠️ 주의사항</h3>
-  <ul>
-    <li><strong>중도해지 불이익</strong>: 만기 전 해지 시 정부 기여금 미지급, 이자에 15.4% 세금 부과</li>
-    <li><strong>중복 가입 불가</strong>: 청년미래적금과 청년도약계좌 동시 가입 불가</li>
-    <li><strong>신규취업자 특례</strong>: 우대형은 입사 6개월 이내 조건이 있어 취업 후 빠른 신청 필요</li>
-    <li><strong>세부 조건 미확정</strong>: 은행 금리·협약 은행 등은 2026년 6월 출시 시점에 확정</li>
-  </ul>
+예) 원금 1,000만원 · 연 4% · 12개월 · 일반과세(15.4%)
+  세전이자 = 10,000,000 × 0.04 × 12/12 = 400,000원
+  세후이자 = 400,000 × 0.846 = 338,400원
+  세후 수령액 = 10,338,400원
+  </div>
 
-  <h2>예금·적금 이자, 세금 떼면 실제로 얼마나 남나</h2>
-  <h3>단리와 복리, 이자 과세 구조</h3>
-  <p>월 납입액, 연 금리, 납입 기간을 입력하면 세전·세후 만기 수령액과 이자수익을 계산합니다. 이자소득세 15.4%(소득세 14% + 지방소득세 1.4%)가 자동 차감됩니다.</p>
+  <div class="tip-box">💡 <strong>예금 vs 적금 이자 차이:</strong> 같은 금리 4%일 때 월 50만원씩 12개월 적금의 세전이자는 약 13만원이지만, 원금 600만원을 예금에 12개월 넣으면 세전이자는 24만원입니다. 목돈이 있다면 예금이 유리하고, 매달 저축하는 방식이라면 적금이 맞습니다.</div>
 
-  <h3>📊 월 납입액·기간별 세후 수령액 (금리 4% 기준)</h3>
+  <h2>금리·기간·납입액별 세후 수령액 비교표</h2>
+  <p>아래 표는 연 4% 기준 정기적금 세후 수령액(일반과세 15.4% 적용)입니다. 금리가 올라갈수록, 기간이 길수록 이자 절약 효과가 커집니다.</p>
+
+  <h3>📊 월 납입액 × 기간별 세후 수령액 (연 4%, 일반과세)</h3>
   <table>
     <thead><tr><th>월 납입액</th><th>6개월</th><th>12개월</th><th>24개월</th><th>36개월</th></tr></thead>
     <tbody>
-      <tr><td>10만 원</td><td>약 601,000원</td><td>약 1,205,000원</td><td>약 2,451,000원</td><td>약 3,739,000원</td></tr>
-      <tr><td>30만 원</td><td>약 1,803,000원</td><td>약 3,616,000원</td><td>약 7,353,000원</td><td>약 1,122만</td></tr>
-      <tr><td>50만 원</td><td>약 3,005,000원</td><td>약 6,027,000원</td><td>약 1,226만</td><td>약 1,870만</td></tr>
-      <tr><td>100만 원</td><td>약 601만</td><td>약 1,205만</td><td>약 2,451만</td><td>약 3,739만</td></tr>
+      <tr><td>10만원</td><td>약 606,000원</td><td>약 1,222,000원</td><td>약 2,485,000원</td><td>약 3,788,000원</td></tr>
+      <tr><td>30만원</td><td>약 1,818,000원</td><td>약 3,666,000원</td><td>약 7,455,000원</td><td>약 11,364,000원</td></tr>
+      <tr><td>50만원</td><td>약 3,030,000원</td><td>약 6,110,000원</td><td>약 12,425,000원</td><td>약 18,940,000원</td></tr>
+      <tr><td>100만원</td><td>약 6,060,000원</td><td>약 12,220,000원</td><td>약 24,850,000원</td><td>약 37,880,000원</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:12px;color:var(--text-muted);margin-top:-8px">※ 단리 방식 계산, 실제 은행 이자와 소폭 다를 수 있습니다.</p>
+
+  <h3>📊 금리별 세후 수령액 비교 (월 50만원, 12개월, 일반과세)</h3>
+  <table>
+    <thead><tr><th>연 금리</th><th>세전 이자</th><th>이자 세금(15.4%)</th><th>세후 수령액</th></tr></thead>
+    <tbody>
+      <tr><td>2.0%</td><td>65,000원</td><td>10,010원</td><td>약 6,055,000원</td></tr>
+      <tr><td>3.0%</td><td>97,500원</td><td>15,015원</td><td>약 6,082,000원</td></tr>
+      <tr><td>4.0%</td><td>130,000원</td><td>20,020원</td><td>약 6,110,000원</td></tr>
+      <tr><td>5.0%</td><td>162,500원</td><td>25,025원</td><td>약 6,137,000원</td></tr>
+      <tr><td>6.0%</td><td>195,000원</td><td>30,030원</td><td>약 6,165,000원</td></tr>
     </tbody>
   </table>
 
-  <h3>💡 적금 수익률을 높이는 방법</h3>
-  <ul>
-    <li><strong>청년도약계좌</strong>: 정부 기여금 + 비과세 혜택, 연 최대 6%대 효과</li>
-    <li><strong>ISA 계좌</strong>: 200~400만 원 비과세, 초과분 9.9% 분리과세</li>
-    <tr><td><strong>특판 적금</strong></td><td>은행 이벤트로 연 5~10% 고금리 적금 수시 출시</td></tr>
-    <li><strong>풍차 돌리기</strong>: 매달 1개씩 적금 가입해 만기를 분산하는 전략</li>
-  </ul>
+  <h2>이자 과세 유형과 절세 전략</h2>
+  <p>같은 적금이라도 과세 유형에 따라 실수령액이 달라집니다. 비과세·세금우대 조건을 확인하고 활용하면 이자 손실을 줄일 수 있습니다.</p>
 
-  <div class="tip-box"><strong>💡 Tip.</strong> 같은 금리라도 예금이 적금보다 이자가 약 2배 많습니다. 목돈이 있다면 예금이, 매달 저축하는 방식이라면 적금이 맞습니다.</div>
+  <h3>📋 이자 과세 유형 비교</h3>
+  <table>
+    <thead><tr><th>구분</th><th>세율</th><th>조건</th><th>대표 상품</th></tr></thead>
+    <tbody>
+      <tr><td><strong>일반과세</strong></td><td>15.4%</td><td>기본 적용</td><td>일반 적금·예금</td></tr>
+      <tr><td><strong>세금우대</strong></td><td>9.9%</td><td>조합원 자격 필요</td><td>농협·신협·새마을금고 조합원</td></tr>
+      <tr><td><strong>비과세</strong></td><td>0%</td><td>별도 요건 충족</td><td>청년미래적금, ISA 한도 내, 장기저축보험</td></tr>
+    </tbody>
+  </table>
+
+  <div class="tip-box">💡 <strong>절세 전략 3가지</strong><br>
+  ① <strong>청년미래적금</strong>(2026.6 출시): 만 19~34세라면 정부 기여금 + 비과세 혜택으로 연 8~14% 효과<br>
+  ② <strong>ISA 계좌</strong>: 일반 200만원·서민형 400만원까지 비과세, 초과분 9.9% 분리과세<br>
+  ③ <strong>농·신협 세금우대</strong>: 조합원 가입(출자금 1~2만원) 후 세금우대 적금 이용, 15.4% → 9.9%로 절감</div>
+
+  <h2>적금 수익률 높이는 실전 전략</h2>
+
+  <h3>🔄 풍차 돌리기 전략</h3>
+  <p>매달 1개씩 12개월 만기 적금을 신규 가입하면, 1년 후부터 매달 만기 수령이 발생합니다. 자금 유동성을 유지하면서 적금 이자도 챙길 수 있는 방식입니다. 예를 들어 매달 50만원씩 12개 적금을 돌리면 원금 600만원을 운용하면서 매달 만기금을 받을 수 있습니다.</p>
+
+  <h3>🏦 특판 적금 활용</h3>
+  <p>은행·카드사·플랫폼에서 정기적으로 연 5~12% 이상의 특판 적금을 출시합니다. 금액 한도(월 10~50만원)가 있지만, 기본 적금과 병행하면 평균 수익률을 크게 높일 수 있습니다. 카카오뱅크·토스·케이뱅크 등 인터넷은행 앱을 즐겨찾기해 두고 알림을 설정하면 놓치지 않을 수 있습니다.</p>
+
+  <div class="tip-box">💡 <strong>중도해지 전 반드시 계산하세요.</strong> 4% 적금을 6개월 만에 해지하면 중도해지 금리(통상 0.1~1%)만 적용됩니다. 1년 만기 4% 적금을 6개월 해지 시 이자가 90% 이상 줄어드니, 해지 전 이 계산기로 손익을 먼저 따져보세요.</div>
 
   <h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>청년미래적금은 언제 출시되나요?</summary><div class="faq-answer">2026년 6월 출시 예정입니다. 금융위원회는 KB국민, 신한, 우리, 하나, 농협 등 주요 은행을 협약 은행으로 선정할 예정이며, 모바일 앱 또는 은행 영업점에서 신청할 수 있습니다. 신청 초기에 접속 폭주가 예상되므로 출시 당일 빠른 신청을 권장합니다.</div></details>
-  <details><summary>청년도약계좌를 유지하면서 청년미래적금에 가입할 수 있나요?</summary><div class="faq-answer">아닙니다. 두 상품은 중복 가입이 불가능합니다. 청년도약계좌 가입자는 갈아타기(환승)가 허용될 예정이나, 기존 도약계좌의 남은 기간과 기여금 수령액을 꼼꼼히 비교한 후 결정하세요. 우대형 조건 충족 시 미래적금이 유리할 수 있습니다.</div></details>
-  <details><summary>적금을 중도 해지하면 이자를 얼마나 받나요?</summary><div class="faq-answer">중도 해지 시 약정 금리 대신 중도해지 금리(보통 0.1~1%)가 적용됩니다. 1년 만기 4% 적금을 6개월에 해지하면 실제 이자가 90% 이상 줄어듭니다.</div></details>
-  <details><summary>비과세 한도를 초과하면 세금을 내나요?</summary><div class="faq-answer">일반 적금은 이자의 15.4%를 원천징수합니다. 청년미래적금은 만기까지 유지하면 이자와 기여금 모두 비과세 혜택을 받을 수 있습니다.</div></details>
-  <details><summary>금리가 오르면 기존 적금 해지 후 재가입하는 게 유리한가요?</summary><div class="faq-answer">중도 해지 시 낮은 이자를 받는 손실과 새 상품의 금리 차이를 비교해야 합니다. 보통 금리차가 1.5% 이상일 때 재가입을 고려하세요.</div></details>
+  <details><summary>적금과 예금, 어떤 게 이자가 더 많나요?</summary><div class="faq-answer">같은 금리·기간이라면 정기예금이 정기적금보다 이자가 약 2배 많습니다. 정기예금은 원금 전체에 처음부터 이자가 붙지만, 정기적금은 납입할수록 원금이 늘어나기 때문입니다. 목돈이 있다면 예금이, 매달 일정액을 저축한다면 적금이 적합합니다.</div></details>
+  <details><summary>적금을 중도 해지하면 이자를 얼마나 받나요?</summary><div class="faq-answer">중도 해지 시 약정 금리 대신 중도해지 금리(보통 0.1~1%)가 적용됩니다. 예를 들어 연 4% 12개월 적금을 6개월에 해지하면 중도해지 금리 0.5% 적용 시 이자가 약 95% 줄어듭니다. 해지 전 반드시 해지 이자를 은행에서 확인하세요.</div></details>
+  <details><summary>이자소득세 15.4%는 어떻게 계산되나요?</summary><div class="faq-answer">이자소득세는 소득세 14%와 지방소득세 1.4%를 합한 15.4%입니다. 예를 들어 세전 이자가 10만원이면 세금 15,400원이 차감되고 84,600원만 수령합니다. 이자소득세는 금융기관이 지급 시 원천징수하므로 별도 신고 없이 자동 처리됩니다.</div></details>
+  <details><summary>세금우대 적금은 누구나 가입할 수 있나요?</summary><div class="faq-answer">세금우대(9.9%) 적금은 농협·신협·새마을금고·수협 등 상호금융기관의 조합원만 가입할 수 있습니다. 조합원 가입은 출자금 1~2만원 납입으로 쉽게 할 수 있으며, 1인당 한도 3,000만원까지 세금우대 혜택이 적용됩니다. 단, 만 65세 이상이나 장애인은 일반 은행에서도 비과세 혜택이 있습니다.</div></details>
+  <details><summary>금리가 오르면 기존 적금 해지 후 재가입하는 게 유리한가요?</summary><div class="faq-answer">중도 해지 손실(낮은 중도해지 이율 적용)과 새 상품의 금리 차이를 비교해야 합니다. 일반적으로 금리 차이가 1.5%p 이상이고 해지 시점이 만기 절반 이전일 때 재가입이 유리한 경우가 많습니다. 이 계산기로 두 시나리오를 각각 계산해 비교해 보세요.</div></details>
+  <details><summary>비과세 한도를 초과하면 세금이 부과되나요?</summary><div class="faq-answer">ISA 계좌의 경우 일반형 200만원, 서민형 400만원까지 비과세이며 초과분은 9.9% 분리과세됩니다. 청년미래적금은 만기 유지 시 이자와 기여금 전액 비과세입니다. 일반 적금은 비과세 한도 없이 이자 전액에 15.4%가 과세됩니다.</div></details>
+  <details><summary>복리 적금은 단리 적금보다 이자가 많나요?</summary><div class="faq-answer">국내 일반 적금은 대부분 단리 방식입니다. 복리는 이자가 원금에 합산되어 다시 이자가 붙는 구조라 장기일수록 유리하지만, 1~3년 단기 적금에서는 단리와 복리의 차이가 크지 않습니다. 복리 효과를 원한다면 만기 후 재투자하거나 복리 계산기를 활용해 장기 투자 플랜을 세워보세요.</div></details>
 </div>
 
 <script src="/common.js"></script><script src="/share.js"></script>
