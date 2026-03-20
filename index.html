@@ -34,7 +34,7 @@
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
     body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
-    .container{max-width:960px;margin:0 auto;padding:60px 20px 100px;position:relative;z-index:1}
+    .container{max-width:1200px;margin:0 auto;padding:60px 20px 100px;position:relative;z-index:1}
     .header{text-align:center;margin-bottom:64px}
     .logo{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:4px;color:var(--accent);text-transform:uppercase;margin-bottom:20px}
     .header h1{font-size:clamp(32px,7vw,60px);font-weight:900;line-height:1.1;margin-bottom:16px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
@@ -70,7 +70,34 @@
     .star-btn:hover{opacity:.7;transform:scale(1.2)}
     .star-btn.starred{opacity:1}
     .star-btn.starred svg{fill:#ffd700;stroke:#e6b800}
+
+    /* ── 사이드바 레이아웃 ── */
+    .main-layout{display:flex;gap:28px;align-items:flex-start;margin-top:28px}
+    .cat-sidebar{width:196px;flex-shrink:0;position:sticky;top:24px;max-height:calc(100vh - 48px);overflow-y:auto;scrollbar-width:none}
+    .cat-sidebar::-webkit-scrollbar{display:none}
+    .cat-sidebar-title{font-size:10px;font-weight:800;letter-spacing:3px;color:var(--text-muted);text-transform:uppercase;padding:0 6px;margin-bottom:10px}
+    .cat-btn{display:flex;align-items:center;justify-content:space-between;width:100%;padding:9px 12px;background:transparent;border:1px solid transparent;border-radius:10px;font-size:13px;font-weight:600;font-family:'Noto Sans KR',sans-serif;color:var(--text-muted);cursor:pointer;transition:all .18s;text-align:left;margin-bottom:3px;gap:6px}
+    .cat-btn:hover{background:var(--surface);border-color:var(--border);color:var(--text)}
+    .cat-btn.active{background:rgba(0,212,170,0.10);border-color:rgba(0,212,170,0.35);color:var(--accent)}
+    .cat-btn .cb-ico{font-size:16px;flex-shrink:0}
+    .cat-btn .cb-label{flex:1;font-size:12px}
+    .cat-btn .cb-count{font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;background:var(--surface2);color:var(--text-muted);flex-shrink:0}
+    .cat-btn.active .cb-count{background:rgba(0,212,170,0.18);color:var(--accent)}
+    .cat-content{flex:1;min-width:0}
+    /* ── 모바일 가로 필 ── */
+    .cat-pills{display:none;overflow-x:auto;white-space:nowrap;padding-bottom:6px;margin:16px 0 20px;scrollbar-width:none}
+    .cat-pills::-webkit-scrollbar{display:none}
+    .cat-pill{display:inline-block;padding:6px 14px;background:var(--surface);border:1px solid var(--border);border-radius:20px;font-size:12px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:var(--text-muted);cursor:pointer;margin-right:6px;transition:all .18s;white-space:nowrap}
+    .cat-pill.active{background:rgba(0,212,170,0.10);border-color:rgba(0,212,170,0.35);color:var(--accent)}
+    /* ── 항상 고정: 자주 찾는 계산기 ── */
     #favSection{display:block!important}
+    @media(max-width:860px){
+      .main-layout{flex-direction:column;gap:0;margin-top:16px}
+      .cat-sidebar{display:none!important}
+      .cat-pills{display:block}
+      .container{max-width:640px}
+    }
+    /* favSection always-show is handled above */
     .fav-empty{font-size:13px;color:var(--text-muted);padding:14px 18px;border:1px dashed var(--border);border-radius:12px;display:flex;align-items:center;gap:6px}
     .fav-card-del{background:none;border:none;color:#484f58;font-size:14px;cursor:pointer;padding:0 0 0 6px;line-height:1;flex-shrink:0}
     .fav-card-del:hover{color:#ff6b6b}
@@ -125,6 +152,33 @@
     <input type="text" id="searchInput" placeholder="계산기 검색... (예: 주휴수당, 환율, BMI)" oninput="filterCalcs()" />
     <span class="search-icon">🔍</span>
   </div>
+  <div class="main-layout">
+  <div class="cat-sidebar">
+    <div class="cat-sidebar-title">카테고리</div>
+      <button class="cat-btn active" onclick="filterCategory('all')" data-cid="all"><span class="cb-ico">🔢</span><span class="cb-label">전체</span><span class="cb-count">64</span></button>
+      <button class="cat-btn" onclick="filterCategory('finance')" data-cid="finance"><span class="cb-ico">💰</span><span class="cb-label">금융 · 급여</span><span class="cb-count">5</span></button>
+      <button class="cat-btn" onclick="filterCategory('loan')" data-cid="loan"><span class="cb-ico">💳</span><span class="cb-label">대출·보험·연금</span><span class="cb-count">5</span></button>
+      <button class="cat-btn" onclick="filterCategory('labor')" data-cid="labor"><span class="cb-ico">👷</span><span class="cb-label">노동 · 급여</span><span class="cb-count">6</span></button>
+      <button class="cat-btn" onclick="filterCategory('invest')" data-cid="invest"><span class="cb-ico">📈</span><span class="cb-label">투자 · 주식 · 부동산</span><span class="cb-count">9</span></button>
+      <button class="cat-btn" onclick="filterCategory('tax')" data-cid="tax"><span class="cb-ico">💸</span><span class="cb-label">세금</span><span class="cb-count">7</span></button>
+      <button class="cat-btn" onclick="filterCategory('biz')" data-cid="biz"><span class="cb-ico">🏢</span><span class="cb-label">사업자·소상공인</span><span class="cb-count">13</span></button>
+      <button class="cat-btn" onclick="filterCategory('car')" data-cid="car"><span class="cb-ico">🚗</span><span class="cb-label">자동차</span><span class="cb-count">4</span></button>
+      <button class="cat-btn" onclick="filterCategory('health')" data-cid="health"><span class="cb-ico">💪</span><span class="cb-label">건강 · 신체</span><span class="cb-count">7</span></button>
+      <button class="cat-btn" onclick="filterCategory('daily')" data-cid="daily"><span class="cb-ico">📅</span><span class="cb-label">날짜 · 생활</span><span class="cb-count">8</span></button>
+  </div>
+  <div class="cat-content">
+<div class="cat-pills">
+  <button class="cat-pill active" onclick="filterCategory('all')" data-pcid="all">🔢 전체 64</button>
+  <button class="cat-pill" onclick="filterCategory('finance')" data-pcid="finance">💰 금융 · 급여</button>
+  <button class="cat-pill" onclick="filterCategory('loan')" data-pcid="loan">💳 대출·보험·연금</button>
+  <button class="cat-pill" onclick="filterCategory('labor')" data-pcid="labor">👷 노동 · 급여</button>
+  <button class="cat-pill" onclick="filterCategory('invest')" data-pcid="invest">📈 투자 · 주식 · 부동산</button>
+  <button class="cat-pill" onclick="filterCategory('tax')" data-pcid="tax">💸 세금</button>
+  <button class="cat-pill" onclick="filterCategory('biz')" data-pcid="biz">🏢 사업자·소상공인</button>
+  <button class="cat-pill" onclick="filterCategory('car')" data-pcid="car">🚗 자동차</button>
+  <button class="cat-pill" onclick="filterCategory('health')" data-pcid="health">💪 건강 · 신체</button>
+  <button class="cat-pill" onclick="filterCategory('daily')" data-pcid="daily">📅 날짜 · 생활</button>
+</div>
   <div id="favSection" style="margin-bottom:32px">
     <div class="category-header" style="margin-bottom:14px">
       <div class="category-title">⭐ 자주 쓰는 계산기</div>
@@ -135,7 +189,7 @@
       ⭐ 자주 사용하는 계산기의 별표를 눌러 여기에 추가해보세요
     </div>
   </div>
-  <div class="category" data-cat>
+  <div class="category" data-cat data-cat-id="finance">
     <div class="category-header"><div class="category-title">💰 금융 · 급여</div><span class="category-count">5</span></div>
     <div class="calc-grid">
       <a href="/salary" class="calc-card" data-keywords="연봉 실수령액 월급 세금 4대보험"><div class="card-top"><span class="card-emoji">💵</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">연봉 실수령액 계산기</div><div class="card-desc">4대보험·소득세 자동 계산. 월 실수령액 확인</div></a>
@@ -145,7 +199,7 @@
       <a href="/savings" class="calc-card" data-keywords="적금 만기 단리 복리 세후"><div class="card-top"><span class="card-emoji">💰</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">적금 만기 계산기</div><div class="card-desc">단리·복리·세후 실수령액 계산</div></a>
     </div>
   </div>
-  <div class="category" data-cat>
+  <div class="category" data-cat data-cat-id="loan">
     <div class="category-header"><div class="category-title">💳 대출·보험·연금</div><span class="category-count">5</span></div>
     <div class="calc-grid">
       <a href="/loan" class="calc-card" data-keywords="대출 이자 원리금 상환 월상환액"><div class="card-top"><span class="card-emoji">🏧</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">대출 이자 계산기</div><div class="card-desc">원리금균등·원금균등 월 상환액 계산</div></a>
@@ -155,7 +209,7 @@
       <a href="/retirement_pension" class="calc-card" data-keywords="퇴직연금 DB DC IRP 수령액 연금 일시금"><div class="card-top"><span class="card-emoji">💼</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">퇴직연금 수령액 계산기<span class="badge badge-new">NEW</span></div><div class="card-desc">DB·DC·IRP 예상 수령액·세금 비교</div></a>
     </div>
   </div>
-  <div class="category" data-cat>
+  <div class="category" data-cat data-cat-id="labor">
     <div class="category-header"><div class="category-title">👷 노동 · 급여</div><span class="category-count">6</span></div>
     <div class="calc-grid">
       <a href="/weekly_holiday" class="calc-card" data-keywords="주휴수당 시급 주급 알바"><div class="card-top"><span class="card-emoji">📅</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">주휴수당 계산기<span class="badge badge-new">NEW</span></div><div class="card-desc">주 15시간 이상 근무 시 주휴수당·실질 시급 계산</div></a>
@@ -166,7 +220,7 @@
       <a href="/parental_leave" class="calc-card" data-keywords="육아휴직 급여 6+6 특례 통상임금"><div class="card-top"><span class="card-emoji">👶</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">육아휴직 급여 계산기<span class="badge badge-hot">HOT</span></div><div class="card-desc">6+6 특례 포함 육아휴직 급여 계산</div></a>
     </div>
   </div>
-  <div class="category" data-cat>
+  <div class="category" data-cat data-cat-id="invest">
     <div class="category-header"><div class="category-title">📈 투자 · 주식 · 부동산</div><span class="category-count">9</span></div>
     <div class="calc-grid">
       <a href="/stock_return" class="calc-card" data-keywords="주식 수익률 손익 매수 매도 국내 해외"><div class="card-top"><span class="card-emoji">📊</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">주식 수익률 계산기<span class="badge badge-hot">HOT</span></div><div class="card-desc">매수·매도가로 손익·세후 수익률 계산 (국내·해외)</div></a>
@@ -180,7 +234,7 @@
       <a href="/dividend" class="calc-card" data-keywords="배당금 배당수익률 배당주 세후 월배당 목표투자금"><div class="card-top"><span class="card-emoji">💵</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">배당금 수익률 계산기<span class="badge badge-new">NEW</span></div><div class="card-desc">세후 배당수익·목표 투자금 역산 계산</div></a>
     </div>
   </div>
-  <div class="category" data-cat>
+  <div class="category" data-cat data-cat-id="tax">
     <div class="category-header"><div class="category-title">💸 세금</div><span class="category-count">7</span></div>
     <div class="calc-grid">
       <a href="/income_tax" class="calc-card" data-keywords="종합소득세 기타소득세 소득세 강연료 원고료"><div class="card-top"><span class="card-emoji">🧾</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">소득세 계산기<span class="badge badge-new">NEW</span></div><div class="card-desc">종합소득세·기타소득세 납부세액 계산 (2024년 기준)</div></a>
@@ -192,7 +246,7 @@
       <a href="/customs" class="calc-card" data-keywords="관세 해외직구 부가세 수입 직구 세금 미국 일본"><div class="card-top"><span class="card-emoji">✈️</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">관세 계산기</div><div class="card-desc">해외 직구 관세·부가세 자동 계산</div></a>
     </div>
   </div>
-  <div class="category" data-cat>
+  <div class="category" data-cat data-cat-id="biz">
     <div class="category-header"><div class="category-title">🏢 사업자·소상공인</div><span class="category-count">13</span></div>
     <div class="calc-grid">
       <a href="/margin" class="calc-card" data-keywords="마진율 마크업 원가 판매가 순이익"><div class="card-top"><span class="card-emoji">💹</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">마진율 계산기<span class="badge badge-new">NEW</span></div><div class="card-desc">원가·판매가로 마진율·마크업·순이익 계산</div></a>
@@ -210,7 +264,7 @@
       <a href="/part_time_cost" class="calc-card" data-keywords="알바 인건비 주휴수당 4대보험 사업주 최저시급"><div class="card-top"><span class="card-emoji">👥</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">알바 인건비 계산기<span class="badge badge-new">NEW</span></div><div class="card-desc">시급·주휴수당·4대보험 포함 월 총 인건비</div></a>
     </div>
   </div>
-  <div class="category" data-cat>
+  <div class="category" data-cat data-cat-id="car">
     <div class="category-header"><div class="category-title">🚗 자동차</div><span class="category-count">4</span></div>
     <div class="calc-grid">
       <a href="/car_installment" class="calc-card" data-keywords="자동차 할부 월납입금 이자 선수금"><div class="card-top"><span class="card-emoji">🚗</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">자동차 할부 계산기<span class="badge badge-new">NEW</span></div><div class="card-desc">월 납입금·총 이자·실제 구매비용 계산</div></a>
@@ -219,7 +273,7 @@
       <a href="/fuel_economy" class="calc-card" data-keywords="연비 계산 주유비 유류비 휘발유 경유 전기차"><div class="card-top"><span class="card-emoji">⛽</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">연비 계산기</div><div class="card-desc">실제 연비·주유비·연간 유류비 계산</div></a>
     </div>
   </div>
-  <div class="category" data-cat>
+  <div class="category" data-cat data-cat-id="health">
     <div class="category-header"><div class="category-title">💪 건강 · 신체</div><span class="category-count">7</span></div>
     <div class="calc-grid">
       <a href="/bmi" class="calc-card" data-keywords="BMI 체질량지수 비만도 적정체중"><div class="card-top"><span class="card-emoji">⚖️</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">BMI 계산기</div><div class="card-desc">체질량지수, 비만도, 적정 체중 계산</div></a>
@@ -231,7 +285,7 @@
       <a href="/ovulation" class="calc-card" data-keywords="배란일 가임기 생리주기 임신 가능성"><div class="card-top"><span class="card-emoji">🌸</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">배란일·가임기 계산기<span class="badge badge-new">NEW</span></div><div class="card-desc">생리 주기로 배란 예정일·임신 가능 기간 계산</div></a>
     </div>
   </div>
-  <div class="category" data-cat>
+  <div class="category" data-cat data-cat-id="daily">
     <div class="category-header"><div class="category-title">📅 날짜 · 생활</div><span class="category-count">8</span></div>
     <div class="calc-grid">
       <a href="/age" class="calc-card" data-keywords="만나이 한국나이 생일 나이 띠 별자리"><div class="card-top"><span class="card-emoji">🎂</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">만 나이 계산기</div><div class="card-desc">만 나이·한국 나이·다음 생일 D-day</div></a>
@@ -244,6 +298,8 @@
       <a href="/lotto" class="calc-card" data-keywords="로또 당첨금 세금 실수령액 1등 2등"><div class="card-top"><span class="card-emoji">🎱</span><button class="star-btn" aria-label="자주쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="#e6edf3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div><div class="card-name">로또 당첨금 계산기<span class="badge badge-hot">HOT</span></div><div class="card-desc">등수별 세금 22% 공제 후 실수령액 계산</div></a>
     </div>
   </div>
+  </div><!-- /cat-content -->
+  </div><!-- /main-layout -->
   <div class="footer">
     <div style="margin-bottom:20px;display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap">
       <a href="/faq" style="display:inline-flex;align-items:center;gap:6px;background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.3);border-radius:30px;padding:9px 20px;color:#00d4aa;text-decoration:none;font-size:15px;font-weight:700;transition:all 0.2s" onmouseover="this.style.background='rgba(0,212,170,0.16)'" onmouseout="this.style.background='rgba(0,212,170,0.08)'">💬 자주 묻는 질문</a>
@@ -311,7 +367,51 @@
   function removeFav(path){var favs=getFavs().filter(function(p){return p!==path;});setFavs(favs);renderFavSection();updateAllStars();}
   function updateAllStars(){var favs=getFavs();document.querySelectorAll('.star-btn').forEach(function(btn){var active=favs.includes(btn.dataset.path);btn.classList.toggle('starred',active);btn.setAttribute('aria-label',active?'자주쓰기 해제':'자주쓰기 추가');});}
   function injectStarButtons(){document.querySelectorAll('.calc-card[href]').forEach(function(card){var path=card.getAttribute('href'),btn=card.querySelector('.star-btn');if(!btn)return;btn.dataset.path=path;btn.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();toggleFav(path);});});updateAllStars();}
-  function filterCalcs(){const q=document.getElementById('searchInput').value.trim().toLowerCase();const cards=document.querySelectorAll('.calc-card');let visible=0;cards.forEach(card=>{const name=card.querySelector('.card-name').textContent.toLowerCase();const desc=card.querySelector('.card-desc').textContent.toLowerCase();const keywords=(card.dataset.keywords||'').toLowerCase();const match=!q||name.includes(q)||desc.includes(q)||keywords.includes(q);card.classList.toggle('hidden',!match);if(match)visible++;});document.querySelectorAll('[data-cat]').forEach(cat=>{const visibleCards=cat.querySelectorAll('.calc-card:not(.hidden)').length;cat.style.display=visibleCards===0?'none':'';});document.getElementById('noResults').classList.toggle('visible',visible===0);}
+
+  var currentCat = 'all';
+  function filterCategory(cid) {
+    currentCat = cid;
+    // 사이드바 버튼 활성화
+    document.querySelectorAll('.cat-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.cid === cid); });
+    document.querySelectorAll('.cat-pill').forEach(function(b){ b.classList.toggle('active', b.dataset.pcid === cid); });
+    // 카테고리 섹션 표시/숨김
+    document.querySelectorAll('[data-cat]').forEach(function(sec){
+      if (cid === 'all') { sec.style.display = ''; }
+      else { sec.style.display = sec.dataset.catId === cid ? '' : 'none'; }
+    });
+    // 검색어 초기화
+    document.getElementById('searchInput').value = '';
+    document.querySelectorAll('.calc-card').forEach(function(c){ c.classList.remove('hidden'); });
+    document.getElementById('noResults').classList.remove('visible');
+    // 상단으로 스크롤
+    document.querySelector('.cat-content').scrollIntoView({behavior:'smooth', block:'start'});
+  }
+  function filterCalcs(){
+    const q=document.getElementById('searchInput').value.trim().toLowerCase();
+    if(q) {
+      // 검색 시 전체 카테고리 보임
+      document.querySelectorAll('[data-cat]').forEach(sec=>sec.style.display='');
+      document.querySelectorAll('.cat-btn').forEach(b=>b.classList.toggle('active',b.dataset.cid==='all'));
+      document.querySelectorAll('.cat-pill').forEach(b=>b.classList.toggle('active',b.dataset.pcid==='all'));
+      currentCat='all';
+    }
+    const cards=document.querySelectorAll('.calc-card');
+    let visible=0;
+    cards.forEach(card=>{
+      const name=card.querySelector('.card-name').textContent.toLowerCase();
+      const desc=card.querySelector('.card-desc').textContent.toLowerCase();
+      const keywords=(card.dataset.keywords||'').toLowerCase();
+      const match=!q||name.includes(q)||desc.includes(q)||keywords.includes(q);
+      card.classList.toggle('hidden',!match);
+      if(match)visible++;
+    });
+    document.querySelectorAll('[data-cat]').forEach(cat=>{
+      if(currentCat!=='all'&&cat.dataset.catId!==currentCat){cat.style.display='none';return;}
+      const visibleCards=cat.querySelectorAll('.calc-card:not(.hidden)').length;
+      cat.style.display=visibleCards===0?'none':'';
+    });
+    document.getElementById('noResults').classList.toggle('visible',visible===0);
+  }
 </script>
 <script src="/common.js" defer></script>
 <script>injectStarButtons();renderFavSection();</script>
