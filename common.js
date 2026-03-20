@@ -42,6 +42,8 @@
     {title:'실업급여',      path:'/unemployment',     emoji:'📋'},
     {title:'적금 만기',     path:'/savings',          emoji:'💳'},
     {title:'청년미래적금', path:'/cheongmirae',      emoji:'🌱'},
+    {title:'수면 계산기',  path:'/sleep',            emoji:'😴'},
+    {title:'유튜브 수익',  path:'/youtube',          emoji:'▶️'},
     {title:'물가상승률',    path:'/inflation',        emoji:'📈'},
     {title:'국민연금',      path:'/pension',          emoji:'👴'},
     {title:'중개수수료',    path:'/realestate',       emoji:'🏡'},

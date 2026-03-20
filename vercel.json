@@ -322,6 +322,14 @@
     {
       "source": "/dividend",
       "destination": "/dividend.html"
+    },
+    {
+      "source": "/sleep",
+      "destination": "/sleep.html"
+    },
+    {
+      "source": "/youtube",
+      "destination": "/youtube.html"
     }
   ]
 }

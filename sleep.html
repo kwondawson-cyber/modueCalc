@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#00d4aa" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="모두의계산기" />
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>수면 계산기 — 몇 시에 자야 할까? | 모두의계산기</title>
+  <meta name="description" content="수면 계산기 — 기상 시간 입력 시 90분 수면 사이클 기준 최적 취침 시간 추천. 반대로 취침 시간 입력 시 개운하게 일어날 수 있는 기상 시간 계산. 수면 부채·권장 수면 시간 가이드 포함." />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+    .container{max-width:640px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all .2s}
+    .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+    .header{text-align:center;margin-bottom:36px}
+    .header h1{font-size:clamp(26px,6vw,40px);font-weight:900;line-height:1.15;margin-bottom:10px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
+    .header p{color:var(--text-muted);font-size:14px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;margin-bottom:16px}
+    .card-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:20px}
+    .tab-group{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:24px}
+    .tab-btn{padding:11px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;font-size:13px;font-weight:600;font-family:'Noto Sans KR',sans-serif;color:var(--text-muted);cursor:pointer;transition:all .2s}
+    .tab-btn.active{background:rgba(0,212,170,0.1);border-color:rgba(0,212,170,0.4);color:var(--accent)}
+    .input-group{margin-bottom:20px}
+    .input-group label{display:block;font-size:13px;font-weight:500;color:var(--text-muted);margin-bottom:8px}
+    .time-input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-size:28px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none;transition:border-color .2s;text-align:center}
+    .time-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,170,0.1)}
+    .calc-btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;font-size:16px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:#000;cursor:pointer;transition:transform .15s,box-shadow .15s}
+    .calc-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,212,170,0.3)}
+    .result-card{display:none;animation:fadeUp .4s ease}
+    .result-card.visible{display:block}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .result-title{font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:14px;letter-spacing:1px}
+    .cycle-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+    .cycle-box{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px 10px;text-align:center;cursor:default;transition:all .2s}
+    .cycle-box.best{border-color:rgba(0,212,170,0.5);background:linear-gradient(135deg,rgba(0,212,170,0.1),rgba(0,149,255,0.05))}
+    .cycle-box .cyc-label{font-size:10px;color:var(--text-muted);font-weight:600;margin-bottom:5px}
+    .cycle-box .cyc-time{font-family:'Montserrat',sans-serif;font-size:22px;font-weight:900;color:var(--text)}
+    .cycle-box.best .cyc-time{color:var(--accent)}
+    .cycle-box .cyc-cycle{font-size:11px;color:var(--text-muted);margin-top:4px}
+    .cycle-box.best .cyc-cycle{color:rgba(0,212,170,0.8)}
+    .notice{margin-top:12px;padding:13px 16px;background:rgba(255,165,0,0.05);border:1px solid rgba(255,165,0,0.15);border-radius:10px;font-size:12px;color:var(--text-muted);line-height:1.7}
+    @media(max-width:480px){.card{padding:20px 16px}.cycle-grid{grid-template-columns:repeat(2,1fr)}}
+    .rel-section{margin:32px 0 8px}
+    .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3}
+    .rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+    .rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+    .rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+    .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+    .rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
+    .seo-section{max-width:680px;margin:32px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
+    .seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
+    .seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}
+    .seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
+    .seo-section ul{padding-left:20px;margin-bottom:12px}
+    .seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+    .seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+    .seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
+    .seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
+    .seo-section table tr:nth-child(even) td{background:#161b22}
+    .seo-section table td strong{color:#00d4aa}
+    .seo-section .tip-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+    .seo-section .tip-box strong{color:#00d4aa}
+    .seo-section .warn-box{background:rgba(255,107,107,0.05);border:1px solid rgba(255,107,107,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+    .seo-section .warn-box strong{color:#ff6b6b}
+    .seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
+    .seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
+    .seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+    .seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
+    .seo-section details[open] summary::after{content:'－'}
+    .seo-section details[open]{background:#161b22}
+    .seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
+  </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7GYSXR7WJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
+</head>
+<body>
+<div class="container">
+  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="header">
+    <h1><span class="emoji">😴</span> 수면 계산기</h1>
+    <p>90분 수면 사이클 기준 · 최적 취침·기상 시간</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">계산 방식 선택</div>
+    <div class="tab-group">
+      <button class="tab-btn active" onclick="setMode('wake')" id="tab-wake">⏰ 기상 시간으로<br>취침 시간 계산</button>
+      <button class="tab-btn" onclick="setMode('sleep')" id="tab-sleep">🌙 취침 시간으로<br>기상 시간 계산</button>
+    </div>
+
+    <div class="input-group">
+      <label id="time-label">몇 시에 일어나야 하나요?</label>
+      <input type="time" id="timeInput" class="time-input" value="07:00" />
+    </div>
+
+    <button class="calc-btn" onclick="calculate()">😴 최적 수면 시간 계산하기</button>
+  </div>
+
+  <div class="result-card" id="resultCard">
+    <div class="card">
+      <div class="result-title" id="result-title">💤 추천 취침 시간 (수면 사이클 기준)</div>
+      <div class="cycle-grid" id="cycleGrid"></div>
+      <div class="notice" id="result-notice">
+        잠드는 데 평균 <strong>15분</strong>이 소요된다고 가정했습니다. 수면 사이클은 약 <strong>90분</strong>이며, 사이클이 끊기지 않는 시간에 일어나야 가장 개운합니다.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let mode = 'wake'; // wake: 기상→취침, sleep: 취침→기상
+
+  function setMode(m) {
+    mode = m;
+    document.getElementById('tab-wake').classList.toggle('active', m === 'wake');
+    document.getElementById('tab-sleep').classList.toggle('active', m === 'sleep');
+    document.getElementById('time-label').textContent = m === 'wake'
+      ? '몇 시에 일어나야 하나요?'
+      : '몇 시에 잠자리에 드나요?';
+    document.getElementById('resultCard').classList.remove('visible');
+  }
+
+  function fmtTime(totalMins) {
+    let h = Math.floor(((totalMins % 1440) + 1440) % 1440 / 60);
+    let m = ((totalMins % 1440) + 1440) % 1440 % 60;
+    const ampm = h < 12 ? '오전' : '오후';
+    let h12 = h % 12 || 12;
+    return `${ampm} ${h12}:${String(m).padStart(2,'0')}`;
+  }
+
+  function calculate() {
+    const val = document.getElementById('timeInput').value;
+    if (!val) return;
+    const [hh, mm] = val.split(':').map(Number);
+    const baseMin = hh * 60 + mm;
+    const fallAsleepMin = 15; // 잠드는 데 걸리는 시간
+    const cycleMin = 90;
+
+    const grid = document.getElementById('cycleGrid');
+    grid.innerHTML = '';
+
+    // 최적 사이클: 5~6개 권장 (7.5h~9h)
+    const cycles = mode === 'wake'
+      ? [6, 5, 4, 3, 2]   // 취침 시간 = 기상 - (사이클×90 + 15)
+      : [2, 3, 4, 5, 6];  // 기상 시간 = 취침 + 사이클×90 + 15
+
+    cycles.forEach((cyc, idx) => {
+      const totalSleepMin = cyc * cycleMin;
+      let targetMin;
+      if (mode === 'wake') {
+        targetMin = baseMin - totalSleepMin - fallAsleepMin;
+      } else {
+        targetMin = baseMin + totalSleepMin + fallAsleepMin;
+      }
+
+      const box = document.createElement('div');
+      const isBest = cyc === 5 || cyc === 6;
+      box.className = 'cycle-box' + (isBest && idx < 2 ? ' best' : '');
+
+      const h = Math.floor(totalSleepMin / 60);
+      const m = totalSleepMin % 60;
+      const sleepStr = m === 0 ? `${h}시간` : `${h}시간 ${m}분`;
+
+      box.innerHTML = `
+        <div class="cyc-label">${cyc}사이클 · ${sleepStr}</div>
+        <div class="cyc-time">${fmtTime(targetMin)}</div>
+        <div class="cyc-cycle">${isBest && idx < 2 ? '✅ 추천' : (cyc >= 5 ? '양호' : '짧음')}</div>
+      `;
+      grid.appendChild(box);
+    });
+
+    const titleEl = document.getElementById('result-title');
+    titleEl.textContent = mode === 'wake'
+      ? '💤 추천 취침 시간 (이 시간에 잠드세요)'
+      : '⏰ 추천 기상 시간 (이 시간에 일어나세요)';
+
+    document.getElementById('resultCard').classList.add('visible');
+  }
+
+  window.onload = () => {};
+</script>
+
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+    <a href="/bmi" class="rel-card"><span class="re">⚖️</span><span class="rn">BMI</span></a>
+    <a href="/bmr" class="rel-card"><span class="re">🔥</span><span class="rn">기초대사량</span></a>
+    <a href="/calorie" class="rel-card"><span class="re">🥗</span><span class="rn">칼로리</span></a>
+    <a href="/blood_pressure" class="rel-card"><span class="re">❤️</span><span class="rn">혈압 정상범위</span></a>
+    <a href="/age" class="rel-card"><span class="re">🎂</span><span class="rn">만 나이</span></a>
+  </div>
+</div>
+
+<div class="seo-section">
+  <h2>😴 수면 사이클이란? — 90분의 과학</h2>
+  <p>사람의 수면은 약 <strong>90분을 한 사이클</strong>로 하여 반복됩니다. 한 사이클은 얕은 수면(N1·N2) → 깊은 수면(N3) → 렘(REM) 수면 순서로 진행되며, 이 사이클이 완료되는 시점에 깨어나야 뇌가 자연스럽게 각성 상태가 됩니다. 사이클 중간에 깨면 뇌가 깊은 수면에서 강제로 끊기므로 피로감과 두통이 생기고 하루 종일 멍한 느낌이 납니다.</p>
+
+  <div class="formula-box">
+취침 시간 = 기상 시간 − (수면 사이클 수 × 90분) − 15분(잠드는 시간)
+기상 시간 = 취침 시간 + (수면 사이클 수 × 90분) + 15분(잠드는 시간)
+  </div>
+
+  <div class="tip-box">💡 <strong>가장 개운한 수면:</strong> 5~6 사이클 (7시간 30분 ~ 9시간)이 이상적입니다. 4사이클(6시간)도 사이클 끝에 깨면 3사이클(4시간 30분)보다 훨씬 개운합니다.</div>
+
+  <h2>📊 나이별 권장 수면 시간</h2>
+  <table>
+    <thead><tr><th>연령대</th><th>권장 수면 시간</th><th>적정 사이클</th></tr></thead>
+    <tbody>
+      <tr><td>신생아 (0~3개월)</td><td>14~17시간</td><td>9~11사이클</td></tr>
+      <tr><td>학령기 (6~13세)</td><td>9~11시간</td><td>6~7사이클</td></tr>
+      <tr><td>청소년 (14~17세)</td><td>8~10시간</td><td>5~6사이클</td></tr>
+      <tr><td>성인 (18~64세)</td><td><strong>7~9시간</strong></td><td><strong>5~6사이클</strong></td></tr>
+      <tr><td>노인 (65세 이상)</td><td>7~8시간</td><td>5사이클</td></tr>
+    </tbody>
+  </table>
+
+  <h2>⚠️ 수면 부채와 건강 영향</h2>
+  <p>수면 부채(sleep debt)는 매일 조금씩 부족한 수면이 누적된 상태입니다. 하루 1시간씩 부족해도 일주일이면 7시간, 한 달이면 30시간이 쌓입니다.</p>
+
+  <h3>수면 부족이 미치는 영향</h3>
+  <table>
+    <thead><tr><th>지속 기간</th><th>주요 영향</th></tr></thead>
+    <tbody>
+      <tr><td>1~2일</td><td>집중력 저하, 반응속도 감소, 기분 변화</td></tr>
+      <tr><td>1주일</td><td>면역력 저하, 혈당 조절 이상, 코르티솔 증가</td></tr>
+      <tr><td>1개월 이상</td><td>비만·당뇨 위험 증가, 심혈관 질환 위험, 우울증</td></tr>
+      <tr><td>만성화</td><td>치매 위험 증가, 수명 단축 연구 보고</td></tr>
+    </tbody>
+  </table>
+
+  <div class="warn-box">⚠️ <strong>주말 몰아자기의 함정:</strong> 주말에 2~3시간 더 자는 것으로 수면 부채를 갚을 수 없습니다. 오히려 수면 리듬이 깨져 월요일 아침이 더 힘들어집니다. 매일 일정한 취침·기상 시간 유지가 가장 효과적입니다.</div>
+
+  <h2>💡 수면의 질을 높이는 실전 팁</h2>
+  <ul>
+    <li><strong>기상 시간을 고정하세요</strong>: 취침 시간보다 기상 시간을 먼저 고정하는 것이 수면 리듬 유지에 효과적입니다.</li>
+    <li><strong>취침 1시간 전 스마트폰 금지</strong>: 블루라이트가 멜라토닌 분비를 억제해 잠들기 어렵게 만듭니다.</li>
+    <li><strong>실내 온도 18~22°C 유지</strong>: 체온이 낮아질 때 수면이 시작되므로 서늘한 환경이 수면을 유도합니다.</li>
+    <li><strong>카페인 반감기는 5~7시간</strong>: 오후 2시 이후 커피를 마시면 자정까지 카페인이 남아있을 수 있습니다.</li>
+    <li><strong>알람은 1개만</strong>: 스누즈 반복은 얕은 수면을 유발해 오히려 더 피곤하게 만듭니다.</li>
+  </ul>
+
+  <div class="tip-box">💡 <strong>낮잠의 적정 시간:</strong> 낮잠은 <strong>10~20분</strong>이 최적입니다. 30분을 넘기면 깊은 수면에 진입해 일어나기 힘들고 밤잠에 영향을 줍니다. 오후 1~3시 사이가 가장 효과적입니다.</div>
+
+  <h2>자주 묻는 질문 (FAQ)</h2>
+  <details><summary>6시간 자는 것과 7시간 30분 자는 것, 어떤 게 더 개운할까요?</summary><div class="faq-answer">7시간 30분이 훨씬 개운합니다. 6시간은 4사이클이 완료되는 시간이고, 7시간 30분은 5사이클이 완료됩니다. 사이클 끝에 맞춰 일어나면 렘수면을 마친 직후라 뇌가 자연스럽게 각성 상태에 있어 알람 없이도 비교적 쉽게 일어날 수 있습니다.</div></details>
+  <details><summary>잠드는 데 15분이 아닌 경우는 어떻게 하나요?</summary><div class="faq-answer">평소 잠드는 데 걸리는 시간이 다르다면 그에 맞게 취침 시간을 조정하세요. 잠드는 데 5분이면 계산 결과보다 10분 늦게 누워도 됩니다. 30분 이상 걸린다면 수면 위생을 점검해 보세요 — 스마트폰 사용, 카페인 섭취, 스트레스 등이 원인일 수 있습니다.</div></details>
+  <details><summary>수면 사이클이 정확히 90분인가요?</summary><div class="faq-answer">개인차가 있어 80~110분 범위 안에서 다양합니다. 대부분의 성인은 평균 90분으로 볼 수 있습니다. 정확한 본인의 사이클을 알고 싶다면 수면 추적 앱이나 스마트 워치를 활용해 여러 날 수면 패턴을 분석해 보세요.</div></details>
+  <details><summary>매일 같은 시간에 자야 하나요?</summary><div class="faq-answer">취침 시간보다 기상 시간을 일정하게 유지하는 것이 더 중요합니다. 우리 몸의 일주기 리듬(서캐디안 리듬)은 빛과 기상 시간에 의해 주로 설정됩니다. 주말에도 평일과 1시간 이내의 차이로 기상하는 것을 권장합니다.</div></details>
+  <details><summary>4시간 30분(3사이클)만 자도 충분한가요?</summary><div class="faq-answer">단기적으로는 6시간보다 개운할 수 있지만 장기적으로는 부족합니다. 수면 부채가 쌓이면 인지 기능, 면역력, 대사 기능 저하가 누적됩니다. 불가피하게 짧게 자야 할 때 사이클 단위로 맞추는 것이 그나마 낫다는 의미이지, 4.5시간이 충분하다는 뜻은 아닙니다.</div></details>
+</div>
+
+<script src="/common.js"></script><script src="/share.js"></script>
+<script src="/calculator.js"></script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(r => console.log('[PWA] SW registered:', r.scope))
+      .catch(e => console.warn('[PWA] SW failed:', e));
+  });
+}
+</script>
+</body>
+</html>
