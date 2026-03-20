@@ -341,7 +341,7 @@ function calc() {
 // 페이지 로드 시 직원 1명 자동 추가
 document.addEventListener('DOMContentLoaded', () => { addStaff(); });
 </script>
-<script src="/common.js"></script><script src="/share.js"></script><script src="/calculator.js"></script>
+<script src="/common.js" defer></script><script src="/share.js" defer></script><script src="/calculator.js" defer></script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}</script>
 </body>
 </html>
