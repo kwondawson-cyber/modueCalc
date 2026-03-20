@@ -32,9 +32,10 @@
   <style>
     :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--radius:16px}
     *{box-sizing:border-box;margin:0;padding:0}
+    html,body{overflow-x:hidden;width:100%}
     body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
     body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
-    .container{max-width:1200px;margin:0 auto;padding:60px 20px 100px;position:relative;z-index:1}
+    .container{max-width:1200px;margin:0 auto;padding:60px 20px 100px;position:relative;z-index:1;box-sizing:border-box}
     .header{text-align:center;margin-bottom:64px}
     .logo{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:4px;color:var(--accent);text-transform:uppercase;margin-bottom:20px}
     .header h1{font-size:clamp(32px,7vw,60px);font-weight:900;line-height:1.1;margin-bottom:16px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
@@ -90,38 +91,62 @@
     /* ── 항상 고정: 자주 찾는 계산기 ── */
     #favSection{display:block!important}
     @media(max-width:860px){
-      .main-layout{flex-direction:column;gap:0;margin-top:16px}
+      .main-layout{flex-direction:column;gap:0;margin-top:16px;width:100%;overflow:hidden}
       .cat-sidebar{display:none!important}
       .cat-pills{display:block}
-      .container{max-width:640px}
+      .container{max-width:100%}
+      .cat-content{min-width:0;width:100%;overflow:hidden}
     }
     @media(max-width:600px){
-      .container{padding:24px 14px 80px}
-      .calc-grid{grid-template-columns:repeat(3,1fr)!important;gap:8px}
-      .calc-card{padding:12px 8px;border-radius:12px;text-align:center}
-      .card-top{flex-direction:column;align-items:center;justify-content:center;margin-bottom:5px;gap:2px}
-      .card-emoji{font-size:22px}
-      .star-btn{position:absolute;top:6px;right:6px;opacity:.18;width:18px;height:18px}
-      .star-btn svg{width:11px;height:11px}
-      .card-name{font-size:11px;font-weight:700;margin-bottom:0;justify-content:center;line-height:1.3;gap:3px;flex-wrap:wrap}
+      html,body{overflow-x:hidden;width:100%;max-width:100%}
+      .container{padding:20px 12px 80px;width:100%;max-width:100%;box-sizing:border-box;overflow-x:hidden}
+      .main-layout{width:100%;max-width:100%;overflow:hidden}
+      .cat-content{width:100%;min-width:0;max-width:100%;overflow:hidden}
+      .calc-grid{
+        display:grid;
+        grid-template-columns:repeat(3,1fr)!important;
+        gap:7px;
+        width:100%;
+        box-sizing:border-box
+      }
+      .calc-card{
+        padding:10px 6px 10px;
+        border-radius:10px;
+        text-align:center;
+        min-width:0;
+        word-break:keep-all;
+        overflow:hidden;
+        box-sizing:border-box
+      }
+      .card-top{flex-direction:column;align-items:center;justify-content:center;margin-bottom:4px;gap:0}
+      .card-emoji{font-size:20px;line-height:1.2}
+      .star-btn{position:absolute;top:4px;right:4px;opacity:.2;width:16px;height:16px}
+      .star-btn svg{width:10px;height:10px}
+      .card-name{font-size:10.5px;font-weight:700;margin-bottom:0;justify-content:center;line-height:1.3;gap:2px;flex-wrap:wrap;word-break:keep-all}
       .card-desc{display:none}
-      .badge{font-size:8px;padding:1px 5px;letter-spacing:0}
-      .category{margin-bottom:28px}
-      .category-header{margin-bottom:12px}
+      .badge{font-size:7.5px;padding:1px 4px;letter-spacing:0;vertical-align:middle}
+      .category{margin-bottom:24px}
+      .category-header{margin-bottom:10px}
       .category-title{font-size:13px}
-      .fav-card{font-size:13px;padding:9px 13px}
-      .fav-card .fav-emoji{font-size:18px}
-      .header{margin-bottom:32px}
-      .header h1{font-size:clamp(26px,7vw,40px)}
-      .header p{font-size:14px}
-      .search-wrap input{font-size:14px;padding:11px 44px 11px 14px}
-      .cat-pills{margin:10px 0 16px}
-      .cat-pill{font-size:11px;padding:5px 11px}
+      .fav-grid{gap:7px}
+      .fav-card{font-size:12px;padding:8px 11px;border-radius:10px}
+      .fav-card .fav-emoji{font-size:17px}
+      .header{margin-bottom:28px}
+      .header h1{font-size:clamp(24px,7vw,36px)}
+      .header p{font-size:13px}
+      .count-badge{font-size:12px;padding:6px 14px}
+      .search-wrap{margin-top:16px}
+      .search-wrap input{font-size:14px;padding:11px 40px 11px 14px}
+      .cat-pills{margin:8px 0 14px}
+      .cat-pill{font-size:11px;padding:5px 10px;margin-right:5px}
+      #pwa-banner{flex-wrap:wrap;gap:8px}
+      .no-results{font-size:13px}
     }
     @media(max-width:360px){
-      .calc-grid{grid-template-columns:repeat(3,1fr)!important;gap:6px}
-      .calc-card{padding:10px 6px}
-      .card-emoji{font-size:20px}
+      .container{padding:16px 10px 80px}
+      .calc-grid{gap:5px}
+      .calc-card{padding:9px 4px}
+      .card-emoji{font-size:18px}
       .card-name{font-size:10px}
     }
     /* favSection always-show is handled above */
