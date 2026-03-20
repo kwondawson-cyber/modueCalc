@@ -84,9 +84,8 @@
     .cat-btn.active .cb-count{background:rgba(0,212,170,0.18);color:var(--accent)}
     .cat-content{flex:1;min-width:0}
     /* ── 모바일 가로 필 ── */
-    .cat-pills{display:none;overflow-x:auto;white-space:nowrap;padding-bottom:6px;margin:16px 0 20px;scrollbar-width:none}
-    .cat-pills::-webkit-scrollbar{display:none}
-    .cat-pill{display:inline-block;padding:6px 14px;background:var(--surface);border:1px solid var(--border);border-radius:20px;font-size:12px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:var(--text-muted);cursor:pointer;margin-right:6px;transition:all .18s;white-space:nowrap}
+    .cat-pills{display:none;flex-wrap:wrap;gap:6px;padding-bottom:4px;margin:16px 0 20px}
+    .cat-pill{display:inline-block;padding:6px 14px;background:var(--surface);border:1px solid var(--border);border-radius:20px;font-size:12px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:var(--text-muted);cursor:pointer;transition:all .18s;white-space:nowrap}
     .cat-pill.active{background:rgba(0,212,170,0.10);border-color:rgba(0,212,170,0.35);color:var(--accent)}
     /* ── 항상 고정: 자주 찾는 계산기 ── */
     #favSection{display:block!important}
@@ -137,8 +136,8 @@
       .count-badge{font-size:12px;padding:6px 14px}
       .search-wrap{margin-top:16px}
       .search-wrap input{font-size:14px;padding:11px 40px 11px 14px}
-      .cat-pills{margin:8px 0 14px}
-      .cat-pill{font-size:11px;padding:5px 10px;margin-right:5px}
+      .cat-pills{display:flex;margin:8px 0 14px;gap:5px}
+      .cat-pill{font-size:11px;padding:5px 10px;margin-right:0}
       #pwa-banner{flex-wrap:wrap;gap:8px}
       .no-results{font-size:13px}
     }
@@ -468,7 +467,6 @@
 <script src="/common.js" defer></script>
 <script>injectStarButtons();renderFavSection();</script>
 <script src="/share.js" defer></script>
-<script src="/calculator.js" defer></script>
 <script>
   if('serviceWorker'in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').then(function(r){console.log('[PWA] SW registered:',r.scope);}).catch(function(e){console.warn('[PWA] SW failed:',e);});});}
   (function(){var deferredPrompt=null,banner=document.getElementById('pwa-banner'),installBtn=document.getElementById('pwa-install-btn'),closeBtn=document.getElementById('pwa-close');if(!banner||!installBtn||!closeBtn)return;if(window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone)return;var isSamsung=/samsungbrowser/i.test(navigator.userAgent),isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);if(isIOS){installBtn.textContent='홈 화면에 추가';installBtn.onclick=function(){alert('Safari 하단 공유 버튼(□↑)을 누른 뒤\n"홈 화면에 추가"를 선택해 주세요!');}}if(isSamsung){installBtn.textContent='Chrome으로 설치';installBtn.onclick=function(){alert('Chrome 앱에서 everycalc.kr을 열면\n홈 화면에 설치할 수 있어요!');}}window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferredPrompt=e;if(!isSamsung&&!isIOS){installBtn.textContent='홈 화면에 설치';installBtn.onclick=function(){deferredPrompt.prompt();deferredPrompt.userChoice.then(function(result){if(result.outcome==='accepted')banner.classList.remove('show');deferredPrompt=null;});};}});closeBtn.addEventListener('click',function(){banner.classList.remove('show');try{localStorage.setItem('pwa_closed','1');}catch(e){}});setTimeout(function(){try{if(localStorage.getItem('pwa_closed'))return;}catch(e){}banner.classList.add('show');},2000);})();
