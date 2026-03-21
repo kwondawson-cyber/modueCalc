@@ -225,7 +225,7 @@
   <p>4대보험은 보수월액(식대 등 비과세 제외)을 기준으로 계산하고, 소득세는 근로소득 간이세액표를 적용합니다. 비과세 항목을 최대한 활용하면 4대보험과 소득세 모두 줄어들어 실수령액이 늘어납니다.</p>
   <div class="formula-box">국민연금: 보수월액 × 4.5%
 건강보험: 보수월액 × 3.545%
-장기요양: 건강보험료 × 12.95%
+장기요양: 건강보험료 × 13.14%
 고용보험: 보수월액 × 0.9%
 소득세: 간이세액표 (부양가족 수 반영)
 지방소득세: 소득세 × 10%
@@ -238,7 +238,7 @@
     <tbody>
       <tr><td>국민연금</td><td>300만 × 4.5%</td><td>135,000원</td></tr>
       <tr><td>건강보험</td><td>300만 × 3.545%</td><td>106,350원</td></tr>
-      <tr><td>장기요양</td><td>106,350 × 12.95%</td><td>13,772원</td></tr>
+      <tr><td>장기요양</td><td>106,350 × 13.14%</td><td>13,772원</td></tr>
       <tr><td>고용보험</td><td>300만 × 0.9%</td><td>27,000원</td></tr>
       <tr><td>소득세 (1인)</td><td>간이세액표</td><td>약 38,960원</td></tr>
       <tr><td>지방소득세</td><td>38,960 × 10%</td><td>3,890원</td></tr>
@@ -259,7 +259,7 @@
   <h3 style="font-size:15px;font-weight:700;color:var(--accent);margin-bottom:12px">📐 계산 공식 및 기준</h3>
   <div class="formula-box" style="font-size:13px;line-height:1.9;color:var(--text-muted)">
 <strong>국민연금</strong> — 4.5% (사용자 4.5% 별도)<br>
-      <strong>건강보험</strong> — 3.545% + 장기요양 0.4591% = 총 약 4.004%<br>
+      <strong>건강보험</strong> — 3.545% + 장기요양 0.4658% = 총 약 4.004%<br>
       <strong>고용보험</strong> — 0.9%<br>
       <strong>산재보험</strong> — 사용자 전액 부담 (근로자 부담 없음)<br><br>
       소득세 = 근로소득 간이세액표 기준 (부양가족 수 반영)<br>
@@ -325,7 +325,7 @@ function calcPayslip() {
   // 4대보험
   const np  = document.getElementById('npOpt').value === 'auto' ? Math.round(taxableSum * 0.045) : 0;
   const hi  = document.getElementById('hiOpt').value === 'auto' ? Math.round(taxableSum * 0.03545) : 0;
-  const ltc = document.getElementById('hiOpt').value === 'auto' ? Math.round(hi * 0.1295) : 0;
+  const ltc = document.getElementById('hiOpt').value === 'auto' ? Math.round(hi * 0.1314) : 0;
   const ei  = document.getElementById('eiOpt').value === 'auto' ? Math.round(taxableSum * 0.009) : 0;
 
   // 소득세 (간이세액표 근사)

@@ -621,7 +621,7 @@
               <div class="deduction-dot" style="background:#a5d6a7"></div>
               <div>
                 <div class="deduction-name">장기요양보험</div>
-                <div class="deduction-rate">건강보험료 × 12.95%</div>
+                <div class="deduction-rate">건강보험료 × 13.14%</div>
               </div>
             </div>
             <div class="deduction-amount" id="d-care">-</div>
@@ -739,7 +739,7 @@
       // 4대보험 계산
       const pension = Math.min(monthly * 0.045, 265500);
       const health = Math.round(monthly * 0.03545);
-      const care = Math.round(health * 0.1295);
+      const care = Math.round(health * 0.1314);
       const employ = Math.round(monthly * 0.009);
 
       // 소득세
@@ -826,7 +826,7 @@
 
 국민연금: 보수월액 × 4.5%
 건강보험: 보수월액 × 3.545%
-장기요양: 건강보험료 × 12.95%
+장기요양: 건강보험료 × 13.14%
 고용보험: 보수월액 × 0.9%
 소득세: 근로소득 간이세액표 적용 (부양가족 수 반영)</div>
   <h3>📊 연봉별 예상 실수령액 (2026년, 비과세 없음 기준)</h3>
