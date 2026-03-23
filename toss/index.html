@@ -184,8 +184,8 @@
   <div class="cat-tabs" id="catTabs">
     <button class="cat-tab active" data-cat="all" onclick="filterCat('all')">전체</button>
     <button class="cat-tab" data-cat="fav" onclick="filterCat('fav')">⭐ 즐겨찾기</button>
-    <button class="cat-tab" data-cat="biz" onclick="filterCat('biz')">💼 사업자·세금</button>
     <button class="cat-tab" data-cat="labor" onclick="filterCat('labor')">👔 급여·노무</button>
+    <button class="cat-tab" data-cat="biz" onclick="filterCat('biz')">💼 사업자·세금</button>
     <button class="cat-tab" data-cat="invest" onclick="filterCat('invest')">📈 투자·재테크</button>
     <button class="cat-tab" data-cat="loan" onclick="filterCat('loan')">🏠 대출·부동산</button>
     <button class="cat-tab" data-cat="car" onclick="filterCat('car')">🚗 자동차</button>
@@ -209,6 +209,91 @@
   </div>
   <div id="toast" class="toast"></div>
 
+
+
+
+
+
+
+  <!-- 급여·노무 -->
+  <div class="cat-section" data-section="labor">
+    <div class="section-title">👔 급여·노무</div>
+    <div class="calc-list">
+      <a href="/salary" class="calc-item" data-name="연봉 실수령액 계산기" data-desc="4대보험 소득세 공제 후 실수령액" data-cat="labor">
+        <div class="calc-item-emoji">💰</div>
+        <div class="calc-item-text"><div class="calc-item-name">연봉 실수령액 계산기</div><div class="calc-item-desc">4대보험 · 소득세 공제 후 실수령액</div></div>
+        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
+      </a>
+      <a href="/annual_leave_hr" class="calc-item" data-name="연차 계산기 (HR용)" data-desc="인사담당자용 연차 관리" data-cat="labor">
+        <div class="calc-item-emoji">🌴</div>
+        <div class="calc-item-text"><div class="calc-item-name">연차 계산기 (HR용)</div><div class="calc-item-desc">인사담당자용 연차 관리</div></div>
+        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
+      </a>
+      <a href="/retirement_plan" class="calc-item" data-name="은퇴 설계 계산기" data-desc="은퇴 자금 목표 계산" data-cat="labor">
+        <div class="calc-item-emoji">📊</div>
+        <div class="calc-item-text"><div class="calc-item-name">은퇴 설계 계산기</div><div class="calc-item-desc">은퇴 자금 목표 계산</div></div>
+        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
+      </a>
+    </div></div>
+        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
+      </a>
+      <a href="/salary_slip" class="calc-item" data-name="급여명세서 계산기" data-desc="월급 공제항목 상세 계산" data-cat="labor">
+        <div class="calc-item-emoji">📄</div>
+        <div class="calc-item-text"><div class="calc-item-name">급여명세서 계산기</div><div class="calc-item-desc">월급 공제항목 상세 계산</div></div>
+        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
+      </a>
+      <a href="/hourly_salary" class="calc-item" data-name="시급 계산기" data-desc="최저시급 월급 환산" data-cat="labor">
+        <div class="calc-item-emoji">⏰</div>
+        <div class="calc-item-text"><div class="calc-item-name">시급 계산기</div><div class="calc-item-desc">최저시급 10,320원 · 월급 환산</div></div>
+        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
+      </a>
+      <a href="/weekly_holiday" class="calc-item" data-name="주휴수당 계산기" data-desc="주휴수당 자동 계산" data-cat="labor">
+        <div class="calc-item-emoji">📅</div>
+        <div class="calc-item-text"><div class="calc-item-name">주휴수당 계산기</div><div class="calc-item-desc">주휴수당 자동 계산</div></div>
+        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
+      </a>
+      <a href="/part_time_cost" class="calc-item" data-name="알바 비용 계산기" data-desc="아르바이트 고용 총비용" data-cat="labor">
+        <div class="calc-item-emoji">🧑‍💼</div>
+        <div class="calc-item-text"><div class="calc-item-name">알바 비용 계산기</div><div class="calc-item-desc">아르바이트 고용 총비용 계산</div></div>
+        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
+      </a>
+      <a href="/retirement" class="calc-item" data-name="퇴직금 계산기" data-desc="퇴직금 법정 산정" data-cat="labor">
+        <div class="calc-item-emoji">🏦</div>
+        <div class="calc-item-text"><div class="calc-item-name">퇴직금 계산기</div><div class="calc-item-desc">퇴직금 법정 산정 계산</div></div>
+        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
+      </a>
+      <a href="/retirement_pension" class="calc-item" data-name="퇴직연금 계산기" data-desc="DB DC IRP 수령액" data-cat="labor">
+        <div class="calc-item-emoji">💎</div>
+        <div class="calc-item-text"><div class="calc-item-name">퇴직연금 계산기</div><div class="calc-item-desc">DB · DC · IRP 수령액 계산</div></div>
+        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
+      </a>
+      <a href="/annual_leave" class="calc-item" data-name="연차 계산기" data-desc="연차 발생일수 계산" data-cat="labor">
+        <div class="calc-item-emoji">🌴</div>
+        <div class="calc-item-text"><div class="calc-item-name">연차 계산기</div><div class="calc-item-desc">연차 발생일수 자동 계산</div></div>
+        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
+      </a>
+      <a href="/unemployment" class="calc-item" data-name="실업급여 계산기" data-desc="실업급여 수급액 기간" data-cat="labor">
+        <div class="calc-item-emoji">📋</div>
+        <div class="calc-item-text"><div class="calc-item-name">실업급여 계산기</div><div class="calc-item-desc">실업급여 수급액 · 기간 계산</div></div>
+        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
+      </a>
+      <a href="/parental_leave" class="calc-item" data-name="육아휴직급여 계산기" data-desc="육아휴직 급여 지원금" data-cat="labor">
+        <div class="calc-item-emoji">👶</div>
+        <div class="calc-item-text"><div class="calc-item-name">육아휴직급여 계산기</div><div class="calc-item-desc">육아휴직 급여 · 지원금 계산</div></div>
+        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
+      </a>
+      <a href="/health_insurance" class="calc-item" data-name="건강보험료 계산기" data-desc="직장 지역 건강보험료" data-cat="labor">
+        <div class="calc-item-emoji">🏥</div>
+        <div class="calc-item-text"><div class="calc-item-name">건강보험료 계산기</div><div class="calc-item-desc">직장 · 지역 건강보험료 계산</div></div>
+        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
+      </a>
+      <a href="/pension" class="calc-item" data-name="국민연금 계산기" data-desc="국민연금 납부액 예상수령액" data-cat="labor">
+        <div class="calc-item-emoji">👴</div>
+        <div class="calc-item-text"><div class="calc-item-name">국민연금 계산기</div><div class="calc-item-desc">납부액 · 예상 수령액 계산</div></div>
+        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
+      </a>
+    </div>
+  </div>
   <!-- 사업자·세금 -->
   <div class="cat-section" data-section="biz">
     <div class="section-title">💼 사업자·세금</div>
@@ -308,87 +393,6 @@
       </a>
     </div>
   </div>
-
-  <!-- 급여·노무 -->
-  <div class="cat-section" data-section="labor">
-    <div class="section-title">👔 급여·노무</div>
-    <div class="calc-list">
-      <a href="/salary" class="calc-item" data-name="연봉 실수령액 계산기" data-desc="4대보험 소득세 공제 후 실수령액" data-cat="labor">
-        <div class="calc-item-emoji">💰</div>
-        <div class="calc-item-text"><div class="calc-item-name">연봉 실수령액 계산기</div><div class="calc-item-desc">4대보험 · 소득세 공제 후 실수령액</div></div>
-        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
-      </a>
-      <a href="/annual_leave_hr" class="calc-item" data-name="연차 계산기 (HR용)" data-desc="인사담당자용 연차 관리" data-cat="labor">
-        <div class="calc-item-emoji">🌴</div>
-        <div class="calc-item-text"><div class="calc-item-name">연차 계산기 (HR용)</div><div class="calc-item-desc">인사담당자용 연차 관리</div></div>
-        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
-      </a>
-      <a href="/retirement_plan" class="calc-item" data-name="은퇴 설계 계산기" data-desc="은퇴 자금 목표 계산" data-cat="labor">
-        <div class="calc-item-emoji">📊</div>
-        <div class="calc-item-text"><div class="calc-item-name">은퇴 설계 계산기</div><div class="calc-item-desc">은퇴 자금 목표 계산</div></div>
-        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
-      </a>
-    </div></div>
-        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
-      </a>
-      <a href="/salary_slip" class="calc-item" data-name="급여명세서 계산기" data-desc="월급 공제항목 상세 계산" data-cat="labor">
-        <div class="calc-item-emoji">📄</div>
-        <div class="calc-item-text"><div class="calc-item-name">급여명세서 계산기</div><div class="calc-item-desc">월급 공제항목 상세 계산</div></div>
-        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
-      </a>
-      <a href="/hourly_salary" class="calc-item" data-name="시급 계산기" data-desc="최저시급 월급 환산" data-cat="labor">
-        <div class="calc-item-emoji">⏰</div>
-        <div class="calc-item-text"><div class="calc-item-name">시급 계산기</div><div class="calc-item-desc">최저시급 10,320원 · 월급 환산</div></div>
-        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
-      </a>
-      <a href="/weekly_holiday" class="calc-item" data-name="주휴수당 계산기" data-desc="주휴수당 자동 계산" data-cat="labor">
-        <div class="calc-item-emoji">📅</div>
-        <div class="calc-item-text"><div class="calc-item-name">주휴수당 계산기</div><div class="calc-item-desc">주휴수당 자동 계산</div></div>
-        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
-      </a>
-      <a href="/part_time_cost" class="calc-item" data-name="알바 비용 계산기" data-desc="아르바이트 고용 총비용" data-cat="labor">
-        <div class="calc-item-emoji">🧑‍💼</div>
-        <div class="calc-item-text"><div class="calc-item-name">알바 비용 계산기</div><div class="calc-item-desc">아르바이트 고용 총비용 계산</div></div>
-        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
-      </a>
-      <a href="/retirement" class="calc-item" data-name="퇴직금 계산기" data-desc="퇴직금 법정 산정" data-cat="labor">
-        <div class="calc-item-emoji">🏦</div>
-        <div class="calc-item-text"><div class="calc-item-name">퇴직금 계산기</div><div class="calc-item-desc">퇴직금 법정 산정 계산</div></div>
-        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
-      </a>
-      <a href="/retirement_pension" class="calc-item" data-name="퇴직연금 계산기" data-desc="DB DC IRP 수령액" data-cat="labor">
-        <div class="calc-item-emoji">💎</div>
-        <div class="calc-item-text"><div class="calc-item-name">퇴직연금 계산기</div><div class="calc-item-desc">DB · DC · IRP 수령액 계산</div></div>
-        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
-      </a>
-      <a href="/annual_leave" class="calc-item" data-name="연차 계산기" data-desc="연차 발생일수 계산" data-cat="labor">
-        <div class="calc-item-emoji">🌴</div>
-        <div class="calc-item-text"><div class="calc-item-name">연차 계산기</div><div class="calc-item-desc">연차 발생일수 자동 계산</div></div>
-        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
-      </a>
-      <a href="/unemployment" class="calc-item" data-name="실업급여 계산기" data-desc="실업급여 수급액 기간" data-cat="labor">
-        <div class="calc-item-emoji">📋</div>
-        <div class="calc-item-text"><div class="calc-item-name">실업급여 계산기</div><div class="calc-item-desc">실업급여 수급액 · 기간 계산</div></div>
-        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
-      </a>
-      <a href="/parental_leave" class="calc-item" data-name="육아휴직급여 계산기" data-desc="육아휴직 급여 지원금" data-cat="labor">
-        <div class="calc-item-emoji">👶</div>
-        <div class="calc-item-text"><div class="calc-item-name">육아휴직급여 계산기</div><div class="calc-item-desc">육아휴직 급여 · 지원금 계산</div></div>
-        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
-      </a>
-      <a href="/health_insurance" class="calc-item" data-name="건강보험료 계산기" data-desc="직장 지역 건강보험료" data-cat="labor">
-        <div class="calc-item-emoji">🏥</div>
-        <div class="calc-item-text"><div class="calc-item-name">건강보험료 계산기</div><div class="calc-item-desc">직장 · 지역 건강보험료 계산</div></div>
-        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
-      </a>
-      <a href="/pension" class="calc-item" data-name="국민연금 계산기" data-desc="국민연금 납부액 예상수령액" data-cat="labor">
-        <div class="calc-item-emoji">👴</div>
-        <div class="calc-item-text"><div class="calc-item-name">국민연금 계산기</div><div class="calc-item-desc">납부액 · 예상 수령액 계산</div></div>
-        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
-      </a>
-    </div>
-  </div>
-
   <!-- 투자·재테크 -->
   <div class="cat-section" data-section="invest">
     <div class="section-title">📈 투자·재테크</div>
@@ -453,7 +457,6 @@
       </a>
     </div>
   </div>
-
   <!-- 대출·부동산 -->
   <div class="cat-section" data-section="loan">
     <div class="section-title">🏠 대출·부동산</div>
@@ -513,7 +516,6 @@
       </a>
     </div>
   </div>
-
   <!-- 자동차 -->
   <div class="cat-section" data-section="car">
     <div class="section-title">🚗 자동차</div>
@@ -540,7 +542,6 @@
       </a>
     </div>
   </div>
-
   <!-- 건강 -->
   <div class="cat-section" data-section="health">
     <div class="section-title">💪 건강</div>
@@ -590,7 +591,6 @@
       </a>
     </div>
   </div>
-
   <!-- 생활·날짜 -->
   <div class="cat-section" data-section="daily">
     <div class="section-title">📅 생활·날짜</div>
