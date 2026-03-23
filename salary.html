@@ -845,6 +845,9 @@
 
       const resultCard = document.getElementById('resultCard');
       resultCard.classList.add('visible');
+
+      // 부가 카드 업데이트
+      if (typeof afterCalculate === 'function') afterCalculate();
     }
 
     // 페이지 로드 시 자동 계산
@@ -852,16 +855,16 @@
   </script>
 
   <script>
-  // ── 공통: 월 실수령 계산 (외부에서 재사용) ──
+  // ── 공통: 월 실수령 계산 ──
   function calcMonthlyTake(annualSalary, deps, kids, mealEx, transEx) {
     mealEx = mealEx || 0;
     transEx = transEx || 0;
     const monthly = annualSalary / 12;
-    const base = Math.max(0, monthly - mealEx - transEx); // 비과세 차감
-    const pension  = Math.min(base * 0.0475, 302575);
-    const health   = Math.round(base * 0.03595);
-    const care     = Math.round(health * 0.1314);
-    const employ   = Math.round(base * 0.009);
+    const base = Math.max(0, monthly - mealEx - transEx);
+    const pension   = Math.min(base * 0.0475, 302575);
+    const health    = Math.round(base * 0.03595);
+    const care      = Math.round(health * 0.1314);
+    const employ    = Math.round(base * 0.009);
     const incomeTax = calcIncomeTax(base, deps, kids);
     const localTax  = Math.round(incomeTax * 0.1);
     return Math.round(monthly - (pension + health + care + employ + incomeTax + localTax));
@@ -872,15 +875,12 @@
   let _lastKids   = 0;
   let _lastMonthlyTake = 0;
 
-  // calculate() 후 훅 — 부가 카드 업데이트
-  const _origCalc = calculate;
-  function calculate() {
-    _origCalc();
+  // 부가 카드 업데이트 — calculate() 내부 끝에서 호출
+  function afterCalculate() {
     _lastAnnual = parseInt(document.getElementById('salary').value) || 40000000;
     _lastDeps   = parseInt(document.getElementById('dependents').value);
     _lastKids   = parseInt(document.getElementById('children').value);
     _lastMonthlyTake = calcMonthlyTake(_lastAnnual, _lastDeps, _lastKids);
-    // 부가 카드 표시
     document.getElementById('raiseCard').style.display   = 'block';
     document.getElementById('taxFreeCard').style.display = 'block';
     document.getElementById('compareCard').style.display = 'block';
@@ -892,30 +892,26 @@
   // ① 인상 시뮬레이터
   function updateRaise() {
     const raise = parseInt(document.getElementById('raiseSlider').value) || 5000000;
-    const newAnnual = _lastAnnual + raise;
-    const before = _lastMonthlyTake;
-    const after  = calcMonthlyTake(newAnnual, _lastDeps, _lastKids);
-    const diff   = after - before;
+    const after = calcMonthlyTake(_lastAnnual + raise, _lastDeps, _lastKids);
+    const diff  = after - _lastMonthlyTake;
     document.getElementById('raiseLabel').textContent = '+' + fmt(raise) + '원';
-    document.getElementById('raiseBefore').textContent = fmt(before) + '원';
-    document.getElementById('raiseBeforeAnnual').textContent = '연 ' + fmt(before*12) + '원';
+    document.getElementById('raiseBefore').textContent = fmt(_lastMonthlyTake) + '원';
+    document.getElementById('raiseBeforeAnnual').textContent = '연 ' + fmt(_lastMonthlyTake*12) + '원';
     document.getElementById('raiseAfter').textContent  = fmt(after) + '원';
     document.getElementById('raiseAfterAnnual').textContent = '연 ' + fmt(after*12) + '원';
     document.getElementById('raiseDiff').innerHTML =
       `연봉 <strong style="color:var(--accent)">${fmt(raise)}원</strong> 인상 시 월 실수령 ` +
-      `<strong style="color:var(--accent)">+${fmt(diff)}원</strong> 증가 · ` +
-      `연간 <strong style="color:var(--accent)">+${fmt(diff*12)}원</strong> 증가<br>` +
-      `<span style="font-size:12px;color:var(--text-muted)">(연봉 인상분 ${fmt(raise)}원 중 실수령 증가는 ${fmt(diff*12)}원 — 나머지 ${fmt(raise-diff*12)}원은 세금·보험료)</span>`;
+      `<strong style="color:var(--accent)">+${fmt(diff)}원</strong> 증가 · 연간 <strong style="color:var(--accent)">+${fmt(diff*12)}원</strong> 증가<br>` +
+      `<span style="font-size:12px;color:var(--text-muted)">(인상분 ${fmt(raise)}원 중 ${fmt(diff*12)}원 실수령 ↑, 나머지 ${fmt(raise-diff*12)}원은 세금·보험료)</span>`;
   }
 
   // ② 비과세 절세
   function updateTaxFree() {
     const meal  = Math.min(parseInt(document.getElementById('mealAllowance').value)||0, 200000);
     const trans = Math.min(parseInt(document.getElementById('transportAllowance').value)||0, 200000);
-    const before = _lastMonthlyTake;
-    const after  = calcMonthlyTake(_lastAnnual, _lastDeps, _lastKids, meal, trans);
-    const diff   = after - before;
-    document.getElementById('tfBefore').textContent = fmt(before) + '원';
+    const after = calcMonthlyTake(_lastAnnual, _lastDeps, _lastKids, meal, trans);
+    const diff  = after - _lastMonthlyTake;
+    document.getElementById('tfBefore').textContent = fmt(_lastMonthlyTake) + '원';
     document.getElementById('tfAfter').textContent  = fmt(after) + '원';
     document.getElementById('tfDiff').innerHTML = diff > 0
       ? `비과세 적용 시 월 <strong style="color:var(--accent)">+${fmt(diff)}원</strong> · 연간 <strong style="color:var(--accent)">+${fmt(diff*12)}원</strong> 절세`
@@ -928,31 +924,25 @@
     const rows = steps.map(d => {
       const ann = _lastAnnual + d;
       if(ann < 10000000) return null;
-      const take = calcMonthlyTake(ann, _lastDeps, _lastKids);
-      const isCurrent = d === 0;
-      return { ann, take, d, isCurrent };
+      return { ann, take: calcMonthlyTake(ann, _lastDeps, _lastKids), isCurrent: d===0 };
     }).filter(Boolean);
-
     document.getElementById('compareTable').innerHTML = `
       <table style="width:100%;border-collapse:collapse;font-size:13px">
-        <thead>
-          <tr style="background:var(--surface2)">
-            <th style="padding:10px 12px;text-align:left;border:1px solid var(--border);color:var(--text-muted);font-weight:700">연봉</th>
-            <th style="padding:10px 12px;text-align:right;border:1px solid var(--border);color:var(--text-muted);font-weight:700">세전 월급</th>
-            <th style="padding:10px 12px;text-align:right;border:1px solid var(--border);color:var(--text-muted);font-weight:700">월 실수령</th>
-            <th style="padding:10px 12px;text-align:right;border:1px solid var(--border);color:var(--text-muted);font-weight:700">실수령률</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${rows.map(r => `
-            <tr style="${r.isCurrent ? 'background:rgba(0,212,170,.08);' : ''}">
-              <td style="padding:10px 12px;border:1px solid var(--border);font-weight:${r.isCurrent?'900':'400'};color:${r.isCurrent?'var(--accent)':'var(--text)'}">
-                ${fmt(r.ann)}원${r.isCurrent ? ' ◀ 현재' : ''}
-              </td>
-              <td style="padding:10px 12px;border:1px solid var(--border);text-align:right;font-family:'Montserrat',sans-serif;color:var(--text-muted)">${fmt(r.ann/12)}원</td>
-              <td style="padding:10px 12px;border:1px solid var(--border);text-align:right;font-family:'Montserrat',sans-serif;font-weight:700;color:${r.isCurrent?'var(--accent)':'var(--text)'}">${fmt(r.take)}원</td>
-              <td style="padding:10px 12px;border:1px solid var(--border);text-align:right;color:var(--text-muted)">${((r.take/(r.ann/12))*100).toFixed(1)}%</td>
-            </tr>`).join('')}
+        <thead><tr style="background:var(--surface2)">
+          <th style="padding:10px 12px;text-align:left;border:1px solid var(--border);color:var(--text-muted);font-weight:700">연봉</th>
+          <th style="padding:10px 12px;text-align:right;border:1px solid var(--border);color:var(--text-muted);font-weight:700">세전 월급</th>
+          <th style="padding:10px 12px;text-align:right;border:1px solid var(--border);color:var(--text-muted);font-weight:700">월 실수령</th>
+          <th style="padding:10px 12px;text-align:right;border:1px solid var(--border);color:var(--text-muted);font-weight:700">실수령률</th>
+        </tr></thead>
+        <tbody>${rows.map(r=>`
+          <tr style="${r.isCurrent?'background:rgba(0,212,170,.08);':''}">
+            <td style="padding:10px 12px;border:1px solid var(--border);font-weight:${r.isCurrent?900:400};color:${r.isCurrent?'var(--accent)':'var(--text)'}">
+              ${fmt(r.ann)}원${r.isCurrent?' ◀ 현재':''}
+            </td>
+            <td style="padding:10px 12px;border:1px solid var(--border);text-align:right;font-family:'Montserrat',sans-serif;color:var(--text-muted)">${fmt(r.ann/12)}원</td>
+            <td style="padding:10px 12px;border:1px solid var(--border);text-align:right;font-family:'Montserrat',sans-serif;font-weight:700;color:${r.isCurrent?'var(--accent)':'var(--text)'}">${fmt(r.take)}원</td>
+            <td style="padding:10px 12px;border:1px solid var(--border);text-align:right;color:var(--text-muted)">${((r.take/(r.ann/12))*100).toFixed(1)}%</td>
+          </tr>`).join('')}
         </tbody>
       </table>`;
   }
