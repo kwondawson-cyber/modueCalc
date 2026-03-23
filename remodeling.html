@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#00d4aa" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="모두의계산기" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>리모델링 비용 계산기 — 인테리어 견적 평수별 총비용 | 모두의계산기</title>
+  <meta name="description" content="리모델링 비용 계산기 2026 — 평수와 공사 범위(도배·마루·욕실·주방·창호 등), 자재 등급으로 인테리어 예상 총비용을 자동 계산합니다." />
+  <meta property="og:title" content="리모델링 비용 계산기 | 모두의계산기" />
+  <meta property="og:description" content="평수·공사 범위·자재 등급으로 인테리어 리모델링 예상 비용 계산" />
+  <meta property="og:url" content="https://www.everycalc.kr/remodeling" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" /></noscript>
+  <style>
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--danger:#ff6b6b;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+    .container{max-width:700px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .home-btn-wrap{text-align:center;margin-bottom:28px}.home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all .2s}.home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}.home-btn-emoji{font-size:20px;line-height:1}.home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}.header h1 .emoji{-webkit-text-fill-color:initial;background:none}
+    .header{text-align:center;margin-bottom:40px}
+    .header h1{font-size:clamp(26px,6vw,42px);font-weight:900;line-height:1.1;margin-bottom:10px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .header p{color:var(--text-muted);font-size:14px}.input-comma{font-size:12px;color:var(--accent);margin-top:5px;font-weight:700;min-height:15px;letter-spacing:.3px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 32px;margin-bottom:20px}
+    .card-title{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:20px}
+    .input-group{margin-bottom:18px}
+    .input-group label{display:block;font-size:14px;font-weight:500;color:var(--text-muted);margin-bottom:7px}
+    .input-wrapper{position:relative}
+    .input-wrapper input[type="number"]{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:13px 70px 13px 16px;font-size:17px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none;transition:border-color .2s}
+    .input-wrapper input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,170,0.1)}
+    .input-unit{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--text-muted);pointer-events:none}
+    .grade-btns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:20px}
+    .grade-btn{padding:12px 8px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;cursor:pointer;text-align:center;transition:all .2s;font-family:'Noto Sans KR',sans-serif}
+    .grade-btn.active{background:rgba(0,212,170,0.1);border-color:rgba(0,212,170,0.4)}
+    .grade-btn .gn{font-size:14px;font-weight:700;color:var(--text)}
+    .grade-btn .gd{font-size:11px;color:var(--text-muted);margin-top:3px}
+    .grade-btn.active .gn{color:var(--accent)}
+    .check-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:480px){.check-grid{grid-template-columns:1fr}}
+    .check-item{display:flex;align-items:center;gap:10px;padding:14px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s}
+    .check-item.checked{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.35)}
+    .check-item input[type="checkbox"]{width:18px;height:18px;accent-color:var(--accent);cursor:pointer;flex-shrink:0}
+    .check-item label{font-size:14px;font-weight:600;cursor:pointer;flex:1}
+    .check-item .ci-price{font-size:11px;color:var(--text-muted);margin-top:2px}
+    .check-item.checked label{color:var(--accent)}
+    .calc-btn{width:100%;padding:17px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;font-size:16px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:#000;cursor:pointer;margin-top:6px;transition:transform .15s,box-shadow .15s}
+    .calc-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,212,170,0.3)}
+    .result-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 32px;margin-bottom:20px;display:none}
+    .result-card.visible{display:block}
+    .result-title{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:20px}
+    .main-result{background:rgba(0,212,170,0.07);border:1px solid rgba(0,212,170,0.2);border-radius:14px;padding:20px 24px;margin-bottom:18px;text-align:center}
+    .main-result .label{font-size:13px;color:var(--text-muted);margin-bottom:6px}
+    .main-result .big{font-size:34px;font-weight:900;color:var(--accent);font-family:'Montserrat',sans-serif}
+    .range-row{display:flex;justify-content:space-between;font-size:13px;color:var(--text-muted);margin-top:8px}
+    .range-row span strong{color:var(--text)}
+    .breakdown{margin-top:16px}
+    .breakdown-title{font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+    .bk-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px}
+    .bk-row:last-child{border-bottom:none}
+    .bk-name{color:var(--text-muted)}
+    .bk-val{font-weight:700;color:var(--accent);font-family:'Montserrat',sans-serif}
+    /* rel/aff */
+    .rel-section{max-width:700px;margin:32px auto 0;padding:0 20px}
+    .rel-section h2{font-size:14px;font-weight:700;color:var(--text-muted);margin-bottom:14px}
+    .rel-grid{display:flex;flex-wrap:wrap;gap:8px}
+    .rel-card{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;background:var(--surface);border:1px solid var(--border);border-radius:30px;text-decoration:none;font-size:13px;font-weight:600;color:var(--text);transition:border-color .2s}
+    .rel-card:hover{border-color:rgba(0,212,170,0.4);color:var(--accent)}
+    .aff-wrap{max-width:700px;margin:32px auto 0;padding:0 20px}
+    .affiliate-banner{display:flex;align-items:center;gap:14px;padding:16px 20px;background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.2);border-radius:14px;text-decoration:none;color:var(--text);transition:border-color .2s}
+    .affiliate-banner:hover{border-color:rgba(0,212,170,0.4)}
+    .ab-icon{font-size:28px}.ab-text{flex:1}.ab-title{font-size:14px;font-weight:700}.ab-desc{font-size:12px;color:var(--text-muted);margin-top:2px}.ab-btn{padding:8px 16px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:20px;color:#000;font-size:12px;font-weight:800;white-space:nowrap}
+    .aff-disclosure{font-size:11px;color:var(--text-muted);margin-top:6px;padding-left:4px}
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="header">
+    <h1><span class="emoji">🏗</span> 리모델링<br>비용 계산기</h1>
+    <p>평수 · 공사 범위 · 자재 등급으로 예상 견적 계산</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">기본 정보</div>
+    <div class="input-group">
+      <label>전용 면적</label>
+      <div class="input-wrapper">
+        <input type="number" id="area" value="25" min="1" max="200" />
+        <span class="input-unit">평</span>
+      </div>
+    </div>
+
+    <div class="card-title" style="margin-top:4px;margin-bottom:12px">자재 등급</div>
+    <div class="grade-btns">
+      <div class="grade-btn active" id="g1" onclick="setGrade(1)">
+        <div class="gn">보급형</div>
+        <div class="gd">합리적 가격</div>
+      </div>
+      <div class="grade-btn" id="g2" onclick="setGrade(2)">
+        <div class="gn">중급형</div>
+        <div class="gd">품질 균형</div>
+      </div>
+      <div class="grade-btn" id="g3" onclick="setGrade(3)">
+        <div class="gn">프리미엄</div>
+        <div class="gd">고급 마감재</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">공사 범위 선택 (복수 선택 가능)</div>
+    <div class="check-grid">
+      <div class="check-item" id="ci-wallpaper" onclick="toggleCheck('wallpaper',this)">
+        <input type="checkbox" id="wallpaper" checked />
+        <div><label for="wallpaper">도배 (합지/실크)</label><div class="ci-price">1.5~4만 원/평</div></div>
+      </div>
+      <div class="check-item checked" id="ci-floor" onclick="toggleCheck('floor',this)">
+        <input type="checkbox" id="floor" checked />
+        <div><label for="floor">바닥 (장판/마루)</label><div class="ci-price">2~18만 원/평</div></div>
+      </div>
+      <div class="check-item" id="ci-bathroom" onclick="toggleCheck('bathroom',this)">
+        <input type="checkbox" id="bathroom" />
+        <div><label for="bathroom">욕실 리모델링</label><div class="ci-price">150~350만 원/개</div></div>
+      </div>
+      <div class="check-item" id="ci-kitchen" onclick="toggleCheck('kitchen',this)">
+        <input type="checkbox" id="kitchen" />
+        <div><label for="kitchen">주방 (싱크대 교체)</label><div class="ci-price">120~400만 원</div></div>
+      </div>
+      <div class="check-item" id="ci-window" onclick="toggleCheck('window',this)">
+        <input type="checkbox" id="window" />
+        <div><label for="window">창호 교체</label><div class="ci-price">80~180만 원/개소</div></div>
+      </div>
+      <div class="check-item" id="ci-ceiling" onclick="toggleCheck('ceiling',this)">
+        <input type="checkbox" id="ceiling" />
+        <div><label for="ceiling">천장 도장·몰딩</label><div class="ci-price">1~3만 원/평</div></div>
+      </div>
+      <div class="check-item" id="ci-door" onclick="toggleCheck('door',this)">
+        <input type="checkbox" id="door" />
+        <div><label for="label">중문·방문 교체</label><div class="ci-price">50~180만 원</div></div>
+      </div>
+      <div class="check-item" id="ci-lighting" onclick="toggleCheck('lighting',this)">
+        <input type="checkbox" id="lighting" />
+        <div><label for="lighting">조명 교체</label><div class="ci-price">1~3만 원/평</div></div>
+      </div>
+    </div>
+
+    <!-- 욕실 수 -->
+    <div class="input-group" style="margin-top:16px">
+      <label>욕실 수 (욕실 선택 시)</label>
+      <div class="input-wrapper">
+        <input type="number" id="bathroomCount" value="1" min="1" max="5" />
+        <span class="input-unit">개</span>
+      </div>
+    </div>
+    <div class="input-group">
+      <label>창호 개소 수 (창호 선택 시)</label>
+      <div class="input-wrapper">
+        <input type="number" id="windowCount" value="3" min="1" max="20" />
+        <span class="input-unit">개소</span>
+      </div>
+    </div>
+
+    <button class="calc-btn" onclick="calc()">🏗 견적 계산하기</button>
+  </div>
+
+  <div class="result-card" id="resultCard">
+    <div class="result-title">예상 견적</div>
+    <div class="main-result">
+      <div class="label">예상 총 비용 (중간값)</div>
+      <div class="big" id="r-total">—</div>
+      <div class="range-row">
+        <span>최소: <strong id="r-min">—</strong></span>
+        <span>최대: <strong id="r-max">—</strong></span>
+      </div>
+    </div>
+    <div class="breakdown">
+      <div class="breakdown-title">항목별 내역</div>
+      <div id="breakdownList"></div>
+    </div>
+  </div>
+</div>
+
+<div class="aff-wrap">
+  <a href="https://appu.kr/?i=12515716" class="affiliate-banner" target="_blank" rel="nofollow sponsored">
+    <span class="ab-icon">🖥</span>
+    <div class="ab-text">
+      <div class="ab-title">바른웹 홈페이지 제작</div>
+      <div class="ab-desc">인테리어·소상공인 홈페이지 전문 제작</div>
+    </div>
+    <span class="ab-btn">상담하기 →</span>
+  </a>
+  <div class="aff-disclosure">[광고] 이 링크는 제휴 마케팅(애드릭스)을 통해 수수료를 지급받습니다.</div>
+</div>
+
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+    <a href="/acquisition" class="rel-card"><span>🏢</span><span>취득세</span></a>
+    <a href="/mortgage" class="rel-card"><span>🏠</span><span>주택담보대출</span></a>
+    <a href="/area_converter" class="rel-card"><span>📐</span><span>면적 단위 변환</span></a>
+    <a href="/rent_yield" class="rel-card"><span>🏘️</span><span>임대 수익률</span></a>
+    <a href="/loan" class="rel-card"><span>🏧</span><span>대출 이자</span></a>
+  </div>
+</div>
+
+<style>
+.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
+.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
+.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}
+.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
+.seo-section ul{padding-left:20px;margin-bottom:12px}
+.seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+.seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+.seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
+.seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
+.seo-section table tr:nth-child(even) td{background:#161b22}
+.seo-section table td strong{color:#00d4aa}
+.seo-section .tip-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .tip-box strong{color:#00d4aa}
+.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
+.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
+.seo-section details[open] summary::after{content:'－'}
+.seo-section details[open]{background:#161b22}
+.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
+</style>
+
+<div class="seo-section">
+  <h2>인테리어 리모델링 비용, 평수별 평균 견적은?</h2>
+  <p>같은 25평 아파트라도 자재 선택과 공사 범위에 따라 견적이 700만 원에서 4,000만 원 이상으로 크게 달라집니다. 리모델링 시장은 가격 정보가 불투명해 동일한 공사를 두고도 업체마다 30~50% 이상 차이가 나는 경우가 흔합니다. 이 계산기는 2026년 전국 평균 시공 단가 기준으로 예상 견적을 제공합니다. 실제 계약 전 비교의 기준선으로 활용하세요.</p>
+  <p>리모델링 공사는 크게 도배, 바닥재, 욕실, 주방, 창호, 조명으로 나뉩니다. 전체를 한꺼번에 하면 각 공정 간 조율이 쉽고 비용도 절감됩니다. 부분 시공은 필요한 곳만 바꿔 비용을 아낄 수 있습니다.</p>
+
+  <h2>공사 종류별 평균 단가 (2026년 기준)</h2>
+  <p>아래 단가는 전국 평균 기준입니다. 서울·경기 수도권은 인건비가 15~25% 높고, 지방은 낮은 경향이 있습니다. 자재 등급(보급형·중급형·프리미엄)에 따라 단가 차이가 2~3배까지 벌어집니다.</p>
+  <table>
+    <thead><tr><th>공사 종류</th><th>단위</th><th>보급형</th><th>중급형</th><th>프리미엄</th></tr></thead>
+    <tbody>
+      <tr><td>도배 (합지)</td><td>평당</td><td>1.5만 원</td><td>2만 원</td><td>2.5만 원</td></tr>
+      <tr><td>도배 (실크)</td><td>평당</td><td>3만 원</td><td>4만 원</td><td>5만 원</td></tr>
+      <tr><td>장판 교체</td><td>평당</td><td>2만 원</td><td>3만 원</td><td>4만 원</td></tr>
+      <tr><td>강마루</td><td>평당</td><td>10만 원</td><td>14만 원</td><td>18만 원</td></tr>
+      <tr><td>욕실 리모델링</td><td>1개</td><td><strong>150만 원</strong></td><td><strong>250만 원</strong></td><td><strong>350만 원</strong></td></tr>
+      <tr><td>주방 싱크대</td><td>1식</td><td><strong>120만 원</strong></td><td><strong>230만 원</strong></td><td><strong>400만 원</strong></td></tr>
+      <tr><td>창호 (3중 유리)</td><td>개소</td><td>80만 원</td><td>130만 원</td><td>180만 원</td></tr>
+      <tr><td>중문</td><td>1개</td><td>50만 원</td><td>100만 원</td><td>180만 원</td></tr>
+      <tr><td>조명 전체 교체</td><td>평당</td><td>1만 원</td><td>2만 원</td><td>3만 원</td></tr>
+    </tbody>
+  </table>
+
+  <h2>평수별 전체 리모델링 예상 비용 — 중급형 기준</h2>
+  <p>아래 표는 도배·마루·욕실 1개·주방·창호·조명을 포함한 '풀 리모델링' 기준입니다. 부분 시공이라면 공사 항목 비중에 따라 비용이 달라집니다.</p>
+  <table>
+    <thead><tr><th>전용 면적</th><th>최소 견적</th><th>중간 견적</th><th>최대 견적</th><th>참고</th></tr></thead>
+    <tbody>
+      <tr><td>10평 이하 (원룸)</td><td>약 200만 원</td><td>약 450만 원</td><td>약 800만 원</td><td>도배·장판 위주</td></tr>
+      <tr><td><strong>20평 (투룸)</strong></td><td>약 500만 원</td><td>약 1,000만 원</td><td>약 1,800만 원</td><td>욕실 1개 포함</td></tr>
+      <tr><td><strong>25평 (소형 아파트)</strong></td><td>약 700만 원</td><td>약 1,500만 원</td><td>약 2,800만 원</td><td>욕실 1~2개</td></tr>
+      <tr><td><strong>32평 (국민 평형)</strong></td><td>약 1,000만 원</td><td>약 2,200만 원</td><td>약 3,800만 원</td><td>욕실 2개</td></tr>
+      <tr><td>40평 이상 (중형)</td><td>약 1,500만 원</td><td>약 3,000만 원</td><td>약 5,000만 원</td><td>욕실 2~3개</td></tr>
+    </tbody>
+  </table>
+
+  <div class="tip-box">
+    <strong>💡 리모델링 비용 절감 3가지 핵심 팁</strong><br>
+    ① 도배·마루는 한 번에 묶어서 발주하면 10~15% 절감 가능합니다.<br>
+    ② 욕실·주방은 이사 비수기(1~2월, 7~8월)에 공사하면 인건비 협상이 유리합니다.<br>
+    ③ 견적서는 최소 3곳 이상 비교하고, 자재명(브랜드·모델명·규격)이 명시된 견적서만 인정하세요.
+  </div>
+
+  <h2>리모델링 공사 순서와 체크리스트</h2>
+  <p>리모델링은 공사 순서가 중요합니다. 잘못된 순서로 진행하면 완성된 공정을 다시 뜯어야 하는 상황이 발생할 수 있습니다. 일반적인 공사 순서는 다음과 같습니다.</p>
+  <table>
+    <thead><tr><th>순서</th><th>공사 내용</th><th>주의 사항</th></tr></thead>
+    <tbody>
+      <tr><td>1단계</td><td>철거 (기존 자재 제거)</td><td>방수층 파손 여부 점검</td></tr>
+      <tr><td>2단계</td><td>전기·설비 공사</td><td>콘센트 위치, 분전반 용량 확인</td></tr>
+      <tr><td>3단계</td><td>욕실·주방 타일·방수</td><td>방수 건조 최소 48시간 확보</td></tr>
+      <tr><td>4단계</td><td>창호 교체</td><td>단열재 마감 포함 여부 확인</td></tr>
+      <tr><td>5단계</td><td>바닥재 (강마루·장판)</td><td>습기·평탄도 확인 후 시공</td></tr>
+      <tr><td>6단계</td><td>도배</td><td>바닥재 보호 시트 필수</td></tr>
+      <tr><td>7단계</td><td>조명·마무리</td><td>스위치·콘센트 커버 교체 병행</td></tr>
+    </tbody>
+  </table>
+
+  <h2>자주 묻는 질문 — 리모델링 비용</h2>
+  <details><summary>강마루와 강화마루의 차이는 무엇인가요?</summary><div class="faq-answer">강마루는 원목 무늬목을 HDF 합판에 접착해 실제 나무 질감이 납니다. 강화마루는 멜라민 필름으로 처리해 내구성이 높고 가격이 저렴합니다. 강마루가 강화마루보다 고급이지만 비용이 30~50% 높습니다. 바닥 온도 차이가 큰 공간(1층, 보일러 바닥 위)에는 강화마루가 더 안정적입니다.</div></details>
+  <details><summary>욕실 리모델링 공사 기간은 얼마나 걸리나요?</summary><div class="faq-answer">1개 욕실 기준 철거부터 완공까지 3~5일이 소요됩니다. 타일 시공 후 방수 건조 시간(최소 24~48시간)이 필요해 이 기간 욕실 사용이 불가합니다. 욕실이 2개라면 순차 시공으로 총 7~10일 예상합니다. 여름 장마철에는 방수 건조가 느려져 일정이 늘어날 수 있습니다.</div></details>
+  <details><summary>세입자(임차인)도 인테리어 공사를 할 수 있나요?</summary><div class="faq-answer">임차인이 리모델링하려면 임대인(집주인)의 서면 동의가 필요합니다. 구두 동의만으로는 분쟁이 생길 수 있으니 반드시 서면으로 받으세요. 임대차계약서에 인테리어 허용 조항과 퇴거 시 원상복구 여부를 명시하는 것이 안전합니다.</div></details>
+  <details><summary>리모델링 후 하자 보증 기간은 얼마나 되나요?</summary><div class="faq-answer">도배·마루 1년, 욕실 방수공사 3년, 구조 관련 공사 5~10년이 법정 하자 담보 기간입니다. 계약 전 시공업체의 하자 보증 기간과 방식(보증보험 증권 발행 여부)을 반드시 확인하세요. 소규모 업체는 하자보증 보험 가입이 없는 경우도 많습니다.</div></details>
+  <details><summary>이 계산기 결과와 실제 견적의 차이가 클 수 있나요?</summary><div class="faq-answer">이 계산기는 전국 평균 단가 기준 참고용 견적입니다. 실제 비용은 지역(서울 수도권 15~25% 할증), 시공 난이도, 기존 자재 상태, 아파트 층수·구조 등에 따라 크게 달라집니다. 이 견적은 업체와의 협상 기준선으로 활용하고, 반드시 현장 실측 후 공식 견적서를 비교하세요.</div></details>
+  <details><summary>인테리어 계약 시 반드시 확인해야 할 사항은 무엇인가요?</summary><div class="faq-answer">① 자재 브랜드·모델명·규격이 견적서에 명시됐는지, ② 공사 범위와 제외 항목이 명확한지, ③ 공사 기간과 지연 시 패널티 조항이 있는지, ④ 하자 보증 기간과 방식이 명시됐는지, ⑤ 계약금·중도금·잔금 비율이 적정한지(계약금 30% 초과는 주의) 확인하세요.</div></details>
+</div>
+
+<script>
+  let gradeLevel = 1;
+  const checks = {};
+
+  // 자재 등급 배율 [보급, 중급, 프리미엄]
+  const GRADE_MULT = [1.0, 1.6, 2.4];
+
+  // 단가 [최소, 최대] (평당 or 고정, 단위: 만원)
+  const PRICES = {
+    wallpaper: { type: 'area', min: 1.5, max: 2.5, label: '도배' },
+    floor:     { type: 'area', min: 2,   max: 18,  label: '바닥 (장판/마루)' },
+    bathroom:  { type: 'count', id: 'bathroomCount', min: 150, max: 350, label: '욕실' },
+    kitchen:   { type: 'fixed', min: 120, max: 400, label: '주방 싱크대' },
+    window:    { type: 'count', id: 'windowCount', min: 80, max: 180, label: '창호' },
+    ceiling:   { type: 'area', min: 1,  max: 3,   label: '천장 도장·몰딩' },
+    door:      { type: 'fixed', min: 50, max: 180, label: '중문·방문' },
+    lighting:  { type: 'area', min: 1,  max: 3,   label: '조명' },
+  };
+
+  function setGrade(g) {
+    gradeLevel = g;
+    [1,2,3].forEach(i => document.getElementById('g'+i).classList.toggle('active', i === g));
+  }
+
+  function toggleCheck(id, el) {
+    const cb = document.getElementById(id);
+    cb.checked = !cb.checked;
+    el.classList.toggle('checked', cb.checked);
+  }
+
+  function fmt(n) {
+    if (n >= 10000) return (n/10000).toFixed(1) + '억 원';
+    return n.toLocaleString() + '만 원';
+  }
+
+  function calc() {
+    const area = parseFloat(document.getElementById('area').value) || 25;
+    const mult = GRADE_MULT[gradeLevel - 1];
+    let totalMin = 0, totalMax = 0;
+    const rows = [];
+
+    Object.entries(PRICES).forEach(([id, p]) => {
+      const cb = document.getElementById(id);
+      if (!cb || !cb.checked) return;
+
+      let min, max;
+      if (p.type === 'area') {
+        const midMin = (p.min + (p.min * 0.7)) / 2 * mult;
+        min = p.min * mult * area;
+        max = p.max * mult * area;
+        // area type: grade multiplier adjusts the mid range
+        if (gradeLevel === 1) { min = p.min * area; max = (p.min * 1.8) * area; }
+        else if (gradeLevel === 2) { min = (p.min * 1.5) * area; max = ((p.min + p.max)/2 * 1.2) * area; }
+        else { min = ((p.min + p.max)/2) * area; max = p.max * area; }
+      } else if (p.type === 'count') {
+        const count = parseInt(document.getElementById(p.id).value) || 1;
+        if (gradeLevel === 1) { min = p.min * count; max = (p.min * 1.5) * count; }
+        else if (gradeLevel === 2) { min = ((p.min + p.max)/2 * 0.9) * count; max = ((p.min + p.max)/2 * 1.1) * count; }
+        else { min = (p.max * 0.8) * count; max = p.max * count; }
+      } else {
+        if (gradeLevel === 1) { min = p.min; max = p.min * 1.5; }
+        else if (gradeLevel === 2) { min = (p.min + p.max) / 2 * 0.9; max = (p.min + p.max) / 2 * 1.1; }
+        else { min = p.max * 0.8; max = p.max; }
+      }
+
+      totalMin += min;
+      totalMax += max;
+      const mid = (min + max) / 2;
+      rows.push({ label: p.label, mid });
+    });
+
+    const totalMid = (totalMin + totalMax) / 2;
+    document.getElementById('r-total').textContent = fmt(Math.round(totalMid));
+    document.getElementById('r-min').textContent = fmt(Math.round(totalMin));
+    document.getElementById('r-max').textContent = fmt(Math.round(totalMax));
+
+    const list = document.getElementById('breakdownList');
+    list.innerHTML = rows.map(r =>
+      `<div class="bk-row"><span class="bk-name">${r.label}</span><span class="bk-val">${fmt(Math.round(r.mid))}</span></div>`
+    ).join('') + `<div class="bk-row" style="font-weight:900;margin-top:4px"><span style="color:var(--text)">합계</span><span class="bk-val">${fmt(Math.round(totalMid))}</span></div>`;
+
+    document.getElementById('resultCard').classList.add('visible');
+  }
+
+  window.onload = () => {
+    // 초기 체크 상태 동기화
+    ['wallpaper'].forEach(id => {
+      const el = document.getElementById('ci-' + id);
+      if (el) el.classList.add('checked');
+    });
+    document.getElementById('ci-floor').classList.add('checked');
+    document.getElementById('floor').checked = true;
+  };
+</script>
+<script src="/common.js" defer></script><script src="/share.js" defer></script>
+<script>if('serviceWorker'in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));}</script>
+</body>
+</html>

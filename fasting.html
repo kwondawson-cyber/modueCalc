@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#00d4aa" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="모두의계산기" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>간헐적 단식 계산기 — 16:8·18:6·20:4 식사 시간대 계산 | 모두의계산기</title>
+  <meta name="description" content="간헐적 단식 계산기 2026 — 마지막 식사 시간을 입력하면 16:8·18:6·20:4 방식별 단식 종료 시간과 다음 식사 가능 시간대를 자동 계산합니다." />
+  <meta property="og:title" content="간헐적 단식 계산기 | 모두의계산기" />
+  <meta property="og:description" content="16:8·18:6·20:4 단식 방법별 식사 가능 시간대를 자동 계산" />
+  <meta property="og:url" content="https://www.everycalc.kr/fasting" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" /></noscript>
+  <style>
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--danger:#ff6b6b;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+    .container{max-width:700px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .home-btn-wrap{text-align:center;margin-bottom:28px}.home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all .2s}.home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}.home-btn-emoji{font-size:20px;line-height:1}.home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}.header h1 .emoji{-webkit-text-fill-color:initial;background:none}
+    .header{text-align:center;margin-bottom:40px}
+    .header h1{font-size:clamp(26px,6vw,42px);font-weight:900;line-height:1.1;margin-bottom:10px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .header p{color:var(--text-muted);font-size:14px}.input-comma{font-size:12px;color:var(--accent);margin-top:5px;font-weight:700;min-height:15px;letter-spacing:.3px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 32px;margin-bottom:20px}
+    .card-title{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:20px}
+    .method-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
+    @media(max-width:480px){.method-grid{grid-template-columns:1fr 1fr}}
+    .method-btn{padding:14px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:12px;cursor:pointer;text-align:center;transition:all .2s;font-family:'Noto Sans KR',sans-serif}
+    .method-btn.active{background:rgba(0,212,170,0.1);border-color:rgba(0,212,170,0.4)}
+    .method-name{font-size:16px;font-weight:900;color:var(--text);font-family:'Montserrat',sans-serif}
+    .method-desc{font-size:11px;color:var(--text-muted);margin-top:4px}
+    .method-btn.active .method-name{color:var(--accent)}
+    .input-group{margin-bottom:18px}
+    .input-group label{display:block;font-size:14px;font-weight:500;color:var(--text-muted);margin-bottom:7px}
+    .input-wrapper{position:relative}
+    input[type="time"]{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:13px 16px;font-size:20px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none;transition:border-color .2s}
+    input[type="time"]:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,170,0.1)}
+    .calc-btn{width:100%;padding:17px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;font-size:16px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:#000;cursor:pointer;margin-top:6px;transition:transform .15s,box-shadow .15s}
+    .calc-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,212,170,0.3)}
+    .result-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 32px;margin-bottom:20px;display:none}
+    .result-card.visible{display:block}
+    .result-title{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:20px}
+    .timeline{position:relative;padding-left:28px;margin-bottom:20px}
+    .timeline::before{content:'';position:absolute;left:8px;top:8px;bottom:8px;width:2px;background:linear-gradient(to bottom,var(--accent),var(--accent2))}
+    .tl-item{position:relative;margin-bottom:20px}
+    .tl-item::before{content:'';position:absolute;left:-24px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px rgba(0,212,170,0.2)}
+    .tl-label{font-size:12px;color:var(--text-muted);margin-bottom:2px}
+    .tl-time{font-size:28px;font-weight:900;color:var(--accent);font-family:'Montserrat',sans-serif}
+    .tl-sub{font-size:13px;color:var(--text-muted);margin-top:2px}
+    .tl-item.danger::before{background:var(--danger)}
+    .tl-item.danger .tl-time{color:var(--danger)}
+    .window-box{background:rgba(0,212,170,0.06);border:1px solid rgba(0,212,170,0.2);border-radius:12px;padding:16px 18px;margin-top:4px}
+    .window-box .wl{font-size:12px;color:var(--text-muted);margin-bottom:4px}
+    .window-box .wv{font-size:20px;font-weight:900;color:var(--accent);font-family:'Montserrat',sans-serif}
+    /* rel/aff */
+    .rel-section{max-width:700px;margin:32px auto 0;padding:0 20px}
+    .rel-section h2{font-size:14px;font-weight:700;color:var(--text-muted);margin-bottom:14px}
+    .rel-grid{display:flex;flex-wrap:wrap;gap:8px}
+    .rel-card{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;background:var(--surface);border:1px solid var(--border);border-radius:30px;text-decoration:none;font-size:13px;font-weight:600;color:var(--text);transition:border-color .2s}
+    .rel-card:hover{border-color:rgba(0,212,170,0.4);color:var(--accent)}
+    .aff-wrap{max-width:700px;margin:32px auto 0;padding:0 20px}
+    .affiliate-banner{display:flex;align-items:center;gap:14px;padding:16px 20px;background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.2);border-radius:14px;text-decoration:none;color:var(--text);transition:border-color .2s}
+    .affiliate-banner:hover{border-color:rgba(0,212,170,0.4)}
+    .ab-icon{font-size:28px}.ab-text{flex:1}.ab-title{font-size:14px;font-weight:700}.ab-desc{font-size:12px;color:var(--text-muted);margin-top:2px}.ab-btn{padding:8px 16px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:20px;color:#000;font-size:12px;font-weight:800;white-space:nowrap}
+    .aff-disclosure{font-size:11px;color:var(--text-muted);margin-top:6px;padding-left:4px}
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="header">
+    <h1><span class="emoji">⏱</span> 간헐적 단식<br>계산기</h1>
+    <p>마지막 식사 시간 → 단식 종료·식사 가능 시간 자동 계산</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">단식 방법 선택</div>
+    <div class="method-grid">
+      <div class="method-btn active" id="m16" onclick="selectMethod(16,8)">
+        <div class="method-name">16 : 8</div>
+        <div class="method-desc">단식 16시간 / 식사 8시간</div>
+      </div>
+      <div class="method-btn" id="m18" onclick="selectMethod(18,6)">
+        <div class="method-name">18 : 6</div>
+        <div class="method-desc">단식 18시간 / 식사 6시간</div>
+      </div>
+      <div class="method-btn" id="m20" onclick="selectMethod(20,4)">
+        <div class="method-name">20 : 4</div>
+        <div class="method-desc">단식 20시간 / 식사 4시간</div>
+      </div>
+      <div class="method-btn" id="m14" onclick="selectMethod(14,10)">
+        <div class="method-name">14 : 10</div>
+        <div class="method-desc">단식 14시간 / 식사 10시간 (입문)</div>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>마지막 식사를 마친 시간 (또는 지금 시작할 시간)</label>
+      <input type="time" id="lastMeal" value="20:00" />
+    </div>
+
+    <button class="calc-btn" onclick="calc()">⏱ 단식 시간 계산하기</button>
+  </div>
+
+  <div class="result-card" id="resultCard">
+    <div class="result-title">단식 스케줄</div>
+    <div class="timeline">
+      <div class="tl-item danger">
+        <div class="tl-label">🍽 마지막 식사 종료 (단식 시작)</div>
+        <div class="tl-time" id="r-start">—</div>
+        <div class="tl-sub">이후 물·블랙커피·무가당 차는 허용</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-label" id="r-label-mid">⚡ 지방 연소 시작 예상 (약 12~14시간 후)</div>
+        <div class="tl-time" id="r-fat">—</div>
+        <div class="tl-sub">케토시스 진입, 지방을 에너지원으로 사용</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-label" id="r-label-end">✅ 단식 종료 · 첫 식사 가능</div>
+        <div class="tl-time" id="r-end">—</div>
+        <div class="tl-sub" id="r-end-sub">—</div>
+      </div>
+    </div>
+    <div class="window-box">
+      <div class="wl">🕐 식사 가능 시간대</div>
+      <div class="wv" id="r-window">—</div>
+    </div>
+  </div>
+</div>
+
+<div class="aff-wrap">
+  <a href="https://appu.kr/?i=12515714" class="affiliate-banner" target="_blank" rel="nofollow sponsored">
+    <span class="ab-icon">🌿</span>
+    <div class="ab-text">
+      <div class="ab-title">린바디한의원 — 건강 체중 관리</div>
+      <div class="ab-desc">한방 다이어트·체질 맞춤 관리 무료 상담</div>
+    </div>
+    <span class="ab-btn">무료 상담 →</span>
+  </a>
+  <div class="aff-disclosure">[광고] 이 링크는 제휴 마케팅(애드릭스)을 통해 수수료를 지급받습니다.</div>
+</div>
+
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+    <a href="/calorie" class="rel-card"><span>🍎</span><span>칼로리 계산기</span></a>
+    <a href="/bmi" class="rel-card"><span>⚖️</span><span>BMI 계산기</span></a>
+    <a href="/bmr" class="rel-card"><span>🔥</span><span>기초대사량</span></a>
+    <a href="/sleep" class="rel-card"><span>😴</span><span>수면 계산기</span></a>
+    <a href="/blood_pressure" class="rel-card"><span>❤️</span><span>혈압 계산기</span></a>
+  </div>
+</div>
+
+<style>
+.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
+.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
+.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}
+.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
+.seo-section ul{padding-left:20px;margin-bottom:12px}
+.seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+.seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+.seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
+.seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
+.seo-section table tr:nth-child(even) td{background:#161b22}
+.seo-section table td strong{color:#00d4aa}
+.seo-section .tip-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .tip-box strong{color:#00d4aa}
+.seo-section .warn-box{background:rgba(255,107,107,0.05);border:1px solid rgba(255,107,107,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .warn-box strong{color:#ff6b6b}
+.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
+.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
+.seo-section details[open] summary::after{content:'－'}
+.seo-section details[open]{background:#161b22}
+.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
+</style>
+
+<div class="seo-section">
+  <h2>간헐적 단식이란? 원리와 다이어트 효과</h2>
+  <p>간헐적 단식(Intermittent Fasting, IF)은 일정 시간 동안 식사를 제한하고 나머지 시간에 먹는 식이 요법입니다. 칼로리를 직접 제한하는 것이 아니라 먹는 시간을 제한해 인슐린 분비를 줄이고 지방 연소를 촉진하는 방식입니다. 2019년 뉴잉글랜드 저널 오브 메디슨(NEJM)에 게재된 연구에서 체중 감량, 인슐린 감수성 개선, 혈압 저하 등 다양한 대사 건강 개선 효과가 확인되었습니다.</p>
+  <p>가장 널리 알려진 16:8 방식은 하루 16시간 단식하고 8시간 안에 식사를 마치는 방법입니다. 수면 시간을 단식 시간에 포함시키면 어렵지 않게 실천할 수 있습니다. 예를 들어 오전 12시~오후 8시에 식사하고 나머지 16시간은 물·블랙커피만 마시는 패턴입니다.</p>
+
+  <h2>단식 방법별 비교 — 16:8, 18:6, 20:4</h2>
+  <p>간헐적 단식에는 여러 프로토콜이 있으며, 단식 시간이 길수록 효과는 크지만 난이도도 높아집니다. 처음 시작한다면 14:10 방식으로 2~4주 적응 후 16:8로 전환하는 것을 권장합니다.</p>
+  <table>
+    <thead><tr><th>방법</th><th>단식 시간</th><th>식사 시간</th><th>난이도</th><th>적합 대상</th></tr></thead>
+    <tbody>
+      <tr><td><strong>14:10</strong></td><td>14시간</td><td>10시간</td><td>쉬움</td><td>IF 입문자, 여성 권장</td></tr>
+      <tr><td><strong>16:8</strong></td><td>16시간</td><td>8시간</td><td>보통</td><td>일반적으로 가장 권장</td></tr>
+      <tr><td><strong>18:6</strong></td><td>18시간</td><td>6시간</td><td>어려움</td><td>경험자, 체중 감량 집중</td></tr>
+      <tr><td><strong>20:4</strong></td><td>20시간</td><td>4시간</td><td>매우 어려움</td><td>숙련자만 권장</td></tr>
+    </tbody>
+  </table>
+
+  <h2>단식 시간별 신체 변화 — 언제 지방이 연소되나</h2>
+  <p>단식이 진행될수록 신체는 에너지원을 포도당에서 지방산으로 전환합니다. 이 전환 과정이 간헐적 단식 다이어트 효과의 핵심입니다. 특히 14시간 이후부터 시작되는 케토시스와 16시간 이후의 오토파지(세포 자가포식)는 체중 감량 외에도 노화 방지·대사 건강에 긍정적인 영향을 미치는 것으로 알려져 있습니다.</p>
+  <table>
+    <thead><tr><th>단식 경과 시간</th><th>신체 변화</th><th>체감 증상</th></tr></thead>
+    <tbody>
+      <tr><td>0~4시간</td><td>소화·흡수 단계, 인슐린 분비</td><td>포만감</td></tr>
+      <tr><td>4~8시간</td><td>혈당 안정화, 인슐린 저하 시작</td><td>공복감 시작</td></tr>
+      <tr><td>8~12시간</td><td>간 글리코겐 소진 시작</td><td>공복감 강해짐</td></tr>
+      <tr><td><strong>12~14시간</strong></td><td><strong>지방 산화(케토시스) 시작</strong></td><td>가벼운 두통 가능</td></tr>
+      <tr><td>16시간 이후</td><td>성장호르몬 증가, 오토파지 촉진</td><td>집중력 향상 가능</td></tr>
+      <tr><td>24시간 이후</td><td>오토파지 최대화</td><td>강한 공복감, 피로</td></tr>
+    </tbody>
+  </table>
+
+  <div class="tip-box">
+    <strong>💡 단식 중 허용되는 음식</strong><br>
+    물, 블랙커피(무가당·무지방), 무가당 허브차, 탄산수는 인슐린 분비를 자극하지 않아 단식 중 허용됩니다. 우유·크림·설탕·MCT오일이 포함된 음료는 단식을 깨는 것으로 간주합니다. 순수 케토시스 목적이라면 물만 마시는 '워터 패스팅'을 선택하세요.
+  </div>
+
+  <h2>간헐적 단식 효과 — 다이어트 외에도 있을까</h2>
+  <p>체중 감량 외에도 간헐적 단식의 잠재적 효과로는 혈당 조절 개선(인슐린 저항성 감소), 혈압·중성지방·LDL 콜레스테롤 수치 개선, 뇌 건강(BDNF 증가), 오토파지를 통한 세포 청소 효과 등이 연구되고 있습니다. 단, 이러한 효과는 건강 상태와 개인 차에 따라 다르며, 기저 질환이 있다면 반드시 의사와 상담 후 시작하세요.</p>
+
+  <div class="warn-box">
+    <strong>⚠️ 간헐적 단식 금기 대상</strong><br>
+    제1형 당뇨병 환자, 임산부·수유 중인 여성, 섭식장애(거식증·폭식증) 이력이 있는 분, 성장기 청소년(18세 미만)에게는 권장하지 않습니다. 저혈당 약물 복용 중인 제2형 당뇨 환자도 반드시 주치의와 상담 후 시작하세요.
+  </div>
+
+  <h2>자주 묻는 질문 — 간헐적 단식</h2>
+  <details><summary>16:8 단식은 언제 식사하는 것이 가장 좋나요?</summary><div class="faq-answer">가장 일반적인 패턴은 정오(12시)~오후 8시입니다. 직장인이라면 점심 식사를 첫 끼로, 저녁 7~8시에 마지막 식사를 하는 패턴이 현실적입니다. 아침을 중요시한다면 오전 8시~오후 4시 패턴도 가능합니다. 중요한 것은 식사 시간대를 일정하게 유지하는 것입니다.</div></details>
+  <details><summary>단식 중 운동해도 되나요?</summary><div class="faq-answer">가벼운 유산소 운동(걷기·조깅)은 공복 상태에서도 가능하며 지방 연소 효율이 높아질 수 있습니다. 고강도 근력 운동이나 HIIT는 식사 직전(단식 종료 직전)이나 식사 후에 하는 것이 퍼포먼스와 근육 합성에 더 유리합니다. 현기증이 느껴지면 즉시 중단하고 수분을 보충하세요.</div></details>
+  <details><summary>단식 중 두통·어지러움이 생기는 이유는 무엇인가요?</summary><div class="faq-answer">처음 2~3일간은 혈당 저하와 체내 나트륨 배출로 인한 두통·어지러움이 생길 수 있습니다. 물과 전해질(소금 약간, 마그네슘)을 충분히 보충하면 증상이 완화됩니다. 1~2주 적응 기간이 지나면 대부분 사라집니다.</div></details>
+  <details><summary>단식을 하면 근육이 손실되나요?</summary><div class="faq-answer">16~18시간 단식 수준에서는 근육 손실이 거의 없습니다. 신체는 에너지 부족 시 지방을 먼저 분해하고, 근육 분해(단백질 이화작용)는 훨씬 나중에 시작됩니다. 식사 시간대에 체중 1kg당 1.6~2.0g의 단백질을 섭취하면 근육 손실을 최소화할 수 있습니다.</div></details>
+  <details><summary>커피를 마시면 단식이 깨지나요?</summary><div class="faq-answer">블랙커피(설탕·우유·크림 없음)는 칼로리가 2~5kcal에 불과하고 인슐린 분비를 거의 자극하지 않아 대부분의 간헐적 단식 프로토콜에서 허용됩니다. 다만 세포 자가포식(오토파지) 효과를 극대화하는 순수 단식을 원한다면 물만 마시는 것을 권장하는 전문가도 있습니다.</div></details>
+  <details><summary>간헐적 단식과 케토식(저탄고지)을 함께 해도 되나요?</summary><div class="faq-answer">함께 하면 각각의 효과가 시너지를 낼 수 있습니다. 케토식은 탄수화물을 극도로 제한해 케토시스 상태를 유지하고, 간헐적 단식은 단식 시간을 통해 케토시스에 더 빨리 진입하게 합니다. 단, 두 가지를 동시에 시작하면 적응이 어려울 수 있으므로 한 가지씩 순서대로 도입하는 것을 권장합니다.</div></details>
+</div>
+
+<script>
+  let fastHours = 16, eatHours = 8;
+
+  function selectMethod(fh, eh) {
+    fastHours = fh; eatHours = eh;
+    document.querySelectorAll('.method-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('m' + fh).classList.add('active');
+  }
+
+  function addHours(timeStr, h) {
+    const [hh, mm] = timeStr.split(':').map(Number);
+    const total = hh * 60 + mm + h * 60;
+    const nh = Math.floor(total / 60) % 24;
+    const nm = total % 60;
+    return (nh < 10 ? '0' : '') + nh + ':' + (nm < 10 ? '0' : '') + nm;
+  }
+
+  function fmtTime(t) {
+    const [h, m] = t.split(':').map(Number);
+    const ampm = h < 12 ? '오전' : '오후';
+    const h12 = h === 0 ? 12 : h > 12 ? h - 12 : h;
+    return ampm + ' ' + h12 + ':' + (m < 10 ? '0' : '') + m;
+  }
+
+  function calc() {
+    const lastMeal = document.getElementById('lastMeal').value;
+    if (!lastMeal) { alert('마지막 식사 시간을 입력해주세요.'); return; }
+
+    const fatTime = addHours(lastMeal, 13); // ~13시간 후 지방연소 시작
+    const endTime = addHours(lastMeal, fastHours);
+    const windowEnd = addHours(endTime, eatHours);
+
+    document.getElementById('r-start').textContent = fmtTime(lastMeal);
+    document.getElementById('r-fat').textContent = fmtTime(fatTime);
+    document.getElementById('r-end').textContent = fmtTime(endTime);
+    document.getElementById('r-end-sub').textContent = fastHours + '시간 단식 완료 — 첫 식사 가능';
+    document.getElementById('r-window').textContent = fmtTime(endTime) + ' ~ ' + fmtTime(windowEnd);
+    document.getElementById('resultCard').classList.add('visible');
+  }
+
+  window.onload = () => {
+    const now = new Date();
+    const h = String(now.getHours()).padStart(2,'0');
+    const m = String(now.getMinutes()).padStart(2,'0');
+    document.getElementById('lastMeal').value = h + ':' + m;
+  };
+</script>
+<script src="/common.js" defer></script><script src="/share.js" defer></script>
+<script>if('serviceWorker'in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));}</script>
+</body>
+</html>

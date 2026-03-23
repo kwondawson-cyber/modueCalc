@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#00d4aa" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="모두의계산기" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>순자산 계산기 — 자산·부채 입력 재무 건강도 분석 | 모두의계산기</title>
+  <meta name="description" content="순자산 계산기 2026 — 부동산·금융자산·차량 등 자산과 주택담보대출·신용대출 등 부채를 입력해 순자산·부채비율·재무 건강도를 자동 분석합니다." />
+  <meta property="og:title" content="순자산 계산기 | 모두의계산기" />
+  <meta property="og:description" content="자산과 부채를 입력해 내 순자산과 재무 건강도를 확인하세요." />
+  <meta property="og:url" content="https://www.everycalc.kr/net_worth" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" /></noscript>
+  <style>
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--danger:#ff6b6b;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+    .container{max-width:700px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .home-btn-wrap{text-align:center;margin-bottom:28px}.home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all .2s}.home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}.home-btn-emoji{font-size:20px;line-height:1}.home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}.header h1 .emoji{-webkit-text-fill-color:initial;background:none}
+    .header{text-align:center;margin-bottom:40px}
+    .header h1{font-size:clamp(26px,6vw,42px);font-weight:900;line-height:1.1;margin-bottom:10px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .header p{color:var(--text-muted);font-size:14px}.input-comma{font-size:12px;color:var(--accent);margin-top:5px;font-weight:700;min-height:15px;letter-spacing:.3px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 32px;margin-bottom:20px}
+    .card-title{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:20px}
+    .item-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+    .item-row label{flex:1;font-size:14px;color:var(--text-muted)}
+    .item-row input{width:160px;flex-shrink:0;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:15px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none;text-align:right;transition:border-color .2s}
+    .item-row input:focus{border-color:var(--accent)}
+    @media(max-width:480px){.item-row label{font-size:13px}.item-row input{width:130px;font-size:14px}}
+    .section-sum{display:flex;justify-content:flex-end;padding:10px 0;border-top:1px solid var(--border);margin-top:8px;font-size:14px;color:var(--text-muted)}
+    .section-sum strong{color:var(--accent);font-family:'Montserrat',sans-serif;margin-left:8px}
+    .calc-btn{width:100%;padding:17px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;font-size:16px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:#000;cursor:pointer;margin-top:6px;transition:transform .15s,box-shadow .15s}
+    .calc-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,212,170,0.3)}
+    .result-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 32px;margin-bottom:20px;display:none}
+    .result-card.visible{display:block}
+    .result-title{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:20px}
+    .main-result{text-align:center;padding:24px;border-radius:14px;margin-bottom:20px}
+    .main-result .label{font-size:13px;color:var(--text-muted);margin-bottom:8px}
+    .main-result .big{font-size:38px;font-weight:900;font-family:'Montserrat',sans-serif}
+    .result-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:18px}
+    @media(max-width:480px){.result-grid{grid-template-columns:1fr 1fr}}
+    .result-item{background:var(--surface2);border-radius:12px;padding:14px;text-align:center}
+    .result-item .label{font-size:11px;color:var(--text-muted);margin-bottom:4px}
+    .result-item .value{font-size:16px;font-weight:900;font-family:'Montserrat',sans-serif}
+    .grade-bar{margin-top:16px;padding:16px 18px;border-radius:12px;line-height:1.8;font-size:13px;color:var(--text-muted)}
+    .grade-a{background:rgba(0,212,170,0.07);border:1px solid rgba(0,212,170,0.25)}
+    .grade-b{background:rgba(0,149,255,0.07);border:1px solid rgba(0,149,255,0.25)}
+    .grade-c{background:rgba(255,215,0,0.07);border:1px solid rgba(255,215,0,0.25)}
+    .grade-d{background:rgba(255,107,107,0.07);border:1px solid rgba(255,107,107,0.25)}
+    /* rel/aff */
+    .rel-section{max-width:700px;margin:32px auto 0;padding:0 20px}
+    .rel-section h2{font-size:14px;font-weight:700;color:var(--text-muted);margin-bottom:14px}
+    .rel-grid{display:flex;flex-wrap:wrap;gap:8px}
+    .rel-card{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;background:var(--surface);border:1px solid var(--border);border-radius:30px;text-decoration:none;font-size:13px;font-weight:600;color:var(--text);transition:border-color .2s}
+    .rel-card:hover{border-color:rgba(0,212,170,0.4);color:var(--accent)}
+    .aff-wrap{max-width:700px;margin:32px auto 0;padding:0 20px}
+    .affiliate-banner{display:flex;align-items:center;gap:14px;padding:16px 20px;background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.2);border-radius:14px;text-decoration:none;color:var(--text);transition:border-color .2s}
+    .affiliate-banner:hover{border-color:rgba(0,212,170,0.4)}
+    .ab-icon{font-size:28px}.ab-text{flex:1}.ab-title{font-size:14px;font-weight:700}.ab-desc{font-size:12px;color:var(--text-muted);margin-top:2px}.ab-btn{padding:8px 16px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:20px;color:#000;font-size:12px;font-weight:800;white-space:nowrap}
+    .aff-disclosure{font-size:11px;color:var(--text-muted);margin-top:6px;padding-left:4px}
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="header">
+    <h1><span class="emoji">💰</span> 순자산<br>계산기</h1>
+    <p>자산 — 부채 = 내 진짜 재산 · 재무 건강도 분석</p>
+  </div>
+
+  <!-- 자산 -->
+  <div class="card">
+    <div class="card-title">📈 자산 입력</div>
+    <div class="item-row"><label>🏠 부동산 (아파트·빌라·토지 등)</label><input type="number" id="a1" value="0" oninput="liveSum();showComma(this)" /></div>
+<div class="input-comma" id="a1_c"></div>
+    <div class="item-row"><label>💵 예금·적금·CMA</label><input type="number" id="a2" value="0" oninput="liveSum();showComma(this)" /></div>
+<div class="input-comma" id="a2_c"></div>
+    <div class="item-row"><label>📊 주식·ETF·펀드·연금</label><input type="number" id="a3" value="0" oninput="liveSum();showComma(this)" /></div>
+<div class="input-comma" id="a3_c"></div>
+    <div class="item-row"><label>🚗 자동차 (시세 기준)</label><input type="number" id="a4" value="0" oninput="liveSum();showComma(this)" /></div>
+<div class="input-comma" id="a4_c"></div>
+    <div class="item-row"><label>🏦 퇴직금 (예상액)</label><input type="number" id="a5" value="0" oninput="liveSum();showComma(this)" /></div>
+<div class="input-comma" id="a5_c"></div>
+    <div class="item-row"><label>📦 기타 자산</label><input type="number" id="a6" value="0" oninput="liveSum();showComma(this)" /></div>
+<div class="input-comma" id="a6_c"></div>
+    <div class="section-sum">자산 합계 <strong id="totalAsset">0원</strong></div>
+  </div>
+
+  <!-- 부채 -->
+  <div class="card">
+    <div class="card-title">📉 부채 입력</div>
+    <div class="item-row"><label>🏠 주택담보대출 잔액</label><input type="number" id="d1" value="0" oninput="liveSum();showComma(this)" /></div>
+<div class="input-comma" id="d1_c"></div>
+    <div class="item-row"><label>🏦 전세자금대출 잔액</label><input type="number" id="d2" value="0" oninput="liveSum();showComma(this)" /></div>
+<div class="input-comma" id="d2_c"></div>
+    <div class="item-row"><label>💳 신용대출·마이너스통장</label><input type="number" id="d3" value="0" oninput="liveSum();showComma(this)" /></div>
+<div class="input-comma" id="d3_c"></div>
+    <div class="item-row"><label>🚗 자동차 할부 잔액</label><input type="number" id="d4" value="0" oninput="liveSum();showComma(this)" /></div>
+<div class="input-comma" id="d4_c"></div>
+    <div class="item-row"><label>💸 학자금 대출 잔액</label><input type="number" id="d5" value="0" oninput="liveSum();showComma(this)" /></div>
+<div class="input-comma" id="d5_c"></div>
+    <div class="item-row"><label>📦 기타 부채</label><input type="number" id="d6" value="0" oninput="liveSum();showComma(this)" /></div>
+<div class="input-comma" id="d6_c"></div>
+    <div class="section-sum">부채 합계 <strong id="totalDebt">0원</strong></div>
+  </div>
+
+  <button class="calc-btn" onclick="calc()">💰 순자산 & 재무 건강도 분석</button>
+
+  <div class="result-card" id="resultCard">
+    <div class="result-title">분석 결과</div>
+    <div class="main-result" id="mainResult">
+      <div class="label">순자산 (자산 — 부채)</div>
+      <div class="big" id="r-net">—</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-top:4px">원</div>
+    </div>
+    <div class="result-grid">
+      <div class="result-item">
+        <div class="label">총 자산</div>
+        <div class="value" id="r-asset" style="color:var(--accent)">—</div>
+      </div>
+      <div class="result-item">
+        <div class="label">총 부채</div>
+        <div class="value" id="r-debt" style="color:var(--danger)">—</div>
+      </div>
+      <div class="result-item">
+        <div class="label">부채 비율</div>
+        <div class="value" id="r-ratio">—</div>
+      </div>
+    </div>
+    <div class="grade-bar" id="gradeBadge"></div>
+  </div>
+</div>
+
+<div class="aff-wrap">
+  <a href="https://appu.kr/?i=12515711" class="affiliate-banner" target="_blank" rel="nofollow sponsored">
+    <span class="ab-icon">🏦</span>
+    <div class="ab-text">
+      <div class="ab-title">신협 담보대출 무료 상담</div>
+      <div class="ab-desc">부채 정리·자산 증식 첫걸음, 금리 비교</div>
+    </div>
+    <span class="ab-btn">무료 상담 →</span>
+  </a>
+  <div class="aff-disclosure">[광고] 이 링크는 제휴 마케팅(애드릭스)을 통해 수수료를 지급받습니다.</div>
+</div>
+
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+    <a href="/retirement_plan" class="rel-card"><span>🌅</span><span>은퇴 계획</span></a>
+    <a href="/loan" class="rel-card"><span>🏧</span><span>대출 이자</span></a>
+    <a href="/compound" class="rel-card"><span>📈</span><span>복리 계산기</span></a>
+    <a href="/salary" class="rel-card"><span>💵</span><span>연봉 실수령액</span></a>
+    <a href="/inflation" class="rel-card"><span>📉</span><span>물가상승률</span></a>
+  </div>
+</div>
+
+<style>
+.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
+.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
+.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}
+.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
+.seo-section ul{padding-left:20px;margin-bottom:12px}
+.seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+.seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+.seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
+.seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
+.seo-section table tr:nth-child(even) td{background:#161b22}
+.seo-section table td strong{color:#00d4aa}
+.seo-section .tip-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .tip-box strong{color:#00d4aa}
+.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
+.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
+.seo-section details[open] summary::after{content:'－'}
+.seo-section details[open]{background:#161b22}
+.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
+</style>
+
+<div class="seo-section">
+  <h2>내 순자산, 한국 평균·중위값과 비교해보기</h2>
+  <p>순자산은 '내가 가진 것 — 빚진 것'입니다. 통계청 2023년 가계금융복지조사에 따르면 한국 가구 평균 순자산은 약 4억 1,900만 원이지만, 이 숫자는 고자산가에 의해 크게 왜곡됩니다. 실제 절반의 가구가 그 이하인 중위 순자산은 약 2억 1,400만 원으로 평균의 절반 수준입니다. 내 재무 상태를 객관적으로 파악하려면 평균보다 중위값 기준과 비교하는 것이 더 현실적입니다.</p>
+  <p>순자산은 단순 저축액이 아니라 부동산·금융자산·자동차 등 모든 자산에서 주담대·신용대출 등 모든 부채를 뺀 값입니다. 이 계산기에 자산과 부채를 항목별로 입력하면 순자산과 재무 건강도를 자동으로 분석해드립니다.</p>
+
+  <h2>연령대별 가구 순자산 — 나는 어디에 있나</h2>
+  <p>연령대가 높을수록 자산 축적 기간이 길어 순자산이 증가하는 경향이 있습니다. 50대에 정점을 찍고 60대 이후 은퇴 생활비로 소진이 시작됩니다. 내 연령대 중위값과 비교해보면 재무 목표를 현실적으로 설정할 수 있습니다.</p>
+  <table>
+    <thead><tr><th>연령대</th><th>평균 순자산</th><th>중위 순자산</th><th>주요 자산 구성</th></tr></thead>
+    <tbody>
+      <tr><td>30대</td><td>약 2억 3,000만 원</td><td>약 1억 400만 원</td><td>금융자산 비중 높음</td></tr>
+      <tr><td>40대</td><td>약 4억 1,000만 원</td><td>약 2억 1,000만 원</td><td>부동산 취득 시작</td></tr>
+      <tr><td>50대</td><td>약 5억 1,000만 원</td><td>약 2억 8,000만 원</td><td>부동산 비중 최대</td></tr>
+      <tr><td>60대 이상</td><td>약 4억 9,000만 원</td><td>약 2억 6,000만 원</td><td>부동산 비중 80% 이상</td></tr>
+    </tbody>
+  </table>
+
+  <h2>부채 비율로 재무 건강 등급 확인하기</h2>
+  <p>부채비율(Debt-to-Asset Ratio)은 총자산 대비 총부채의 비율입니다. 낮을수록 재무적으로 안정됩니다. 주택담보대출처럼 레버리지를 활용한 부채는 어느 정도 허용되지만, 신용대출·카드론 같은 고금리 소비성 부채는 가능한 한 빨리 상환해야 합니다.</p>
+  <table>
+    <thead><tr><th>부채 비율</th><th>재무 건강 등급</th><th>권고 사항</th></tr></thead>
+    <tbody>
+      <tr><td>30% 미만</td><td><strong>우수</strong></td><td>자산 증식 집중. 투자 비중 확대 가능</td></tr>
+      <tr><td>30~50%</td><td><strong>양호</strong></td><td>부채 관리 지속, 저축 비율 유지</td></tr>
+      <tr><td>50~70%</td><td><strong>주의</strong></td><td>고금리 부채 우선 상환, 신규 대출 자제</td></tr>
+      <tr><td>70% 이상</td><td><strong>위험</strong></td><td>긴급 구조조정 필요, 금융 전문가 상담 권장</td></tr>
+    </tbody>
+  </table>
+
+  <h2>순자산을 빠르게 늘리는 전략</h2>
+  <p>순자산 증가는 크게 두 가지 방향입니다. 하나는 부채를 줄이는 것이고, 다른 하나는 자산을 키우는 것입니다. 두 가지를 병행할 때 가장 효과적이지만, 우선순위는 부채 금리 수준에 따라 달라집니다.</p>
+  <ul>
+    <li><strong>고금리 부채 먼저 상환</strong> — 카드론(연 15~20%)·신용대출(연 5~8%)은 어떤 투자 수익률보다 높습니다. 연 10% 이상 부채는 투자보다 상환이 우선입니다.</li>
+    <li><strong>저금리 부채는 레버리지 활용</strong> — 주택담보대출(연 3~5%)은 자산 가치 상승을 기대할 수 있는 상황에서 레버리지로 활용 가능합니다. 다만 금리 상승 리스크를 항상 고려하세요.</li>
+    <li><strong>소득 대비 저축률 높이기</strong> — 저축률이 10%와 30%일 때 30년 뒤 자산 격차는 3배 이상입니다. 지출을 줄이거나 소득을 늘려 저축률을 높이는 것이 순자산 증가의 핵심입니다.</li>
+    <li><strong>자산을 수익 창출 자산으로 전환</strong> — 예금·현금보다 ETF·배당주·임대 수익 등 수익을 내는 자산 비중을 늘리면 순자산 성장 속도가 빨라집니다.</li>
+  </ul>
+
+  <h2>자주 묻는 질문 — 순자산 계산기</h2>
+  <details><summary>자동차는 자산에 포함해야 하나요?</summary><div class="faq-answer">포함할 수 있지만 자동차는 매년 10~15%씩 가치가 감소하는 감가상각 자산입니다. 현재 중고 시세(KB차차차·엔카 기준)를 기준으로 입력하세요. 레저 목적 차량은 수익을 창출하지 않으므로 보수적인 재무 계획에서는 제외하는 시각도 있습니다.</div></details>
+  <details><summary>전세 보증금은 자산인가요, 부채인가요?</summary><div class="faq-answer">집을 빌린 임차인 입장에서 전세 보증금은 집주인에게 맡긴 채권이므로 자산입니다. 반면 집주인은 언젠가 돌려줘야 할 부채입니다. 역전세 위험(보증금 반환 불능)이 있다면 보증금 전액을 온전한 자산으로 보기 어려울 수 있으니 전세보증보험 가입을 확인하세요.</div></details>
+  <details><summary>퇴직금도 자산에 포함해야 하나요?</summary><div class="faq-answer">재직 중에도 이미 발생한 퇴직금은 법적 채권이므로 자산에 포함할 수 있습니다. 다만 실제 수령 전이고, 퇴직소득세(8~45%) 차감 후 금액이 실수령액이 됩니다. 세후 예상액 기준으로 입력하는 것이 더 정확합니다. IRP에 쌓인 퇴직연금도 동일하게 적용됩니다.</div></details>
+  <details><summary>부동산은 공시가격과 시세 중 어느 값을 입력하나요?</summary><div class="faq-answer">순자산 파악이 목적이라면 현재 KB시세 또는 실거래가 기준 시세를, 세금·재산세 계산이 목적이라면 공시가격을 사용합니다. 이 계산기는 순자산 파악 목적이므로 현재 매도 가능한 시세 기준 입력을 권장합니다.</div></details>
+  <details><summary>순자산이 마이너스면 어떻게 해야 하나요?</summary><div class="faq-answer">부채가 자산보다 많은 상태입니다. 즉시 해야 할 일은 ① 지출 구조 파악 ② 불필요한 고금리 부채(카드론·현금서비스) 즉시 상환 ③ 최소 생활비를 제외한 여유 자금 전액 부채 상환입니다. 서민금융진흥원의 '채무조정' 서비스나 신용회복위원회 상담도 활용할 수 있습니다.</div></details>
+  <details><summary>순자산은 언제 어떻게 기록해두는 것이 좋나요?</summary><div class="faq-answer">분기 1회 또는 반기 1회 정도 정기적으로 기록해두면 재무 트렌드를 파악할 수 있습니다. 스프레드시트에 날짜·총자산·총부채·순자산을 기록하면 목표 달성 여부를 직관적으로 확인할 수 있습니다. 순자산이 늘어나는 추세를 확인하는 것 자체가 강력한 저축 동기가 됩니다.</div></details>
+</div>
+
+<script>
+  function fmt(n) {
+    const abs = Math.abs(n);
+    const eok = Math.floor(abs / 100000000);
+    const man = Math.round((abs % 100000000) / 10000);
+    const sign = n < 0 ? '-' : '';
+    if (eok > 0 && man > 0) return sign + eok + '억 ' + man.toLocaleString() + '만';
+    if (eok > 0) return sign + eok + '억';
+    return sign + man.toLocaleString() + '만';
+  }
+
+  function getSum(ids) {
+    return ids.reduce((s, id) => s + (parseFloat(document.getElementById(id).value) || 0), 0);
+  }
+
+  function liveSum() {
+    const a = getSum(['a1','a2','a3','a4','a5','a6']);
+    const d = getSum(['d1','d2','d3','d4','d5','d6']);
+    document.getElementById('totalAsset').textContent = fmt(a) + '원';
+    document.getElementById('totalDebt').textContent = fmt(d) + '원';
+  }
+
+
+  function showComma(el) {
+    const v = parseFloat(el.value) || 0;
+    const cid = el.id + '_c';
+    const disp = document.getElementById(cid);
+    if (!disp) return;
+    if (v === 0) { disp.textContent = ''; return; }
+    let s = '';
+    const abs = Math.abs(v);
+    const sign = v < 0 ? '-' : '';
+    if (abs >= 100000000) {
+      const eok = Math.floor(abs / 100000000);
+      const man = Math.round((abs % 100000000) / 10000);
+      s = man > 0 ? sign + eok + '억 ' + man.toLocaleString('ko-KR') + '만 원' : sign + eok + '억 원';
+    } else if (abs >= 10000) {
+      s = sign + Math.round(abs / 10000).toLocaleString('ko-KR') + '만 원';
+    } else {
+      s = sign + abs.toLocaleString('ko-KR') + ' 원';
+    }
+    disp.textContent = s;
+  }
+  function calc() {
+    const asset = getSum(['a1','a2','a3','a4','a5','a6']);
+    const debt = getSum(['d1','d2','d3','d4','d5','d6']);
+    const net = asset - debt;
+    const ratio = asset > 0 ? (debt / asset * 100) : 0;
+
+    document.getElementById('r-asset').textContent = fmt(asset) + '만원';
+    document.getElementById('r-debt').textContent = fmt(debt) + '만원';
+    document.getElementById('r-net').textContent = fmt(net);
+    document.getElementById('r-ratio').textContent = ratio.toFixed(1) + '%';
+
+    const mr = document.getElementById('mainResult');
+    const netEl = document.getElementById('r-net');
+    if (net >= 0) {
+      mr.style.background = 'rgba(0,212,170,0.08)';
+      mr.style.border = '1px solid rgba(0,212,170,0.25)';
+      netEl.style.color = '#00d4aa';
+    } else {
+      mr.style.background = 'rgba(255,107,107,0.08)';
+      mr.style.border = '1px solid rgba(255,107,107,0.25)';
+      netEl.style.color = '#ff6b6b';
+    }
+
+    const gr = document.getElementById('gradeBadge');
+    if (ratio < 30) {
+      gr.className = 'grade-bar grade-a';
+      gr.innerHTML = '✅ <strong>재무 건강도: 우수</strong><br>부채 비율 ' + ratio.toFixed(1) + '% — 매우 안정적입니다. 자산 증식에 집중하세요.';
+    } else if (ratio < 50) {
+      gr.className = 'grade-bar grade-b';
+      gr.innerHTML = '🔵 <strong>재무 건강도: 양호</strong><br>부채 비율 ' + ratio.toFixed(1) + '% — 관리 가능한 수준입니다. 꾸준히 부채를 줄여나가세요.';
+    } else if (ratio < 70) {
+      gr.className = 'grade-bar grade-c';
+      gr.innerHTML = '⚠️ <strong>재무 건강도: 주의</strong><br>부채 비율 ' + ratio.toFixed(1) + '% — 부채 상환을 최우선으로 설정하세요.';
+    } else {
+      gr.className = 'grade-bar grade-d';
+      gr.innerHTML = '🚨 <strong>재무 건강도: 위험</strong><br>부채 비율 ' + ratio.toFixed(1) + '% — 즉각적인 부채 구조조정이 필요합니다.';
+    }
+
+    document.getElementById('resultCard').classList.add('visible');
+  }
+
+  window.onload = () => liveSum();
+</script>
+<script src="/common.js" defer></script><script src="/share.js" defer></script>
+<script>if('serviceWorker'in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));}</script>
+</body>
+</html>

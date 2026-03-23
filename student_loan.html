@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#00d4aa" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="모두의계산기" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>학자금 대출 계산기 — 든든·일반·취업 후 상환 이자·월상환액 | 모두의계산기</title>
+  <meta name="description" content="학자금 대출 계산기 2026 — 든든학자금(취업 후 상환)·일반 학자금 대출 이자·총상환액·월납입액 자동 계산. 2026년 금리 기준, 소득분위별 이자 면제 조건 안내." />
+  <meta property="og:title" content="학자금 대출 계산기 | 모두의계산기" />
+  <meta property="og:description" content="든든학자금·일반학자금 이자·총상환액·월납입액 자동 계산. 2026년 금리 기준." />
+  <meta property="og:url" content="https://www.everycalc.kr/student_loan" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"학자금 대출 계산기","url":"https://www.everycalc.kr/student_loan","applicationCategory":"FinanceApplication","operatingSystem":"All"}</script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" /></noscript>
+  <style>
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--danger:#ff6b6b;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+    .container{max-width:700px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .home-btn-wrap{text-align:center;margin-bottom:28px}.home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all .2s}.home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}.home-btn-emoji{font-size:20px;line-height:1}.home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}.header h1 .emoji{-webkit-text-fill-color:initial;background:none}
+    .header{text-align:center;margin-bottom:40px}
+    .header h1{font-size:clamp(26px,6vw,42px);font-weight:900;line-height:1.1;margin-bottom:10px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .header p{color:var(--text-muted);font-size:14px}.input-comma{font-size:12px;color:var(--accent);margin-top:5px;font-weight:700;min-height:15px;letter-spacing:.3px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 32px;margin-bottom:20px}
+    .card-title{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:20px}
+    .type-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px}
+    .type-btn{padding:14px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:12px;cursor:pointer;text-align:center;transition:all .2s;font-family:'Noto Sans KR',sans-serif}
+    .type-btn.active{background:rgba(0,212,170,0.1);border-color:rgba(0,212,170,0.4)}
+    .type-name{font-size:14px;font-weight:700;color:var(--text)}
+    .type-rate{font-size:12px;color:var(--text-muted);margin-top:4px}
+    .type-btn.active .type-name{color:var(--accent)}
+    .input-group{margin-bottom:18px}
+    .input-group label{display:block;font-size:14px;font-weight:500;color:var(--text-muted);margin-bottom:7px}
+    .input-wrapper{position:relative}
+    .input-wrapper input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:13px 70px 13px 16px;font-size:17px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none;transition:border-color .2s}
+    .input-wrapper input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,170,0.1)}
+    .input-unit{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--text-muted);pointer-events:none}
+    select{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:13px 16px;font-size:15px;font-weight:600;font-family:'Noto Sans KR',sans-serif;color:var(--text);outline:none;cursor:pointer}
+    .info-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.15);border-radius:10px;padding:12px 16px;margin-bottom:18px;font-size:13px;color:var(--text-muted);line-height:1.8}
+    .info-box strong{color:var(--accent)}
+    .calc-btn{width:100%;padding:17px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;font-size:16px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:#000;cursor:pointer;margin-top:6px;transition:transform .15s,box-shadow .15s}
+    .calc-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,212,170,0.3)}
+    .result-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 32px;margin-bottom:20px;display:none}
+    .result-card.visible{display:block}
+    .result-title{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:20px}
+    .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+    @media(max-width:480px){.result-grid{grid-template-columns:1fr}}
+    .result-item{background:var(--surface2);border-radius:12px;padding:16px 18px;text-align:center}
+    .result-item .label{font-size:12px;color:var(--text-muted);margin-bottom:5px}
+    .result-item .value{font-size:20px;font-weight:900;font-family:'Montserrat',sans-serif}
+    .result-item .value.ok{color:var(--accent)}
+    .result-item .value.warn{color:var(--danger)}
+    .grace-box{margin-top:16px;padding:14px 16px;background:rgba(0,149,255,0.06);border:1px solid rgba(0,149,255,0.2);border-radius:10px;font-size:13px;color:var(--text-muted);line-height:1.8}
+    .grace-box strong{color:var(--accent2)}
+    .rel-section{max-width:700px;margin:32px auto 0;padding:0 20px}
+    .rel-section h2{font-size:14px;font-weight:700;color:var(--text-muted);margin-bottom:14px}
+    .rel-grid{display:flex;flex-wrap:wrap;gap:8px}
+    .rel-card{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;background:var(--surface);border:1px solid var(--border);border-radius:30px;text-decoration:none;font-size:13px;font-weight:600;color:var(--text);transition:border-color .2s}
+    .rel-card:hover{border-color:rgba(0,212,170,0.4);color:var(--accent)}
+    .aff-wrap{max-width:700px;margin:32px auto 0;padding:0 20px}
+    .affiliate-banner{display:flex;align-items:center;gap:14px;padding:16px 20px;background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.2);border-radius:14px;text-decoration:none;color:var(--text);transition:border-color .2s}
+    .affiliate-banner:hover{border-color:rgba(0,212,170,0.4)}
+    .ab-icon{font-size:28px}.ab-text{flex:1}.ab-title{font-size:14px;font-weight:700}.ab-desc{font-size:12px;color:var(--text-muted);margin-top:2px}.ab-btn{padding:8px 16px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:20px;color:#000;font-size:12px;font-weight:800;white-space:nowrap}
+    .aff-disclosure{font-size:11px;color:var(--text-muted);margin-top:6px;padding-left:4px}
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="header">
+    <h1><span class="emoji">🎓</span> 학자금 대출<br>계산기</h1>
+    <p>든든·일반·취업 후 상환형 이자 · 월납입액 계산</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">대출 유형 선택</div>
+    <div class="type-grid">
+      <div class="type-btn active" id="t-ipo" onclick="setType('ipo')">
+        <div class="type-name">든든학자금</div>
+        <div class="type-rate">취업 후 상환 · 연 1.7%</div>
+      </div>
+      <div class="type-btn" id="t-gen" onclick="setType('gen')">
+        <div class="type-name">일반 학자금</div>
+        <div class="type-rate">재학 중 상환 · 연 1.7%</div>
+      </div>
+    </div>
+    <div class="info-box" id="typeInfo">
+      <strong>든든학자금(취업 후 상환형)</strong> — 재학 중 이자 발생하지 않음(소득 1~3분위 무이자). 졸업·취업 후 연소득이 상환기준소득(2026년 약 2,795만 원)을 초과하면 자동 원천징수로 상환합니다.
+    </div>
+
+    <div class="input-group">
+      <label>대출 원금</label>
+      <div class="input-wrapper">
+        <input type="number" id="principal" value="15000000" min="0" oninput="showComma(this)" />
+        <span class="input-unit">원</span>
+      </div>
+<div class="input-comma" id="principal_c"></div>
+    </div>
+
+    <div id="genOptions">
+      <div class="input-group">
+        <label>대출 기간</label>
+        <select id="period">
+          <option value="5">5년</option>
+          <option value="10" selected>10년</option>
+          <option value="15">15년</option>
+          <option value="20">20년</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label>재학 중 거치 기간 (이자만 납부)</label>
+        <select id="grace">
+          <option value="0">거치 없음</option>
+          <option value="2" selected>2년 (재학 기간)</option>
+          <option value="4">4년 (재학 기간)</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="ipoOptions" style="display:none">
+      <div class="input-group">
+        <label>연 소득 (취업 후 예상)</label>
+        <div class="input-wrapper">
+          <input type="number" id="income" value="35000000" oninput="showComma(this)" />
+          <span class="input-unit">원</span>
+        </div>
+<div class="input-comma" id="income_c"></div>
+      </div>
+      <div class="input-group">
+        <label>소득 분위</label>
+        <select id="incomeLevel">
+          <option value="0">1~3분위 (무이자 혜택)</option>
+          <option value="1" selected>4~8분위 (연 1.7%)</option>
+          <option value="2">9~10분위 (연 1.7%)</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="calc-btn" onclick="calc()">🎓 이자 · 상환액 계산하기</button>
+  </div>
+
+  <div class="result-card" id="resultCard">
+    <div class="result-title">계산 결과</div>
+    <div class="result-grid">
+      <div class="result-item">
+        <div class="label">월 납입액</div>
+        <div class="value ok" id="r-monthly">—</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:3px">원</div>
+      </div>
+      <div class="result-item">
+        <div class="label">총 이자</div>
+        <div class="value warn" id="r-interest">—</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:3px">원</div>
+      </div>
+      <div class="result-item">
+        <div class="label">총 상환액</div>
+        <div class="value ok" id="r-total">—</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:3px">원</div>
+      </div>
+      <div class="result-item">
+        <div class="label">적용 금리</div>
+        <div class="value ok" id="r-rate">—</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:3px">연</div>
+      </div>
+    </div>
+    <div class="grace-box" id="graceBox"></div>
+  </div>
+</div>
+
+<div class="aff-wrap">
+  <a href="https://appu.kr/?i=12515711" class="affiliate-banner" target="_blank" rel="nofollow sponsored">
+    <span class="ab-icon">🏦</span>
+    <div class="ab-text">
+      <div class="ab-title">신협 담보대출 무료 상담</div>
+      <div class="ab-desc">학자금 외 생활비·창업자금 대출 비교</div>
+    </div>
+    <span class="ab-btn">무료 상담 →</span>
+  </a>
+  <div class="aff-disclosure">[광고] 이 링크는 제휴 마케팅(애드릭스)을 통해 수수료를 지급받습니다.</div>
+</div>
+
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+    <a href="/loan" class="rel-card"><span>🏧</span><span>대출 이자</span></a>
+    <a href="/salary" class="rel-card"><span>💵</span><span>연봉 실수령액</span></a>
+    <a href="/retirement_plan" class="rel-card"><span>🌅</span><span>은퇴 계획</span></a>
+    <a href="/compound" class="rel-card"><span>📈</span><span>복리 계산기</span></a>
+    <a href="/net_worth" class="rel-card"><span>💰</span><span>순자산 계산기</span></a>
+  </div>
+</div>
+
+<style>
+.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
+.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
+.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}
+.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
+.seo-section ul{padding-left:20px;margin-bottom:12px}
+.seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+.seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+.seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
+.seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
+.seo-section table tr:nth-child(even) td{background:#161b22}
+.seo-section table td strong{color:#00d4aa}
+.seo-section .tip-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .tip-box strong{color:#00d4aa}
+.seo-section .warn-box{background:rgba(255,107,107,0.05);border:1px solid rgba(255,107,107,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .warn-box strong{color:#ff6b6b}
+.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
+.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
+.seo-section details[open] summary::after{content:'－'}
+.seo-section details[open]{background:#161b22}
+.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
+</style>
+
+<div class="seo-section">
+  <h2>학자금 대출 종류 — 든든학자금 vs 일반 학자금 차이점</h2>
+  <p>한국장학재단이 운영하는 학자금 대출은 크게 <strong>든든학자금(취업 후 상환형, ICL)</strong>과 <strong>일반 학자금 대출</strong>로 나뉩니다. 2026년 1학기 기준 두 상품의 금리는 모두 연 1.7%로 동일하지만, 상환 방식·무이자 조건·신청 자격이 크게 다릅니다. 재학 중 소득이 없는 학생에게는 든든학자금이, 졸업 후 빠르게 갚을 계획이 있다면 일반 학자금이 유리할 수 있습니다.</p>
+  <p>학자금 대출 총 누적 잔액은 2024년 기준 약 19조 원을 넘어섰습니다. 대학 생활 4년간 등록금 대출만 받아도 1,000만~2,000만 원의 부채가 생기며, 생활비 대출까지 합하면 3,000만 원을 넘는 경우도 많습니다. 갚기 전에 이자와 총 상환액을 미리 계산해보는 것이 중요합니다.</p>
+
+  <h2>학자금 대출 유형별 조건 비교 (2026년 기준)</h2>
+  <table>
+    <thead><tr><th>구분</th><th>든든학자금 (ICL)</th><th>일반 학자금</th></tr></thead>
+    <tbody>
+      <tr><td>신청 자격</td><td>소득 1~8분위, 만 35세 이하 대학생</td><td>소득 1~8분위, 만 55세 이하 대학(원)생</td></tr>
+      <tr><td>금리 (2026년 1학기)</td><td><strong>연 1.7%</strong></td><td><strong>연 1.7%</strong></td></tr>
+      <tr><td>무이자 혜택</td><td>소득 1~3분위 전액 무이자</td><td>소득 1분위만 무이자</td></tr>
+      <tr><td>상환 시작 조건</td><td>연소득이 상환기준소득(2026년 약 2,795만 원) 초과 시</td><td>졸업 후 거치기간 종료 후 원리금균등 상환</td></tr>
+      <tr><td>상환 방식</td><td>국세청 자동 원천징수 (연소득 초과분의 20%)</td><td>원리금균등상환 또는 원금균등상환</td></tr>
+      <tr><td>중도상환수수료</td><td>없음</td><td>없음</td></tr>
+      <tr><td>대출 한도</td><td>등록금 전액 + 생활비 최대 연 400만 원</td><td>등록금 전액 + 생활비 최대 연 400만 원</td></tr>
+    </tbody>
+  </table>
+
+  <h2>든든학자금 취업 후 상환 — 연소득별 상환액 계산</h2>
+  <p>든든학자금은 취업 후 연소득이 상환기준소득(2026년 약 2,795만 원)을 초과해야만 상환 의무가 생깁니다. 상환액은 기준 초과 소득의 20%로, 소득세 신고 후 국세청을 통해 자동 원천징수됩니다. 소득이 기준 미달이면 그 해는 상환하지 않아도 됩니다.</p>
+  <table>
+    <thead><tr><th>연소득</th><th>기준초과 소득</th><th>연간 상환액 (초과분 20%)</th><th>월 환산 상환액</th></tr></thead>
+    <tbody>
+      <tr><td>2,795만 원 이하</td><td>0원</td><td><strong>상환 의무 없음</strong></td><td>0원</td></tr>
+      <tr><td>3,000만 원</td><td>205만 원</td><td>약 41만 원</td><td>약 3.4만 원</td></tr>
+      <tr><td>4,000만 원</td><td>1,205만 원</td><td>약 241만 원</td><td>약 20만 원</td></tr>
+      <tr><td>5,000만 원</td><td>2,205만 원</td><td>약 441만 원</td><td>약 36.8만 원</td></tr>
+      <tr><td>6,000만 원</td><td>3,205만 원</td><td>약 641만 원</td><td>약 53.4만 원</td></tr>
+    </tbody>
+  </table>
+
+  <div class="tip-box">
+    <strong>💡 든든학자금 vs 일반 학자금 선택 가이드</strong><br>
+    소득 1~3분위라면 든든학자금이 무이자 혜택 덕분에 훨씬 유리합니다. 소득 4분위 이상이라도 졸업 후 취업까지 시간이 걸린다면 든든학자금이 그 기간 동안 상환 부담이 없어 유리합니다. 반면 졸업 후 바로 고소득 취업이 예상된다면 일반 학자금으로 빠르게 상환하는 것이 총 이자를 줄이는 방법일 수 있습니다.
+  </div>
+
+  <h2>학자금 대출 이자 계산 예시 — 1,500만 원 기준</h2>
+  <p>등록금 대출 1,500만 원을 일반 학자금으로 받은 경우, 4년 재학 중 거치(이자만 납부) 후 10년 상환이라면 총이자는 다음과 같습니다.</p>
+  <table>
+    <thead><tr><th>조건</th><th>거치기간 이자</th><th>상환기간 월납입</th><th>총 이자</th><th>총 상환액</th></tr></thead>
+    <tbody>
+      <tr><td>연 1.7%, 거치 4년, 상환 10년</td><td>약 102만 원 (4년)</td><td>약 15.3만 원</td><td>약 286만 원</td><td>약 1,786만 원</td></tr>
+      <tr><td>연 1.7%, 거치 없음, 상환 10년</td><td>없음</td><td>약 13.7만 원</td><td>약 146만 원</td><td>약 1,646만 원</td></tr>
+    </tbody>
+  </table>
+
+  <div class="warn-box">
+    <strong>⚠️ 생활비 대출 과다 사용 주의</strong><br>
+    학기당 최대 200만 원(연 400만 원) 한도의 생활비 대출은 등록금 대출과 별도로 이자가 발생합니다. 든든학자금 생활비도 소득 분위에 따라 이자가 부과됩니다. 4년간 매학기 200만 원씩 빌리면 생활비만 1,600만 원이 됩니다. 필요한 만큼만 사용하고 아르바이트·장학금으로 보완하는 것을 권장합니다.
+  </div>
+
+  <h2>자주 묻는 질문 — 학자금 대출</h2>
+  <details><summary>든든학자금 신청 자격은 어떻게 되나요?</summary><div class="faq-answer">가구 소득 1~8분위에 해당하는 대학(원)생으로, 만 35세 이하(대학원생은 만 40세 이하), 직전 학기 12학점 이상 이수 및 C학점(2.0) 이상 유지 조건이 필요합니다. 편입생·복학생도 조건 충족 시 신청 가능합니다. 성적 미달 시 다음 학기 대출이 제한될 수 있으니 성적 관리에 유의하세요.</div></details>
+  <details><summary>출산하면 든든학자금을 면제받을 수 있나요?</summary><div class="faq-answer">네, 든든학자금 취업 후 상환형은 출산 면제 혜택이 있습니다. 2024년 기준 자녀 1인당 잔여 대출의 최대 1,000만 원이 면제됩니다. 둘째 이후 자녀에 대해서는 추가 혜택이 있습니다. 정확한 금액과 조건은 한국장학재단(kosaf.go.kr)에서 확인하세요.</div></details>
+  <details><summary>학자금 대출 조기 상환 시 수수료가 있나요?</summary><div class="faq-answer">한국장학재단 학자금 대출은 중도상환수수료가 없습니다. 취업 후 여유 자금이 생기면 언제든 조기 상환해 이자 부담을 줄일 수 있습니다. 특히 든든학자금은 조기 상환 시 이자 절감 효과가 크므로 고소득자는 적극적으로 활용하세요.</div></details>
+  <details><summary>학자금 대출 연체 시 어떻게 되나요?</summary><div class="faq-answer">일반 학자금 대출을 연체하면 신용점수가 하락하고 연체 이자가 발생합니다. 장기 연체(90일 이상)는 신용불량 등록이 될 수 있습니다. 든든학자금은 자동 원천징수 방식이라 연체 위험이 낮습니다. 상환이 어렵다면 한국장학재단에 상환유예·분할납부를 신청할 수 있습니다.</div></details>
+  <details><summary>대학원생도 학자금 대출이 가능한가요?</summary><div class="faq-answer">일반 학자금 대출은 대학원생도 신청 가능합니다(만 55세 이하, 소득 1~8분위). 단, 든든학자금(취업 후 상환형, ICL)은 대학(학부생)에게만 해당되며 대학원생은 신청 불가입니다. 대학원생이라면 일반 학자금 대출과 함께 국가장학금·연구비 지원 제도도 병행 확인하세요.</div></details>
+  <details><summary>학자금 대출 상환 중 소득이 줄면 어떻게 되나요?</summary><div class="faq-answer">든든학자금은 연소득이 상환기준소득(약 2,795만 원) 이하로 줄면 그 해 상환 의무가 자동으로 없어집니다. 일반 학자금 대출은 소득에 관계없이 약정된 일정에 따라 상환해야 하지만, 실직·폐업 등 불가피한 사유 발생 시 한국장학재단에 상환유예를 신청할 수 있습니다.</div></details>
+</div>
+
+<script>
+  let loanType = 'ipo';
+  const RATE = 0.017; // 2026년 1학기 기준 연 1.7%
+
+  window.addEventListener('DOMContentLoaded', function() {
+    ['principal'].forEach(id => showComma(document.getElementById(id)));
+  });
+
+  function setType(t) {
+    loanType = t;
+    ['ipo','gen'].forEach(id => document.getElementById('t-'+id).classList.toggle('active', id === t));
+    document.getElementById('genOptions').style.display = t === 'gen' ? '' : 'none';
+    document.getElementById('ipoOptions').style.display = t === 'ipo' ? '' : 'none';
+    document.getElementById('typeInfo').innerHTML = t === 'ipo'
+      ? '<strong>든든학자금(취업 후 상환형)</strong> — 소득 1~3분위 무이자. 연소득이 상환기준소득(약 2,795만 원)을 초과해야 상환 의무 발생.'
+      : '<strong>일반 학자금 대출</strong> — 재학 중 이자 발생, 거치기간(재학 중) 이후 원리금균등 상환. 소득 1분위는 무이자.';
+  }
+
+  function fmt(n) { return Math.round(n).toLocaleString('ko-KR'); }
+
+
+  function showComma(el) {
+    const v = parseFloat(el.value) || 0;
+    const cid = el.id + '_c';
+    const disp = document.getElementById(cid);
+    if (!disp) return;
+    if (v === 0) { disp.textContent = ''; return; }
+    let s = '';
+    const abs = Math.abs(v);
+    const sign = v < 0 ? '-' : '';
+    if (abs >= 100000000) {
+      const eok = Math.floor(abs / 100000000);
+      const man = Math.round((abs % 100000000) / 10000);
+      s = man > 0 ? sign + eok + '억 ' + man.toLocaleString('ko-KR') + '만 원' : sign + eok + '억 원';
+    } else if (abs >= 10000) {
+      s = sign + Math.round(abs / 10000).toLocaleString('ko-KR') + '만 원';
+    } else {
+      s = sign + abs.toLocaleString('ko-KR') + ' 원';
+    }
+    disp.textContent = s;
+  }
+  function calc() {
+    const P = parseFloat(document.getElementById('principal').value) || 0;
+    if (P <= 0) { alert('대출 원금을 입력해주세요.'); return; }
+
+    let monthly, totalInterest, totalPay, rateLabel, graceHtml;
+
+    if (loanType === 'gen') {
+      const years = parseInt(document.getElementById('period').value) || 10;
+      const graceYears = parseInt(document.getElementById('grace').value) || 0;
+      const repayYears = years - graceYears;
+      const repayN = repayYears * 12;
+      const r12 = RATE / 12;
+
+      // 거치 기간 이자
+      const graceInterestTotal = P * RATE * graceYears;
+      // 원리금균등 상환
+      monthly = r12 === 0 ? P / repayN : P * r12 * Math.pow(1+r12,repayN) / (Math.pow(1+r12,repayN)-1);
+      totalInterest = monthly * repayN - P + graceInterestTotal;
+      totalPay = P + totalInterest;
+      rateLabel = '연 1.7%';
+      const graceMo = Math.round(P * RATE / 12);
+      graceHtml = `<strong>📋 상환 구조</strong><br>거치기간 ${graceYears}년: 월 이자만 <strong>${fmt(graceMo)}원</strong> 납부<br>상환기간 ${repayYears}년: 월 원리금 <strong>${fmt(monthly)}원</strong> 납부`;
+    } else {
+      // 든든학자금: 취업 후 소득 기준 상환
+      const income = parseFloat(document.getElementById('income').value) || 0;
+      const lvl = parseInt(document.getElementById('incomeLevel').value);
+      const THRESHOLD = 27950000; // 2026년 상환기준소득 약 2,795만 원
+      const REPAY_RATE = 0.20; // 상환율 20%
+
+      if (lvl === 0) { // 무이자
+        rateLabel = '0% (무이자)';
+        totalInterest = 0;
+        totalPay = P;
+        const overIncome = Math.max(0, income - THRESHOLD);
+        const annualRepay = overIncome * REPAY_RATE;
+        monthly = annualRepay > 0 ? annualRepay / 12 : 0;
+        const estimatedYears = annualRepay > 0 ? Math.ceil(P / annualRepay) : 0;
+        graceHtml = `<strong>📋 취업 후 상환 (무이자 혜택 적용)</strong><br>
+          기준소득 초과분: <strong>${fmt(overIncome)}원/년</strong><br>
+          예상 연간 상환액: <strong>${fmt(annualRepay)}원 (월 ${fmt(monthly)}원)</strong><br>
+          총 이자: <strong>0원 (무이자)</strong><br>
+          ${estimatedYears > 0 ? `예상 상환 완료: 약 <strong>${estimatedYears}년</strong>` : '소득이 기준 미달이면 상환 의무 없음'}`;
+      } else {
+        rateLabel = '연 1.7%';
+        // 든든학자금: 재학 4년 이자 발생, 이후 소득 기준 상환
+        const studyYears = 4;
+        const studyInterest = P * RATE * studyYears;
+        totalInterest = studyInterest; // 근사치 (상환 기간 이자 별도)
+        totalPay = P + totalInterest;
+
+        const overIncome = Math.max(0, income - THRESHOLD);
+        const annualRepay = overIncome * REPAY_RATE;
+        monthly = annualRepay > 0 ? annualRepay / 12 : 0;
+        const estimatedYears = annualRepay > 0 ? Math.ceil(totalPay / annualRepay) : 0;
+        graceHtml = `<strong>📋 취업 후 상환 (연 1.7% 적용)</strong><br>
+          기준소득 초과분: <strong>${fmt(overIncome)}원/년</strong><br>
+          예상 연간 상환액: <strong>${fmt(annualRepay)}원 (월 ${fmt(monthly)}원)</strong><br>
+          재학 4년간 예상 이자: <strong>${fmt(studyInterest)}원</strong><br>
+          ${estimatedYears > 0 ? `예상 상환 완료: 약 <strong>${estimatedYears}년</strong>` : '소득이 기준 미달이면 상환 의무 없음'}`;
+      }
+    }
+
+    document.getElementById('r-monthly').textContent = fmt(monthly);
+    document.getElementById('r-interest').textContent = fmt(totalInterest);
+    document.getElementById('r-total').textContent = fmt(totalPay);
+    document.getElementById('r-rate').textContent = rateLabel;
+    document.getElementById('graceBox').innerHTML = graceHtml;
+    document.getElementById('resultCard').classList.add('visible');
+  }
+</script>
+<script src="/common.js" defer></script><script src="/share.js" defer></script>
+<script>if('serviceWorker'in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));}</script>
+</body>
+</html>

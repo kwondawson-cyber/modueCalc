@@ -101,8 +101,16 @@
     {title:'임대 수익률',   path:'/rent_yield',       emoji:'🏘️'},
     {title:'알바 인건비',   path:'/part_time_cost',   emoji:'👥'},
     {title:'환불 계산기',   path:'/refund',           emoji:'💸'},
-  {path:'/etf_return',  title:'ETF 수익률 계산기',    emoji:'📊'},
-  {path:'/dividend',    title:'배당금 수익률 계산기',  emoji:'💵'},
+  {path:'/etf_return',       title:'ETF 수익률 계산기',    emoji:'📊'},
+  {path:'/dividend',         title:'배당금 수익률 계산기',  emoji:'💵'},
+  {path:'/mortgage',         title:'주택담보대출',          emoji:'🏠'},
+  {path:'/retirement_plan',  title:'은퇴 계획',             emoji:'🌅'},
+  {path:'/net_worth',        title:'순자산 계산기',         emoji:'💎'},
+  {path:'/fasting',          title:'간헐적 단식',           emoji:'⏱'},
+  {path:'/remodeling',       title:'리모델링 비용',         emoji:'🏗'},
+  {path:'/timezone',         title:'시간대 변환기',         emoji:'🌍'},
+  {path:'/student_loan',     title:'학자금 대출',           emoji:'🎓'},
+  {path:'/freelancer_rate',  title:'프리랜서 요금',         emoji:'💻'},
   ];
 
   var POPULAR = ['/salary','/age','/weekly_holiday','/bmi','/exchange',

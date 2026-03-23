@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#00d4aa" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="모두의계산기" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>주택담보대출 계산기 — 모기지 월납입·총이자·조기상환 시뮬레이션 | 모두의계산기</title>
+  <meta name="description" content="주택담보대출(모기지) 계산기 2026 — 주택가격·계약금·금리·대출기간으로 월 납입액·총이자 자동 계산. 조기상환 절감 시뮬레이션, DSR·LTV 규제 기준 안내 포함." />
+  <meta property="og:title" content="주택담보대출 계산기 | 모두의계산기" />
+  <meta property="og:description" content="주택가격·계약금·금리·기간으로 월 납입액·총이자 계산. 조기상환 시뮬레이션 포함." />
+  <meta property="og:url" content="https://www.everycalc.kr/mortgage" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"주택담보대출 계산기","url":"https://www.everycalc.kr/mortgage","applicationCategory":"FinanceApplication","operatingSystem":"All"}</script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" /></noscript>
+  <style>
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--danger:#ff6b6b;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+    .container{max-width:700px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .home-btn-wrap{text-align:center;margin-bottom:28px}.home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all .2s}.home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}.home-btn-emoji{font-size:20px;line-height:1}.home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}.header h1 .emoji{-webkit-text-fill-color:initial;background:none}
+    .header{text-align:center;margin-bottom:40px}
+    .header h1{font-size:clamp(26px,6vw,42px);font-weight:900;line-height:1.1;margin-bottom:10px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .header p{color:var(--text-muted);font-size:14px}.input-comma{font-size:12px;color:var(--accent);margin-top:5px;font-weight:700;min-height:15px;letter-spacing:.3px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 32px;margin-bottom:20px}
+    .card-title{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:22px}
+    .input-group{margin-bottom:18px}
+    .input-group label{display:block;font-size:14px;font-weight:500;color:var(--text-muted);margin-bottom:7px}
+    .input-wrapper{position:relative}
+    .input-wrapper input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:13px 70px 13px 16px;font-size:17px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none;transition:border-color .2s,box-shadow .2s}
+    .input-wrapper input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,170,0.1)}
+    .input-unit{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--text-muted);pointer-events:none}
+    .tab-group{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
+    .tab-btn{padding:12px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;font-size:13px;font-weight:600;font-family:'Noto Sans KR',sans-serif;color:var(--text-muted);cursor:pointer;transition:all .2s;text-align:center}
+    .tab-btn.active{background:rgba(0,212,170,0.1);border-color:rgba(0,212,170,0.4);color:var(--accent)}
+    select{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:13px 16px;font-size:16px;font-weight:600;font-family:'Noto Sans KR',sans-serif;color:var(--text);outline:none;cursor:pointer}
+    .calc-btn{width:100%;padding:17px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;font-size:16px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:#000;cursor:pointer;margin-top:6px;transition:transform .15s,box-shadow .15s}
+    .calc-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,212,170,0.3)}
+    .info-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.15);border-radius:10px;padding:12px 16px;margin-bottom:18px;font-size:13px;color:var(--text-muted)}
+    .info-box strong{color:var(--accent)}
+    .result-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 32px;margin-bottom:20px;display:none}
+    .result-card.visible{display:block}
+    .result-title{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:20px}
+    .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+    @media(max-width:480px){.result-grid{grid-template-columns:1fr}}
+    .result-item{background:var(--surface2);border-radius:12px;padding:16px 18px;text-align:center}
+    .result-item .label{font-size:12px;color:var(--text-muted);margin-bottom:6px}
+    .result-item .value{font-size:22px;font-weight:900;color:var(--accent);font-family:'Montserrat',sans-serif}
+    .result-item .value.danger{color:var(--danger)}
+    .result-item .sub{font-size:11px;color:var(--text-muted);margin-top:4px}
+    .prepay-section{margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}
+    .prepay-section h3{font-size:13px;font-weight:700;color:var(--accent);margin-bottom:14px}
+    .prepay-result{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px 16px;font-size:13px;color:var(--text-muted);line-height:1.9}
+    .prepay-result strong{color:var(--accent)}
+    /* rel-section */
+    .rel-section{max-width:700px;margin:32px auto 0;padding:0 20px}
+    .rel-section h2{font-size:14px;font-weight:700;color:var(--text-muted);margin-bottom:14px}
+    .rel-grid{display:flex;flex-wrap:wrap;gap:8px}
+    .rel-card{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;background:var(--surface);border:1px solid var(--border);border-radius:30px;text-decoration:none;font-size:13px;font-weight:600;color:var(--text);transition:border-color .2s}
+    .rel-card:hover{border-color:rgba(0,212,170,0.4);color:var(--accent)}
+    /* aff */
+    .aff-wrap{max-width:700px;margin:32px auto 0;padding:0 20px}
+    .affiliate-banner{display:flex;align-items:center;gap:14px;padding:16px 20px;background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.2);border-radius:14px;text-decoration:none;color:var(--text);transition:border-color .2s}
+    .affiliate-banner:hover{border-color:rgba(0,212,170,0.4)}
+    .ab-icon{font-size:28px}
+    .ab-text{flex:1}
+    .ab-title{font-size:14px;font-weight:700;color:var(--text)}
+    .ab-desc{font-size:12px;color:var(--text-muted);margin-top:2px}
+    .ab-btn{padding:8px 16px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:20px;color:#000;font-size:12px;font-weight:800;white-space:nowrap}
+    .aff-disclosure{font-size:11px;color:var(--text-muted);margin-top:6px;padding-left:4px}
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="header">
+    <h1><span class="emoji">🏠</span> 주택담보대출<br>계산기</h1>
+    <p>월 납입액 · 총이자 · 조기상환 절감 시뮬레이션</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">대출 조건 입력</div>
+
+    <div class="input-group">
+      <label>주택 가격</label>
+      <div class="input-wrapper">
+        <input type="number" id="homePrice" value="500000000" min="0" oninput="updateLoanAmount();showComma(this)" />
+        <span class="input-unit">원</span>
+      </div>
+<div class="input-comma" id="homePrice_c"></div>
+    </div>
+
+    <div class="input-group">
+      <label>계약금 비율 — <span id="downLabel">20</span>%</label>
+      <input type="range" id="downRate" min="5" max="80" value="20" step="5" oninput="onDownSlide(this.value)" style="width:100%;margin-top:6px" />
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-top:4px"><span>5%</span><span>40%</span><span>80%</span></div>
+    </div>
+
+    <div class="info-box">
+      계약금 <strong id="downAmt">1억 0,000만 원</strong> → 대출금액 <strong id="loanAmt">4억 0,000만 원</strong>
+    </div>
+
+    <div class="input-group">
+      <label>연 금리</label>
+      <div class="input-wrapper">
+        <input type="number" id="rate" value="4.0" min="0.1" max="20" step="0.1" />
+        <span class="input-unit">%</span>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>대출 기간</label>
+      <select id="period">
+        <option value="10">10년</option>
+        <option value="15">15년</option>
+        <option value="20">20년</option>
+        <option value="25">25년</option>
+        <option value="30" selected>30년</option>
+        <option value="35">35년</option>
+      </select>
+    </div>
+
+    <div class="card-title" style="margin-top:8px;margin-bottom:12px">상환 방식</div>
+    <div class="tab-group">
+      <button class="tab-btn active" id="tab-equal" onclick="setMethod('equal')">원리금균등</button>
+      <button class="tab-btn" id="tab-principal" onclick="setMethod('principal')">원금균등</button>
+    </div>
+
+    <button class="calc-btn" onclick="calc()">💰 월 납입액 계산하기</button>
+  </div>
+
+  <div class="result-card" id="resultCard">
+    <div class="result-title">계산 결과</div>
+    <div class="result-grid">
+      <div class="result-item">
+        <div class="label">월 납입액 (첫 달)</div>
+        <div class="value" id="r-monthly">—</div>
+        <div class="sub">원</div>
+      </div>
+      <div class="result-item">
+        <div class="label">총 이자</div>
+        <div class="value danger" id="r-interest">—</div>
+        <div class="sub">원</div>
+      </div>
+      <div class="result-item">
+        <div class="label">총 상환액</div>
+        <div class="value" id="r-total">—</div>
+        <div class="sub">원</div>
+      </div>
+      <div class="result-item">
+        <div class="label">이자 비율</div>
+        <div class="value danger" id="r-ratio">—</div>
+        <div class="sub">원금 대비</div>
+      </div>
+    </div>
+
+    <div class="prepay-section">
+      <h3>🔥 조기상환 시뮬레이션</h3>
+      <div class="input-group">
+        <label>매달 추가 납입액</label>
+        <div class="input-wrapper">
+          <input type="number" id="extraPayment" value="0" min="0" placeholder="0" oninput="calcPrepay();showComma(this)" />
+          <span class="input-unit">원</span>
+        </div>
+<div class="input-comma" id="extraPayment_c"></div>
+      </div>
+      <div class="prepay-result" id="prepayResult" style="display:none"></div>
+    </div>
+  </div>
+</div>
+
+<div class="aff-wrap">
+  <a href="https://appu.kr/?i=12515711" class="affiliate-banner" target="_blank" rel="nofollow sponsored">
+    <span class="ab-icon">🏦</span>
+    <div class="ab-text">
+      <div class="ab-title">신협 담보대출 무료 상담</div>
+      <div class="ab-desc">아파트·빌라·상가 주택담보대출 금리 비교</div>
+    </div>
+    <span class="ab-btn">무료 상담 →</span>
+  </a>
+  <div class="aff-disclosure">[광고] 이 링크는 제휴 마케팅(애드릭스)을 통해 수수료를 지급받습니다.</div>
+</div>
+
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+    <a href="/loan" class="rel-card"><span>🏧</span><span>대출 이자</span></a>
+    <a href="/loan_limit" class="rel-card"><span>📊</span><span>대출 한도 (DSR)</span></a>
+    <a href="/jeonse_loan" class="rel-card"><span>🏠</span><span>전세자금대출</span></a>
+    <a href="/acquisition" class="rel-card"><span>🏢</span><span>취득세</span></a>
+    <a href="/student_loan" class="rel-card"><span>🎓</span><span>학자금 대출</span></a>
+  </div>
+</div>
+
+<style>
+.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
+.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
+.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}
+.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
+.seo-section ul{padding-left:20px;margin-bottom:12px}
+.seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+.seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+.seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
+.seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
+.seo-section table tr:nth-child(even) td{background:#161b22}
+.seo-section table td strong{color:#00d4aa}
+.seo-section .tip-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .tip-box strong{color:#00d4aa}
+.seo-section .warn-box{background:rgba(255,107,107,0.05);border:1px solid rgba(255,107,107,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .warn-box strong{color:#ff6b6b}
+.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
+.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
+.seo-section details[open] summary::after{content:'－'}
+.seo-section details[open]{background:#161b22}
+.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
+</style>
+
+<div class="seo-section">
+  <h2>주택담보대출 월 납입액, 금리와 기간에 따라 얼마나 달라지나</h2>
+  <p>주택담보대출(모기지)은 한국에서 가장 큰 규모의 개인 대출입니다. 2026년 현재 시중은행 주담대 평균 금리는 연 3.5~5.0% 수준이며, 대출 기간은 통상 20~35년입니다. 같은 5억 원을 빌리더라도 금리가 1%p 다르면 30년 동안 갚아야 할 총이자가 1억 원 이상 차이 납니다. 대출 실행 전에 반드시 월 납입 가능 여부와 총이자 부담을 시뮬레이션해보는 것이 필수입니다.</p>
+  <p>원리금균등상환 방식에서 5억 원, 연 4%, 30년 조건이라면 매달 약 239만 원을 납입하고, 30년간 총 이자만 약 3억 6,000만 원에 달합니다. 내 집 마련 전 이 계산기로 예상 월 납입액과 총 비용을 미리 확인하세요.</p>
+
+  <h3>5억 원 대출 기준 금리·기간별 총이자 비교</h3>
+  <table>
+    <thead><tr><th>연 금리</th><th>20년 총이자</th><th>30년 총이자</th><th>30년 월납입 (원리금균등)</th></tr></thead>
+    <tbody>
+      <tr><td>3.0%</td><td>약 1억 6,100만 원</td><td>약 2억 5,900만 원</td><td><strong>약 210만 원</strong></td></tr>
+      <tr><td>4.0%</td><td>약 2억 2,000만 원</td><td>약 3억 5,900만 원</td><td><strong>약 239만 원</strong></td></tr>
+      <tr><td>5.0%</td><td>약 2억 8,500만 원</td><td>약 4억 6,600만 원</td><td><strong>약 268만 원</strong></td></tr>
+      <tr><td>6.0%</td><td>약 3억 5,500만 원</td><td>약 5억 7,900만 원</td><td><strong>약 300만 원</strong></td></tr>
+    </tbody>
+  </table>
+
+  <h2>원리금균등 vs 원금균등, 어느 방식이 유리한가</h2>
+  <p>주택담보대출 상환 방식은 크게 두 가지입니다. <strong>원리금균등상환</strong>은 매달 동일한 금액을 납입하는 방식으로 생활비 예산을 짜기 쉽습니다. <strong>원금균등상환</strong>은 매달 갚는 원금이 동일하고 이자는 줄어드는 구조로, 초기 납입액이 높지만 총이자 부담이 가장 적습니다. 5억 원, 연 4%, 30년 기준으로 비교하면 원금균등이 원리금균등보다 총이자를 약 1,000만 원 이상 아낄 수 있습니다.</p>
+  <table>
+    <thead><tr><th>상환 방식</th><th>초기 월납입 (5억·4%·30년)</th><th>총 이자 부담</th><th>적합한 경우</th></tr></thead>
+    <tbody>
+      <tr><td>원리금균등</td><td><strong>약 239만 원 (고정)</strong></td><td>약 3억 5,900만 원</td><td>매달 고정 지출이 필요한 직장인</td></tr>
+      <tr><td>원금균등</td><td>약 305만 원 → 점차 감소</td><td>약 2억 5,200만 원</td><td>초기 소득 여유가 있고 이자를 줄이고 싶을 때</td></tr>
+    </tbody>
+  </table>
+
+  <h2>DSR·LTV 규제 — 내가 받을 수 있는 한도 계산법</h2>
+  <p><strong>LTV(주택담보대출비율)</strong>는 집값 대비 최대 대출 가능 비율입니다. 투기과열지구(서울 일부)에서는 LTV 40%, 조정대상지역은 50%, 비규제지역은 70%가 적용됩니다. <strong>DSR(총부채원리금상환비율)</strong>은 연간 모든 대출 원리금 합계가 연소득의 40%(은행권)를 초과할 수 없는 규제입니다. 예를 들어 연봉 6,000만 원이라면 연간 원리금 한도는 2,400만 원, 월 200만 원이 됩니다. 기존 자동차 할부·신용대출도 DSR에 포함되므로 반드시 함께 계산해야 합니다.</p>
+  <table>
+    <thead><tr><th>규제 지역</th><th>LTV 한도</th><th>DSR 한도 (은행권)</th><th>비고</th></tr></thead>
+    <tbody>
+      <tr><td>투기과열지구</td><td><strong>40%</strong></td><td>40%</td><td>서울 강남·서초·송파·용산 등</td></tr>
+      <tr><td>조정대상지역</td><td><strong>50%</strong></td><td>40%</td><td>수도권 주요 지역</td></tr>
+      <tr><td>비규제지역</td><td><strong>70%</strong></td><td>40%</td><td>지방·비수도권</td></tr>
+    </tbody>
+  </table>
+
+  <div class="tip-box">
+    <strong>💡 스트레스 DSR이란?</strong><br>
+    2024년 9월부터 3단계 스트레스 DSR이 시행되었습니다. 변동금리·혼합형 대출에 가산금리(스트레스 금리)를 추가해 DSR을 산정하므로 실제 대출 한도가 줄어듭니다. 고정금리 대출은 스트레스 금리 적용이 낮아 상대적으로 유리할 수 있습니다.
+  </div>
+
+  <h2>조기상환으로 이자를 줄이는 전략</h2>
+  <p>원리금균등상환 구조에서 초기 수년간은 납입액의 70~80%가 이자입니다. 대출 초기 5~10년 안에 여윳돈으로 원금을 추가 상환하면 이후 모든 이자 계산의 기준이 낮아지므로 절감 효과가 극적으로 큽니다. 예를 들어 5억 원, 연 4%, 30년 대출에서 매달 50만 원을 추가 납입하면 약 7년 빨리 상환하고 총이자를 7,000만 원 이상 절감할 수 있습니다.</p>
+  <p>단, 대출 실행 후 3년 이내에는 보통 잔액의 0.5~1.5% 중도상환수수료가 부과됩니다. 수수료보다 절감 이자가 크다면 조기상환이 유리합니다. 위 계산기의 <strong>조기상환 시뮬레이션</strong>에 추가 납입액을 입력하면 절감 효과를 바로 확인할 수 있습니다.</p>
+
+  <h2>주택담보대출 금리를 낮추는 현실적인 방법</h2>
+  <ul>
+    <li><strong>금리 인하 요구권 행사</strong> — 승진, 소득 증가, 신용점수 상승 시 은행에 금리 인하를 요구할 수 있는 법적 권리입니다. 6개월에 1회 신청 가능하며, 평균 0.1~0.5%p 인하 효과를 기대할 수 있습니다.</li>
+    <li><strong>대환대출(갈아타기)</strong> — 더 낮은 금리 상품으로 이동하는 방법입니다. 온라인 주담대 대환 플랫폼을 통해 간편 비교가 가능합니다. 중도상환수수료와 기대 절감 이자를 비교하세요.</li>
+    <li><strong>고정금리 vs 변동금리 선택</strong> — 금리 상승기에는 고정금리가 유리하고, 하락기에는 변동금리가 유리합니다. 현재 금리 수준과 향후 방향성을 고려해 선택하세요.</li>
+    <li><strong>우대금리 조건 충족</strong> — 급여이체, 자동이체, 신용카드 사용 실적 등 거래 조건을 충족하면 0.1~0.5%p 우대금리를 받을 수 있습니다.</li>
+  </ul>
+
+  <h2>자주 묻는 질문 — 주택담보대출</h2>
+  <details><summary>원리금균등과 원금균등 중 어느 것이 유리한가요?</summary><div class="faq-answer">총이자만 보면 원금균등이 유리합니다. 5억 원, 연 4%, 30년 기준으로 원금균등이 원리금균등보다 약 1,000만 원 이상 이자를 아낄 수 있습니다. 하지만 초기 월납입이 높기 때문에 소득 여유가 있을 때만 선택할 수 있습니다. 초기 부담이 크다면 원리금균등을 선택하고 여유 생길 때 추가 납입하는 전략도 효과적입니다.</div></details>
+  <details><summary>LTV와 DSR의 차이는 무엇인가요?</summary><div class="faq-answer">LTV(주택담보대출비율)는 집값 대비 대출금의 비율로, 담보 가치 기준의 규제입니다. DSR(총부채원리금상환비율)은 내 연소득 대비 연간 원리금 합계의 비율로, 상환 능력 기준의 규제입니다. 대출 한도는 두 규제 중 더 제한적인 기준이 적용됩니다.</div></details>
+  <details><summary>변동금리와 고정금리, 어느 것을 선택해야 하나요?</summary><div class="faq-answer">현재 금리 수준과 향후 금리 전망에 따라 다릅니다. 금리 하락이 예상되면 변동금리가 유리하고, 금리 상승이 예상되면 고정금리가 안정적입니다. 초기 고정 후 변동으로 전환되는 혼합형(5년 고정)도 많이 선택합니다. 장기적으로 보면 금리 예측은 어렵기 때문에 상환 부담을 감당할 수 있는 상한 금리 기준으로 판단하는 것이 현명합니다.</div></details>
+  <details><summary>중도상환수수료는 언제까지 발생하나요?</summary><div class="faq-answer">은행마다 다르지만 일반적으로 대출 실행 후 3년이 지나면 중도상환수수료가 0%가 됩니다. 3년 이내에는 잔여 기간에 비례해 0.5~1.5% 수수료가 부과됩니다. 수수료 부담이 걱정된다면 대출 계약서에서 수수료율과 면제 시점을 반드시 확인하세요.</div></details>
+  <details><summary>아파트 담보대출과 빌라 담보대출의 차이는?</summary><div class="faq-answer">아파트는 시세 파악이 용이해 감정가 인정이 높고, LTV 한도가 규제 범위 내에서 최대로 적용됩니다. 빌라·다세대·단독주택은 시세 불투명성으로 인해 감정가가 낮게 나오거나 은행에 따라 대출이 제한될 수 있습니다. 실거래 기반 KB시세 또는 감정평가액 중 낮은 값이 기준이 됩니다.</div></details>
+  <details><summary>주담대 대환대출은 어떻게 하나요?</summary><div class="faq-answer">금융위원회의 '온라인 주담대 대환대출 인프라'를 통해 앱(카카오뱅크, 네이버페이, 토스 등)에서 여러 은행 금리를 비교하고 온라인으로 갈아탈 수 있습니다. 중도상환수수료, 새 대출 취급 수수료, 등기비용 등을 합산해 실제 절감액이 있는지 확인하세요.</div></details>
+  <details><summary>주택담보대출 이자는 세금 공제가 되나요?</summary><div class="faq-answer">장기주택저당차입금 이자 상환액은 연말정산 시 소득공제가 됩니다. 고정금리·비거치식 대출은 최대 1,800만 원, 고정금리 또는 비거치식 조건이면 1,500만 원, 그 외에는 500만 원까지 공제받을 수 있습니다. 무주택 또는 1주택 세대주여야 하며, 취득 당시 주택 기준시가 6억 원 이하여야 합니다.</div></details>
+</div>
+
+<script>
+  let method = 'equal';
+  let calcedPrincipal = 0, calcedRate = 0, calcedN = 0;
+
+  function fmt(n) { return Math.round(n).toLocaleString('ko-KR'); }
+  function fmtEok(n) {
+    const eok = Math.floor(n / 100000000);
+    const man = Math.round((n % 100000000) / 10000);
+    if (eok > 0 && man > 0) return `${eok}억 ${man.toLocaleString()}만 원`;
+    if (eok > 0) return `${eok}억 원`;
+    return `${man.toLocaleString()}만 원`;
+  }
+
+  function updateLoanAmount() {
+    const price = parseFloat(document.getElementById('homePrice').value) || 0;
+    const rate = parseInt(document.getElementById('downRate').value) || 20;
+    const down = price * rate / 100;
+    const loan = price - down;
+    document.getElementById('downAmt').textContent = fmtEok(down);
+    document.getElementById('loanAmt').textContent = fmtEok(loan);
+  }
+
+  function onDownSlide(v) {
+    document.getElementById('downLabel').textContent = v;
+    updateLoanAmount();
+  }
+
+  function setMethod(m) {
+    method = m;
+    document.getElementById('tab-equal').classList.toggle('active', m === 'equal');
+    document.getElementById('tab-principal').classList.toggle('active', m === 'principal');
+  }
+
+
+  function showComma(el) {
+    const v = parseFloat(el.value) || 0;
+    const cid = el.id + '_c';
+    const disp = document.getElementById(cid);
+    if (!disp) return;
+    if (v === 0) { disp.textContent = ''; return; }
+    let s = '';
+    const abs = Math.abs(v);
+    const sign = v < 0 ? '-' : '';
+    if (abs >= 100000000) {
+      const eok = Math.floor(abs / 100000000);
+      const man = Math.round((abs % 100000000) / 10000);
+      s = man > 0 ? sign + eok + '억 ' + man.toLocaleString('ko-KR') + '만 원' : sign + eok + '억 원';
+    } else if (abs >= 10000) {
+      s = sign + Math.round(abs / 10000).toLocaleString('ko-KR') + '만 원';
+    } else {
+      s = sign + abs.toLocaleString('ko-KR') + ' 원';
+    }
+    disp.textContent = s;
+  }
+  function calc() {
+    const homePrice = parseFloat(document.getElementById('homePrice').value) || 0;
+    const downRate = parseInt(document.getElementById('downRate').value) || 20;
+    const P = homePrice * (1 - downRate / 100);
+    const annualRate = parseFloat(document.getElementById('rate').value) || 0;
+    const years = parseInt(document.getElementById('period').value) || 30;
+    const n = years * 12;
+    const r = annualRate / 100 / 12;
+
+    if (P <= 0 || annualRate <= 0) { alert('올바른 값을 입력해주세요.'); return; }
+
+    calcedPrincipal = P; calcedRate = r; calcedN = n;
+
+    let firstMonthly, totalInterest;
+    if (method === 'equal') {
+      firstMonthly = r === 0 ? P / n : P * r * Math.pow(1+r,n) / (Math.pow(1+r,n)-1);
+      totalInterest = firstMonthly * n - P;
+    } else {
+      const principalPayment = P / n;
+      firstMonthly = principalPayment + P * r;
+      let rem = P, ti = 0;
+      for (let i = 0; i < n; i++) { ti += rem * r; rem -= principalPayment; }
+      totalInterest = ti;
+    }
+
+    document.getElementById('r-monthly').textContent = fmt(firstMonthly);
+    document.getElementById('r-interest').textContent = fmt(totalInterest);
+    document.getElementById('r-total').textContent = fmt(P + totalInterest);
+    document.getElementById('r-ratio').textContent = (totalInterest / P * 100).toFixed(1) + '%';
+    document.getElementById('resultCard').classList.add('visible');
+    calcPrepay();
+  }
+
+  function calcPrepay() {
+    const extra = parseFloat(document.getElementById('extraPayment').value) || 0;
+    const el = document.getElementById('prepayResult');
+    if (!calcedPrincipal || extra <= 0) { el.style.display = 'none'; return; }
+
+    const P = calcedPrincipal, r = calcedRate;
+    const monthlyBase = r === 0 ? P/calcedN : P*r*Math.pow(1+r,calcedN)/(Math.pow(1+r,calcedN)-1);
+    const totalMonthly = monthlyBase + extra;
+
+    // 조기상환 시뮬레이션
+    let rem = P, months = 0, totalPaid = 0;
+    while (rem > 0 && months < calcedN * 2) {
+      const interestThis = rem * r;
+      const principalThis = Math.min(totalMonthly - interestThis, rem);
+      if (principalThis <= 0) break;
+      totalPaid += totalMonthly < rem + interestThis ? totalMonthly : rem + interestThis;
+      rem -= principalThis;
+      months++;
+    }
+    const origTotal = monthlyBase * calcedN;
+    const savedInterest = origTotal - totalPaid;
+    const savedMonths = calcedN - months;
+
+    el.innerHTML = `매달 <strong>${fmt(extra)}원</strong> 추가 납입 시:<br>
+      🕐 상환 기간 <strong>${Math.floor(savedMonths/12)}년 ${savedMonths%12}개월</strong> 단축<br>
+      💰 총 이자 <strong>${fmt(Math.max(0,savedInterest))}원</strong> 절감`;
+    el.style.display = 'block';
+  }
+
+  window.onload = () => { updateLoanAmount(); ['homePrice'].forEach(id => showComma(document.getElementById(id))); };
+</script>
+
+<script src="/common.js" defer></script><script src="/share.js" defer></script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(()=>{}));
+}
+</script>
+</body>
+</html>

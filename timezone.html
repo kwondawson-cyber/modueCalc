@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#00d4aa" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="모두의계산기" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>시간대 변환기 — 세계 도시 시간 동시 비교 | 모두의계산기</title>
+  <meta name="description" content="시간대 변환기 — 서울 기준 시간을 뉴욕·런던·도쿄·시드니·베이징·파리·두바이 등 세계 주요 도시 시간으로 자동 변환. 서머타임 자동 반영. 미팅 스케줄·해외 업무에 유용." />
+  <meta property="og:title" content="시간대 변환기 — 세계 도시 시간 비교 | 모두의계산기" />
+  <meta property="og:description" content="서울 기준 시간을 세계 주요 도시 시간으로 자동 변환, 서머타임 반영" />
+  <meta property="og:url" content="https://www.everycalc.kr/timezone" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" /></noscript>
+  <style>
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--danger:#ff6b6b;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+    .container{max-width:700px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .home-btn-wrap{text-align:center;margin-bottom:28px}.home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all .2s}.home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}.home-btn-emoji{font-size:20px;line-height:1}.home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}.header h1 .emoji{-webkit-text-fill-color:initial;background:none}
+    .header{text-align:center;margin-bottom:40px}
+    .header h1{font-size:clamp(26px,6vw,42px);font-weight:900;line-height:1.1;margin-bottom:10px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .header p{color:var(--text-muted);font-size:14px}.input-comma{font-size:12px;color:var(--accent);margin-top:5px;font-weight:700;min-height:15px;letter-spacing:.3px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 32px;margin-bottom:20px}
+    .card-title{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:20px}
+    .base-city{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+    .base-flag{font-size:28px}
+    .base-name{font-size:18px;font-weight:700;color:var(--accent)}
+    .input-group{margin-bottom:18px}
+    .input-group label{display:block;font-size:14px;font-weight:500;color:var(--text-muted);margin-bottom:7px}
+    input[type="datetime-local"]{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:13px 16px;font-size:17px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none;transition:border-color .2s}
+    input[type="datetime-local"]:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,170,0.1)}
+    .calc-btn{width:100%;padding:17px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;font-size:16px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:#000;cursor:pointer;margin-top:6px;transition:transform .15s,box-shadow .15s}
+    .calc-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,212,170,0.3)}
+    .now-btn{width:100%;padding:11px;background:transparent;border:1px solid var(--border);border-radius:10px;font-size:14px;font-weight:600;font-family:'Noto Sans KR',sans-serif;color:var(--text-muted);cursor:pointer;margin-bottom:10px;transition:all .2s}
+    .now-btn:hover{border-color:rgba(0,212,170,0.4);color:var(--accent)}
+    .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media(max-width:480px){.result-grid{grid-template-columns:1fr}}
+    .city-card{background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:16px 18px;transition:border-color .2s}
+    .city-card.base{border-color:rgba(0,212,170,0.4);background:rgba(0,212,170,0.07)}
+    .city-top{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+    .city-flag{font-size:20px}
+    .city-name{font-size:13px;color:var(--text-muted);font-weight:600}
+    .city-tz{font-size:10px;color:var(--text-muted);background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2px 8px;margin-left:auto}
+    .city-time{font-size:26px;font-weight:900;color:var(--text);font-family:'Montserrat',sans-serif}
+    .city-date{font-size:12px;color:var(--text-muted);margin-top:3px}
+    .city-diff{font-size:11px;color:var(--text-muted);margin-top:2px}
+    .city-status{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-top:4px}
+    .status-work{background:rgba(0,212,170,0.15);color:var(--accent)}
+    .status-sleep{background:rgba(100,100,100,0.2);color:var(--text-muted)}
+    .status-eve{background:rgba(0,149,255,0.15);color:var(--accent2)}
+    /* rel/aff */
+    .rel-section{max-width:700px;margin:32px auto 0;padding:0 20px}
+    .rel-section h2{font-size:14px;font-weight:700;color:var(--text-muted);margin-bottom:14px}
+    .rel-grid{display:flex;flex-wrap:wrap;gap:8px}
+    .rel-card{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;background:var(--surface);border:1px solid var(--border);border-radius:30px;text-decoration:none;font-size:13px;font-weight:600;color:var(--text);transition:border-color .2s}
+    .rel-card:hover{border-color:rgba(0,212,170,0.4);color:var(--accent)}
+    .aff-wrap{max-width:700px;margin:32px auto 0;padding:0 20px}
+    .affiliate-banner{display:flex;align-items:center;gap:14px;padding:16px 20px;background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.2);border-radius:14px;text-decoration:none;color:var(--text);transition:border-color .2s}
+    .affiliate-banner:hover{border-color:rgba(0,212,170,0.4)}
+    .ab-icon{font-size:28px}.ab-text{flex:1}.ab-title{font-size:14px;font-weight:700}.ab-desc{font-size:12px;color:var(--text-muted);margin-top:2px}.ab-btn{padding:8px 16px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:20px;color:#000;font-size:12px;font-weight:800;white-space:nowrap}
+    .aff-disclosure{font-size:11px;color:var(--text-muted);margin-top:6px;padding-left:4px}
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="header">
+    <h1><span class="emoji">🌍</span> 시간대<br>변환기</h1>
+    <p>서울 시간 → 세계 주요 도시 시간 자동 변환 · 서머타임 반영</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">기준 시간 (서울 / KST)</div>
+    <div class="base-city">
+      <span class="base-flag">🇰🇷</span>
+      <span class="base-name">서울 — KST (UTC+9)</span>
+    </div>
+    <button class="now-btn" onclick="setNow()">🕐 현재 시간으로 설정</button>
+    <div class="input-group">
+      <label>날짜 및 시간 입력</label>
+      <input type="datetime-local" id="seoulTime" />
+    </div>
+    <button class="calc-btn" onclick="calc()">🌍 전 세계 시간 변환하기</button>
+  </div>
+
+  <div id="resultSection" style="display:none">
+    <div class="result-grid" id="cityGrid"></div>
+  </div>
+</div>
+
+<div class="aff-wrap">
+  <a href="https://appu.kr/?i=12515717" class="affiliate-banner" target="_blank" rel="nofollow sponsored">
+    <span class="ab-icon">🌐</span>
+    <div class="ab-text">
+      <div class="ab-title">MODOO 인터넷 — 소호 사무실 인터넷</div>
+      <div class="ab-desc">재택근무·해외 미팅용 안정적인 인터넷 서비스</div>
+    </div>
+    <span class="ab-btn">신청하기 →</span>
+  </a>
+  <div class="aff-disclosure">[광고] 이 링크는 제휴 마케팅(애드릭스)을 통해 수수료를 지급받습니다.</div>
+</div>
+
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+    <a href="/date_diff" class="rel-card"><span>📅</span><span>날짜 차이 계산기</span></a>
+    <a href="/dday" class="rel-card"><span>⏳</span><span>D-Day 계산기</span></a>
+    <a href="/exchange" class="rel-card"><span>💱</span><span>환율 계산기</span></a>
+    <a href="/age" class="rel-card"><span>🎂</span><span>만 나이 계산기</span></a>
+    <a href="/sleep" class="rel-card"><span>😴</span><span>수면 계산기</span></a>
+  </div>
+</div>
+
+<style>
+.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
+.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
+.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}
+.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
+.seo-section ul{padding-left:20px;margin-bottom:12px}
+.seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+.seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+.seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
+.seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
+.seo-section table tr:nth-child(even) td{background:#161b22}
+.seo-section table td strong{color:#00d4aa}
+.seo-section .tip-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .tip-box strong{color:#00d4aa}
+.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
+.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
+.seo-section details[open] summary::after{content:'－'}
+.seo-section details[open]{background:#161b22}
+.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
+</style>
+
+<div class="seo-section">
+  <h2>세계 시간대 변환 — 서울 기준 주요 도시 시차</h2>
+  <p>한국(KST, Korea Standard Time)은 UTC+9 시간대로 연중 동일한 표준시를 사용합니다. 서머타임(일광절약시간)을 적용하지 않기 때문에 미국·유럽·호주 등 서머타임 적용 국가와의 시차는 계절마다 달라집니다. 해외 거래처와의 화상회의 일정을 잡거나, 해외 주식·선물 거래 시간을 파악하거나, 해외여행 출발·도착 시간을 계산할 때 이 계산기를 활용하세요.</p>
+  <p>예를 들어 서울 오후 9시에 뉴욕 동부 기준으로 몇 시인지 한 번에 확인할 수 있습니다. 서머타임 시즌 변환도 자동으로 반영됩니다.</p>
+
+  <h2>주요 도시 시차 기준표 (서울 KST UTC+9 기준)</h2>
+  <p>아래 시차는 표준시 기준입니다. 서머타임(DST) 적용 기간에는 ±1시간이 달라집니다. 미국·유럽은 3월~10/11월에, 호주는 10월~4월(남반구 여름)에 서머타임이 적용됩니다.</p>
+  <table>
+    <thead><tr><th>도시</th><th>표준 시간대</th><th>서울과 시차</th><th>서머타임 적용</th></tr></thead>
+    <tbody>
+      <tr><td>🇯🇵 도쿄</td><td>JST (UTC+9)</td><td><strong>0시간</strong></td><td>없음</td></tr>
+      <tr><td>🇨🇳 베이징·상하이</td><td>CST (UTC+8)</td><td><strong>-1시간</strong></td><td>없음</td></tr>
+      <tr><td>🇸🇬 싱가포르</td><td>SGT (UTC+8)</td><td><strong>-1시간</strong></td><td>없음</td></tr>
+      <tr><td>🇮🇳 인도 뭄바이</td><td>IST (UTC+5:30)</td><td><strong>-3시간 30분</strong></td><td>없음</td></tr>
+      <tr><td>🇦🇪 두바이</td><td>GST (UTC+4)</td><td><strong>-5시간</strong></td><td>없음</td></tr>
+      <tr><td>🇬🇧 런던</td><td>GMT (UTC+0)</td><td>-9시간 (BST 적용 시 <strong>-8시간</strong>)</td><td>3월~10월</td></tr>
+      <tr><td>🇩🇪 베를린·파리</td><td>CET (UTC+1)</td><td>-8시간 (CEST 적용 시 <strong>-7시간</strong>)</td><td>3월~10월</td></tr>
+      <tr><td>🇺🇸 뉴욕 (동부)</td><td>EST (UTC-5)</td><td>-14시간 (EDT 적용 시 <strong>-13시간</strong>)</td><td>3월~11월</td></tr>
+      <tr><td>🇺🇸 LA (서부)</td><td>PST (UTC-8)</td><td>-17시간 (PDT 적용 시 <strong>-16시간</strong>)</td><td>3월~11월</td></tr>
+      <tr><td>🇦🇺 시드니</td><td>AEST (UTC+10)</td><td>+1시간 (AEDT 적용 시 <strong>+2시간</strong>)</td><td>10월~4월</td></tr>
+    </tbody>
+  </table>
+
+  <h2>서머타임(DST)이란? 국가별 적용 시기 정리</h2>
+  <p>서머타임(Daylight Saving Time, DST)은 여름철 일조 시간을 활용하기 위해 시계를 1시간 앞당기는 제도입니다. 미국과 유럽이 대표적으로 시행하며, 한국·일본·중국은 서머타임을 적용하지 않습니다.</p>
+  <table>
+    <thead><tr><th>국가/지역</th><th>서머타임 시작</th><th>서머타임 종료</th><th>비고</th></tr></thead>
+    <tbody>
+      <tr><td>🇺🇸 미국 (동부·서부)</td><td>3월 두 번째 일요일 오전 2시</td><td>11월 첫 번째 일요일 오전 2시</td><td>하와이·애리조나 적용 안 함</td></tr>
+      <tr><td>🇪🇺 유럽 (EU)</td><td>3월 마지막 일요일 오전 1시(UTC)</td><td>10월 마지막 일요일 오전 1시(UTC)</td><td>EU 전체 동일 날짜</td></tr>
+      <tr><td>🇬🇧 영국</td><td>3월 마지막 일요일</td><td>10월 마지막 일요일</td><td>EU 탈퇴 후도 동일 일정</td></tr>
+      <tr><td>🇦🇺 호주 (동부)</td><td>10월 첫 번째 일요일</td><td>4월 첫 번째 일요일</td><td>퀸즐랜드는 적용 안 함</td></tr>
+    </tbody>
+  </table>
+
+  <div class="tip-box">
+    <strong>💡 해외 주식·선물 거래 시간 계산</strong><br>
+    미국 나스닥·NYSE 정규장(ET 기준): 오전 9:30~오후 4:00. 서머타임 미적용 시 한국 시간 오후 11:30~익일 오전 5:00, 서머타임 적용 시 오후 10:30~익일 오전 4:00입니다. 위 계산기에서 미국 동부 개장 시간을 입력하면 한국 시간으로 바로 확인할 수 있습니다.
+  </div>
+
+  <h2>시차 계산이 필요한 실생활 상황</h2>
+  <ul>
+    <li><strong>화상회의 일정 조율</strong> — 글로벌 팀과 미팅 시 참여자 위치를 고려해 모두가 업무 시간 내에 있는 공통 시간대를 찾아야 합니다.</li>
+    <li><strong>해외 항공편 예약</strong> — 출발지와 목적지의 현지 시간이 다를 때 이 계산기로 도착 현지 시간을 바로 파악할 수 있습니다.</li>
+    <li><strong>해외 쇼핑몰·이벤트</strong> — 블랙프라이데이·사이버먼데이 미국 현지 시작 시간이 한국 기준으로 몇 시인지 미리 계산해보세요.</li>
+    <li><strong>해외 라이브 방송·스포츠 중계</strong> — 유럽 축구, 미국 NBA·NFL 경기 시작 시간을 한국 기준으로 확인할 수 있습니다.</li>
+  </ul>
+
+  <h2>자주 묻는 질문 — 시간대 변환기</h2>
+  <details><summary>한국과 일본의 시차가 0시간인 이유는 무엇인가요?</summary><div class="faq-answer">한국(KST)과 일본(JST) 모두 UTC+9를 사용합니다. 한국은 1954년 UTC+8:30으로 바꿨다가 1961년 다시 UTC+9로 환원했습니다. 현재는 두 나라 모두 UTC+9로 시차가 없지만, 공식적으로는 별도의 시간대 명칭을 사용합니다.</div></details>
+  <details><summary>서머타임이 없는 나라와 비교할 때 시차가 왜 변하나요?</summary><div class="faq-answer">한국은 서머타임을 적용하지 않아 연중 UTC+9로 고정입니다. 반면 미국이나 유럽은 서머타임 기간에 시계를 1시간 앞당기므로 상대적으로 한국과의 시차가 1시간 줄어듭니다. 예를 들어 서머타임 미적용 시 뉴욕과 서울의 시차는 14시간이지만, 서머타임 적용 시 13시간이 됩니다.</div></details>
+  <details><summary>뉴욕과 화상회의를 하기 좋은 시간은 언제인가요?</summary><div class="faq-answer">서머타임 적용 기간(3~11월): 서울 오후 10시 = 뉴욕 오전 9시로, 양측 모두 가능한 시간대입니다. 서머타임 미적용 기간(11~3월): 서울 오후 11시 = 뉴욕 오전 9시로, 서울 쪽이 늦은 시간이라 다소 불편합니다. 위 계산기에 원하는 날짜와 시간을 입력해 정확히 확인하세요.</div></details>
+  <details><summary>중국은 왜 한 나라인데 시간대가 하나인가요?</summary><div class="faq-answer">중국은 광활한 영토에도 불구하고 베이징 표준시(CST, UTC+8) 하나만 사용합니다. 지리적으로 보면 서부 신장 지역은 UTC+6 정도가 맞지만 정치적 통일성을 위해 단일 시간대를 유지하고 있습니다. 이 때문에 서부 지역에서는 겨울철 오전 10시가 되어야 해가 뜨는 현상이 생깁니다.</div></details>
+  <details><summary>UTC와 GMT는 어떻게 다른가요?</summary><div class="faq-answer">UTC(협정세계시, Coordinated Universal Time)는 원자시계를 기반으로 하는 국제 표준시이고, GMT(그리니치 평균시, Greenwich Mean Time)는 영국 그리니치 천문대를 기준으로 한 시간입니다. 실용적으로는 동일하게 사용되지만, 기술적으로는 UTC가 더 정확한 기준입니다. 현대 시스템에서는 UTC를 기준으로 사용합니다.</div></details>
+  <details><summary>이 계산기는 모든 도시의 서머타임을 정확히 반영하나요?</summary><div class="faq-answer">이 계산기는 브라우저 내장 Intl.DateTimeFormat API와 IANA 시간대 데이터베이스를 사용합니다. 주요 도시의 서머타임은 IANA 데이터 기준으로 정확하게 반영됩니다. 단, 일부 소규모 국가나 최근 서머타임 정책이 변경된 경우는 최신 데이터와 차이가 있을 수 있습니다.</div></details>
+</div>
+
+<script>
+  const CITIES = [
+    { name: '서울', flag: '🇰🇷', tz: 'Asia/Seoul', base: true },
+    { name: '도쿄', flag: '🇯🇵', tz: 'Asia/Tokyo' },
+    { name: '베이징', flag: '🇨🇳', tz: 'Asia/Shanghai' },
+    { name: '싱가포르', flag: '🇸🇬', tz: 'Asia/Singapore' },
+    { name: '두바이', flag: '🇦🇪', tz: 'Asia/Dubai' },
+    { name: '런던', flag: '🇬🇧', tz: 'Europe/London' },
+    { name: '파리', flag: '🇫🇷', tz: 'Europe/Paris' },
+    { name: '뉴욕', flag: '🇺🇸', tz: 'America/New_York' },
+    { name: 'LA', flag: '🇺🇸', tz: 'America/Los_Angeles' },
+    { name: '시드니', flag: '🇦🇺', tz: 'Australia/Sydney' },
+  ];
+
+  function setNow() {
+    const now = new Date();
+    const offset = now.getTimezoneOffset() * 60000;
+    const localISO = new Date(now - offset).toISOString().slice(0, 16);
+    document.getElementById('seoulTime').value = localISO;
+  }
+
+  function getStatus(h) {
+    if (h >= 9 && h < 18) return { label: '업무 시간', cls: 'status-work' };
+    if (h >= 18 && h < 22) return { label: '저녁 시간', cls: 'status-eve' };
+    return { label: '취침 시간', cls: 'status-sleep' };
+  }
+
+  function getTzOffset(tz) {
+    const fmt = new Intl.DateTimeFormat('en', { timeZone: tz, timeZoneName: 'short' });
+    return fmt;
+  }
+
+  function calc() {
+    const input = document.getElementById('seoulTime').value;
+    if (!input) { alert('날짜와 시간을 입력해주세요.'); return; }
+
+    // 서울 시간을 UTC로 변환 (KST = UTC+9)
+    const seoulDate = new Date(input + ':00');
+    const utcMs = seoulDate.getTime() - (9 * 60 * 60000);
+
+    const grid = document.getElementById('cityGrid');
+    grid.innerHTML = '';
+
+    CITIES.forEach(city => {
+      const cityDate = new Date(utcMs);
+      const opts = { timeZone: city.tz, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false };
+      const parts = new Intl.DateTimeFormat('ko-KR', opts).formatToParts(cityDate);
+      const mp = {};
+      parts.forEach(p => mp[p.type] = p.value);
+
+      const timeStr = mp.hour + ':' + mp.minute;
+      const dateStr = mp.year + '.' + mp.month + '.' + mp.day;
+      const hourNum = parseInt(mp.hour);
+      const status = getStatus(hourNum);
+
+      // UTC 오프셋 계산
+      const utcOffset = (new Date(utcMs).toLocaleString('en', { timeZone: city.tz, timeZoneName: 'short' })).split(' ').pop();
+
+      const card = document.createElement('div');
+      card.className = 'city-card' + (city.base ? ' base' : '');
+      card.innerHTML = `
+        <div class="city-top">
+          <span class="city-flag">${city.flag}</span>
+          <span class="city-name">${city.name}</span>
+          <span class="city-tz">${city.tz.split('/').pop()}</span>
+        </div>
+        <div class="city-time">${timeStr}</div>
+        <div class="city-date">${dateStr}</div>
+        <span class="city-status ${status.cls}">${status.label}</span>
+      `;
+      grid.appendChild(card);
+    });
+
+    document.getElementById('resultSection').style.display = 'block';
+  }
+
+  window.onload = () => setNow();
+</script>
+<script src="/common.js" defer></script><script src="/share.js" defer></script>
+<script>if('serviceWorker'in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));}</script>
+</body>
+</html>

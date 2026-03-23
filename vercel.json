@@ -330,6 +330,38 @@
     {
       "source": "/youtube",
       "destination": "/youtube.html"
+    },
+    {
+      "source": "/mortgage",
+      "destination": "/mortgage.html"
+    },
+    {
+      "source": "/retirement_plan",
+      "destination": "/retirement_plan.html"
+    },
+    {
+      "source": "/net_worth",
+      "destination": "/net_worth.html"
+    },
+    {
+      "source": "/fasting",
+      "destination": "/fasting.html"
+    },
+    {
+      "source": "/remodeling",
+      "destination": "/remodeling.html"
+    },
+    {
+      "source": "/timezone",
+      "destination": "/timezone.html"
+    },
+    {
+      "source": "/student_loan",
+      "destination": "/student_loan.html"
+    },
+    {
+      "source": "/freelancer_rate",
+      "destination": "/freelancer_rate.html"
     }
   ]
 }
