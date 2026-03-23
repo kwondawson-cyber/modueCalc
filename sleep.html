@@ -55,7 +55,7 @@
     .cycle-box.best .cyc-cycle{color:rgba(0,212,170,0.8)}
     .notice{margin-top:12px;padding:13px 16px;background:rgba(255,165,0,0.05);border:1px solid rgba(255,165,0,0.15);border-radius:10px;font-size:12px;color:var(--text-muted);line-height:1.7}
     @media(max-width:480px){.card{padding:20px 16px}.cycle-grid{grid-template-columns:repeat(2,1fr)}}
-    .rel-section{margin:32px 0 8px}
+    .rel-section{margin:32px auto 8px;padding:0 20px;max-width:640px}
     .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3}
     .rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
     .rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
@@ -213,63 +213,15 @@
 </div>
 
 <div class="seo-section">
-  <h2>😴 수면 사이클이란? — 2사이클부터 6사이클까지 차이</h2>
-  <p>사람의 수면은 약 <strong>90분을 한 사이클</strong>로 반복됩니다. 한 사이클은 얕은 수면(N1·N2) → 깊은 수면(N3) → 렘(REM) 수면 순서로 진행되며, 이 사이클이 완료되는 시점에 깨어나야 뇌가 자연스럽게 각성 상태가 됩니다. 사이클 중간에 강제로 깨면 뇌가 깊은 수면에 잠겨있어 피로감과 두통이 생기고 하루 종일 멍한 느낌이 납니다.</p>
-
-  <h3>⏱️ 사이클 수별 수면 시간과 특징</h3>
-  <table>
-    <thead><tr><th>사이클 수</th><th>총 수면 시간</th><th>상태</th><th>특징</th></tr></thead>
-    <tbody>
-      <tr><td><strong>2사이클</strong></td><td>3시간</td><td>❌ 매우 부족</td><td>응급 상황에서만. 인지 기능 심각하게 저하됨</td></tr>
-      <tr><td><strong>3사이클</strong></td><td>4시간 30분</td><td>⚠️ 부족</td><td>단기 버티기 가능. 장기 반복 시 건강 악화</td></tr>
-      <tr><td><strong>4사이클</strong></td><td>6시간</td><td>△ 미흡</td><td>많은 직장인의 현실. 수면 부채 서서히 누적됨</td></tr>
-      <tr><td><strong>5사이클</strong></td><td>7시간 30분</td><td><strong>✅ 권장</strong></td><td>성인 권장 최솟값. 대부분의 사람에게 충분함</td></tr>
-      <tr><td><strong>6사이클</strong></td><td>9시간</td><td><strong>✅ 이상적</strong></td><td>뇌·신체 완전 회복. 성장기·회복기에 특히 권장</td></tr>
-    </tbody>
-  </table>
-
-  <div class="tip-box">💡 <strong>핵심 원칙:</strong> 5사이클(7시간 30분)이 불가능하다면 차선은 4사이클(6시간)입니다. 6시간 30분처럼 사이클 중간에 깨는 것보다 6시간 정각에 깨는 것이 훨씬 개운합니다. 시간이 부족할수록 사이클 단위를 지키는 것이 중요합니다.</div>
-
-  <h3>🧠 각 수면 단계에서 뇌와 몸에 일어나는 일</h3>
-  <table>
-    <thead><tr><th>수면 단계</th><th>특징</th><th>역할</th></tr></thead>
-    <tbody>
-      <tr><td>N1 (얕은 수면)</td><td>잠드는 시작 5~10분</td><td>각성→수면 전환. 쉽게 깸</td></tr>
-      <tr><td>N2 (중간 수면)</td><td>수면의 약 50%</td><td>체온·심박수 저하, 기억 정리</td></tr>
-      <tr><td>N3 (깊은 수면)</td><td>사이클 전반부에 집중</td><td>신체 회복, 면역 강화, 성장호르몬 분비</td></tr>
-      <tr><td>REM 수면</td><td>사이클 후반부, 꿈 꾸는 단계</td><td>기억 통합, 감정 처리, 창의적 사고</td></tr>
-    </tbody>
-  </table>
+  <h2>😴 수면 사이클이란? — 90분의 과학</h2>
+  <p>사람의 수면은 약 <strong>90분을 한 사이클</strong>로 하여 반복됩니다. 한 사이클은 얕은 수면(N1·N2) → 깊은 수면(N3) → 렘(REM) 수면 순서로 진행되며, 이 사이클이 완료되는 시점에 깨어나야 뇌가 자연스럽게 각성 상태가 됩니다. 사이클 중간에 깨면 뇌가 깊은 수면에서 강제로 끊기므로 피로감과 두통이 생기고 하루 종일 멍한 느낌이 납니다.</p>
 
   <div class="formula-box">
 취침 시간 = 기상 시간 − (수면 사이클 수 × 90분) − 15분(잠드는 시간)
 기상 시간 = 취침 시간 + (수면 사이클 수 × 90분) + 15분(잠드는 시간)
-
-예) 오전 7시 기상 목표, 5사이클 원할 경우
-  → 7:00 − (5 × 90분) − 15분 = 7:00 − 7시간 45분 = 전날 오후 11:15 취침
   </div>
 
-  <h2>🔬 규칙적인 수면이 중요한 과학적 근거</h2>
-  <p>단순히 "충분히 자는 것"보다 <strong>매일 같은 시간에 자고 일어나는 것</strong>이 건강에 더 큰 영향을 미친다는 연구 결과가 축적되고 있습니다.</p>
-
-  <h3>⏰ 일주기 리듬(서캐디안 리듬)의 원리</h3>
-  <p>우리 몸은 뇌의 시교차상핵(SCN)이 24시간 주기의 생체 시계를 조절합니다. 이 시계는 빛·기상 시간·식사 시간에 의해 매일 재설정됩니다. 수면 시간이 불규칙하면 이 시계가 혼란을 일으켜 호르몬, 소화, 면역, 체온 조절 전반에 악영향을 미칩니다.</p>
-
-  <h3>📚 규칙적 수면의 주요 연구 결과</h3>
-  <table>
-    <thead><tr><th>연구 기관 / 내용</th><th>결과</th></tr></thead>
-    <tbody>
-      <tr><td>하버드 의대 — 수면 불규칙성과 심혈관 위험</td><td>수면 시간이 매일 2시간 이상 불규칙한 사람은 심장질환 위험 2배 증가</td></tr>
-      <tr><td>스탠퍼드 수면 연구소 — 사회적 시차(Social Jetlag)</td><td>평일·주말 수면 시간 차이 1시간마다 비만 위험 33% 증가</td></tr>
-      <tr><td>워싱턴대 — 멜라토닌과 기상 시간</td><td>기상 시간을 고정하면 멜라토닌 분비 패턴이 2주 내 안정화</td></tr>
-      <tr><td>英 맨체스터대 — 수면 규칙성과 사망률 연구(2023)</td><td>불규칙 수면자는 규칙적 수면자 대비 조기 사망 위험 53% 증가</td></tr>
-    </tbody>
-  </table>
-
-  <div class="tip-box">💡 <strong>핵심 실천법 — 기상 시간을 먼저 고정하세요.</strong> 수면 연구자들은 취침 시간보다 기상 시간을 먼저 고정할 것을 권장합니다. 매일 같은 시간에 일어나면 2주 내에 자연스럽게 졸음이 오는 취침 시간도 안정됩니다. 주말에도 평일과 1시간 이내 차이로 유지하는 것이 이상적입니다.</div>
-
-  <h3>🌙 멜라토닌과 수면 압력의 두 가지 메커니즘</h3>
-  <p>잠이 오는 것은 두 가지 메커니즘이 함께 작동한 결과입니다. 첫 번째는 <strong>수면 압력(Process S)</strong>으로, 깨어있는 동안 뇌에 아데노신이 축적되어 잠에 대한 욕구가 높아집니다. 두 번째는 <strong>일주기 신호(Process C)</strong>로, 어두워지면 멜라토닌이 분비되어 수면 신호를 보냅니다. 취침 시간이 불규칙하면 두 메커니즘이 엇박자를 내어 잠들기 어렵고 수면의 질도 떨어집니다.</p>
+  <div class="tip-box">💡 <strong>가장 개운한 수면:</strong> 5~6 사이클 (7시간 30분 ~ 9시간)이 이상적입니다. 4사이클(6시간)도 사이클 끝에 깨면 3사이클(4시간 30분)보다 훨씬 개운합니다.</div>
 
   <h2>📊 나이별 권장 수면 시간</h2>
   <table>
@@ -285,6 +237,8 @@
 
   <h2>⚠️ 수면 부채와 건강 영향</h2>
   <p>수면 부채(sleep debt)는 매일 조금씩 부족한 수면이 누적된 상태입니다. 하루 1시간씩 부족해도 일주일이면 7시간, 한 달이면 30시간이 쌓입니다.</p>
+
+  <h3>수면 부족이 미치는 영향</h3>
   <table>
     <thead><tr><th>지속 기간</th><th>주요 영향</th></tr></thead>
     <tbody>
@@ -295,7 +249,7 @@
     </tbody>
   </table>
 
-  <div class="warn-box">⚠️ <strong>주말 몰아자기의 함정:</strong> 주말에 2~3시간 더 자는 것으로 수면 부채를 갚을 수 없습니다. 스탠퍼드 수면 연구소에 따르면 오히려 수면 리듬이 깨져 월요일 아침이 더 힘들어집니다. 매일 일정한 취침·기상 시간 유지가 가장 효과적입니다.</div>
+  <div class="warn-box">⚠️ <strong>주말 몰아자기의 함정:</strong> 주말에 2~3시간 더 자는 것으로 수면 부채를 갚을 수 없습니다. 오히려 수면 리듬이 깨져 월요일 아침이 더 힘들어집니다. 매일 일정한 취침·기상 시간 유지가 가장 효과적입니다.</div>
 
   <h2>💡 수면의 질을 높이는 실전 팁</h2>
   <ul>
@@ -306,7 +260,7 @@
     <li><strong>알람은 1개만</strong>: 스누즈 반복은 얕은 수면을 유발해 오히려 더 피곤하게 만듭니다.</li>
   </ul>
 
-  <div class="tip-box">💡 <strong>낮잠의 적정 시간:</strong> 낮잠은 <strong>10~20분</strong>이 최적입니다. 30분을 넘기면 N3 깊은 수면에 진입해 일어나기 힘들고 밤잠에 영향을 줍니다. 오후 1~3시 사이가 가장 효과적입니다.</div>
+  <div class="tip-box">💡 <strong>낮잠의 적정 시간:</strong> 낮잠은 <strong>10~20분</strong>이 최적입니다. 30분을 넘기면 깊은 수면에 진입해 일어나기 힘들고 밤잠에 영향을 줍니다. 오후 1~3시 사이가 가장 효과적입니다.</div>
 
   <h2>자주 묻는 질문 (FAQ)</h2>
   <details><summary>6시간 자는 것과 7시간 30분 자는 것, 어떤 게 더 개운할까요?</summary><div class="faq-answer">7시간 30분이 훨씬 개운합니다. 6시간은 4사이클이 완료되는 시간이고, 7시간 30분은 5사이클이 완료됩니다. 사이클 끝에 맞춰 일어나면 렘수면을 마친 직후라 뇌가 자연스럽게 각성 상태에 있어 알람 없이도 비교적 쉽게 일어날 수 있습니다.</div></details>
@@ -314,7 +268,6 @@
   <details><summary>수면 사이클이 정확히 90분인가요?</summary><div class="faq-answer">개인차가 있어 80~110분 범위 안에서 다양합니다. 대부분의 성인은 평균 90분으로 볼 수 있습니다. 정확한 본인의 사이클을 알고 싶다면 수면 추적 앱이나 스마트 워치를 활용해 여러 날 수면 패턴을 분석해 보세요.</div></details>
   <details><summary>매일 같은 시간에 자야 하나요?</summary><div class="faq-answer">취침 시간보다 기상 시간을 일정하게 유지하는 것이 더 중요합니다. 우리 몸의 일주기 리듬(서캐디안 리듬)은 빛과 기상 시간에 의해 주로 설정됩니다. 주말에도 평일과 1시간 이내의 차이로 기상하는 것을 권장합니다.</div></details>
   <details><summary>4시간 30분(3사이클)만 자도 충분한가요?</summary><div class="faq-answer">단기적으로는 6시간보다 개운할 수 있지만 장기적으로는 부족합니다. 수면 부채가 쌓이면 인지 기능, 면역력, 대사 기능 저하가 누적됩니다. 불가피하게 짧게 자야 할 때 사이클 단위로 맞추는 것이 그나마 낫다는 의미이지, 4.5시간이 충분하다는 뜻은 아닙니다.</div></details>
-  <details><summary>수면제나 수면 보조제를 복용하면 수면의 질이 올라가나요?</summary><div class="faq-answer">멜라토닌 보충제는 시차 적응이나 수면 리듬 교정에는 효과가 있지만, 수면의 깊이나 질을 직접적으로 높이지는 않습니다. 수면제는 자연 수면 사이클을 변형시켜 오히려 깊은 수면과 렘수면 비율을 줄일 수 있습니다. 수면에 지속적인 문제가 있다면 수면 전문 의료기관 상담을 권장합니다.</div></details>
 </div>
 
 <script src="/common.js"></script><script src="/share.js"></script>
