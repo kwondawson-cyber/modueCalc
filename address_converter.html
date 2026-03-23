@@ -186,29 +186,20 @@
   }
 
   function showResult(item){
-    const zip     = item.zipNo || '';
-    const roadEng = (item.rnEng || '').trim();
-    const siNm    = item.siNm || '';
-    const sggNm   = item.sggNm || '';
-    const liNm    = item.liNm  || '';
-    const buldMnnm = item.buldMnnm || '';
+    const zip      = item.zipNo   || '';
+    const siNm     = item.siNm    || '';
+    const sggNm    = item.sggNm   || '';
+    const buldMnnm = item.buldMnnm|| '';
     const buldSlno = item.buldSlno && item.buldSlno !== '0' ? '-' + item.buldSlno : '';
     const buldNo   = buldMnnm ? buldMnnm + buldSlno : '';
+    const rn       = item.rn      || '';  // 도로명 영문
 
-    // engAddr 있으면 우선 사용, 없으면 rnEng + buldNo로 직접 조합
-    let eng = (item.engAddr || '').trim();
-    if (!eng && roadEng) {
-      // 조합: 번지 도로명, 구/군, 시/도 순 (국제 표기 순서)
-      const parts = [];
-      if (buldNo)  parts.push(buldNo + ' ' + roadEng);
-      if (sggNm)   parts.push(sggNm);
-      if (siNm)    parts.push(siNm);
-      eng = parts.join(', ');
-    }
+    // roadAddr = "175 Sejong-daero, Jongno-gu, Seoul" 형태로 이미 영문
+    const roadAddr = (item.roadAddr || '').trim();
+    const eng = roadAddr;
 
     const fullAddr   = eng ? eng + ', Republic of Korea' : 'Republic of Korea';
-    const postalAddr = zip ? (eng ? eng + ', ' : '') + zip + ', Republic of Korea' : fullAddr;
-    const roadDisplay = roadEng || '-';
+    const postalAddr = zip ? eng + ', ' + zip + ', Republic of Korea' : fullAddr;
 
     document.getElementById('resultBody').innerHTML = `
       <div class="result-box">
@@ -224,7 +215,7 @@
       <div class="addr-parts">
         <div class="addr-part"><span class="ap-label">시/도</span><span class="ap-val">${siNm||'-'}</span></div>
         <div class="addr-part"><span class="ap-label">시군구</span><span class="ap-val">${sggNm||'-'}</span></div>
-        <div class="addr-part"><span class="ap-label">도로명 (영문)</span><span class="ap-val">${roadDisplay}</span></div>
+        <div class="addr-part"><span class="ap-label">도로명 (영문)</span><span class="ap-val">${rn||'-'}</span></div>
         <div class="addr-part"><span class="ap-label">건물번호</span><span class="ap-val">${buldNo||'-'}</span></div>
         <div class="addr-part"><span class="ap-label">우편번호</span><span class="ap-val accent">${zip||'미확인'}</span></div>
       </div>
