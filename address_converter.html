@@ -146,12 +146,6 @@
 </div>
 
 <script>
-  // CORS 프록시 (공개 프록시 2개 순차 시도)
-  const PROXIES = [
-    'https://corsproxy.io/?',
-    'https://api.allorigins.win/get?url='
-  ];
-
   function setAddr(addr){ document.getElementById('addressInput').value = addr; }
   function clearAll(){
     document.getElementById('addressInput').value = '';
@@ -176,7 +170,7 @@
     document.getElementById('loadingOverlay').classList.add('show');
 
     try {
-      const res = await fetch(`${API_PROXY}?keyword=${encodeURIComponent(input)}`);
+      const res = await fetch(`/api/주소?keyword=${encodeURIComponent(input)}`);
       const data = await res.json();
       document.getElementById('loadingOverlay').classList.remove('show');
       const juso = data?.results?.juso;
