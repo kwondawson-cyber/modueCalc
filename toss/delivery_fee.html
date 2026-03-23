@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>배달앱 수수료 계산기</title>
+  <!-- TODO: 앱인토스 SDK — 콘솔 발급 코드로 교체 -->
+  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <style>
+
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--danger:#ff6b6b;--warn:#f5a623;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    
+    .container{max-width:680px;margin:0 auto;padding:40px 20px 100px;position:relative;z-index:1}
+    
+    
+    
+    
+    
+    .header{text-align:center;margin-bottom:28px}
+    .header h1{font-family:'Montserrat',sans-serif;font-size:clamp(22px,5vw,32px);font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+    .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
+    .header p{color:var(--text-muted);font-size:14px}
+    .badges{text-align:center;margin-bottom:16px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+    .badge{padding:3px 12px;background:rgba(0,212,170,0.1);border:1px solid rgba(0,212,170,0.25);border-radius:20px;font-size:11px;color:var(--accent);font-weight:700}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
+    .card h2{font-size:15px;font-weight:700;margin-bottom:16px;color:var(--accent)}
+    .form-group{margin-bottom:14px}
+    label{display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px;font-weight:500}
+    input,select{width:100%;padding:11px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:15px;font-family:'Noto Sans KR',sans-serif;outline:none;transition:border-color .2s}
+    input:focus,select:focus{border-color:var(--accent)}
+    select option{background:var(--surface2)}
+    .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .app-tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+    .app-tab{flex:1;min-width:80px;padding:10px 8px;text-align:center;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;border:1px solid var(--border);background:var(--surface2);color:var(--text-muted);transition:all .2s;font-family:'Noto Sans KR',sans-serif}
+    .app-tab.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000;border-color:transparent}
+    .btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#000;font-size:16px;font-weight:800;font-family:'Noto Sans KR',sans-serif;cursor:pointer;margin-top:4px;transition:opacity .2s}
+    .btn:hover{opacity:.9}
+    .result-card{background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:var(--radius);padding:24px;margin-top:16px;display:block}
+    .result-card.show{display:block}
+    .result-main{text-align:center;margin-bottom:20px}
+    .result-label{font-size:13px;color:var(--text-muted);margin-bottom:6px}
+    .result-value{font-family:'Montserrat',sans-serif;font-size:38px;font-weight:900;color:var(--accent)}
+    .result-sub{font-size:13px;color:var(--text-muted);margin-top:4px}
+    .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+    .result-item{background:var(--surface2);border-radius:10px;padding:12px;text-align:center}
+    .result-item-label{font-size:11px;color:var(--text-muted);margin-bottom:4px}
+    .result-item-value{font-size:17px;font-weight:700;color:var(--text)}
+    .result-item-value.danger{color:var(--danger)}
+    .result-item-value.warn{color:var(--warn)}
+    .breakdown{background:var(--surface2);border-radius:12px;padding:16px;margin-top:14px}
+    .bd-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
+    .bd-row:last-child{border-bottom:none;font-weight:700;font-size:15px;padding-top:12px}
+    .bd-row.deduct span:last-child{color:var(--danger)}
+    .bd-row.total span:last-child{color:var(--accent)}
+    .compare-section{margin-top:16px}
+    .compare-section h3{font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:10px}
+    .compare-table{width:100%;border-collapse:collapse;font-size:13px}
+    .compare-table th{background:var(--surface2);padding:9px 10px;text-align:center;color:var(--text-muted);font-weight:600;border:1px solid var(--border);font-size:12px}
+    .compare-table td{padding:9px 10px;text-align:right;border:1px solid var(--border)}
+    .compare-table td:first-child{text-align:left;font-weight:700}
+    .compare-table tr.best td{color:var(--accent)}
+    
+    .notice{background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.25);border-radius:10px;padding:12px 14px;font-size:12px;color:var(--warn);line-height:1.7;margin-bottom:16px}
+    .ad-slot{min-height:0;text-align:center;margin:16px 0}
+    details{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden}
+    details summary{padding:12px 16px;cursor:pointer;font-size:14px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--surface)}
+    details summary::after{content:'＋';color:var(--accent);font-size:16px}
+    details[open] summary::after{content:'－'}
+    details 
+    @media(max-width:480px){.result-grid{grid-template-columns:1fr}.row2{grid-template-columns:1fr}}
+
+    
+    
+    
+    
+    
+    
+    
+    .ex-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+    .ex-table th{background:rgba(0,212,170,0.1);padding:8px 12px;text-align:left;color:var(--accent);font-weight:700;border:1px solid var(--border)}
+    .ex-table td{padding:8px 12px;border:1px solid var(--border);color:var(--text-muted);line-height:1.7}
+    .ex-table tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
+    .hl-box{background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.25);border-radius:10px;padding:14px 16px;margin:14px 0;font-size:13px;color:var(--text);line-height:1.8}
+    .hl-box strong{color:var(--accent)}
+    
+    
+    
+    
+    
+    
+    
+  
+
+
+
+
+
+
+
+
+
+
+
+
+    /* ── 토스 헤더 ── */
+
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
+    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+
+    .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
+    .toss-header>.emoji{font-size:28px;flex-shrink:0}
+    .toss-header h1{font-size:20px;font-weight:800;color:var(--text);margin:0}
+    .toss-header p{font-size:12px;color:var(--text-muted);margin-top:3px}
+    /* ── 토스 하단 네비 ── */
+    .toss-nav{margin-top:24px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .toss-nav-title{font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:12px}
+    .toss-nav-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+    .toss-nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;text-decoration:none;transition:all .2s}
+    .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
+    .ni-emoji{font-size:20px}
+    .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
+
+    /* ── max-scale 방지 ── */
+    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="toss-header">
+    <span class="emoji">🛵</span>
+    <div>
+      <h1>배달앱 수수료 계산기</h1>
+      <p>배달의민족·쿠팡이츠 수수료 계산</p>
+    </div>
+  </div>
+
+
+<div class="badges">
+<span class="badge">🍔 음식점</span><span class="badge">🛵 배달앱 비교</span><span class="badge">💰 실수익 계산</span>
+</div>
+<div class="notice">⚠️ 수수료율은 계약 유형·지역·프로모션에 따라 다릅니다. 정확한 수수료는 각 플랫폼 계약서를 확인하세요.</div>
+<div class="card">
+<h2>🛵 배달앱 선택</h2>
+<div class="app-tabs">
+<button class="app-tab active" onclick="selectApp('baemin',this)">배달의민족</button>
+<button class="app-tab" onclick="selectApp('coupang',this)">쿠팡이츠</button>
+<button class="app-tab" onclick="selectApp('yogiyo',this)">요기요</button>
+<button class="app-tab" onclick="selectApp('custom',this)">직접입력</button>
+</div>
+<div id="preset-info" style="background:var(--surface2);border-radius:10px;padding:12px 14px;font-size:12px;color:var(--text-muted);margin-bottom:14px;line-height:1.8"></div>
+<div class="row2">
+<div class="form-group">
+<label>플랫폼 수수료율 (%)</label>
+<input id="platformRate" step="0.1" type="number"/>
+</div>
+<div class="form-group">
+<label>PG·결제 수수료율 (%)</label>
+<input id="pgRate" step="0.1" type="number" value="1.0"/>
+</div>
+</div>
+</div>
+<div class="card">
+<h2>💰 주문 정보</h2>
+<div class="row2">
+<div class="form-group">
+<label>1건 평균 주문금액 (원)</label>
+<input id="orderAmt" placeholder="예: 25000" type="number"/>
+</div>
+<div class="form-group">
+<label>월 배달 주문 건수</label>
+<input id="orderCnt" placeholder="예: 300" type="number"/>
+</div>
+</div>
+<div class="row2">
+<div class="form-group">
+<label>건당 배달비 (점주 부담, 원)</label>
+<input id="delivFee" placeholder="예: 0" type="number" value="0"/>
+</div>
+<div class="form-group">
+<label>광고비 (월, 원)</label>
+<input id="adFee" placeholder="예: 88000" type="number" value="0"/>
+</div>
+</div>
+<button class="btn" onclick="calc()">실수익 계산하기</button>
+</div>
+<div class="result-card" id="result">
+<div class="result-main">
+<div class="result-label">월 배달 실수익</div>
+<div class="result-value" id="r-net">0원</div>
+<div class="result-sub" id="r-sub"></div>
+</div>
+<div class="result-grid">
+<div class="result-item"><div class="result-item-label">건당 실수익</div><div class="result-item-value" id="r-per-order">-</div></div>
+<div class="result-item"><div class="result-item-label">총 수수료율</div><div class="result-item-value danger" id="r-total-rate">-</div></div>
+<div class="result-item"><div class="result-item-label">월 수수료 합계</div><div class="result-item-value danger" id="r-fee-total">-</div></div>
+<div class="result-item"><div class="result-item-label">순수익률</div><div class="result-item-value" id="r-net-rate">-</div></div>
+</div>
+<div class="breakdown">
+<div class="bd-row"><span>월 배달 매출</span><span id="bd-rev">-</span></div>
+<div class="bd-row deduct"><span>(−) 플랫폼 수수료</span><span id="bd-platform">-</span></div>
+<div class="bd-row deduct"><span>(−) PG·결제 수수료</span><span id="bd-pg">-</span></div>
+<div class="bd-row deduct"><span>(−) 배달비 (점주 부담)</span><span id="bd-deliv">-</span></div>
+<div class="bd-row deduct"><span>(−) 광고비</span><span id="bd-ad">-</span></div>
+<div class="bd-row total"><span>= 월 실수익</span><span id="bd-net">-</span></div>
+</div>
+<div class="compare-section">
+<h3>📊 앱별 실수익 비교 (동일 조건)</h3>
+<table class="compare-table">
+<thead><tr><th>플랫폼</th><th>수수료율</th><th>월 수수료</th><th>월 실수익</th></tr></thead>
+<tbody id="compare-body"></tbody>
+</table>
+</div>
+</div>
+
+
+  <div class="toss-nav">
+    <div class="toss-nav-title">📌 사업자 세금 계산기</div>
+    <div class="toss-nav-grid">
+      <a href="/card_fee" class="toss-nav-item"><span class="ni-emoji">💳</span><span class="ni-label">카드수수료</span></a>
+      <a href="/margin" class="toss-nav-item"><span class="ni-emoji">💹</span><span class="ni-label">마진율</span></a>
+      <a href="/vat_biz" class="toss-nav-item"><span class="ni-emoji">🧾</span><span class="ni-label">사업자부가세</span></a>
+      <a href="/product_cost" class="toss-nav-item"><span class="ni-emoji">🏷️</span><span class="ni-label">원가계산</span></a>
+    </div>
+  </div>
+
+</div>
+<script>
+const fw = n => Math.round(n).toLocaleString() + '원';
+const APPS = {
+  baemin:  { name:'배달의민족(배민1플러스)', rate:6.8,  pg:1.0, info:'배민1플러스 기준. 배달비 별도. 요금제에 따라 상이합니다.' },
+  coupang: { name:'쿠팡이츠', rate:9.8,  pg:0.3, info:'쿠팡이츠 정률제 수수료. 배달비 포함 기준.' },
+  yogiyo:  { name:'요기요', rate:12.5, pg:1.0, info:'요기요 기본 수수료. 배달비 별도.' },
+  custom:  { name:'직접입력', rate:null, pg:null, info:'수수료율을 직접 입력하세요.' }
+};
+let selectedApp = 'baemin';
+
+function selectApp(app, el) {
+  selectedApp = app;
+  document.querySelectorAll('.app-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  const d = APPS[app];
+  document.getElementById('preset-info').textContent = d.info;
+  if (app !== 'custom') {
+    document.getElementById('platformRate').value = d.rate;
+    document.getElementById('pgRate').value = d.pg;
+  }
+}
+
+// 초기화
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('preset-info').textContent = APPS.baemin.info;
+  document.getElementById('platformRate').value = APPS.baemin.rate;
+});
+
+function calc() {
+  const orderAmt = +document.getElementById('orderAmt').value || 0;
+  const orderCnt = +document.getElementById('orderCnt').value || 0;
+  const platformRate = +document.getElementById('platformRate').value || 0;
+  const pgRate = +document.getElementById('pgRate').value || 0;
+  const delivFee = +document.getElementById('delivFee').value || 0;
+  const adFee = +document.getElementById('adFee').value || 0;
+
+  if (!orderAmt || !orderCnt) { alert('주문금액과 건수를 입력해주세요.'); return; }
+
+  const monthSales = orderAmt * orderCnt;
+  const platformFee = monthSales * platformRate / 100;
+  const pgFee = monthSales * pgRate / 100;
+  const totalDelivFee = delivFee * orderCnt;
+  const totalFee = platformFee + pgFee + totalDelivFee + adFee;
+  const netIncome = monthSales - totalFee;
+  const perOrder = netIncome / orderCnt;
+  const totalRate = (totalFee / monthSales * 100).toFixed(1);
+  const netRate = (netIncome / monthSales * 100).toFixed(1);
+
+  document.getElementById('r-net').textContent = fw(netIncome);
+  document.getElementById('r-sub').textContent = `월 ${orderCnt}건 × 건당 ${fw(orderAmt)}`;
+  document.getElementById('r-per-order').textContent = fw(perOrder);
+  document.getElementById('r-total-rate').textContent = totalRate + '%';
+  document.getElementById('r-fee-total').textContent = fw(totalFee);
+  document.getElementById('r-net-rate').textContent = netRate + '%';
+
+  // 상세 내역
+  const bd = document.getElementById('r-breakdown');
+  if (bd) {
+    document.getElementById('bd-sales').textContent = fw(monthSales);
+    document.getElementById('bd-platform-fee').textContent = '-' + fw(platformFee);
+    document.getElementById('bd-pg-fee').textContent = '-' + fw(pgFee);
+    document.getElementById('bd-deliv-fee').textContent = '-' + fw(totalDelivFee);
+    document.getElementById('bd-ad-fee').textContent = '-' + fw(adFee);
+    document.getElementById('bd-net').textContent = fw(netIncome);
+  }
+
+  document.getElementById('result').style.display = 'block';
+}
+</script>
+</body>
+</html>

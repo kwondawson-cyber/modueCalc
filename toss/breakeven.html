@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>손익분기점 계산기</title>
+  <!-- TODO: 앱인토스 SDK — 콘솔 발급 코드로 교체 -->
+  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <style>
+
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--danger:#ff6b6b;--warn:#f5a623;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    
+    .container{max-width:680px;margin:0 auto;padding:40px 20px 100px;position:relative;z-index:1}
+    
+    
+    
+    
+    
+    .header{text-align:center;margin-bottom:28px}
+    .header h1{font-family:'Montserrat',sans-serif;font-size:clamp(22px,5vw,32px);font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+    .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
+    .header p{color:var(--text-muted);font-size:14px}
+    .badges{text-align:center;margin-bottom:16px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+    .badge{padding:3px 12px;background:rgba(0,212,170,0.1);border:1px solid rgba(0,212,170,0.25);border-radius:20px;font-size:11px;color:var(--accent);font-weight:700}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
+    .card h2{font-size:15px;font-weight:700;margin-bottom:16px;color:var(--accent)}
+    .form-group{margin-bottom:14px}
+    label{display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px;font-weight:500}
+    input,select{width:100%;padding:11px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:15px;font-family:'Noto Sans KR',sans-serif;outline:none;transition:border-color .2s}
+    input:focus,select:focus{border-color:var(--accent)}
+    select option{background:var(--surface2)}
+    .cost-row{display:grid;grid-template-columns:1fr 150px 36px;gap:8px;align-items:center;margin-bottom:8px}
+    .cost-row input{margin:0;padding:10px 12px;font-size:14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Noto Sans KR',sans-serif;outline:none;width:100%}
+    .cost-row input:focus{border-color:var(--accent)}
+    .btn-del{background:none;border:1px solid var(--danger);color:var(--danger);border-radius:8px;width:36px;height:36px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .btn-add{width:100%;padding:10px;border:1px dashed var(--border);border-radius:10px;background:transparent;color:var(--text-muted);font-size:13px;font-family:'Noto Sans KR',sans-serif;cursor:pointer;transition:all .2s;margin-top:4px}
+    .btn-add:hover{border-color:var(--accent);color:var(--accent)}
+    .section-total{display:flex;justify-content:flex-end;gap:8px;padding:8px 0 2px;font-size:13px;color:var(--text-muted);border-top:1px solid var(--border);margin-top:6px}
+    .section-total .v{font-weight:700;color:var(--accent)}
+    .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#000;font-size:16px;font-weight:800;font-family:'Noto Sans KR',sans-serif;cursor:pointer;margin-top:8px;transition:opacity .2s}
+    .btn:hover{opacity:.9}
+    .result-card{background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:var(--radius);padding:24px;margin-top:16px;display:block}
+    .result-card.show{display:block}
+    .result-main{text-align:center;margin-bottom:20px}
+    .result-label{font-size:13px;color:var(--text-muted);margin-bottom:6px}
+    .result-value{font-family:'Montserrat',sans-serif;font-size:38px;font-weight:900;color:var(--accent)}
+    .result-sub{font-size:13px;color:var(--text-muted);margin-top:4px}
+    .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+    .result-item{background:var(--surface2);border-radius:10px;padding:12px;text-align:center}
+    .result-item-label{font-size:11px;color:var(--text-muted);margin-bottom:4px}
+    .result-item-value{font-size:17px;font-weight:700;color:var(--text)}
+    .result-item-value.good{color:var(--accent)}
+    .result-item-value.warn{color:var(--warn)}
+    .result-item-value.bad{color:var(--danger)}
+    .bep-chart{background:var(--surface2);border-radius:12px;padding:20px;margin-top:16px;position:relative;overflow:hidden}
+    .bep-chart h3{font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:16px}
+    .chart-wrap{position:relative;height:180px}
+    canvas{width:100%!important;height:180px!important}
+    .scenario-table{width:100%;border-collapse:collapse;margin-top:14px;font-size:13px}
+    .scenario-table th{background:var(--surface2);padding:9px 10px;text-align:center;color:var(--text-muted);font-weight:600;border:1px solid var(--border);font-size:12px}
+    .scenario-table td{padding:9px 10px;text-align:right;border:1px solid var(--border)}
+    .scenario-table td:first-child{text-align:left;color:var(--text-muted)}
+    .scenario-table tr.bep-row td{color:var(--warn);font-weight:700;background:rgba(245,166,35,0.06)}
+    .scenario-table tr.profit-row td{color:var(--accent)}
+    
+    .ad-slot{min-height:0;text-align:center;margin:16px 0}
+    details{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden}
+    details summary{padding:12px 16px;cursor:pointer;font-size:14px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--surface)}
+    details summary::after{content:'＋';color:var(--accent);font-size:16px}
+    details[open] summary::after{content:'－'}
+    details 
+    @media(max-width:480px){.result-grid{grid-template-columns:1fr}.row2{grid-template-columns:1fr}.cost-row{grid-template-columns:1fr 110px 36px}}
+
+    
+    
+    
+    
+    
+    
+    
+    .ex-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+    .ex-table th{background:rgba(0,212,170,0.1);padding:8px 12px;text-align:left;color:var(--accent);font-weight:700;border:1px solid var(--border)}
+    .ex-table td{padding:8px 12px;border:1px solid var(--border);color:var(--text-muted);line-height:1.7}
+    .ex-table tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
+    .hl-box{background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.25);border-radius:10px;padding:14px 16px;margin:14px 0;font-size:13px;color:var(--text);line-height:1.8}
+    .hl-box strong{color:var(--accent)}
+    
+    
+    
+    
+    
+    
+    
+  
+
+
+
+
+
+
+
+
+
+
+
+
+    /* ── 토스 헤더 ── */
+
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
+    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+
+    .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
+    .toss-header>.emoji{font-size:28px;flex-shrink:0}
+    .toss-header h1{font-size:20px;font-weight:800;color:var(--text);margin:0}
+    .toss-header p{font-size:12px;color:var(--text-muted);margin-top:3px}
+    /* ── 토스 하단 네비 ── */
+    .toss-nav{margin-top:24px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .toss-nav-title{font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:12px}
+    .toss-nav-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+    .toss-nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;text-decoration:none;transition:all .2s}
+    .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
+    .ni-emoji{font-size:20px}
+    .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
+
+    /* ── max-scale 방지 ── */
+    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="toss-header">
+    <span class="emoji">⚖️</span>
+    <div>
+      <h1>손익분기점 계산기</h1>
+      <p>고정비·변동비·BEP 매출 계산</p>
+    </div>
+  </div>
+
+
+<div class="badges">
+<span class="badge">🏪 소상공인</span><span class="badge">📊 BEP 분석</span><span class="badge">🎯 시뮬레이션</span>
+</div>
+<div class="card">
+<h2>💰 판매 단가</h2>
+<div class="row2">
+<div class="form-group">
+<label>제품·메뉴 평균 판매단가 (원)</label>
+<input id="price" placeholder="예: 5000" type="number"/>
+</div>
+<div class="form-group">
+<label>단위 변동비 (원가, 원)</label>
+<input id="varUnit" placeholder="예: 1500" type="number"/>
+</div>
+</div>
+<p style="font-size:12px;color:var(--text-muted);margin-top:-8px">※ 단위 변동비 = 제품 1개당 재료비+포장비 등 직접비용</p>
+</div>
+<div class="card">
+<h2>🏪 월 고정비</h2>
+<div id="fixed-list">
+<div class="cost-row"><input type="text" value="임차료"/><input placeholder="월 금액(원)" type="number"/><button class="btn-del" onclick="delRow(this)">✕</button></div>
+<div class="cost-row"><input type="text" value="인건비 합계"/><input placeholder="월 금액(원)" type="number"/><button class="btn-del" onclick="delRow(this)">✕</button></div>
+<div class="cost-row"><input type="text" value="전기·수도·가스"/><input placeholder="월 금액(원)" type="number"/><button class="btn-del" onclick="delRow(this)">✕</button></div>
+<div class="cost-row"><input type="text" value="기타 고정비"/><input placeholder="월 금액(원)" type="number"/><button class="btn-del" onclick="delRow(this)">✕</button></div>
+</div>
+<button class="btn-add" onclick="addRow()">＋ 고정비 추가</button>
+<div class="section-total">월 고정비 합계 <span class="v" id="fixed-ttl">0원</span></div>
+</div>
+<div class="card">
+<h2>📅 현재 판매량 (선택 — 안전한계 분석용)</h2>
+<div class="form-group">
+<label>현재 월 판매 수량 (개/잔/건)</label>
+<input id="curQty" placeholder="예: 800" type="number"/>
+</div>
+</div>
+<button class="btn" onclick="calc()">손익분기점 계산하기</button>
+<div class="result-card" id="result">
+<div class="result-main">
+<div class="result-label">손익분기 수량 (월)</div>
+<div class="result-value" id="r-bep-qty">0개</div>
+<div class="result-sub" id="r-sub"></div>
+</div>
+<div class="result-grid">
+<div class="result-item"><div class="result-item-label">BEP 매출액</div><div class="result-item-value good" id="r-bep-rev">-</div></div>
+<div class="result-item"><div class="result-item-label">공헌이익률</div><div class="result-item-value" id="r-cm-rate">-</div></div>
+<div class="result-item"><div class="result-item-label">안전한계 수량</div><div class="result-item-value" id="r-margin-qty">-</div></div>
+<div class="result-item"><div class="result-item-label">안전한계율</div><div class="result-item-value" id="r-margin-rate">-</div></div>
+</div>
+<div class="bep-chart">
+<h3>📊 판매량별 손익 시뮬레이션</h3>
+<div class="chart-wrap"><canvas id="bepChart"></canvas></div>
+</div>
+<table class="scenario-table" style="margin-top:16px">
+<thead><tr><th>판매량</th><th>매출액</th><th>총비용</th><th>손익</th></tr></thead>
+<tbody id="scenario-body"></tbody>
+</table>
+</div>
+
+
+  <div class="toss-nav">
+    <div class="toss-nav-title">📌 사업자 세금 계산기</div>
+    <div class="toss-nav-grid">
+      <a href="/margin" class="toss-nav-item"><span class="ni-emoji">💹</span><span class="ni-label">마진율</span></a>
+      <a href="/operating_profit" class="toss-nav-item"><span class="ni-emoji">📈</span><span class="ni-label">영업이익</span></a>
+      <a href="/product_cost" class="toss-nav-item"><span class="ni-emoji">🏷️</span><span class="ni-label">원가계산</span></a>
+      <a href="/card_fee" class="toss-nav-item"><span class="ni-emoji">💳</span><span class="ni-label">카드수수료</span></a>
+    </div>
+  </div>
+
+</div>
+<script>
+const fw = n => Math.round(n).toLocaleString() + '원';
+
+function addRow(listId) {
+  const list = document.getElementById(listId || 'fixed-list');
+  if (!list) return;
+  const row = document.createElement('div');
+  row.className = 'cost-row';
+  row.innerHTML = '<input type="text" placeholder="항목명" /><input type="number" placeholder="월 금액(원)" /><button class="btn-del" onclick="delRow(this)">✕</button>';
+  list.appendChild(row);
+}
+
+function delRow(btn) { btn.closest('.cost-row').remove(); }
+
+function getListTotal(listId) {
+  const rows = document.querySelectorAll(`#${listId} .cost-row input[type="number"]`);
+  return Array.from(rows).reduce((s, i) => s + (+i.value || 0), 0);
+}
+
+function calc() {
+  const price = +document.getElementById('price').value || 0;
+  const varUnit = +document.getElementById('varUnit').value || 0;
+  const fixedTotal = getListTotal('fixed-list') || +document.getElementById('fixed-ttl')?.value || 0;
+  const curQty = +document.getElementById('curQty').value || 0;
+
+  if (!price) { alert('판매가를 입력해주세요.'); return; }
+  if (varUnit >= price) { alert('변동비가 판매가 이상입니다. 수익이 발생하지 않습니다.'); return; }
+
+  const contrib = price - varUnit; // 단위 공헌이익
+  const contribRate = contrib / price;
+  const bepQty = fixedTotal > 0 ? Math.ceil(fixedTotal / contrib) : 0;
+  const bepRev = fixedTotal > 0 ? fixedTotal / contribRate : 0;
+  const curRev = price * curQty;
+  const curProfit = contrib * curQty - fixedTotal;
+  const marginQty = Math.max(curQty - bepQty, 0);
+  const marginRate = curQty > 0 ? (marginQty / curQty * 100) : 0;
+
+  document.getElementById('r-bep') && (document.getElementById('r-bep').textContent = bepQty.toLocaleString() + '개');
+  document.getElementById('r-bep-rev') && (document.getElementById('r-bep-rev').textContent = fw(bepRev));
+  document.getElementById('r-cm-rate') && (document.getElementById('r-cm-rate').textContent = (contribRate * 100).toFixed(1) + '%');
+  document.getElementById('r-margin-qty') && (document.getElementById('r-margin-qty').textContent = marginQty.toLocaleString() + '개');
+  document.getElementById('r-margin-rate') && (document.getElementById('r-margin-rate').textContent = marginRate.toFixed(1) + '%');
+  document.getElementById('r-sub') && (document.getElementById('r-sub').textContent = `고정비 ${fw(fixedTotal)} / 공헌이익 ${fw(contrib)}/개`);
+
+  // 시나리오 표
+  const tbody = document.getElementById('scenario-body');
+  if (tbody && bepQty > 0) {
+    tbody.innerHTML = '';
+    const steps = [Math.floor(bepQty*0.5), Math.floor(bepQty*0.8), bepQty, Math.ceil(bepQty*1.2), Math.ceil(bepQty*1.5)];
+    steps.forEach(q => {
+      const rev = price * q;
+      const cost = fixedTotal + varUnit * q;
+      const profit = rev - cost;
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${q.toLocaleString()}</td><td>${fw(rev)}</td><td>${fw(cost)}</td><td style="color:${profit>=0?'var(--accent)':'var(--danger)'}">${profit>=0?'+':''}${fw(profit)}</td>`;
+      tbody.appendChild(tr);
+    });
+  }
+
+  document.getElementById('result') && (document.getElementById('result').style.display = 'block');
+}
+</script>
+</body>
+</html>

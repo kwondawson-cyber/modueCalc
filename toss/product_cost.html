@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>제품 원가 계산기</title>
+  <!-- TODO: 앱인토스 SDK — 콘솔 발급 코드로 교체 -->
+  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <style>
+
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--danger:#ff6b6b;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    
+    .container{max-width:680px;margin:0 auto;padding:40px 20px 100px;position:relative;z-index:1}
+    
+    
+    
+    
+    
+    .header{text-align:center;margin-bottom:32px}
+    .header h1{font-family:'Montserrat',sans-serif;font-size:clamp(22px,5vw,32px);font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+    .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
+    .header p{color:var(--text-muted);font-size:14px}
+    .badge-wrap{text-align:center;margin-bottom:16px}
+    .badge{display:inline-block;padding:3px 12px;background:rgba(0,212,170,0.12);border:1px solid rgba(0,212,170,0.3);border-radius:20px;font-size:11px;color:var(--accent);font-weight:700;margin:2px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
+    .card h2{font-size:15px;font-weight:700;margin-bottom:16px;color:var(--accent)}
+    .cost-row{display:grid;grid-template-columns:1fr 120px 36px;gap:8px;align-items:center;margin-bottom:8px}
+    .cost-row input{margin:0;width:100%;padding:10px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;font-family:'Noto Sans KR',sans-serif;outline:none;transition:border-color .2s}
+    .cost-row input:focus{border-color:var(--accent)}
+    .cost-row input.name{flex:1}
+    .cost-row input.amt{text-align:right}
+    .btn-del{background:none;border:1px solid var(--danger);color:var(--danger);border-radius:8px;width:36px;height:36px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
+    .btn-del:hover{background:rgba(255,107,107,0.1)}
+    .btn-add{width:100%;padding:10px;border:1px dashed var(--border);border-radius:10px;background:transparent;color:var(--text-muted);font-size:13px;font-family:'Noto Sans KR',sans-serif;cursor:pointer;transition:all .2s;margin-top:4px}
+    .btn-add:hover{border-color:var(--accent);color:var(--accent)}
+    .section-total{display:flex;justify-content:flex-end;align-items:center;gap:8px;padding:8px 0 4px;font-size:13px;color:var(--text-muted);border-top:1px solid var(--border);margin-top:4px}
+    .section-total span{font-weight:700;color:var(--accent)}
+    .form-group{margin-bottom:14px}
+    label{display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px;font-weight:500}
+    input,select{width:100%;padding:11px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:15px;font-family:'Noto Sans KR',sans-serif;outline:none;transition:border-color .2s}
+    input:focus,select:focus{border-color:var(--accent)}
+    select option{background:var(--surface2)}
+    .btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#000;font-size:16px;font-weight:800;font-family:'Noto Sans KR',sans-serif;cursor:pointer;margin-top:8px;transition:opacity .2s}
+    .btn:hover{opacity:.9}
+    .result-card{background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:var(--radius);padding:24px;margin-top:16px;display:block}
+    .result-card.show{display:block}
+    .result-main{text-align:center;margin-bottom:20px}
+    .result-label{font-size:13px;color:var(--text-muted);margin-bottom:6px}
+    .result-value{font-family:'Montserrat',sans-serif;font-size:38px;font-weight:900;color:var(--accent)}
+    .result-sub{font-size:13px;color:var(--text-muted);margin-top:4px}
+    .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+    .result-item{background:var(--surface2);border-radius:10px;padding:12px;text-align:center}
+    .result-item-label{font-size:11px;color:var(--text-muted);margin-bottom:4px}
+    .result-item-value{font-size:17px;font-weight:700;color:var(--text)}
+    .result-item-value.accent{color:var(--accent)}
+    .price-reco{background:var(--surface2);border-radius:12px;padding:16px;margin-top:16px}
+    .price-reco h3{font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:12px}
+    .price-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
+    .price-row:last-child{border-bottom:none}
+    .price-row .margin-pct{font-size:11px;color:var(--text-muted);margin-left:4px}
+    .price-row .price-val{font-weight:700;color:var(--accent)}
+    .cost-breakdown{background:var(--surface2);border-radius:12px;padding:16px;margin-top:12px}
+    .cost-breakdown h3{font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:10px}
+    .cb-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px}
+    .cb-row:last-child{border-bottom:none;font-weight:700;padding-top:10px;color:var(--accent)}
+    
+    .ad-slot{min-height:0;text-align:center;margin:16px 0}
+    .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    details{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden}
+    details summary{padding:12px 16px;cursor:pointer;font-size:14px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--surface)}
+    details summary::after{content:'＋';color:var(--accent);font-size:16px}
+    details[open] summary::after{content:'－'}
+    details 
+    @media(max-width:480px){.result-grid{grid-template-columns:1fr}.row2{grid-template-columns:1fr}.cost-row{grid-template-columns:1fr 100px 36px}}
+
+    
+    
+    
+    
+    
+    
+    
+    .ex-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+    .ex-table th{background:rgba(0,212,170,0.1);padding:8px 12px;text-align:left;color:var(--accent);font-weight:700;border:1px solid var(--border)}
+    .ex-table td{padding:8px 12px;border:1px solid var(--border);color:var(--text-muted);line-height:1.7}
+    .ex-table tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
+    .hl-box{background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.25);border-radius:10px;padding:14px 16px;margin:14px 0;font-size:13px;color:var(--text);line-height:1.8}
+    .hl-box strong{color:var(--accent)}
+    
+    
+    
+    
+    
+    
+    
+  
+
+
+
+
+
+
+
+
+
+
+
+
+    /* ── 토스 헤더 ── */
+
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
+    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+
+    .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
+    .toss-header>.emoji{font-size:28px;flex-shrink:0}
+    .toss-header h1{font-size:20px;font-weight:800;color:var(--text);margin:0}
+    .toss-header p{font-size:12px;color:var(--text-muted);margin-top:3px}
+    /* ── 토스 하단 네비 ── */
+    .toss-nav{margin-top:24px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .toss-nav-title{font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:12px}
+    .toss-nav-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+    .toss-nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;text-decoration:none;transition:all .2s}
+    .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
+    .ni-emoji{font-size:20px}
+    .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
+
+    /* ── max-scale 방지 ── */
+    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="toss-header">
+    <span class="emoji">🏷️</span>
+    <div>
+      <h1>제품 원가 계산기</h1>
+      <p>재료비·인건비·원가율 계산</p>
+    </div>
+  </div>
+
+
+<div class="badge-wrap">
+<span class="badge">🏪 소상공인</span>
+<span class="badge">☕ 카페·음식점</span>
+<span class="badge">🛍️ 쇼핑몰</span>
+</div>
+<!-- 재료비 -->
+<div class="card">
+<h2>🥩 재료비 (변동비)</h2>
+<div id="material-list">
+<div class="cost-row"><input class="name" placeholder="항목명 (예: 원두)" type="text" value="재료 1"/><input class="amt" placeholder="금액(원)" type="number"/><button class="btn-del" onclick="delRow(this)">✕</button></div>
+</div>
+<button class="btn-add" onclick="addRow('material-list')">＋ 재료 항목 추가</button>
+<div class="section-total">재료비 소계: <span id="material-total">0원</span></div>
+</div>
+<!-- 직접 인건비 -->
+<div class="card">
+<h2>👤 직접 인건비 (제품당)</h2>
+<div class="form-group">
+<label>시급 (원)</label>
+<input id="hourly" placeholder="예: 10320" type="number" value="10320"/>
+</div>
+<div class="row2">
+<div class="form-group">
+<label>제품 1개당 제조 시간 (분)</label>
+<input id="mfgMin" placeholder="예: 5" type="number"/>
+</div>
+<div class="form-group">
+<label>1회 생산 수량 (개)</label>
+<input id="batch" placeholder="예: 10" type="number" value="1"/>
+</div>
+</div>
+</div>
+<!-- 포장비·기타 -->
+<div class="card">
+<h2>📦 포장비·기타 변동비</h2>
+<div id="pack-list">
+<div class="cost-row"><input class="name" placeholder="항목명 (예: 봉투·박스)" type="text" value="포장재"/><input class="amt" placeholder="금액(원)" type="number"/><button class="btn-del" onclick="delRow(this)">✕</button></div>
+</div>
+<button class="btn-add" onclick="addRow('pack-list')">＋ 항목 추가</button>
+<div class="section-total">포장비 소계: <span id="pack-total">0원</span></div>
+</div>
+<!-- 고정비 배분 -->
+<div class="card">
+<h2>🏪 월 고정비 (제품당 배분)</h2>
+<div id="fixed-list">
+<div class="cost-row"><input class="name" type="text" value="임차료"/><input class="amt" placeholder="월 금액(원)" type="number"/></div>
+<div class="cost-row"><input class="name" type="text" value="전기·수도·가스"/><input class="amt" placeholder="월 금액(원)" type="number"/></div>
+</div>
+<button class="btn-add" onclick="addRow('fixed-list', false)">＋ 고정비 추가</button>
+<div class="section-total">월 고정비 합계: <span id="fixed-total">0원</span></div>
+<div class="form-group" style="margin-top:14px">
+<label>월 판매 예상 수량 (개) — 고정비 배분 기준</label>
+<input id="monthlyQty" placeholder="예: 500" type="number"/>
+</div>
+</div>
+<!-- 마진 설정 -->
+<div class="card">
+<h2>📊 목표 마진 설정</h2>
+<div class="row2">
+<div class="form-group">
+<label>목표 마진율 (%)</label>
+<input id="targetMargin" placeholder="예: 60" type="number" value="60"/>
+</div>
+<div class="form-group">
+<label>부가세 포함 여부</label>
+<select id="vatInclude"><option value="no">별도 (B2B·면세)</option><option value="yes">포함 (소비자가)</option></select>
+</div>
+</div>
+<button class="btn" onclick="calcCost()">원가 계산하기</button>
+</div>
+<div class="result-card" id="result">
+<div class="result-main">
+<div class="result-label">제품 1개 총 원가</div>
+<div class="result-value" id="rCost">0원</div>
+<div class="result-sub" id="rSub"></div>
+</div>
+<div class="result-grid">
+<div class="result-item"><div class="result-item-label">변동비 (재료+포장+인건)</div><div class="result-item-value" id="rVar">-</div></div>
+<div class="result-item"><div class="result-item-label">고정비 배분</div><div class="result-item-value" id="rFixed">-</div></div>
+<div class="result-item"><div class="result-item-label">목표 마진율 적용 판매가</div><div class="result-item-value accent" id="rSellPrice">-</div></div>
+<div class="result-item"><div class="result-item-label">VAT 포함 판매가</div><div class="result-item-value" id="rVatPrice">-</div></div>
+</div>
+<div class="cost-breakdown">
+<h3>💡 원가 구성</h3>
+<div class="cb-row"><span>재료비</span><span id="cb-mat">-</span></div>
+<div class="cb-row"><span>직접 인건비</span><span id="cb-labor">-</span></div>
+<div class="cb-row"><span>포장비·기타</span><span id="cb-pack">-</span></div>
+<div class="cb-row"><span>고정비 배분</span><span id="cb-fixed">-</span></div>
+<div class="cb-row"><span>총 원가</span><span id="cb-total">-</span></div>
+</div>
+<div class="price-reco">
+<h3>💰 마진율별 권장 판매가</h3>
+<div id="priceRows"></div>
+</div>
+</div>
+
+
+  <div class="toss-nav">
+    <div class="toss-nav-title">📌 사업자 세금 계산기</div>
+    <div class="toss-nav-grid">
+      <a href="/margin" class="toss-nav-item"><span class="ni-emoji">💹</span><span class="ni-label">마진율</span></a>
+      <a href="/breakeven" class="toss-nav-item"><span class="ni-emoji">⚖️</span><span class="ni-label">손익분기점</span></a>
+      <a href="/operating_profit" class="toss-nav-item"><span class="ni-emoji">📈</span><span class="ni-label">영업이익</span></a>
+      <a href="/delivery_fee" class="toss-nav-item"><span class="ni-emoji">🛵</span><span class="ni-label">배달수수료</span></a>
+    </div>
+  </div>
+
+</div>
+<script>
+const fmt = n => Math.round(n).toLocaleString();
+const fmtD = (n, d=1) => n.toFixed(d);
+
+// 재료비 행 추가
+let matId = 1;
+function addMaterial() {
+  const div = document.createElement('div');
+  div.className = 'cost-row';
+  div.id = 'mat-' + matId;
+  div.innerHTML = `<input type="text" placeholder="재료명" style="flex:2" />
+    <input type="number" placeholder="금액(원)" class="amt" />
+    <button onclick="this.parentElement.remove()" class="btn-del">✕</button>`;
+  document.getElementById('material-list').appendChild(div);
+  matId++;
+}
+function addPack() {
+  const div = document.createElement('div');
+  div.className = 'cost-row';
+  div.innerHTML = `<input type="text" placeholder="포장재명" style="flex:2" />
+    <input type="number" placeholder="금액(원)" class="amt" />
+    <button onclick="this.parentElement.remove()" class="btn-del">✕</button>`;
+  document.getElementById('pack-list').appendChild(div);
+}
+function addFixed() {
+  const div = document.createElement('div');
+  div.className = 'cost-row';
+  div.innerHTML = `<input type="text" placeholder="고정비명" style="flex:2" />
+    <input type="number" placeholder="월금액(원)" class="amt" />
+    <button onclick="this.parentElement.remove()" class="btn-del">✕</button>`;
+  document.getElementById('fixed-list').appendChild(div);
+}
+
+function sumAmts(containerId) {
+  return Array.from(document.querySelectorAll('#' + containerId + ' .amt'))
+    .reduce((s, el) => s + (parseFloat(el.value) || 0), 0);
+}
+
+function calculate() {
+  const hourly    = parseFloat(document.getElementById('hourly').value) || 10320;
+  const mfgMin    = parseFloat(document.getElementById('mfgMin').value) || 0;
+  const batch     = parseFloat(document.getElementById('batch').value)  || 1;
+  const monthlyQty= parseFloat(document.getElementById('monthlyQty').value) || 1;
+  const targetMargin = parseFloat(document.getElementById('targetMargin').value) || 60;
+  const vatInclude   = document.getElementById('vatInclude').value;
+
+  const matTotal  = sumAmts('material-list');
+  const packTotal = sumAmts('pack-list');
+  const fixedTotal= sumAmts('fixed-list');
+
+  // 단위당 인건비
+  const laborPerUnit = (hourly / 60) * mfgMin / batch;
+  // 변동비 합계
+  const varCost = matTotal + packTotal + laborPerUnit;
+  // 고정비 배분
+  const fixedPerUnit = monthlyQty > 0 ? fixedTotal / monthlyQty : 0;
+  // 총 원가
+  const totalCost = varCost + fixedPerUnit;
+  // 목표 판매가
+  const sellPrice = targetMargin > 0 ? totalCost / (1 - targetMargin / 100) : totalCost;
+  const vatPrice  = vatInclude === 'yes' ? sellPrice * 1.1 : sellPrice;
+
+  document.getElementById('rCost').textContent      = fmt(Math.round(totalCost)) + '원';
+  document.getElementById('rSub').textContent       = `변동비 ${fmt(Math.round(varCost))}원 + 고정비배분 ${fmt(Math.round(fixedPerUnit))}원`;
+  document.getElementById('rVar').textContent       = fmt(Math.round(varCost)) + '원';
+  document.getElementById('rFixed').textContent     = fmt(Math.round(fixedPerUnit)) + '원';
+  document.getElementById('rSellPrice').textContent = fmt(Math.round(sellPrice)) + '원';
+  document.getElementById('rVatPrice').textContent  = vatInclude === 'yes' ? fmt(Math.round(vatPrice)) + '원' : '별도';
+
+  // 가격표 생성
+  const rows = document.getElementById('priceRows');
+  rows.innerHTML = '';
+  [30,40,50,60,70].forEach(m => {
+    const sp = totalCost / (1 - m/100);
+    const vp = vatInclude === 'yes' ? sp * 1.1 : sp;
+    const tr = document.createElement('div');
+    tr.className = 'result-item';
+    tr.innerHTML = `<div class="result-item-label">마진율 ${m}%</div>
+      <div class="result-item-value ${m === targetMargin ? 'accent' : ''}">
+        ${fmt(Math.round(sp))}원 ${vatInclude==='yes' ? '(VAT '+fmt(Math.round(vp))+'원)' : ''}
+      </div>`;
+    rows.appendChild(tr);
+  });
+
+  document.getElementById('result').classList.add('show');
+}
+</script>
+</body>
+</html>

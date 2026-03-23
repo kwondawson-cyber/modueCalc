@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>배당금 수익률 계산기</title>
+  <!-- TODO: 앱인토스 SDK 교체 -->
+  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <style>
+
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--danger:#ff6b6b;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+    
+    .container{max-width:800px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    
+    
+    
+    
+    
+    .header{text-align:center;margin-bottom:48px}
+    .header h1{font-size:clamp(26px,5vw,44px);font-weight:900;line-height:1.1;margin-bottom:12px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
+    .header p{color:var(--text-muted);font-size:15px;font-weight:300}
+    .tab-group{display:flex;gap:4px;background:var(--surface2);border-radius:12px;padding:4px;margin-bottom:24px}
+    .tab-btn{flex:1;padding:11px 8px;background:transparent;border:none;border-radius:9px;color:var(--text-muted);font-size:13px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .2s;text-align:center}
+    .tab-btn.active{background:var(--surface);color:var(--accent);box-shadow:0 2px 8px rgba(0,0,0,0.3)}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:32px;margin-bottom:20px}
+    .card-title{font-size:13px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:24px}
+    .input-group{margin-bottom:20px}
+    .input-group label{display:block;font-size:14px;font-weight:500;color:var(--text-muted);margin-bottom:8px}
+    .input-wrapper{position:relative}
+    .input-wrapper input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 70px 14px 18px;font-size:20px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none;transition:border-color .2s,box-shadow .2s}
+    .input-wrapper input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,170,0.1)}
+    .input-unit{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--text-muted);font-weight:500;pointer-events:none}
+    .seg-group{display:flex;gap:8px;flex-wrap:wrap}
+    .seg-btn{flex:1;min-width:70px;padding:10px 8px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text-muted);font-size:13px;font-weight:600;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .2s;text-align:center}
+    .seg-btn.active{background:rgba(0,212,170,0.15);border-color:var(--accent);color:var(--accent)}
+    .row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    @media(max-width:480px){.row2{grid-template-columns:1fr}}
+    .info-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.15);border-radius:10px;padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.8;margin-bottom:20px}
+    .calc-btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#000;font-size:17px;font-weight:800;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .2s;margin-top:4px}
+    .calc-btn:hover{opacity:.9;transform:translateY(-1px)}
+    .result-card{display:none}
+    .result-card.visible{display:block}
+    .summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+    @media(max-width:480px){.summary-grid{grid-template-columns:1fr}}
+    .s-box{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center}
+    .s-box.main{border-color:rgba(0,212,170,0.4);background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.04))}
+    .s-label{font-size:11px;color:var(--text-muted);font-weight:600;margin-bottom:6px}
+    .s-value{font-family:'Montserrat',sans-serif;font-size:20px;font-weight:900}
+    .s-box.main .s-value{color:var(--accent)}
+    .s-unit{font-size:11px;color:var(--text-muted);margin-top:3px}
+    .detail-item{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid var(--border);font-size:14px}
+    .detail-item:last-child{border-bottom:none}
+    .d-label{color:var(--text-muted)}
+    .d-value{font-weight:700}
+    .d-value.accent{color:var(--accent)}
+    .d-value.green{color:#4caf50}
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
+    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+
+    .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
+    .toss-header>.emoji{font-size:28px;flex-shrink:0}
+    .toss-header h1{font-size:20px;font-weight:800;color:var(--text);margin:0}
+    .toss-header p{font-size:12px;color:var(--text-muted);margin-top:3px}
+    .toss-nav{margin-top:24px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .toss-nav-title{font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:12px}
+    .toss-nav-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+    .toss-nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;text-decoration:none;transition:all .2s}
+    .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
+    .ni-emoji{font-size:20px}
+    .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
+
+    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="toss-header">
+    <span class="emoji">💵</span>
+    <div><h1>배당금 수익률 계산기</h1><p>배당금·세후 수령액 계산</p></div>
+  </div>
+
+
+
+<div class="card">
+<div class="tab-group">
+<button class="tab-btn active" onclick="switchTab('calc',this)">📊 배당수익률 계산</button>
+<button class="tab-btn" onclick="switchTab('goal',this)">🎯 목표 배당수익 역산</button>
+</div>
+<!-- 배당수익률 계산 -->
+<div id="panel-calc">
+<div class="card-title">📊 배당수익률 계산</div>
+<div class="row2">
+<div class="input-group">
+<label>주가 (현재가)</label>
+<div class="input-wrapper"><input id="c-price" placeholder="50000" type="number"/><span class="input-unit">원</span></div>
+</div>
+<div class="input-group">
+<label>연간 배당금 (1주당)</label>
+<div class="input-wrapper"><input id="c-dividend" placeholder="2000" type="number"/><span class="input-unit">원</span></div>
+</div>
+</div>
+<div class="row2">
+<div class="input-group">
+<label>보유 주수</label>
+<div class="input-wrapper"><input id="c-shares" placeholder="100" type="number"/><span class="input-unit">주</span></div>
+</div>
+<div class="input-group">
+<label>배당 지급 주기</label>
+<div class="seg-group" id="freq-group" style="margin-top:0">
+<button class="seg-btn active" data-freq="1" onclick="selectSeg(this,'freq-group')">연 1회</button>
+<button class="seg-btn" data-freq="2" onclick="selectSeg(this,'freq-group')">반기</button>
+<button class="seg-btn" data-freq="4" onclick="selectSeg(this,'freq-group')">분기</button>
+<button class="seg-btn" data-freq="12" onclick="selectSeg(this,'freq-group')">월배당</button>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label>과세 구분</label>
+<div class="seg-group" id="tax-group">
+<button class="seg-btn active" data-tax="0.154" onclick="selectSeg(this,'tax-group')">국내 (15.4%)</button>
+<button class="seg-btn" data-tax="0.154" onclick="selectSeg(this,'tax-group')">해외 (15.4%)</button>
+<button class="seg-btn" data-tax="0" onclick="selectSeg(this,'tax-group')">연금계좌 (이연)</button>
+</div>
+</div>
+<button class="calc-btn" onclick="calcDividend()">💵 배당수익 계산하기</button>
+</div>
+<!-- 목표 역산 -->
+<div id="panel-goal" style="display:none">
+<div class="card-title">🎯 목표 배당수익 달성 투자금 계산</div>
+<div class="info-box">월 배당수입 목표를 입력하면 <strong>필요한 투자금</strong>을 역산합니다.</div>
+<div class="row2">
+<div class="input-group">
+<label>목표 월 배당수입 (세후)</label>
+<div class="input-wrapper"><input id="g-monthly" placeholder="500000" type="number"/><span class="input-unit">원/월</span></div>
+</div>
+<div class="input-group">
+<label>기대 배당수익률 (세전 연)</label>
+<div class="input-wrapper"><input id="g-yield" placeholder="4" step="0.1" type="number"/><span class="input-unit">%</span></div>
+</div>
+</div>
+<div class="input-group">
+<label>과세 구분</label>
+<div class="seg-group" id="g-tax-group">
+<button class="seg-btn active" data-tax="0.154" onclick="selectSeg(this,'g-tax-group')">국내/해외 (15.4%)</button>
+<button class="seg-btn" data-tax="0" onclick="selectSeg(this,'g-tax-group')">연금계좌 (이연)</button>
+</div>
+</div>
+<button class="calc-btn" onclick="calcGoal()">🎯 필요 투자금 계산하기</button>
+</div>
+</div>
+<!-- 결과 -->
+<div class="card result-card" id="resultCard">
+<div class="card-title" id="result-title">💰 배당 수익 결과</div>
+<div class="summary-grid">
+<div class="s-box main">
+<div class="s-label" id="r-main-label">연 배당수익률</div>
+<div class="s-value" id="r-main-value">—</div>
+<div class="s-unit" id="r-main-unit">%</div>
+</div>
+<div class="s-box">
+<div class="s-label">연간 세후 배당금</div>
+<div class="s-value" id="r-annual">—</div>
+<div class="s-unit">원</div>
+</div>
+<div class="s-box">
+<div class="s-label" id="r-period-label">월 평균 배당금</div>
+<div class="s-value" id="r-monthly">—</div>
+<div class="s-unit">원</div>
+</div>
+</div>
+<div id="detail-section">
+<div class="detail-item"><span class="d-label">총 투자금</span><span class="d-value" id="r-invest">—</span></div>
+<div class="detail-item"><span class="d-label">세전 연간 배당금</span><span class="d-value" id="r-gross">—</span></div>
+<div class="detail-item"><span class="d-label">배당소득세</span><span class="d-value" id="r-tax">—</span></div>
+<div class="detail-item"><span class="d-label">세후 연간 배당금</span><span class="d-value accent" id="r-net">—</span></div>
+<div class="detail-item" id="row-per-pay"><span class="d-label" id="r-per-label">회당 배당금</span><span class="d-value green" id="r-per">—</span></div>
+</div>
+</div>
+
+  <div class="toss-nav">
+    <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
+    <div class="toss-nav-grid">
+      <a href="/etf_return" class="toss-nav-item"><span class="ni-emoji">📈</span><span class="ni-label">ETF</span></a>
+      <a href="/stock_return" class="toss-nav-item"><span class="ni-emoji">📉</span><span class="ni-label">주식수익률</span></a>
+      <a href="/compound" class="toss-nav-item"><span class="ni-emoji">📊</span><span class="ni-label">복리</span></a>
+      <a href="/savings" class="toss-nav-item"><span class="ni-emoji">💳</span><span class="ni-label">적금</span></a>
+    </div>
+  </div>
+</div>
+<script>
+let currentTab='calc';
+let freqVal=1, taxVal=0.154, gTaxVal=0.154;
+
+function switchTab(tab,el){
+  currentTab=tab;
+  document.getElementById('panel-calc').style.display=tab==='calc'?'block':'none';
+  document.getElementById('panel-goal').style.display=tab==='goal'?'block':'none';
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('resultCard').classList.remove('visible');
+}
+
+function selectSeg(btn,groupId){
+  document.querySelectorAll('#'+groupId+' .seg-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  if(groupId==='freq-group') freqVal=parseInt(btn.dataset.freq);
+  if(groupId==='tax-group') taxVal=parseFloat(btn.dataset.tax);
+  if(groupId==='g-tax-group') gTaxVal=parseFloat(btn.dataset.tax);
+}
+
+function fmt(n){return Math.round(n).toLocaleString('ko-KR');}
+function fmtW(n){return Math.round(n).toLocaleString('ko-KR')+'원';}
+
+function calcDividend(){
+  const price=parseFloat(document.getElementById('c-price').value)||0;
+  const div=parseFloat(document.getElementById('c-dividend').value)||0;
+  const shares=parseFloat(document.getElementById('c-shares').value)||0;
+  if(!price||!div){alert('주가와 배당금을 입력하세요.');return;}
+
+  const grossYield=(div/price*100);
+  const netYield=grossYield*(1-taxVal);
+  const totalInvest=price*shares;
+  const grossAnnual=div*shares;
+  const taxAmt=grossAnnual*taxVal;
+  const netAnnual=grossAnnual-taxAmt;
+  const netMonthly=netAnnual/12;
+  const perPay=netAnnual/freqVal;
+  const freqLabel=['','연 1회','반기(6개월)','','분기(3개월)','','','','','','','','월'][freqVal]||`연 ${freqVal}회`;
+
+  document.getElementById('r-main-label').textContent='세후 배당수익률';
+  document.getElementById('r-main-value').textContent=netYield.toFixed(2);
+  document.getElementById('r-main-unit').textContent='% (연)';
+  document.getElementById('r-annual').textContent=fmt(netAnnual);
+  document.getElementById('r-period-label').textContent='월 평균 배당금';
+  document.getElementById('r-monthly').textContent=fmt(netMonthly);
+  document.getElementById('r-invest').textContent=fmtW(totalInvest);
+  document.getElementById('r-gross').textContent=fmtW(grossAnnual);
+  document.getElementById('r-tax').textContent=taxVal>0?'-'+fmtW(taxAmt):'과세이연 (수령 시 납부)';
+  document.getElementById('r-net').textContent=fmtW(netAnnual);
+  document.getElementById('r-per-label').textContent=freqLabel+' 지급액';
+  document.getElementById('r-per').textContent=fmtW(perPay);
+  document.getElementById('row-per-pay').style.display='';
+  document.getElementById('result-title').textContent='💰 배당 수익 결과';
+  document.getElementById('resultCard').classList.add('visible');
+}
+
+function calcGoal(){
+  const monthly=parseFloat(document.getElementById('g-monthly').value)||0;
+  const yieldRate=parseFloat(document.getElementById('g-yield').value)||0;
+  if(!monthly||!yieldRate){alert('목표 배당수입과 배당수익률을 입력하세요.');return;}
+
+  const annualGoal=monthly*12;
+  const netYield=gTaxVal>0?yieldRate*(1-gTaxVal):yieldRate;
+  const needed=annualGoal/(netYield/100);
+  const grossAnnual=needed*(yieldRate/100);
+  const taxAmt=grossAnnual*gTaxVal;
+
+  document.getElementById('r-main-label').textContent='필요 투자금';
+  document.getElementById('r-main-value').textContent=Math.round(needed/10000).toLocaleString('ko-KR');
+  document.getElementById('r-main-unit').textContent='만원';
+  document.getElementById('r-annual').textContent=fmt(annualGoal);
+  document.getElementById('r-period-label').textContent='목표 월 배당수입';
+  document.getElementById('r-monthly').textContent=fmt(monthly);
+  document.getElementById('r-invest').textContent=fmtW(needed);
+  document.getElementById('r-gross').textContent=fmtW(grossAnnual);
+  document.getElementById('r-tax').textContent=gTaxVal>0?'-'+fmtW(taxAmt):'과세이연';
+  document.getElementById('r-net').textContent=fmtW(annualGoal);
+  document.getElementById('row-per-pay').style.display='none';
+  document.getElementById('result-title').textContent='🎯 필요 투자금 결과';
+  document.getElementById('resultCard').classList.add('visible');
+}
+</script>
+</body>
+</html>

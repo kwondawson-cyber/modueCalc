@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>환율 계산기</title>
+  <!-- TODO: 앱인토스 SDK 교체 -->
+  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <style>
+
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    
+    .container{max-width:640px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .nav{text-align:center;margin-bottom:32px}.nav a{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:3px;color:var(--accent);text-decoration:none;text-transform:uppercase}
+    .header{text-align:center;margin-bottom:40px}
+    .header h1{font-size:clamp(28px,6vw,44px);font-weight:900;line-height:1.1;margin-bottom:10px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
+    .header p{color:var(--text-muted);font-size:14px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;margin-bottom:16px}
+    .card-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:20px}
+    .live-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:rgba(0,212,170,0.1);border:1px solid rgba(0,212,170,0.3);border-radius:20px;font-size:11px;font-weight:700;color:var(--accent);margin-bottom:18px}
+    .live-dot{width:7px;height:7px;background:var(--accent);border-radius:50%;animation:blink 1.5s infinite}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+    .exchange-box{background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:20px 22px;margin-bottom:10px;transition:border-color .2s}
+    .exchange-box:focus-within{border-color:rgba(0,212,170,0.4)}
+    .exchange-box label{font-size:13px;color:var(--text-muted);font-weight:600;display:block;margin-bottom:12px;letter-spacing:.5px}
+    .exchange-row{display:flex;gap:12px;align-items:center}
+    .exchange-row input{flex:1;background:transparent;border:none;font-size:40px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none;min-width:0}
+    .exchange-row input::placeholder{color:#30363d}
+    /* 통화 선택 버튼 */
+    .currency-select-wrap{display:flex;flex-direction:column;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:10px 14px;flex-shrink:0;min-width:130px;position:relative;cursor:pointer;transition:border-color .2s}
+    .currency-select-wrap:hover{border-color:rgba(0,212,170,0.4)}
+    .currency-name{font-size:15px;font-weight:700;color:var(--text);white-space:nowrap}
+    .currency-code{font-size:12px;color:var(--text-muted);margin-top:2px;font-family:'Montserrat',sans-serif;font-weight:600}
+    .currency-select-wrap select{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;font-size:16px}
+    /* 스왑 버튼 */
+    .swap-area{display:flex;align-items:center;justify-content:center;margin:4px 0}
+    .swap-btn{width:48px;height:48px;background:var(--surface2);border:1px solid var(--border);border-radius:50%;font-size:22px;color:#fff;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;line-height:1}
+    .swap-btn:hover{border-color:var(--accent);transform:rotate(180deg);background:rgba(0,212,170,0.1)}
+    .rate-display{text-align:center;padding:14px 18px;font-size:15px;color:var(--text-muted);background:var(--surface2);border-radius:12px;margin-top:14px}
+    .rate-display strong{color:var(--text);font-family:'Montserrat',sans-serif;font-size:17px}
+    .rate-display .update-time{font-size:11px;color:#8b949e;margin-top:5px}
+    .rate-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .rate-item{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:border-color .15s}
+    .rate-item:hover{border-color:rgba(0,212,170,0.3)}
+    .rate-item-left{display:flex;align-items:center;gap:8px}
+    .ri-flag{font-size:22px}
+    .ri-name{font-size:13px;font-weight:600}
+    .ri-code{font-size:11px;color:var(--text-muted)}
+    .ri-rate{font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700;color:var(--accent);text-align:right}
+    .ri-unit{font-size:10px;color:var(--text-muted);text-align:right}
+    .loading{text-align:center;padding:20px;color:var(--text-muted);font-size:13px}
+    .notice{margin-top:16px;padding:13px 16px;background:rgba(255,165,0,0.05);border:1px solid rgba(255,165,0,0.15);border-radius:10px;font-size:12px;color:var(--text-muted);line-height:1.7}
+    @media(max-width:480px){.card{padding:20px 16px}.rate-grid{grid-template-columns:1fr}.exchange-row input{font-size:30px}.currency-select-wrap{min-width:110px}}
+
+    /* ── 홈 버튼 ── */
+    
+    
+    
+    
+    
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
+    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+
+    .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
+    .toss-header>.emoji{font-size:28px;flex-shrink:0}
+    .toss-header h1{font-size:20px;font-weight:800;color:var(--text);margin:0}
+    .toss-header p{font-size:12px;color:var(--text-muted);margin-top:3px}
+    .toss-nav{margin-top:24px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .toss-nav-title{font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:12px}
+    .toss-nav-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+    .toss-nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;text-decoration:none;transition:all .2s}
+    .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
+    .ni-emoji{font-size:20px}
+    .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
+
+    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="toss-header">
+    <span class="emoji">💱</span>
+    <div><h1>환율 계산기</h1><p>달러·엔·유로 원화 환산</p></div>
+  </div>
+
+
+
+<div class="card">
+<div class="live-badge"><span class="live-dot"></span> 실시간 환율</div>
+<div class="exchange-box">
+<label>변환할 금액</label>
+<div class="exchange-row">
+<input id="fromAmount" oninput="convert()" placeholder="0" type="number" value="100"/>
+<div class="currency-select-wrap">
+<span class="currency-name" id="fromName">달러</span>
+<span class="currency-code" id="fromCode">USD</span>
+<select id="fromCurrency" onchange="onCurrencyChange()">
+<option selected="" value="USD">달러 USD</option>
+<option value="KRW">원 KRW</option>
+<option value="JPY">엔화 JPY</option>
+<option value="EUR">유로 EUR</option>
+<option value="CNY">위안 CNY</option>
+<option value="GBP">파운드 GBP</option>
+<option value="HKD">홍콩달러 HKD</option>
+<option value="SGD">싱가포르달러 SGD</option>
+<option value="AUD">호주달러 AUD</option>
+<option value="CAD">캐나다달러 CAD</option>
+<option value="CHF">스위스프랑 CHF</option>
+<option value="THB">바트 THB</option>
+<option value="VND">동 VND</option>
+</select>
+</div>
+</div>
+</div>
+<div class="swap-area">
+<button class="swap-btn" onclick="swapCurrencies()">⇅</button>
+</div>
+<div class="exchange-box">
+<label>환산 결과</label>
+<div class="exchange-row">
+<input id="toAmount" placeholder="0" readonly="" style="color:var(--accent)" type="number"/>
+<div class="currency-select-wrap">
+<span class="currency-name" id="toName">원</span>
+<span class="currency-code" id="toCode">KRW</span>
+<select id="toCurrency" onchange="onCurrencyChange()">
+<option selected="" value="KRW">원 KRW</option>
+<option value="USD">달러 USD</option>
+<option value="JPY">엔화 JPY</option>
+<option value="EUR">유로 EUR</option>
+<option value="CNY">위안 CNY</option>
+<option value="GBP">파운드 GBP</option>
+<option value="HKD">홍콩달러 HKD</option>
+<option value="SGD">싱가포르달러 SGD</option>
+<option value="AUD">호주달러 AUD</option>
+<option value="CAD">캐나다달러 CAD</option>
+<option value="CHF">스위스프랑 CHF</option>
+<option value="THB">바트 THB</option>
+<option value="VND">동 VND</option>
+</select>
+</div>
+</div>
+</div>
+<div class="rate-display" id="rateDisplay"><div>⏳ 환율 불러오는 중...</div></div>
+</div>
+<div class="card">
+<div class="card-title">주요 통화 (원화 환산)</div>
+<div id="rateGrid"><div class="loading">⏳ 실시간 환율 불러오는 중...</div></div>
+<div class="notice">📌 환율 출처: ExchangeRate-API · 매일 1회 업데이트 · 실제 거래 환율과 다를 수 있습니다.</div>
+</div>
+
+  <div class="toss-nav">
+    <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
+    <div class="toss-nav-grid">
+      <a href="/savings" class="toss-nav-item"><span class="ni-emoji">💳</span><span class="ni-label">적금</span></a>
+      <a href="/compound" class="toss-nav-item"><span class="ni-emoji">📊</span><span class="ni-label">복리</span></a>
+      <a href="/inflation" class="toss-nav-item"><span class="ni-emoji">📈</span><span class="ni-label">물가상승률</span></a>
+      <a href="/customs" class="toss-nav-item"><span class="ni-emoji">✈️</span><span class="ni-label">관세</span></a>
+    </div>
+  </div>
+</div>
+<script>
+const API_KEY='9eff9fb23e303328b51b2cce';
+  const flags={KRW:'🇰🇷',USD:'🇺🇸',JPY:'🇯🇵',EUR:'🇪🇺',CNY:'🇨🇳',GBP:'🇬🇧',HKD:'🇭🇰',SGD:'🇸🇬',AUD:'🇦🇺',CAD:'🇨🇦',CHF:'🇨🇭',THB:'🇹🇭',VND:'🇻🇳'};
+  const shortNames={KRW:'원',USD:'달러',JPY:'엔화',EUR:'유로',CNY:'위안',GBP:'파운드',HKD:'홍콩달러',SGD:'싱가포르달러',AUD:'호주달러',CAD:'캐나다달러',CHF:'스위스프랑',THB:'바트',VND:'동'};
+  const fullNames={KRW:'한국 원',USD:'미국 달러',JPY:'일본 엔',EUR:'유로',CNY:'중국 위안',GBP:'영국 파운드',HKD:'홍콩 달러',SGD:'싱가포르 달러',AUD:'호주 달러',CAD:'캐나다 달러',CHF:'스위스 프랑',THB:'태국 바트',VND:'베트남 동'};
+  const mainCurrencies=['USD','JPY','EUR','CNY','GBP','HKD','SGD','AUD'];
+  let rates={},updateTime='';
+
+  async function fetchRates(){
+    try{
+      const res=await fetch(`https://v6.exchangerate-api.com/v6/${API_KEY}/latest/KRW`);
+      const data=await res.json();
+      if(data.result==='success'){
+        rates=data.conversion_rates;
+        const d=new Date(data.time_last_update_utc);
+        updateTime=`${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')} 기준`;
+        renderRateGrid();convert();
+      }
+    }catch(e){
+      rates={KRW:1,USD:0.000741,JPY:0.111,EUR:0.000676,CNY:0.00539,GBP:0.000584,HKD:0.00578,SGD:0.000997,AUD:0.00116,CAD:0.00101,CHF:0.000671,THB:0.0257,VND:18.7};
+      updateTime='참고용 환율';renderRateGrid();convert();
+    }
+  }
+
+  function toKRW(a,c){return a/rates[c]}
+  function fromKRW(k,c){return k*rates[c]}
+  function fmt(n,c){
+    if(!isFinite(n))return'-';
+    if(c==='KRW')return Math.round(n).toLocaleString('ko-KR');
+    if(c==='JPY'||c==='VND'||c==='THB')return Math.round(n).toLocaleString();
+    return n.toFixed(2);
+  }
+
+  function convert(){
+    if(!rates.KRW)return;
+    const amount=parseFloat(document.getElementById('fromAmount').value)||0;
+    const from=document.getElementById('fromCurrency').value;
+    const to=document.getElementById('toCurrency').value;
+    const result=fromKRW(toKRW(amount,from),to);
+    document.getElementById('toAmount').value=fmt(result,to);
+    const rate1=fromKRW(toKRW(1,from),to);
+    document.getElementById('rateDisplay').innerHTML=`<div>1 <strong>${shortNames[from]} (${from})</strong> = <strong>${fmt(rate1,to)} ${to}</strong></div><div class="update-time">${updateTime}</div>`;
+  }
+
+  function onCurrencyChange(){
+    const from=document.getElementById('fromCurrency').value;
+    const to=document.getElementById('toCurrency').value;
+    document.getElementById('fromName').textContent=shortNames[from]||from;
+    document.getElementById('fromCode').textContent=from;
+    document.getElementById('toName').textContent=shortNames[to]||to;
+    document.getElementById('toCode').textContent=to;
+    convert();
+  }
+
+  function swapCurrencies(){
+    const f=document.getElementById('fromCurrency'),t=document.getElementById('toCurrency'),tmp=f.value;
+    f.value=t.value;t.value=tmp;onCurrencyChange();
+  }
+
+  function renderRateGrid(){
+    document.getElementById('rateGrid').innerHTML=mainCurrencies.map(c=>{
+      const krw=toKRW(1,c);
+      return `<div class="rate-item" onclick="document.getElementById('fromCurrency').value='${c}';onCurrencyChange()">
+        <div class="rate-item-left"><span class="ri-flag">${flags[c]||'🌐'}</span>
+          <div><div class="ri-name">${fullNames[c]||c}</div><div class="ri-code">${c}</div></div></div>
+        <div><div class="ri-rate">${Math.round(krw).toLocaleString()}</div><div class="ri-unit">원 / 1${c}</div></div>
+      </div>`;
+    }).join('');
+    document.getElementById('rateGrid').className='rate-grid';
+  }
+  window.onload=fetchRates;
+</script>
+</body>
+</html>
