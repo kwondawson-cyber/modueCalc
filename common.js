@@ -153,7 +153,7 @@
       '.ec-rel-card:hover{border-color:rgba(0,212,170,0.4);color:#e6edf3;transform:translateY(-2px)}' +
       '.ec-rel-emoji{font-size:18px}' +
       '.ec-comma{display:block;font-size:11px;color:#00d4aa;font-weight:700;margin-top:3px;min-height:16px;font-family:\'Noto Sans KR\',sans-serif}' +
-      '.rel-section{max-width:700px;margin:32px auto 8px;padding:0 20px;box-sizing:border-box}' +
+      '.rel-section{max-width:640px;margin:32px auto 8px;padding:0 20px;box-sizing:border-box}' +
       '.rel-grid{grid-template-columns:repeat(5,1fr)!important}' +
       '@media(max-width:1100px){' +
         '#ec-side{left:auto!important;right:20px;top:' + CFG.sideTop + 'px}' +
