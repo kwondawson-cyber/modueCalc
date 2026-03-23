@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>국민연금 계산기</title>
+  <!-- TODO: 앱인토스 SDK 교체 -->
+  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <style>
+
+    :root {
+      --bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;
+      --accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;
+      --danger:#ff6b6b;--radius:16px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+    
+    .container{max-width:800px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .header{text-align:center;margin-bottom:48px}
+    .site-name{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:4px;color:var(--accent);text-transform:uppercase;margin-bottom:16px;opacity:.8;display:inline-block}
+    .header h1{font-size:clamp(28px,6vw,48px);font-weight:900;line-height:1.1;margin-bottom:12px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
+    .header p{font-size:14px;color:var(--text-muted)}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:20px}
+    .card-title{font-size:14px;font-weight:700;color:var(--text-muted);letter-spacing:1px;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+    .input-group{margin-bottom:20px}
+    .input-group label{display:block;font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:8px}
+    .input-wrapper{position:relative;display:flex;align-items:center}
+    .input-wrapper input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 52px 14px 16px;font-size:18px;font-weight:700;color:var(--text);font-family:'Noto Sans KR',sans-serif;outline:none;transition:border-color .2s;-moz-appearance:textfield}
+    .input-wrapper input::-webkit-outer-spin-button,.input-wrapper input::-webkit-inner-spin-button{-webkit-appearance:none}
+    .input-wrapper input:focus{border-color:rgba(0,212,170,.5);box-shadow:0 0 0 3px rgba(0,212,170,.08)}
+    .input-unit{position:absolute;right:14px;font-size:14px;font-weight:600;color:var(--text-muted)}
+    select{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-size:15px;font-weight:600;color:var(--text);font-family:'Noto Sans KR',sans-serif;outline:none;appearance:none;cursor:pointer}
+    select:focus{border-color:rgba(0,212,170,.5)}
+    .btn{width:100%;padding:18px;border:none;border-radius:12px;font-size:17px;font-weight:800;cursor:pointer;transition:all .2s;font-family:'Noto Sans KR',sans-serif;margin-top:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,212,170,.3)}
+    .result-section{display:none}
+    .result-section.show{display:block}
+    .result-card{background:linear-gradient(135deg,rgba(0,212,170,.08),rgba(0,149,255,.05));border:1px solid rgba(0,212,170,.2);border-radius:var(--radius);padding:28px;margin-bottom:20px;text-align:center}
+    .result-label{font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:10px}
+    .result-value{font-size:clamp(28px,5vw,44px);font-weight:900;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.1}
+    .result-sub{font-size:13px;color:var(--text-muted);margin-top:8px}
+    .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+    .detail-item{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px}
+    .detail-item .di-label{font-size:11px;color:var(--text-muted);margin-bottom:4px}
+    .detail-item .di-value{font-size:16px;font-weight:700;color:var(--text)}
+    .info-box{background:rgba(0,212,170,.05);border:1px solid rgba(0,212,170,.15);border-radius:10px;padding:14px 16px;margin-bottom:16px;font-size:13px;color:var(--text-muted);line-height:1.8}
+    .info-box strong{color:var(--accent)}
+    .two-btn{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .btn-sub{background:var(--surface2);color:var(--accent);border:1px solid rgba(0,212,170,.3)}
+    .btn-sub:hover{background:rgba(0,212,170,.1)}
+    @media(max-width:600px){.detail-grid{grid-template-columns:1fr}.two-btn{grid-template-columns:1fr}}
+
+    /* ── 홈 버튼 ── */
+    
+    
+    
+    
+    
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
+    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+
+    .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
+    .toss-header>.emoji{font-size:28px;flex-shrink:0}
+    .toss-header h1{font-size:20px;font-weight:800;color:var(--text);margin:0}
+    .toss-header p{font-size:12px;color:var(--text-muted);margin-top:3px}
+    .toss-nav{margin-top:24px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .toss-nav-title{font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:12px}
+    .toss-nav-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+    .toss-nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;text-decoration:none;transition:all .2s}
+    .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
+    .ni-emoji{font-size:20px}
+    .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
+
+    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="toss-header">
+    <span class="emoji">👴</span>
+    <div><h1>국민연금 계산기</h1><p>납부액·예상 수령액 계산</p></div>
+  </div>
+
+
+<div class="card">
+<div class="card-title">👴 기본 정보 입력</div>
+<div class="input-group">
+<label>현재 나이</label>
+<div class="input-wrapper">
+<input id="currentAge" max="59" min="18" type="number" value="35"/>
+<span class="input-unit">세</span>
+</div>
+</div>
+<div class="input-group">
+<label>국민연금 가입 시작 나이</label>
+<div class="input-wrapper">
+<input id="startAge" max="59" min="18" type="number" value="25"/>
+<span class="input-unit">세</span>
+</div>
+</div>
+<div class="input-group">
+<label>월 소득 (세전)</label>
+<div class="input-wrapper">
+<input id="monthlyIncome" oninput="fmtInput(this)" type="text" value="3,000,000"/>
+<span class="input-unit">원</span>
+</div>
+</div>
+<div class="input-group">
+<label>수령 시작 나이</label>
+<select id="receiveAge">
+<option value="63">63세 (1969년생 이후)</option>
+<option value="62">62세 (1965~1968년생)</option>
+<option value="61">61세 (1961~1964년생)</option>
+<option value="60">60세 (1952~1960년생)</option>
+</select>
+</div>
+<div class="info-box">💡 국민연금 보험료율: 월 소득의 <strong>9.5%</strong> (직장인은 사용자 4.75% + 본인 4.75%)</div>
+<button class="btn" onclick="calcPension()">🏦 국민연금 계산하기</button>
+</div>
+<div class="result-section" id="pensionResult">
+<div class="result-card">
+<div class="result-label">예상 월 수령액</div>
+<div class="result-value" id="pensionMonthly">-</div>
+<div class="result-sub" id="pensionSub"></div>
+</div>
+<div class="card">
+<div class="card-title">📊 상세 내역</div>
+<div class="detail-grid" id="pensionDetail"></div>
+</div>
+</div>
+
+
+  <div class="toss-nav">
+    <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
+    <div class="toss-nav-grid">
+      <a href="/health_insurance" class="toss-nav-item"><span class="ni-emoji">🏥</span><span class="ni-label">건강보험</span></a>
+      <a href="/salary" class="toss-nav-item"><span class="ni-emoji">💰</span><span class="ni-label">연봉</span></a>
+      <a href="/retirement_pension" class="toss-nav-item"><span class="ni-emoji">💎</span><span class="ni-label">퇴직연금</span></a>
+      <a href="/income_tax" class="toss-nav-item"><span class="ni-emoji">🧮</span><span class="ni-label">소득세</span></a>
+    </div>
+  </div>
+</div>
+<script>
+function fmtInput(el){
+  const raw=el.value.replace(/[^0-9]/g,'');
+  el.value=raw?Number(raw).toLocaleString('ko-KR'):'';
+}
+function getNum(id){return parseInt(document.getElementById(id).value.replace(/,/g,''))||0;}
+
+function calcPension(){
+  const curAge=parseInt(document.getElementById('currentAge').value)||35;
+  const startAge=parseInt(document.getElementById('startAge').value)||25;
+  const income=getNum('monthlyIncome');
+  const receiveAge=parseInt(document.getElementById('receiveAge').value)||63;
+  
+  // 현재까지 가입 기간
+  const yearsSoFar = Math.max(0, curAge - startAge);
+  // 수령 시까지 남은 가입 기간
+  const yearsRemaining = Math.max(0, receiveAge - curAge);
+  const totalYears = yearsSoFar + yearsRemaining;
+  const totalMonths = totalYears * 12;
+  
+  // 간이 산식: 기본연금액 = 1.2 × (A + B) × (1 + 0.05n/12)
+  // A = 전체 가입자 평균 소득월액(2024년 약 298만원), B = 본인 평균 소득
+  const A = 2980000;
+  const B = income;
+  const n = totalMonths;
+  // 기본연금액 (20년 기준)
+  const base = 1.2 * (A + B) / 2 * (n / 240);
+  const monthly = Math.round(base / 10000) * 10000;
+  
+  const monthlyPremium = Math.round(income * 0.0475 / 10000) * 10000;
+  const totalPremium = monthlyPremium * totalMonths;
+  const yearlyReceive = monthly * 12;
+  const breakEven = totalPremium > 0 ? Math.ceil(totalPremium / monthly) : 0;
+  
+  document.getElementById('pensionMonthly').textContent = monthly.toLocaleString('ko-KR') + '원';
+  document.getElementById('pensionSub').textContent = `총 가입기간 약 ${totalYears}년 · ${receiveAge}세부터 수령`;
+  document.getElementById('pensionDetail').innerHTML = `
+    <div class="detail-item"><div class="di-label">총 가입기간</div><div class="di-value">약 ${totalYears}년 (${totalMonths}개월)</div></div>
+    <div class="detail-item"><div class="di-label">월 납입 보험료 (본인)</div><div class="di-value">${monthlyPremium.toLocaleString()}원</div></div>
+    <div class="detail-item"><div class="di-label">총 납입 보험료</div><div class="di-value">${Math.round(totalPremium/10000).toLocaleString()}만원</div></div>
+    <div class="detail-item"><div class="di-label">연 수령액</div><div class="di-value">${yearlyReceive.toLocaleString()}원</div></div>
+    <div class="detail-item"><div class="di-label">수령 시작 나이</div><div class="di-value">${receiveAge}세</div></div>
+    <div class="detail-item"><div class="di-label">원금 회수 기간</div><div class="di-value">약 ${Math.ceil(breakEven/12)}년</div></div>
+  `;
+  document.getElementById('pensionResult').className = 'result-section show';
+}
+</script>
+</body>
+</html>
