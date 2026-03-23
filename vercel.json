@@ -1,616 +1,367 @@
 {
+  "headers": [
+    {
+      "source": "/sitemap.xml",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/xml"
+        }
+      ]
+    },
+    {
+      "source": "/rss.xml",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/xml"
+        }
+      ]
+    },
+    {
+      "source": "/ads.txt",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/plain"
+        }
+      ]
+    },
+    {
+      "source": "/sw.js",
+      "headers": [
+        {
+          "key": "Service-Worker-Allowed",
+          "value": "/"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        },
+        {
+          "key": "Content-Type",
+          "value": "application/javascript"
+        }
+      ]
+    },
+    {
+      "source": "/manifest.json",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/manifest+json"
+        }
+      ]
+    }
+  ],
   "rewrites": [
     {
       "source": "/",
-      "destination": "/toss_index.html"
-    },
-    {
-      "source": "/toss",
-      "destination": "/toss_index.html"
-    },
-    {
-      "source": "/toss/",
-      "destination": "/toss_index.html"
-    },
-    {
-      "source": "/acquisition",
-      "destination": "/toss_acquisition.html"
-    },
-    {
-      "source": "/toss/acquisition",
-      "destination": "/toss_acquisition.html"
-    },
-    {
-      "source": "/address_converter",
-      "destination": "/toss_address_converter.html"
-    },
-    {
-      "source": "/toss/address_converter",
-      "destination": "/toss_address_converter.html"
-    },
-    {
-      "source": "/age",
-      "destination": "/toss_age.html"
-    },
-    {
-      "source": "/toss/age",
-      "destination": "/toss_age.html"
-    },
-    {
-      "source": "/annual_leave",
-      "destination": "/toss_annual_leave.html"
-    },
-    {
-      "source": "/toss/annual_leave",
-      "destination": "/toss_annual_leave.html"
-    },
-    {
-      "source": "/annual_leave_hr",
-      "destination": "/toss_annual_leave_hr.html"
-    },
-    {
-      "source": "/toss/annual_leave_hr",
-      "destination": "/toss_annual_leave_hr.html"
-    },
-    {
-      "source": "/area_converter",
-      "destination": "/toss_area_converter.html"
-    },
-    {
-      "source": "/toss/area_converter",
-      "destination": "/toss_area_converter.html"
-    },
-    {
-      "source": "/blood_pressure",
-      "destination": "/toss_blood_pressure.html"
-    },
-    {
-      "source": "/toss/blood_pressure",
-      "destination": "/toss_blood_pressure.html"
-    },
-    {
-      "source": "/bmi",
-      "destination": "/toss_bmi.html"
-    },
-    {
-      "source": "/toss/bmi",
-      "destination": "/toss_bmi.html"
-    },
-    {
-      "source": "/bmr",
-      "destination": "/toss_bmr.html"
-    },
-    {
-      "source": "/toss/bmr",
-      "destination": "/toss_bmr.html"
-    },
-    {
-      "source": "/breakeven",
-      "destination": "/toss_breakeven.html"
-    },
-    {
-      "source": "/toss/breakeven",
-      "destination": "/toss_breakeven.html"
-    },
-    {
-      "source": "/calorie",
-      "destination": "/toss_calorie.html"
-    },
-    {
-      "source": "/toss/calorie",
-      "destination": "/toss_calorie.html"
-    },
-    {
-      "source": "/capital_gains",
-      "destination": "/toss_capital_gains.html"
-    },
-    {
-      "source": "/toss/capital_gains",
-      "destination": "/toss_capital_gains.html"
-    },
-    {
-      "source": "/car_installment",
-      "destination": "/toss_car_installment.html"
-    },
-    {
-      "source": "/toss/car_installment",
-      "destination": "/toss_car_installment.html"
-    },
-    {
-      "source": "/car_lease",
-      "destination": "/toss_car_lease.html"
-    },
-    {
-      "source": "/toss/car_lease",
-      "destination": "/toss_car_lease.html"
-    },
-    {
-      "source": "/car_tax",
-      "destination": "/toss_car_tax.html"
-    },
-    {
-      "source": "/toss/car_tax",
-      "destination": "/toss_car_tax.html"
-    },
-    {
-      "source": "/card_fee",
-      "destination": "/toss_card_fee.html"
-    },
-    {
-      "source": "/toss/card_fee",
-      "destination": "/toss_card_fee.html"
-    },
-    {
-      "source": "/cheongak",
-      "destination": "/toss_cheongak.html"
-    },
-    {
-      "source": "/toss/cheongak",
-      "destination": "/toss_cheongak.html"
-    },
-    {
-      "source": "/cheongmirae",
-      "destination": "/toss_cheongmirae.html"
-    },
-    {
-      "source": "/toss/cheongmirae",
-      "destination": "/toss_cheongmirae.html"
-    },
-    {
-      "source": "/child_height",
-      "destination": "/toss_child_height.html"
-    },
-    {
-      "source": "/toss/child_height",
-      "destination": "/toss_child_height.html"
-    },
-    {
-      "source": "/cm_inch",
-      "destination": "/toss_cm_inch.html"
-    },
-    {
-      "source": "/toss/cm_inch",
-      "destination": "/toss_cm_inch.html"
-    },
-    {
-      "source": "/compound",
-      "destination": "/toss_compound.html"
-    },
-    {
-      "source": "/toss/compound",
-      "destination": "/toss_compound.html"
-    },
-    {
-      "source": "/corporate_tax",
-      "destination": "/toss_corporate_tax.html"
-    },
-    {
-      "source": "/toss/corporate_tax",
-      "destination": "/toss_corporate_tax.html"
-    },
-    {
-      "source": "/customs",
-      "destination": "/toss_customs.html"
-    },
-    {
-      "source": "/toss/customs",
-      "destination": "/toss_customs.html"
-    },
-    {
-      "source": "/date_diff",
-      "destination": "/toss_date_diff.html"
-    },
-    {
-      "source": "/toss/date_diff",
-      "destination": "/toss_date_diff.html"
-    },
-    {
-      "source": "/dday",
-      "destination": "/toss_dday.html"
-    },
-    {
-      "source": "/toss/dday",
-      "destination": "/toss_dday.html"
-    },
-    {
-      "source": "/delivery_fee",
-      "destination": "/toss_delivery_fee.html"
-    },
-    {
-      "source": "/toss/delivery_fee",
-      "destination": "/toss_delivery_fee.html"
-    },
-    {
-      "source": "/dividend",
-      "destination": "/toss_dividend.html"
-    },
-    {
-      "source": "/toss/dividend",
-      "destination": "/toss_dividend.html"
-    },
-    {
-      "source": "/etf_return",
-      "destination": "/toss_etf_return.html"
-    },
-    {
-      "source": "/toss/etf_return",
-      "destination": "/toss_etf_return.html"
-    },
-    {
-      "source": "/exchange",
-      "destination": "/toss_exchange.html"
-    },
-    {
-      "source": "/toss/exchange",
-      "destination": "/toss_exchange.html"
-    },
-    {
-      "source": "/fasting",
-      "destination": "/toss_fasting.html"
-    },
-    {
-      "source": "/toss/fasting",
-      "destination": "/toss_fasting.html"
-    },
-    {
-      "source": "/freelancer_rate",
-      "destination": "/toss_freelancer_rate.html"
-    },
-    {
-      "source": "/toss/freelancer_rate",
-      "destination": "/toss_freelancer_rate.html"
-    },
-    {
-      "source": "/freelancer_tax",
-      "destination": "/toss_freelancer_tax.html"
-    },
-    {
-      "source": "/toss/freelancer_tax",
-      "destination": "/toss_freelancer_tax.html"
-    },
-    {
-      "source": "/fuel_economy",
-      "destination": "/toss_fuel_economy.html"
-    },
-    {
-      "source": "/toss/fuel_economy",
-      "destination": "/toss_fuel_economy.html"
-    },
-    {
-      "source": "/gift_tax",
-      "destination": "/toss_gift_tax.html"
-    },
-    {
-      "source": "/toss/gift_tax",
-      "destination": "/toss_gift_tax.html"
-    },
-    {
-      "source": "/gift_tax_sim",
-      "destination": "/toss_gift_tax_sim.html"
-    },
-    {
-      "source": "/toss/gift_tax_sim",
-      "destination": "/toss_gift_tax_sim.html"
-    },
-    {
-      "source": "/golf_handicap",
-      "destination": "/toss_golf_handicap.html"
-    },
-    {
-      "source": "/toss/golf_handicap",
-      "destination": "/toss_golf_handicap.html"
-    },
-    {
-      "source": "/health_insurance",
-      "destination": "/toss_health_insurance.html"
-    },
-    {
-      "source": "/toss/health_insurance",
-      "destination": "/toss_health_insurance.html"
-    },
-    {
-      "source": "/hourly_salary",
-      "destination": "/toss_hourly_salary.html"
-    },
-    {
-      "source": "/toss/hourly_salary",
-      "destination": "/toss_hourly_salary.html"
-    },
-    {
-      "source": "/income_tax",
-      "destination": "/toss_income_tax.html"
-    },
-    {
-      "source": "/toss/income_tax",
-      "destination": "/toss_income_tax.html"
-    },
-    {
-      "source": "/inflation",
-      "destination": "/toss_inflation.html"
-    },
-    {
-      "source": "/toss/inflation",
-      "destination": "/toss_inflation.html"
-    },
-    {
-      "source": "/insurance",
-      "destination": "/toss_insurance.html"
-    },
-    {
-      "source": "/toss/insurance",
-      "destination": "/toss_insurance.html"
-    },
-    {
-      "source": "/jeonse_loan",
-      "destination": "/toss_jeonse_loan.html"
-    },
-    {
-      "source": "/toss/jeonse_loan",
-      "destination": "/toss_jeonse_loan.html"
-    },
-    {
-      "source": "/loan",
-      "destination": "/toss_loan.html"
-    },
-    {
-      "source": "/toss/loan",
-      "destination": "/toss_loan.html"
-    },
-    {
-      "source": "/loan_limit",
-      "destination": "/toss_loan_limit.html"
-    },
-    {
-      "source": "/toss/loan_limit",
-      "destination": "/toss_loan_limit.html"
-    },
-    {
-      "source": "/lotto",
-      "destination": "/toss_lotto.html"
-    },
-    {
-      "source": "/toss/lotto",
-      "destination": "/toss_lotto.html"
-    },
-    {
-      "source": "/margin",
-      "destination": "/toss_margin.html"
-    },
-    {
-      "source": "/toss/margin",
-      "destination": "/toss_margin.html"
-    },
-    {
-      "source": "/mortgage",
-      "destination": "/toss_mortgage.html"
-    },
-    {
-      "source": "/toss/mortgage",
-      "destination": "/toss_mortgage.html"
-    },
-    {
-      "source": "/net_worth",
-      "destination": "/toss_net_worth.html"
-    },
-    {
-      "source": "/toss/net_worth",
-      "destination": "/toss_net_worth.html"
-    },
-    {
-      "source": "/operating_profit",
-      "destination": "/toss_operating_profit.html"
-    },
-    {
-      "source": "/toss/operating_profit",
-      "destination": "/toss_operating_profit.html"
-    },
-    {
-      "source": "/ovulation",
-      "destination": "/toss_ovulation.html"
-    },
-    {
-      "source": "/toss/ovulation",
-      "destination": "/toss_ovulation.html"
-    },
-    {
-      "source": "/parental_leave",
-      "destination": "/toss_parental_leave.html"
-    },
-    {
-      "source": "/toss/parental_leave",
-      "destination": "/toss_parental_leave.html"
-    },
-    {
-      "source": "/part_time_cost",
-      "destination": "/toss_part_time_cost.html"
-    },
-    {
-      "source": "/toss/part_time_cost",
-      "destination": "/toss_part_time_cost.html"
-    },
-    {
-      "source": "/pension",
-      "destination": "/toss_pension.html"
-    },
-    {
-      "source": "/toss/pension",
-      "destination": "/toss_pension.html"
-    },
-    {
-      "source": "/pregnancy",
-      "destination": "/toss_pregnancy.html"
-    },
-    {
-      "source": "/toss/pregnancy",
-      "destination": "/toss_pregnancy.html"
-    },
-    {
-      "source": "/product_cost",
-      "destination": "/toss_product_cost.html"
-    },
-    {
-      "source": "/toss/product_cost",
-      "destination": "/toss_product_cost.html"
-    },
-    {
-      "source": "/realestate",
-      "destination": "/toss_realestate.html"
-    },
-    {
-      "source": "/toss/realestate",
-      "destination": "/toss_realestate.html"
-    },
-    {
-      "source": "/refund",
-      "destination": "/toss_refund.html"
-    },
-    {
-      "source": "/toss/refund",
-      "destination": "/toss_refund.html"
-    },
-    {
-      "source": "/remodeling",
-      "destination": "/toss_remodeling.html"
-    },
-    {
-      "source": "/toss/remodeling",
-      "destination": "/toss_remodeling.html"
-    },
-    {
-      "source": "/rent_conversion",
-      "destination": "/toss_rent_conversion.html"
-    },
-    {
-      "source": "/toss/rent_conversion",
-      "destination": "/toss_rent_conversion.html"
-    },
-    {
-      "source": "/rent_yield",
-      "destination": "/toss_rent_yield.html"
-    },
-    {
-      "source": "/toss/rent_yield",
-      "destination": "/toss_rent_yield.html"
-    },
-    {
-      "source": "/retirement",
-      "destination": "/toss_retirement.html"
-    },
-    {
-      "source": "/toss/retirement",
-      "destination": "/toss_retirement.html"
-    },
-    {
-      "source": "/retirement_pension",
-      "destination": "/toss_retirement_pension.html"
-    },
-    {
-      "source": "/toss/retirement_pension",
-      "destination": "/toss_retirement_pension.html"
-    },
-    {
-      "source": "/retirement_plan",
-      "destination": "/toss_retirement_plan.html"
-    },
-    {
-      "source": "/toss/retirement_plan",
-      "destination": "/toss_retirement_plan.html"
+      "destination": "/index.html"
     },
     {
       "source": "/salary",
-      "destination": "/toss_salary.html"
+      "destination": "/salary.html"
     },
     {
-      "source": "/toss/salary",
-      "destination": "/toss_salary.html"
+      "source": "/retirement",
+      "destination": "/retirement.html"
     },
     {
-      "source": "/salary_slip",
-      "destination": "/toss_salary_slip.html"
-    },
-    {
-      "source": "/toss/salary_slip",
-      "destination": "/toss_salary_slip.html"
-    },
-    {
-      "source": "/savings",
-      "destination": "/toss_savings.html"
-    },
-    {
-      "source": "/toss/savings",
-      "destination": "/toss_savings.html"
-    },
-    {
-      "source": "/sleep",
-      "destination": "/toss_sleep.html"
-    },
-    {
-      "source": "/toss/sleep",
-      "destination": "/toss_sleep.html"
-    },
-    {
-      "source": "/stock_return",
-      "destination": "/toss_stock_return.html"
-    },
-    {
-      "source": "/toss/stock_return",
-      "destination": "/toss_stock_return.html"
-    },
-    {
-      "source": "/student_loan",
-      "destination": "/toss_student_loan.html"
-    },
-    {
-      "source": "/toss/student_loan",
-      "destination": "/toss_student_loan.html"
-    },
-    {
-      "source": "/timezone",
-      "destination": "/toss_timezone.html"
-    },
-    {
-      "source": "/toss/timezone",
-      "destination": "/toss_timezone.html"
+      "source": "/loan",
+      "destination": "/loan.html"
     },
     {
       "source": "/unemployment",
-      "destination": "/toss_unemployment.html"
+      "destination": "/unemployment.html"
     },
     {
-      "source": "/toss/unemployment",
-      "destination": "/toss_unemployment.html"
+      "source": "/savings",
+      "destination": "/savings.html"
     },
     {
-      "source": "/vat",
-      "destination": "/toss_vat.html"
+      "source": "/cheongmirae",
+      "destination": "/cheongmirae.html"
     },
     {
-      "source": "/toss/vat",
-      "destination": "/toss_vat.html"
+      "source": "/inflation",
+      "destination": "/inflation.html"
     },
     {
-      "source": "/vat_biz",
-      "destination": "/toss_vat_biz.html"
+      "source": "/realestate",
+      "destination": "/realestate.html"
     },
     {
-      "source": "/toss/vat_biz",
-      "destination": "/toss_vat_biz.html"
+      "source": "/acquisition",
+      "destination": "/acquisition.html"
+    },
+    {
+      "source": "/capital_gains",
+      "destination": "/capital_gains.html"
+    },
+    {
+      "source": "/gift_tax",
+      "destination": "/gift_tax.html"
+    },
+    {
+      "source": "/rent_conversion",
+      "destination": "/rent_conversion.html"
+    },
+    {
+      "source": "/age",
+      "destination": "/age.html"
+    },
+    {
+      "source": "/dday",
+      "destination": "/dday.html"
+    },
+    {
+      "source": "/bmi",
+      "destination": "/bmi.html"
+    },
+    {
+      "source": "/bmr",
+      "destination": "/bmr.html"
+    },
+    {
+      "source": "/pregnancy",
+      "destination": "/pregnancy.html"
+    },
+    {
+      "source": "/exchange",
+      "destination": "/exchange.html"
     },
     {
       "source": "/weekly_holiday",
-      "destination": "/toss_weekly_holiday.html"
+      "destination": "/weekly_holiday.html"
     },
     {
-      "source": "/toss/weekly_holiday",
-      "destination": "/toss_weekly_holiday.html"
+      "source": "/hourly_salary",
+      "destination": "/hourly_salary.html"
+    },
+    {
+      "source": "/annual_leave",
+      "destination": "/annual_leave.html"
+    },
+    {
+      "source": "/stock_return",
+      "destination": "/stock_return.html"
+    },
+    {
+      "source": "/vat",
+      "destination": "/vat.html"
+    },
+    {
+      "source": "/margin",
+      "destination": "/margin.html"
+    },
+    {
+      "source": "/health_insurance",
+      "destination": "/health_insurance.html"
+    },
+    {
+      "source": "/income_tax",
+      "destination": "/income_tax.html"
+    },
+    {
+      "source": "/address_converter",
+      "destination": "/address_converter.html"
+    },
+    {
+      "source": "/area_converter",
+      "destination": "/area_converter.html"
+    },
+    {
+      "source": "/cm_inch",
+      "destination": "/cm_inch.html"
+    },
+    {
+      "source": "/pension",
+      "destination": "/pension.html"
+    },
+    {
+      "source": "/calorie",
+      "destination": "/calorie.html"
+    },
+    {
+      "source": "/blood_pressure",
+      "destination": "/blood_pressure.html"
+    },
+    {
+      "source": "/golf_handicap",
+      "destination": "/golf_handicap.html"
+    },
+    {
+      "source": "/customs",
+      "destination": "/customs.html"
+    },
+    {
+      "source": "/faq",
+      "destination": "/faq.html"
+    },
+    {
+      "source": "/lotto",
+      "destination": "/lotto.html"
+    },
+    {
+      "source": "/child_height",
+      "destination": "/child_height.html"
+    },
+    {
+      "source": "/parental_leave",
+      "destination": "/parental_leave.html"
+    },
+    {
+      "source": "/freelancer_tax",
+      "destination": "/freelancer_tax.html"
+    },
+    {
+      "source": "/gift_tax_sim",
+      "destination": "/gift_tax_sim.html"
+    },
+    {
+      "source": "/loan_limit",
+      "destination": "/loan_limit.html"
+    },
+    {
+      "source": "/date_diff",
+      "destination": "/date_diff.html"
+    },
+    {
+      "source": "/car_tax",
+      "destination": "/car_tax.html"
+    },
+    {
+      "source": "/fuel_economy",
+      "destination": "/fuel_economy.html"
+    },
+    {
+      "source": "/jeonse_loan",
+      "destination": "/jeonse_loan.html"
+    },
+    {
+      "source": "/car_installment",
+      "destination": "/car_installment.html"
+    },
+    {
+      "source": "/car_lease",
+      "destination": "/car_lease.html"
+    },
+    {
+      "source": "/insurance",
+      "destination": "/insurance.html"
+    },
+    {
+      "source": "/retirement_pension",
+      "destination": "/retirement_pension.html"
+    },
+    {
+      "source": "/refund",
+      "destination": "/refund.html"
+    },
+    {
+      "source": "/annual_leave_hr",
+      "destination": "/annual_leave_hr.html"
+    },
+    {
+      "source": "/salary_slip",
+      "destination": "/salary_slip.html"
+    },
+    {
+      "source": "/corporate_tax",
+      "destination": "/corporate_tax.html"
+    },
+    {
+      "source": "/product_cost",
+      "destination": "/product_cost.html"
+    },
+    {
+      "source": "/operating_profit",
+      "destination": "/operating_profit.html"
+    },
+    {
+      "source": "/breakeven",
+      "destination": "/breakeven.html"
+    },
+    {
+      "source": "/delivery_fee",
+      "destination": "/delivery_fee.html"
+    },
+    {
+      "source": "/card_fee",
+      "destination": "/card_fee.html"
+    },
+    {
+      "source": "/rent_yield",
+      "destination": "/rent_yield.html"
+    },
+    {
+      "source": "/part_time_cost",
+      "destination": "/part_time_cost.html"
+    },
+    {
+      "source": "/cheongak",
+      "destination": "/cheongak.html"
+    },
+    {
+      "source": "/ovulation",
+      "destination": "/ovulation.html"
+    },
+    {
+      "source": "/compound",
+      "destination": "/compound.html"
+    },
+    {
+      "source": "/vat_biz",
+      "destination": "/vat_biz.html"
+    },
+    {
+      "source": "/etf_return",
+      "destination": "/etf_return.html"
+    },
+    {
+      "source": "/dividend",
+      "destination": "/dividend.html"
+    },
+    {
+      "source": "/sleep",
+      "destination": "/sleep.html"
     },
     {
       "source": "/youtube",
-      "destination": "/toss_youtube.html"
+      "destination": "/youtube.html"
     },
     {
-      "source": "/toss/youtube",
-      "destination": "/toss_youtube.html"
+      "source": "/mortgage",
+      "destination": "/mortgage.html"
+    },
+    {
+      "source": "/retirement_plan",
+      "destination": "/retirement_plan.html"
+    },
+    {
+      "source": "/net_worth",
+      "destination": "/net_worth.html"
+    },
+    {
+      "source": "/fasting",
+      "destination": "/fasting.html"
+    },
+    {
+      "source": "/remodeling",
+      "destination": "/remodeling.html"
+    },
+    {
+      "source": "/timezone",
+      "destination": "/timezone.html"
+    },
+    {
+      "source": "/student_loan",
+      "destination": "/student_loan.html"
+    },
+    {
+      "source": "/freelancer_rate",
+      "destination": "/freelancer_rate.html"
     }
   ]
 }
