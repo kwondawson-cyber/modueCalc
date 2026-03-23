@@ -209,7 +209,45 @@
   </div>
 </div>
 
-<div class="aff-wrap">
+<!-- ① 은퇴 나이 시뮬레이터 -->
+<div id="ageSimCard" style="display:none;max-width:760px;margin:0 auto 20px;padding:0 20px">
+  <div class="card">
+    <div class="card-title">⏰ 은퇴 나이 시뮬레이터</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;line-height:1.7">은퇴를 몇 년 일찍 또는 늦추면 자산이 얼마나 달라지는지 확인하세요.</p>
+    <div style="margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <label style="font-size:13px;color:var(--text-muted);font-weight:600">은퇴 나이 조정</label>
+        <span id="ageSimLabel" style="font-size:15px;font-weight:800;color:var(--accent)">현재 계획</span>
+        <span id="ageSimAge" style="font-size:15px;font-weight:800;color:var(--text)"></span>
+      </div>
+      <input type="range" id="ageSimSlider" min="-10" max="10" step="1" value="0"
+        oninput="updateAgeSim()" style="width:100%;accent-color:var(--accent)" />
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-top:4px">
+        <span>10년 일찍</span><span>5년 일찍</span><span>현재</span><span>5년 늦게</span><span>10년 늦게</span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center">
+        <div id="ageSimBeforeSub" style="font-size:11px;color:var(--text-muted);margin-bottom:4px">필요자산</div>
+        <div id="ageSimBefore" style="font-size:18px;font-weight:900;color:var(--text);font-family:'Montserrat',sans-serif">-</div>
+      </div>
+      <div style="background:rgba(0,212,170,.08);border:1px solid rgba(0,212,170,.3);border-radius:12px;padding:14px;text-align:center">
+        <div id="ageSimAfterSub" style="font-size:11px;color:var(--accent);margin-bottom:4px">예상자산</div>
+        <div id="ageSimAfter" style="font-size:18px;font-weight:900;color:var(--accent);font-family:'Montserrat',sans-serif">-</div>
+      </div>
+    </div>
+    <div id="ageSimDiff" style="text-align:center;padding:12px;background:rgba(0,212,170,.05);border-radius:10px;font-size:14px;color:var(--text-muted)"></div>
+  </div>
+</div>
+
+<!-- ② 수익률 변화 시뮬레이터 -->
+<div id="rateSimCard" style="display:none;max-width:760px;margin:0 auto 20px;padding:0 20px">
+  <div class="card">
+    <div class="card-title">📈 투자 수익률별 은퇴 자산 비교</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">같은 저축 계획이라도 수익률에 따라 결과가 얼마나 달라지는지 한눈에 비교하세요.</p>
+    <div id="rateSimTable" style="overflow-x:auto"></div>
+  </div>
+</div>
   <a href="https://appu.kr/?i=12515711" class="affiliate-banner" target="_blank" rel="nofollow sponsored">
     <span class="ab-icon">💼</span>
     <div class="ab-text">
@@ -411,6 +449,95 @@
     }
 
     document.getElementById('resultCard').classList.add('visible');
+
+    // 부가 카드
+    _rpCurAge=curAge; _rpRetAge=retAge; _rpLifeAge=lifeAge;
+    _rpMonthlyNeed=monthlyNeed; _rpCurAsset=curAsset;
+    _rpMonthlySave=monthlySave; _rpReturnRate=returnRate; _rpInflRate=inflRate;
+    _rpNeeded=needed;
+    document.getElementById('ageSimCard').style.display  = 'block';
+    document.getElementById('rateSimCard').style.display = 'block';
+    updateAgeSim();
+    updateRateSim();
+  }
+
+  // ── 공통 은퇴 자산 계산 ──
+  function calcProjected(curAge, retAge, curAsset, monthlySave, returnRate) {
+    const months = (retAge - curAge) * 12;
+    const r12 = returnRate / 12;
+    const gf = Math.pow(1 + r12, months);
+    const ag = curAsset * gf;
+    const sg = r12 === 0 ? monthlySave * months : monthlySave * (gf - 1) / r12;
+    return ag + sg;
+  }
+
+  let _rpCurAge,_rpRetAge,_rpLifeAge,_rpMonthlyNeed,_rpCurAsset,_rpMonthlySave,_rpReturnRate,_rpInflRate,_rpNeeded;
+
+  // ① 은퇴 나이 시뮬레이터
+  function updateAgeSim() {
+    if (!_rpCurAge) return;
+    const delta = parseInt(document.getElementById('ageSimSlider').value) || 0;
+    const newRetAge = _rpRetAge + delta;
+    const newYears = newRetAge - _rpCurAge;
+    const futureMonthly = _rpMonthlyNeed * Math.pow(1 + _rpInflRate, newYears);
+    const newNeeded = futureMonthly * 12 * (_rpLifeAge - newRetAge);
+    const newProjected = calcProjected(_rpCurAge, newRetAge, _rpCurAsset, _rpMonthlySave, _rpReturnRate);
+    const newGap = newProjected - newNeeded;
+    const newPct = Math.round(newProjected / newNeeded * 100);
+
+    const label = delta === 0 ? '현재 계획' : delta > 0 ? `+${delta}년 늦게` : `${delta}년 일찍`;
+    document.getElementById('ageSimLabel').textContent = label;
+    document.getElementById('ageSimAge').textContent = newRetAge + '세';
+
+    document.getElementById('ageSimBefore').textContent = fmtEok(_rpNeeded) + '원';
+    document.getElementById('ageSimBeforeSub').textContent = `필요자산 (${_rpRetAge}세 기준)`;
+    document.getElementById('ageSimAfter').textContent = fmtEok(newProjected) + '원';
+    document.getElementById('ageSimAfterSub').textContent = `예상자산 (${newRetAge}세 기준)`;
+
+    const color = newGap >= 0 ? 'var(--accent)' : '#ff6b6b';
+    document.getElementById('ageSimDiff').innerHTML =
+      `<strong style="color:${color}">${newPct}%</strong> 달성 · ` +
+      `자산 ${newGap >= 0 ? '여유' : '부족'} <strong style="color:${color}">${fmtEok(Math.abs(newGap))}원</strong>` +
+      (delta !== 0 ? ` · 현재 대비 ${newGap - (_rpNeeded > 0 ? calcProjected(_rpCurAge,_rpRetAge,_rpCurAsset,_rpMonthlySave,_rpReturnRate)-_rpNeeded : 0) >= 0 ? '개선' : '악화'}` : '');
+  }
+
+  // ② 수익률 변화 시뮬레이터
+  function updateRateSim() {
+    if (!_rpCurAge) return;
+    const rates = [2,3,4,5,6,7,8,10];
+    const rows = rates.map(r => {
+      const rr = r / 100;
+      const proj = calcProjected(_rpCurAge, _rpRetAge, _rpCurAsset, _rpMonthlySave, rr);
+      const pct = Math.round(proj / _rpNeeded * 100);
+      const isCurrent = r === Math.round(_rpReturnRate * 100);
+      return { r, proj, pct, isCurrent };
+    });
+
+    document.getElementById('rateSimTable').innerHTML = `
+      <table style="width:100%;border-collapse:collapse;font-size:13px">
+        <thead><tr style="background:var(--surface2)">
+          <th style="padding:9px 12px;border:1px solid var(--border);color:var(--text-muted);font-weight:700">연 수익률</th>
+          <th style="padding:9px 12px;border:1px solid var(--border);color:var(--text-muted);font-weight:700;text-align:right">은퇴 시 예상자산</th>
+          <th style="padding:9px 12px;border:1px solid var(--border);color:var(--text-muted);font-weight:700;text-align:right">목표 달성률</th>
+          <th style="padding:9px 12px;border:1px solid var(--border);color:var(--text-muted);font-weight:700;text-align:right">판정</th>
+        </tr></thead>
+        <tbody>${rows.map(r=>`
+          <tr style="${r.isCurrent?'background:rgba(0,212,170,.08);':''}">
+            <td style="padding:9px 12px;border:1px solid var(--border);font-weight:${r.isCurrent?900:400};color:${r.isCurrent?'var(--accent)':'var(--text)'}">
+              ${r.r}%${r.isCurrent?' ◀ 현재':''}
+            </td>
+            <td style="padding:9px 12px;border:1px solid var(--border);text-align:right;font-family:'Montserrat',sans-serif;font-weight:700;color:${r.isCurrent?'var(--accent)':'var(--text)'}">
+              ${fmtEok(r.proj)}원
+            </td>
+            <td style="padding:9px 12px;border:1px solid var(--border);text-align:right;font-weight:700;color:${r.pct>=100?'var(--accent)':r.pct>=70?'#ffa94d':'#ff6b6b'}">
+              ${r.pct}%
+            </td>
+            <td style="padding:9px 12px;border:1px solid var(--border);text-align:right;font-size:12px">
+              ${r.pct>=100?'✅ 달성':r.pct>=70?'⚠️ 부족':'🚨 위험'}
+            </td>
+          </tr>`).join('')}
+        </tbody>
+      </table>`;
   }
 </script>
 <script src="/common.js" defer></script><script src="/share.js" defer></script>
