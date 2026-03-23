@@ -140,7 +140,7 @@
     <div class="exchange-box">
       <label>환산 결과</label>
       <div class="exchange-row">
-        <input type="number" id="toAmount" placeholder="0" readonly style="color:var(--accent)" data-ec-comma="skip" />
+        <input type="text" id="toAmount" placeholder="0" readonly style="color:var(--accent);background:transparent;border:none;font-size:40px;font-weight:700;font-family:'Montserrat',sans-serif;outline:none;min-width:0;flex:1" data-ec-comma="skip" />
         <div class="currency-select-wrap">
           <span class="currency-name" id="toName">원</span>
           <span class="currency-code" id="toCode">KRW</span>
@@ -225,8 +225,17 @@
   }
 
   function swapCurrencies(){
-    const f=document.getElementById('fromCurrency'),t=document.getElementById('toCurrency'),tmp=f.value;
-    f.value=t.value;t.value=tmp;onCurrencyChange();
+    const f=document.getElementById('fromCurrency'),t=document.getElementById('toCurrency');
+    const fromAmt=document.getElementById('fromAmount');
+    const toAmt=document.getElementById('toAmount');
+    // 현재 결과값(콤마 제거한 숫자)을 fromAmount로 이동
+    const currentResult = toAmt.value.replace(/,/g,'');
+    const tmp=f.value;
+    f.value=t.value; t.value=tmp;
+    if(currentResult && parseFloat(currentResult)){
+      fromAmt.value=parseFloat(currentResult);
+    }
+    onCurrencyChange();
   }
 
   function renderRateGrid(){
