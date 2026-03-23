@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>영업이익 계산기</title>
+  <!-- TODO: 앱인토스 SDK — 콘솔 발급 코드로 교체 -->
+  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <style>
+
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--danger:#ff6b6b;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    
+    .container{max-width:680px;margin:0 auto;padding:40px 20px 100px;position:relative;z-index:1}
+    
+    
+    
+    
+    
+    .header{text-align:center;margin-bottom:28px}
+    .header h1{font-family:'Montserrat',sans-serif;font-size:clamp(22px,5vw,32px);font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+    .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
+    .header p{color:var(--text-muted);font-size:14px}
+    .badges{text-align:center;margin-bottom:16px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+    .badge{padding:3px 12px;background:rgba(0,212,170,0.1);border:1px solid rgba(0,212,170,0.25);border-radius:20px;font-size:11px;color:var(--accent);font-weight:700}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
+    .card h2{font-size:15px;font-weight:700;margin-bottom:16px;color:var(--accent)}
+    .cost-row{display:grid;grid-template-columns:1fr 150px 36px;gap:8px;align-items:center;margin-bottom:8px}
+    .cost-row input{margin:0;padding:10px 12px;font-size:14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Noto Sans KR',sans-serif;outline:none;width:100%;transition:border-color .2s}
+    .cost-row input:focus{border-color:var(--accent)}
+    .btn-del{background:none;border:1px solid var(--danger);color:var(--danger);border-radius:8px;width:36px;height:36px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .btn-del:hover{background:rgba(255,107,107,0.1)}
+    .btn-add{width:100%;padding:10px;border:1px dashed var(--border);border-radius:10px;background:transparent;color:var(--text-muted);font-size:13px;font-family:'Noto Sans KR',sans-serif;cursor:pointer;transition:all .2s;margin-top:4px}
+    .btn-add:hover{border-color:var(--accent);color:var(--accent)}
+    .section-total{display:flex;justify-content:flex-end;gap:8px;padding:8px 0 2px;font-size:13px;color:var(--text-muted);border-top:1px solid var(--border);margin-top:6px}
+    .section-total .v{font-weight:700}
+    .btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#000;font-size:16px;font-weight:800;font-family:'Noto Sans KR',sans-serif;cursor:pointer;margin-top:8px;transition:opacity .2s}
+    .btn:hover{opacity:.9}
+    .result-card{background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:var(--radius);padding:24px;margin-top:16px;display:block}
+    .result-card.show{display:block}
+    .result-main{text-align:center;margin-bottom:20px}
+    .result-label{font-size:13px;color:var(--text-muted);margin-bottom:6px}
+    .result-value{font-family:'Montserrat',sans-serif;font-size:38px;font-weight:900;color:var(--accent)}
+    .result-value.danger{color:var(--danger)}
+    .result-sub{font-size:13px;color:var(--text-muted);margin-top:4px}
+    .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+    .result-item{background:var(--surface2);border-radius:10px;padding:12px;text-align:center}
+    .result-item-label{font-size:11px;color:var(--text-muted);margin-bottom:4px}
+    .result-item-value{font-size:17px;font-weight:700;color:var(--text)}
+    .result-item-value.good{color:var(--accent)}
+    .result-item-value.bad{color:var(--danger)}
+    .pnl{background:var(--surface2);border-radius:12px;overflow:hidden;margin-top:16px}
+    .pnl-row{display:flex;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--border);font-size:13px}
+    .pnl-row:last-child{border-bottom:none}
+    .pnl-row.sub{background:rgba(0,212,170,0.06);font-weight:700;color:var(--accent)}
+    .pnl-row.total{background:linear-gradient(135deg,rgba(0,212,170,0.14),rgba(0,149,255,0.08));font-weight:900;font-size:15px;color:var(--accent)}
+    .pnl-row.total.neg{color:var(--danger)}
+    .pnl-row .neg{color:var(--danger)}
+    .bar-wrap{margin-top:16px}
+    .bar-label{display:flex;justify-content:space-between;font-size:12px;color:var(--text-muted);margin-bottom:4px}
+    .bar-bg{background:var(--surface2);border-radius:8px;height:10px;overflow:hidden;margin-bottom:8px}
+    .bar-fill{height:100%;border-radius:8px;transition:width .5s}
+    
+    .ad-slot{min-height:0;text-align:center;margin:16px 0}
+    details{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden}
+    details summary{padding:12px 16px;cursor:pointer;font-size:14px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--surface)}
+    details summary::after{content:'＋';color:var(--accent);font-size:16px}
+    details[open] summary::after{content:'－'}
+    details 
+    @media(max-width:480px){.result-grid{grid-template-columns:1fr}.cost-row{grid-template-columns:1fr 110px 36px}}
+
+    
+    
+    
+    
+    
+    
+    
+    .ex-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+    .ex-table th{background:rgba(0,212,170,0.1);padding:8px 12px;text-align:left;color:var(--accent);font-weight:700;border:1px solid var(--border)}
+    .ex-table td{padding:8px 12px;border:1px solid var(--border);color:var(--text-muted);line-height:1.7}
+    .ex-table tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
+    .hl-box{background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.25);border-radius:10px;padding:14px 16px;margin:14px 0;font-size:13px;color:var(--text);line-height:1.8}
+    .hl-box strong{color:var(--accent)}
+    
+    
+    
+    
+    
+    
+    
+  
+
+
+
+
+
+
+
+
+
+
+
+
+    /* ── 토스 헤더 ── */
+
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
+    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+
+    .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
+    .toss-header>.emoji{font-size:28px;flex-shrink:0}
+    .toss-header h1{font-size:20px;font-weight:800;color:var(--text);margin:0}
+    .toss-header p{font-size:12px;color:var(--text-muted);margin-top:3px}
+    /* ── 토스 하단 네비 ── */
+    .toss-nav{margin-top:24px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .toss-nav-title{font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:12px}
+    .toss-nav-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+    .toss-nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;text-decoration:none;transition:all .2s}
+    .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
+    .ni-emoji{font-size:20px}
+    .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
+
+    /* ── max-scale 방지 ── */
+    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <div class="home-btn-wrap"><a href="/toss/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="toss-header">
+    <span class="emoji">📈</span>
+    <div>
+      <h1>영업이익 계산기</h1>
+      <p>매출·원가·영업이익률 계산</p>
+    </div>
+  </div>
+
+
+<div class="badges">
+<span class="badge">🏪 소상공인</span><span class="badge">📊 손익 분석</span><span class="badge">💡 월·연간</span>
+</div>
+<div class="card">
+<h2>💰 매출액</h2>
+<div id="rev-list">
+<div class="cost-row"><input type="text" value="매장 매출"/><input placeholder="월 금액(원)" type="number"/><button class="btn-del" onclick="delRow(this)">✕</button></div>
+</div>
+<button class="btn-add" onclick="addRow('rev-list')">＋ 매출 항목 추가 (배달·온라인 등)</button>
+<div class="section-total">합계 <span class="v" id="rev-ttl">0원</span></div>
+</div>
+<div class="card">
+<h2>🥩 매출원가 (재료비·상품구입비)</h2>
+<div id="cogs-list">
+<div class="cost-row"><input type="text" value="재료비·식재료"/><input placeholder="월 금액(원)" type="number"/><button class="btn-del" onclick="delRow(this)">✕</button></div>
+</div>
+<button class="btn-add" onclick="addRow('cogs-list')">＋ 원가 항목 추가</button>
+<div class="section-total">합계 <span class="v" id="cogs-ttl" style="color:var(--danger)">0원</span></div>
+</div>
+<div class="card">
+<h2>🏪 판매관리비 (고정비·운영비)</h2>
+<div id="opex-list">
+<div class="cost-row"><input type="text" value="임차료"/><input placeholder="월 금액(원)" type="number"/><button class="btn-del" onclick="delRow(this)">✕</button></div>
+<div class="cost-row"><input type="text" value="인건비 합계"/><input placeholder="월 금액(원)" type="number"/><button class="btn-del" onclick="delRow(this)">✕</button></div>
+<div class="cost-row"><input type="text" value="전기·수도·가스"/><input placeholder="월 금액(원)" type="number"/><button class="btn-del" onclick="delRow(this)">✕</button></div>
+<div class="cost-row"><input type="text" value="카드수수료·PG"/><input placeholder="월 금액(원)" type="number"/><button class="btn-del" onclick="delRow(this)">✕</button></div>
+</div>
+<button class="btn-add" onclick="addRow('opex-list')">＋ 비용 추가 (광고·보험·배달앱 등)</button>
+<div class="section-total">합계 <span class="v" id="opex-ttl" style="color:var(--danger)">0원</span></div>
+</div>
+<div class="card">
+<h2>🏦 영업외 비용 (이자 등, 선택)</h2>
+<div id="nonop-list">
+<div class="cost-row"><input type="text" value="대출이자"/><input placeholder="월 금액(원)" type="number"/><div></div></div>
+</div>
+<button class="btn-add" onclick="addRow('nonop-list', false)">＋ 항목 추가</button>
+</div>
+<button class="btn" onclick="calc()">영업이익 계산하기</button>
+<div class="result-card" id="result">
+<div class="result-main">
+<div class="result-label">월 영업이익</div>
+<div class="result-value" id="r-op">0원</div>
+<div class="result-sub" id="r-sub"></div>
+</div>
+<div class="result-grid">
+<div class="result-item"><div class="result-item-label">매출총이익률</div><div class="result-item-value good" id="r-gross-rate">-</div></div>
+<div class="result-item"><div class="result-item-label">영업이익률</div><div class="result-item-value good" id="r-op-rate">-</div></div>
+<div class="result-item"><div class="result-item-label">월 순이익 (세전)</div><div class="result-item-value" id="r-net">-</div></div>
+<div class="result-item"><div class="result-item-label">연간 예상 순이익</div><div class="result-item-value" id="r-annual">-</div></div>
+</div>
+<div class="pnl">
+<div class="pnl-row"><span>매출액</span><span id="pl-rev">-</span></div>
+<div class="pnl-row"><span class="neg">(−) 매출원가</span><span class="neg" id="pl-cogs">-</span></div>
+<div class="pnl-row sub"><span>= 매출총이익</span><span id="pl-gross">-</span></div>
+<div class="pnl-row"><span class="neg">(−) 판매관리비</span><span class="neg" id="pl-opex">-</span></div>
+<div class="pnl-row sub"><span>= 영업이익</span><span id="pl-op">-</span></div>
+<div class="pnl-row"><span class="neg">(−) 영업외비용</span><span class="neg" id="pl-nonop">-</span></div>
+<div class="pnl-row total" id="pl-net-row"><span>= 순이익 (세전)</span><span id="pl-net">-</span></div>
+</div>
+<div class="bar-wrap">
+<div class="bar-label"><span>원가율 (원가÷매출)</span><span id="bar-cost-pct">-</span></div>
+<div class="bar-bg"><div class="bar-fill" id="bar-cost" style="width:0%;background:var(--danger);opacity:.7"></div></div>
+<div class="bar-label"><span>판관비율</span><span id="bar-opex-pct">-</span></div>
+<div class="bar-bg"><div class="bar-fill" id="bar-opex" style="width:0%;background:var(--warn,#f5a623);opacity:.8"></div></div>
+<div class="bar-label"><span>영업이익률</span><span id="bar-op-pct">-</span></div>
+<div class="bar-bg"><div class="bar-fill" id="bar-op" style="width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2))"></div></div>
+</div>
+</div>
+
+
+  <div class="toss-nav">
+    <div class="toss-nav-title">📌 사업자 세금 계산기</div>
+    <div class="toss-nav-grid">
+      <a href="/tax/margin" class="toss-nav-item"><span class="ni-emoji">💹</span><span class="ni-label">마진율</span></a>
+      <a href="/tax/breakeven" class="toss-nav-item"><span class="ni-emoji">⚖️</span><span class="ni-label">손익분기점</span></a>
+      <a href="/tax/product_cost" class="toss-nav-item"><span class="ni-emoji">🏷️</span><span class="ni-label">원가계산</span></a>
+      <a href="/tax/corporate_tax" class="toss-nav-item"><span class="ni-emoji">🏢</span><span class="ni-label">법인세</span></a>
+    </div>
+  </div>
+
+</div>
+<script>
+const fw = n => Math.round(n).toLocaleString() + '원';
+
+function addRow(listId, canDel=true) {
+  const list = document.getElementById(listId);
+  if (!list) return;
+  const row = document.createElement('div');
+  row.className = 'cost-row';
+  row.innerHTML = `<input type="text" placeholder="항목명" /><input type="number" placeholder="월 금액(원)" />${canDel ? '<button class="btn-del" onclick="delRow(this)">✕</button>' : ''}`;
+  list.appendChild(row);
+}
+
+function delRow(btn) { btn.closest('.cost-row').remove(); }
+
+function getListTotal(listId) {
+  const rows = document.querySelectorAll(`#${listId} .cost-row input[type="number"]`);
+  return Array.from(rows).reduce((s, i) => s + (+i.value || 0), 0);
+}
+
+function calc() {
+  const rev = getListTotal('rev-list');
+  const cogs = getListTotal('cogs-list');
+  const opex = getListTotal('opex-list');
+  const nonop = getListTotal('nonop-list');
+
+  const gross = rev - cogs;
+  const grossRate = rev > 0 ? (gross / rev * 100) : 0;
+  const opProfit = gross - opex;
+  const opRate = rev > 0 ? (opProfit / rev * 100) : 0;
+  const netProfit = opProfit + nonop;
+  const netRate = rev > 0 ? (netProfit / rev * 100) : 0;
+
+  // P&L 표 업데이트
+  document.getElementById('pl-rev') && (document.getElementById('pl-rev').textContent = fw(rev));
+  document.getElementById('pl-cogs') && (document.getElementById('pl-cogs').textContent = fw(cogs));
+  document.getElementById('pl-gross') && (document.getElementById('pl-gross').textContent = fw(gross) + ' (' + grossRate.toFixed(1) + '%)');
+  document.getElementById('pl-opex') && (document.getElementById('pl-opex').textContent = fw(opex));
+  document.getElementById('pl-op') && (document.getElementById('pl-op').textContent = fw(opProfit) + ' (' + opRate.toFixed(1) + '%)');
+  document.getElementById('pl-nonop') && (document.getElementById('pl-nonop').textContent = fw(nonop));
+  document.getElementById('pl-net') && (document.getElementById('pl-net').textContent = fw(netProfit) + ' (' + netRate.toFixed(1) + '%)');
+
+  // 결과 카드
+  document.getElementById('r-op') && (document.getElementById('r-op').textContent = fw(opProfit));
+  document.getElementById('r-op-rate') && (document.getElementById('r-op-rate').textContent = opRate.toFixed(1) + '%');
+  document.getElementById('r-gross-rate') && (document.getElementById('r-gross-rate').textContent = grossRate.toFixed(1) + '%');
+  document.getElementById('r-net') && (document.getElementById('r-net').textContent = fw(netProfit));
+  document.getElementById('r-sub') && (document.getElementById('r-sub').textContent = `매출 ${fw(rev)} 기준`);
+
+  // 수익성 등급
+  const rating = opRate >= 15 ? '우수' : opRate >= 8 ? '양호' : opRate >= 3 ? '보통' : '개선필요';
+  document.getElementById('r-rating') && (document.getElementById('r-rating').textContent = rating);
+
+  document.getElementById('result') && (document.getElementById('result').style.display = 'block');
+
+  // 소계 업데이트
+  const revTtl = document.getElementById('rev-ttl');
+  const cogsTtl = document.getElementById('cogs-ttl');
+  const opexTtl = document.getElementById('opex-ttl');
+  if (revTtl) revTtl.textContent = fw(rev);
+  if (cogsTtl) cogsTtl.textContent = fw(cogs);
+  if (opexTtl) opexTtl.textContent = fw(opex);
+}
+</script>
+</body>
+</html>

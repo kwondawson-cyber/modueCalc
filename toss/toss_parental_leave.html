@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>육아휴직급여 계산기</title>
+  <!-- TODO: 앱인토스 SDK 교체 -->
+  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <style>
+
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    
+    .container{max-width:640px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    
+    
+    
+    
+    
+    .header{text-align:center;margin-bottom:40px}
+    .header h1{font-size:clamp(28px,6vw,44px);font-weight:900;line-height:1.1;margin-bottom:10px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
+    .header p{color:var(--text-muted);font-size:14px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:16px}
+    .card-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:20px}
+    .input-group{margin-bottom:18px}
+    .input-group label{display:block;font-size:13px;font-weight:500;color:var(--text-muted);margin-bottom:7px}
+    .input-wrapper{position:relative}
+    .input-wrapper input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:13px 60px 13px 16px;font-size:20px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none;transition:border-color .2s}
+    .input-wrapper input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,170,0.1)}
+    .input-unit{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--text-muted);font-weight:500;pointer-events:none}
+    select{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:13px 16px;font-size:16px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:var(--text);outline:none;cursor:pointer}
+    select:focus{border-color:var(--accent)}
+    .info-box{background:rgba(0,149,255,0.06);border:1px solid rgba(0,149,255,0.15);border-radius:10px;padding:12px 16px;font-size:12px;color:var(--text-muted);margin-bottom:18px;line-height:1.8}
+    .calc-btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;font-size:16px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:#000;cursor:pointer;transition:transform .15s,box-shadow .15s}
+    .calc-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,212,170,0.3)}
+    .result-card{display:none;animation:fadeUp .4s ease}.result-card.visible{display:block}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+    .s-box{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center}
+    .s-box.main{border-color:rgba(0,212,170,0.4);background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.04));grid-column:span 2}
+    .s-box .s-label{font-size:11px;color:var(--text-muted);font-weight:600;margin-bottom:6px}
+    .s-box .s-value{font-family:'Montserrat',sans-serif;font-size:22px;font-weight:900}
+    .s-box.main .s-value{font-size:32px;color:var(--accent)}
+    .s-box .s-unit{font-size:11px;color:var(--text-muted);margin-top:3px}
+    .detail-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);font-size:14px}
+    .detail-item:last-child{border-bottom:none}
+    .detail-item .d-label{color:var(--text-muted)}
+    .detail-item .d-value{font-weight:700}
+    .detail-item .d-value.accent{color:var(--accent)}
+    .notice{margin-top:16px;padding:13px 16px;background:rgba(255,165,0,0.05);border:1px solid rgba(255,165,0,0.15);border-radius:10px;font-size:12px;color:var(--text-muted);line-height:1.7}
+    .badge{display:inline-block;background:rgba(0,212,170,0.15);border:1px solid rgba(0,212,170,0.3);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;color:var(--accent);margin-left:6px}
+    @media(max-width:480px){.card{padding:20px 16px}.summary-grid{grid-template-columns:1fr}}
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
+    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+
+    .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
+    .toss-header>.emoji{font-size:28px;flex-shrink:0}
+    .toss-header h1{font-size:20px;font-weight:800;color:var(--text);margin:0}
+    .toss-header p{font-size:12px;color:var(--text-muted);margin-top:3px}
+    .toss-nav{margin-top:24px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .toss-nav-title{font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:12px}
+    .toss-nav-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+    .toss-nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;text-decoration:none;transition:all .2s}
+    .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
+    .ni-emoji{font-size:20px}
+    .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
+
+    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="home-btn-wrap"><a href="/toss/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="toss-header">
+    <span class="emoji">👶</span>
+    <div><h1>육아휴직급여 계산기</h1><p>육아휴직 급여·지원금 계산</p></div>
+  </div>
+
+
+
+<div class="card">
+<div class="card-title">👶 정보 입력</div>
+<div class="input-group">
+<label>월 통상임금 (세전)</label>
+<div class="input-wrapper">
+<input id="salary" min="0" type="number" value="3000000"/>
+<span class="input-unit">원</span>
+</div>
+</div>
+<div class="input-group">
+<label>적용 유형</label>
+<select id="leaveType">
+<option value="normal">일반 육아휴직</option>
+<option value="special6">6+6 부모 육아휴직 특례 (생후 18개월 이내)</option>
+</select>
+</div>
+<div class="input-group" id="monthGroup">
+<label>사용 개월 수 (최대 12개월)</label>
+<div class="input-wrapper">
+<input id="months" max="12" min="1" type="number" value="12"/>
+<span class="input-unit">개월</span>
+</div>
+</div>
+<div class="info-box">
+      💡 <strong>일반 육아휴직 (2025년 기준)</strong>:<br/>
+        • 1~3개월: 통상임금 100% (상한 250만원, 하한 70만원)<br/>
+        • 4~6개월: 통상임금 100% (상한 200만원, 하한 70만원)<br/>
+        • 7~12개월: 통상임금 80% (상한 160만원, 하한 70만원)<br/>
+      💡 <strong>6+6 특례</strong>: 첫 6개월 통상임금 100% (상한 250→250→300→350→400→450만원 단계적 적용)<br/>
+      ✅ <strong>사후지급금 폐지</strong>: 2025년부터 전액 육아휴직 기간 중 즉시 지급
+    </div>
+<button class="calc-btn" onclick="calcLeave()">🍼 육아휴직 급여 계산하기</button>
+</div>
+<div class="card result-card" id="resultCard">
+<div class="card-title">💰 계산 결과</div>
+<div class="summary-grid">
+<div class="s-box main">
+<div class="s-label">월 육아휴직 급여</div>
+<div class="s-value" id="r-monthly">—</div>
+<div class="s-unit">원 / 월</div>
+</div>
+<div class="s-box">
+<div class="s-label">총 수령 예상액</div>
+<div class="s-value" id="r-total">—</div>
+<div class="s-unit">원</div>
+</div>
+<div class="s-box">
+<div class="s-label">통상임금 대비</div>
+<div class="s-value" id="r-ratio">—</div>
+<div class="s-unit">% 수준</div>
+</div>
+</div>
+<div id="detail-section"></div>
+<div class="notice">✅ <strong>2025년부터 사후지급금 제도 폐지</strong> — 육아휴직 급여 전액을 휴직 기간 중 매월 즉시 지급합니다. 단, 육아휴직 종료 후 6개월 이내 자발적 퇴직 시 일부 반환 의무가 있을 수 있습니다. 실제 지급액은 고용보험 가입 기간 및 조건에 따라 달라질 수 있으니 고용센터(1350)에 문의하세요.</div>
+</div>
+
+  <div class="toss-nav">
+    <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
+    <div class="toss-nav-grid">
+      <a href="/toss/salary" class="toss-nav-item"><span class="ni-emoji">💰</span><span class="ni-label">연봉</span></a>
+      <a href="/toss/annual_leave" class="toss-nav-item"><span class="ni-emoji">🌴</span><span class="ni-label">연차</span></a>
+      <a href="/toss/health_insurance" class="toss-nav-item"><span class="ni-emoji">🏥</span><span class="ni-label">건강보험</span></a>
+      <a href="/toss/unemployment" class="toss-nav-item"><span class="ni-emoji">📋</span><span class="ni-label">실업급여</span></a>
+    </div>
+  </div>
+</div>
+<script>
+function calcLeave() {
+  const salary = parseFloat(document.getElementById('salary').value) || 0;
+  const type   = document.getElementById('leaveType').value;
+  const months = parseInt(document.getElementById('months').value) || 1;
+
+  let totalAmt = 0;
+  let detailHtml = '';
+
+  function monthlyAmt(i, sal, t) {
+    if (t === 'normal') {
+      if (i <= 3) return Math.min(Math.max(sal,       700000), 2500000);
+      if (i <= 6) return Math.min(Math.max(sal,       700000), 2000000);
+      return              Math.min(Math.max(sal * 0.8, 700000), 1600000);
+    } else {
+      const caps = [2500000, 2500000, 3000000, 3500000, 4000000, 4500000];
+      if (i <= 6) return Math.min(Math.max(sal,       700000), caps[i - 1]);
+      return              Math.min(Math.max(sal * 0.8, 700000), 1600000);
+    }
+  }
+
+  // 구간별 합산 + 상세 내역 생성
+  let i = 1;
+  while (i <= months) {
+    const amt = monthlyAmt(i, salary, type);
+    totalAmt += amt;
+
+    let label = '';
+    if (type === 'normal') {
+      if (i <= 3)      label = `${i}개월차 (통상임금 100%, 상한 250만원)`;
+      else if (i <= 6) label = `${i}개월차 (통상임금 100%, 상한 200만원)`;
+      else             label = `${i}개월차 (통상임금 80%, 상한 160만원)`;
+    } else {
+      const caps = [250,250,300,350,400,450];
+      if (i <= 6) label = `${i}개월차 (통상임금 100%, 상한 ${caps[i-1]}만원)`;
+      else        label = `${i}개월차 (통상임금 80%, 상한 160만원)`;
+    }
+    detailHtml += `<div class="detail-item"><span class="d-label">${label}</span><span class="d-value ${i<=6?'accent':''}">${Math.round(amt).toLocaleString()}원</span></div>`;
+    i++;
+  }
+
+  const avgMonthly = totalAmt / months;
+  const ratio = salary > 0 ? ((avgMonthly / salary) * 100).toFixed(0) : 0;
+
+  document.getElementById('r-monthly').textContent = Math.round(avgMonthly).toLocaleString();
+  document.getElementById('r-total').textContent   = Math.round(totalAmt).toLocaleString();
+  document.getElementById('r-ratio').textContent   = ratio;
+  document.getElementById('detail-section').innerHTML = detailHtml;
+  document.getElementById('resultCard').classList.add('visible');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>법인세 계산기</title>
+  <!-- TODO: 앱인토스 SDK — 콘솔 발급 코드로 교체 -->
+  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <style>
+
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--danger:#ff6b6b;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    
+    .container{max-width:680px;margin:0 auto;padding:40px 20px 100px;position:relative;z-index:1}
+    
+    
+    
+    
+    
+    .header{text-align:center;margin-bottom:32px}
+    .header h1{font-family:'Montserrat',sans-serif;font-size:clamp(22px,5vw,32px);font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+    .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
+    .header p{color:var(--text-muted);font-size:14px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
+    .card h2{font-size:15px;font-weight:700;margin-bottom:16px;color:var(--accent)}
+    .form-group{margin-bottom:14px}
+    label{display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px;font-weight:500}
+    input,select{width:100%;padding:11px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:15px;font-family:'Noto Sans KR',sans-serif;outline:none;transition:border-color .2s}
+    input:focus,select:focus{border-color:var(--accent)}
+    select option{background:var(--surface2)}
+    .btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#000;font-size:16px;font-weight:800;font-family:'Noto Sans KR',sans-serif;cursor:pointer;margin-top:4px;transition:opacity .2s}
+    .btn:hover{opacity:.9}
+    .result-card{background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:var(--radius);padding:24px;margin-top:16px;display:block}
+    .result-card.show{display:block}
+    .result-main{text-align:center;margin-bottom:20px}
+    .result-label{font-size:13px;color:var(--text-muted);margin-bottom:6px}
+    .result-value{font-family:'Montserrat',sans-serif;font-size:36px;font-weight:900;color:var(--accent)}
+    .result-sub{font-size:13px;color:var(--text-muted);margin-top:4px}
+    .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+    .result-item{background:var(--surface2);border-radius:10px;padding:12px;text-align:center}
+    .result-item-label{font-size:11px;color:var(--text-muted);margin-bottom:4px}
+    .result-item-value{font-size:16px;font-weight:700;color:var(--text)}
+    .bracket-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px}
+    .bracket-table th{background:var(--surface2);padding:8px 10px;text-align:center;color:var(--text-muted);font-weight:600;border:1px solid var(--border)}
+    .bracket-table td{padding:8px 10px;text-align:right;border:1px solid var(--border);color:var(--text)}
+    .bracket-table td:first-child{text-align:left}
+    .bracket-table tr.active-row td{color:var(--accent);font-weight:700;background:rgba(0,212,170,0.06)}
+    .breakdown-box{background:var(--surface2);border-radius:12px;padding:16px;margin-top:16px}
+    .breakdown-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px}
+    .breakdown-row:last-child{border-bottom:none;font-weight:700;font-size:15px;color:var(--accent);padding-top:12px}
+    .installment-box{background:var(--surface2);border-radius:12px;padding:16px;margin-top:12px}
+    .installment-box h3{font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:10px}
+    .inst-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
+    .inst-row:last-child{border-bottom:none}
+    
+    .rate-table{width:100%;border-collapse:collapse;font-size:13px}
+    .rate-table th{background:var(--surface2);padding:8px 12px;text-align:center;color:var(--text-muted);font-weight:600;border:1px solid var(--border)}
+    .rate-table td{padding:8px 12px;text-align:center;border:1px solid var(--border);color:var(--text)}
+    .ad-slot{min-height:0;text-align:center;margin:16px 0}
+    .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    details{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden}
+    details summary{padding:12px 16px;cursor:pointer;font-size:14px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--surface)}
+    details summary::after{content:'＋';color:var(--accent);font-size:16px}
+    details[open] summary::after{content:'－'}
+    details 
+    @media(max-width:480px){.result-grid{grid-template-columns:1fr}.row2{grid-template-columns:1fr}}
+
+    
+    
+    
+    
+    
+    
+    
+    .ex-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+    .ex-table th{background:rgba(0,212,170,0.1);padding:8px 12px;text-align:left;color:var(--accent);font-weight:700;border:1px solid var(--border)}
+    .ex-table td{padding:8px 12px;border:1px solid var(--border);color:var(--text-muted);line-height:1.7}
+    .ex-table tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
+    .hl-box{background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.25);border-radius:10px;padding:14px 16px;margin:14px 0;font-size:13px;color:var(--text);line-height:1.8}
+    .hl-box strong{color:var(--accent)}
+    
+    
+    
+    
+    
+    
+    
+  
+
+
+
+
+
+
+
+
+
+
+
+
+    /* ── 토스 헤더 ── */
+
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
+    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+
+    .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
+    .toss-header>.emoji{font-size:28px;flex-shrink:0}
+    .toss-header h1{font-size:20px;font-weight:800;color:var(--text);margin:0}
+    .toss-header p{font-size:12px;color:var(--text-muted);margin-top:3px}
+    /* ── 토스 하단 네비 ── */
+    .toss-nav{margin-top:24px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .toss-nav-title{font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:12px}
+    .toss-nav-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+    .toss-nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;text-decoration:none;transition:all .2s}
+    .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
+    .ni-emoji{font-size:20px}
+    .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
+
+    /* ── max-scale 방지 ── */
+    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <div class="home-btn-wrap"><a href="/toss/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="toss-header">
+    <span class="emoji">🏢</span>
+    <div>
+      <h1>법인세 계산기</h1>
+      <p>2026년 세율 기준 법인세 자동 계산</p>
+    </div>
+  </div>
+
+
+<div class="card">
+<h2>📊 과세 정보 입력</h2>
+<div class="form-group">
+<label>과세표준 (만원) — 세무조정 후 당기순이익 기준</label>
+<input id="taxBase" placeholder="예: 50000 (5억)" type="number"/>
+</div>
+<div class="row2">
+<div class="form-group">
+<label>법인 유형</label>
+<select id="corpType">
+<option value="general">일반 법인</option>
+<option value="sme">중소기업</option>
+<option value="public">비영리법인</option>
+</select>
+</div>
+<div class="form-group">
+<label>사업연도</label>
+<select id="fiscalYear">
+<option value="12">12개월 (정상)</option>
+<option value="6">6개월 (반기)</option>
+<option value="3">3개월 (분기)</option>
+</select>
+</div>
+</div>
+<div class="form-group">
+<label>중간예납 기납부세액 (만원)</label>
+<input id="prepaid" placeholder="없으면 0" type="number" value="0"/>
+</div>
+<div class="form-group">
+<label>지방소득세 포함</label>
+<select id="localTaxOpt"><option value="yes">포함</option><option value="no">제외</option></select>
+</div>
+<button class="btn" onclick="calcCorporateTax()">법인세 계산</button>
+</div>
+<div class="result-card" id="result">
+<div class="result-main">
+<div class="result-label">총 납부세액 (법인세 + 지방소득세)</div>
+<div class="result-value" id="rTotal">0만원</div>
+<div class="result-sub" id="rSub"></div>
+</div>
+<div class="result-grid">
+<div class="result-item"><div class="result-item-label">법인세</div><div class="result-item-value" id="rCorp">-</div></div>
+<div class="result-item"><div class="result-item-label">지방소득세 (10%)</div><div class="result-item-value" id="rLocal">-</div></div>
+<div class="result-item"><div class="result-item-label">유효 세율</div><div class="result-item-value" id="rEffRate">-</div></div>
+<div class="result-item"><div class="result-item-label">기납부 차감 후</div><div class="result-item-value" id="rFinal">-</div></div>
+</div>
+<!-- 구간별 세액 계산 내역 -->
+<div class="breakdown-box">
+<div style="font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:8px">구간별 세액 계산</div>
+<div id="breakdownRows"></div>
+</div>
+<!-- 구간 하이라이트 표 -->
+<div style="margin-top:16px">
+<div style="font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:8px">📋 세율 구간</div>
+<table class="bracket-table">
+<thead><tr><th>과세표준</th><th>세율</th><th>누진공제</th></tr></thead>
+<tbody id="bracketTable"></tbody>
+</table>
+</div>
+<!-- 분납 시뮬레이션 -->
+<div class="installment-box">
+<h3>📅 분납 시뮬레이션 (1,000만원 초과 시 2회 분납 가능)</h3>
+<div id="installmentRows"></div>
+</div>
+</div>
+
+
+  <div class="toss-nav">
+    <div class="toss-nav-title">📌 사업자 세금 계산기</div>
+    <div class="toss-nav-grid">
+      <a href="/tax/income_tax" class="toss-nav-item"><span class="ni-emoji">📋</span><span class="ni-label">소득세</span></a>
+      <a href="/tax/vat_biz" class="toss-nav-item"><span class="ni-emoji">🧾</span><span class="ni-label">사업자부가세</span></a>
+      <a href="/tax/operating_profit" class="toss-nav-item"><span class="ni-emoji">📈</span><span class="ni-label">영업이익</span></a>
+      <a href="/tax/freelancer_tax" class="toss-nav-item"><span class="ni-emoji">💼</span><span class="ni-label">프리랜서세금</span></a>
+    </div>
+  </div>
+
+</div>
+<script>
+const fw = n => Math.round(n).toLocaleString() + '원';
+const fp = n => n.toFixed(2) + '%';
+
+function calc() {
+  const base = +document.getElementById('taxBase').value * 10000 || 0;
+  const corpType = document.getElementById('corpType').value;
+  const prepaid = +document.getElementById('prepaid').value * 10000 || 0;
+  const localOpt = document.getElementById('localTaxOpt').value;
+
+  if (!base) { alert('과세표준을 입력해주세요.'); return; }
+
+  // 2026년 법인세율 (2023 개정 반영)
+  let tax = 0;
+  const brackets = [
+    { limit: 200000000, rate: 0.09, deduct: 0 },
+    { limit: 20000000000, rate: 0.19, deduct: 20000000 },
+    { limit: 300000000000, rate: 0.21, deduct: 60000000 },
+    { limit: Infinity, rate: 0.24, deduct: 960000000 }
+  ];
+
+  // 중소기업 세액감면 (기본 적용 안함 - 별도 신청 필요)
+  for (const b of brackets) {
+    if (base <= b.limit) {
+      tax = base * b.rate - b.deduct;
+      break;
+    }
+  }
+  if (tax < 0) tax = 0;
+
+  const localTax = localOpt === 'yes' ? tax * 0.1 : 0;
+  const total = tax + localTax;
+  const finalPay = Math.max(total - prepaid, 0);
+  const effRate = base > 0 ? (total / base * 100) : 0;
+
+  document.getElementById('rTotal').textContent = fw(base);
+  document.getElementById('rSub').textContent = `법인세 ${fp(tax/base*100)} 적용`;
+  document.getElementById('rCorp').textContent = fw(tax);
+  document.getElementById('rLocal').textContent = localOpt === 'yes' ? fw(localTax) : '미포함';
+  document.getElementById('rEffRate').textContent = fp(effRate);
+  document.getElementById('rFinal').textContent = fw(finalPay);
+
+  // 세율 구간 표
+  const rows = document.getElementById('breakdownRows');
+  if (rows) {
+    rows.innerHTML = brackets.slice(0,4).map((b, i) => {
+      const names = ['2억 이하', '2억~200억', '200억~3000억', '3000억 초과'];
+      const rates = ['9%', '19%', '21%', '24%'];
+      return `<tr><td>${names[i]}</td><td>${rates[i]}</td></tr>`;
+    }).join('');
+  }
+
+  document.getElementById('result') && (document.getElementById('result').style.display = 'block');
+}
+</script>
+</body>
+</html>

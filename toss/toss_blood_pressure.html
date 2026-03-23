@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>혈압 체크</title>
+  <!-- TODO: 앱인토스 SDK 교체 -->
+  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <style>
+
+    :root {
+      --bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;
+      --accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;
+      --danger:#ff6b6b;--radius:16px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+    
+    .container{max-width:800px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .header{text-align:center;margin-bottom:48px}
+    .site-name{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:4px;color:var(--accent);text-transform:uppercase;margin-bottom:16px;opacity:.8;display:inline-block}
+    .header h1{font-size:clamp(28px,6vw,48px);font-weight:900;line-height:1.1;margin-bottom:12px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
+    .header p{font-size:14px;color:var(--text-muted)}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:20px}
+    .card-title{font-size:14px;font-weight:700;color:var(--text-muted);letter-spacing:1px;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+    .input-group{margin-bottom:20px}
+    .input-group label{display:block;font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:8px}
+    .input-wrapper{position:relative;display:flex;align-items:center}
+    .input-wrapper input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 52px 14px 16px;font-size:18px;font-weight:700;color:var(--text);font-family:'Noto Sans KR',sans-serif;outline:none;transition:border-color .2s;-moz-appearance:textfield}
+    .input-wrapper input::-webkit-outer-spin-button,.input-wrapper input::-webkit-inner-spin-button{-webkit-appearance:none}
+    .input-wrapper input:focus{border-color:rgba(0,212,170,.5);box-shadow:0 0 0 3px rgba(0,212,170,.08)}
+    .input-unit{position:absolute;right:14px;font-size:14px;font-weight:600;color:var(--text-muted)}
+    select{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-size:15px;font-weight:600;color:var(--text);font-family:'Noto Sans KR',sans-serif;outline:none;appearance:none;cursor:pointer}
+    select:focus{border-color:rgba(0,212,170,.5)}
+    .btn{width:100%;padding:18px;border:none;border-radius:12px;font-size:17px;font-weight:800;cursor:pointer;transition:all .2s;font-family:'Noto Sans KR',sans-serif;margin-top:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,212,170,.3)}
+    .result-section{display:none}
+    .result-section.show{display:block}
+    .result-card{background:linear-gradient(135deg,rgba(0,212,170,.08),rgba(0,149,255,.05));border:1px solid rgba(0,212,170,.2);border-radius:var(--radius);padding:28px;margin-bottom:20px;text-align:center}
+    .result-label{font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:10px}
+    .result-value{font-size:clamp(28px,5vw,44px);font-weight:900;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.1}
+    .result-sub{font-size:13px;color:var(--text-muted);margin-top:8px}
+    .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+    .detail-item{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px}
+    .detail-item .di-label{font-size:11px;color:var(--text-muted);margin-bottom:4px}
+    .detail-item .di-value{font-size:16px;font-weight:700;color:var(--text)}
+    .info-box{background:rgba(0,212,170,.05);border:1px solid rgba(0,212,170,.15);border-radius:10px;padding:14px 16px;margin-bottom:16px;font-size:13px;color:var(--text-muted);line-height:1.8}
+    .info-box strong{color:var(--accent)}
+    .two-btn{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .btn-sub{background:var(--surface2);color:var(--accent);border:1px solid rgba(0,212,170,.3)}
+    .btn-sub:hover{background:rgba(0,212,170,.1)}
+    @media(max-width:600px){.detail-grid{grid-template-columns:1fr}.two-btn{grid-template-columns:1fr}}
+
+    /* ── 홈 버튼 ── */
+    
+    
+    
+    
+    
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
+    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+
+    .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
+    .toss-header>.emoji{font-size:28px;flex-shrink:0}
+    .toss-header h1{font-size:20px;font-weight:800;color:var(--text);margin:0}
+    .toss-header p{font-size:12px;color:var(--text-muted);margin-top:3px}
+    .toss-nav{margin-top:24px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .toss-nav-title{font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:12px}
+    .toss-nav-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+    .toss-nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;text-decoration:none;transition:all .2s}
+    .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
+    .ni-emoji{font-size:20px}
+    .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
+
+    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="home-btn-wrap"><a href="/toss/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="toss-header">
+    <span class="emoji">❤️</span>
+    <div><h1>혈압 체크</h1><p>혈압 정상범위 확인</p></div>
+  </div>
+
+
+<div class="card">
+<div class="card-title">❤️ 혈압 입력</div>
+<div class="input-group">
+<label>수축기 혈압 (윗 혈압)</label>
+<div class="input-wrapper">
+<input id="systolic" max="250" min="60" oninput="judgeBP()" type="number" value="120"/>
+<span class="input-unit">mmHg</span>
+</div>
+</div>
+<div class="input-group">
+<label>이완기 혈압 (아랫 혈압)</label>
+<div class="input-wrapper">
+<input id="diastolic" max="150" min="40" oninput="judgeBP()" type="number" value="80"/>
+<span class="input-unit">mmHg</span>
+</div>
+</div>
+<div class="input-group">
+<label>심박수 (선택)</label>
+<div class="input-wrapper">
+<input id="heartRate" max="220" min="30" oninput="judgeBP()" placeholder="선택 입력" type="number" value=""/>
+<span class="input-unit">bpm</span>
+</div>
+</div>
+</div>
+<div class="result-card" id="bpResult" style="display:none">
+<div class="result-label" id="bpLabel">판정 결과</div>
+<div class="result-value" id="bpValue">-</div>
+<div class="result-sub" id="bpSub"></div>
+<div id="bpDetail" style="margin-top:16px"></div>
+</div>
+<div class="card">
+<div class="card-title">📊 혈압 분류 기준표 (대한고혈압학회)</div>
+<table style="width:100%;border-collapse:collapse;font-size:13px">
+<thead><tr style="background:#21262d"><th style="padding:10px;border:1px solid #30363d;color:#e6edf3">분류</th><th style="padding:10px;border:1px solid #30363d;color:#e6edf3">수축기</th><th style="padding:10px;border:1px solid #30363d;color:#e6edf3">이완기</th></tr></thead>
+<tbody>
+<tr><td style="padding:9px;border:1px solid #30363d;color:#8b949e">저혈압</td><td style="padding:9px;border:1px solid #30363d;color:#8b949e;text-align:center">90 미만</td><td style="padding:9px;border:1px solid #30363d;color:#8b949e;text-align:center">60 미만</td></tr>
+<tr><td style="padding:9px;border:1px solid #30363d;color:#00d4aa;font-weight:700">정상</td><td style="padding:9px;border:1px solid #30363d;color:#00d4aa;text-align:center;font-weight:700">120 미만</td><td style="padding:9px;border:1px solid #30363d;color:#00d4aa;text-align:center;font-weight:700">80 미만</td></tr>
+<tr><td style="padding:9px;border:1px solid #30363d;color:#8b949e">주의혈압</td><td style="padding:9px;border:1px solid #30363d;color:#8b949e;text-align:center">120~129</td><td style="padding:9px;border:1px solid #30363d;color:#8b949e;text-align:center">80 미만</td></tr>
+<tr><td style="padding:9px;border:1px solid #30363d;color:#ffa500">고혈압 전단계</td><td style="padding:9px;border:1px solid #30363d;color:#ffa500;text-align:center">130~139</td><td style="padding:9px;border:1px solid #30363d;color:#ffa500;text-align:center">80~89</td></tr>
+<tr><td style="padding:9px;border:1px solid #30363d;color:#ff6b6b">고혈압 1기</td><td style="padding:9px;border:1px solid #30363d;color:#ff6b6b;text-align:center">140~159</td><td style="padding:9px;border:1px solid #30363d;color:#ff6b6b;text-align:center">90~99</td></tr>
+<tr><td style="padding:9px;border:1px solid #30363d;color:#ff4444;font-weight:700">고혈압 2기</td><td style="padding:9px;border:1px solid #30363d;color:#ff4444;text-align:center;font-weight:700">160 이상</td><td style="padding:9px;border:1px solid #30363d;color:#ff4444;text-align:center;font-weight:700">100 이상</td></tr>
+</tbody>
+</table>
+</div>
+
+
+  <div class="toss-nav">
+    <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
+    <div class="toss-nav-grid">
+      <a href="/toss/bmi" class="toss-nav-item"><span class="ni-emoji">⚖️</span><span class="ni-label">BMI</span></a>
+      <a href="/toss/bmr" class="toss-nav-item"><span class="ni-emoji">🔥</span><span class="ni-label">기초대사량</span></a>
+      <a href="/toss/calorie" class="toss-nav-item"><span class="ni-emoji">🥗</span><span class="ni-label">칼로리</span></a>
+      <a href="/toss/age" class="toss-nav-item"><span class="ni-emoji">🎂</span><span class="ni-label">나이</span></a>
+    </div>
+  </div>
+</div>
+<script>
+function judgeBP(){
+  const sys=parseInt(document.getElementById('systolic').value)||0;
+  const dia=parseInt(document.getElementById('diastolic').value)||0;
+  const hr=parseInt(document.getElementById('heartRate').value)||0;
+  
+  let label,color,desc;
+  if(sys<90||dia<60){label='저혈압';color='#0095ff';desc='혈압이 낮습니다. 어지러움·피로가 지속되면 병원을 방문하세요.';}
+  else if(sys<120&&dia<80){label='정상 혈압 ✓';color='#00d4aa';desc='혈압이 정상 범위입니다. 건강한 생활 습관을 유지하세요.';}
+  else if(sys<130&&dia<80){label='주의 혈압';color='#f0c040';desc='정상 상단입니다. 식습관·운동으로 관리가 필요합니다.';}
+  else if(sys<140||dia<90){label='고혈압 전단계';color='#ffa500';desc='생활습관 개선이 필요합니다. 정기적으로 혈압을 체크하세요.';}
+  else if(sys<160||dia<100){label='고혈압 1기';color='#ff6b6b';desc='의사와 상담이 필요합니다. 약물 치료를 고려할 수 있습니다.';}
+  else{label='고혈압 2기';color='#ff4444';desc='즉시 의료기관을 방문하세요. 심각한 건강 위험이 있습니다.';}
+
+  let hrText='';
+  if(hr>0){
+    if(hr<60)hrText='서맥 (느린 심박수)';
+    else if(hr<100)hrText='정상 심박수';
+    else hrText='빈맥 (빠른 심박수)';
+  }
+
+  document.getElementById('bpResult').style.display='block';
+  document.getElementById('bpLabel').textContent='혈압 판정 결과';
+  document.getElementById('bpValue').style.cssText=`font-size:32px;font-weight:900;color:${color};-webkit-text-fill-color:${color}`;
+  document.getElementById('bpValue').textContent=label;
+  document.getElementById('bpSub').textContent=`${sys}/${dia} mmHg${hr?'  ·  심박수 '+hr+'bpm ('+hrText+')':''}`;
+  document.getElementById('bpDetail').innerHTML=`<div style="background:#21262d;border-radius:10px;padding:14px;font-size:13px;color:#8b949e;line-height:1.8">${desc}</div>`;
+}
+judgeBP();
+</script>
+</body>
+</html>

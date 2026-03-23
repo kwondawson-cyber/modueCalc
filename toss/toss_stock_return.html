@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>주식 수익률 계산기</title>
+  <!-- TODO: 앱인토스 SDK 교체 -->
+  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <style>
+
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--danger:#ff6b6b;--green:#00d4aa;--red:#ff6b6b;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    
+    .container{max-width:640px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .nav{text-align:center;margin-bottom:32px}.nav a{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:3px;color:var(--accent);text-decoration:none;text-transform:uppercase}
+    .header{text-align:center;margin-bottom:40px}
+    .header h1{font-size:clamp(28px,6vw,44px);font-weight:900;line-height:1.1;margin-bottom:10px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
+    .header p{color:var(--text-muted);font-size:14px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:16px}
+    .card-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:20px}
+    .tab-group{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
+    .tab-btn{padding:11px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;font-size:13px;font-weight:600;font-family:'Noto Sans KR',sans-serif;color:var(--text-muted);cursor:pointer;transition:all .2s}
+    .tab-btn.active{background:rgba(0,212,170,0.1);border-color:rgba(0,212,170,0.4);color:var(--accent)}
+    .input-group{margin-bottom:18px}
+    .input-group label{display:block;font-size:13px;font-weight:500;color:var(--text-muted);margin-bottom:7px}
+    .input-wrapper{position:relative}
+    .input-wrapper input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:13px 60px 13px 16px;font-size:20px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none;transition:border-color .2s}
+    .input-wrapper input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,170,0.1)}
+    .input-unit{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--text-muted);font-weight:500;pointer-events:none}
+    .input-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .calc-btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;font-size:16px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:#000;cursor:pointer;transition:transform .15s,box-shadow .15s;margin-top:4px}
+    .calc-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,212,170,0.3)}
+    .result-card{display:none;animation:fadeUp .4s ease}.result-card.visible{display:block}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .result-highlight{border-radius:var(--radius);padding:24px 28px;text-align:center;margin-bottom:16px;border:1px solid}
+    .result-highlight.profit{background:linear-gradient(135deg,rgba(0,212,170,0.1),rgba(0,149,255,0.05));border-color:rgba(0,212,170,0.3)}
+    .result-highlight.loss{background:linear-gradient(135deg,rgba(255,107,107,0.1),rgba(255,50,50,0.05));border-color:rgba(255,107,107,0.3)}
+    .r-label{font-size:12px;font-weight:700;letter-spacing:1px;margin-bottom:8px;text-transform:uppercase}
+    .r-label.profit{color:var(--green)}.r-label.loss{color:var(--red)}
+    .r-rate{font-family:'Montserrat',sans-serif;font-size:clamp(40px,8vw,60px);font-weight:900}
+    .r-rate.profit{color:var(--green)}.r-rate.loss{color:var(--red)}
+    .r-sub{font-size:13px;color:var(--text-muted);margin-top:6px}
+    .detail-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);font-size:14px}
+    .detail-item:last-child{border-bottom:none}
+    .detail-item .d-label{color:var(--text-muted)}
+    .detail-item .d-value{font-weight:700}.detail-item .d-value.green{color:var(--green)}.detail-item .d-value.red{color:var(--red)}
+    @media(max-width:480px){.card{padding:20px 16px}.input-row{grid-template-columns:1fr}}
+
+    /* ── 홈 버튼 ── */
+    
+    
+    
+    
+    
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
+    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+
+    .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
+    .toss-header>.emoji{font-size:28px;flex-shrink:0}
+    .toss-header h1{font-size:20px;font-weight:800;color:var(--text);margin:0}
+    .toss-header p{font-size:12px;color:var(--text-muted);margin-top:3px}
+    .toss-nav{margin-top:24px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .toss-nav-title{font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:12px}
+    .toss-nav-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+    .toss-nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;text-decoration:none;transition:all .2s}
+    .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
+    .ni-emoji{font-size:20px}
+    .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
+
+    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="home-btn-wrap"><a href="/toss/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="toss-header">
+    <span class="emoji">📉</span>
+    <div><h1>주식 수익률 계산기</h1><p>매수가·매도가·수익률 계산</p></div>
+  </div>
+
+
+
+<div class="card">
+<div class="card-title">거래 정보</div>
+<div class="tab-group">
+<button class="tab-btn active" id="tab-kr" onclick="setMarket('kr')">🇰🇷 국내 주식</button>
+<button class="tab-btn" id="tab-us" onclick="setMarket('us')">🇺🇸 해외 주식</button>
+</div>
+<div class="input-row">
+<div class="input-group">
+<label>매수가</label>
+<div class="input-wrapper"><input id="buyPrice" type="number" value="50000"/><span class="input-unit" id="unit1">원</span></div>
+</div>
+<div class="input-group">
+<label>매도가</label>
+<div class="input-wrapper"><input id="sellPrice" type="number" value="65000"/><span class="input-unit" id="unit2">원</span></div>
+</div>
+</div>
+<div class="input-row">
+<div class="input-group">
+<label>수량</label>
+<div class="input-wrapper"><input id="qty" min="1" type="number" value="100"/><span class="input-unit">주</span></div>
+</div>
+<div class="input-group">
+<label>수수료율</label>
+<div class="input-wrapper"><input id="feeRate" step="0.001" type="number" value="0.015"/><span class="input-unit">%</span></div>
+</div>
+</div>
+<button class="calc-btn" onclick="calculate()">📈 수익률 계산하기</button>
+</div>
+<div class="result-card" id="resultCard">
+<div class="result-highlight" id="resultHighlight">
+<div class="r-label" id="r-label">수익률</div>
+<div class="r-rate" id="r-rate">-</div>
+<div class="r-sub" id="r-sub">-</div>
+</div>
+<div class="card">
+<div class="card-title">손익 상세</div>
+<div class="detail-item"><span class="d-label">매수 총액</span><span class="d-value" id="d-buy">-</span></div>
+<div class="detail-item"><span class="d-label">매도 총액</span><span class="d-value" id="d-sell">-</span></div>
+<div class="detail-item"><span class="d-label">수수료 합계</span><span class="d-value" id="d-fee">-</span></div>
+<div class="detail-item"><span class="d-label">세금</span><span class="d-value" id="d-tax">-</span></div>
+<div class="detail-item"><span class="d-label">세후 순이익</span><span class="d-value" id="d-net">-</span></div>
+<div class="detail-item"><span class="d-label">실질 수익률</span><span class="d-value" id="d-realrate">-</span></div>
+</div>
+</div>
+
+  <div class="toss-nav">
+    <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
+    <div class="toss-nav-grid">
+      <a href="/toss/etf_return" class="toss-nav-item"><span class="ni-emoji">📈</span><span class="ni-label">ETF</span></a>
+      <a href="/toss/dividend" class="toss-nav-item"><span class="ni-emoji">💵</span><span class="ni-label">배당금</span></a>
+      <a href="/toss/compound" class="toss-nav-item"><span class="ni-emoji">📊</span><span class="ni-label">복리</span></a>
+      <a href="/toss/exchange" class="toss-nav-item"><span class="ni-emoji">💱</span><span class="ni-label">환율</span></a>
+    </div>
+  </div>
+</div>
+<script>
+let market='kr';
+  function setMarket(m){
+    market=m;
+    document.getElementById('tab-kr').classList.toggle('active',m==='kr');
+    document.getElementById('tab-us').classList.toggle('active',m==='us');
+    const unit=m==='kr'?'원':'$';
+    document.getElementById('unit1').textContent=unit;
+    document.getElementById('unit2').textContent=unit;
+  }
+  function fmt(n,m){return m==='us'?'$'+Math.abs(n).toFixed(2):Math.round(Math.abs(n)).toLocaleString('ko-KR')+'원'}
+  function calculate(){
+    const buy=parseFloat(document.getElementById('buyPrice').value)||0;
+    const sell=parseFloat(document.getElementById('sellPrice').value)||0;
+    const qty=parseFloat(document.getElementById('qty').value)||0;
+    const feeRate=parseFloat(document.getElementById('feeRate').value)/100||0;
+    const buyTotal=buy*qty;
+    const sellTotal=sell*qty;
+    const fee=(buyTotal+sellTotal)*feeRate;
+    // 세금: 국내 증권거래세 0.18%(코스피), 해외 양도세 22%
+    let tax=0,taxLabel='';
+    if(market==='kr'){
+      tax=sellTotal*0.0018;taxLabel='증권거래세 0.18%';
+    } else {
+      const gain=sellTotal-buyTotal-fee;
+      if(gain>0){tax=gain*0.22;taxLabel='해외주식 양도세 22%';}
+    }
+    const profit=sellTotal-buyTotal-fee-tax;
+    const rate=((profit/buyTotal)*100).toFixed(2);
+    const isProfit=profit>=0;
+    const rh=document.getElementById('resultHighlight');
+    rh.className='result-highlight '+(isProfit?'profit':'loss');
+    document.getElementById('r-label').className='r-label '+(isProfit?'profit':'loss');
+    document.getElementById('r-label').textContent=isProfit?'수익률':'손실률';
+    document.getElementById('r-rate').className='r-rate '+(isProfit?'profit':'loss');
+    document.getElementById('r-rate').textContent=(isProfit?'+':'')+rate+'%';
+    document.getElementById('r-sub').textContent=`세후 순손익: ${isProfit?'+':''}${fmt(profit,market)}`;
+    document.getElementById('d-buy').textContent=fmt(buyTotal,market);
+    document.getElementById('d-sell').textContent=fmt(sellTotal,market);
+    document.getElementById('d-fee').textContent=`-${fmt(fee,market)}`;
+    document.getElementById('d-tax').textContent=tax>0?`-${fmt(tax,market)} (${taxLabel})`:'없음';
+    document.getElementById('d-net').innerHTML=`<span class="${isProfit?'green':'red'}">${isProfit?'+':''}${fmt(profit,market)}</span>`;
+    document.getElementById('d-realrate').innerHTML=`<span class="${isProfit?'green':'red'}">${isProfit?'+':''}${rate}%</span>`;
+    const rc=document.getElementById('resultCard');rc.classList.add('visible');
+  }
+  window.onload=()=>calculate();
+</script>
+</body>
+</html>

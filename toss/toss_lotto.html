@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>로또 당첨금 계산기</title>
+  <!-- TODO: 앱인토스 SDK 교체 -->
+  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <style>
+
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    
+    .container{max-width:640px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    
+    
+    
+    
+    
+    .header{text-align:center;margin-bottom:40px}
+    .header h1{font-size:clamp(28px,6vw,44px);font-weight:900;line-height:1.1;margin-bottom:10px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
+    .header p{color:var(--text-muted);font-size:14px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:16px}
+    .card-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:20px}
+    .input-group{margin-bottom:18px}
+    .input-group label{display:block;font-size:13px;font-weight:500;color:var(--text-muted);margin-bottom:7px}
+    .input-wrapper{position:relative}
+    .input-wrapper input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:13px 60px 13px 16px;font-size:20px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none;transition:border-color .2s}
+    .input-wrapper input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,170,0.1)}
+    .input-unit{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--text-muted);font-weight:500;pointer-events:none}
+    select{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:13px 16px;font-size:16px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:var(--text);outline:none;cursor:pointer;transition:border-color .2s}
+    select:focus{border-color:var(--accent)}
+    .info-box{background:rgba(0,149,255,0.06);border:1px solid rgba(0,149,255,0.15);border-radius:10px;padding:12px 16px;font-size:12px;color:var(--text-muted);margin-bottom:18px;line-height:1.8}
+    .calc-btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;font-size:16px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:#000;cursor:pointer;transition:transform .15s,box-shadow .15s}
+    .calc-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,212,170,0.3)}
+    .result-card{display:none;animation:fadeUp .4s ease}.result-card.visible{display:block}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .big-result{text-align:center;padding:24px;background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.04));border:1px solid rgba(0,212,170,0.3);border-radius:14px;margin-bottom:16px}
+    .big-result .br-label{font-size:13px;color:var(--text-muted);margin-bottom:8px}
+    .big-result .br-value{font-family:'Montserrat',sans-serif;font-size:40px;font-weight:900;color:var(--accent)}
+    .big-result .br-unit{font-size:16px;color:var(--text-muted);margin-top:4px}
+    .detail-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);font-size:14px}
+    .detail-item:last-child{border-bottom:none}
+    .detail-item .d-label{color:var(--text-muted)}
+    .detail-item .d-value{font-weight:700}
+    .detail-item .d-value.accent{color:var(--accent)}
+    .detail-item .d-value.red{color:#ff6b6b}
+    .prize-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+    .prize-table th{background:var(--surface2);color:var(--text-muted);padding:8px 10px;text-align:left;border:1px solid var(--border)}
+    .prize-table td{padding:8px 10px;border:1px solid var(--border);color:var(--text-muted)}
+    .prize-table tr:nth-child(1) td{color:var(--accent);font-weight:700}
+    .notice{margin-top:16px;padding:13px 16px;background:rgba(255,165,0,0.05);border:1px solid rgba(255,165,0,0.15);border-radius:10px;font-size:12px;color:var(--text-muted);line-height:1.7}
+    @media(max-width:480px){.card{padding:20px 16px}}
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
+    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+
+    .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
+    .toss-header>.emoji{font-size:28px;flex-shrink:0}
+    .toss-header h1{font-size:20px;font-weight:800;color:var(--text);margin:0}
+    .toss-header p{font-size:12px;color:var(--text-muted);margin-top:3px}
+    .toss-nav{margin-top:24px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .toss-nav-title{font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:12px}
+    .toss-nav-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+    .toss-nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;text-decoration:none;transition:all .2s}
+    .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
+    .ni-emoji{font-size:20px}
+    .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
+
+    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="home-btn-wrap"><a href="/toss/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="toss-header">
+    <span class="emoji">🎰</span>
+    <div><h1>로또 당첨금 계산기</h1><p>세후 실수령 당첨금 계산</p></div>
+  </div>
+
+
+
+<div class="card">
+<div class="card-title">🎰 당첨 정보 입력</div>
+<div class="input-group">
+<label>당첨 등수</label>
+<select id="grade">
+<option value="1">1등 (6개 일치)</option>
+<option value="2">2등 (5개+보너스 일치)</option>
+<option value="3">3등 (5개 일치)</option>
+<option value="4">4등 (4개 일치) — 고정 5만원</option>
+<option value="5">5등 (3개 일치) — 고정 5천원</option>
+</select>
+</div>
+<div class="input-group" id="amountGroup">
+<label>당첨금액 (세전)</label>
+<div class="input-wrapper">
+<input id="amount" min="0" type="number" value="2000000000"/>
+<span class="input-unit">원</span>
+</div>
+</div>
+<div class="info-box">
+      💡 <strong>200만원 이하</strong>: 비과세<br/>
+<strong>200만원 초과 ~ 3억원</strong>: 소득세 20% + 지방소득세 2% = <strong>22%</strong><br/>
+<strong>3억원 초과분</strong>: 소득세 30% + 지방소득세 3% = <strong>33%</strong><br/>
+      4등(5만원)·5등(5천원)은 비과세입니다.
+    </div>
+<button class="calc-btn" onclick="calcLotto()">🎱 실수령액 계산하기</button>
+</div>
+<div class="card result-card" id="resultCard">
+<div class="card-title">💰 계산 결과</div>
+<div class="big-result">
+<div class="br-label">세후 실수령액</div>
+<div class="br-value" id="netAmount">—</div>
+<div class="br-unit">원</div>
+</div>
+<div class="detail-item"><span class="d-label">세전 당첨금</span><span class="d-value" id="r-gross">—</span></div>
+<div class="detail-item"><span class="d-label">3억 이하 구간 세금 (22%)</span><span class="d-value red" id="r-tax22">—</span></div>
+<div class="detail-item"><span class="d-label">3억 초과 구간 세금 (33%)</span><span class="d-value red" id="r-tax33">—</span></div>
+<div class="detail-item"><span class="d-label">세금 합계</span><span class="d-value red" id="r-tax">—</span></div>
+<div class="detail-item"><span class="d-label">실효세율</span><span class="d-value" id="r-effective">—</span></div>
+<div class="detail-item"><span class="d-label" style="font-weight:700;color:var(--text)">실수령액</span><span class="d-value accent" id="r-net">—</span></div>
+</div>
+<div class="card">
+<div class="card-title">📊 등수별 고정 당첨금 안내</div>
+<table class="prize-table">
+<tr><th>등수</th><th>조건</th><th>당첨금</th><th>세금</th></tr>
+<tr><td>1등</td><td>6개 일치</td><td>변동 (수십억)</td><td>22% (3억↑ 초과분 33%)</td></tr>
+<tr><td>2등</td><td>5개+보너스</td><td>변동 (수억)</td><td>22% (통상 3억 이하)</td></tr>
+<tr><td>3등</td><td>5개 일치</td><td>변동 (수백만)</td><td>22% (200만원 초과 시)</td></tr>
+<tr><td>4등</td><td>4개 일치</td><td>50,000원</td><td>없음 (비과세)</td></tr>
+<tr><td>5등</td><td>3개 일치</td><td>5,000원</td><td>없음 (비과세)</td></tr>
+</table>
+<div class="notice">⚠️ 당첨금은 매주 판매금액에 따라 변동됩니다. 위 계산기는 실제 당첨금 입력 시 세후 금액을 계산합니다. 로또 당첨금 확인은 동행복권 공식 사이트를 이용하세요.</div>
+</div>
+
+  <div class="toss-nav">
+    <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
+    <div class="toss-nav-grid">
+      <a href="/toss/income_tax" class="toss-nav-item"><span class="ni-emoji">🧮</span><span class="ni-label">소득세</span></a>
+      <a href="/toss/compound" class="toss-nav-item"><span class="ni-emoji">📊</span><span class="ni-label">복리</span></a>
+      <a href="/toss/savings" class="toss-nav-item"><span class="ni-emoji">💳</span><span class="ni-label">적금</span></a>
+      <a href="/toss/age" class="toss-nav-item"><span class="ni-emoji">🎂</span><span class="ni-label">나이</span></a>
+    </div>
+  </div>
+</div>
+<script>
+function calcLottoTax(gross) {
+  // 200만원 이하 비과세
+  if (gross <= 2000000) return { tax22: 0, tax33: 0, total: 0 };
+
+  const THRESHOLD = 300000000; // 3억
+  let tax22 = 0, tax33 = 0;
+
+  if (gross <= THRESHOLD) {
+    // 전액 22% 구간
+    tax22 = Math.floor(gross * 0.22);
+  } else {
+    // 3억까지 22%, 초과분 33%
+    tax22 = Math.floor(THRESHOLD * 0.22);
+    tax33 = Math.floor((gross - THRESHOLD) * 0.33);
+  }
+  return { tax22, tax33, total: tax22 + tax33 };
+}
+
+function calcLotto() {
+  const grade = parseInt(document.getElementById('grade').value);
+  let gross = 0;
+  if (grade === 4) gross = 50000;
+  else if (grade === 5) gross = 5000;
+  else gross = parseFloat(document.getElementById('amount').value) || 0;
+
+  const fmt = v => v.toLocaleString('ko-KR') + '원';
+
+  // 4·5등 비과세
+  if (grade >= 4) {
+    document.getElementById('netAmount').textContent = gross.toLocaleString('ko-KR');
+    document.getElementById('r-gross').textContent  = fmt(gross);
+    document.getElementById('r-tax22').textContent  = '해당없음 (비과세)';
+    document.getElementById('r-tax33').textContent  = '해당없음 (비과세)';
+    document.getElementById('r-tax').textContent    = '0원';
+    document.getElementById('r-effective').textContent = '0%';
+    document.getElementById('r-net').textContent    = fmt(gross);
+    document.getElementById('resultCard').classList.add('visible');
+    return;
+  }
+
+  const { tax22, tax33, total } = calcLottoTax(gross);
+  const net = gross - total;
+  const effective = gross > 0 ? ((total / gross) * 100).toFixed(1) : '0';
+
+  document.getElementById('netAmount').textContent = net.toLocaleString('ko-KR');
+  document.getElementById('r-gross').textContent  = fmt(gross);
+  document.getElementById('r-tax22').textContent  = tax22 > 0 ? '-' + fmt(tax22) : '해당없음';
+  document.getElementById('r-tax33').textContent  = tax33 > 0 ? '-' + fmt(tax33) : '해당없음 (3억 이하)';
+  document.getElementById('r-tax').textContent    = '-' + fmt(total);
+  document.getElementById('r-effective').textContent = effective + '%';
+  document.getElementById('r-net').textContent    = fmt(net);
+
+  document.getElementById('resultCard').classList.add('visible');
+}
+
+document.getElementById('grade').addEventListener('change', function() {
+  const ag = document.getElementById('amountGroup');
+  ag.style.display = (this.value >= 4) ? 'none' : 'block';
+});
+</script>
+</body>
+</html>

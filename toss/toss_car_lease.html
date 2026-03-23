@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>자동차 리스 계산기</title>
+  <!-- TODO: 앱인토스 SDK 교체 -->
+  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <style>
+
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--danger:#ff6b6b;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+    
+    .container{max-width:800px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .header{text-align:center;margin-bottom:48px}
+    .header h1{font-size:clamp(28px,6vw,48px);font-weight:900;line-height:1.1;margin-bottom:12px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
+    .header p{color:var(--text-muted);font-size:15px;font-weight:300}
+    .tab-group{display:flex;gap:4px;background:var(--surface2);border-radius:12px;padding:4px;margin-bottom:20px}
+    .tab-btn{flex:1;padding:12px;background:transparent;border:none;border-radius:9px;color:var(--text-muted);font-size:14px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .2s}
+    .tab-btn.active{background:var(--surface);color:var(--accent);box-shadow:0 2px 8px rgba(0,0,0,0.3)}
+    .tab-panel{display:none}
+    .tab-panel.active{display:block}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:32px;margin-bottom:20px}
+    .card-title{font-size:13px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:24px}
+    .input-group{margin-bottom:24px}
+    .input-group label{display:block;font-size:14px;font-weight:500;color:var(--text-muted);margin-bottom:8px}
+    .input-wrapper{position:relative}
+    .input-wrapper input,.input-wrapper select{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:16px 70px 16px 20px;font-size:22px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none;transition:border-color .2s,box-shadow .2s}
+    .input-wrapper select{font-size:16px;font-family:'Noto Sans KR',sans-serif;cursor:pointer}
+    .input-wrapper input:focus,.input-wrapper select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,170,0.1)}
+    .input-wrapper select option{background:var(--surface2)}
+    .input-unit{position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--text-muted);font-weight:500;pointer-events:none}
+    .row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    @media(max-width:480px){.row2{grid-template-columns:1fr}}
+    .btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#000;font-size:17px;font-weight:800;font-family:'Noto Sans KR',sans-serif;cursor:pointer;margin-top:4px;transition:opacity .2s}
+    .btn:hover{opacity:.9}
+    .result-card{background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.25);border-radius:var(--radius);padding:32px;margin-top:20px;display:none}
+    .result-card.visible{display:block}
+    .result-main{text-align:center;margin-bottom:24px}
+    .result-label{font-size:13px;color:var(--text-muted);margin-bottom:8px}
+    .result-value{font-family:'Montserrat',sans-serif;font-size:42px;font-weight:900;color:var(--accent)}
+    .result-value span{font-size:20px;font-weight:700}
+    .result-sub{font-size:13px;color:var(--text-muted);margin-top:6px}
+    .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+    @media(max-width:480px){.result-grid{grid-template-columns:1fr}}
+    .result-item{background:var(--surface2);border-radius:10px;padding:16px;text-align:center}
+    .result-item-label{font-size:11px;color:var(--text-muted);margin-bottom:6px}
+    .result-item-value{font-size:18px;font-weight:700;color:var(--text);font-family:'Montserrat',sans-serif}
+    .compare-table{width:100%;border-collapse:collapse;margin-top:16px;font-size:13px}
+    .compare-table th{background:var(--surface2);padding:12px;text-align:center;color:var(--text-muted);font-weight:600;border:1px solid var(--border)}
+    .compare-table td{padding:12px;text-align:center;border:1px solid var(--border);color:var(--text)}
+    .affiliate-box{background:linear-gradient(135deg,rgba(0,149,255,0.1),rgba(0,212,170,0.06));border:1px solid rgba(0,149,255,0.3);border-radius:12px;padding:18px;margin-top:20px;text-align:center}
+    .affiliate-box p{font-size:13px;color:var(--text-muted);margin-bottom:12px}
+    .affiliate-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+    .affiliate-btn{display:inline-block;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:800;text-decoration:none;font-family:'Noto Sans KR',sans-serif}
+    .affiliate-btn-primary{background:linear-gradient(135deg,var(--accent2),var(--accent));color:#000}
+    .affiliate-btn-secondary{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
+    details{border:1px solid var(--border);border-radius:10px;margin-bottom:10px;overflow:hidden}
+    details summary{padding:14px 18px;cursor:pointer;font-size:14px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center}
+    details summary::after{content:'＋';color:var(--accent);font-size:16px}
+    details[open] summary::after{content:'－'}
+    details 
+    
+    
+    
+    
+    
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
+    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+
+    .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
+    .toss-header>.emoji{font-size:28px;flex-shrink:0}
+    .toss-header h1{font-size:20px;font-weight:800;color:var(--text);margin:0}
+    .toss-header p{font-size:12px;color:var(--text-muted);margin-top:3px}
+    .toss-nav{margin-top:24px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .toss-nav-title{font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:12px}
+    .toss-nav-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+    .toss-nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;text-decoration:none;transition:all .2s}
+    .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
+    .ni-emoji{font-size:20px}
+    .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
+
+    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="home-btn-wrap"><a href="/toss/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="toss-header">
+    <span class="emoji">🔑</span>
+    <div><h1>자동차 리스 계산기</h1><p>리스·장기렌트 비용 비교</p></div>
+  </div>
+
+
+
+<div class="tab-group">
+<button class="tab-btn active" onclick="switchTab('rent', this)">장기렌트</button>
+<button class="tab-btn" onclick="switchTab('lease', this)">운용리스</button>
+<button class="tab-btn" onclick="switchTab('compare', this)">3가지 비교</button>
+</div>
+<div class="tab-panel active" id="tab-rent">
+<div class="card">
+<div class="card-title">🚗 장기렌트 계산</div>
+<div class="input-group"><label>차량 가격</label><div class="input-wrapper"><input id="r-price" placeholder="3500" type="number"/><span class="input-unit">만원</span></div></div>
+<div class="row2">
+<div class="input-group"><label>계약 기간</label><div class="input-wrapper"><select id="r-term"><option value="36">36개월</option><option selected="" value="48">48개월</option><option value="60">60개월</option></select></div></div>
+<div class="input-group"><label>선납금 비율</label><div class="input-wrapper"><input id="r-prepay" placeholder="20" type="number" value="20"/><span class="input-unit">%</span></div></div>
+</div>
+<div class="row2">
+<div class="input-group"><label>보증금 비율</label><div class="input-wrapper"><input id="r-deposit" placeholder="10" type="number" value="10"/><span class="input-unit">%</span></div></div>
+<div class="input-group"><label>잔존가치 비율</label><div class="input-wrapper"><input id="r-residual" placeholder="40" type="number" value="40"/><span class="input-unit">%</span></div></div>
+</div>
+<div class="input-group"><label>렌트료 금리 (연)</label><div class="input-wrapper"><input id="r-rate" placeholder="7.5" step="0.1" type="number" value="7.5"/><span class="input-unit">%</span></div></div>
+<button class="btn" onclick="calcRent()">계산하기</button>
+</div>
+<div class="result-card" id="result-rent">
+<div class="result-main">
+<div class="result-label">월 렌트료</div>
+<div class="result-value" id="rr-monthly">0<span>만원</span></div>
+<div class="result-sub" id="rr-sub"></div>
+</div>
+<div class="result-grid">
+<div class="result-item"><div class="result-item-label">선납금</div><div class="result-item-value" id="rr-prepay">-</div></div>
+<div class="result-item"><div class="result-item-label">보증금 (만기 환급)</div><div class="result-item-value" id="rr-deposit">-</div></div>
+<div class="result-item"><div class="result-item-label">총 납입액</div><div class="result-item-value" id="rr-total">-</div></div>
+<div class="result-item"><div class="result-item-label">실제 비용</div><div class="result-item-value" id="rr-real">-</div></div>
+</div>
+<div class="affiliate-box">
+<p>💡 렌트사별 조건이 달라요. 여러 견적을 비교해보세요.</p>
+</div>
+</div>
+</div>
+<div class="tab-panel" id="tab-lease">
+<div class="card">
+<div class="card-title">📄 운용리스 계산</div>
+<div class="input-group"><label>차량 가격</label><div class="input-wrapper"><input id="l-price" placeholder="3500" type="number"/><span class="input-unit">만원</span></div></div>
+<div class="row2">
+<div class="input-group"><label>계약 기간</label><div class="input-wrapper"><select id="l-term"><option value="36">36개월</option><option selected="" value="48">48개월</option><option value="60">60개월</option></select></div></div>
+<div class="input-group"><label>잔존가치 비율</label><div class="input-wrapper"><input id="l-residual" placeholder="45" type="number" value="45"/><span class="input-unit">%</span></div></div>
+</div>
+<div class="input-group"><label>리스료 금리 (연)</label><div class="input-wrapper"><input id="l-rate" placeholder="5.5" step="0.1" type="number" value="5.5"/><span class="input-unit">%</span></div></div>
+<button class="btn" onclick="calcLease()">계산하기</button>
+</div>
+<div class="result-card" id="result-lease">
+<div class="result-main">
+<div class="result-label">월 리스료</div>
+<div class="result-value" id="rl-monthly">0<span>만원</span></div>
+<div class="result-sub" id="rl-sub"></div>
+</div>
+<div class="result-grid">
+<div class="result-item"><div class="result-item-label">리스 원금</div><div class="result-item-value" id="rl-principal">-</div></div>
+<div class="result-item"><div class="result-item-label">만기 잔존가치</div><div class="result-item-value" id="rl-residual">-</div></div>
+<div class="result-item"><div class="result-item-label">총 납입액</div><div class="result-item-value" id="rl-total">-</div></div>
+<div class="result-item"><div class="result-item-label">총 이자</div><div class="result-item-value" id="rl-interest">-</div></div>
+</div>
+</div>
+</div>
+<div class="tab-panel" id="tab-compare">
+<div class="card">
+<div class="card-title">⚖️ 할부 vs 렌트 vs 리스 비교</div>
+<div class="input-group"><label>차량 가격</label><div class="input-wrapper"><input id="c-price" placeholder="3500" type="number"/><span class="input-unit">만원</span></div></div>
+<div class="row2">
+<div class="input-group"><label>선납/선수금</label><div class="input-wrapper"><input id="c-down" type="number" value="0"/><span class="input-unit">만원</span></div></div>
+<div class="input-group"><label>계약 기간</label><div class="input-wrapper"><select id="c-term"><option value="36">36개월</option><option selected="" value="48">48개월</option><option value="60">60개월</option></select></div></div>
+</div>
+<button class="btn" onclick="calcCompare()">비교하기</button>
+</div>
+<div class="result-card" id="result-compare">
+<table class="compare-table">
+<thead><tr><th>구분</th><th>할부</th><th>장기렌트</th><th>운용리스</th></tr></thead>
+<tbody>
+<tr><td>월 납입금</td><td id="c-monthly-h">-</td><td id="c-monthly-r">-</td><td id="c-monthly-l">-</td></tr>
+<tr><td>초기 비용</td><td id="c-init-h">-</td><td id="c-init-r">-</td><td id="c-init-l">-</td></tr>
+<tr><td>총 비용</td><td id="c-total-h">-</td><td id="c-total-r">-</td><td id="c-total-l">-</td></tr>
+<tr><td>차량 소유</td><td>✅ 내 차</td><td>❌ 렌트사</td><td>❌ 리스사</td></tr>
+<tr><td>보험·세금</td><td>직접 부담</td><td>렌트사 포함</td><td>직접 부담</td></tr>
+<tr><td>세금 혜택</td><td>없음</td><td>사업자 가능</td><td>사업자 가능</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+  <div class="toss-nav">
+    <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
+    <div class="toss-nav-grid">
+      <a href="/toss/car_installment" class="toss-nav-item"><span class="ni-emoji">🚙</span><span class="ni-label">자동차할부</span></a>
+      <a href="/toss/car_tax" class="toss-nav-item"><span class="ni-emoji">🚗</span><span class="ni-label">자동차세</span></a>
+      <a href="/toss/fuel_economy" class="toss-nav-item"><span class="ni-emoji">⛽</span><span class="ni-label">연비</span></a>
+      <a href="/toss/loan" class="toss-nav-item"><span class="ni-emoji">🏦</span><span class="ni-label">대출이자</span></a>
+    </div>
+  </div>
+</div>
+<script>
+function fmt(n){return Math.round(n).toLocaleString()+'만원';}
+function switchTab(name, el) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  el.classList.add('active');
+}
+function calcRent(){
+  const price=+document.getElementById('r-price').value;
+  const term=+document.getElementById('r-term').value;
+  const prepayPct=+document.getElementById('r-prepay').value/100;
+  const depPct=+document.getElementById('r-deposit').value/100;
+  const resPct=+document.getElementById('r-residual').value/100;
+  const rate=+document.getElementById('r-rate').value/100/12;
+  if(!price){alert('차량 가격을 입력해주세요.');return;}
+  const prepay=price*prepayPct, dep=price*depPct, residual=price*resPct;
+  const principal=price-prepay-dep-residual;
+  const monthly=rate===0?principal/term:principal*rate*Math.pow(1+rate,term)/(Math.pow(1+rate,term)-1);
+  const total=prepay+dep+monthly*term;
+  document.getElementById('rr-monthly').innerHTML=Math.round(monthly).toLocaleString()+'<span>만원</span>';
+  document.getElementById('rr-sub').textContent=`${term}개월 · 연 ${document.getElementById('r-rate').value}%`;
+  document.getElementById('rr-prepay').textContent=fmt(prepay);
+  document.getElementById('rr-deposit').textContent=fmt(dep);
+  document.getElementById('rr-total').textContent=fmt(total);
+  document.getElementById('rr-real').textContent=fmt(total-dep);
+  document.getElementById('result-rent').classList.add('visible');
+}
+function calcLease(){
+  const price=+document.getElementById('l-price').value;
+  const term=+document.getElementById('l-term').value;
+  const resPct=+document.getElementById('l-residual').value/100;
+  const rate=+document.getElementById('l-rate').value/100/12;
+  if(!price){alert('차량 가격을 입력해주세요.');return;}
+  const residual=price*resPct, principal=price-residual;
+  const monthly=rate===0?principal/term:principal*rate*Math.pow(1+rate,term)/(Math.pow(1+rate,term)-1);
+  const total=monthly*term;
+  document.getElementById('rl-monthly').innerHTML=Math.round(monthly).toLocaleString()+'<span>만원</span>';
+  document.getElementById('rl-sub').textContent=`${term}개월 · 연 ${document.getElementById('l-rate').value}%`;
+  document.getElementById('rl-principal').textContent=fmt(principal);
+  document.getElementById('rl-residual').textContent=fmt(residual);
+  document.getElementById('rl-total').textContent=fmt(total);
+  document.getElementById('rl-interest').textContent=fmt(total-principal);
+  document.getElementById('result-lease').classList.add('visible');
+}
+function calcCompare(){
+  const price=+document.getElementById('c-price').value;
+  const down=+document.getElementById('c-down').value||0;
+  const term=+document.getElementById('c-term').value;
+  if(!price){alert('차량 가격을 입력해주세요.');return;}
+  const hr=5.9/100/12, hPrincipal=price-down;
+  const hMonthly=hPrincipal*hr*Math.pow(1+hr,term)/(Math.pow(1+hr,term)-1);
+  const rPrepay=price*0.2,rDep=price*0.1,rRes=price*0.4,rr=7.5/100/12;
+  const rPrincipal=price-rPrepay-rDep-rRes;
+  const rMonthly=rPrincipal*rr*Math.pow(1+rr,term)/(Math.pow(1+rr,term)-1);
+  const lRes=price*0.45,lr=5.5/100/12,lPrincipal=price-lRes;
+  const lMonthly=lPrincipal*lr*Math.pow(1+lr,term)/(Math.pow(1+lr,term)-1);
+  document.getElementById('c-monthly-h').textContent=fmt(hMonthly);
+  document.getElementById('c-monthly-r').textContent=fmt(rMonthly);
+  document.getElementById('c-monthly-l').textContent=fmt(lMonthly);
+  document.getElementById('c-init-h').textContent=fmt(down);
+  document.getElementById('c-init-r').textContent=fmt(rPrepay+rDep);
+  document.getElementById('c-init-l').textContent='0만원';
+  document.getElementById('c-total-h').textContent=fmt(down+hMonthly*term);
+  document.getElementById('c-total-r').textContent=fmt(rPrepay+rMonthly*term);
+  document.getElementById('c-total-l').textContent=fmt(lMonthly*term);
+  document.getElementById('result-compare').classList.add('visible');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>실업급여 계산기</title>
+  <!-- TODO: 앱인토스 SDK 교체 -->
+  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <style>
+
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --surface2: #21262d;
+      --border: #30363d;
+      --accent: #00d4aa;
+      --accent2: #0095ff;
+      --text: #e6edf3;
+      --text-muted: #8b949e;
+      --danger: #ff6b6b;
+      --warning: #ffa500;
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+      position: relative;
+      z-index: 1;
+    }
+    .nav { text-align: center; margin-bottom: 32px; }
+    .nav a {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: var(--accent);
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+    .header { text-align: center; margin-bottom: 40px; }
+    .header h1 {
+      font-size: clamp(28px, 6vw, 44px);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .header p { color: var(--text-muted); font-size: 14px; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 20px;
+    }
+    .card-title {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .input-group { margin-bottom: 20px; }
+    .input-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .input-wrapper { position: relative; }
+    .input-wrapper input {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 70px 14px 18px;
+      font-size: 18px;
+      font-weight: 700;
+      font-family: 'Montserrat', sans-serif;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .input-wrapper input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0,212,170,0.1);
+    }
+    .input-unit {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+      pointer-events: none;
+    }
+    .select-wrapper select {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-size: 15px;
+      font-weight: 500;
+      font-family: 'Noto Sans KR', sans-serif;
+      color: var(--text);
+      outline: none;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .select-wrapper select:focus { border-color: var(--accent); }
+    .input-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .calc-btn {
+      width: 100%;
+      padding: 18px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border: none;
+      border-radius: 12px;
+      font-size: 17px;
+      font-weight: 700;
+      font-family: 'Noto Sans KR', sans-serif;
+      color: #000;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .calc-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0,212,170,0.3);
+    }
+    /* 결과 */
+    .result-card { display: none; animation: fadeUp 0.4s ease; }
+    .result-card.visible { display: block; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .result-highlight {
+      background: linear-gradient(135deg, rgba(0,212,170,0.1), rgba(0,149,255,0.05));
+      border: 1px solid rgba(0,212,170,0.3);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      margin-bottom: 20px;
+    }
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .result-main .r-label {
+      font-size: 13px;
+      color: var(--accent);
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .result-main .r-amount {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(32px, 7vw, 48px);
+      font-weight: 900;
+      color: #fff;
+    }
+    .result-main .r-amount span { font-size: 18px; color: var(--text-muted); font-weight: 500; }
+    .result-sub { text-align: right; }
+    .result-sub .rs-label { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+    .result-sub .rs-value {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .detail-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 15px;
+    }
+    .detail-item:last-child { border-bottom: none; }
+    .detail-item .d-label { color: var(--text-muted); }
+    .detail-item .d-value { font-weight: 700; }
+    .detail-item .d-value.accent { color: var(--accent); }
+    .detail-item .d-value.danger { color: var(--danger); }
+    /* 조건 체크 */
+    .condition-box {
+      background: var(--surface2);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .condition-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      letter-spacing: 1px;
+    }
+    .condition-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      font-size: 14px;
+    }
+    .cond-icon { font-size: 16px; }
+    .notice {
+      margin-top: 20px;
+      padding: 14px 18px;
+      background: rgba(255,165,0,0.05);
+      border: 1px solid rgba(255,165,0,0.15);
+      border-radius: 10px;
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+    @media (max-width: 500px) {
+      .input-row { grid-template-columns: 1fr; }
+      .card { padding: 24px 20px; }
+      .result-row { flex-direction: column; }
+      .result-sub { text-align: left; }
+    }
+
+    /* ── 홈 버튼 ── */
+    
+    
+    
+    
+    
+      .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
+    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+
+    .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
+    .toss-header>.emoji{font-size:28px;flex-shrink:0}
+    .toss-header h1{font-size:20px;font-weight:800;color:var(--text);margin:0}
+    .toss-header p{font-size:12px;color:var(--text-muted);margin-top:3px}
+    .toss-nav{margin-top:24px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .toss-nav-title{font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:12px}
+    .toss-nav-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+    .toss-nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;text-decoration:none;transition:all .2s}
+    .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
+    .ni-emoji{font-size:20px}
+    .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
+
+    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="home-btn-wrap"><a href="/toss/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="toss-header">
+    <span class="emoji">📋</span>
+    <div><h1>실업급여 계산기</h1><p>실업급여 수급액·기간 계산</p></div>
+  </div>
+
+
+
+<div class="card">
+<div class="card-title">근무 정보</div>
+<div class="input-group">
+<label>퇴직 전 3개월 월 평균 급여 (세전)</label>
+<div class="input-wrapper">
+<input id="avgSalary" type="number" value="3000000"/>
+<span class="input-unit">원</span>
+</div>
+</div>
+<div class="input-row">
+<div class="input-group">
+<label>고용보험 가입 기간</label>
+<div class="select-wrapper">
+<select id="insuredPeriod">
+<option value="6">6개월 이상 ~ 1년 미만</option>
+<option selected="" value="12">1년 이상 ~ 3년 미만</option>
+<option value="36">3년 이상 ~ 5년 미만</option>
+<option value="60">5년 이상 ~ 10년 미만</option>
+<option value="120">10년 이상</option>
+</select>
+</div>
+</div>
+<div class="input-group">
+<label>나이</label>
+<div class="select-wrapper">
+<select id="age">
+<option value="young">만 50세 미만</option>
+<option value="old">만 50세 이상 / 장애인</option>
+</select>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label>퇴직 사유</label>
+<div class="select-wrapper">
+<select id="reason">
+<option value="qualified">비자발적 퇴직 (권고사직, 계약만료 등)</option>
+<option value="unqualified">자발적 퇴직 (개인 사정)</option>
+</select>
+</div>
+</div>
+<button class="calc-btn" onclick="calculate()">📋 실업급여 계산하기</button>
+</div>
+<div class="result-card" id="resultCard">
+<div id="notQualified" style="display:none">
+<div class="card" style="border-color:rgba(255,107,107,0.3); background:rgba(255,107,107,0.05)">
+<div style="text-align:center; padding: 20px 0;">
+<div style="font-size:48px; margin-bottom:16px">😢</div>
+<div style="font-size:18px; font-weight:700; color:var(--danger); margin-bottom:8px">실업급여 수급 불가</div>
+<div style="font-size:14px; color:var(--text-muted)">자발적 퇴직의 경우 원칙적으로 실업급여를 받을 수 없습니다.<br/>단, 직장 내 괴롭힘, 임금 미지급 등 정당한 사유가 있는 경우<br/>고용센터에 문의하세요.</div>
+</div>
+</div>
+</div>
+<div id="qualified">
+<div class="result-highlight">
+<div class="result-row">
+<div class="result-main">
+<div class="r-label">1일 실업급여</div>
+<div class="r-amount" id="r-daily">—<span>원</span></div>
+</div>
+<div class="result-sub">
+<div class="rs-label">총 예상 수령액</div>
+<div class="rs-value" id="r-total">—원</div>
+<div class="rs-label" style="margin-top:8px">수급 기간</div>
+<div class="rs-value" id="r-period">—일</div>
+</div>
+</div>
+</div>
+<div class="card">
+<div class="card-title">계산 상세</div>
+<div class="detail-item">
+<span class="d-label">1일 평균임금</span>
+<span class="d-value" id="d-avgDaily">-</span>
+</div>
+<div class="detail-item">
+<span class="d-label">1일 실업급여 (평균임금 60%)</span>
+<span class="d-value accent" id="d-benefit">-</span>
+</div>
+<div class="detail-item">
+<span class="d-label">상한액 적용</span>
+<span class="d-value" id="d-upper">-</span>
+</div>
+<div class="detail-item">
+<span class="d-label">하한액 적용</span>
+<span class="d-value" id="d-lower">-</span>
+</div>
+<div class="detail-item">
+<span class="d-label">소정급여일수</span>
+<span class="d-value accent" id="d-days">-</span>
+</div>
+<div class="detail-item">
+<span class="d-label">월 예상 수령액</span>
+<span class="d-value" id="d-monthly">-</span>
+</div>
+</div>
+<div class="condition-box">
+<div class="condition-title">✅ 실업급여 수급 조건</div>
+<div class="condition-item">
+<span class="cond-icon">✅</span>
+<span>고용보험 피보험 단위기간 합산 180일 이상</span>
+</div>
+<div class="condition-item">
+<span class="cond-icon">✅</span>
+<span>비자발적 이직 (권고사직, 계약만료, 폐업 등)</span>
+</div>
+<div class="condition-item">
+<span class="cond-icon">✅</span>
+<span>근로 의사 및 능력이 있음에도 취업하지 못한 상태</span>
+</div>
+<div class="condition-item">
+<span class="cond-icon">✅</span>
+<span>재취업 활동을 적극적으로 할 것</span>
+</div>
+</div>
+</div>
+<div class="notice">
+<strong style="color:orange">⚠️ 안내</strong> 본 계산기는 2026년 고용보험법 기준으로 계산됩니다. 1일 상한액 <strong style="color:var(--text)">68,100원</strong>, 하한액은 최저임금의 80% 기준입니다. 실제 수급액은 고용센터 심사 결과에 따라 다를 수 있습니다.
+      </div>
+</div>
+
+  <div class="toss-nav">
+    <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
+    <div class="toss-nav-grid">
+      <a href="/toss/salary" class="toss-nav-item"><span class="ni-emoji">💰</span><span class="ni-label">연봉</span></a>
+      <a href="/toss/retirement" class="toss-nav-item"><span class="ni-emoji">🏦</span><span class="ni-label">퇴직금</span></a>
+      <a href="/toss/health_insurance" class="toss-nav-item"><span class="ni-emoji">🏥</span><span class="ni-label">건강보험</span></a>
+      <a href="/toss/hourly_salary" class="toss-nav-item"><span class="ni-emoji">⏰</span><span class="ni-label">시급</span></a>
+    </div>
+  </div>
+</div>
+<script>
+function fmt(n) { return Math.round(n).toLocaleString('ko-KR'); }
+
+    // 소정급여일수 테이블 (가입기간 × 나이)
+    function getBenefitDays(months, isOld) {
+      if (months < 12) return isOld ? 180 : 120;
+      if (months < 36) return isOld ? 210 : 150;
+      if (months < 60) return isOld ? 240 : 180;
+      if (months < 120) return isOld ? 270 : 210;
+      return isOld ? 330 : 240;
+    }
+
+    function calculate() {
+      const avgSalary = parseFloat(document.getElementById('avgSalary').value) || 0;
+      const insuredMonths = parseInt(document.getElementById('insuredPeriod').value);
+      const isOld = document.getElementById('age').value === 'old';
+      const reason = document.getElementById('reason').value;
+
+      const notQualified = document.getElementById('notQualified');
+      const qualified = document.getElementById('qualified');
+
+      if (reason === 'unqualified') {
+        notQualified.style.display = 'block';
+        qualified.style.display = 'none';
+        document.getElementById('resultCard').classList.add('visible');
+        return;
+      }
+
+      notQualified.style.display = 'none';
+      qualified.style.display = 'block';
+
+      // 1일 평균임금 = 월급 × 3 / 91일
+      const dailyAvg = (avgSalary * 3) / 91;
+
+      // 1일 실업급여 = 1일 평균임금 × 60%
+      let dailyBenefit = dailyAvg * 0.6;
+
+      // 상한액: 68,100원 / 하한액: 최저임금(10,320원) × 8시간 × 80%
+      const upperLimit = 68100;
+      const lowerLimit = Math.round(10320 * 8 * 0.8); // 66,048원
+      const upperApplied = dailyBenefit > upperLimit;
+      const lowerApplied = dailyBenefit < lowerLimit;
+
+      dailyBenefit = Math.min(Math.max(dailyBenefit, lowerLimit), upperLimit);
+
+      // 소정급여일수
+      const benefitDays = getBenefitDays(insuredMonths, isOld);
+      const totalBenefit = dailyBenefit * benefitDays;
+      const monthlyBenefit = dailyBenefit * 30;
+
+      // 결과 표시
+      document.getElementById('r-daily').innerHTML = `${fmt(dailyBenefit)}<span>원</span>`;
+      document.getElementById('r-total').textContent = `${fmt(totalBenefit)}원`;
+      document.getElementById('r-period').textContent = `${benefitDays}일`;
+      document.getElementById('d-avgDaily').textContent = `${fmt(dailyAvg)}원`;
+      document.getElementById('d-benefit').textContent = `${fmt(dailyAvg * 0.6)}원`;
+      document.getElementById('d-upper').textContent = upperApplied ? `적용 (${fmt(upperLimit)}원으로 제한)` : '미적용';
+      document.getElementById('d-lower').textContent = lowerApplied ? `적용 (${fmt(lowerLimit)}원으로 보장)` : '미적용';
+      document.getElementById('d-days').textContent = `${benefitDays}일`;
+      document.getElementById('d-monthly').textContent = `약 ${fmt(monthlyBenefit)}원`;
+
+      document.getElementById('resultCard').classList.add('visible');
+    }
+
+    window.onload = () => calculate();
+</script>
+</body>
+</html>

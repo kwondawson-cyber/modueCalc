@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>소득세 계산기</title>
+  <!-- TODO: 앱인토스 SDK — 콘솔 발급 코드로 교체 -->
+  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <style>
+
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    
+    .container{max-width:640px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    
+    .header{text-align:center;margin-bottom:40px}
+    .header h1{font-size:clamp(28px,6vw,44px);font-weight:900;line-height:1.1;margin-bottom:10px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
+    .header p{color:var(--text-muted);font-size:14px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:16px}
+    .card-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:20px}
+    .tab-group{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:22px}
+    .tab-btn{padding:12px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;font-size:14px;font-weight:600;font-family:'Noto Sans KR',sans-serif;color:var(--text-muted);cursor:pointer;transition:all .2s}
+    .tab-btn.active{background:rgba(0,212,170,0.1);border-color:rgba(0,212,170,0.4);color:var(--accent)}
+    .panel{display:none}.panel.active{display:block}
+    .input-group{margin-bottom:18px}
+    .input-group label{display:block;font-size:13px;font-weight:500;color:var(--text-muted);margin-bottom:7px}
+    .input-wrapper{position:relative}
+    .input-wrapper input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:13px 60px 13px 16px;font-size:20px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none;transition:border-color .2s}
+    .input-wrapper input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,170,0.1)}
+    .input-unit{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--text-muted);font-weight:500}
+    .select-wrapper select{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:13px 16px;font-size:15px;font-weight:500;font-family:'Noto Sans KR',sans-serif;color:var(--text);outline:none;cursor:pointer}
+    .info-box{background:rgba(0,149,255,0.06);border:1px solid rgba(0,149,255,0.15);border-radius:10px;padding:12px 16px;font-size:12px;color:var(--text-muted);margin-bottom:18px;line-height:1.8}
+    .calc-btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;font-size:16px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:#000;cursor:pointer;transition:transform .15s,box-shadow .15s}
+    .calc-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,212,170,0.3)}
+    .result-card{display:none;animation:fadeUp .4s ease}.result-card.visible{display:block}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .result-highlight{background:linear-gradient(135deg,rgba(0,212,170,0.1),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.3);border-radius:var(--radius);padding:24px 28px;text-align:center;margin-bottom:16px}
+    .r-label{font-size:12px;color:var(--accent);font-weight:700;letter-spacing:1px;margin-bottom:8px}
+    .r-amount{font-family:'Montserrat',sans-serif;font-size:clamp(32px,7vw,50px);font-weight:900;color:#fff}
+    .r-amount span{font-size:18px;color:var(--text-muted)}
+    .r-sub{font-size:13px;color:var(--text-muted);margin-top:8px}
+    .detail-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);font-size:14px}
+    .detail-item:last-child{border-bottom:none}
+    .detail-item .d-label{color:var(--text-muted)}
+    .detail-item .d-value{font-weight:700}.detail-item .d-value.accent{color:var(--accent)}
+    .tax-table{width:100%;border-collapse:collapse;font-size:12px}
+    .tax-table th{text-align:left;padding:8px 10px;color:var(--text-muted);font-size:11px;border-bottom:1px solid var(--border)}
+    .tax-table td{padding:9px 10px;border-bottom:1px solid rgba(48,54,61,0.5)}
+    .tax-table tr:last-child td{border-bottom:none}
+    .tax-table tr.current td{background:rgba(0,212,170,0.07);color:var(--accent);font-weight:700}
+    .notice{margin-top:16px;padding:13px 16px;background:rgba(255,165,0,0.05);border:1px solid rgba(255,165,0,0.15);border-radius:10px;font-size:12px;color:var(--text-muted);line-height:1.7}
+    @media(max-width:480px){.card{padding:20px 16px}}
+
+    /* ── 홈 버튼 ── */
+    
+    
+    
+    
+    
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /* ── 토스 헤더 ── */
+
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
+    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+
+    .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
+    .toss-header>.emoji{font-size:28px;flex-shrink:0}
+    .toss-header h1{font-size:20px;font-weight:800;color:var(--text);margin:0}
+    .toss-header p{font-size:12px;color:var(--text-muted);margin-top:3px}
+    /* ── 토스 하단 네비 ── */
+    .toss-nav{margin-top:24px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .toss-nav-title{font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:12px}
+    .toss-nav-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+    .toss-nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;text-decoration:none;transition:all .2s}
+    .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
+    .ni-emoji{font-size:20px}
+    .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
+
+    /* ── max-scale 방지 ── */
+    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <div class="home-btn-wrap"><a href="/toss/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="toss-header">
+    <span class="emoji">🧮</span>
+    <div>
+      <h1>소득세 계산기</h1>
+      <p>종합소득세·근로소득세 계산</p>
+    </div>
+  </div>
+
+
+<div class="card">
+<div class="tab-group">
+<button class="tab-btn active" id="tab-income" onclick="switchTab('income')">📊 종합소득세</button>
+<button class="tab-btn" id="tab-other" onclick="switchTab('other')">💸 기타소득세</button>
+</div>
+<!-- 종합소득세 -->
+<div class="panel active" id="panel-income">
+<div class="input-group">
+<label>연간 종합소득금액</label>
+<div class="input-wrapper"><input id="totalIncome" type="number" value="50000000"/><span class="input-unit">원</span></div>
+</div>
+<div class="input-group">
+<label>인적공제 인원 (본인 포함)</label>
+<div class="select-wrapper">
+<select id="deductPeople">
+<option selected="" value="1">1명 (본인만)</option>
+<option value="2">2명</option>
+<option value="3">3명</option>
+<option value="4">4명</option>
+<option value="5">5명 이상</option>
+</select>
+</div>
+</div>
+<div class="input-group">
+<label>기타 공제 금액 (보험료·의료비·교육비 등)</label>
+<div class="input-wrapper"><input id="extraDeduct" type="number" value="0"/><span class="input-unit">원</span></div>
+</div>
+<div class="info-box">📌 기본공제 1인당 150만원 · 표준세액공제 7만원 별도 적용</div>
+<button class="calc-btn" onclick="calcIncome()">📊 종합소득세 계산</button>
+</div>
+<!-- 기타소득세 -->
+<div class="panel" id="panel-other">
+<div class="input-group">
+<label>기타소득 수입금액</label>
+<div class="input-wrapper"><input id="otherIncome" type="number" value="5000000"/><span class="input-unit">원</span></div>
+</div>
+<div class="input-group">
+<label>소득 종류</label>
+<div class="select-wrapper">
+<select id="otherType" onchange="updateOtherHint()">
+<option value="0.6">강연료·원고료·사례금 (필요경비 60%)</option>
+<option value="0.8">인적용역 (필요경비 80%)</option>
+<option value="0.0">복권당첨·상금·포상금 (경비 없음)</option>
+</select>
+</div>
+</div>
+<div class="info-box" id="otherHint">📌 기타소득세율 20% (지방소득세 포함 22%) · 연 300만원 이하 분리과세 선택 가능</div>
+<button class="calc-btn" onclick="calcOther()">💸 기타소득세 계산</button>
+</div>
+</div>
+<div class="result-card" id="resultCard">
+<div class="result-highlight">
+<div class="r-label" id="r-label">납부세액</div>
+<div class="r-amount" id="r-amount">-<span>원</span></div>
+<div class="r-sub" id="r-sub">-</div>
+</div>
+<div class="card" id="detailCard">
+<div class="card-title">계산 내역</div>
+<div id="detailBody"></div>
+</div>
+<div class="card" id="taxTableCard">
+<div class="card-title">종합소득세 세율표</div>
+<table class="tax-table">
+<thead><tr><th>과세표준</th><th>세율</th><th>누진공제</th></tr></thead>
+<tbody>
+<tr data-max="14000000"><td>1,400만원 이하</td><td>6%</td><td>-</td></tr>
+<tr data-max="50000000"><td>1,400 ~ 5,000만원</td><td>15%</td><td>126만원</td></tr>
+<tr data-max="88000000"><td>5,000 ~ 8,800만원</td><td>24%</td><td>576만원</td></tr>
+<tr data-max="150000000"><td>8,800 ~ 1.5억</td><td>35%</td><td>1,544만원</td></tr>
+<tr data-max="300000000"><td>1.5억 ~ 3억</td><td>38%</td><td>1,994만원</td></tr>
+<tr data-max="500000000"><td>3억 ~ 5억</td><td>40%</td><td>2,594만원</td></tr>
+<tr data-max="1000000000"><td>5억 ~ 10억</td><td>42%</td><td>3,594만원</td></tr>
+<tr data-max="Infinity"><td>10억 초과</td><td>45%</td><td>6,594만원</td></tr>
+</tbody>
+</table>
+</div>
+<div class="notice">⚠️ 본 계산기는 간편 계산용입니다. 세무사 상담을 권장합니다.</div>
+</div>
+
+
+  <div class="toss-nav">
+    <div class="toss-nav-title">📌 사업자 세금 계산기</div>
+    <div class="toss-nav-grid">
+      <a href="/tax/freelancer_tax" class="toss-nav-item"><span class="ni-emoji">💼</span><span class="ni-label">프리랜서세금</span></a>
+      <a href="/tax/vat_biz" class="toss-nav-item"><span class="ni-emoji">🧾</span><span class="ni-label">사업자부가세</span></a>
+      <a href="/tax/corporate_tax" class="toss-nav-item"><span class="ni-emoji">🏢</span><span class="ni-label">법인세</span></a>
+      <a href="/tax/gift_tax" class="toss-nav-item"><span class="ni-emoji">🎁</span><span class="ni-label">증여세</span></a>
+    </div>
+  </div>
+
+</div>
+<script>
+let currentTab = 'income';
+  function switchTab(tab) {
+    currentTab = tab;
+    ['income','other'].forEach(t => {
+      document.getElementById('tab-'+t).classList.toggle('active', t===tab);
+      document.getElementById('panel-'+t).classList.toggle('active', t===tab);
+    });
+    document.getElementById('resultCard').classList.remove('visible');
+  }
+
+  function updateOtherHint() {
+    const v = document.getElementById('otherType').value;
+    const h = document.getElementById('otherHint');
+    if (v === '0.6') h.innerHTML = '📌 필요경비 <strong>60%</strong> 인정 → 과세표준 = 수입 × 40% · 세율 20%';
+    else if (v === '0.8') h.innerHTML = '📌 필요경비 <strong>80%</strong> 인정 → 과세표준 = 수입 × 20% · 세율 20%';
+    else h.innerHTML = '📌 필요경비 <strong>없음</strong> → 과세표준 = 전액 · 3억 이하 20%, 초과 30%';
+  }
+
+  function fmt(n) { return Math.round(n).toLocaleString('ko-KR'); }
+
+  const brackets = [
+    {max:14000000, rate:0.06, deduct:0},
+    {max:50000000, rate:0.15, deduct:1260000},
+    {max:88000000, rate:0.24, deduct:5760000},
+    {max:150000000, rate:0.35, deduct:15440000},
+    {max:300000000, rate:0.38, deduct:19940000},
+    {max:500000000, rate:0.40, deduct:25940000},
+    {max:1000000000, rate:0.42, deduct:35940000},
+    {max:Infinity, rate:0.45, deduct:65940000},
+  ];
+
+  function calcIncomeTax(taxable) {
+    for (const b of brackets) {
+      if (taxable <= b.max) {
+        return Math.max(0, Math.round(taxable * b.rate - b.deduct));
+      }
+    }
+    return 0;
+  }
+
+  function highlightBracket(taxable) {
+    document.querySelectorAll('.tax-table tbody tr').forEach(tr => {
+      tr.classList.remove('current');
+      const max = parseFloat(tr.dataset.max);
+      const prev = brackets[brackets.findIndex(b=>b.max===max)-1];
+      const min = prev ? prev.max : 0;
+      if (taxable > min && taxable <= max) tr.classList.add('current');
+    });
+  }
+
+  function calcIncome() {
+    const income = parseFloat(document.getElementById('totalIncome').value) || 0;
+    const people = parseInt(document.getElementById('deductPeople').value) || 1;
+    const extra = parseFloat(document.getElementById('extraDeduct').value) || 0;
+    const personalDeduct = people * 1500000;
+    const taxable = Math.max(0, income - personalDeduct - extra);
+    const tax = calcIncomeTax(taxable);
+    const localTax = Math.round(tax * 0.1);
+    const total = tax + localTax;
+    const effectiveRate = income > 0 ? (total / income * 100).toFixed(2) : 0;
+
+    document.getElementById('r-label').textContent = '종합소득세 + 지방소득세';
+    document.getElementById('r-amount').innerHTML = `${fmt(total)}<span>원</span>`;
+    document.getElementById('r-sub').textContent = `실효세율 ${effectiveRate}% · 지방소득세 ${fmt(localTax)}원 포함`;
+
+    document.getElementById('detailBody').innerHTML = `
+      <div class="detail-item"><span class="d-label">종합소득금액</span><span class="d-value">${fmt(income)}원</span></div>
+      <div class="detail-item"><span class="d-label">인적공제 (${people}명)</span><span class="d-value">-${fmt(personalDeduct)}원</span></div>
+      <div class="detail-item"><span class="d-label">기타공제</span><span class="d-value">-${fmt(extra)}원</span></div>
+      <div class="detail-item"><span class="d-label">과세표준</span><span class="d-value">${fmt(taxable)}원</span></div>
+      <div class="detail-item"><span class="d-label">소득세</span><span class="d-value accent">${fmt(tax)}원</span></div>
+      <div class="detail-item"><span class="d-label">지방소득세 (10%)</span><span class="d-value">${fmt(localTax)}원</span></div>
+      <div class="detail-item"><span class="d-label">총 납부세액</span><span class="d-value accent">${fmt(total)}원</span></div>
+    `;
+
+    highlightBracket(taxable);
+    document.getElementById('taxTableCard').style.display = 'block';
+    const rc = document.getElementById('resultCard');
+    rc.classList.add('visible');
+  }
+
+  function calcOther() {
+    const income = parseFloat(document.getElementById('otherIncome').value) || 0;
+    const expenseRate = parseFloat(document.getElementById('otherType').value);
+    const expense = income * expenseRate;
+    const taxable = income - expense;
+    const rate = income > 300000000 && expenseRate === 0 ? 0.3 : 0.2;
+    const tax = Math.round(taxable * rate);
+    const localTax = Math.round(tax * 0.1);
+    const total = tax + localTax;
+    const withhold = Math.round(tax * 1.1); // 원천징수 포함
+
+    document.getElementById('r-label').textContent = '기타소득세 + 지방소득세';
+    document.getElementById('r-amount').innerHTML = `${fmt(total)}<span>원</span>`;
+    document.getElementById('r-sub').textContent = income <= 3000000 ? '※ 연 300만원 이하 — 분리과세 또는 종합과세 선택 가능' : '※ 연 300만원 초과 — 종합소득 합산 필수';
+
+    document.getElementById('detailBody').innerHTML = `
+      <div class="detail-item"><span class="d-label">수입금액</span><span class="d-value">${fmt(income)}원</span></div>
+      <div class="detail-item"><span class="d-label">필요경비 (${(expenseRate*100).toFixed(0)}%)</span><span class="d-value">-${fmt(expense)}원</span></div>
+      <div class="detail-item"><span class="d-label">기타소득금액 (과세표준)</span><span class="d-value">${fmt(taxable)}원</span></div>
+      <div class="detail-item"><span class="d-label">기타소득세 (${(rate*100).toFixed(0)}%)</span><span class="d-value accent">${fmt(tax)}원</span></div>
+      <div class="detail-item"><span class="d-label">지방소득세 (10%)</span><span class="d-value">${fmt(localTax)}원</span></div>
+      <div class="detail-item"><span class="d-label">총 납부세액</span><span class="d-value accent">${fmt(total)}원</span></div>
+      <div class="detail-item"><span class="d-label">원천징수 예상액</span><span class="d-value">${fmt(withhold)}원</span></div>
+    `;
+
+    document.getElementById('taxTableCard').style.display = 'none';
+    const rc = document.getElementById('resultCard');
+    rc.classList.add('visible');
+  }
+</script>
+</body>
+</html>

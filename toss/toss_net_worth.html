@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>순자산 계산기</title>
+  <!-- TODO: 앱인토스 SDK 교체 -->
+  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <style>
+
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--danger:#ff6b6b;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    
+    .container{max-width:700px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .header h1 .emoji{-webkit-text-fill-color:initial;background:none}
+    .header{text-align:center;margin-bottom:40px}
+    .header h1{font-size:clamp(26px,6vw,42px);font-weight:900;line-height:1.1;margin-bottom:10px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .header p{color:var(--text-muted);font-size:14px}.input-comma{font-size:12px;color:var(--accent);margin-top:5px;font-weight:700;min-height:15px;letter-spacing:.3px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 32px;margin-bottom:20px}
+    .card-title{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:20px}
+    .item-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+    .item-row label{flex:1;font-size:14px;color:var(--text-muted)}
+    .item-row input{width:160px;flex-shrink:0;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:15px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none;text-align:right;transition:border-color .2s}
+    .item-row input:focus{border-color:var(--accent)}
+    @media(max-width:480px){.item-row label{font-size:13px}.item-row input{width:130px;font-size:14px}}
+    .section-sum{display:flex;justify-content:flex-end;padding:10px 0;border-top:1px solid var(--border);margin-top:8px;font-size:14px;color:var(--text-muted)}
+    .section-sum strong{color:var(--accent);font-family:'Montserrat',sans-serif;margin-left:8px}
+    .calc-btn{width:100%;padding:17px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;font-size:16px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:#000;cursor:pointer;margin-top:6px;transition:transform .15s,box-shadow .15s}
+    .calc-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,212,170,0.3)}
+    .result-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 32px;margin-bottom:20px;display:none}
+    .result-card.visible{display:block}
+    .result-title{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:20px}
+    .main-result{text-align:center;padding:24px;border-radius:14px;margin-bottom:20px}
+    .main-result .label{font-size:13px;color:var(--text-muted);margin-bottom:8px}
+    .main-result .big{font-size:38px;font-weight:900;font-family:'Montserrat',sans-serif}
+    .result-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:18px}
+    @media(max-width:480px){.result-grid{grid-template-columns:1fr 1fr}}
+    .result-item{background:var(--surface2);border-radius:12px;padding:14px;text-align:center}
+    .result-item .label{font-size:11px;color:var(--text-muted);margin-bottom:4px}
+    .result-item .value{font-size:16px;font-weight:900;font-family:'Montserrat',sans-serif}
+    .grade-bar{margin-top:16px;padding:16px 18px;border-radius:12px;line-height:1.8;font-size:13px;color:var(--text-muted)}
+    .grade-a{background:rgba(0,212,170,0.07);border:1px solid rgba(0,212,170,0.25)}
+    .grade-b{background:rgba(0,149,255,0.07);border:1px solid rgba(0,149,255,0.25)}
+    .grade-c{background:rgba(255,215,0,0.07);border:1px solid rgba(255,215,0,0.25)}
+    .grade-d{background:rgba(255,107,107,0.07);border:1px solid rgba(255,107,107,0.25)}
+    /* rel/aff */
+    
+
+
+
+
+
+
+    
+    
+    
+    
+    
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
+    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+
+    .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
+    .toss-header>.emoji{font-size:28px;flex-shrink:0}
+    .toss-header h1{font-size:20px;font-weight:800;color:var(--text);margin:0}
+    .toss-header p{font-size:12px;color:var(--text-muted);margin-top:3px}
+    .toss-nav{margin-top:24px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .toss-nav-title{font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:12px}
+    .toss-nav-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+    .toss-nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;text-decoration:none;transition:all .2s}
+    .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
+    .ni-emoji{font-size:20px}
+    .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
+
+    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="home-btn-wrap"><a href="/toss/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="toss-header">
+    <span class="emoji">💎</span>
+    <div><h1>순자산 계산기</h1><p>자산 부채 순자산 계산</p></div>
+  </div>
+
+
+
+<!-- 자산 -->
+<div class="card">
+<div class="card-title">📈 자산 입력</div>
+<div class="item-row"><label>🏠 부동산 (아파트·빌라·토지 등)</label><input id="a1" oninput="liveSum();showComma(this)" type="number" value="0"/></div>
+<div class="input-comma" id="a1_c"></div>
+<div class="item-row"><label>💵 예금·적금·CMA</label><input id="a2" oninput="liveSum();showComma(this)" type="number" value="0"/></div>
+<div class="input-comma" id="a2_c"></div>
+<div class="item-row"><label>📊 주식·ETF·펀드·연금</label><input id="a3" oninput="liveSum();showComma(this)" type="number" value="0"/></div>
+<div class="input-comma" id="a3_c"></div>
+<div class="item-row"><label>🚗 자동차 (시세 기준)</label><input id="a4" oninput="liveSum();showComma(this)" type="number" value="0"/></div>
+<div class="input-comma" id="a4_c"></div>
+<div class="item-row"><label>🏦 퇴직금 (예상액)</label><input id="a5" oninput="liveSum();showComma(this)" type="number" value="0"/></div>
+<div class="input-comma" id="a5_c"></div>
+<div class="item-row"><label>📦 기타 자산</label><input id="a6" oninput="liveSum();showComma(this)" type="number" value="0"/></div>
+<div class="input-comma" id="a6_c"></div>
+<div class="section-sum">자산 합계 <strong id="totalAsset">0원</strong></div>
+</div>
+<!-- 부채 -->
+<div class="card">
+<div class="card-title">📉 부채 입력</div>
+<div class="item-row"><label>🏠 주택담보대출 잔액</label><input id="d1" oninput="liveSum();showComma(this)" type="number" value="0"/></div>
+<div class="input-comma" id="d1_c"></div>
+<div class="item-row"><label>🏦 전세자금대출 잔액</label><input id="d2" oninput="liveSum();showComma(this)" type="number" value="0"/></div>
+<div class="input-comma" id="d2_c"></div>
+<div class="item-row"><label>💳 신용대출·마이너스통장</label><input id="d3" oninput="liveSum();showComma(this)" type="number" value="0"/></div>
+<div class="input-comma" id="d3_c"></div>
+<div class="item-row"><label>🚗 자동차 할부 잔액</label><input id="d4" oninput="liveSum();showComma(this)" type="number" value="0"/></div>
+<div class="input-comma" id="d4_c"></div>
+<div class="item-row"><label>💸 학자금 대출 잔액</label><input id="d5" oninput="liveSum();showComma(this)" type="number" value="0"/></div>
+<div class="input-comma" id="d5_c"></div>
+<div class="item-row"><label>📦 기타 부채</label><input id="d6" oninput="liveSum();showComma(this)" type="number" value="0"/></div>
+<div class="input-comma" id="d6_c"></div>
+<div class="section-sum">부채 합계 <strong id="totalDebt">0원</strong></div>
+</div>
+<button class="calc-btn" onclick="calc()">💰 순자산 &amp; 재무 건강도 분석</button>
+<div class="result-card" id="resultCard">
+<div class="result-title">분석 결과</div>
+<div class="main-result" id="mainResult">
+<div class="label">순자산 (자산 — 부채)</div>
+<div class="big" id="r-net">—</div>
+<div style="font-size:13px;color:var(--text-muted);margin-top:4px">원</div>
+</div>
+<div class="result-grid">
+<div class="result-item">
+<div class="label">총 자산</div>
+<div class="value" id="r-asset" style="color:var(--accent)">—</div>
+</div>
+<div class="result-item">
+<div class="label">총 부채</div>
+<div class="value" id="r-debt" style="color:var(--danger)">—</div>
+</div>
+<div class="result-item">
+<div class="label">부채 비율</div>
+<div class="value" id="r-ratio">—</div>
+</div>
+</div>
+<div class="grade-bar" id="gradeBadge"></div>
+</div>
+
+  <div class="toss-nav">
+    <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
+    <div class="toss-nav-grid">
+      <a href="/toss/compound" class="toss-nav-item"><span class="ni-emoji">📊</span><span class="ni-label">복리</span></a>
+      <a href="/toss/savings" class="toss-nav-item"><span class="ni-emoji">💳</span><span class="ni-label">적금</span></a>
+      <a href="/toss/loan" class="toss-nav-item"><span class="ni-emoji">🏦</span><span class="ni-label">대출이자</span></a>
+      <a href="/toss/retirement_pension" class="toss-nav-item"><span class="ni-emoji">💎</span><span class="ni-label">퇴직연금</span></a>
+    </div>
+  </div>
+</div>
+<script>
+function fmt(n) {
+    const abs = Math.abs(n);
+    const eok = Math.floor(abs / 100000000);
+    const man = Math.round((abs % 100000000) / 10000);
+    const sign = n < 0 ? '-' : '';
+    if (eok > 0 && man > 0) return sign + eok + '억 ' + man.toLocaleString() + '만';
+    if (eok > 0) return sign + eok + '억';
+    return sign + man.toLocaleString() + '만';
+  }
+
+  function getSum(ids) {
+    return ids.reduce((s, id) => s + (parseFloat(document.getElementById(id).value) || 0), 0);
+  }
+
+  function liveSum() {
+    const a = getSum(['a1','a2','a3','a4','a5','a6']);
+    const d = getSum(['d1','d2','d3','d4','d5','d6']);
+    document.getElementById('totalAsset').textContent = fmt(a) + '원';
+    document.getElementById('totalDebt').textContent = fmt(d) + '원';
+  }
+
+
+  function showComma(el) {
+    const v = parseFloat(el.value) || 0;
+    const cid = el.id + '_c';
+    const disp = document.getElementById(cid);
+    if (!disp) return;
+    if (v === 0) { disp.textContent = ''; return; }
+    let s = '';
+    const abs = Math.abs(v);
+    const sign = v < 0 ? '-' : '';
+    if (abs >= 100000000) {
+      const eok = Math.floor(abs / 100000000);
+      const man = Math.round((abs % 100000000) / 10000);
+      s = man > 0 ? sign + eok + '억 ' + man.toLocaleString('ko-KR') + '만 원' : sign + eok + '억 원';
+    } else if (abs >= 10000) {
+      s = sign + Math.round(abs / 10000).toLocaleString('ko-KR') + '만 원';
+    } else {
+      s = sign + abs.toLocaleString('ko-KR') + ' 원';
+    }
+    disp.textContent = s;
+  }
+  function calc() {
+    const asset = getSum(['a1','a2','a3','a4','a5','a6']);
+    const debt = getSum(['d1','d2','d3','d4','d5','d6']);
+    const net = asset - debt;
+    const ratio = asset > 0 ? (debt / asset * 100) : 0;
+
+    document.getElementById('r-asset').textContent = fmt(asset) + '만원';
+    document.getElementById('r-debt').textContent = fmt(debt) + '만원';
+    document.getElementById('r-net').textContent = fmt(net);
+    document.getElementById('r-ratio').textContent = ratio.toFixed(1) + '%';
+
+    const mr = document.getElementById('mainResult');
+    const netEl = document.getElementById('r-net');
+    if (net >= 0) {
+      mr.style.background = 'rgba(0,212,170,0.08)';
+      mr.style.border = '1px solid rgba(0,212,170,0.25)';
+      netEl.style.color = '#00d4aa';
+    } else {
+      mr.style.background = 'rgba(255,107,107,0.08)';
+      mr.style.border = '1px solid rgba(255,107,107,0.25)';
+      netEl.style.color = '#ff6b6b';
+    }
+
+    const gr = document.getElementById('gradeBadge');
+    if (ratio < 30) {
+      gr.className = 'grade-bar grade-a';
+      gr.innerHTML = '✅ <strong>재무 건강도: 우수</strong><br>부채 비율 ' + ratio.toFixed(1) + '% — 매우 안정적입니다. 자산 증식에 집중하세요.';
+    } else if (ratio < 50) {
+      gr.className = 'grade-bar grade-b';
+      gr.innerHTML = '🔵 <strong>재무 건강도: 양호</strong><br>부채 비율 ' + ratio.toFixed(1) + '% — 관리 가능한 수준입니다. 꾸준히 부채를 줄여나가세요.';
+    } else if (ratio < 70) {
+      gr.className = 'grade-bar grade-c';
+      gr.innerHTML = '⚠️ <strong>재무 건강도: 주의</strong><br>부채 비율 ' + ratio.toFixed(1) + '% — 부채 상환을 최우선으로 설정하세요.';
+    } else {
+      gr.className = 'grade-bar grade-d';
+      gr.innerHTML = '🚨 <strong>재무 건강도: 위험</strong><br>부채 비율 ' + ratio.toFixed(1) + '% — 즉각적인 부채 구조조정이 필요합니다.';
+    }
+
+    document.getElementById('resultCard').classList.add('visible');
+  }
+
+  window.onload = () => liveSum();
+</script>
+</body>
+</html>
