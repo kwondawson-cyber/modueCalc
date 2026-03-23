@@ -133,6 +133,58 @@
     <div class="detail-item"><span class="d-label" style="font-weight:700;color:var(--text)">실수령액</span><span class="d-value accent" id="r-net">—</span></div>
   </div>
 
+  <!-- ① 당첨금 사용처 시뮬레이터 -->
+  <div class="card" id="spendCard" style="display:none">
+    <div class="card-title">🏖️ 당첨금 사용처 시뮬레이터</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;line-height:1.7">세후 실수령액을 어떻게 쓸지 배분해보세요. 투자 비율 입력 시 10년 후 예상 금액도 보여드립니다.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+      <div>
+        <label style="font-size:12px;color:var(--text-muted);font-weight:600;display:block;margin-bottom:5px">🏠 부동산/전세 (%)</label>
+        <input type="number" id="spHouse" value="40" min="0" max="100" oninput="updateSpend()"
+          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:16px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none" data-ec-comma="skip" />
+      </div>
+      <div>
+        <label style="font-size:12px;color:var(--text-muted);font-weight:600;display:block;margin-bottom:5px">📈 투자/재테크 (%)</label>
+        <input type="number" id="spInvest" value="30" min="0" max="100" oninput="updateSpend()"
+          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:16px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none" data-ec-comma="skip" />
+      </div>
+      <div>
+        <label style="font-size:12px;color:var(--text-muted);font-weight:600;display:block;margin-bottom:5px">🛍️ 생활/소비 (%)</label>
+        <input type="number" id="spLiving" value="20" min="0" max="100" oninput="updateSpend()"
+          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:16px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none" data-ec-comma="skip" />
+      </div>
+      <div>
+        <label style="font-size:12px;color:var(--text-muted);font-weight:600;display:block;margin-bottom:5px">🎁 가족/지인 (%)</label>
+        <input type="number" id="spGift" value="10" min="0" max="100" oninput="updateSpend()"
+          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:16px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none" data-ec-comma="skip" />
+      </div>
+    </div>
+    <!-- 비율 바 -->
+    <div id="spendBar" style="display:flex;height:12px;border-radius:6px;overflow:hidden;gap:2px;margin-bottom:12px;background:var(--border)"></div>
+    <div id="spendBreakdown"></div>
+    <div id="spendRemain" style="margin-top:10px;text-align:center;padding:12px;background:rgba(0,212,170,.05);border-radius:10px;font-size:13px;color:var(--text-muted)"></div>
+    <div id="spInvestSim" style="display:none;margin-top:10px;padding:12px;background:rgba(0,149,255,.05);border:1px solid rgba(0,149,255,.2);border-radius:10px;font-size:12px;color:var(--text-muted)"></div>
+  </div>
+
+  <!-- ② 공동구매 절세 계산기 -->
+  <div class="card" id="shareCard" style="display:none">
+    <div class="card-title">👥 공동구매 절세 계산기</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;line-height:1.7">같은 금액을 여러 명이 나눠 받으면 각자의 세율이 낮아져 총 세금이 줄어듭니다.</p>
+    <div style="margin-bottom:14px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <label style="font-size:13px;color:var(--text-muted);font-weight:600">공동 구매 인원</label>
+        <span id="shareCountLabel" style="font-size:15px;font-weight:800;color:var(--accent)">2명</span>
+      </div>
+      <input type="range" id="shareCount" min="2" max="10" step="1" value="2"
+        oninput="document.getElementById('shareCountLabel').textContent=this.value+'명';updateShare()"
+        style="width:100%;accent-color:var(--accent)" />
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-top:4px">
+        <span>2명</span><span>4명</span><span>6명</span><span>8명</span><span>10명</span>
+      </div>
+    </div>
+    <div id="shareResult"></div>
+  </div>
+
   <div class="card">
     <div class="card-title">📊 등수별 고정 당첨금 안내</div>
     <table class="prize-table">
@@ -260,12 +312,117 @@ function calcLotto() {
   document.getElementById('r-net').textContent    = fmt(net);
 
   document.getElementById('resultCard').classList.add('visible');
+
+  // 부가 카드
+  _lottoGross = gross;
+  _lottoNet   = net;
+  document.getElementById('spendCard').style.display  = 'block';
+  document.getElementById('shareCard').style.display  = 'block';
+  updateSpend();
+  updateShare();
 }
 
 document.getElementById('grade').addEventListener('change', function() {
   const ag = document.getElementById('amountGroup');
   ag.style.display = (this.value >= 4) ? 'none' : 'block';
 });
+
+// ── 부가 기능 ──
+let _lottoGross = 0, _lottoNet = 0;
+const fmtL = v => {
+  if (v >= 1e8) return (v/1e8).toFixed(1) + '억원';
+  if (v >= 1e4) return Math.round(v/1e4).toLocaleString() + '만원';
+  return Math.round(v).toLocaleString() + '원';
+};
+
+// ① 당첨금 사용처 시뮬레이터
+function updateSpend() {
+  if (!_lottoNet) return;
+  const net = _lottoNet;
+  const house  = parseInt(document.getElementById('spHouse').value)  || 0;
+  const invest = parseInt(document.getElementById('spInvest').value) || 0;
+  const living = parseInt(document.getElementById('spLiving').value) || 0;
+  const gift   = parseInt(document.getElementById('spGift').value)   || 0;
+  const total  = (house + invest + living + gift) / 100;
+  const remain = net * (1 - total);
+  const pct    = Math.min(Math.round(total * 100), 100);
+  const over   = total > 1;
+
+  const items = [
+    ['🏠 부동산/전세', house, '#4fc3f7'],
+    ['📈 투자/재테크', invest, '#00d4aa'],
+    ['🛍️ 생활/소비', living, '#ffd54f'],
+    ['🎁 가족/지인', gift, '#ff8a65'],
+  ];
+
+  document.getElementById('spendBar').innerHTML = items
+    .filter(([,p])=>p>0)
+    .map(([,p,c])=>`<div style="flex:${p};background:${c};min-width:${p>0?'4px':'0'}"></div>`)
+    .join('');
+  document.getElementById('spendBreakdown').innerHTML = items.map(([name, p, c])=>
+    `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)">
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="width:8px;height:8px;border-radius:50%;background:${c}"></div>
+        <span style="font-size:14px">${name}</span>
+      </div>
+      <div style="text-align:right">
+        <span style="font-size:14px;font-weight:700;font-family:'Montserrat',sans-serif;color:${c}">${fmtL(net*p/100)}</span>
+        <span style="font-size:11px;color:var(--text-muted);margin-left:4px">(${p}%)</span>
+      </div>
+    </div>`
+  ).join('');
+  document.getElementById('spendRemain').innerHTML = over
+    ? `<span style="color:#ff6b6b">⚠️ 배분 합계가 100%를 초과했습니다</span>`
+    : `남은 금액: <strong style="color:var(--accent)">${fmtL(remain)}</strong> (${100-pct}%)`;
+
+  // 투자 비율 복리 시뮬
+  if (invest > 0) {
+    const investAmt = net * invest / 100;
+    const after10 = investAmt * Math.pow(1.07, 10);
+    document.getElementById('spInvestSim').textContent =
+      `💡 투자금 ${fmtL(investAmt)}을 연 7% 복리로 10년 운용 시 → ${fmtL(after10)}`;
+    document.getElementById('spInvestSim').style.display = 'block';
+  } else {
+    document.getElementById('spInvestSim').style.display = 'none';
+  }
+}
+
+// ② 공동구매 절세 계산기
+function updateShare() {
+  if (!_lottoGross) return;
+  const n    = parseInt(document.getElementById('shareCount').value) || 2;
+  const each = _lottoGross / n;
+  const fmt  = v => Math.round(v).toLocaleString() + '원';
+
+  // 단독 수령 세금
+  const solo = calcLottoTax(_lottoGross);
+  const soloNet = _lottoGross - solo.total;
+
+  // 공동 수령 세금 (각자)
+  const eachTax = calcLottoTax(each);
+  const totalTax = eachTax.total * n;
+  const sharedTotalNet = _lottoGross - totalTax;
+  const saved = solo.total - totalTax;
+
+  document.getElementById('shareResult').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center">
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">단독 수령 세후</div>
+        <div style="font-size:16px;font-weight:900;color:var(--text);font-family:'Montserrat',sans-serif">${fmtL(soloNet)}</div>
+        <div style="font-size:11px;color:#ff6b6b;margin-top:2px">세금 ${fmtL(solo.total)}</div>
+      </div>
+      <div style="background:rgba(0,212,170,.08);border:1px solid rgba(0,212,170,.3);border-radius:12px;padding:14px;text-align:center">
+        <div style="font-size:11px;color:var(--accent);margin-bottom:4px">${n}명 공동 수령 합산</div>
+        <div style="font-size:16px;font-weight:900;color:var(--accent);font-family:'Montserrat',sans-serif">${fmtL(sharedTotalNet)}</div>
+        <div style="font-size:11px;color:var(--accent);margin-top:2px">절세 ${fmtL(saved)}</div>
+      </div>
+    </div>
+    <div style="text-align:center;padding:12px;background:rgba(0,212,170,.05);border-radius:10px;font-size:13px;color:var(--text-muted)">
+      1인당 수령액 <strong style="color:var(--accent)">${fmtL(each - eachTax.total)}</strong> · 
+      총 절세 <strong style="color:var(--accent)">${fmtL(saved)}</strong> · 
+      실효세율 ${(_lottoGross > 0 ? (totalTax/_lottoGross*100).toFixed(1) : 0)}%
+    </div>`;
+}
 </script>
 <script src="/common.js" defer></script><script src="/share.js" defer></script>
 <script src="/calculator.js" defer></script>

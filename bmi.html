@@ -452,6 +452,54 @@
         <strong style="color:orange">ℹ️ 안내</strong> BMI는 체지방률을 직접 측정하지 않으므로 근육량이 많은 경우 과대 평가될 수 있습니다. 본 계산기는 대한비만학회 아시아-태평양 기준을 따릅니다.
       </div>
     </div>
+
+    <!-- ① 목표 체중 달성 플랜 -->
+    <div class="card" id="planCard" style="display:none">
+      <div class="card-title">🎯 목표 체중 달성 플랜</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+        <div>
+          <label style="font-size:13px;color:var(--text-muted);font-weight:600;display:block;margin-bottom:6px">목표 체중</label>
+          <div style="position:relative">
+            <input type="number" id="targetWeight" value="60" min="20" max="200" step="0.5"
+              oninput="updatePlan()"
+              style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:11px 36px 11px 14px;font-size:17px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none"
+              data-ec-comma="skip" />
+            <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--text-muted)">kg</span>
+          </div>
+        </div>
+        <div>
+          <label style="font-size:13px;color:var(--text-muted);font-weight:600;display:block;margin-bottom:6px">주당 감량/증량 목표</label>
+          <select id="lossPace" onchange="updatePlan()"
+            style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:11px 14px;font-size:14px;color:var(--text);font-family:'Noto Sans KR',sans-serif;outline:none">
+            <option value="0.25">주 0.25kg (매우 천천히)</option>
+            <option value="0.5" selected>주 0.5kg (권장)</option>
+            <option value="1">주 1kg (적극적)</option>
+            <option value="1.5">주 1.5kg (빠르게)</option>
+          </select>
+        </div>
+      </div>
+      <div id="planResult"></div>
+    </div>
+
+    <!-- ② 체중 변화 시뮬레이터 -->
+    <div class="card" id="whatIfCard" style="display:none">
+      <div class="card-title">⚖️ 체중 변화 시뮬레이터</div>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px">체중이 변하면 BMI와 판정이 어떻게 바뀌는지 확인해보세요.</p>
+      <div style="margin-bottom:14px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <label style="font-size:13px;color:var(--text-muted);font-weight:600">체중 변화</label>
+          <span id="deltaLabel" style="font-size:15px;font-weight:800;color:var(--accent)">-5kg</span>
+        </div>
+        <input type="range" id="weightDelta" min="-30" max="30" step="0.5" value="-5"
+          oninput="document.getElementById('deltaLabel').textContent=(this.value>0?'+':'')+this.value+'kg';updateWhatIf()"
+          style="width:100%;accent-color:var(--accent)" />
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-top:4px">
+          <span>-30kg</span><span>-15kg</span><span>현재</span><span>+15kg</span><span>+30kg</span>
+        </div>
+      </div>
+      <div id="whatIfResult"></div>
+    </div>
+
   </div>
 
   <script>
@@ -520,9 +568,90 @@
 
       const resultCard = document.getElementById('resultCard');
       resultCard.classList.add('visible');
+
+      // 부가 카드
+      _bmiH = h; _bmiW = w; _bmiIdeal = parseFloat(idealWeight);
+      document.getElementById('targetWeight').value = idealWeight;
+      document.getElementById('planCard').style.display = 'block';
+      document.getElementById('whatIfCard').style.display = 'block';
+      updatePlan();
+      updateWhatIf();
     }
 
     window.onload = () => calculate();
+
+    let _bmiH = 170, _bmiW = 65, _bmiIdeal = 65;
+
+    // ① 목표 체중 달성 플랜
+    function updatePlan() {
+      const target = parseFloat(document.getElementById('targetWeight').value) || _bmiIdeal;
+      const pace   = parseFloat(document.getElementById('lossPace').value) || 0.5;
+      const diff   = _bmiW - target;
+      const hm     = _bmiH / 100;
+      const targetBmi = (target / (hm*hm)).toFixed(1);
+      const months = Math.abs(diff) / (pace * 4.33);  // 주당 pace kg → 월 환산
+
+      const direction = diff > 0 ? '감량' : diff < 0 ? '증량' : '현재가 목표!';
+      const color     = diff > 0 ? '#ff6b6b' : diff < 0 ? '#4fc3f7' : 'var(--accent)';
+
+      if (Math.abs(diff) < 0.1) {
+        document.getElementById('planResult').innerHTML = `
+          <div style="text-align:center;padding:20px;color:var(--accent);font-size:16px;font-weight:700">
+            🎉 현재 체중이 이미 목표 체중입니다!
+          </div>`;
+        return;
+      }
+
+      const calPerDay = 7700 * pace / 7;  // 1kg = 7,700kcal
+      const weeks = Math.ceil(Math.abs(diff) / pace);
+
+      document.getElementById('planResult').innerHTML = `
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">
+          <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center">
+            <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">필요 ${direction}</div>
+            <div style="font-size:20px;font-weight:900;color:${color};font-family:'Montserrat',sans-serif">${Math.abs(diff).toFixed(1)}kg</div>
+          </div>
+          <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center">
+            <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">예상 기간</div>
+            <div style="font-size:20px;font-weight:900;color:var(--accent);font-family:'Montserrat',sans-serif">${weeks}주</div>
+            <div style="font-size:11px;color:var(--text-muted)">(약 ${Math.ceil(months)}개월)</div>
+          </div>
+          <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center">
+            <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">목표 BMI</div>
+            <div style="font-size:20px;font-weight:900;color:var(--accent);font-family:'Montserrat',sans-serif">${targetBmi}</div>
+          </div>
+        </div>
+        <div style="padding:14px;background:rgba(0,212,170,.05);border:1px solid rgba(0,212,170,.2);border-radius:10px;font-size:13px;color:var(--text-muted);line-height:1.9">
+          📋 <strong style="color:var(--accent)">주 ${pace}kg ${direction} 플랜</strong><br>
+          · 하루 약 <strong style="color:var(--accent)">${Math.round(calPerDay).toLocaleString()}kcal</strong> ${diff>0?'적게 먹거나 더 소모':'더 섭취'}해야 합니다<br>
+          · 달리기(체중 ${_bmiW}kg 기준) 기준 하루 약 <strong style="color:var(--accent)">${Math.round(calPerDay/8/3.5*200/_bmiW)}분</strong> 추가 운동 필요<br>
+          · 급격한 ${direction}은 건강에 해로울 수 있습니다. 주 0.5~1kg 이내를 권장합니다.
+        </div>`;
+    }
+
+    // ② 체중 변화 시뮬레이터
+    function updateWhatIf() {
+      const delta = parseFloat(document.getElementById('weightDelta').value) || 0;
+      const newW  = Math.max(20, _bmiW + delta);
+      const hm    = _bmiH / 100;
+      const newBmi = newW / (hm*hm);
+      const info   = getBmiInfo(newBmi);
+      const direction = delta > 0 ? `+${delta}kg 증가` : `${delta}kg 감소`;
+
+      document.getElementById('whatIfResult').innerHTML = `
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center">
+            <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">현재</div>
+            <div style="font-size:22px;font-weight:900;font-family:'Montserrat',sans-serif;color:var(--text)">${_bmiW}kg</div>
+            <div style="font-size:13px;color:var(--text-muted)">BMI ${(_bmiW/hm/hm).toFixed(1)}</div>
+          </div>
+          <div style="background:rgba(0,212,170,.06);border:1px solid rgba(0,212,170,.3);border-radius:12px;padding:14px;text-align:center">
+            <div style="font-size:11px;color:var(--accent);margin-bottom:4px">${direction} 시</div>
+            <div style="font-size:22px;font-weight:900;font-family:'Montserrat',sans-serif;color:${info.color}">${newW.toFixed(1)}kg</div>
+            <div style="font-size:13px;font-weight:700;color:${info.color}">BMI ${newBmi.toFixed(1)} · ${info.label}</div>
+          </div>
+        </div>`;
+    }
   </script>
 
 <style>
