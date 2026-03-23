@@ -474,12 +474,73 @@
         <strong style="color:orange">⚠️ 안내</strong> 본 계산기는 참고용이며 실제 대출 상환액은 금융기관 정책에 따라 다를 수 있습니다. 중도상환수수료, 거치기간 등은 반영되지 않았습니다.
       </div>
     </div>
+
+    <!-- ① 금리 변동 시뮬레이터 -->
+    <div class="card" id="rateSimCard" style="display:none">
+      <div class="card-title">📈 금리 변동 시뮬레이터</div>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;line-height:1.7">변동금리 대출 시 금리가 오르면 월 납입액이 얼마나 늘어나는지 확인하세요.</p>
+      <div style="margin-bottom:16px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <label style="font-size:13px;color:var(--text-muted);font-weight:600">금리 변동폭</label>
+          <span id="rateSimLabel" style="font-size:15px;font-weight:800;color:#ff6b6b">+1.0%p</span>
+        </div>
+        <input type="range" id="rateSimSlider" min="0.5" max="5" step="0.5" value="1"
+          oninput="updateRateSim()" style="width:100%;accent-color:#ff6b6b" />
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-top:4px">
+          <span>+0.5%p</span><span>+1.5%p</span><span>+3%p</span><span>+5%p</span>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center">
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">현재 월 납입액</div>
+          <div id="rsimBefore" style="font-size:20px;font-weight:900;color:var(--text);font-family:'Montserrat',sans-serif">-</div>
+          <div id="rsimRateNow" style="font-size:11px;color:var(--text-muted);margin-top:4px"></div>
+        </div>
+        <div style="background:rgba(255,107,107,.08);border:1px solid rgba(255,107,107,.3);border-radius:12px;padding:16px;text-align:center">
+          <div style="font-size:11px;color:#ff6b6b;margin-bottom:4px">금리 인상 후</div>
+          <div id="rsimAfter" style="font-size:20px;font-weight:900;color:#ff6b6b;font-family:'Montserrat',sans-serif">-</div>
+          <div id="rsimRateAfter" style="font-size:11px;color:var(--text-muted);margin-top:4px"></div>
+        </div>
+      </div>
+      <div id="rsimDiff" style="text-align:center;padding:12px;background:rgba(255,107,107,.05);border-radius:10px;font-size:14px;color:var(--text-muted)"></div>
+    </div>
+
+    <!-- ② 조기상환 시뮬레이터 -->
+    <div class="card" id="prepayCard" style="display:none">
+      <div class="card-title">💨 조기상환 시뮬레이터</div>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;line-height:1.7">여유자금을 일시 추가 상환하면 기간이 얼마나 단축되고 이자를 얼마나 아낄 수 있는지 계산합니다.</p>
+      <div style="margin-bottom:14px">
+        <label style="font-size:13px;color:var(--text-muted);font-weight:600;display:block;margin-bottom:6px">추가 상환 금액</label>
+        <div style="position:relative">
+          <input type="number" id="prepayAmount" value="10000000" min="0"
+            oninput="updatePrepay()"
+            style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px 40px 12px 16px;font-size:17px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none;transition:border-color .2s"
+            data-ec-comma="skip" />
+          <span style="position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--text-muted)">원</span>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center">
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">기존 총 이자</div>
+          <div id="ppBefore" style="font-size:17px;font-weight:900;color:#ff6b6b;font-family:'Montserrat',sans-serif">-</div>
+          <div id="ppPeriodBefore" style="font-size:11px;color:var(--text-muted);margin-top:4px"></div>
+        </div>
+        <div style="background:rgba(0,212,170,.08);border:1px solid rgba(0,212,170,.3);border-radius:12px;padding:14px;text-align:center">
+          <div style="font-size:11px;color:var(--accent);margin-bottom:4px">조기상환 후 총 이자</div>
+          <div id="ppAfter" style="font-size:17px;font-weight:900;color:var(--accent);font-family:'Montserrat',sans-serif">-</div>
+          <div id="ppPeriodAfter" style="font-size:11px;color:var(--text-muted);margin-top:4px"></div>
+        </div>
+      </div>
+      <div id="ppDiff" style="text-align:center;padding:12px;background:rgba(0,212,170,.05);border-radius:10px;font-size:14px;color:var(--text-muted)"></div>
+    </div>
+
   </div>
 
   <script>
     let method = 'equal';
     let allRows = [];
     let showAll = false;
+    let _loanP = 0, _loanR = 0, _loanN = 0, _loanMonthly = 0, _loanTotalInt = 0;
 
     // 슬라이더 연동
     document.getElementById('loanSlider').addEventListener('input', e => {
@@ -555,6 +616,17 @@
 
       const resultCard = document.getElementById('resultCard');
       resultCard.classList.add('visible');
+
+      // 부가 카드
+      _loanP = P; _loanR = annualRate; _loanN = n;
+      _loanTotalInt = totalInterest;
+      _loanMonthly = method === 'equal'
+        ? (r === 0 ? P/n : P * r * Math.pow(1+r,n) / (Math.pow(1+r,n)-1))
+        : allRows[0].payment;
+      document.getElementById('rateSimCard').style.display = 'block';
+      document.getElementById('prepayCard').style.display  = 'block';
+      updateRateSim();
+      updatePrepay();
     }
 
     function renderSchedule() {
@@ -585,6 +657,55 @@
     }
 
     window.onload = () => calculate();
+
+    // ① 금리 변동 시뮬레이터
+    function updateRateSim() {
+      if (!_loanP) return;
+      const delta = parseFloat(document.getElementById('rateSimSlider').value) || 1;
+      const r0 = _loanR / 100 / 12;
+      const r1 = (_loanR + delta) / 100 / 12;
+      const n  = _loanN;
+      const m0 = r0 === 0 ? _loanP/n : _loanP * r0 * Math.pow(1+r0,n) / (Math.pow(1+r0,n)-1);
+      const m1 = r1 === 0 ? _loanP/n : _loanP * r1 * Math.pow(1+r1,n) / (Math.pow(1+r1,n)-1);
+      const diff = m1 - m0;
+      document.getElementById('rateSimLabel').textContent = '+' + delta.toFixed(1) + '%p';
+      document.getElementById('rsimBefore').textContent   = fmt(m0) + '원';
+      document.getElementById('rsimRateNow').textContent  = '금리 ' + _loanR + '%';
+      document.getElementById('rsimAfter').textContent    = fmt(m1) + '원';
+      document.getElementById('rsimRateAfter').textContent= '금리 ' + (_loanR + delta).toFixed(1) + '%';
+      document.getElementById('rsimDiff').innerHTML =
+        `금리 <strong style="color:#ff6b6b">+${delta.toFixed(1)}%p</strong> 인상 시 월 납입액 ` +
+        `<strong style="color:#ff6b6b">+${fmt(diff)}원</strong> 증가 · ` +
+        `연간 <strong style="color:#ff6b6b">+${fmt(diff*12)}원</strong> 부담 증가`;
+    }
+
+    // ② 조기상환 시뮬레이터
+    function updatePrepay() {
+      if (!_loanP) return;
+      const extra = parseFloat(document.getElementById('prepayAmount').value) || 0;
+      const r = _loanR / 100 / 12;
+      const newP = Math.max(0, _loanP - extra);
+      const n    = _loanN;
+
+      // 기존 총 이자
+      const m0 = r === 0 ? _loanP/n : _loanP * r * Math.pow(1+r,n) / (Math.pow(1+r,n)-1);
+      const int0 = m0 * n - _loanP;
+
+      // 조기상환 후 총 이자 (잔여 원금으로 재계산, 기간 단축 대신 납입액 감소 방식)
+      const m1   = r === 0 ? newP/n : newP * r * Math.pow(1+r,n) / (Math.pow(1+r,n)-1);
+      const int1 = m1 * n - newP;
+
+      const intSaved = int0 - int1;
+      document.getElementById('ppBefore').textContent     = fmt(int0) + '원';
+      document.getElementById('ppPeriodBefore').textContent = `월 ${fmt(m0)}원 × ${n}회`;
+      document.getElementById('ppAfter').textContent      = fmt(Math.max(0,int1)) + '원';
+      document.getElementById('ppPeriodAfter').textContent = `월 ${fmt(m1)}원 × ${n}회`;
+      document.getElementById('ppDiff').innerHTML = intSaved > 0
+        ? `조기상환 <strong style="color:var(--accent)">${fmt(extra)}원</strong> 시 총 이자 ` +
+          `<strong style="color:var(--accent)">${fmt(intSaved)}원 절감</strong> · ` +
+          `월 납입액 <strong style="color:var(--accent)">-${fmt(m0-m1)}원</strong> 감소`
+        : '조기상환 금액을 입력하면 절감액이 계산됩니다';
+    }
   </script>
 
 <style>

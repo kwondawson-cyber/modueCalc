@@ -193,7 +193,121 @@
   </div>
 
 </div>
-  <div class="rel-section">
+
+<!-- ① 목표금액 역산 -->
+<div class="card" id="goalCard" style="display:none;max-width:700px;margin:0 auto 20px;padding:28px">
+  <div style="font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:16px">🎯 목표금액 역산 — 매달 얼마씩 추가 저축해야 하나?</div>
+  <div style="margin-bottom:16px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <label style="font-size:13px;color:var(--text-muted);font-weight:600">목표 금액</label>
+      <span id="goalLabel" style="font-size:15px;font-weight:800;color:var(--accent)">3억원</span>
+    </div>
+    <input type="range" id="goalSlider" min="50000000" max="1000000000" step="10000000" value="300000000"
+      oninput="updateGoal()" style="width:100%;accent-color:var(--accent)" />
+    <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-top:4px">
+      <span>5,000만</span><span>2억</span><span>5억</span><span>10억</span>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+    <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center">
+      <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">현재 계획으로 달성 가능 금액</div>
+      <div id="goalCurrent" style="font-size:17px;font-weight:900;color:var(--text);font-family:'Montserrat',sans-serif">-</div>
+    </div>
+    <div style="background:rgba(0,212,170,.08);border:1px solid rgba(0,212,170,.3);border-radius:12px;padding:14px;text-align:center">
+      <div style="font-size:11px;color:var(--accent);margin-bottom:4px">목표 달성을 위한 추가 월 저축</div>
+      <div id="goalNeedAdd" style="font-size:17px;font-weight:900;color:var(--accent);font-family:'Montserrat',sans-serif">-</div>
+    </div>
+  </div>
+  <div id="goalDiff" style="text-align:center;padding:12px;background:rgba(0,212,170,.05);border-radius:10px;font-size:13px;color:var(--text-muted)"></div>
+</div>
+
+<!-- ② 시작 시기 시뮬레이터 -->
+<div class="card" id="startCard" style="display:none;max-width:700px;margin:0 auto 20px;padding:28px">
+  <div style="font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:16px">⏰ 시작 시기 시뮬레이터 — 늦게 시작하면 얼마나 손해?</div>
+  <div style="margin-bottom:16px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <label style="font-size:13px;color:var(--text-muted);font-weight:600">늦게 시작하는 기간</label>
+      <span id="startLabel" style="font-size:15px;font-weight:800;color:#ff6b6b">5년 늦게</span>
+    </div>
+    <input type="range" id="startSlider" min="1" max="20" step="1" value="5"
+      oninput="updateStart()" style="width:100%;accent-color:#ff6b6b" />
+    <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-top:4px">
+      <span>1년</span><span>5년</span><span>10년</span><span>20년</span>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+    <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center">
+      <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">지금 시작 시 최종 금액</div>
+      <div id="startNow" style="font-size:17px;font-weight:900;color:var(--text);font-family:'Montserrat',sans-serif">-</div>
+      <div id="startNowY" style="font-size:11px;color:var(--text-muted);margin-top:4px"></div>
+    </div>
+    <div style="background:rgba(255,107,107,.08);border:1px solid rgba(255,107,107,.3);border-radius:12px;padding:14px;text-align:center">
+      <div style="font-size:11px;color:#ff6b6b;margin-bottom:4px">늦게 시작 시 최종 금액</div>
+      <div id="startLate" style="font-size:17px;font-weight:900;color:#ff6b6b;font-family:'Montserrat',sans-serif">-</div>
+      <div id="startLateY" style="font-size:11px;color:var(--text-muted);margin-top:4px"></div>
+    </div>
+  </div>
+  <div id="startDiff" style="text-align:center;padding:12px;background:rgba(255,107,107,.05);border-radius:10px;font-size:13px;color:var(--text-muted)"></div>
+</div>
+
+<script>
+function cpCalc(P, r, Y, n, add, taxRate) {
+  let compound = P;
+  for (let y = 1; y <= Y; y++) compound = compound * Math.pow(1+r/n, n) + add;
+  const grossInt = compound - (P + add*Y);
+  return compound - grossInt * taxRate;
+}
+
+// ① 목표금액 역산
+function updateGoal() {
+  if (!_cpP) return;
+  const goal = parseInt(document.getElementById('goalSlider').value) || 300000000;
+  document.getElementById('goalLabel').textContent = goal >= 1e8
+    ? (goal/1e8).toFixed(1) + '억원' : (goal/1e4).toLocaleString() + '만원';
+  document.getElementById('goalCurrent').textContent = fx(_cpFinalNet);
+
+  const diff = goal - _cpFinalNet;
+  if (diff <= 0) {
+    document.getElementById('goalNeedAdd').textContent = '달성 가능!';
+    document.getElementById('goalDiff').innerHTML =
+      `현재 계획으로 목표 <strong style="color:var(--accent)">${fx(goal)}</strong> 달성 가능 🎉 ` +
+      `(초과 <strong style="color:var(--accent)">${fx(-diff)}</strong>)`;
+    return;
+  }
+
+  // 이분법으로 필요 월 추가 적립액 역산
+  let lo = 0, hi = 100000000, addNeeded = 0;
+  for (let i = 0; i < 50; i++) {
+    const mid = (lo + hi) / 2;
+    const result = cpCalc(_cpP, _cpR, _cpY, _cpN, _cpAdd + mid, _cpTax);
+    if (result < goal) lo = mid; else { hi = mid; addNeeded = mid; }
+  }
+  addNeeded = Math.ceil(addNeeded / 10000) * 10000;
+  document.getElementById('goalNeedAdd').textContent = fw(addNeeded) + '/월';
+  document.getElementById('goalDiff').innerHTML =
+    `목표 <strong style="color:var(--accent)">${fx(goal)}</strong>까지 ` +
+    `<strong style="color:var(--accent)">${fx(diff)}</strong> 부족 — ` +
+    `매달 <strong style="color:var(--accent)">${fw(addNeeded)}원</strong> 추가 저축 필요`;
+}
+
+// ② 시작 시기 시뮬레이터
+function updateStart() {
+  if (!_cpP) return;
+  const delay = parseInt(document.getElementById('startSlider').value) || 5;
+  document.getElementById('startLabel').textContent = delay + '년 늦게';
+  const nowResult  = _cpFinalNet;
+  const lateResult = cpCalc(_cpP, _cpR, Math.max(1,_cpY-delay), _cpN, _cpAdd, _cpTax);
+  const lost = nowResult - lateResult;
+  document.getElementById('startNow').textContent  = fx(nowResult);
+  document.getElementById('startNowY').textContent = _cpY + '년 투자';
+  document.getElementById('startLate').textContent = fx(lateResult);
+  document.getElementById('startLateY').textContent= Math.max(1,_cpY-delay) + '년 투자';
+  document.getElementById('startDiff').innerHTML =
+    delay + '년 늦게 시작하면 최종 금액이 ' +
+    `<strong style="color:#ff6b6b">${fx(lost)}</strong> 감소 ` +
+    `(${((lost/nowResult)*100).toFixed(1)}% 손실)`;
+}
+</script>
     <h2>📌 함께 쓰면 유용한 계산기</h2>
     <div class="rel-grid">
       <a href="/savings" class="rel-card"><span class="re">💵</span><span class="rn">예적금 계산기</span></a>
@@ -243,6 +357,7 @@ n = 복리 계산 횟수 (연 1회, 월 12회 등)
 <script>
 const fw = n => Math.round(n).toLocaleString() + '원';
 const fx = n => n >= 1e8 ? (n/1e8).toFixed(1)+'억원' : Math.round(n).toLocaleString()+'원';
+let _cpP=0, _cpR=0, _cpY=0, _cpN=1, _cpAdd=0, _cpTax=0, _cpFinalNet=0;
 
 function calc() {
   const P = +document.getElementById('principal').value || 0;
@@ -292,6 +407,14 @@ function calc() {
   // 차트
   drawChart(rows, P);
   document.getElementById('result').classList.add('show');
+
+  // 부가 카드
+  _cpP = P; _cpR = r; _cpY = Y; _cpN = n; _cpAdd = add; _cpTax = taxRate;
+  _cpFinalNet = netTotal;
+  document.getElementById('goalCard').style.display  = 'block';
+  document.getElementById('startCard').style.display = 'block';
+  updateGoal();
+  updateStart();
 }
 
 function drawChart(rows, P) {
