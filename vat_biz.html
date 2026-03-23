@@ -135,8 +135,8 @@
 
   <!-- 과세 유형 탭 -->
   <div class="type-tabs">
-    <button class="type-tab active" id="tab-general" onclick="switchType('general')">일반과세자<small>연 매출 8,000만원↑</small></button>
-    <button class="type-tab" id="tab-simple" onclick="switchType('simple')">간이과세자<small>연 매출 8,000만원↓</small></button>
+    <button class="type-tab active" id="tab-general" onclick="switchType('general')">일반과세자<small>연 매출 1억 400만원↑</small></button>
+    <button class="type-tab" id="tab-simple" onclick="switchType('simple')">간이과세자<small>연 매출 1억 400만원↓</small></button>
   </div>
 
   <!-- 일반과세 섹션 -->
@@ -182,12 +182,23 @@
           <input type="number" id="simple-sales" placeholder="예: 50000000" />
         </div>
         <div class="form-group">
-          <label>업종 구분</label>
+          <label>업종 구분 (부가가치율)</label>
           <select id="simple-type">
-            <option value="0.4">소매업·음식점·숙박 (40%)</option>
-            <option value="0.3">제조업·농업·어업 (30%)</option>
-            <option value="0.2">건설업·운수업·창고 (20%)</option>
-            <option value="0.15">금융·보험·서비스 (15%)</option>
+            <option value="0.15">소매업 (15%) — 슈퍼·편의점·소매점 등</option>
+            <option value="0.15">음식점업 (15%) — 식당·카페·배달음식 등</option>
+            <option value="0.20">제조업 (20%) — 가공·생산업 등</option>
+            <option value="0.20">농업·임업·어업 (20%)</option>
+            <option value="0.20">소화물 전문 운송업 (20%) — 퀵·배송 등</option>
+            <option value="0.25">숙박업 (25%) — 민박·게스트하우스 등</option>
+            <option value="0.30">건설업 (30%)</option>
+            <option value="0.30">그 밖의 운수·창고업 (30%) — 택시·화물 등</option>
+            <option value="0.30">정보통신업 (30%) — IT·앱개발·통신 등</option>
+            <option value="0.30">그 밖의 서비스업 (30%) — 미용·세탁·수리 등</option>
+            <option value="0.40">금융·보험 관련 서비스업 (40%)</option>
+            <option value="0.40">전문·과학·기술 서비스업 (40%) — 컨설팅·디자인 등</option>
+            <option value="0.40">사업시설관리·임대 서비스업 (40%)</option>
+            <option value="0.40">부동산 관련 서비스업 (40%)</option>
+            <option value="0.40">부동산임대업 (40%) — 연 4,800만원 미만만 해당</option>
           </select>
         </div>
       </div>
@@ -260,7 +271,7 @@
   </table>
   <div class="hl-box">💡 <strong>매입세액 공제 핵심.</strong> ① 세금계산서·카드영수증·현금영수증 = 공제 가능 ② 간이영수증·현금(증빙 없음) = 공제 불가 ③ 접대비 관련 매입세액 = 공제 불가 ④ 비영업용 소형승용차 관련 = 공제 불가. 사업 관련 지출은 반드시 사업용 카드로 결제하거나 세금계산서를 요청하세요.</div>
   
-  <div class="hl-box">🔑 <strong>핵심 팁</strong><br>💡 <strong>부가세 절감 핵심 전략:</strong> ① 세금계산서·영수증을 빠짐없이 수취하면 매입세액공제로 납부세액을 줄일 수 있습니다, ② 카드·현금영수증 매입분도 공제 대상이므로 사업용 카드를 별도 관리하세요, ③ 수출 매출이 있으면 영세율(0%) 적용으로 환급 가능, ④ 간이과세자는 업종별 부가가치율(5~30%)로 계산해 일반과세보다 세 부담이 낮을 수 있습니다.</div>
+  <div class="hl-box">🔑 <strong>핵심 팁</strong><br>💡 <strong>부가세 절감 핵심 전략:</strong> ① 세금계산서·영수증을 빠짐없이 수취하면 매입세액공제로 납부세액을 줄일 수 있습니다, ② 카드·현금영수증 매입분도 공제 대상이므로 사업용 카드를 별도 관리하세요, ③ 수출 매출이 있으면 영세율(0%) 적용으로 환급 가능, ④ 간이과세자는 업종별 부가가치율(15~40%)로 계산해 일반과세보다 세 부담이 낮을 수 있습니다.</div>
 
 <h2>자주 묻는 질문 (FAQ)</h2>
   <details><summary>간이과세자도 세금계산서를 발행할 수 있나요?</summary><div class="faq-answer">2021년 7월부터 연 매출 4,800만원 이상 간이과세자는 세금계산서 발행이 의무화됐습니다. 4,800만원 미만 간이과세자는 세금계산서 발행이 불가하고 영수증만 발행합니다. B2B 거래가 많다면 일반과세자 전환을 고려하세요.</div></details>
