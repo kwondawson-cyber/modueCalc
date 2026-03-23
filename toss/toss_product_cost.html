@@ -137,7 +137,7 @@
 <body>
 <div class="container">
 
-  <div class="home-btn-wrap"><a href="/toss/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
   <div class="toss-header">
     <span class="emoji">🏷️</span>
     <div>
@@ -247,16 +247,100 @@
   <div class="toss-nav">
     <div class="toss-nav-title">📌 사업자 세금 계산기</div>
     <div class="toss-nav-grid">
-      <a href="/tax/margin" class="toss-nav-item"><span class="ni-emoji">💹</span><span class="ni-label">마진율</span></a>
-      <a href="/tax/breakeven" class="toss-nav-item"><span class="ni-emoji">⚖️</span><span class="ni-label">손익분기점</span></a>
-      <a href="/tax/operating_profit" class="toss-nav-item"><span class="ni-emoji">📈</span><span class="ni-label">영업이익</span></a>
-      <a href="/tax/delivery_fee" class="toss-nav-item"><span class="ni-emoji">🛵</span><span class="ni-label">배달수수료</span></a>
+      <a href="/margin" class="toss-nav-item"><span class="ni-emoji">💹</span><span class="ni-label">마진율</span></a>
+      <a href="/breakeven" class="toss-nav-item"><span class="ni-emoji">⚖️</span><span class="ni-label">손익분기점</span></a>
+      <a href="/operating_profit" class="toss-nav-item"><span class="ni-emoji">📈</span><span class="ni-label">영업이익</span></a>
+      <a href="/delivery_fee" class="toss-nav-item"><span class="ni-emoji">🛵</span><span class="ni-label">배달수수료</span></a>
     </div>
   </div>
 
 </div>
 <script>
+const fmt = n => Math.round(n).toLocaleString();
+const fmtD = (n, d=1) => n.toFixed(d);
 
+// 재료비 행 추가
+let matId = 1;
+function addMaterial() {
+  const div = document.createElement('div');
+  div.className = 'cost-row';
+  div.id = 'mat-' + matId;
+  div.innerHTML = `<input type="text" placeholder="재료명" style="flex:2" />
+    <input type="number" placeholder="금액(원)" class="amt" />
+    <button onclick="this.parentElement.remove()" class="btn-del">✕</button>`;
+  document.getElementById('material-list').appendChild(div);
+  matId++;
+}
+function addPack() {
+  const div = document.createElement('div');
+  div.className = 'cost-row';
+  div.innerHTML = `<input type="text" placeholder="포장재명" style="flex:2" />
+    <input type="number" placeholder="금액(원)" class="amt" />
+    <button onclick="this.parentElement.remove()" class="btn-del">✕</button>`;
+  document.getElementById('pack-list').appendChild(div);
+}
+function addFixed() {
+  const div = document.createElement('div');
+  div.className = 'cost-row';
+  div.innerHTML = `<input type="text" placeholder="고정비명" style="flex:2" />
+    <input type="number" placeholder="월금액(원)" class="amt" />
+    <button onclick="this.parentElement.remove()" class="btn-del">✕</button>`;
+  document.getElementById('fixed-list').appendChild(div);
+}
+
+function sumAmts(containerId) {
+  return Array.from(document.querySelectorAll('#' + containerId + ' .amt'))
+    .reduce((s, el) => s + (parseFloat(el.value) || 0), 0);
+}
+
+function calculate() {
+  const hourly    = parseFloat(document.getElementById('hourly').value) || 10320;
+  const mfgMin    = parseFloat(document.getElementById('mfgMin').value) || 0;
+  const batch     = parseFloat(document.getElementById('batch').value)  || 1;
+  const monthlyQty= parseFloat(document.getElementById('monthlyQty').value) || 1;
+  const targetMargin = parseFloat(document.getElementById('targetMargin').value) || 60;
+  const vatInclude   = document.getElementById('vatInclude').value;
+
+  const matTotal  = sumAmts('material-list');
+  const packTotal = sumAmts('pack-list');
+  const fixedTotal= sumAmts('fixed-list');
+
+  // 단위당 인건비
+  const laborPerUnit = (hourly / 60) * mfgMin / batch;
+  // 변동비 합계
+  const varCost = matTotal + packTotal + laborPerUnit;
+  // 고정비 배분
+  const fixedPerUnit = monthlyQty > 0 ? fixedTotal / monthlyQty : 0;
+  // 총 원가
+  const totalCost = varCost + fixedPerUnit;
+  // 목표 판매가
+  const sellPrice = targetMargin > 0 ? totalCost / (1 - targetMargin / 100) : totalCost;
+  const vatPrice  = vatInclude === 'yes' ? sellPrice * 1.1 : sellPrice;
+
+  document.getElementById('rCost').textContent      = fmt(Math.round(totalCost)) + '원';
+  document.getElementById('rSub').textContent       = `변동비 ${fmt(Math.round(varCost))}원 + 고정비배분 ${fmt(Math.round(fixedPerUnit))}원`;
+  document.getElementById('rVar').textContent       = fmt(Math.round(varCost)) + '원';
+  document.getElementById('rFixed').textContent     = fmt(Math.round(fixedPerUnit)) + '원';
+  document.getElementById('rSellPrice').textContent = fmt(Math.round(sellPrice)) + '원';
+  document.getElementById('rVatPrice').textContent  = vatInclude === 'yes' ? fmt(Math.round(vatPrice)) + '원' : '별도';
+
+  // 가격표 생성
+  const rows = document.getElementById('priceRows');
+  rows.innerHTML = '';
+  [30,40,50,60,70].forEach(m => {
+    const sp = totalCost / (1 - m/100);
+    const vp = vatInclude === 'yes' ? sp * 1.1 : sp;
+    const tr = document.createElement('div');
+    tr.className = 'result-item';
+    tr.innerHTML = `<div class="result-item-label">마진율 ${m}%</div>
+      <div class="result-item-value ${m === targetMargin ? 'accent' : ''}">
+        ${fmt(Math.round(sp))}원 ${vatInclude==='yes' ? '(VAT '+fmt(Math.round(vp))+'원)' : ''}
+      </div>`;
+    rows.appendChild(tr);
+  });
+
+  document.getElementById('result').classList.add('show');
+}
 </script>
 </body>
 </html>

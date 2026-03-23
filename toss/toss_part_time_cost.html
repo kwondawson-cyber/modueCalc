@@ -130,7 +130,7 @@
 </head>
 <body>
 <div class="container">
-  <div class="home-btn-wrap"><a href="/toss/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
   <div class="toss-header">
     <span class="emoji">🧑‍💼</span>
     <div><h1>알바 비용 계산기</h1><p>아르바이트 고용 총비용 계산</p></div>
@@ -167,8 +167,8 @@
 </table>
 <div class="insurance-box">
 <h3>🏦 4대보험 사업주 부담 요율 (2026)</h3>
-<div class="ins-row"><span class="label">국민연금</span><span>4.5%</span></div>
-<div class="ins-row"><span class="label">건강보험 + 장기요양</span><span>3.545% + 0.466% = 4.011%</span></div>
+<div class="ins-row"><span class="label">국민연금</span><span>4.75%</span></div>
+<div class="ins-row"><span class="label">건강보험 + 장기요양</span><span>3.595% + 0.466% = 4.011%</span></div>
 <div class="ins-row"><span class="label">고용보험 (사업주 측)</span><span>0.9%</span></div>
 <div class="ins-row"><span class="label">산재보험 (업종별 상이)</span><span>평균 약 1.5%</span></div>
 <div class="ins-row"><span>합계 (산재 제외)</span><span id="ins-total-rate">약 9.4%</span></div>
@@ -178,10 +178,10 @@
   <div class="toss-nav">
     <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
     <div class="toss-nav-grid">
-      <a href="/toss/hourly_salary" class="toss-nav-item"><span class="ni-emoji">⏰</span><span class="ni-label">시급</span></a>
-      <a href="/toss/weekly_holiday" class="toss-nav-item"><span class="ni-emoji">📅</span><span class="ni-label">주휴수당</span></a>
-      <a href="/toss/health_insurance" class="toss-nav-item"><span class="ni-emoji">🏥</span><span class="ni-label">건강보험</span></a>
-      <a href="/toss/salary" class="toss-nav-item"><span class="ni-emoji">💰</span><span class="ni-label">연봉</span></a>
+      <a href="/hourly_salary" class="toss-nav-item"><span class="ni-emoji">⏰</span><span class="ni-label">시급</span></a>
+      <a href="/weekly_holiday" class="toss-nav-item"><span class="ni-emoji">📅</span><span class="ni-label">주휴수당</span></a>
+      <a href="/health_insurance" class="toss-nav-item"><span class="ni-emoji">🏥</span><span class="ni-label">건강보험</span></a>
+      <a href="/salary" class="toss-nav-item"><span class="ni-emoji">💰</span><span class="ni-label">연봉</span></a>
     </div>
   </div>
 </div>
@@ -189,9 +189,9 @@
 const fw = n => Math.round(n).toLocaleString() + '원';
 const MIN_WAGE = 10320;
 // 4대보험 사업주 부담률 (2026)
-const INS_NPS   = 0.045;   // 국민연금
-const INS_HI    = 0.03545; // 건강보험
-const INS_LTC   = 0.00466; // 장기요양 (건강보험의 13.14%)
+const INS_NPS   = 0.0475;   // 국민연금
+const INS_HI    = 0.03595; // 건강보험
+const INS_LTC   = 0.00472; // 장기요양 (건강보험의 13.14%)
 const INS_EMP   = 0.009;   // 고용보험
 const INS_TOTAL = INS_NPS + INS_HI + INS_LTC + INS_EMP; // ~9.404%
 

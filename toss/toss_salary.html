@@ -519,7 +519,7 @@
 </head>
 <body>
 <div class="container">
-  <div class="home-btn-wrap"><a href="/toss/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
   <div class="toss-header">
     <span class="emoji">💰</span>
     <div><h1>연봉 실수령액 계산기</h1><p>4대보험·소득세 공제 후 실수령액</p></div>
@@ -600,7 +600,7 @@
 <div class="deduction-dot" style="background:#4fc3f7"></div>
 <div>
 <div class="deduction-name">국민연금</div>
-<div class="deduction-rate">4.5% (월 상한: 265,500원)</div>
+<div class="deduction-rate">4.75% (월 상한: 302,575원)</div>
 </div>
 </div>
 <div class="deduction-amount" id="d-pension">-</div>
@@ -610,7 +610,7 @@
 <div class="deduction-dot" style="background:#81c784"></div>
 <div>
 <div class="deduction-name">건강보험</div>
-<div class="deduction-rate">3.545%</div>
+<div class="deduction-rate">3.595%</div>
 </div>
 </div>
 <div class="deduction-amount" id="d-health">-</div>
@@ -669,10 +669,10 @@
   <div class="toss-nav">
     <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
     <div class="toss-nav-grid">
-      <a href="/toss/salary_slip" class="toss-nav-item"><span class="ni-emoji">📄</span><span class="ni-label">급여명세서</span></a>
-      <a href="/toss/hourly_salary" class="toss-nav-item"><span class="ni-emoji">⏰</span><span class="ni-label">시급</span></a>
-      <a href="/toss/retirement" class="toss-nav-item"><span class="ni-emoji">🏦</span><span class="ni-label">퇴직금</span></a>
-      <a href="/toss/health_insurance" class="toss-nav-item"><span class="ni-emoji">🏥</span><span class="ni-label">건강보험</span></a>
+      <a href="/salary_slip" class="toss-nav-item"><span class="ni-emoji">📄</span><span class="ni-label">급여명세서</span></a>
+      <a href="/hourly_salary" class="toss-nav-item"><span class="ni-emoji">⏰</span><span class="ni-label">시급</span></a>
+      <a href="/retirement" class="toss-nav-item"><span class="ni-emoji">🏦</span><span class="ni-label">퇴직금</span></a>
+      <a href="/health_insurance" class="toss-nav-item"><span class="ni-emoji">🏥</span><span class="ni-label">건강보험</span></a>
     </div>
   </div>
 </div>
@@ -738,8 +738,8 @@ const salaryInput = document.getElementById('salary');
       const monthly = annual / 12;
 
       // 4대보험 계산
-      const pension = Math.min(monthly * 0.045, 265500);
-      const health = Math.round(monthly * 0.03545);
+      const pension = Math.min(Math.round(monthly * 0.0475), 302575);
+      const health = Math.round(monthly * 0.03595);
       const care = Math.round(health * 0.1314);
       const employ = Math.round(monthly * 0.009);
 

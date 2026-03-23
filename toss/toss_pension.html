@@ -118,7 +118,7 @@
 </head>
 <body>
 <div class="container">
-  <div class="home-btn-wrap"><a href="/toss/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
   <div class="toss-header">
     <span class="emoji">👴</span>
     <div><h1>국민연금 계산기</h1><p>납부액·예상 수령액 계산</p></div>
@@ -157,7 +157,7 @@
 <option value="60">60세 (1952~1960년생)</option>
 </select>
 </div>
-<div class="info-box">💡 국민연금 보험료율: 월 소득의 <strong>9%</strong> (직장인은 사용자 4.5% + 본인 4.5%)</div>
+<div class="info-box">💡 국민연금 보험료율: 월 소득의 <strong>9.5%</strong> (직장인은 사용자 4.75% + 본인 4.75%)</div>
 <button class="btn" onclick="calcPension()">🏦 국민연금 계산하기</button>
 </div>
 <div class="result-section" id="pensionResult">
@@ -176,10 +176,10 @@
   <div class="toss-nav">
     <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
     <div class="toss-nav-grid">
-      <a href="/toss/health_insurance" class="toss-nav-item"><span class="ni-emoji">🏥</span><span class="ni-label">건강보험</span></a>
-      <a href="/toss/salary" class="toss-nav-item"><span class="ni-emoji">💰</span><span class="ni-label">연봉</span></a>
-      <a href="/toss/retirement_pension" class="toss-nav-item"><span class="ni-emoji">💎</span><span class="ni-label">퇴직연금</span></a>
-      <a href="/toss/income_tax" class="toss-nav-item"><span class="ni-emoji">🧮</span><span class="ni-label">소득세</span></a>
+      <a href="/health_insurance" class="toss-nav-item"><span class="ni-emoji">🏥</span><span class="ni-label">건강보험</span></a>
+      <a href="/salary" class="toss-nav-item"><span class="ni-emoji">💰</span><span class="ni-label">연봉</span></a>
+      <a href="/retirement_pension" class="toss-nav-item"><span class="ni-emoji">💎</span><span class="ni-label">퇴직연금</span></a>
+      <a href="/income_tax" class="toss-nav-item"><span class="ni-emoji">🧮</span><span class="ni-label">소득세</span></a>
     </div>
   </div>
 </div>
@@ -212,7 +212,7 @@ function calcPension(){
   const base = 1.2 * (A + B) / 2 * (n / 240);
   const monthly = Math.round(base / 10000) * 10000;
   
-  const monthlyPremium = Math.round(income * 0.045 / 10000) * 10000;
+  const monthlyPremium = Math.round(income * 0.0475 / 10000) * 10000;
   const totalPremium = monthlyPremium * totalMonths;
   const yearlyReceive = monthly * 12;
   const breakEven = totalPremium > 0 ? Math.ceil(totalPremium / monthly) : 0;

@@ -134,7 +134,7 @@
 </head>
 <body>
 <div class="container">
-  <div class="home-btn-wrap"><a href="/toss/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
   <div class="toss-header">
     <span class="emoji">🛡️</span>
     <div><h1>보험료 계산기</h1><p>보험료·해약환급금 계산</p></div>
@@ -195,15 +195,67 @@
   <div class="toss-nav">
     <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
     <div class="toss-nav-grid">
-      <a href="/toss/health_insurance" class="toss-nav-item"><span class="ni-emoji">🏥</span><span class="ni-label">건강보험</span></a>
-      <a href="/toss/pension" class="toss-nav-item"><span class="ni-emoji">👴</span><span class="ni-label">국민연금</span></a>
-      <a href="/toss/salary" class="toss-nav-item"><span class="ni-emoji">💰</span><span class="ni-label">연봉</span></a>
-      <a href="/toss/loan" class="toss-nav-item"><span class="ni-emoji">🏦</span><span class="ni-label">대출이자</span></a>
+      <a href="/health_insurance" class="toss-nav-item"><span class="ni-emoji">🏥</span><span class="ni-label">건강보험</span></a>
+      <a href="/pension" class="toss-nav-item"><span class="ni-emoji">👴</span><span class="ni-label">국민연금</span></a>
+      <a href="/salary" class="toss-nav-item"><span class="ni-emoji">💰</span><span class="ni-label">연봉</span></a>
+      <a href="/loan" class="toss-nav-item"><span class="ni-emoji">🏦</span><span class="ni-label">대출이자</span></a>
     </div>
   </div>
 </div>
 <script>
+const fmt = n => Math.round(n).toLocaleString();
 
+// 간이 보험료 산출 모델 (생명보험협회 공시 참고 근사치)
+function calcPremium(age, gender, smoke, coverAmt, period) {
+  // 기본 요율 (나이·성별·흡연 보정)
+  let baseRate = 0.0018;
+  baseRate *= (1 + (age - 30) * 0.045);
+  if (gender === 'f') baseRate *= 0.72;
+  if (smoke   === '1') baseRate *= 1.65;
+  const monthly = Math.round(coverAmt * baseRate * (period / 100));
+  return monthly;
+}
+
+function calculate() {
+  const age     = parseInt(document.getElementById('age').value) || 0;
+  const gender  = document.getElementById('gender').value;
+  const smoke   = document.getElementById('smoke').value;
+  const period  = parseInt(document.getElementById('period').value);
+
+  if (!age || age < 15 || age > 75) { alert('나이를 15~75세로 입력해주세요'); return; }
+
+  // 사망보험 1억 기준
+  const coverAmt = 100000000;
+  const monthly  = calcPremium(age, gender, smoke, coverAmt, period);
+  const min = Math.round(monthly * 0.7);
+  const max = Math.round(monthly * 1.4);
+
+  document.getElementById('rTotal').textContent = fmt(monthly) + '원';
+  document.getElementById('rSub').textContent   =
+    `사망보험 1억 · ${gender==='m'?'남성':'여성'} ${age}세 · ${smoke==='1'?'흡연':'비흡연'} · ${period}세 만기`;
+  document.getElementById('rangeMin').textContent = fmt(min) + '원';
+  document.getElementById('rangeMax').textContent = fmt(max) + '원';
+  document.getElementById('rangeFill').style.width = '50%';
+
+  // 보험사별 참고 범위
+  const breakdown = document.getElementById('rBreakdown');
+  breakdown.innerHTML = '';
+  const products = [
+    { name: '삼성생명 (참고)', rate: 0.95 },
+    { name: '한화생명 (참고)', rate: 1.00 },
+    { name: '교보생명 (참고)', rate: 1.05 },
+    { name: '흥국생명 (참고)', rate: 0.88 },
+  ];
+  products.forEach(p => {
+    const div = document.createElement('div');
+    div.className = 'result-item';
+    div.innerHTML = `<div class="result-item-label">${p.name}</div>
+      <div class="result-item-value">${fmt(Math.round(monthly * p.rate))}원</div>`;
+    breakdown.appendChild(div);
+  });
+
+  document.getElementById('result').classList.add('show');
+}
 </script>
 </body>
 </html>

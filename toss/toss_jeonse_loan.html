@@ -130,7 +130,7 @@
 </head>
 <body>
 <div class="container">
-  <div class="home-btn-wrap"><a href="/toss/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
   <div class="toss-header">
     <span class="emoji">🏘️</span>
     <div><h1>전세자금대출 계산기</h1><p>전세대출 이자·월상환금 계산</p></div>
@@ -198,15 +198,62 @@
   <div class="toss-nav">
     <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
     <div class="toss-nav-grid">
-      <a href="/toss/loan" class="toss-nav-item"><span class="ni-emoji">🏦</span><span class="ni-label">대출이자</span></a>
-      <a href="/toss/rent_conversion" class="toss-nav-item"><span class="ni-emoji">🔄</span><span class="ni-label">전월세전환</span></a>
-      <a href="/toss/rent_yield" class="toss-nav-item"><span class="ni-emoji">🏡</span><span class="ni-label">임대수익률</span></a>
-      <a href="/toss/acquisition" class="toss-nav-item"><span class="ni-emoji">🏠</span><span class="ni-label">취득세</span></a>
+      <a href="/loan" class="toss-nav-item"><span class="ni-emoji">🏦</span><span class="ni-label">대출이자</span></a>
+      <a href="/rent_conversion" class="toss-nav-item"><span class="ni-emoji">🔄</span><span class="ni-label">전월세전환</span></a>
+      <a href="/rent_yield" class="toss-nav-item"><span class="ni-emoji">🏡</span><span class="ni-label">임대수익률</span></a>
+      <a href="/acquisition" class="toss-nav-item"><span class="ni-emoji">🏠</span><span class="ni-label">취득세</span></a>
     </div>
   </div>
 </div>
 <script>
+const fmt = n => Math.round(n).toLocaleString();
 
+// 전세자금대출 상품별 금리 (2026 기준 참고치)
+const LOAN_RATES = {
+  'huf_newborn': { name: '신생아특례 (HUF)', rate: 0.017, maxLoan: 30000, desc: '자녀 출생 후 2년 이내, 최저 1.2%' },
+  'huf_young':   { name: '청년전세 (HUF)',   rate: 0.025, maxLoan: 20000, desc: '만 34세 이하 청년 대상' },
+  'huf_general': { name: '버팀목 (일반)',      rate: 0.028, maxLoan: 12000, desc: '일반 가구 전세자금 지원' },
+  'huf_married': { name: '버팀목 (신혼)',      rate: 0.023, maxLoan: 30000, desc: '혼인 7년 이내 신혼부부' },
+  'bank':        { name: '시중은행 (평균)',     rate: 0.043, maxLoan: 99999, desc: '2026년 상반기 평균 금리' },
+};
+
+function calculate() {
+  const deposit  = (parseFloat(document.getElementById('deposit').value)  || 0) * 10000;
+  const myAsset  = (parseFloat(document.getElementById('myAsset').value)  || 0) * 10000;
+  const income   = (parseFloat(document.getElementById('income').value)   || 0) * 10000;
+  const loanType = document.getElementById('loanType').value;
+  const termYrs  = parseInt(document.getElementById('loanTerm').value);
+
+  if (!deposit) { alert('전세 보증금을 입력해주세요'); return; }
+
+  const prod = LOAN_RATES[loanType];
+  // 대출한도: 보증금×80% vs 상품한도 중 작은 값, 자산 차감
+  let maxByDeposit = deposit * 0.8;
+  let loanAmt = Math.min(maxByDeposit, prod.maxLoan * 10000);
+  loanAmt = Math.max(0, loanAmt - myAsset);
+
+  // DSR 간이 체크 (연소득 × 40% ÷ 12 = 월 한도)
+  if (income > 0) {
+    const dsrMonthly = income * 0.4 / 12;
+    const interestMonthly = loanAmt * prod.rate / 12;
+    if (interestMonthly > dsrMonthly) {
+      loanAmt = dsrMonthly / (prod.rate / 12);
+    }
+  }
+
+  const monthlyInt = loanAmt * prod.rate / 12;
+  const yearlyInt  = monthlyInt * 12;
+  const totalInt   = monthlyInt * 12 * termYrs;
+
+  document.getElementById('rLimit').textContent    = fmt(loanAmt / 10000) + '만원';
+  document.getElementById('rLimitSub').textContent = prod.name + ' · ' + prod.desc;
+  document.getElementById('rRate').textContent     = (prod.rate * 100).toFixed(2) + '%';
+  document.getElementById('rMonthly').textContent  = fmt(monthlyInt) + '원';
+  document.getElementById('rYearly').textContent   = fmt(yearlyInt)  + '원';
+  document.getElementById('rTotal').textContent    = fmt(totalInt)   + '원';
+
+  document.getElementById('result').classList.add('show');
+}
 </script>
 </body>
 </html>

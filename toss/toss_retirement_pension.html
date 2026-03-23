@@ -133,7 +133,7 @@
 </head>
 <body>
 <div class="container">
-  <div class="home-btn-wrap"><a href="/toss/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
   <div class="toss-header">
     <span class="emoji">💎</span>
     <div><h1>퇴직연금 계산기</h1><p>DB·DC·IRP 수령액 계산</p></div>
@@ -211,15 +211,64 @@
   <div class="toss-nav">
     <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
     <div class="toss-nav-grid">
-      <a href="/toss/retirement" class="toss-nav-item"><span class="ni-emoji">🏦</span><span class="ni-label">퇴직금</span></a>
-      <a href="/toss/salary" class="toss-nav-item"><span class="ni-emoji">💰</span><span class="ni-label">연봉</span></a>
-      <a href="/toss/pension" class="toss-nav-item"><span class="ni-emoji">👴</span><span class="ni-label">국민연금</span></a>
-      <a href="/toss/savings" class="toss-nav-item"><span class="ni-emoji">💳</span><span class="ni-label">적금</span></a>
+      <a href="/retirement" class="toss-nav-item"><span class="ni-emoji">🏦</span><span class="ni-label">퇴직금</span></a>
+      <a href="/salary" class="toss-nav-item"><span class="ni-emoji">💰</span><span class="ni-label">연봉</span></a>
+      <a href="/pension" class="toss-nav-item"><span class="ni-emoji">👴</span><span class="ni-label">국민연금</span></a>
+      <a href="/savings" class="toss-nav-item"><span class="ni-emoji">💳</span><span class="ni-label">적금</span></a>
     </div>
   </div>
 </div>
 <script>
+const fmt = n => Math.round(n).toLocaleString();
 
+function calculate() {
+  const type       = document.getElementById('type').value;
+  const workYears  = parseFloat(document.getElementById('workYears').value) || 0;
+  const salary     = (parseFloat(document.getElementById('salary').value) || 0) * 10000;
+  const returnRate = parseFloat(document.getElementById('returnRate').value) / 100 || 0.04;
+  const annuityYrs = parseInt(document.getElementById('annuityPeriod').value);
+  const extraAnnual= (parseFloat(document.getElementById('extra').value) || 0) * 10000;
+
+  if (!workYears || !salary) { alert('근속연수와 월 급여를 입력해주세요'); return; }
+
+  let totalFund = 0;
+
+  if (type === 'db') {
+    // DB: 퇴직 직전 3개월 평균임금 × 근속연수
+    totalFund = salary * workYears;
+  } else if (type === 'dc') {
+    // DC: 매년 연봉의 1/12 적립 → 복리 운용
+    const annual = salary * 12 + extraAnnual;
+    for (let i = 1; i <= workYears; i++) {
+      totalFund = (totalFund + annual / workYears) * (1 + returnRate);
+    }
+  } else {
+    // IRP: 매년 납입 → 복리 운용
+    const annualContrib = salary * 12 * 0.0833 + extraAnnual; // 연봉의 8.33%
+    for (let i = 1; i <= workYears; i++) {
+      totalFund = (totalFund + annualContrib) * (1 + returnRate);
+    }
+  }
+
+  // 세금 (퇴직소득세 간이 계산: 근속연수 공제 후 11~16%)
+  const taxRate = workYears >= 20 ? 0.11 : workYears >= 10 ? 0.13 : 0.16;
+  const lumpNetFund = totalFund * (1 - taxRate);
+
+  // 연금 수령 (연금소득세 3.3~5.5% 적용)
+  const annuityTaxRate = 0.044;
+  const monthlyAnnuity = totalFund / (annuityYrs * 12);
+  const monthlyAnnuityNet = monthlyAnnuity * (1 - annuityTaxRate);
+  const totalAnnuityNet = monthlyAnnuityNet * annuityYrs * 12;
+
+  document.getElementById('rTotal').textContent     = fmt(totalFund / 10000) + '만원';
+  document.getElementById('rSub').textContent       = '세전 총 적립금 (운용 수익 포함)';
+  document.getElementById('rMonthly').textContent   = fmt(monthlyAnnuityNet) + '원';
+  document.getElementById('rYearly').textContent    = fmt(monthlyAnnuityNet * 12) + '원';
+  document.getElementById('rLumpNet').textContent   = fmt(lumpNetFund / 10000) + '만원';
+  document.getElementById('rAnnuityNet').textContent= fmt(totalAnnuityNet / 10000) + '만원';
+
+  document.getElementById('result').classList.add('show');
+}
 </script>
 </body>
 </html>
