@@ -167,8 +167,8 @@
 
     <div class="insurance-box">
       <h3>🏦 4대보험 사업주 부담 요율 (2026)</h3>
-      <div class="ins-row"><span class="label">국민연금</span><span>4.5%</span></div>
-      <div class="ins-row"><span class="label">건강보험 + 장기요양</span><span>3.545% + 0.466% = 4.011%</span></div>
+      <div class="ins-row"><span class="label">국민연금</span><span>4.75%</span></div>
+      <div class="ins-row"><span class="label">건강보험 + 장기요양</span><span>3.595% + 0.466% = 4.011%</span></div>
       <div class="ins-row"><span class="label">고용보험 (사업주 측)</span><span>0.9%</span></div>
       <div class="ins-row"><span class="label">산재보험 (업종별 상이)</span><span>평균 약 1.5%</span></div>
       <div class="ins-row"><span>합계 (산재 제외)</span><span id="ins-total-rate">약 9.4%</span></div>
@@ -209,7 +209,7 @@
 주 20시간: 시급 × 104.8시간
 
 사업주 4대보험 부담:
-국민연금 4.5% + 건강보험 3.545% + 고용보험 0.9% + 산재보험 ≈ 총 약 9~10%
+국민연금 4.75% + 건강보험 3.595% + 고용보험 0.9% + 산재보험 ≈ 총 약 9~10%
 실 인건비 = 월 임금 × (1 + 9~10%)</div>
   <h3>📊 시급별 고용주 실제 인건비 (주 40시간, 2026년 기준)</h3>
   <p>아래 표는 주 40시간 알바 고용 시 시급별 고용주 실제 부담액입니다. 최저시급인 10,320원으로 고용해도 4대보험까지 포함하면 월 235만원 이상의 인건비가 발생합니다.</p>
@@ -238,8 +238,8 @@
 const fw = n => Math.round(n).toLocaleString() + '원';
 const MIN_WAGE = 10320;
 // 4대보험 사업주 부담률 (2026)
-const INS_NPS   = 0.045;   // 국민연금
-const INS_HI    = 0.03545; // 건강보험
+const INS_NPS   = 0.0475;   // 국민연금
+const INS_HI    = 0.03595; // 건강보험
 const INS_LTC   = 0.00466; // 장기요양 (건강보험의 13.14%)
 const INS_EMP   = 0.009;   // 고용보험
 const INS_TOTAL = INS_NPS + INS_HI + INS_LTC + INS_EMP; // ~9.404%

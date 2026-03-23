@@ -599,7 +599,7 @@
               <div class="deduction-dot" style="background:#4fc3f7"></div>
               <div>
                 <div class="deduction-name">국민연금</div>
-                <div class="deduction-rate">4.5% (월 상한: 265,500원)</div>
+                <div class="deduction-rate">4.75% (월 상한: 302,575원)</div>
               </div>
             </div>
             <div class="deduction-amount" id="d-pension">-</div>
@@ -610,7 +610,7 @@
               <div class="deduction-dot" style="background:#81c784"></div>
               <div>
                 <div class="deduction-name">건강보험</div>
-                <div class="deduction-rate">3.545%</div>
+                <div class="deduction-rate">3.595%</div>
               </div>
             </div>
             <div class="deduction-amount" id="d-health">-</div>
@@ -737,8 +737,8 @@
       const monthly = annual / 12;
 
       // 4대보험 계산
-      const pension = Math.min(monthly * 0.045, 265500);
-      const health = Math.round(monthly * 0.03545);
+      const pension = Math.min(monthly * 0.0475, 302575);
+      const health = Math.round(monthly * 0.03595);
       const care = Math.round(health * 0.1314);
       const employ = Math.round(monthly * 0.009);
 
@@ -824,8 +824,8 @@
   <p>국민연금·건강보험은 보수월액에 요율을 곱해 계산하며, 소득세는 근로소득 간이세액표를 적용합니다. 연간 연말정산을 통해 정확한 세액이 결정되므로, 이 계산기는 예상 참고값입니다.</p>
   <div class="formula-box">실수령액 = 세전 월급 − 4대보험 − 소득세 − 지방소득세
 
-국민연금: 보수월액 × 4.5%
-건강보험: 보수월액 × 3.545%
+국민연금: 보수월액 × 4.75%
+건강보험: 보수월액 × 3.595%
 장기요양: 건강보험료 × 13.14%
 고용보험: 보수월액 × 0.9%
 소득세: 근로소득 간이세액표 적용 (부양가족 수 반영)</div>
