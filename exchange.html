@@ -112,7 +112,7 @@
     <div class="exchange-box">
       <label>변환할 금액</label>
       <div class="exchange-row">
-        <input type="number" id="fromAmount" value="100" placeholder="0" oninput="convert()" />
+        <input type="number" id="fromAmount" value="100" placeholder="0" oninput="convert()" data-ec-comma="skip" />
         <div class="currency-select-wrap">
           <span class="currency-name" id="fromName">달러</span>
           <span class="currency-code" id="fromCode">USD</span>
@@ -140,7 +140,7 @@
     <div class="exchange-box">
       <label>환산 결과</label>
       <div class="exchange-row">
-        <input type="number" id="toAmount" placeholder="0" readonly style="color:var(--accent)" />
+        <input type="number" id="toAmount" placeholder="0" readonly style="color:var(--accent)" data-ec-comma="skip" />
         <div class="currency-select-wrap">
           <span class="currency-name" id="toName">원</span>
           <span class="currency-code" id="toCode">KRW</span>
