@@ -523,6 +523,34 @@
       <div id="ppDiff" style="text-align:center;padding:12px;background:rgba(0,212,170,.05);border-radius:10px;font-size:14px;color:var(--text-muted)"></div>
     </div>
 
+    <!-- ③ 대환대출 절감 시뮬레이터 -->
+    <div class="card" id="refinanceCard" style="display:none">
+      <div class="card-title">🔄 대환대출(갈아타기) 절감 계산</div>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;line-height:1.7">현재 대출을 더 낮은 금리 상품으로 갈아탈 때 절감되는 이자와 손익분기 기간을 계산합니다.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+        <div>
+          <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px;font-weight:600">🔴 현재 금리 (%)</div>
+          <input type="number" id="refOldRate" step="0.1" placeholder="예: 5.5"
+            oninput="updateRefinance()"
+            style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:16px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none" />
+        </div>
+        <div>
+          <div style="font-size:12px;color:var(--accent);margin-bottom:6px;font-weight:600">🟢 새 금리 (%)</div>
+          <input type="number" id="refNewRate" step="0.1" placeholder="예: 3.8"
+            oninput="updateRefinance()"
+            style="width:100%;background:var(--surface2);border:1px solid rgba(0,212,170,.4);border-radius:8px;padding:10px 14px;font-size:16px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none" />
+        </div>
+      </div>
+      <div style="margin-bottom:12px">
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px;font-weight:600">중도상환수수료 (%)</div>
+        <input type="number" id="refFee" step="0.1" value="1.2" placeholder="예: 1.2"
+          oninput="updateRefinance()"
+          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:16px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none" />
+        <div style="font-size:11px;color:var(--text-muted);margin-top:4px">통상 3년 이내 0.5~1.5% / 3년 이후 0%</div>
+      </div>
+      <div id="refResult" style="display:none;background:rgba(0,212,170,.06);border:1px solid rgba(0,212,170,.25);border-radius:12px;padding:16px;font-size:14px;line-height:2;color:var(--text-muted)"></div>
+    </div>
+
   </div>
 
   <script>
@@ -614,8 +642,10 @@
         : allRows[0].payment;
       document.getElementById('rateSimCard').style.display = 'block';
       document.getElementById('prepayCard').style.display  = 'block';
+      document.getElementById('refinanceCard').style.display = 'block';
       updateRateSim();
       updatePrepay();
+      updateRefinance();
     }
 
     function renderSchedule() {
@@ -695,6 +725,38 @@
           `월 납입액 <strong style="color:var(--accent)">-${fmt(m0-m1)}원</strong> 감소`
         : '조기상환 금액을 입력하면 절감액이 계산됩니다';
     }
+
+    // ③ 대환대출 절감 시뮬레이터
+    function updateRefinance() {
+      if (!_loanP) return;
+      const oldRate = parseFloat(document.getElementById('refOldRate').value);
+      const newRate = parseFloat(document.getElementById('refNewRate').value);
+      const feeRate = parseFloat(document.getElementById('refFee').value) || 0;
+      const el = document.getElementById('refResult');
+      if (!oldRate || !newRate) { el.style.display='none'; return; }
+      if (newRate >= oldRate) {
+        el.style.display='block';
+        el.innerHTML = '⚠️ 새 금리가 현재 금리보다 낮아야 절감 효과가 있습니다.';
+        return;
+      }
+      const n = _loanN;
+      const r0 = oldRate / 100 / 12;
+      const r1 = newRate / 100 / 12;
+      const m0 = r0 === 0 ? _loanP/n : _loanP * r0 * Math.pow(1+r0,n) / (Math.pow(1+r0,n)-1);
+      const m1 = r1 === 0 ? _loanP/n : _loanP * r1 * Math.pow(1+r1,n) / (Math.pow(1+r1,n)-1);
+      const totalInt0 = m0 * n - _loanP;
+      const totalInt1 = m1 * n - _loanP;
+      const intSaved = totalInt0 - totalInt1;
+      const fee = _loanP * feeRate / 100;
+      const netSaved = intSaved - fee;
+      const bepMonths = (m0-m1) > 0 ? Math.ceil(fee / (m0-m1)) : 0;
+      el.style.display='block';
+      el.innerHTML =
+        `현재 월 납입: <strong style="color:#ff6b6b">${fmt(m0)}원</strong> → 갈아타기 후: <strong style="color:var(--accent)">${fmt(m1)}원</strong> (월 ${fmt(m0-m1)}원 절감)<br>` +
+        `총 이자 절감: <strong style="color:var(--accent)">${fmt(intSaved)}원</strong> / 중도상환수수료: <strong style="color:#ff6b6b">${fmt(fee)}원</strong><br>` +
+        `순 절감액: <strong style="color:${netSaved>0?'var(--accent)':'#ff6b6b'};font-size:16px">${fmt(netSaved)}원</strong>` +
+        (bepMonths > 0 ? ` · 손익분기: <strong style="color:var(--accent)">${bepMonths}개월</strong> 후 유리` : '');
+    }
   </script>
 
 <style>
@@ -737,55 +799,70 @@
   </div>
 </div>
 <div class="seo-section">
-  <h2>상환 방식에 따라 총이자가 1,000만 원 이상 차이 납니다</h2>
-  <p>대출 이자는 금리뿐 아니라 <strong>상환 방식</strong>에 따라서도 크게 달라집니다. 원리금균등상환·원금균등상환·만기일시상환 세 가지 방식은 월 납입액 구조가 다르고, 장기 대출일수록 총이자 차이가 수천만 원에 달할 수 있습니다.</p>
+  <h2>대출 이자 계산기 — 상환 방식에 따라 총이자가 수천만원 차이 납니다</h2>
+  <p>대출 이자는 금리뿐만 아니라 <strong>상환 방식</strong>에 따라서도 크게 달라집니다. 원리금균등상환·원금균등상환·만기일시상환 세 가지 방식은 월 납입액 구조가 다르고, 장기 대출일수록 총이자 차이가 수천만 원에 달할 수 있습니다. 이 계산기는 두 가지 상환 방식(원리금균등·원금균등) 비교와 함께 금리 변동 시뮬레이터, 조기상환 절감액 계산, 대환대출 손익분기 분석까지 한 번에 제공합니다.</p>
+  <p>상환 방식을 선택할 때 가장 중요한 기준은 두 가지입니다. 첫째, 초기에 감당할 수 있는 월 납입액이 얼마인가. 둘째, 장기적으로 총이자를 얼마나 줄이고 싶은가. 원금균등은 초기 부담이 크지만 원금이 빨리 줄어들어 총이자가 적고, 원리금균등은 매달 같은 금액을 내기 때문에 가계 계획 수립이 쉽습니다.</p>
+  <div class="formula-box">원리금균등 월 납입액 = P × r(1+r)ⁿ / ((1+r)ⁿ-1)
+원금균등 월 납입액 = P/n + 잔여원금 × r
+만기일시 월 납입액 = P × r  (원금은 만기에 일시 상환)
 
-  <h3>세 가지 상환 방식의 구조와 차이</h3>
+P=대출원금, r=월 이자율(연금리÷12), n=상환 개월 수</div>
+
+  <h2>상환 방식 3가지 비교 — 1억원 연 4.5% 30년 기준</h2>
+  <p>같은 대출 조건이라도 상환 방식에 따라 총이자 차이가 수천만원에 달합니다. 1억원, 연 4.5%, 30년(360개월) 기준으로 세 가지 방식을 비교하면 만기일시상환이 총이자가 압도적으로 많습니다. 원리금균등과 원금균등의 차이도 1,000만원 이상 납니다.</p>
   <table>
-    <thead><tr><th>상환 방식</th><th>월 납입 구성</th><th>초기 부담</th><th>총이자 부담</th></tr></thead>
+    <thead><tr><th>상환 방식</th><th>초기 월 납입액</th><th>총 이자</th><th>총 납입액</th><th>적합한 상황</th></tr></thead>
     <tbody>
-      <tr><td><strong>원리금균등</strong></td><td>원금+이자를 매달 동일 금액</td><td>중간</td><td>중간</td></tr>
-      <tr><td><strong>원금균등</strong></td><td>원금은 동일, 이자는 감소</td><td>높음</td><td>가장 적음</td></tr>
-      <tr><td><strong>만기일시상환</strong></td><td>매달 이자만, 만기에 원금</td><td>가장 낮음</td><td>가장 많음</td></tr>
+      <tr><td><strong>원리금균등</strong></td><td>약 507,000원</td><td>약 8,240만원</td><td>약 1억 8,240만원</td><td>고정 지출 관리 필요, 직장인</td></tr>
+      <tr><td><strong>원금균등</strong></td><td>약 652,000원 (초기)</td><td>약 6,793만원</td><td>약 1억 6,793만원</td><td>초기 여유 있고 총이자 최소화</td></tr>
+      <tr><td><strong>만기일시상환</strong></td><td>약 375,000원 (이자만)</td><td>약 1억 3,500만원</td><td>약 2억 3,500만원</td><td>단기 보유 후 매도 예정 부동산</td></tr>
+    </tbody>
+  </table>
+  <p>원리금균등 vs 원금균등을 선택할 때 총이자만 보면 원금균등이 유리하지만, 초기 월 납입액이 약 15만원 더 많습니다. 만약 그 차액(15만원)을 매달 투자해 연 5% 수익을 낸다면 총이자 절감액과 비슷하거나 더 나을 수도 있습니다. 단순히 총이자만 비교하지 말고 자신의 현금 흐름과 투자 능력을 함께 고려해야 합니다.</p>
+
+  <h2>금리별 월 납입액·총이자 비교 — 금리 1%p 차이가 30년간 얼마나 다를까</h2>
+  <p>금리는 대출에서 가장 민감한 변수입니다. 금리 차이는 당장 월 납입액에서는 수만 원 차이처럼 보이지만, 30년 누적으로는 수천만 원이 됩니다. 1억원, 30년, 원리금균등 기준으로 금리별 차이를 확인해보세요.</p>
+  <table>
+    <thead><tr><th>연 금리</th><th>월 납입액</th><th>총 이자 (30년)</th><th>3% 대비 추가 이자</th></tr></thead>
+    <tbody>
+      <tr><td>3.0%</td><td>약 422,000원</td><td>약 5,192만원</td><td>기준</td></tr>
+      <tr><td>4.0%</td><td>약 477,000원</td><td>약 7,186만원</td><td>+1,994만원</td></tr>
+      <tr><td>4.5%</td><td>약 507,000원</td><td>약 8,240만원</td><td>+3,048만원</td></tr>
+      <tr><td>5.0%</td><td>약 537,000원</td><td>약 9,327만원</td><td>+4,135만원</td></tr>
+      <tr><td>6.0%</td><td>약 600,000원</td><td>약 1억 1,600만원</td><td>+6,408만원</td></tr>
+      <tr><td>7.0%</td><td>약 665,000원</td><td>약 1억 3,950만원</td><td>+8,758만원</td></tr>
+    </tbody>
+  </table>
+  <p>위 계산기의 '금리 변동 시뮬레이터'에서는 현재 금리 기준으로 금리가 오를 경우 월 납입액 증가분을 슬라이더로 실시간 확인할 수 있습니다. 변동금리 대출을 받은 분들은 금리 인상 시 월 부담이 얼마나 늘어나는지 꼭 미리 확인해두세요.</p>
+  <div class="tip-box"><strong>💡 금리 비교 꿀팁:</strong> 대출 전 은행·저축은행·보험사 3곳 이상을 비교하세요. 같은 주택담보대출이라도 금융기관마다 0.5~1.5%p 차이가 나며, 30년 기준 수천만원 차이가 납니다. 금융감독원 '금융상품 한눈에' 서비스에서 실시간 금리를 비교할 수 있습니다.</div>
+
+  <h2>대환대출(갈아타기) — 언제 하면 유리할까? 손익분기 계산법</h2>
+  <p>대환대출이란 기존 대출을 더 낮은 금리의 새 대출로 갈아타는 것입니다. 금리가 내려가거나 신용점수가 올랐을 때 유리할 수 있지만, 중도상환수수료를 반드시 고려해야 합니다. 무조건 금리가 낮다고 갈아타는 게 이득이 아니며, 수수료를 감안한 실질 절감액과 손익분기 기간을 먼저 계산해야 합니다.</p>
+  <p>일반적으로 대환대출이 유리한 조건은 금리 차이 0.5%p 이상, 잔여 대출 기간 3년 이상, 중도상환수수료 면제 또는 2% 미만인 경우입니다. 2023년부터 은행권에서 시행 중인 '대환대출 인프라(대출 갈아타기 서비스)'를 통해 앱으로 간편하게 갈아타기를 신청할 수 있습니다. 위 계산기 결과 화면의 '대환대출 절감 계산' 기능에서 현재 금리·새 금리·중도상환수수료를 입력하면 실질 절감액과 손익분기 기간을 자동으로 계산해줍니다.</p>
+  <table>
+    <thead><tr><th>상황</th><th>판단 기준</th><th>권장 액션</th></tr></thead>
+    <tbody>
+      <tr><td>금리 차이 0.3%p 미만</td><td>수수료 회수에 수년 소요</td><td>대기 또는 금리 인하 요구권 행사</td></tr>
+      <tr><td>금리 차이 0.5~1%p</td><td>잔여 기간·수수료에 따라 다름</td><td>계산기로 손익분기 기간 확인 후 결정</td></tr>
+      <tr><td>금리 차이 1%p 이상</td><td>대부분 갈아타기 유리</td><td>수수료 확인 후 대환대출 신청</td></tr>
+      <tr><td>3년 이상 경과</td><td>중도상환수수료 0%</td><td>적극 검토 (수수료 부담 없음)</td></tr>
     </tbody>
   </table>
 
-  <h3>1억 원, 연 4%, 30년 기준 방식별 비교</h3>
-  <table>
-    <thead><tr><th>상환 방식</th><th>초기 월 납입액</th><th>총 이자</th><th>적합한 경우</th></tr></thead>
-    <tbody>
-      <tr><td>원리금균등</td><td><strong>약 477,000원</strong></td><td>약 7,186만 원</td><td>매달 고정 지출 관리가 필요할 때</td></tr>
-      <tr><td>원금균등</td><td>약 611,000원 (초기)</td><td>약 6,017만 원</td><td>초기 여유가 있고 총이자를 줄이고 싶을 때</td></tr>
-      <tr><td>만기일시상환</td><td>약 333,000원 (이자만)</td><td>약 1억 2,000만 원</td><td>단기 보유 후 처분 예정인 부동산 담보 대출</td></tr>
-    </tbody>
-  </table>
-
-  <h3>금리 1%p 차이가 30년간 얼마나 다를까</h3>
-  <p>금리 차이는 당장 월 납입액에는 수만 원 차이처럼 보이지만, 30년 누적으로는 수천만 원 차이가 됩니다. 대출 전 금리 비교가 중요한 이유입니다.</p>
-  <table>
-    <thead><tr><th>연 금리</th><th>월 납입액 (원리금균등)</th><th>총 이자 (30년)</th></tr></thead>
-    <tbody>
-      <tr><td>3%</td><td>약 422,000원</td><td>약 5,192만 원</td></tr>
-      <tr><td>4%</td><td>약 477,000원</td><td>약 7,186만 원</td></tr>
-      <tr><td>5%</td><td>약 537,000원</td><td>약 9,327만 원</td></tr>
-      <tr><td>6%</td><td>약 600,000원</td><td>약 1억 1,600만 원</td></tr>
-      <tr><td>7%</td><td>약 665,000원</td><td>약 1억 3,950만 원</td></tr>
-    </tbody>
-  </table>
-
-  <h3>대출이자 줄이는 현실적인 방법</h3>
-  <ul>
-    <li><strong>중도상환</strong> — 여윳돈이 생기면 원금을 일부 갚으면 그 이후 이자가 줄어듭니다. 중도상환수수료(통상 3년 이내 0.5~1.5%)보다 절감되는 이자가 큰지 먼저 계산해 보세요.</li>
-    <li><strong>금리 인하 요구권</strong> — 승진, 소득 증가, 신용점수 상승 등 신용 상태가 개선됐다면 금융사에 금리 인하를 요구할 수 있는 법적 권리가 있습니다.</li>
-    <li><strong>대환대출</strong> — 더 낮은 금리 상품으로 갈아타는 방법입니다. 중도상환수수료와 대환 후 이자 절감액을 비교해 유리한지 확인하세요.</li>
-  </ul>
+  <h2>조기상환·금리 인하 요구권 — 대출이자를 줄이는 현실적인 방법</h2>
+  <p>대출이자를 줄이는 방법은 크게 세 가지입니다. 첫째는 <strong>중도상환(조기상환)</strong>으로, 여유자금이 생겼을 때 원금을 일부 갚으면 이후 이자가 줄어듭니다. 단, 대출 실행일로부터 3년 이내에는 중도상환수수료(통상 0.5~1.5%)가 부과될 수 있으므로, 수수료보다 절감 이자가 더 큰지 먼저 계산해야 합니다. 위 계산기의 '조기상환 시뮬레이터'에서 바로 확인 가능합니다.</p>
+  <p>둘째는 <strong>금리 인하 요구권</strong>입니다. 취직·승진·신용점수 상승·소득 증가 등 신용 상태가 개선됐다면 대출 금융기관에 금리 인하를 요구할 수 있는 법적 권리가 있습니다. 은행들은 연 2회 금리 인하 요구권 행사 결과를 공시하므로, 거절 사유도 확인할 수 있습니다. 셋째는 앞서 설명한 <strong>대환대출</strong>입니다.</p>
+  <div class="warn-box"><strong>⚠️ 변동금리 대출 주의:</strong> 변동금리는 시장 금리(코픽스·CD금리 등)에 연동되어 6개월 또는 1년마다 변경됩니다. 한국은행 기준금리가 1%p 인상되면 변동금리 대출자의 월 납입액이 수만~수십만원 증가할 수 있습니다. 금리 상승기에는 고정금리로 갈아타는 것이 유리할 수 있습니다.</div>
 
   <h2>자주 묻는 질문</h2>
-  <details><summary>원리금균등과 원금균등 중 어느 것이 유리한가요?</summary><div class="faq-answer">총이자만 보면 원금균등이 유리합니다. 하지만 초기 월 납입액이 높기 때문에 여유가 없다면 원리금균등이 현실적입니다. 장기 주택담보대출이라면 원금균등을 우선 검토해 보세요.</div></details>
-  <details><summary>변동금리 대출은 어떻게 계산하나요?</summary><div class="faq-answer">변동금리는 금리 변경 시점(통상 6개월 또는 1년)마다 새 금리로 재계산됩니다. 계산기는 현재 금리가 유지된다는 가정 하에 예상액을 보여줍니다.</div></details>
-  <details><summary>중도상환수수료는 어떻게 계산되나요?</summary><div class="faq-answer">중도상환수수료 = 중도상환금액 × 수수료율 × 잔여일수 ÷ 대출기간(일). 금융사·상품마다 수수료율이 다르며, 대출 실행일로부터 3년이 지나면 수수료가 면제되는 경우가 많습니다.</div></details>
-
-
+  <details><summary>원리금균등과 원금균등 중 어느 것이 유리한가요?</summary><div class="faq-answer">총이자만 보면 원금균등이 유리합니다. 같은 조건(1억원, 연 4.5%, 30년)에서 원금균등이 원리금균등보다 총이자를 약 1,400만원 덜 냅니다. 하지만 초기 월 납입액이 15만원 이상 많아 부담이 큽니다. 초기 현금 흐름 여유가 있다면 원금균등을, 안정적인 고정 지출 관리가 필요하다면 원리금균등을 선택하세요.</div></details>
+  <details><summary>변동금리 대출은 어떻게 계산하나요?</summary><div class="faq-answer">변동금리는 기준금리(코픽스·CD금리) 변경 시점(통상 6개월 또는 1년)마다 새 금리로 재계산됩니다. 이 계산기는 현재 금리가 유지된다는 가정 하에 예상액을 보여줍니다. '금리 변동 시뮬레이터'에서 금리가 오를 경우 월 납입액 변화를 미리 확인해보세요.</div></details>
+  <details><summary>중도상환수수료는 어떻게 계산되나요?</summary><div class="faq-answer">중도상환수수료 = 중도상환금액 × 수수료율 × (잔여일수 ÷ 대출기간 일수). 대출 실행일로부터 3년이 지나면 수수료가 면제되는 경우가 많습니다. 금융기관·상품마다 수수료율이 달라 대출 계약서에서 반드시 확인해야 합니다.</div></details>
+  <details><summary>금리 인하 요구권은 어떻게 행사하나요?</summary><div class="faq-answer">대출을 받은 금융기관 앱·홈페이지 또는 영업점에서 신청할 수 있습니다. 취직·승진·결혼·소득 증가·신용점수 상승·부채 감소 등 신용 상태가 개선됐음을 증명하는 서류(재직증명서·근로소득원천징수영수증 등)를 제출하면 됩니다. 금융기관은 10영업일 이내에 수용 여부를 통보해야 합니다.</div></details>
+  <details><summary>주택담보대출과 신용대출 금리 차이는?</summary><div class="faq-answer">2024년 기준 주택담보대출 금리는 연 3~5%대, 신용대출은 5~8%대가 일반적입니다. 주택담보대출은 담보가 있어 금리가 낮지만 장기(15~30년) 상품이 많습니다. 신용대출은 담보 없이 빠르게 받을 수 있지만 금리가 높습니다. 한도 내에서는 주택담보대출 활용이 총이자 측면에서 유리합니다.</div></details>
+</div>
+    <thead><tr><th>상환 방식</th><th>월 납입 구성</th><th>초기 부담</th><th>총이자 부담</th></tr></thead>
+    <tbody>
 </div>
 
 <script src="/common.js" defer></script><script src="/share.js" defer></script>
