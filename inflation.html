@@ -113,9 +113,10 @@
 
   <div class="card">
     <div class="card-title">계산 방향</div>
-    <div class="tab-group">
+    <div class="tab-group" style="grid-template-columns:1fr 1fr 1fr">
       <button class="tab-btn active" onclick="setMode('past')" id="tab-past">📈 과거 → 현재</button>
       <button class="tab-btn" onclick="setMode('future')" id="tab-future">🔮 현재 → 미래</button>
+      <button class="tab-btn" onclick="setMode('retire')" id="tab-retire">🏠 노후 생활비</button>
     </div>
 
     <div class="input-group">
@@ -154,6 +155,54 @@
     <button class="calc-btn" onclick="calculate()">📊 가치 계산하기</button>
   </div>
 
+  <!-- 노후 생활비 탭 -->
+  <div id="retireCard" style="display:none">
+    <div class="card">
+      <div class="card-title">🏠 노후 생활비 시뮬레이터</div>
+      <div class="input-group">
+        <label>현재 월 생활비</label>
+        <div class="input-wrapper"><input type="number" id="r-monthly" value="3000000" /><span class="input-unit">원</span></div>
+      </div>
+      <div class="input-row">
+        <div class="input-group">
+          <label>현재 나이</label>
+          <div class="input-wrapper"><input type="number" id="r-age" value="40" min="20" max="80" /><span class="input-unit">세</span></div>
+        </div>
+        <div class="input-group">
+          <label>은퇴 나이</label>
+          <div class="input-wrapper"><input type="number" id="r-retire" value="65" min="40" max="80" /><span class="input-unit">세</span></div>
+        </div>
+      </div>
+      <div class="input-row">
+        <div class="input-group">
+          <label>기대 수명</label>
+          <div class="input-wrapper"><input type="number" id="r-life" value="85" min="60" max="100" /><span class="input-unit">세</span></div>
+        </div>
+        <div class="input-group">
+          <label>연 물가상승률</label>
+          <div class="input-wrapper"><input type="number" id="r-rate" value="2.5" step="0.1" /><span class="input-unit">%</span></div>
+        </div>
+      </div>
+      <button class="calc-btn" onclick="calcRetire()">📊 노후 자금 계산하기</button>
+    </div>
+    <div class="result-card" id="retireResult" style="display:none">
+      <div class="result-highlight">
+        <div class="r-label">은퇴 시점 월 생활비 (물가 반영)</div>
+        <div class="r-amount" id="rr-monthly">-<span>원/월</span></div>
+        <div class="r-sub" id="rr-sub">-</div>
+      </div>
+      <div class="card">
+        <div class="card-title">은퇴 자금 분석</div>
+        <div class="compare-row"><span class="c-label">현재 월 생활비</span><span class="c-value" id="rr-now">-</span></div>
+        <div class="compare-row"><span class="c-label">은퇴 시점 월 생활비</span><span class="c-value accent" id="rr-atRetire">-</span></div>
+        <div class="compare-row"><span class="c-label">노후 기간</span><span class="c-value" id="rr-period">-</span></div>
+        <div class="compare-row"><span class="c-label">필요 총 노후 자금 (단순 합산)</span><span class="c-value danger" id="rr-total">-</span></div>
+        <div class="compare-row"><span class="c-label">현재가치 기준 노후 자금</span><span class="c-value danger" id="rr-pv">-</span></div>
+      </div>
+      <div class="notice"><strong style="color:orange">ℹ️ 안내</strong> 단순 합산 기준이며 투자 수익률·국민연금·퇴직금은 미반영입니다. 실제 필요 자금은 이보다 적을 수 있습니다.</div>
+    </div>
+  </div>
+
   <div class="result-card" id="resultCard">
     <div class="result-highlight">
       <div class="r-label" id="r-label">현재 가치</div>
@@ -180,11 +229,24 @@
 
   function setMode(m){
     mode=m;
-    document.getElementById('tab-past').classList.toggle('active',m==='past');
-    document.getElementById('tab-future').classList.toggle('active',m==='future');
-    document.getElementById('amountLabel').textContent=m==='past'?'과거 금액':'현재 금액';
-    document.getElementById('yearLabel').textContent=m==='past'?'기준 연도':'현재 연도';
-    document.getElementById('year2Label').textContent=m==='past'?'현재 연도':'목표 연도';
+    ['past','future','retire'].forEach(t=>{
+      const el=document.getElementById('tab-'+t);
+      if(el) el.classList.toggle('active',m===t);
+    });
+    const mainCard=document.querySelector('.card:has(#amount)');
+    const retireCard=document.getElementById('retireCard');
+    const resultCard=document.getElementById('resultCard');
+    if(m==='retire'){
+      if(mainCard) mainCard.style.display='none';
+      if(retireCard) retireCard.style.display='block';
+      if(resultCard) resultCard.style.display='none';
+    } else {
+      if(mainCard) mainCard.style.display='block';
+      if(retireCard) retireCard.style.display='none';
+      document.getElementById('amountLabel').textContent=m==='past'?'과거 금액':'현재 금액';
+      document.getElementById('yearLabel').textContent=m==='past'?'기준 연도':'현재 연도';
+      document.getElementById('year2Label').textContent=m==='past'?'현재 연도':'목표 연도';
+    }
   }
   function setPreset(r){
     document.getElementById('inflation').value=r;
@@ -199,10 +261,8 @@
     const inflation=parseFloat(document.getElementById('inflation').value)/100;
     const years=endYear-startYear;
     if(years===0){alert('두 연도가 같습니다.');return;}
-
     const factor=Math.pow(1+inflation,Math.abs(years));
     let result, totalChange;
-
     if(mode==='past'){
       result=amount*factor;
       totalChange=((factor-1)*100).toFixed(1);
@@ -216,7 +276,6 @@
       document.getElementById('c-l1').textContent=`${startYear}년 현재 금액`;
       document.getElementById('c-l2').textContent=`${endYear}년 필요 금액`;
     }
-
     const powerChange=(1/factor*100).toFixed(1);
     document.getElementById('r-amount').innerHTML=`${fmt(result)}<span>원</span>`;
     document.getElementById('r-sub').textContent=`${Math.abs(years)}년간 ${(inflation*100).toFixed(1)}% 물가상승률 적용`;
@@ -225,10 +284,37 @@
     document.getElementById('c-years').textContent=`${Math.abs(years)}년`;
     document.getElementById('c-pct').textContent=`+${totalChange}%`;
     document.getElementById('c-power').textContent=`100원 → ${powerChange}원 가치`;
-
-    const rc=document.getElementById('resultCard');
-    rc.classList.add('visible');
+    document.getElementById('resultCard').classList.add('visible');
   }
+
+  function calcRetire(){
+    const monthly=parseFloat(document.getElementById('r-monthly').value)||0;
+    const age=parseInt(document.getElementById('r-age').value)||40;
+    const retireAge=parseInt(document.getElementById('r-retire').value)||65;
+    const lifeAge=parseInt(document.getElementById('r-life').value)||85;
+    const rate=parseFloat(document.getElementById('r-rate').value)/100||0.025;
+    if(retireAge<=age){alert('은퇴 나이가 현재 나이보다 커야 합니다.');return;}
+    if(lifeAge<=retireAge){alert('기대 수명이 은퇴 나이보다 커야 합니다.');return;}
+    const yearsToRetire=retireAge-age;
+    const retirePeriod=lifeAge-retireAge;
+    const monthlyAtRetire=monthly*Math.pow(1+rate,yearsToRetire);
+    // 노후 총 필요 자금: 은퇴 시점부터 매년 물가상승 반영 합산
+    let totalNeeded=0;
+    for(let y=0;y<retirePeriod;y++){
+      totalNeeded+=monthlyAtRetire*Math.pow(1+rate,y)*12;
+    }
+    // 현재가치 기준 (은퇴 시점까지 할인)
+    const pvTotal=totalNeeded/Math.pow(1+rate,yearsToRetire);
+    document.getElementById('rr-monthly').innerHTML=`${fmt(monthlyAtRetire)}<span>원/월</span>`;
+    document.getElementById('rr-sub').textContent=`지금부터 ${yearsToRetire}년 후 (연 ${(rate*100).toFixed(1)}% 물가상승 적용)`;
+    document.getElementById('rr-now').textContent=`월 ${fmt(monthly)}원`;
+    document.getElementById('rr-atRetire').textContent=`월 ${fmt(monthlyAtRetire)}원`;
+    document.getElementById('rr-period').textContent=`${retirePeriod}년 (${retireAge}~${lifeAge}세)`;
+    document.getElementById('rr-total').textContent=`${fmt(totalNeeded)}원`;
+    document.getElementById('rr-pv').textContent=`${fmt(pvTotal)}원`;
+    document.getElementById('retireResult').style.display='block';
+  }
+
   window.onload=()=>{
     document.getElementById('endYear').value = new Date().getFullYear();
     calculate();
@@ -276,40 +362,73 @@
 </div>
 <div class="seo-section">
   <h2>물가상승률 계산기 — 소비자물가지수(CPI)와 실질 구매력 완벽 이해</h2>
-  <h3>물가상승률이 내 돈의 가치를 어떻게 바꾸나</h3>
-  <p>물가상승률(인플레이션)은 일정 기간 동안 물가 수준이 얼마나 올랐는지를 나타내는 경제 지표입니다. 통계청이 매월 발표하는 <strong>소비자물가지수(CPI)</strong>를 기반으로 계산하며, 같은 금액으로 살 수 있는 물건의 양이 줄어드는 현상을 의미합니다. 겉으로는 통장 잔고가 그대로여도 시간이 지날수록 실질 구매력은 조금씩 줄어드는 것이 인플레이션의 본질입니다.</p>
-  <p>예를 들어 연 3% 물가상승률이 20년 지속되면 오늘의 1,000만원은 약 554만원의 가치밖에 갖지 못합니다. 이 때문에 단순 저축만으로는 자산을 지키기 어렵고, 물가상승률을 넘는 수익률을 목표로 투자해야 합니다. 노후 자금을 준비할 때는 물가 상승분을 반드시 반영한 목표 금액을 설정하는 것이 중요합니다.</p>
-  <h3>📐 물가상승률 계산 공식</h3>
-  <p>미래 돈의 현재 가치를 구하거나 현재 돈이 미래에 어느 정도 가치를 갖는지 계산할 때 복리 공식을 활용합니다. 실질금리는 명목금리에서 물가상승률을 뺀 값으로, 이 수치가 마이너스이면 은행에 돈을 맡겨도 실질 구매력은 오히려 줄어드는 것을 의미합니다. 예금금리 3.5%에 물가 5%라면 실질금리는 −1.5%입니다.</p>
+  <p><strong>물가상승률(인플레이션)</strong>은 일정 기간 동안 전반적인 물가 수준이 얼마나 올랐는지를 나타내는 경제 지표입니다. 통계청이 매월 발표하는 소비자물가지수(CPI)를 기반으로 계산하며, 같은 금액으로 살 수 있는 물건의 양이 시간이 지날수록 줄어드는 현상이 바로 인플레이션의 본질입니다. 통장 잔고가 그대로라도 물가가 오르면 실질 구매력은 그만큼 감소합니다.</p>
+  <p>예를 들어 연 3% 물가상승률이 20년 지속되면, 오늘의 1,000만원은 약 554만원의 가치밖에 갖지 못합니다. 절반 가까이 사라지는 셈입니다. 이 때문에 단순 저축만으로는 자산을 지키기 어렵고, 물가상승률을 넘는 수익률을 목표로 투자해야 합니다. 노후 자금을 계획할 때는 반드시 물가 상승분을 반영한 목표 금액을 설정해야 합니다. 이 계산기의 '노후 생활비' 탭에서 은퇴 후 필요한 자금을 물가 반영으로 계산해볼 수 있습니다.</p>
   <div class="formula-box">미래가치 = 현재금액 × (1 + 물가상승률)ⁿ
-실질가치 = 미래금액 ÷ (1 + 물가상승률)ⁿ  (n=연수)
+실질가치 = 미래금액 ÷ (1 + 물가상승률)ⁿ  (n = 연수)
 실질금리 = 명목금리 − 물가상승률
 예) 1,000만원, 연 3%, 10년 후 실질가치
-= 1,000만 ÷ (1.03)^10 = 약 744만원</div>
-  <h3>📊 한국 연도별 소비자물가상승률 추이 (통계청)</h3>
-  <p>한국의 물가는 2020년 코로나19 충격으로 0.5%까지 낮아졌다가 2022년 에너지·식품 가격 급등으로 5.1%까지 치솟았습니다. 이후 한국은행의 금리 인상과 공급망 안정화로 2024년에는 2.3%로 안정되는 추세입니다. 중장기 재무 계획 수립 시에는 보수적으로 연 2.5~3.0%를 가정하는 것이 일반적입니다.</p>
+= 1,000만 ÷ (1.03)¹⁰ = 약 744만원</div>
+  <p>실질금리는 명목금리(은행 예금 이자율 등)에서 물가상승률을 뺀 값입니다. 이 수치가 마이너스이면 은행에 돈을 맡겨도 실질 구매력은 오히려 줄어드는 것을 의미합니다. 예금금리 3.5%에 물가 5%라면 실질금리는 −1.5%로, 저축을 했음에도 불구하고 손해를 보는 상황이 됩니다.</p>
+  <div class="tip-box"><strong>💡 계산기 활용 팁:</strong> '과거→현재' 탭에서는 예전 금액이 지금 얼마인지(예: 2000년 월급 200만원의 현재 가치), '현재→미래' 탭에서는 지금 돈이 미래에 얼마나 필요한지, '노후 생활비' 탭에서는 은퇴 후 물가 반영 생활비 총액을 계산할 수 있습니다.</div>
+
+  <h2>한국 연도별 소비자물가상승률 — 2020~2025년 추이와 전망</h2>
+  <p>한국의 물가는 2020년 코로나19 수요 위축으로 0.5%까지 낮아졌다가 2022년 러시아-우크라이나 전쟁 여파로 에너지·식품 가격이 급등하며 5.1%까지 치솟았습니다. 이는 1998년 외환위기 이후 가장 높은 물가상승률이었습니다. 이후 한국은행의 금리 인상(2022~2023년 기준금리 3.5%까지 인상)과 공급망 안정화로 2024년에는 2.3%로 안정되었고, 2025년에는 2% 안팎으로 더 안정되는 추세입니다.</p>
+  <p>중장기 재무 계획 수립 시에는 보수적으로 연 2.5~3.0%를 가정하는 것이 일반적입니다. 한국은행의 물가안정목표는 2%이므로, 중앙은행이 정상적으로 작동한다면 장기적으로 연 2% 수준이 기준선이 됩니다. 다만 에너지 가격 급등, 공급망 충격 같은 외부 변수가 언제든 물가를 끌어올릴 수 있으므로 여유를 두고 계획하는 것이 안전합니다.</p>
   <table>
-    <thead><tr><th>연도</th><th>물가상승률</th><th>주요 원인</th></tr></thead>
+    <thead><tr><th>연도</th><th>물가상승률</th><th>주요 원인</th><th>기준금리</th></tr></thead>
     <tbody>
-      <tr><td>2020년</td><td>0.5%</td><td>코로나19 수요 위축</td></tr>
-      <tr><td>2021년</td><td>2.5%</td><td>경기 회복·공급망 차질</td></tr>
-      <tr><td>2022년</td><td>5.1%</td><td>에너지·식품 가격 급등</td></tr>
-      <tr><td>2023년</td><td>3.6%</td><td>긴축 통화정책 효과</td></tr>
-      <tr><td>2024년</td><td>2.3%</td><td>점진적 안정화</td></tr>
+      <tr><td>2020년</td><td>0.5%</td><td>코로나19 수요 위축</td><td>0.50%</td></tr>
+      <tr><td>2021년</td><td>2.5%</td><td>경기 회복·공급망 차질</td><td>1.00%</td></tr>
+      <tr><td>2022년</td><td>5.1%</td><td>에너지·식품 가격 급등</td><td>3.25%</td></tr>
+      <tr><td>2023년</td><td>3.6%</td><td>긴축 통화정책 효과</td><td>3.50%</td></tr>
+      <tr><td>2024년</td><td>2.3%</td><td>점진적 안정화</td><td>3.00%</td></tr>
+      <tr><td>2025년</td><td>약 2.0%</td><td>안정세 유지 (추정)</td><td>2.75%</td></tr>
     </tbody>
   </table>
-  <h3>📊 물가상승률별 1,000만원 실질가치 변화</h3>
-  <p>아래 표는 물가상승률이 지속될 경우 오늘의 1,000만원이 미래에 실질적으로 얼마의 가치를 갖는지 보여줍니다. 연 5% 물가상승률이 30년 지속되면 1,000만원의 실질가치는 231만원에 불과합니다. 연금·퇴직금 수령 시 명목 금액만 보지 말고 물가 조정 후 실질가치로 판단하는 습관이 중요합니다.</p>
+  <p>물가상승률 데이터는 통계청 국가통계포털(KOSIS) 또는 한국은행 경제통계시스템(ECOS)에서 확인할 수 있습니다. 정확한 계획을 위해서는 실제 공식 데이터를 참고하시기 바랍니다.</p>
+
+  <h2>물가상승률별 1,000만원 실질가치 변화 — 10·20·30년 후 시뮬레이션</h2>
+  <p>아래 표는 오늘 1,000만원이 물가상승률에 따라 미래에 실질적으로 어느 정도의 가치를 갖는지 보여줍니다. 표를 보면 왜 장기 재무 계획에서 물가를 반영하는 것이 그토록 중요한지 직관적으로 이해할 수 있습니다. 연 5% 물가상승률이 30년 지속되면 오늘의 1,000만원은 불과 231만원의 가치만 남습니다. 4분의 1도 안 되는 셈입니다.</p>
   <table>
-    <thead><tr><th>경과 연수</th><th>연 2%</th><th>연 3%</th><th>연 5%</th></tr></thead>
+    <thead><tr><th>경과 연수</th><th>연 2% (목표 물가)</th><th>연 3% (한국 평균)</th><th>연 5% (고물가)</th></tr></thead>
     <tbody>
       <tr><td>10년 후</td><td>820만원</td><td>744만원</td><td>614만원</td></tr>
       <tr><td>20년 후</td><td>673만원</td><td>554만원</td><td>377만원</td></tr>
       <tr><td>30년 후</td><td>552만원</td><td>412만원</td><td>231만원</td></tr>
     </tbody>
   </table>
-  <div class="tip-box"><strong>💡 핵심 전략.</strong> 연 2% 물가상승률이 30년 지속되면 1,000만원의 실질가치는 552만원으로 반토막 납니다. 예금금리가 물가상승률보다 낮으면 저축이 오히려 손해입니다. 물가를 이기는 자산(주식·부동산·인플레이션 연동 채권)에 투자하고, 국민연금처럼 물가 연동 기능이 있는 소득원을 활용하세요.</div>
+  <p>반대로 생각하면, 30년 후에도 현재의 생활 수준을 유지하려면 연 3% 기준으로 지금보다 2.4배 더 많은 돈이 필요합니다. 현재 월 생활비 300만원이라면 30년 후에는 약 727만원이 필요한 셈입니다. 이 계산기의 '노후 생활비' 탭에서 개인 상황에 맞게 직접 계산해볼 수 있습니다.</p>
+  <div class="tip-box"><strong>💡 핵심 전략:</strong> 연 2% 물가상승률이 30년 지속되면 1,000만원의 실질가치는 552만원으로 반토막 납니다. 예금금리가 물가상승률보다 낮으면 저축이 실질적으로 손해입니다. 물가를 이기는 자산(주식·부동산·인플레이션 연동 채권)에 분산 투자하고, 국민연금처럼 물가 연동 기능이 있는 소득원을 확보하는 전략이 필요합니다.</div>
+
+  <h2>노후 자금 계획 — 물가 반영 생활비와 은퇴 자금 계산법</h2>
+  <p>노후 자금 계획에서 가장 흔한 실수는 현재 생활비를 그대로 목표로 삼는 것입니다. 오늘 월 300만원이 필요하다고 해서 은퇴 후에도 300만원이면 충분한 게 아닙니다. 물가가 오를수록 같은 생활 수준을 유지하는 데 더 많은 돈이 필요합니다.</p>
+  <p>예를 들어 현재 40세, 월 생활비 300만원, 65세 은퇴, 85세 기대 수명, 연 2.5% 물가상승률을 가정하면, 65세 은퇴 시점의 월 생활비는 약 555만원이 됩니다. 은퇴 후 20년(85세까지) 동안의 총 필요 자금은 약 17억원이 넘습니다. 물론 국민연금·퇴직금·투자 수익 등을 합산하면 실제 준비해야 할 금액은 달라지지만, 이 규모를 인식하지 못하고 노후를 맞이하면 자금 부족이 심각해질 수 있습니다. 위 계산기의 '노후 생활비' 탭에서 직접 계산해보세요.</p>
+  <p>국민연금은 매년 전년도 소비자물가 상승률을 반영해 연금액을 재산정합니다. 물가가 3% 오른 해에는 연금 수령액도 3% 인상됩니다. 이 물가 연동 기능이 국민연금의 가장 큰 강점 중 하나입니다. 따라서 국민연금 수령 예정액은 현재 기준으로 추정하더라도 실질가치는 어느 정도 보전됩니다. 다만 국민연금만으로는 노후 생활비를 충당하기 어렵기 때문에 추가적인 준비가 반드시 필요합니다.</p>
+
+  <h2>실질금리와 인플레이션 헤지 — 내 돈을 지키는 투자 전략</h2>
+  <p>물가상승률을 웃도는 수익을 내지 못하면 자산은 명목 금액이 유지되더라도 실질적으로 감소하고 있는 것입니다. 2022년처럼 물가가 5%대로 오른 상황에서 예금금리가 3%라면 실질금리는 −2%로, 저축이 오히려 손해입니다. 이런 환경에서는 어떤 자산에 투자해야 실질 구매력을 지킬 수 있을까요?</p>
+  <p>역사적으로 인플레이션 헤지에 효과적인 자산으로는 주식(장기), 부동산, 금, 물가연동채권(TIPS)이 꼽힙니다. 주식은 단기적으로는 변동성이 크지만 장기적으로는 물가를 상회하는 수익률을 보여왔습니다. 부동산은 실물 자산으로서 물가 상승기에 가치가 함께 오르는 경향이 있습니다. 물가연동채권은 원금과 이자가 물가에 연동되어 인플레이션 충격을 직접 방어합니다. 반면 현금·예금·채권은 인플레이션에 취약한 편입니다.</p>
+  <table>
+    <thead><tr><th>자산 유형</th><th>인플레이션 헤지 효과</th><th>특징</th></tr></thead>
+    <tbody>
+      <tr><td>주식 (장기)</td><td>높음 ★★★★</td><td>단기 변동성 크나 장기 우수</td></tr>
+      <tr><td>부동산</td><td>높음 ★★★★</td><td>레버리지 효과, 유동성 낮음</td></tr>
+      <tr><td>금</td><td>중간 ★★★</td><td>안전자산, 수익 불규칙</td></tr>
+      <tr><td>물가연동채권(TIPS)</td><td>높음 ★★★★</td><td>원금 물가 연동, 안정적</td></tr>
+      <tr><td>국민연금</td><td>높음 ★★★★</td><td>매년 CPI 반영 지급액 인상</td></tr>
+      <tr><td>현금·예금</td><td>낮음 ★</td><td>실질금리 마이너스 가능성</td></tr>
+    </tbody>
+  </table>
+  <p>가장 현실적인 전략은 여러 자산에 분산 투자하는 것입니다. 전 재산을 예금에만 넣어두면 장기적으로 실질 구매력이 크게 감소합니다. 반면 모든 돈을 주식에만 투자하면 단기 변동성에 노출됩니다. 나이와 재무 상황에 맞는 분산 투자 포트폴리오를 구성하고, 물가 동향을 정기적으로 확인해 포트폴리오를 점검하는 습관이 중요합니다.</p>
+
   <h2>자주 묻는 질문 (FAQ)</h2>
+  <details><summary>실질금리가 마이너스면 어떤 의미인가요?</summary><div class="faq-answer">실질금리 = 명목금리 − 물가상승률이 음수라면, 은행에 돈을 맡겨도 물가 상승 속도를 따라가지 못해 실질 구매력이 감소합니다. 2022년 한국에서 예금금리 2~3%, 물가 5.1%로 실질금리가 마이너스였던 것이 대표적인 사례입니다. 이런 환경에서는 현금 보유보다 인플레이션 헤지 자산 투자가 유리합니다.</div></details>
+  <details><summary>국민연금 수령액도 물가를 반영하나요?</summary><div class="faq-answer">네. 국민연금은 매년 전년도 소비자물가상승률을 반영해 연금액을 재산정합니다. 이 물가 연동 기능이 국민연금의 핵심 장점으로, 수십 년 뒤에도 구매력을 일정 수준 유지해줍니다. 물가가 크게 오른 해에는 연금액도 그만큼 인상되므로 실질가치 보전 효과가 있습니다.</div></details>
+  <details><summary>CPI와 PPI의 차이는 무엇인가요?</summary><div class="faq-answer">CPI(소비자물가지수)는 소비자가 구매하는 상품·서비스 가격 변동을 측정하고, PPI(생산자물가지수)는 생산자가 판매하는 상품의 가격 변동을 측정합니다. PPI 변화가 수개월 후 CPI에 반영되어 투자자들이 PPI를 인플레이션 선행지표로 활용합니다.</div></details>
+  <details><summary>한국은행의 물가안정목표가 2%인 이유는?</summary><div class="faq-answer">2%는 경제 성장을 지원하면서도 구매력 손실을 최소화할 수 있는 균형점으로, 대부분의 중앙은행이 채택하는 기준입니다. 물가가 너무 낮거나 마이너스(디플레이션)가 되면 소비 위축과 경기 침체로 이어질 수 있어 완만한 인플레이션이 더 바람직합니다. 한국은행은 이 목표를 기준으로 기준금리를 조정합니다.</div></details>
+  <details><summary>퇴직 후 노후 생활비 계획 시 물가상승률을 어떻게 반영하나요?</summary><div class="faq-answer">퇴직 후 20~30년 생활비 계획 시 연평균 2~3% 물가상승률을 적용하는 것이 일반적입니다. 현재 월 300만원이 필요하다면 연 3% 기준 20년 후에는 약 541만원이 필요합니다. 국민연금·퇴직연금의 물가 연동 여부를 확인하고 부족분을 투자 수익으로 보완하는 전략이 중요합니다. 이 계산기의 '노후 생활비' 탭에서 직접 계산해보세요.</div></details>
+</div>
   <details><summary>실질금리가 마이너스면 어떤 의미인가요?</summary><div class="faq-answer">실질금리 = 명목금리 − 물가상승률이 음수라면, 은행에 돈을 맡겨도 물가 상승 속도를 따라가지 못해 실질 구매력이 감소합니다. 2022년 한국에서 예금금리 2~3%, 물가 5.1%로 실질금리가 마이너스였던 것이 대표 사례입니다. 이런 환경에서는 현금 보유보다 인플레이션 헤지 자산 투자가 유리합니다.</div></details>
   <details><summary>국민연금 수령액도 물가를 반영하나요?</summary><div class="faq-answer">네. 국민연금은 매년 전년도 소비자물가상승률을 반영해 연금액을 재산정합니다. 이 물가 연동 기능이 국민연금의 핵심 장점으로 수십 년 뒤에도 구매력을 일정 수준 유지해줍니다. 물가가 크게 오른 해에는 연금액도 그만큼 인상되므로 실질가치 보전 효과가 있습니다.</div></details>
   <details><summary>CPI와 PPI의 차이는 무엇인가요?</summary><div class="faq-answer">CPI(소비자물가지수)는 소비자가 구매하는 상품·서비스 가격 변동을 측정하고, PPI(생산자물가지수)는 생산자가 판매하는 상품의 가격 변동을 측정합니다. PPI 변화가 수개월 후 CPI에 반영되어 투자자들이 PPI를 인플레이션 선행지표로 활용합니다.</div></details>
