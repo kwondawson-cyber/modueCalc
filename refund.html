@@ -113,6 +113,7 @@
     <div class="tab active" onclick="switchTab('basic',this)">기본 환불</div>
     <div class="tab" onclick="switchTab('academy',this)">학원 환불</div>
     <div class="tab" onclick="switchTab('subscription',this)">구독 환불</div>
+    <div class="tab" onclick="switchTab('travel',this)">여행 환불</div>
   </div>
 
   <!-- 기본 환불 -->
@@ -164,6 +165,11 @@
           <option value="4">3개월 초과</option>
         </select>
       </div>
+      <div class="formula-box" style="font-size:12px;margin-bottom:12px">학원법 기준 환불률 (수강 횟수 비율 기준)<br>
+수강 전: 수강료 전액 환불<br>
+1/3 미만 수강: 수강료의 2/3 환불<br>
+1/3 ~ 1/2 미만 수강: 수강료의 1/2 환불<br>
+1/2 이상 수강: 환불 불가</div>
       <button class="btn" onclick="calcAcademy()">환불액 계산</button>
     </div>
     <div class="result-card" id="result-academy">
@@ -206,6 +212,44 @@
       </div>
     </div>
   </div>
+  <!-- 여행 환불 -->
+  <div id="tab-travel" style="display:none">
+    <div class="card">
+      <h2>✈️ 여행상품 환불 (공정위 소비자분쟁해결기준)</h2>
+      <div class="form-group"><label>여행요금 (원)</label><input type="number" id="t-paid" placeholder="예: 1500000" /></div>
+      <div class="form-group">
+        <label>취소 시점</label>
+        <select id="t-days">
+          <option value="30">출발 30일 이상 전</option>
+          <option value="25">출발 20~29일 전</option>
+          <option value="15">출발 10~19일 전</option>
+          <option value="9">출발 8~9일 전</option>
+          <option value="5">출발 1~7일 전</option>
+          <option value="0">출발 당일</option>
+        </select>
+      </div>
+      <div class="formula-box" style="font-size:12px;margin-bottom:12px">소비자분쟁해결기준 (공정거래위원회 고시) 여행업 기준<br>
+30일+ 전 취소: 위약금 없음 (전액 환불)<br>
+20~29일 전: 여행요금의 10% 공제<br>
+10~19일 전: 여행요금의 15% 공제<br>
+8~9일 전: 여행요금의 20% 공제<br>
+1~7일 전: 여행요금의 30% 공제<br>
+출발 당일: 여행요금의 50% 공제</div>
+      <button class="btn" onclick="calcTravel()">환불액 계산</button>
+    </div>
+    <div class="result-card" id="result-travel">
+      <div class="result-main">
+        <div class="result-label">환불 예상액</div>
+        <div class="result-value" id="rt-refund">0원</div>
+        <div class="result-sub" id="rt-sub"></div>
+      </div>
+      <div class="breakdown">
+        <div class="breakdown-row"><span>여행요금</span><span id="rt-paid">-</span></div>
+        <div class="breakdown-row deduct"><span>위약금</span><span id="rt-penalty">-</span></div>
+        <div class="breakdown-row"><span>환불 예상액</span><span id="rt-final">-</span></div>
+      </div>
+    </div>
+  </div>
 
 </div><!-- /container -->
 
@@ -221,49 +265,83 @@
 </div>
 
 <div class="seo-card">
-  <h2>환불금액 계산기 — 위약금·학원비·구독 환불 기준 완벽 정리</h2>
+  <h2>환불금액 계산기 — 공정위 소비자분쟁해결기준 완벽 정리 (2026년)</h2>
   <h3>환불 금액은 어떻게 결정되나?</h3>
-  <p>환불 금액은 단순히 결제금액에서 사용 금액을 빼는 게 아닙니다. 공정거래위원회 <strong>소비자분쟁해결기준</strong>에 따라 업종별로 위약금 요율이 다르게 적용됩니다. 특히 학원·여행·구독 서비스는 환불 시점(사용 기간 비율)에 따라 돌려받는 금액이 크게 달라지므로, 해지 전에 정확한 환불액을 미리 계산해보는 것이 중요합니다.</p>
-  <p>많은 소비자들이 환불 규정을 모른 채 사업자가 제시하는 금액을 그대로 받아들이는 경우가 많습니다. 하지만 소비자분쟁해결기준은 법적 강제력이 있으며, 이를 초과하는 위약금은 무효입니다. 환불 거절을 당했다면 한국소비자원(1372)에 피해구제를 신청할 수 있습니다.</p>
-  <h3>📐 환불액 계산 공식</h3>
-  <p>기본 환불 계산은 일할 계산 방식을 사용합니다. 총 결제금액을 전체 기간으로 나눈 1일 단가에 사용 일수를 곱한 것이 사용 금액이고, 여기에 위약금을 더한 금액을 제외한 나머지가 환불액입니다. 학원은 사용 비율에 따른 단계별 공제 방식이 별도로 적용됩니다.</p>
-  <div class="formula-box">환불액 = 결제금액 − 사용금액 − 위약금
-사용금액 = 결제금액 ÷ 전체 기간 × 사용 일수
-위약금 = 잔여금액 × 위약금 비율 (또는 고정 금액)
-
-학원: 경과 비율에 따라 1/4 ~ 전액 공제 적용</div>
-  <h3>📊 업종별 환불 위약금 기준 (소비자분쟁해결기준)</h3>
-  <p>아래 표는 공정거래위원회 소비자분쟁해결기준의 주요 업종별 환불 규정입니다. 학원은 수강 기간 경과 비율에 따라 단계적으로 공제되고, 여행은 출발 전 남은 일수에 따라 위약금이 달라집니다. 사업자 약관이 이보다 불리하게 설정되어 있다면 소비자분쟁해결기준이 우선 적용됩니다.</p>
-  <table class="ex-table">
-    <tr><th>업종</th><th>환불 조건</th><th>위약금</th></tr>
-    <tr><td><strong>학원·교습</strong></td><td>1개월 이내</td><td>수강료 1/2 공제 후 환불</td></tr>
-    <tr><td><strong>학원·교습</strong></td><td>2개월 이내</td><td>수강료 1/3 공제 후 환불</td></tr>
-    <tr><td><strong>학원·교습</strong></td><td>3개월 이내</td><td>수강료 1/4 공제 후 환불</td></tr>
-    <tr><td><strong>학원·교습</strong></td><td>3개월 초과</td><td>환불 불가</td></tr>
-    <tr><td><strong>여행상품</strong></td><td>출발 30일 전 취소</td><td>위약금 없음 (전액 환불)</td></tr>
-    <tr><td><strong>여행상품</strong></td><td>출발 20일 전 취소</td><td>여행요금의 10%</td></tr>
-    <tr><td><strong>여행상품</strong></td><td>출발 3일 전 취소</td><td>여행요금의 30%</td></tr>
-    <tr><td><strong>구독 서비스</strong></td><td>중도 해지</td><td>잔여 기간 일할 계산 환불</td></tr>
-  </table>
-  <div class="hl-box">💡 <strong>환불 거절 시 대처법:</strong> ① 업체에 소비자분쟁해결기준 조문을 명시해 서면 요청 → ② 한국소비자원 피해구제 신청 (국번없이 1372) → ③ 소액사건심판(소가 3,000만원 이하 간이 소송) 순으로 대응하세요.</div>
+  <p>환불 금액은 단순히 결제금액에서 사용 금액을 빼는 것이 아닙니다. 공정거래위원회 <strong>소비자분쟁해결기준</strong>에 따라 업종별로 위약금 요율이 다르게 적용됩니다. 특히 학원·여행·구독 서비스는 해지 시점에 따라 돌려받는 금액이 크게 달라지므로, 해지 전에 정확한 환불액을 미리 계산해 보는 것이 중요합니다. 소비자분쟁해결기준은 법적 근거가 있으며, 이를 초과하는 위약금은 무효입니다.</p>
+  <div class="hl-box">💡 <strong>핵심 원칙:</strong> 사업자 약관이 소비자분쟁해결기준보다 소비자에게 불리하게 설정되어 있더라도, 소비자분쟁해결기준이 우선 적용됩니다. 환불 거절 시 한국소비자원(☎ 1372)에 피해구제를 신청할 수 있습니다.</div>
 </div>
 
+<div class="seo-card">
+  <h2>업종별 환불 기준표 — 학원·여행·헬스·구독 서비스</h2>
+  <h3>📐 환불 계산 공식</h3>
+  <div class="formula-box">기본 환불액 = 결제금액 − 사용금액 − 위약금
+사용금액 = 결제금액 ÷ 전체 기간 × 사용 일수
 
-  <div class="hl-box">🔑 <strong>핵심 팁</strong><br>💡 <strong>환불 거절 시 대응 방법:</strong> 소비자분쟁해결기준(공정거래위원회 고시)에 따라 계약 해지 및 환불이 가능합니다. 사업자가 환불을 거부하면 ① 한국소비자원(1372) 피해구제 신청, ② 소비자 24(www.consumer.go.kr) 온라인 신청, ③ 신용카드 결제 시 카드사 차지백(chargeback) 신청이 가능합니다. 계약서·영수증·카카오톡 대화 등 증거를 미리 보관해두세요.</div>
+학원: 수강 비율에 따라 수강료의 1/2 또는 2/3 환불 (학원법 기준)
+여행: 출발일까지 남은 일수에 따라 10~50% 위약금 공제</div>
+  <table class="ex-table">
+    <thead><tr><th>업종</th><th>취소 시점</th><th>위약금·공제</th><th>법적 근거</th></tr></thead>
+    <tbody>
+      <tr><td><strong>학원</strong></td><td>수강 1/3 미만</td><td>수강료 1/3 공제 (2/3 환불)</td><td>학원법 시행령 별표4</td></tr>
+      <tr><td><strong>학원</strong></td><td>수강 1/3~1/2</td><td>수강료 1/2 공제 (1/2 환불)</td><td>학원법 시행령 별표4</td></tr>
+      <tr><td><strong>학원</strong></td><td>수강 1/2 초과</td><td>환불 불가</td><td>학원법 시행령 별표4</td></tr>
+      <tr><td><strong>여행</strong></td><td>출발 30일+ 전</td><td>위약금 없음 (전액 환불)</td><td>소비자분쟁해결기준</td></tr>
+      <tr><td><strong>여행</strong></td><td>출발 20~29일 전</td><td>10% 공제</td><td>소비자분쟁해결기준</td></tr>
+      <tr><td><strong>여행</strong></td><td>출발 1~7일 전</td><td>30% 공제</td><td>소비자분쟁해결기준</td></tr>
+      <tr><td><strong>여행</strong></td><td>출발 당일</td><td>50% 공제</td><td>소비자분쟁해결기준</td></tr>
+      <tr><td><strong>구독 서비스</strong></td><td>중도 해지</td><td>잔여 기간 일할 계산 환불</td><td>전자상거래법</td></tr>
+    </tbody>
+  </table>
+</div>
 
-<h2 style="font-size:20px;font-weight:900;color:var(--text);max-width:680px;margin:40px auto 16px;padding:0 20px">자주 묻는 질문 (FAQ)</h2>
-<div style="max-width:680px;margin:0 auto;padding:0 20px">
-  <details><summary>학원비 환불을 거부하면 어떻게 해야 하나요?</summary><div class="faq-answer">학원은 할부거래법에 따라 환불 의무가 있습니다. 거부 시 한국소비자원(1372) 또는 교육청에 신고할 수 있습니다. 환불 요구 시 내용증명을 먼저 발송하는 것이 효과적이며, 이후 소액사건심판으로 소송도 가능합니다.</div></details>
-  <details><summary>위약금은 얼마까지 받을 수 있나요?</summary><div class="faq-answer">소비자 귀책으로 계약 해지 시 통상 잔여 금액의 10% 이내가 적정 위약금으로 봅니다. 과도한 위약금은 불공정 약관으로 무효가 될 수 있습니다. 소비자분쟁해결기준을 초과하는 위약금은 초과분을 돌려받을 수 있습니다.</div></details>
-  <details><summary>디지털 콘텐츠(OTT, 앱 구독)는 환불이 안 되나요?</summary><div class="faq-answer">디지털 콘텐츠는 일반적으로 청약 철회가 제한됩니다. 단, 서비스 오류·사업자 귀책 사유라면 환불 청구가 가능합니다. 구독 서비스의 경우 약관에 따라 잔여 기간 일할 계산 환불이 되는 경우도 있으니 약관을 꼼꼼히 확인하세요.</div></details>
-  <details><summary>환불 신청은 어디에 하나요?</summary><div class="faq-answer">한국소비자원 1372, 공정거래위원회, 카드사 분쟁 조정 등을 통해 신청할 수 있습니다. 카드 결제 시 카드사에 '매입 취소' 또는 '차지백'을 요청하는 방법도 있습니다. 카드 차지백은 사업자 부도·폐업 시에도 효과적입니다.</div></details>
-  <details><summary>사용 단가 계산은 어떻게 하나요?</summary><div class="faq-answer">일할 계산의 경우 [총 결제액 ÷ 전체 기간] = 1일 단가입니다. 사용 금액 = 1일 단가 × 사용 일수. 환불액 = 총 결제액 - 사용 금액 - 위약금 순서로 계산합니다. 이 계산기에서 자동으로 계산해드립니다.</div></details>
+<div class="seo-card">
+  <h2>학원비 환불 — 학원법 기준 정확한 계산법</h2>
+  <p>학원 환불은 <strong>학원의 설립·운영 및 과외교습에 관한 법률(학원법) 시행령 별표4</strong>를 기준으로 합니다. 핵심은 개월 수가 아닌 총 수강 횟수 대비 이미 수강한 횟수의 비율로 결정됩니다.</p>
+  <p>예를 들어 20회 수강 과정에서 7회를 수강했다면 수강 비율이 35%(1/3~1/2 구간)이므로 수강료의 1/2을 환불받을 수 있습니다. 수강을 단 1회도 하지 않았다면 전액 환불이 원칙입니다. 학원 측이 교재비·등록비 등을 이유로 공제를 시도하는 경우, 해당 항목이 사전에 서면으로 안내된 경우에만 인정됩니다.</p>
+  <div class="hl-box">⚠️ <strong>주의:</strong> 온라인 강의(인터넷 강의)는 콘텐츠 전자상거래법이 적용되어 기준이 다를 수 있습니다. 학원에 직접 방문해 현장에서 수강하는 경우는 학원법, 인터넷 강의는 전자상거래법·약관 기준을 확인하세요.</div>
+</div>
+
+<div class="seo-card">
+  <h2>환불 거절 당했을 때 — 단계별 대처법</h2>
+  <p>사업자가 정당한 환불 요청을 거절할 경우 다음 절차를 순서대로 진행하세요. 대부분은 1~2단계에서 해결됩니다.</p>
+  <table class="ex-table">
+    <thead><tr><th>단계</th><th>방법</th><th>기간</th><th>비용</th></tr></thead>
+    <tbody>
+      <tr><td>1단계</td><td>사업자에게 소비자분쟁해결기준 조문 명시 서면/내용증명 발송</td><td>즉시</td><td>무료</td></tr>
+      <tr><td>2단계</td><td>한국소비자원(☎ 1372) 피해구제 신청 또는 소비자24 온라인 접수</td><td>30~60일</td><td>무료</td></tr>
+      <tr><td>3단계</td><td>카드 결제 시 카드사 차지백(chargeback) 신청</td><td>60일 이내</td><td>무료</td></tr>
+      <tr><td>4단계</td><td>소액사건심판 신청 (소가 3,000만원 이하 간이 소송)</td><td>2~3개월</td><td>인지대 소액</td></tr>
+    </tbody>
+  </table>
+  <div class="hl-box">📋 <strong>증거 보관 필수:</strong> 계약서·영수증·카카오톡·문자 대화, 약관 캡처, 결제 내역을 반드시 보관해두세요. 특히 카드 차지백은 결제일로부터 60~120일 이내에 신청해야 하므로 빠르게 대응하는 것이 중요합니다.</div>
+</div>
+
+<div class="seo-card">
+  <h2>디지털 구독 서비스 환불 — OTT·앱·게임 해지 규정</h2>
+  <p>넷플릭스·유튜브 프리미엄·멜론 등 디지털 구독 서비스는 전자상거래법과 서비스 약관에 따라 환불 정책이 다릅니다. 일반적으로 콘텐츠를 한 번이라도 이용한 경우 청약 철회가 제한됩니다.</p>
+  <table class="ex-table">
+    <thead><tr><th>서비스 유형</th><th>환불 가능 여부</th><th>기준</th></tr></thead>
+    <tbody>
+      <tr><td>OTT (넷플릭스·왓챠 등)</td><td>이용 내역 없으면 전액, 이용 시 잔여 일할</td><td>사업자 약관</td></tr>
+      <tr><td>음악 스트리밍</td><td>서비스 오류 시 환불 가능</td><td>사업자 약관</td></tr>
+      <tr><td>앱 구독 (앱스토어)</td><td>구매 후 48시간 내 환불 가능</td><td>앱스토어 정책</td></tr>
+      <tr><td>게임 아이템·캐시</td><td>사용 전 전액, 사용 후 환불 불가</td><td>전자상거래법</td></tr>
+      <tr><td>SaaS(소프트웨어)</td><td>약관에 따라 일할 계산 환불</td><td>약관</td></tr>
+    </tbody>
+  </table>
+
+  <h2>자주 묻는 질문 (FAQ)</h2>
+  <details><summary>학원비 환불을 거부하면 어떻게 해야 하나요?</summary><div class="faq-answer">학원은 학원법에 따라 환불 의무가 있습니다. 거부 시 한국소비자원(1372) 또는 해당 지역 교육청에 신고할 수 있습니다. 환불 요구 시 내용증명을 먼저 발송하는 것이 효과적이며, 이후 소액사건심판으로 소송도 가능합니다.</div></details>
+  <details><summary>위약금은 얼마까지 받을 수 있나요?</summary><div class="faq-answer">소비자 귀책으로 계약 해지 시 업종별 소비자분쟁해결기준에서 정한 위약금만 청구 가능합니다. 이를 초과하는 위약금은 불공정 약관으로 무효가 될 수 있으며, 초과분은 돌려받을 수 있습니다.</div></details>
+  <details><summary>디지털 콘텐츠(OTT, 앱 구독)는 환불이 안 되나요?</summary><div class="faq-answer">디지털 콘텐츠는 일반적으로 청약 철회가 제한됩니다. 단, 서비스 오류·사업자 귀책 사유라면 환불 청구가 가능합니다. 앱스토어 구매는 구매 후 48시간 이내에 해당 스토어에 환불 신청하면 간편하게 처리됩니다.</div></details>
+  <details><summary>환불 신청은 어디에 하나요?</summary><div class="faq-answer">한국소비자원 1372, 소비자24(www.consumer.go.kr) 온라인 신청, 카드사 분쟁 조정 등을 통해 신청할 수 있습니다. 카드 결제 시 카드사 차지백(매입 취소)을 요청하는 방법도 있으며, 사업자 부도·폐업 시에도 효과적입니다.</div></details>
+  <details><summary>사용 단가(일할 계산)는 어떻게 하나요?</summary><div class="faq-answer">일할 계산의 경우 [총 결제액 ÷ 전체 기간(일)] = 1일 단가입니다. 환불액 = 총 결제액 - (1일 단가 × 사용 일수) - 위약금 순서로 계산합니다. 이 계산기의 '기본 환불' 탭에서 자동으로 계산할 수 있습니다.</div></details>
 </div>
 
 <script>
 function fmtW(n){return Math.round(n).toLocaleString()+'원';}
 function switchTab(name,el){
-  ['basic','academy','subscription'].forEach(t=>document.getElementById('tab-'+t).style.display='none');
+  ['basic','academy','subscription','travel'].forEach(t=>document.getElementById('tab-'+t).style.display='none');
   document.getElementById('tab-'+name).style.display='block';
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
@@ -299,21 +377,39 @@ function calcAcademy(){
   const paid  = +document.getElementById('a-paid').value;
   const total = +document.getElementById('a-total').value;
   const used  = +document.getElementById('a-used').value;
-  const period= +document.getElementById('a-period').value;
   if(!paid||!total){alert('값을 입력해주세요.');return;}
-  // 법정 환불률
-  const refundRates = {1:0.5, 2:0.333, 3:0.25, 4:0};
-  const baseRefund  = paid * (refundRates[period]??0);
-  const usedCost    = (paid/total)*used;
-  const penalty     = paid*0.1; // 법정 위약금 10%
-  const refund      = Math.max(baseRefund - penalty, 0);
+  const ratio = used / total;
+  let refund, rateDesc;
+  // 학원법 시행령 별표4 기준 (수강 횟수 비율)
+  if(ratio===0){refund=paid;rateDesc='수강 전 — 전액 환불';}
+  else if(ratio<1/3){refund=Math.round(paid*2/3);rateDesc=`1/3 미만 수강 — 수강료의 2/3 환불`;}
+  else if(ratio<1/2){refund=Math.round(paid*1/2);rateDesc=`1/3~1/2 수강 — 수강료의 1/2 환불`;}
+  else{refund=0;rateDesc='1/2 이상 수강 — 환불 불가';}
+  const deduct = paid - refund;
   document.getElementById('ra-paid').textContent   = fmtW(paid);
-  document.getElementById('ra-used').textContent   = '-'+fmtW(usedCost);
-  document.getElementById('ra-penalty').textContent= '-'+fmtW(penalty);
+  document.getElementById('ra-used').textContent   = '-'+fmtW(deduct);
+  document.getElementById('ra-penalty').textContent= '-0원';
   document.getElementById('ra-final').textContent  = fmtW(refund);
   document.getElementById('ra-refund').textContent = fmtW(refund);
-  document.getElementById('ra-sub').textContent    = `수강 ${used}/${total}회 완료`;
+  document.getElementById('ra-sub').textContent    = `${rateDesc} (${used}/${total}회, ${(ratio*100).toFixed(0)}%)`;
   document.getElementById('result-academy').classList.add('show');
+}
+
+function calcTravel(){
+  const paid = +document.getElementById('t-paid').value;
+  const days = +document.getElementById('t-days').value;
+  if(!paid){alert('여행요금을 입력해주세요.');return;}
+  const penaltyRates={30:0, 25:0.10, 15:0.15, 9:0.20, 5:0.30, 0:0.50};
+  const penaltyRate = penaltyRates[days]??0;
+  const penalty = Math.round(paid * penaltyRate);
+  const refund  = paid - penalty;
+  const labels  = {30:'출발 30일+ 전',25:'출발 20~29일 전',15:'출발 10~19일 전',9:'출발 8~9일 전',5:'출발 1~7일 전',0:'출발 당일'};
+  document.getElementById('rt-paid').textContent    = fmtW(paid);
+  document.getElementById('rt-penalty').textContent = '-'+fmtW(penalty)+` (${penaltyRate*100}%)`;
+  document.getElementById('rt-final').textContent   = fmtW(refund);
+  document.getElementById('rt-refund').textContent  = fmtW(refund);
+  document.getElementById('rt-sub').textContent     = `${labels[days]} 취소 기준`;
+  document.getElementById('result-travel').classList.add('show');
 }
 
 function calcSubscription(){

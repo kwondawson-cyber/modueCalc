@@ -209,6 +209,11 @@
         <tbody id="compare-body"></tbody>
       </table>
     </div>
+
+    <div style="margin-top:16px">
+      <div style="font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:10px">💡 수수료 절감 시뮬레이션</div>
+      <div id="saving-content"></div>
+    </div>
   </div>
 
 </div>
@@ -223,41 +228,70 @@
     </div>
   </div>
 <div class="seo-card">
-  <h2>카드 수수료 계산기 — 2026년 업종별 카드 가맹점 수수료율 완벽 정리</h2>
+  <h2>카드 수수료 계산기 — 2026년 가맹점 우대수수료율 완벽 정리</h2>
   <h3>카드 가맹점 수수료, 사업자가 꼭 알아야 할 것</h3>
   <p>신용카드·체크카드 결제를 받는 가맹점은 결제 금액의 일정 비율을 카드사에 수수료로 납부합니다. 2026년 현재 영세·중소 가맹점은 우대 수수료율(0.5~1.5%)이 적용되어 대형 가맹점보다 훨씬 낮은 수수료를 냅니다. 연 매출 규모에 따라 적용 수수료율이 달라지므로 본인 사업의 수수료율을 정확히 파악해야 합니다.</p>
-  <p>카드 수수료 외에 POS 단말기 임대료·유지비, 밴(VAN)사 수수료 등 부가 비용도 발생할 수 있습니다. 전체 카드 결제 관련 비용을 합산해 실제 수수료 부담을 파악하는 것이 중요합니다. 또한 카드 수수료는 사업 비용으로 부가세 매입세액 공제가 가능합니다.</p>
-  <h3>📐 카드 수수료 계산 공식</h3>
-  <p>카드 수수료는 결제 금액에 수수료율을 곱한 금액입니다. 월 카드 매출이 크다면 수수료 절감이 수익에 직접 영향을 미칩니다. 수수료율 0.1%p 차이가 월 카드 매출 1억원 기준 10만원의 차이를 만듭니다.</p>
+  <p>카드 수수료 외에 POS 단말기 임대료·유지비, VAN사 수수료 등 부가 비용도 발생할 수 있습니다. 카드 수수료는 사업 비용으로 부가세 매입세액 공제가 가능하므로 정확한 비용 파악이 절세에도 중요합니다.</p>
   <div class="formula-box">카드 수수료 = 결제 금액 × 수수료율
 월 수수료 = 월 카드 매출 × 수수료율
-연간 수수료 = 연 카드 매출 × 수수료율
+연간 수수료 = 월 수수료 × 12
 
-예) 월 카드 매출 1,000만원, 수수료율 1.5%
-월 수수료 = 1,000만 × 1.5% = 15만원
-연간 수수료 = 180만원</div>
-  <h3>📊 2026년 가맹점 규모별 카드 수수료율 (여신전문금융업법 기준)</h3>
-  <p>여신전문금융업법에 따라 영세·중소 가맹점은 일반 가맹점보다 낮은 우대 수수료율을 적용받습니다. 연 매출이 증가해 구간이 바뀌면 수수료율도 달라지므로, 매출 구간 변동 시 카드사에 재확인이 필요합니다.</p>
+예) 월 카드 매출 1,000만원, 수수료율 1.1%
+→ 월 수수료 = 11만원 / 연 수수료 = 132만원</div>
+</div>
+
+<div class="seo-card">
+  <h2>2026년 가맹점 규모별 카드 수수료율 — 영세·중소·일반 완전 비교</h2>
+  <p>여신전문금융업법에 따라 영세·중소 가맹점은 우대 수수료율을 적용받습니다. 매출 구간이 바뀌면 수수료율도 달라지므로, 매출 변동 시 카드사에 재심사 신청이 필요합니다.</p>
   <table class="ex-table">
     <thead><tr><th>가맹점 구분</th><th>연 매출 기준</th><th>신용카드</th><th>체크카드</th></tr></thead>
     <tbody>
-      <tr><td>영세 가맹점</td><td>3억원 이하</td><td>0.5%</td><td>0.25%</td></tr>
-      <tr><td>중소 가맹점 1</td><td>3억~5억원</td><td>1.1%</td><td>0.85%</td></tr>
-      <tr><td>중소 가맹점 2</td><td>5억~10억원</td><td>1.25%</td><td>1.0%</td></tr>
-      <tr><td>중소 가맹점 3</td><td>10억~30억원</td><td>1.5%</td><td>1.25%</td></tr>
-      <tr><td>일반 가맹점</td><td>30억원 초과</td><td>협의</td><td>협의</td></tr>
+      <tr><td><strong>영세 가맹점</strong></td><td>3억원 이하</td><td><strong>0.5%</strong></td><td><strong>0.25%</strong></td></tr>
+      <tr><td>중소 가맹점 1구간</td><td>3억~5억원</td><td>1.1%</td><td>0.85%</td></tr>
+      <tr><td>중소 가맹점 2구간</td><td>5억~10억원</td><td>1.25%</td><td>1.0%</td></tr>
+      <tr><td>중소 가맹점 3구간</td><td>10억~30억원</td><td>1.5%</td><td>1.25%</td></tr>
+      <tr><td>일반 가맹점</td><td>30억원 초과</td><td>카드사 협의</td><td>카드사 협의</td></tr>
     </tbody>
   </table>
-  <div class="hl-box">💡 <strong>카드 수수료 관리 팁.</strong> ① 연 매출 3억원 이하 영세 가맹점 우대 수수료(0.5%) 적극 활용 ② 카드 수수료는 비용처리로 부가세·소득세 절감 ③ 제로페이·현금영수증 유도로 수수료 절감 ④ 결제 단말기 임대료 비교 후 저렴한 것으로 교체 가능.</div>
-  
-  <div class="hl-box">🔑 <strong>핵심 팁</strong><br>💡 <strong>카드 수수료 재심사로 인하 가능:</strong> 연매출이 변동되면 카드사에 수수료율 재심사를 신청할 수 있습니다. 매출 감소 시 낮은 구간으로 조정되지만 자동 적용되지 않는 경우가 있으니 직접 신청하세요. 또한 현금영수증·제로페이 유도로 카드 결제 비율을 낮추면 실질 수수료 부담을 줄일 수 있습니다.</div>
+  <div class="hl-box">💡 <strong>우대수수료 적용 신청:</strong> 영세·중소 가맹점 수수료율은 여신금융협회에서 매년 1월 자동 조정됩니다. 단, 신규 가맹점이나 매출 변동이 있는 경우 카드사에 직접 재심사 신청을 해야 즉시 적용됩니다. 여신금융협회(www.crefia.or.kr)에서 내 수수료율 조회 가능.</div>
+</div>
 
-<h2>자주 묻는 질문 (FAQ)</h2>
+<div class="seo-card">
+  <h2>온라인 PG사 수수료 비교 — 카카오페이·네이버페이·토스페이먼츠</h2>
+  <p>오프라인 카드 단말기와 달리 온라인 쇼핑몰·앱에서는 PG(결제대행)사를 통한 결제가 일반적입니다. PG 수수료는 오프라인 우대수수료와 별도로 책정되며, 영세가맹점 우대 적용이 제한적입니다.</p>
+  <table class="ex-table">
+    <thead><tr><th>결제 방식</th><th>수수료율 (일반)</th><th>비고</th></tr></thead>
+    <tbody>
+      <tr><td>신용카드 (PG 경유)</td><td>2.0~3.5%</td><td>PG사·카드사에 따라 다름</td></tr>
+      <tr><td>카카오페이</td><td>1.5~2.0%</td><td>소상공인 별도 협의 가능</td></tr>
+      <tr><td>네이버페이</td><td>1.65~2.2%</td><td>스마트스토어 입점 시 별도</td></tr>
+      <tr><td>토스페이먼츠</td><td>1.4~2.5%</td><td>거래량 따라 인하 협의</td></tr>
+      <tr><td>제로페이</td><td><strong>0%</strong></td><td>소상공인 한정, QR 결제</td></tr>
+      <tr><td>계좌이체·무통장</td><td>0~0.2%</td><td>사실상 수수료 없음</td></tr>
+    </tbody>
+  </table>
+  <p>※ PG 수수료는 VAT 별도이며, 거래량·업종·계약 조건에 따라 협상 가능합니다. 월 거래액 1,000만원 이상이면 PG사에 수수료 인하 협상을 시도해 볼 수 있습니다.</p>
+</div>
+
+<div class="seo-card">
+  <h2>카드 수수료 절감 방법 4가지 — 소상공인 실전 전략</h2>
+  <table class="ex-table">
+    <thead><tr><th>방법</th><th>절감 효과</th><th>실행법</th></tr></thead>
+    <tbody>
+      <tr><td><strong>제로페이 도입</strong></td><td>수수료 0%</td><td>소상공인 제로페이 가맹 신청 (무료)</td></tr>
+      <tr><td><strong>영세가맹 재심사 신청</strong></td><td>최대 1%p 인하</td><td>매출 감소 시 카드사 직접 신청</td></tr>
+      <tr><td><strong>현금영수증 유도</strong></td><td>카드 비중 감소</td><td>현금 결제 고객에 소정 혜택 제공</td></tr>
+      <tr><td><strong>체크카드 유도</strong></td><td>신용카드 대비 약 0.25%p 절감</td><td>체크카드 결제 시 소액 할인 안내</td></tr>
+    </tbody>
+  </table>
+  <p>단, 소비자에게 카드 수수료를 전가하거나 현금과 카드 가격을 차별하는 행위는 여신전문금융업법 위반입니다. 할인은 허용되나 수수료 별도 청구는 금지됩니다.</p>
+
+  <h2>자주 묻는 질문 (FAQ)</h2>
   <details><summary>카드 수수료는 누가 부담하나요?</summary><div class="faq-answer">카드 수수료는 가맹점(판매자)이 부담합니다. 소비자에게 카드 수수료를 전가하는 행위(현금과 카드 가격 차별, 수수료 별도 청구)는 여신전문금융업법 위반입니다. 단, 제로페이나 현금 결제 시 할인을 제공하는 것은 허용됩니다.</div></details>
-  <details><summary>영세 가맹점 우대 수수료는 자동으로 적용되나요?</summary><div class="faq-answer">여신금융협회에서 매년 가맹점 매출 규모를 확인해 자동으로 수수료율을 조정합니다. 다만, 신규 가맹점이나 매출 구간이 변동된 경우 적용 지연이 있을 수 있으므로 카드사에 확인하는 것이 좋습니다. 여신금융협회 홈페이지에서 본인 수수료율 조회가 가능합니다.</div></details>
-  <details><summary>카드 수수료를 아끼는 방법이 있나요?</summary><div class="faq-answer">① 제로페이·계좌이체 유도(수수료 0%) ② 현금영수증 발행(현금 결제 유도) ③ 카드사 여러 곳을 비교해 수수료가 낮은 카드사와 우선 계약 ④ POS 단말기 임대료·VAN 수수료 비교 최적화. 단, 소비자 결제 편의를 해치지 않는 범위에서 조율하는 것이 중요합니다.</div></details>
+  <details><summary>영세 가맹점 우대 수수료는 자동으로 적용되나요?</summary><div class="faq-answer">여신금융협회에서 매년 1월 가맹점 매출 규모를 확인해 자동 조정합니다. 다만 신규 가맹점이나 매출 구간이 변동된 경우 적용 지연이 있을 수 있으므로, 매출이 줄었다면 카드사에 직접 재심사 신청하는 것이 유리합니다.</div></details>
+  <details><summary>카드 수수료를 가장 확실히 줄이는 방법은?</summary><div class="faq-answer">제로페이 가맹이 가장 효과적입니다(수수료 0%). 소상공인시장진흥공단을 통해 무료로 신청할 수 있습니다. 단 소비자가 QR코드 결제에 익숙하지 않을 수 있어 병행 운영이 현실적입니다. 또한 매출 감소 시 영세가맹 재심사 신청을 즉시 해야 합니다.</div></details>
   <details><summary>카드 수수료는 세금 신고 시 어떻게 처리하나요?</summary><div class="faq-answer">카드 수수료는 사업 비용(판매비·관리비)으로 처리합니다. 부가세 신고 시 카드사가 발행한 세금계산서로 매입세액 공제가 가능합니다. 소득세·법인세 신고 시에도 비용 처리되어 과세 소득을 줄이는 효과가 있습니다.</div></details>
-  <details><summary>온라인 결제(PG사) 수수료는 어떻게 되나요?</summary><div class="faq-answer">온라인 쇼핑몰에서 사용하는 PG(결제대행)사 수수료는 결제 금액의 1.5~3.5% 수준입니다. 카카오페이·네이버페이 등 간편결제는 1.5~2.5%, 신용카드 직납은 2~3.5%가 일반적입니다. 오프라인 가맹점과 달리 우대 수수료율 적용이 제한적인 경우가 있으므로 PG사와 직접 협상하는 것이 유리합니다.</div></details>
+  <details><summary>온라인 PG 수수료도 우대 적용이 되나요?</summary><div class="faq-answer">온라인 PG사 수수료는 오프라인 우대수수료 적용 대상이 아닙니다. PG사별로 별도 계약을 통해 수수료를 협상해야 합니다. 월 거래량이 일정 이상이라면 PG사 영업팀에 인하 요청이 가능합니다. 스마트스토어·쿠팡 등 플랫폼 입점 판매자는 플랫폼 수수료 체계가 별도 적용됩니다.</div></details>
 </div>
 
 
@@ -324,6 +358,29 @@ function calc() {
   });
 
   document.getElementById('result').style.display = 'block';
+
+  // 절감 시뮬레이션
+  const zeropayFee = 0;
+  const zeropayNet = cardSales - zeropayFee;
+  const zeropayAnnualSave = fee * 12;
+  const t1fee = cardSales * TIERS[0].rate / 100; // 영세 0.5%
+  const t1save = fee - t1fee;
+  const html = `
+    <div style="background:var(--surface2);border-radius:12px;padding:14px;font-size:13px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center">
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">영세(0.5%) 적용 시 절감</div>
+          <div style="font-size:18px;font-weight:900;color:${t1save>0?'#00d4aa':'var(--text-muted)'}">${t1save>0?fw(t1save)+'/월':'현재 최저'}${t1save>0?'<div style="font-size:11px;color:#8b949e;margin-top:2px">연 '+fw(t1save*12)+' 절감</div>':''}</div>
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center">
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">제로페이 전환 시 절감</div>
+          <div style="font-size:18px;font-weight:900;color:#00d4aa">${fw(fee)}/월</div>
+          <div style="font-size:11px;color:#8b949e;margin-top:2px">연 ${fw(zeropayAnnualSave)} 절감 (수수료 0%)</div>
+        </div>
+      </div>
+      <div style="margin-top:10px;font-size:12px;color:var(--text-muted);line-height:1.7">※ 영세가맹점 우대 수수료 적용 신청: 여신금융협회(www.crefia.or.kr) 또는 카드사 고객센터<br>※ 제로페이는 소상공인 결제 수수료 0% — 소비자 QR코드 결제 방식</div>
+    </div>`;
+  document.getElementById('saving-content').innerHTML = html;
 }
 </script>
 <script src="/common.js" defer></script><script src="/share.js" defer></script><script src="/calculator.js" defer></script>

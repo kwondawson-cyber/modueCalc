@@ -91,6 +91,18 @@
 .rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
 .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
 .rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
+    /* 게이지 */
+    .bp-gauge-wrap{margin:14px 0 8px}
+    .bp-gauge-bar{position:relative;height:18px;border-radius:9px;background:linear-gradient(to right,#4c9eff 0%,#00d4aa 20%,#f0c040 36%,#ffa500 55%,#ff6b6b 74%,#ff3333 100%);margin-bottom:6px}
+    .bp-gauge-marker{position:absolute;top:-5px;width:4px;height:28px;background:#fff;border-radius:2px;transform:translateX(-50%);box-shadow:0 0 8px rgba(255,255,255,.9);transition:left .4s ease}
+    .bp-gauge-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted)}
+    /* 트래커 */
+    .tracker-list{margin-top:10px;max-height:220px;overflow-y:auto}
+    .tracker-row{display:flex;justify-content:space-between;align-items:center;padding:8px 4px;border-bottom:1px solid var(--border);font-size:13px;gap:8px}
+    .tracker-row:last-child{border-bottom:none}
+    .tracker-status{padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700;white-space:nowrap}
+    .tracker-empty{text-align:center;padding:24px;color:var(--text-muted);font-size:13px;line-height:1.8}
+    .avg-compare{background:var(--surface2);border-radius:10px;padding:12px 14px;margin-top:10px;font-size:13px;color:var(--text-muted);line-height:1.9}
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-E7GYSXR7WJ"></script>
@@ -132,13 +144,34 @@
         <span class="input-unit">bpm</span>
       </div>
     </div>
+    <div class="input-group">
+      <label>나이 (선택 — 나이대 평균과 비교)</label>
+      <div class="input-wrapper">
+        <input type="number" id="userAge" value="" placeholder="예: 45" min="10" max="100" oninput="judgeBP()" />
+        <span class="input-unit">세</span>
+      </div>
+    </div>
   </div>
 
   <div id="bpResult" class="result-card" style="display:none">
-    <div class="result-label" id="bpLabel">판정 결과</div>
+    <div class="result-label" id="bpLabel">혈압 판정 결과</div>
     <div class="result-value" id="bpValue">-</div>
     <div class="result-sub" id="bpSub"></div>
-    <div id="bpDetail" style="margin-top:16px"></div>
+    <div class="bp-gauge-wrap">
+      <div class="bp-gauge-bar"><div class="bp-gauge-marker" id="bpMarker" style="left:20%"></div></div>
+      <div class="bp-gauge-labels"><span>저혈압</span><span>정상</span><span>주의</span><span>전단계</span><span>1기</span><span>2기</span></div>
+    </div>
+    <div id="bpDetail" style="margin-top:12px"></div>
+    <div id="bpAvgCompare" class="avg-compare" style="display:none"></div>
+    <button class="btn btn-sub" style="margin-top:12px;font-size:13px;padding:10px" onclick="saveBPRecord()">📅 이 혈압 기록 저장</button>
+  </div>
+
+  <div class="card" id="trackerCard">
+    <div class="card-title">📈 내 혈압 기록 추이 <span style="font-size:11px;font-weight:400;color:var(--text-muted)">(최근 10회 · 이 기기에 저장)</span></div>
+    <div class="tracker-list" id="trackerList">
+      <div class="tracker-empty">아직 저장된 기록이 없습니다.<br>계산 후 [기록 저장] 버튼을 눌러보세요.</div>
+    </div>
+    <div style="text-align:right;margin-top:8px"><button onclick="clearBPRecords()" style="background:none;border:1px solid var(--border);border-radius:8px;padding:5px 12px;font-size:12px;color:var(--text-muted);cursor:pointer;font-family:inherit">기록 전체 삭제</button></div>
   </div>
 
   <div class="card">
@@ -157,34 +190,69 @@
   </div>
 
 <script>
+const BP_AGE_AVG={10:{s:110,d:68},20:{s:115,d:72},30:{s:119,d:75},40:{s:124,d:79},50:{s:131,d:82},60:{s:137,d:84},70:{s:142,d:83},80:{s:145,d:82}};
+function getAgeGroup(a){const bs=[80,70,60,50,40,30,20,10];for(const b of bs){if(a>=b)return b;}return 10;}
+function getGaugePos(sys){
+  if(sys<=60)return 2;if(sys>=200)return 98;
+  const r=[[60,0],[90,18],[120,37],[130,45],[140,54],[160,72],[200,98]];
+  for(let i=0;i<r.length-1;i++){const[s0,p0]=r[i],[s1,p1]=r[i+1];if(sys>=s0&&sys<s1)return p0+(sys-s0)/(s1-s0)*(p1-p0);}
+  return 98;
+}
 function judgeBP(){
   const sys=parseInt(document.getElementById('systolic').value)||0;
   const dia=parseInt(document.getElementById('diastolic').value)||0;
   const hr=parseInt(document.getElementById('heartRate').value)||0;
-  
+  const age=parseInt(document.getElementById('userAge').value)||0;
   let label,color,desc;
-  if(sys<90||dia<60){label='저혈압';color='#0095ff';desc='혈압이 낮습니다. 어지러움·피로가 지속되면 병원을 방문하세요.';}
-  else if(sys<120&&dia<80){label='정상 혈압 ✓';color='#00d4aa';desc='혈압이 정상 범위입니다. 건강한 생활 습관을 유지하세요.';}
-  else if(sys<130&&dia<80){label='주의 혈압';color='#f0c040';desc='정상 상단입니다. 식습관·운동으로 관리가 필요합니다.';}
-  else if(sys<140||dia<90){label='고혈압 전단계';color='#ffa500';desc='생활습관 개선이 필요합니다. 정기적으로 혈압을 체크하세요.';}
-  else if(sys<160||dia<100){label='고혈압 1기';color='#ff6b6b';desc='의사와 상담이 필요합니다. 약물 치료를 고려할 수 있습니다.';}
-  else{label='고혈압 2기';color='#ff4444';desc='즉시 의료기관을 방문하세요. 심각한 건강 위험이 있습니다.';}
-
+  if(sys<90||dia<60){label='저혈압';color='#4c9eff';desc='혈압이 낮습니다. 어지러움·피로가 지속되면 병원을 방문하세요. 충분한 수분 섭취와 적절한 염분 섭취가 도움됩니다.';}
+  else if(sys<120&&dia<80){label='정상 혈압 ✓';color='#00d4aa';desc='혈압이 정상 범위입니다. 건강한 식습관과 규칙적인 유산소 운동으로 현재 상태를 유지하세요.';}
+  else if(sys<130&&dia<80){label='주의 혈압';color='#f0c040';desc='정상 상단입니다. 나트륨 섭취를 줄이고 꾸준한 유산소 운동으로 관리하면 정상을 유지할 수 있습니다.';}
+  else if(sys<140||dia<90){label='고혈압 전단계';color='#ffa500';desc='생활습관 개선이 시급합니다. 체중 감량·금연·저염식·유산소 운동을 병행하면 정상 범위로 회복이 가능합니다.';}
+  else if(sys<160||dia<100){label='고혈압 1기';color='#ff6b6b';desc='의사와 상담이 필요합니다. 생활습관 개선과 약물 치료를 병행하세요. 뇌졸중·심근경색 위험이 높아집니다.';}
+  else{label='고혈압 2기';color='#ff3333';desc='즉시 의료기관을 방문하세요. 고혈압 2기는 뇌출혈·심근경색 등 생명을 위협하는 합병증 위험이 매우 높습니다.';}
   let hrText='';
-  if(hr>0){
-    if(hr<60)hrText='서맥 (느린 심박수)';
-    else if(hr<100)hrText='정상 심박수';
-    else hrText='빈맥 (빠른 심박수)';
-  }
-
+  if(hr>0){if(hr<60)hrText='서맥';else if(hr<100)hrText='정상 심박수';else hrText='빈맥';}
   document.getElementById('bpResult').style.display='block';
-  document.getElementById('bpLabel').textContent='혈압 판정 결과';
   document.getElementById('bpValue').style.cssText=`font-size:32px;font-weight:900;color:${color};-webkit-text-fill-color:${color}`;
   document.getElementById('bpValue').textContent=label;
   document.getElementById('bpSub').textContent=`${sys}/${dia} mmHg${hr?'  ·  심박수 '+hr+'bpm ('+hrText+')':''}`;
   document.getElementById('bpDetail').innerHTML=`<div style="background:#21262d;border-radius:10px;padding:14px;font-size:13px;color:#8b949e;line-height:1.8">${desc}</div>`;
+  document.getElementById('bpMarker').style.left=getGaugePos(sys).toFixed(1)+'%';
+  const avgEl=document.getElementById('bpAvgCompare');
+  if(age>=10){
+    const grp=getAgeGroup(age),avg=BP_AGE_AVG[grp];
+    const sd=sys-avg.s,dd=dia-avg.d;
+    avgEl.style.display='block';
+    avgEl.innerHTML=`<strong style="color:var(--accent)">📊 ${grp}대 한국인 평균과 비교</strong><br>평균 혈압 ${avg.s}/${avg.d} mmHg &nbsp;→&nbsp; 내 혈압 <span style="color:var(--accent);font-weight:700">${sys}/${dia}</span> mmHg<br>수축기 <span style="color:${sd>10?'#ff6b6b':sd<-10?'#4c9eff':'#00d4aa'};font-weight:700">${sd>0?'+':''}${Math.round(sd)} mmHg</span> &nbsp;·&nbsp; 이완기 <span style="color:${dd>10?'#ff6b6b':dd<-10?'#4c9eff':'#00d4aa'};font-weight:700">${dd>0?'+':''}${Math.round(dd)} mmHg</span>`;
+  }else{avgEl.style.display='none';}
 }
+function saveBPRecord(){
+  const sys=parseInt(document.getElementById('systolic').value)||0,dia=parseInt(document.getElementById('diastolic').value)||0;
+  if(!sys||!dia){alert('혈압을 먼저 입력해주세요.');return;}
+  const records=JSON.parse(localStorage.getItem('bp_records')||'[]');
+  const now=new Date(),ds=`${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+  let stage,color;
+  if(sys<90||dia<60){stage='저혈압';color='#4c9eff';}
+  else if(sys<120&&dia<80){stage='정상';color='#00d4aa';}
+  else if(sys<130&&dia<80){stage='주의';color='#f0c040';}
+  else if(sys<140||dia<90){stage='전단계';color='#ffa500';}
+  else if(sys<160||dia<100){stage='1기 고혈압';color='#ff6b6b';}
+  else{stage='2기 고혈압';color='#ff3333';}
+  records.unshift({date:ds,sys,dia,stage,color});
+  if(records.length>10)records.pop();
+  localStorage.setItem('bp_records',JSON.stringify(records));
+  loadTrackerDisplay();
+  alert('혈압 기록이 저장되었습니다!');
+}
+function loadTrackerDisplay(){
+  const records=JSON.parse(localStorage.getItem('bp_records')||'[]');
+  const el=document.getElementById('trackerList');
+  if(!records.length){el.innerHTML='<div class="tracker-empty">아직 저장된 기록이 없습니다.<br>계산 후 [기록 저장] 버튼을 눌러보세요.</div>';return;}
+  el.innerHTML=records.map(r=>`<div class="tracker-row"><span style="color:var(--text-muted);font-size:12px;flex-shrink:0">${r.date}</span><span style="font-weight:700">${r.sys}/${r.dia} <span style="font-size:11px;font-weight:400;color:var(--text-muted)">mmHg</span></span><span class="tracker-status" style="background:${r.color}22;color:${r.color};border:1px solid ${r.color}55">${r.stage}</span></div>`).join('');
+}
+function clearBPRecords(){if(!confirm('모든 혈압 기록을 삭제할까요?'))return;localStorage.removeItem('bp_records');loadTrackerDisplay();}
 judgeBP();
+loadTrackerDisplay();
 </script>
 
 </div>
@@ -226,47 +294,80 @@ judgeBP();
   </div>
 </div>
 <div class="seo-section">
-  <h2>혈압 정상범위 체크 — 고혈압·저혈압 기준과 관리법 완벽 가이드</h2>
-  <h3>혈압의 의미와 측정 원리</h3>
-  <p><strong>혈압</strong>은 심장이 혈액을 펌프질할 때 혈관 벽에 가해지는 압력입니다. 수축기 혈압(심장이 수축할 때)과 이완기 혈압(심장이 이완할 때) 두 수치로 표현하며, 단위는 mmHg입니다. 혈압은 하루 중에도 아침에 높고 수면 중 낮아지는 등 수시로 변하며, 측정 환경·자세·감정 상태에 따라 크게 달라질 수 있습니다.</p>
-  <p>고혈압은 '침묵의 살인자'라 불릴 정도로 증상 없이 진행되다 뇌졸중·심근경색·신부전 등 심각한 합병증을 일으킵니다. 한국 성인의 약 30%가 고혈압 환자로 추정되며, 그 중 절반은 자신이 고혈압인지 모릅니다. 정기적인 혈압 측정과 생활습관 관리가 중요한 이유입니다.</p>
-  <h3>📐 혈압 측정과 해석 기준</h3>
-  <p>혈압을 정확하게 측정하려면 5분 이상 안정을 취한 후, 등받이가 있는 의자에 앉아 팔꿈치를 심장 높이에 놓고 측정해야 합니다. 3번 측정해 평균값을 사용하고, 아침과 저녁에 각각 측정해 2주간 기록하는 가정혈압 측정이 진단에 더 정확합니다.</p>
-  <div class="formula-box">혈압 표기: 수축기/이완기 (예: 120/80 mmHg)
-맥압 = 수축기 − 이완기 (정상 40~60 mmHg)
+  <h2>혈압 정상범위 완벽 가이드 — 대한고혈압학회 2022년 최신 기준</h2>
+  <p><strong>혈압</strong>은 심장이 혈액을 펌프질할 때 혈관 벽에 가해지는 압력으로, 수축기(윗) 혈압과 이완기(아랫) 혈압 두 수치로 표현합니다. 단위는 mmHg입니다. 대한고혈압학회 2022년 고혈압 진료지침에 따른 분류 기준은 다음과 같습니다. 혈압 진단은 단 1회 측정이 아닌, 서로 다른 날 2회 이상 측정한 평균값을 기준으로 합니다.</p>
+  <table>
+    <thead><tr><th>분류</th><th>수축기(mmHg)</th><th>이완기(mmHg)</th><th>주요 조치</th></tr></thead>
+    <tbody>
+      <tr><td>저혈압</td><td>90 미만</td><td>60 미만</td><td>수분·염분 섭취, 증상 지속 시 병원</td></tr>
+      <tr><td><strong>정상 혈압</strong></td><td>120 미만</td><td>80 미만</td><td>현재 상태 유지</td></tr>
+      <tr><td>주의 혈압</td><td>120~129</td><td>80 미만</td><td>생활습관 개선 시작</td></tr>
+      <tr><td>고혈압 전단계</td><td>130~139</td><td>80~89</td><td>생활습관 개선 + 정기 측정</td></tr>
+      <tr><td>고혈압 1기</td><td>140~159</td><td>90~99</td><td>의사 상담 및 약물 치료 고려</td></tr>
+      <tr><td>고혈압 2기</td><td>160 이상</td><td>100 이상</td><td>즉시 의료기관 방문</td></tr>
+    </tbody>
+  </table>
+  <div class="tip-box"><strong>💡 가정혈압 기준:</strong> 병원 혈압 고혈압 기준은 140/90 이상이지만, 가정혈압(집에서 측정)은 135/85 이상이면 고혈압으로 진단합니다. 가정혈압이 실제 혈압을 더 잘 반영하므로 2주간 아침·저녁 각 2회 측정해 기록하는 습관이 중요합니다.</div>
 
-올바른 측정법: 5분 안정 → 등받이 의자 →
-발바닥 바닥 → 팔꿈치 심장 높이 → 3회 측정 평균</div>
-  <h3>📊 혈압 분류 기준표 (대한고혈압학회 2018년 지침)</h3>
-  <p>혈압 분류는 단 한 번의 측정이 아닌, 여러 차례 측정한 평균값을 기준으로 합니다. 고혈압 전단계(130~139/80~89)에서도 심혈관 질환 위험이 높아지므로 생활습관 개선을 시작해야 합니다. 이미 고혈압 약을 복용 중이라면 목표 혈압(130/80 이하)을 달성하고 유지하는 것이 중요합니다.</p>
+  <h2>고혈압 전단계부터 2기까지 — 단계별 증상과 합병증 위험</h2>
+  <p>고혈압은 '침묵의 살인자'로 불립니다. 대부분 특별한 증상 없이 진행되다가 뇌졸중·심근경색·신부전 같은 치명적 합병증으로 발견되는 경우가 많습니다. 한국 성인 중 약 28%(약 1,200만 명)가 고혈압 환자로 추정되며, 그 중 절반은 자신이 고혈압인지 모릅니다.</p>
   <table>
-    <thead><tr><th>분류</th><th>수축기(mmHg)</th><th>이완기(mmHg)</th></tr></thead>
+    <thead><tr><th>단계</th><th>주요 증상</th><th>합병증 위험</th><th>권장 조치</th></tr></thead>
     <tbody>
-      <tr><td>정상 혈압</td><td>120 미만</td><td>80 미만</td></tr>
-      <tr><td>주의 혈압</td><td>120~129</td><td>80 미만</td></tr>
-      <tr><td>고혈압 전단계</td><td>130~139</td><td>80~89</td></tr>
-      <tr><td>고혈압 1기</td><td>140~159</td><td>90~99</td></tr>
-      <tr><td>고혈압 2기</td><td>160 이상</td><td>100 이상</td></tr>
-      <tr><td>저혈압</td><td>90 미만</td><td>60 미만</td></tr>
+      <tr><td>주의 혈압</td><td>대부분 없음</td><td>심혈관 위험 10~20% 증가</td><td>생활습관 개선</td></tr>
+      <tr><td>고혈압 전단계</td><td>두통, 어지러움(드물게)</td><td>심혈관 위험 2배</td><td>생활습관 + 정기 측정</td></tr>
+      <tr><td>고혈압 1기</td><td>두통·이명·코피</td><td>뇌졸중 위험 4배</td><td>약물 치료 상담 필수</td></tr>
+      <tr><td>고혈압 2기</td><td>두통·흉통·시야 이상</td><td>심근경색·뇌출혈 고위험</td><td>즉시 병원 방문</td></tr>
     </tbody>
   </table>
-  <h3>📊 혈압을 높이는 주요 요인과 관리 방법</h3>
-  <p>혈압에 영향을 미치는 요인은 생활습관에서 비롯된 것들이 많습니다. 소금 섭취 줄이기, 체중 감량, 운동, 금연, 절주 등 생활습관 개선만으로도 혈압을 5~10mmHg 낮출 수 있습니다. 이는 약물 한 종류의 효과와 맞먹는 수준으로, 생활습관 개선이 혈압 관리의 기본입니다.</p>
+  <div class="warn-box"><strong>⚠️ 고혈압 위기:</strong> 수축기 180mmHg 이상 또는 이완기 120mmHg 이상이면 응급실을 방문해야 합니다. 극심한 두통·흉통·시야 장애·호흡곤란이 동반될 수 있습니다.</div>
+
+  <h2>혈압을 낮추는 7가지 생활습관 — 과학적으로 검증된 수치</h2>
+  <p>생활습관 개선만으로도 혈압을 5~15mmHg 낮출 수 있으며, 이는 고혈압 약 한 종류의 효과와 맞먹는 수준입니다. 약물 치료 전에, 또는 치료와 병행해 반드시 실천해야 합니다.</p>
   <table>
-    <thead><tr><th>요인</th><th>혈압 상승폭</th><th>관리 방법</th></tr></thead>
+    <thead><tr><th>방법</th><th>혈압 감소 효과</th><th>실천법</th></tr></thead>
     <tbody>
-      <tr><td>소금 과다 섭취</td><td>+5~10mmHg</td><td>나트륨 2,000mg/일 이하</td></tr>
-      <tr><td>비만 (체중 5kg 증가)</td><td>+2~5mmHg</td><td>체중 5kg 감량 시 3mmHg 감소</td></tr>
-      <tr><td>흡연 (1개비)</td><td>즉시 +10mmHg</td><td>금연 필수</td></tr>
-      <tr><td>스트레스</td><td>일시적 +20mmHg</td><td>명상·규칙적 수면</td></tr>
+      <tr><td>나트륨 제한</td><td>2~8 mmHg↓</td><td>하루 나트륨 2,000mg 이하 (국물 줄이기)</td></tr>
+      <tr><td>체중 감량</td><td>1kg당 약 1 mmHg↓</td><td>BMI 25 이하 목표, 5kg 감량 시 5mmHg 효과</td></tr>
+      <tr><td>유산소 운동</td><td>4~9 mmHg↓</td><td>주 5회 30분 이상 (걷기·수영·자전거)</td></tr>
+      <tr><td>절주</td><td>2~4 mmHg↓</td><td>남성 하루 2잔, 여성 1잔 이하</td></tr>
+      <tr><td>금연</td><td>즉시 효과</td><td>흡연 1개비로 혈압 일시적 10mmHg 상승</td></tr>
+      <tr><td>DASH 식이</td><td>8~14 mmHg↓</td><td>채소·과일·저지방 유제품 위주 식단</td></tr>
+      <tr><td>수면 개선</td><td>2~3 mmHg↓</td><td>하루 7~8시간, 수면무호흡증 치료</td></tr>
     </tbody>
   </table>
-  <div class="tip-box"><strong>💡 혈압 관리 핵심 생활습관.</strong> ① 나트륨 줄이기(국물·소스 최소화) ② 체중 5kg 감량 시 혈압 3~5mmHg 감소 ③ 유산소 운동 주 5회 30분(수영·걷기·자전거) ④ 금연·절주 ⑤ 스트레스 관리·충분한 수면. 약물 치료는 생활습관 교정과 병행해야 효과가 극대화됩니다.</div>
+  <div class="tip-box"><strong>💡 복합 실천 효과:</strong> 나트륨 제한 + 유산소 운동 + 체중 감량을 동시에 시작하면 최대 20mmHg 이상 감소 효과를 기대할 수 있습니다. 단일 개선보다 복합 실천이 훨씬 효과적입니다.</div>
+
+  <h2>정확한 혈압 측정법 — 올바른 가정혈압 5단계</h2>
+  <p>잘못된 측정 자세나 환경은 혈압을 10~20mmHg까지 왜곡시킬 수 있습니다. 올바른 가정혈압 측정을 위해 다음 5단계를 지켜야 합니다.</p>
+  <div class="formula-box">1단계: 측정 30분 전 카페인·담배·운동 금지
+2단계: 5분 이상 조용히 앉아 안정 (등받이 의자, 발바닥 바닥에 닿게)
+3단계: 팔꿈치를 심장 높이에 놓고 커프를 팔꿈치 2cm 위에 착용
+4단계: 3번 측정 후 평균값 사용 (2~3번째 값 평균 권장)
+5단계: 아침(기상 후 1시간 내, 약 복용 전)과 저녁(잠자리 전) 각 2회, 2주간 기록</div>
+  <p>양쪽 팔의 차이가 10mmHg 이내이면 정상이며, 이후 측정은 높은 쪽 팔을 기준으로 합니다. 처음 혈압을 측정할 때 반드시 양팔 모두 측정해 비교하세요.</p>
+
+  <h2>연령별 한국인 평균 혈압 — 나이가 들수록 혈압이 높아지는 이유</h2>
+  <p>혈압은 나이가 들면서 자연스럽게 상승합니다. 혈관 벽이 경직되고 탄력성이 줄어들기 때문입니다. 한국 국민건강영양조사(2022) 데이터를 기반으로 한 연령별 평균 혈압은 다음과 같습니다.</p>
+  <table>
+    <thead><tr><th>연령대</th><th>평균 수축기</th><th>평균 이완기</th><th>고혈압 유병률</th></tr></thead>
+    <tbody>
+      <tr><td>20대</td><td>115 mmHg</td><td>72 mmHg</td><td>약 5%</td></tr>
+      <tr><td>30대</td><td>119 mmHg</td><td>75 mmHg</td><td>약 10%</td></tr>
+      <tr><td>40대</td><td>124 mmHg</td><td>79 mmHg</td><td>약 20%</td></tr>
+      <tr><td>50대</td><td>131 mmHg</td><td>82 mmHg</td><td>약 35%</td></tr>
+      <tr><td>60대</td><td>137 mmHg</td><td>84 mmHg</td><td>약 50%</td></tr>
+      <tr><td>70대 이상</td><td>142 mmHg</td><td>83 mmHg</td><td>약 65%</td></tr>
+    </tbody>
+  </table>
+  <p>60대 이후 이완기 혈압은 오히려 낮아지는 경향이 있어 수축기와 이완기 차이(맥압)가 커집니다. 맥압이 60mmHg 이상이면 동맥경화 진행의 신호일 수 있습니다. 이 계산기에 나이를 입력하면 같은 나이대 평균과 자동 비교해 드립니다.</p>
+
   <h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>혈압이 가끔 높게 나오는 이유는 무엇인가요?</summary><div class="faq-answer">혈압은 시간·자세·감정 상태에 따라 수시로 변합니다. 운동 직후, 긴장 상태, 카페인 섭취 후, 추운 환경에서는 일시적으로 높아질 수 있습니다. 정확한 측정을 위해 5분 이상 안정 후 3번 측정해 평균을 내는 것이 권장됩니다.</div></details>
-  <details><summary>고혈압 진단을 받으면 평생 약을 먹어야 하나요?</summary><div class="faq-answer">반드시 그런 것은 아닙니다. 생활습관 개선(체중 감량·염분 제한·운동)으로 혈압이 정상화되면 의사 판단에 따라 약을 줄이거나 중단할 수 있습니다. 다만 임의로 약을 끊으면 혈압이 급격히 오를 수 있으므로 반드시 의사와 상담 후 결정해야 합니다.</div></details>
-  <details><summary>가정용 혈압계와 병원 혈압 측정 결과가 다른 이유는?</summary><div class="faq-answer">병원에서 긴장으로 혈압이 높아지는 '백의 고혈압'이 흔합니다. 반대로 집에서만 높고 병원에서 정상인 '가면 고혈압'도 있습니다. 가정혈압 측정(아침·저녁 2회, 2주간)이 진짜 혈압 상태를 더 잘 반영해 진단 정확도가 높습니다.</div></details>
-  <details><summary>이완기 혈압만 높으면 위험한가요?</summary><div class="faq-answer">이완기 혈압(90mmHg 이상)이 높으면 심장·혈관에 지속적 압력이 가해져 고혈압 합병증 위험이 증가합니다. 젊은 고혈압 환자에서 이완기 혈압 상승이 더 흔하며, 수축기와 이완기 모두 정상 범위를 유지하는 것이 중요합니다.</div></details>
+  <details><summary>혈압이 가끔 높게 나오는 이유는 무엇인가요?</summary><div class="faq-answer">혈압은 시간·자세·감정 상태에 따라 수시로 변합니다. 운동 직후, 긴장 상태, 카페인 섭취 후, 추운 환경에서는 일시적으로 높아질 수 있습니다. 정확한 측정을 위해 5분 이상 안정 후, 3번 측정해 평균을 내는 것이 권장됩니다.</div></details>
+  <details><summary>고혈압 진단을 받으면 평생 약을 먹어야 하나요?</summary><div class="faq-answer">반드시 그런 것은 아닙니다. 생활습관 개선(체중 감량·염분 제한·운동)으로 혈압이 정상화되면 의사 판단에 따라 약을 줄이거나 중단할 수 있습니다. 다만 임의로 약을 끊으면 혈압이 급격히 오를 수 있으므로 반드시 담당 의사와 상담 후 결정해야 합니다.</div></details>
+  <details><summary>가정용 혈압계와 병원 혈압 측정 결과가 다른 이유는?</summary><div class="faq-answer">병원에서 긴장으로 혈압이 높아지는 '백의 고혈압'이 흔합니다. 반대로 집에서만 높고 병원에서 정상인 '가면 고혈압'도 있습니다. 가정혈압 기준은 135/85 이상이 고혈압으로, 병원 기준(140/90)보다 낮으므로 가정혈압이 더 엄격합니다.</div></details>
+  <details><summary>저혈압도 위험한가요?</summary><div class="faq-answer">저혈압(90/60 mmHg 미만)은 어지러움·실신·피로 등을 유발할 수 있습니다. 특히 기립성 저혈압(앉거나 누운 자세에서 일어날 때 혈압 급격히 떨어짐)은 낙상 위험이 있어 노인에서 주의가 필요합니다. 저혈압 자체보다 원인 질환(심장 문제·탈수·약물 부작용 등)을 확인하는 것이 중요합니다.</div></details>
+  <details><summary>이완기 혈압만 높으면 위험한가요?</summary><div class="faq-answer">이완기 혈압(90mmHg 이상)이 높으면 심장·혈관에 지속적 압력이 가해져 고혈압 합병증 위험이 증가합니다. 특히 50대 이하 젊은 고혈압 환자에서 이완기 혈압 상승이 더 흔합니다. 수축기와 이완기 모두 정상 범위를 유지하는 것이 중요합니다.</div></details>
   <details><summary>혈압 측정 시 양쪽 팔 수치가 다른 이유는?</summary><div class="faq-answer">양쪽 팔 수치 차이는 10mmHg 이내가 정상입니다. 15~20mmHg 이상 차이가 나면 혈관 이상(동맥경화·대동맥 협착 등)을 의심할 수 있어 전문의 진료를 권장합니다. 처음 혈압을 측정할 때는 양팔 모두 재고 높은 쪽 팔을 기준으로 사용하는 것이 원칙입니다.</div></details>
 </div>
 <script src="/common.js" defer></script><script src="/share.js" defer></script>
