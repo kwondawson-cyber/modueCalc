@@ -91,6 +91,7 @@
       <button class="tab-btn active" onclick="switchTab('real',this)">실제 연비 계산</button>
       <button class="tab-btn" onclick="switchTab('trip',this)">목적지 비용 계산</button>
       <button class="tab-btn" onclick="switchTab('annual',this)">연간 유류비 계산</button>
+      <button class="tab-btn" onclick="switchTab('compare',this)">차량 비교</button>
     </div>
     <div class="tab-panel active" id="tab-real">
       <div class="card-title">⛽ 실제 연비 계산</div>
@@ -117,6 +118,26 @@
       <div class="input-group"><label id="r3-priceLabel">리터당 유가</label><div class="input-wrapper"><input type="number" id="r3-price" placeholder="1650" /><span class="input-unit" id="r3-unit">원/L</span></div></div>
       <button class="calc-btn" onclick="calcAnnual()">📅 연간 비용 계산하기</button>
     </div>
+    <!-- 차량 비교 탭 -->
+    <div class="tab-panel" id="tab-compare">
+      <div class="card-title">🚗 차량 2대 유류비 비교</div>
+      <div class="info-box">💡 현재 차량과 교체 후보 차량의 연간 유류비 차이와 <strong>손익분기 기간</strong>을 계산합니다.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--accent);margin-bottom:10px">🚗 현재 차량</div>
+          <div class="input-group"><label>연비</label><div class="input-wrapper"><input type="number" id="cp1-mpg" placeholder="12" step="0.1" /><span class="input-unit">km/L</span></div></div>
+          <div class="input-group"><label>리터당 유가</label><div class="input-wrapper"><input type="number" id="cp1-price" placeholder="1700" /><span class="input-unit">원/L</span></div></div>
+        </div>
+        <div>
+          <div style="font-size:12px;font-weight:700;color:#4caf50;margin-bottom:10px">🚙 비교 차량</div>
+          <div class="input-group"><label>연비</label><div class="input-wrapper"><input type="number" id="cp2-mpg" placeholder="20" step="0.1" /><span class="input-unit">km/L</span></div></div>
+          <div class="input-group"><label>리터당 유가 (전기: 원/kWh)</label><div class="input-wrapper"><input type="number" id="cp2-price" placeholder="300" /><span class="input-unit">원/L</span></div></div>
+        </div>
+      </div>
+      <div class="input-group"><label>월 주행거리</label><div class="input-wrapper"><input type="number" id="cp-monthly" placeholder="1500" /><span class="input-unit">km/월</span></div></div>
+      <div class="input-group"><label>차량 가격 차이 (비교 차량이 더 비싼 금액, 없으면 0)</label><div class="input-wrapper"><input type="number" id="cp-price-diff" placeholder="10000000" value="0" /><span class="input-unit">원</span></div></div>
+      <button class="calc-btn" onclick="calcCompare()">🚗 차량 비교하기</button>
+    </div>
   </div>
   <div class="card result-card" id="resultCard">
     <div class="card-title">📊 계산 결과</div>
@@ -126,6 +147,22 @@
       <div class="br-unit" id="r-mainUnit">km/L</div>
     </div>
     <div id="r-details"></div>
+
+    <!-- 절감 시뮬레이터 -->
+    <div id="savingSection" style="display:none;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">
+      <div style="font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:10px">💡 연비 개선 시 절감액 시뮬레이션</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+        <div>
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">목표 연비 (km/L)</div>
+          <input type="number" id="sim-mpg" step="0.1" placeholder="예: 15" style="padding:8px 12px;font-size:14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:inherit;width:100%;outline:none" oninput="runSaving()" />
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">월 주행거리 (km)</div>
+          <input type="number" id="sim-monthly" placeholder="예: 1500" style="padding:8px 12px;font-size:14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:inherit;width:100%;outline:none" oninput="runSaving()" />
+        </div>
+      </div>
+      <div id="saving-content" style="background:var(--surface2);border-radius:12px;padding:12px;font-size:13px;color:var(--text-muted);display:none"></div>
+    </div>
   </div>
 </div>
 
@@ -144,6 +181,8 @@
 .seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
 .seo-section .tip-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
 .seo-section .tip-box strong{color:#00d4aa}
+.seo-section .warn-box{background:rgba(255,107,107,0.05);border:1px solid rgba(255,107,107,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .warn-box strong{color:#ff6b6b}
 .seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
 .seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
 .seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
@@ -167,49 +206,71 @@
     </div>
   </div>
 <div class="seo-section">
-  <h2>연비 계산기 — 실제연비와 연간 유류비 완벽 분석</h2>
-  <h3>연비란 무엇이고 왜 중요한가?</h3>
-  <p><strong>연비(Fuel Economy)</strong>는 연료 1리터(또는 1kg)로 주행할 수 있는 거리(km)입니다. 공인연비와 실제연비는 차이가 있으며, 도심 주행·에어컨 사용·급가속 등에 따라 실제연비는 공인연비의 70~85% 수준이 일반적입니다. 연비를 정확히 파악하면 연간 유류비를 예측하고, 차량 선택 시 실질적인 유지 비용을 비교하는 데 활용할 수 있습니다.</p>
-  <p>연비는 단순히 기름값을 아끼는 것을 넘어 환경에도 직접적인 영향을 미칩니다. 연비가 좋을수록 이산화탄소 배출량이 줄어들고, 장기적으로는 차량 유지 비용 전체에서 큰 차이를 만들어냅니다. 특히 연간 주행거리가 많은 운전자일수록 연비 1km/L 차이가 연간 수십만원의 비용 차이로 이어집니다.</p>
-  <h3>📐 연비·유류비 계산 공식</h3>
-  <p>실제연비는 주유구까지 꽉 채운 뒤 주행거리계를 0으로 리셋하고, 다시 주유구까지 채울 때 넣은 연료량으로 나누는 방식이 가장 정확합니다. 전기차는 충전 전력량(kWh) 대비 주행거리로 전비를 계산합니다. 연간 유류비는 연간 주행거리와 연비, 연료 단가를 알면 쉽게 계산할 수 있습니다.</p>
+  <h2>연비 계산기 — 실제 연비·유류비 완벽 분석 (2026년)</h2>
+  <p><strong>연비(Fuel Economy)</strong>는 연료 1리터로 주행할 수 있는 거리(km/L)입니다. 차량 구매 시 카탈로그에 나오는 공인연비와 실제 도로에서 체감하는 실제연비는 다릅니다. 국내 공인연비는 복합연비 기준으로 도심 55%, 고속도로 45% 비율로 측정하지만, 실제 운전 조건(신호대기·에어컨·탑승자 무게·도로 상태 등)에 따라 공인연비의 70~85% 수준이 일반적입니다.</p>
+  <p>이 계산기는 세 가지 탭을 제공합니다. '실제 연비 계산'에서는 주행거리와 주유량으로 실제 연비를 측정하고, 계산 후 목표 연비와 비교해 연간 절감액을 바로 확인할 수 있습니다. '목적지 비용 계산'에서는 여행·출장 시 왕복 주유비를 계산하고, '연간 유류비 계산'에서는 월 주행거리 기준 1년 치 유류비를 산출합니다.</p>
   <div class="formula-box">실제연비(km/L) = 주행거리(km) ÷ 사용연료량(L)
-구간 연료비 = 주행거리 ÷ 연비 × 연료가격
+목적지 연료비 = 이동거리 ÷ 연비 × 리터당 유가
 연간 유류비 = 연간 주행거리 ÷ 연비 × 연료 단가
+절감액 = 연간 주행거리 × 유가 × (1/현재연비 − 1/목표연비)</div>
+  <p>연비 1km/L 개선이 실제로 얼마나 아껴주는지 체감하기 어렵습니다. 월 주행거리 1,500km, 유가 1,700원/L 기준으로 계산하면 연비가 10km/L에서 12km/L로 개선됐을 때 연간 절감액은 약 42만원입니다. 실제 연비 계산 후 '연비 개선 절감 시뮬레이션' 기능으로 바로 확인해보세요.</p>
 
-전기차 전비(km/kWh) = 주행거리 ÷ 충전전력량
-전기차 충전비 = 주행거리 ÷ 전비 × kWh 단가</div>
-  <h3>📊 차종별 연비·유류비 비교 (연간 2만km, 가솔린 1,700원/L 기준)</h3>
-  <p>아래 표는 차종별 공인연비를 기준으로 연간 유류비를 추산한 것입니다. 가솔린차와 하이브리드의 연간 유류비 차이는 약 70~90만원으로 상당합니다. 전기차는 연료비가 가장 낮지만 구매가가 높아 총 소유 비용(TCO) 관점에서 비교해야 합니다.</p>
-  <table class="ex-table">
-    <thead><tr><th>차종</th><th>공인연비</th><th>연간 유류비</th><th>비고</th></tr></thead>
+  <h2>공인연비 vs 실제연비 — 차이가 나는 이유와 측정법</h2>
+  <p>공인연비와 실제연비 차이는 생각보다 큽니다. 한국 공인연비 측정은 실험실 온도(섭씨 20~30도), 일정 속도, 에어컨 미사용, 탑승자 1명 조건에서 이루어집니다. 반면 실제 도로에서는 신호 대기, 에어컨 풀가동, 급가속, 고속주행, 추가 탑승자 등 수많은 변수가 연비를 떨어뜨립니다. 도심 주행이 많을수록 공인연비 대비 실제연비 차이가 커집니다.</p>
+  <p>실제연비를 정확하게 측정하는 방법은 '만탱크 측정법'입니다. 주유구까지 꽉 채운 뒤 주행거리계를 0으로 리셋하고, 다음 번 주유 시 다시 꽉 채울 때 넣은 연료량으로 나누면 됩니다. 최소 2~3회 반복해 평균을 내면 더 정확합니다. 이 계산기의 '실제 연비 계산' 탭에서 바로 계산할 수 있습니다.</p>
+  <table>
+    <thead><tr><th>주행 조건</th><th>공인연비 대비 실제연비</th><th>이유</th></tr></thead>
     <tbody>
-      <tr><td>소형차 (가솔린)</td><td>약 14~16km/L</td><td>약 212~243만원</td><td>아반떼·코나 등</td></tr>
-      <tr><td>중형차 (가솔린)</td><td>약 11~13km/L</td><td>약 262~309만원</td><td>쏘나타·K5 등</td></tr>
-      <tr><td>SUV (가솔린)</td><td>약 9~11km/L</td><td>약 309~378만원</td><td>투싼·스포티지 등</td></tr>
-      <tr><td>하이브리드</td><td>약 16~20km/L</td><td>약 170~212만원</td><td>—</td></tr>
-      <tr><td>전기차</td><td>약 5~6km/kWh</td><td>약 70~120만원</td><td>완속 충전 기준</td></tr>
+      <tr><td>고속도로 정속 주행</td><td>90~105%</td><td>공인연비와 유사한 조건</td></tr>
+      <tr><td>국도 일반 주행</td><td>80~90%</td><td>신호·가감속 있으나 적음</td></tr>
+      <tr><td>도심 복합 주행</td><td>70~85%</td><td>신호대기·급가속 빈번</td></tr>
+      <tr><td>에어컨 풀가동</td><td>-5~15%p 추가 감소</td><td>엔진 부하 증가</td></tr>
+      <tr><td>겨울철 (영하 10도)</td><td>-10~20%p 추가 감소</td><td>엔진 워밍업·히터 사용</td></tr>
     </tbody>
   </table>
-  <h3>📊 연비를 높이는 주행 습관</h3>
-  <p>아래 표는 주행 습관이 연비에 미치는 영향을 정리한 것입니다. 가장 효과가 큰 것은 급가속·급제동을 자제하는 것으로, 습관만 바꿔도 연비가 10~15% 개선될 수 있습니다. 여러 습관을 동시에 실천하면 복합적으로 20~30%까지 연비를 향상시킬 수 있습니다.</p>
-  <table class="ex-table">
-    <thead><tr><th>습관</th><th>연비 개선 효과</th></tr></thead>
+
+  <h2>차종별 연비·유류비 비교 — 가솔린·경유·하이브리드·전기차</h2>
+  <p>차량 구매 시 연료 종류별로 유지비 차이가 상당합니다. 전기차는 연료비가 가장 저렴하지만 구매가가 높고 충전 인프라 제약이 있습니다. 하이브리드는 가솔린 대비 연간 60~90만원을 절약할 수 있어 연간 2만km 이상 주행하는 운전자에게 유리합니다. 경유차는 연비가 좋지만 세금·환경 규제가 강화되는 추세여서 장기 유지비를 종합적으로 따져봐야 합니다.</p>
+  <table>
+    <thead><tr><th>차종</th><th>공인연비</th><th>연간 유류비 (2만km)</th><th>특징</th></tr></thead>
     <tbody>
-      <tr><td>급가속·급제동 금지</td><td>+10~15%</td></tr>
-      <tr><td>적정 타이어 공기압 유지</td><td>+3~5%</td></tr>
-      <tr><td>에어컨 적정 사용</td><td>+5~10%</td></tr>
-      <tr><td>불필요한 짐 제거 (100kg)</td><td>+1~2%</td></tr>
-      <tr><td>경제속도 준수 (60~80km/h)</td><td>+10~20%</td></tr>
+      <tr><td>소형 가솔린</td><td>약 14~16km/L</td><td>약 210~240만원</td><td>유지비 저렴, 세금 낮음</td></tr>
+      <tr><td>중형 가솔린</td><td>약 11~13km/L</td><td>약 260~310만원</td><td>편의성·성능 균형</td></tr>
+      <tr><td>SUV 가솔린</td><td>약 9~11km/L</td><td>약 310~380만원</td><td>연비 불리, 세금 높음</td></tr>
+      <tr><td>하이브리드</td><td>약 16~22km/L</td><td>약 155~210만원</td><td>연비 우수, 세금 감면</td></tr>
+      <tr><td>경유(디젤)</td><td>약 13~17km/L</td><td>약 165~215만원</td><td>장거리 유리, 환경세 부담</td></tr>
+      <tr><td>전기차</td><td>약 5~7km/kWh</td><td>약 70~120만원</td><td>연료비 최저, 충전 필요</td></tr>
+      <tr><td>LPG</td><td>약 8~10km/L</td><td>약 160~200만원</td><td>연료 저렴, 주행 거리↓</td></tr>
     </tbody>
   </table>
-  <div class="tip-box"><strong>💡 주유 비용 절약 팁.</strong> ① 오피넷(opinet.co.kr) 앱에서 주변 최저가 주유소를 실시간 확인하세요. ② 셀프 주유소는 일반 주유소보다 리터당 50~100원 저렴합니다. ③ 엔진 워밍업은 현대 엔진에는 불필요하며 오히려 연비를 낮춥니다. ④ 고속도로보다 국도가 연비에 유리한 경우가 많습니다.</div>
+  <p>※ 가솔린 1,700원/L, 경유 1,550원/L, LPG 900원/L, 전기 300원/kWh 기준 (2026년 평균 기준). 실제 유가는 시기에 따라 변동합니다.</p>
+
+  <h2>연비를 높이는 주행 습관 — 실천만 해도 연간 수십만원 절약</h2>
+  <p>차량을 바꾸지 않아도 주행 습관만 바꾸면 연비를 10~30% 개선할 수 있습니다. 가장 효과가 큰 방법은 급가속·급제동을 자제하는 것입니다. 신호를 미리 보고 자연스럽게 감속하면 브레이크를 거의 밟지 않아도 되고, 이 과정에서 연료가 거의 소비되지 않습니다. 반면 급제동 후 다시 급가속하는 패턴은 연료를 가장 많이 낭비합니다.</p>
+  <p>타이어 공기압도 중요합니다. 공기압이 10% 낮으면 연비가 3~5% 감소합니다. 매월 한 번, 또는 장거리 운전 전에 공기압을 확인하는 습관만으로도 연간 상당한 연료를 아낄 수 있습니다. 에어컨은 외기온도 25도 이상에서는 창문을 닫고 에어컨을 트는 것이, 저속 시에는 창문을 여는 것이 연비에 유리합니다.</p>
+  <table>
+    <thead><tr><th>주행 습관</th><th>연비 개선 효과</th><th>실천법</th></tr></thead>
+    <tbody>
+      <tr><td>급가속·급제동 금지</td><td>+10~15%</td><td>신호 예측하며 부드럽게 가감속</td></tr>
+      <tr><td>경제속도 준수</td><td>+10~20%</td><td>고속도로 80~100km/h 유지 최적</td></tr>
+      <tr><td>적정 타이어 공기압</td><td>+3~5%</td><td>월 1회 점검, 권장 공기압 +10%</td></tr>
+      <tr><td>에어컨 적정 사용</td><td>+5~10%</td><td>25도 이상 창문 닫고 에어컨</td></tr>
+      <tr><td>불필요한 짐 제거</td><td>+1~3%</td><td>트렁크 상시 짐 정리 (100kg↓)</td></tr>
+      <tr><td>공회전 최소화</td><td>+2~5%</td><td>30초 이상 정차 시 시동 OFF</td></tr>
+    </tbody>
+  </table>
+  <div class="tip-box"><strong>💡 주유 비용 절약 팁.</strong> ① 오피넷(opinet.co.kr) 앱에서 주변 최저가 주유소 실시간 확인 ② 셀프 주유소는 일반 주유소보다 리터당 50~100원 저렴 ③ 하이패스 정산 카드 중 주유 할인 제공 카드 활용 ④ 고속도로 주유소는 일반 도심보다 비싼 경우가 많으므로 진입 전 주유 권장</div>
+
+  <h2>전기차 충전비 vs 가솔린 유류비 — 실질 비용 비교</h2>
+  <p>전기차가 정말 유지비가 저렴한지 궁금하신 분들을 위해 구체적인 수치를 비교합니다. 연간 2만km를 주행한다고 가정하면, 가솔린차(12km/L, 유가 1,700원/L)는 연간 약 283만원의 유류비가 듭니다. 같은 거리를 전기차(6km/kWh, 완속 충전 기준 kWh당 300원)로 주행하면 약 100만원으로, 연간 약 183만원을 절약할 수 있습니다.</p>
+  <p>단, 급속 충전을 주로 이용하면 kWh당 400~500원으로 비용이 오르고, 가정용 완속 충전기 설치비(50~100만원), 전기차 보험료 차이도 고려해야 합니다. 또한 전기차의 구매가격 프리미엄(동급 가솔린 대비 500~1,000만원 이상)을 회수하는 데 5~7년 이상이 걸릴 수 있습니다. 연간 주행거리가 많고 충전 여건이 좋은 운전자라면 전기차 전환이 경제적으로 유리합니다.</p>
+
   <h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>공인연비와 실제연비 차이는 왜 나나요?</summary><div class="faq-answer">공인연비는 시험실 특정 조건(일정 속도·온도)에서 측정한 값입니다. 실제 도로에서는 신호대기·급가속·에어컨 사용·탑승자 무게 등 다양한 요소로 실제연비는 공인연비의 70~85% 수준이 일반적입니다. 특히 도심 주행이 많으면 차이가 커집니다.</div></details>
+  <details><summary>공인연비와 실제연비 차이는 왜 나나요?</summary><div class="faq-answer">공인연비는 시험실 특정 조건(일정 속도·온도·에어컨 미사용)에서 측정한 값입니다. 실제 도로에서는 신호대기·급가속·에어컨·탑승자 무게 등 다양한 요소로 실제연비는 공인연비의 70~85% 수준이 일반적입니다. 특히 도심 주행이 많으면 차이가 더 커집니다.</div></details>
   <details><summary>연비를 측정하는 가장 정확한 방법은?</summary><div class="faq-answer">주유구까지 꽉 채운 뒤 주행거리계를 0으로 리셋하고, 다시 주유구까지 채울 때 넣은 연료량으로 나누는 것이 가장 정확합니다. 연비(km/L) = 주행거리 ÷ 주유량. 최소 2~3회 반복해 평균을 내면 더 정확한 수치를 얻을 수 있습니다.</div></details>
-  <details><summary>겨울철에 연비가 낮아지는 이유는?</summary><div class="faq-answer">저온에서 엔진 오일 점도 증가, 히터 사용, 배터리 효율 저하(특히 전기차), 도로 결빙으로 인한 저속 주행 등이 복합적으로 작용해 겨울 연비는 여름 대비 10~20% 낮아집니다. 전기차는 히터 사용 시 주행거리가 30~40% 감소할 수 있습니다.</div></details>
-  <details><summary>고급 연료(고옥탄가)가 연비를 높여주나요?</summary><div class="faq-answer">차량 매뉴얼에서 권장하는 옥탄가 이상의 연료를 사용한다면 연비 향상 효과가 거의 없습니다. 반면 권장 옥탄가보다 낮은 연료를 사용하면 노킹 방지를 위한 점화 시기 조정으로 연비와 출력이 저하될 수 있습니다. 차량 권장 연료를 사용하는 것이 최선입니다.</div></details>
-  <details><summary>하이브리드 vs 전기차 유지비는 어떻게 다른가요?</summary><div class="faq-answer">연간 2만km 기준 가솔린차 연료비 약 280만원, 하이브리드 약 190만원, 전기차(완속 충전 기준) 약 90~120만원 수준입니다. 전기차는 연료비 절감 효과가 크지만 구매가가 높고, 충전 인프라와 주행 패턴(장거리 여부)을 함께 고려해야 합니다.</div></details>
+  <details><summary>겨울철에 연비가 낮아지는 이유는?</summary><div class="faq-answer">저온에서 엔진 오일 점도 증가, 히터 사용, 배터리 효율 저하(특히 전기차), 도로 결빙으로 인한 저속 주행 등이 복합적으로 작용해 겨울 연비는 여름 대비 10~20% 낮아집니다. 전기차는 배터리 가열·히터 사용으로 주행거리가 30~40% 감소할 수 있으므로 특히 주의가 필요합니다.</div></details>
+  <details><summary>고급 연료(고옥탄가)가 연비를 높여주나요?</summary><div class="faq-answer">차량 매뉴얼에서 권장하는 옥탄가 이상의 고급 연료를 넣어도 연비 향상 효과는 거의 없습니다. 반대로 권장 옥탄가보다 낮은 연료를 사용하면 노킹 방지를 위한 점화 시기 조정으로 연비와 출력이 저하될 수 있습니다. 차량 매뉴얼에 명시된 권장 연료를 사용하는 것이 최선입니다.</div></details>
+  <details><summary>하이브리드 vs 전기차 유지비는 어떻게 다른가요?</summary><div class="faq-answer">연간 2만km 기준 가솔린차 유류비 약 280만원, 하이브리드 약 190만원, 전기차(완속 충전 기준) 약 100만원 수준입니다. 전기차는 연료비 절감 효과가 크지만 구매가 프리미엄과 급속 충전 시 단가 상승을 고려해야 합니다. 연간 주행거리가 많고 가정 충전 환경이 갖춰진 경우 전기차 전환 효과가 큽니다.</div></details>
 </div>
 <script>
 let currentTab = 'real';
@@ -221,6 +282,7 @@ function switchTab(tab, el) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.getElementById('tab-' + tab).classList.add('active');
   document.getElementById('resultCard').classList.remove('visible');
+  if(tab !== 'real') document.getElementById('savingSection').style.display='none';
 }
 function selectFuel(btn, groupId) {
   document.querySelectorAll('#' + groupId + ' .seg-btn').forEach(b => b.classList.remove('active'));
@@ -262,7 +324,28 @@ function calcReal() {
     (price > 0 ? detailRow('이번 주유 비용', fmt(costTotal) + ' 원') : '') +
     (price > 0 ? detailRow('km당 연료비', fmt(costPerKm, 1) + ' 원/km', true) : '') +
     detailRow('공인 연비 추정', `약 ${fmt(mpg/0.77, 1)} km/L 차량 (실연비 77% 가정)`);
+  // 절감 시뮬레이터 활성화
+  window._curMpg = mpg;
+  window._curPrice = price || 1650;
+  document.getElementById('savingSection').style.display = price > 0 ? 'block' : 'none';
   document.getElementById('resultCard').classList.add('visible');
+}
+
+function runSaving(){
+  const targetMpg = parseFloat(document.getElementById('sim-mpg').value) || 0;
+  const monthly   = parseFloat(document.getElementById('sim-monthly').value) || 0;
+  const sc = document.getElementById('saving-content');
+  if(!targetMpg || !monthly || !window._curMpg){ sc.style.display='none'; return; }
+  const price = window._curPrice || 1650;
+  const curAnnual  = (monthly*12) / window._curMpg * price;
+  const newAnnual  = (monthly*12) / targetMpg * price;
+  const save = curAnnual - newAnnual;
+  const fmt2 = n => Math.round(n).toLocaleString();
+  sc.style.display='block';
+  sc.innerHTML = save > 0
+    ? `현재 연비 <strong style="color:var(--accent)">${window._curMpg.toFixed(1)}km/L</strong> → 목표 <strong style="color:var(--accent)">${targetMpg}km/L</strong><br>
+       연간 절감액: <strong style="color:#00d4aa;font-size:15px">${fmt2(save)}원 절약</strong> (연 ${fmt2(curAnnual)}원 → ${fmt2(newAnnual)}원)`
+    : `목표 연비가 현재 연비보다 낮거나 같습니다. 더 높은 목표 연비를 입력하세요.`;
 }
 function calcTrip() {
   const dist  = parseFloat(document.getElementById('r2-distance').value) || 0;
@@ -304,6 +387,31 @@ function calcAnnual() {
     detailRow(`연간 ${fuel==='전기'?'전력':'연료'} 소비`, fmt(annualFuel, 0) + ' ' + unit) +
     detailRow('월 평균 유류비', fmt(monthlyCost) + ' 원', true) +
     detailRow('하루 평균 유류비', fmt(annualCost / 365, 0) + ' 원');
+  document.getElementById('resultCard').classList.add('visible');
+}
+function calcCompare() {
+  const mpg1   = parseFloat(document.getElementById('cp1-mpg').value) || 0;
+  const price1 = parseFloat(document.getElementById('cp1-price').value) || 0;
+  const mpg2   = parseFloat(document.getElementById('cp2-mpg').value) || 0;
+  const price2 = parseFloat(document.getElementById('cp2-price').value) || 0;
+  const monthly= parseFloat(document.getElementById('cp-monthly').value) || 0;
+  const priceDiff = parseFloat(document.getElementById('cp-price-diff').value) || 0;
+  if(!mpg1||!price1||!mpg2||!price2||!monthly){alert('모든 항목을 입력하세요.');return;}
+  const annual1 = (monthly*12)/mpg1*price1;
+  const annual2 = (monthly*12)/mpg2*price2;
+  const annualSave = annual1 - annual2;
+  const bepYears = annualSave > 0 && priceDiff > 0 ? (priceDiff/annualSave).toFixed(1) : null;
+  const f = n => Math.round(n).toLocaleString();
+  document.getElementById('r-mainLabel').textContent = '연간 유류비 절감액';
+  document.getElementById('r-mainValue').textContent = annualSave > 0 ? f(annualSave) : f(Math.abs(annualSave));
+  document.getElementById('r-mainUnit').textContent  = annualSave > 0 ? '원/년 절약' : '원/년 더 비쌈';
+  document.getElementById('r-details').innerHTML =
+    detailRow('현재 차량 연간 유류비', f(annual1) + ' 원') +
+    detailRow('비교 차량 연간 유류비', f(annual2) + ' 원', true) +
+    detailRow('월 절감액', f(annualSave/12) + ' 원', annualSave>0) +
+    (priceDiff > 0 && annualSave > 0 ? detailRow('손익분기 기간', `약 ${bepYears}년 후 본전`, true) :
+     priceDiff > 0 && annualSave <= 0 ? detailRow('손익분기', '연료비만으로는 회수 불가') : '');
+  document.getElementById('savingSection').style.display='none';
   document.getElementById('resultCard').classList.add('visible');
 }
 fuelTypes['r1-fuelType'] = '휘발유';
