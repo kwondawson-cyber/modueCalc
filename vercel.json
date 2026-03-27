@@ -362,6 +362,14 @@
     {
       "source": "/freelancer_rate",
       "destination": "/freelancer_rate.html"
+    },
+    {
+      "source": "/privacy",
+      "destination": "/privacy.html"
+    },
+    {
+      "source": "/about",
+      "destination": "/about.html"
     }
   ]
 }

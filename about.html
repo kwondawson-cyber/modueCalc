@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#00d4aa" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="모두의계산기" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>사이트 소개 | 모두의계산기</title>
+  <meta name="description" content="모두의계산기(everycalc.kr)를 만든 이유와 운영 방침을 소개합니다. 급여·세금·부동산·건강 등 75가지 무료 계산기를 제공합니다." />
+  <meta property="og:title" content="사이트 소개 | 모두의계산기" />
+  <meta property="og:description" content="모두의계산기를 만든 이유와 운영 방침 소개" />
+  <meta property="og:url" content="https://www.everycalc.kr/about" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" /></noscript>
+  <style>
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{overflow-x:hidden;width:100%}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+    .wrap{max-width:780px;margin:0 auto;padding:48px 20px 100px;position:relative;z-index:1}
+    .back-btn{display:inline-flex;align-items:center;gap:6px;color:var(--text-muted);text-decoration:none;font-size:14px;margin-bottom:32px;transition:color .2s}
+    .back-btn:hover{color:var(--accent)}
+    .page-header{margin-bottom:48px}
+    .page-label{font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;color:var(--accent);text-transform:uppercase;margin-bottom:12px}
+    .page-header h1{font-size:clamp(24px,5vw,36px);font-weight:900;line-height:1.2;margin-bottom:14px}
+    .page-header .sub{font-size:16px;color:var(--text-muted);line-height:1.7}
+    .section{margin-bottom:40px}
+    .section h2{font-size:17px;font-weight:800;color:var(--accent);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+    .section p{font-size:15px;color:var(--text-muted);line-height:1.9;margin-bottom:10px}
+    .section p:last-child{margin-bottom:0}
+    .section strong{color:var(--text)}
+    .section a{color:var(--accent);text-decoration:none}
+    .section a:hover{text-decoration:underline}
+    .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:16px 0}
+    @media(max-width:520px){.stat-grid{grid-template-columns:repeat(2,1fr)}}
+    .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 16px;text-align:center}
+    .stat-num{font-family:'Montserrat',sans-serif;font-size:28px;font-weight:900;color:var(--accent);display:block;margin-bottom:6px}
+    .stat-label{font-size:13px;color:var(--text-muted)}
+    .principle-list{display:flex;flex-direction:column;gap:12px;margin:14px 0}
+    .principle-item{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 20px;display:flex;gap:14px;align-items:flex-start}
+    .principle-icon{font-size:22px;flex-shrink:0;margin-top:2px}
+    .principle-item h3{font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px}
+    .principle-item p{font-size:13px;color:var(--text-muted);line-height:1.7;margin:0}
+    .tip-box{background:rgba(0,212,170,0.06);border:1px solid rgba(0,212,170,0.2);border-left:3px solid var(--accent);border-radius:10px;padding:14px 18px;font-size:14px;color:var(--text-muted);line-height:1.8;margin:14px 0}
+    .contact-box{background:var(--surface);border:1px solid rgba(0,212,170,0.3);border-radius:16px;padding:28px 24px;text-align:center;margin-top:40px}
+    .contact-box h2{font-size:17px;font-weight:800;margin-bottom:10px;color:var(--text)}
+    .contact-box p{font-size:14px;color:var(--text-muted);line-height:1.8;margin-bottom:16px}
+    .contact-box .email-label{font-size:15px;font-weight:700;color:var(--accent)}
+    .footer{text-align:center;margin-top:60px;color:var(--text-muted);font-size:13px;line-height:2.2;border-top:1px solid var(--border);padding-top:32px}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <a href="/" class="back-btn">← 모두의계산기 홈으로</a>
+
+  <div class="page-header">
+    <div class="page-label">About</div>
+    <h1>모두의계산기 소개</h1>
+    <p class="sub">급여·세금·부동산·노무·건강·사업 계산을 한 곳에서.<br>회원가입 없이, 무료로, 누구나.</p>
+  </div>
+
+  <div class="section">
+    <h2>만든 이유</h2>
+    <p>연봉 협상 전날 세후 실수령액이 궁금해 검색해봤는데, 원하는 계산기를 찾는 데만 한참 걸렸던 경험이 있으신가요? 퇴사를 앞두고 실업급여 수급 조건을 확인하려 했더니 정보가 여기저기 흩어져 있어서 불편했던 적은요?</p>
+    <p>모두의계산기는 그런 불편함에서 출발했습니다. <strong>"자주 쓰는 계산기를 찾아 헤맬 필요 없이, 한 곳에서 바로 쓸 수 있으면 어떨까"</strong>라는 단순한 생각으로 시작한 사이트입니다. 2026년 현재 75가지 계산기가 운영 중이며, 꾸준히 추가하고 있습니다.</p>
+  </div>
+
+  <div class="section">
+    <h2>현황</h2>
+    <div class="stat-grid">
+      <div class="stat-card">
+        <span class="stat-num">75</span>
+        <span class="stat-label">계산기 수</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">6</span>
+        <span class="stat-label">카테고리</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">0원</span>
+        <span class="stat-label">이용 요금</span>
+      </div>
+    </div>
+    <p>급여·세금, 금융·투자, 부동산, 노무·HR, 건강·생활, 사업·법인 6개 카테고리를 운영 중입니다. 모든 계산기는 2026년 최신 기준(최저임금 10,320원, 건강보험료율 7.09% 등)을 반영합니다.</p>
+  </div>
+
+  <div class="section">
+    <h2>운영 원칙</h2>
+    <div class="principle-list">
+      <div class="principle-item">
+        <span class="principle-icon">🔒</span>
+        <div>
+          <h3>입력 데이터는 서버에 저장하지 않습니다</h3>
+          <p>연봉, 체중, 임신 주수 등 계산기에 입력한 모든 숫자는 브라우저 안에서만 처리됩니다. 서버로 전송하거나 저장하지 않습니다.</p>
+        </div>
+      </div>
+      <div class="principle-item">
+        <span class="principle-icon">📅</span>
+        <div>
+          <h3>기준 수치는 항상 최신으로 유지합니다</h3>
+          <p>최저임금·4대 보험료율·세율 등 법령 기준이 바뀔 때마다 빠르게 반영합니다. 오래된 기준으로 잘못 계산되는 일이 없도록 합니다.</p>
+        </div>
+      </div>
+      <div class="principle-item">
+        <span class="principle-icon">📱</span>
+        <div>
+          <h3>모바일 우선으로 설계합니다</h3>
+          <p>이동 중에 스마트폰으로 빠르게 확인하는 경우가 많습니다. 모든 계산기는 모바일 화면에서도 불편함 없이 사용할 수 있도록 반응형으로 만들어져 있습니다.</p>
+        </div>
+      </div>
+      <div class="principle-item">
+        <span class="principle-icon">💬</span>
+        <div>
+          <h3>사용자 요청에 귀 기울입니다</h3>
+          <p>실제로 많은 계산기가 사용자 요청으로 추가됐습니다. "이런 계산기가 있으면 좋겠다"는 의견은 언제든지 이메일로 보내주세요.</p>
+        </div>
+      </div>
+      <div class="principle-item">
+        <span class="principle-icon">🚫</span>
+        <div>
+          <h3>방해가 되는 광고는 넣지 않습니다</h3>
+          <p>사이트 운영을 위해 광고를 게재하지만, 계산 흐름을 끊는 전면 팝업이나 강제 광고는 삽입하지 않는 것을 원칙으로 합니다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>제공 카테고리</h2>
+    <p><strong>💰 급여·세금</strong> — 연봉 실수령액, 급여명세서, 종합소득세, 건강보험료, 양도소득세, 증여세, 취득세 등</p>
+    <p><strong>🏦 금융·투자</strong> — 복리 계산기, 대출 이자, ETF 수익률, 배당 수익률, 환율, 물가 상승률, 청년도약계좌, 청년미래적금 등</p>
+    <p><strong>🏠 부동산</strong> — 전세대출 이자, 부동산 취득세, 임대 수익률, 월세 전환율, 주택담보대출, 양도소득세 등</p>
+    <p><strong>💼 노무·HR</strong> — 주휴수당, 연차 계산기, 실업급여, 육아휴직 급여, 퇴직금, 연장·야간·휴일수당, 급여명세서 등</p>
+    <p><strong>❤️ 건강·생활</strong> — BMI, 기초대사량, 칼로리, 임신 주수, 배란일, 만 나이, 날짜 계산기, 수면 계산기 등</p>
+    <p><strong>🏢 사업·법인</strong> — 법인세, 부가세, 원가 계산기, 손익분기점, 영업이익, 알바 인건비, 카드 수수료, 택배 요금 등</p>
+    <div class="tip-box">💡 원하는 계산기가 없다면 아래 이메일로 요청해 주세요. 많은 분이 요청하신 순서로 우선 개발합니다.</div>
+  </div>
+
+  <div class="section">
+    <h2>운영 주체</h2>
+    <p>모두의계산기는 개인이 운영하는 독립 사이트입니다. 대기업이나 금융사가 운영하는 사이트가 아니기 때문에, 특정 상품이나 서비스를 유도하는 편향된 계산 결과를 제공할 이유가 없습니다. 계산 결과는 오직 공공기관 기준과 법령에만 따릅니다.</p>
+    <p>광고 및 제휴 마케팅을 통해 운영 비용을 충당하며, 제휴 관계가 있는 경우 반드시 공정위 고시에 따라 이를 표시합니다. 자세한 내용은 <a href="/privacy">개인정보처리방침</a>을 참고해 주세요.</p>
+  </div>
+
+  <div class="contact-box">
+    <h2>✉️ 문의 · 계산기 요청</h2>
+    <p>계산기 추가 요청, 오류 제보, 광고·제휴 문의 모두 이메일로 받고 있습니다.<br>영업일 기준 3일 이내 답변드립니다.</p>
+    <div class="email-label" id="about-email"></div>
+  </div>
+
+  <div class="footer">
+    <a href="/" style="color:var(--accent);text-decoration:none;font-weight:700">← 모두의계산기 홈</a>&nbsp;&nbsp;·&nbsp;&nbsp;
+    <a href="/privacy" style="color:var(--text-muted);text-decoration:none">개인정보처리방침</a>&nbsp;&nbsp;·&nbsp;&nbsp;
+    <a href="/faq" style="color:var(--text-muted);text-decoration:none">자주 묻는 질문</a><br><br>
+    © 2026 모두의계산기 · everycalc.kr
+  </div>
+</div>
+<script src="/common.js" defer></script>
+<script>
+(function(){var u='contact',d='everycalc.kr';var el=document.getElementById('about-email');if(el)el.textContent=u+'@'+d;})();
+</script>
+</body>
+</html>
