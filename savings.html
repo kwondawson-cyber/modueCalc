@@ -322,6 +322,76 @@
   window.onload=()=>calculate();
 </script>
 
+<!-- 금리 비교 시뮬레이터 -->
+<div class="container" style="padding-top:0;padding-bottom:0">
+  <div class="card">
+    <div class="card-title">📊 금리 비교 시뮬레이터 — 금리별 만기 수령액 한눈에 비교</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;line-height:1.7">월 납입액과 기간을 입력하면 다양한 금리 시나리오의 세후 수령액을 자동으로 비교합니다.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+      <div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px;font-weight:600">월 납입액 (원)</div>
+        <input type="number" id="cmp-monthly" value="500000"
+          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:15px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none"
+          oninput="calcRateSim()" />
+      </div>
+      <div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px;font-weight:600">기간 (개월)</div>
+        <input type="number" id="cmp-months" value="12" min="1" max="120"
+          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:15px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none"
+          oninput="calcRateSim()" />
+      </div>
+    </div>
+    <div id="rateSimResult"></div>
+  </div>
+</div>
+
+<script>
+const RATE_SCENARIOS = [
+  {label:'🏦 시중은행 보통예금 (0.1%)', r:0.001, color:'#484f58'},
+  {label:'📱 인터넷은행 (2.5%)', r:0.025, color:'#8b949e'},
+  {label:'💳 시중은행 적금 (3.5%)', r:0.035, color:'#4fc3f7'},
+  {label:'🌿 인터넷은행 고금리 (4.5%)', r:0.045, color:'#00d4aa'},
+  {label:'🎯 특판 적금 (6%)', r:0.06, color:'#ffd54f'},
+  {label:'🌱 청년미래적금 (4.5%+기여금)', r:0.045, contrib:0.06, color:'#ff8a65', youth:true},
+];
+
+function calcRateSim() {
+  const m = parseFloat(document.getElementById('cmp-monthly').value)||500000;
+  const months = parseFloat(document.getElementById('cmp-months').value)||12;
+  const TAX = 0.154;
+  const el = document.getElementById('rateSimResult');
+
+  const results = RATE_SCENARIOS.map(s => {
+    const principal = m * months;
+    let grossInt = 0;
+    for(let i=1;i<=months;i++) grossInt += m*s.r*((months-i+1)/12);
+    const taxAmt = s.youth ? 0 : grossInt * TAX;
+    const govContrib = s.youth ? m * (s.contrib||0) * months : 0;
+    const net = principal + grossInt - taxAmt + govContrib;
+    return {...s, principal, net, grossInt, taxAmt, govContrib};
+  }).sort((a,b)=>b.net-a.net);
+
+  const maxNet = results[0].net;
+  const fmt = v => Math.round(v).toLocaleString()+'원';
+
+  el.innerHTML = results.map((r,i) => {
+    const pct = Math.round(r.net/maxNet*100);
+    const extra = r.govContrib>0 ? ` (+기여금 ${fmt(r.govContrib)})` : '';
+    return `<div style="margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <span style="font-size:13px;font-weight:600;color:${r.color}">${i===0?'🥇 ':''}${r.label}</span>
+        <span style="font-size:14px;font-weight:900;font-family:'Montserrat',sans-serif;color:${r.color}">${fmt(r.net)}</span>
+      </div>
+      <div style="height:7px;background:var(--border);border-radius:4px;overflow:hidden;margin-bottom:3px">
+        <div style="height:100%;width:${pct}%;background:${r.color};border-radius:4px"></div>
+      </div>
+      <div style="font-size:11px;color:var(--text-muted)">이자 ${fmt(r.grossInt - r.taxAmt)}${extra} / 원금 대비 수익 ${((r.net-r.principal)/r.principal*100).toFixed(2)}%</div>
+    </div>`;
+  }).join('');
+}
+calcRateSim();
+</script>
+
 <style>
 .seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
 .seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
@@ -329,12 +399,7 @@
 .seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
 .seo-section ul{padding-left:20px;margin-bottom:12px}
 .seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
-.seo-section ol{padding-left:20px;margin-bottom:12px}
-.seo-section ol li{font-size:14px;color:#8b949e;line-height:1.9}
 .seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
-.seo-section .example-box{background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:16px 20px;margin:12px 0}
-.seo-section .example-box p{margin:0;font-size:13px;color:#8b949e;line-height:1.9}
-.seo-section .example-box strong{color:#00d4aa}
 .seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
 .seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
 .seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
@@ -362,86 +427,61 @@
   </div>
 </div>
 <div class="seo-section">
-  <h2>🌱 청년미래적금 완벽 가이드 — 2026년 6월 출시</h2>
-  <p><strong>청년미래적금</strong>은 만 19~34세 청년이 월 최대 50만원을 저축하면 정부가 기여금을 지원해 3년 만기 시 최대 <strong>약 2,200만원</strong>을 수령할 수 있는 정책형 적금입니다. 청년도약계좌(5년)보다 만기가 짧고, 기여금 비율은 더 높아진 것이 핵심입니다.</p>
+  <h2>적금·예금 만기 계산기 — 세후 실수령액·이자 과세 완벽 정리</h2>
+  <p>예금·적금 이자는 만기 지급 시 <strong>이자소득세 15.4%(소득세 14% + 지방소득세 1.4%)</strong>가 자동 원천징수됩니다. 은행 광고에서 보이는 금리가 4%라도 실제 세후 수익률은 약 3.38%에 불과합니다. 이자 과세 구조를 알아야 상품 간 실질 수익을 정확하게 비교할 수 있습니다. 세금우대(9.9%)나 비과세 상품을 선택하면 같은 금리에서도 더 많은 이자를 받을 수 있습니다.</p>
+  <p>정기적금과 정기예금은 계산 방식이 다릅니다. <strong>정기적금</strong>은 매달 납입하는 단리 상품으로, 이자가 월별 납입 기간에 비례해 쌓입니다. 12개월 적금의 실제 이자 계산 기간은 평균 6.5개월이므로, 겉으로 보이는 금리의 절반 수준 이자만 받습니다. <strong>정기예금</strong>은 목돈을 한 번에 맡기고 전체 기간에 금리가 적용되므로 같은 금리라면 이자가 약 2배 많습니다. 위 '금리 비교 시뮬레이터'에서 월 납입액과 기간을 입력하면 6가지 금리 시나리오를 자동 비교합니다.</p>
+  <div class="formula-box">정기적금 이자 = 월납입액 × 연이율 × Σ((만기월-납입월+1) ÷ 12)
+정기예금 이자 = 원금 × 연이율 × (기간월수 ÷ 12)
+세후 이자 = 세전 이자 × (1 − 세율) | 일반과세 15.4%
 
-  <h3>📋 청년미래적금 핵심 스펙</h3>
-  <table>
-    <thead><tr><th>항목</th><th>내용</th></tr></thead>
-    <tbody>
-      <tr><td>출시 시기</td><td><strong>2026년 6월 예정</strong></td></tr>
-      <tr><td>가입 대상</td><td>만 19~34세, 개인소득 6,000만원 이하, 가구 중위소득 200% 이하</td></tr>
-      <tr><td>만기</td><td>3년 (36개월)</td></tr>
-      <tr><td>월 납입 한도</td><td>최대 50만원 (자유적립식)</td></tr>
-      <tr><td>정부 기여금</td><td>일반형 6% / 우대형 12%</td></tr>
-      <tr><td>이자 과세</td><td>비과세</td></tr>
-      <tr><td>최대 수령액</td><td>약 2,200만원 (월 50만원 × 36개월, 우대형 기준)</td></tr>
-    </tbody>
-  </table>
+실질 수익률(%) = 세후 이자 ÷ 원금 × 100</div>
 
-  <h3>💡 일반형 vs 우대형 차이</h3>
+  <h2>청년미래적금 완벽 가이드 — 2026년 6월 출시</h2>
+  <p><strong>청년미래적금</strong>은 만 19~34세 청년이 월 최대 50만원을 저축하면 정부 기여금을 지원해 3년 만기 시 최대 약 2,200만원을 수령할 수 있는 정책형 적금입니다. 청년도약계좌(5년)보다 만기가 짧고 기여금 비율이 더 높습니다. 이자는 비과세 혜택이 적용되어 세금 없이 전액 수령합니다.</p>
   <table>
-    <thead><tr><th>구분</th><th>일반형</th><th>우대형</th></tr></thead>
+    <thead><tr><th>항목</th><th>일반형</th><th>우대형</th></tr></thead>
     <tbody>
-      <tr><td>기여금 비율</td><td>납입액의 6%</td><td>납입액의 12%</td></tr>
-      <tr><td>소득 조건</td><td>개인소득 6,000만원 이하</td><td>개인소득 3,600만원 이하</td></tr>
-      <tr><td>추가 조건</td><td>가구 중위소득 200% 이하</td><td>중소기업 신규취업(입사 6개월 이내) 또는 소상공인</td></tr>
+      <tr><td>출시 시기</td><td colspan="2"><strong>2026년 6월 예정</strong></td></tr>
+      <tr><td>가입 대상</td><td colspan="2">만 19~34세, 개인소득 6,000만원 이하, 가구 중위소득 200% 이하</td></tr>
+      <tr><td>월 납입 한도</td><td colspan="2">최대 50만원 (자유적립식)</td></tr>
+      <tr><td>정부 기여금</td><td>납입액의 <strong>6%</strong></td><td>납입액의 <strong>12%</strong></td></tr>
+      <tr><td>우대 조건</td><td>—</td><td>소득 3,600만원 이하 또는 중소기업 신규취업(6개월 이내)</td></tr>
       <tr><td>월 50만원 3년 기여금</td><td>약 108만원</td><td>약 216만원</td></tr>
+      <tr><td>이자 과세</td><td colspan="2">비과세</td></tr>
+      <tr><td>최대 수령액 (금리 4.5% 가정)</td><td>약 1,982만원</td><td>약 2,090만원</td></tr>
     </tbody>
   </table>
+  <div class="warn-box"><strong>⚠️ 주의사항:</strong> 중도해지 시 정부 기여금 미지급 + 이자에 15.4% 세금 부과. 청년도약계좌와 중복 가입 불가. 은행 금리·협약 은행은 2026년 6월 출시 시점에 확정됩니다. 세부 조건은 반드시 출시 공고를 확인하세요.</div>
 
-  <h3>📊 월 납입액별 예상 수령액 (은행 금리 4.5% 가정)</h3>
+  <h2>금리별 세후 수익 — 예금·적금 상품 유형 비교</h2>
+  <p>같은 금리라도 과세 방식과 기여금 여부에 따라 실수령액이 크게 달라집니다. 월 50만원을 12개월 납입한다고 가정하면, 보통예금(연 0.1%)과 특판 적금(연 6%)의 세후 이자 차이는 약 15만원 이상입니다. 비과세 혜택이 있는 청년미래적금이나 ISA 계좌를 활용하면 일반 과세 대비 이자를 최대 15.4% 더 받을 수 있습니다.</p>
   <table>
-    <thead><tr><th>월 납입액</th><th>원금</th><th>일반형 수령액</th><th>우대형 수령액</th></tr></thead>
+    <thead><tr><th>상품 유형</th><th>기대 금리</th><th>세율</th><th>월 50만원 12개월 세후 이자</th></tr></thead>
     <tbody>
-      <tr><td>20만원</td><td>720만원</td><td>약 793만원</td><td>약 836만원</td></tr>
-      <tr><td>30만원</td><td>1,080만원</td><td>약 1,189만원</td><td>약 1,254만원</td></tr>
-      <tr><td>50만원</td><td>1,800만원</td><td>약 1,982만원</td><td>약 2,090만원</td></tr>
+      <tr><td>보통예금</td><td>연 0.1%</td><td>15.4%</td><td>약 2,700원</td></tr>
+      <tr><td>시중은행 적금</td><td>연 3.5%</td><td>15.4%</td><td>약 94,000원</td></tr>
+      <tr><td>인터넷은행 적금</td><td>연 4.5%</td><td>15.4%</td><td>약 121,000원</td></tr>
+      <tr><td>특판 적금</td><td>연 6%</td><td>15.4%</td><td>약 161,000원</td></tr>
+      <tr><td>청년미래적금 (일반)</td><td>연 4.5% + 기여금 6%</td><td>비과세</td><td>약 143,000원 + 기여금 360,000원</td></tr>
     </tbody>
   </table>
-  <p style="font-size:12px;color:var(--text-muted);margin-top:-8px">※ 은행 금리는 출시 시점에 확정됩니다. 실제 수령액과 다를 수 있습니다.</p>
+  <p>※ 정기적금 단리 계산 기준. 청년미래적금은 36개월 상품이며 위는 연환산 비교용 참고치입니다.</p>
+  <div class="tip-box"><strong>💡 이자 수익 극대화 전략:</strong><br>
+  ① <strong>비과세 상품 우선</strong> — 청년미래적금·ISA·조합원 비과세 적금으로 15.4% 세금 절약<br>
+  ② <strong>예금 vs 적금</strong> — 목돈 있으면 예금이 이자 2배. 월 저축이라면 적금<br>
+  ③ <strong>특판 적금 활용</strong> — 은행 이벤트로 연 5~8% 고금리 적금 수시 출시<br>
+  ④ <strong>풍차 돌리기</strong> — 매달 1개씩 적금 가입, 매달 만기로 유동성+이자 모두 확보</div>
 
-  <div class="tip-box">💡 <strong>청년도약계좌 가입자라면?</strong> 청년도약계좌에서 청년미래적금으로 갈아타기(환승)가 허용될 예정입니다. 우대형 조건을 충족한다면 기여금이 2배라 갈아타는 것이 유리할 수 있습니다. 6월 출시 공고를 반드시 확인하세요.</div>
-
-  <h3>⚠️ 주의사항</h3>
-  <ul>
-    <li><strong>중도해지 불이익</strong>: 만기 전 해지 시 정부 기여금 미지급, 이자에 15.4% 세금 부과</li>
-    <li><strong>중복 가입 불가</strong>: 청년미래적금과 청년도약계좌 동시 가입 불가</li>
-    <li><strong>신규취업자 특례</strong>: 우대형은 입사 6개월 이내 조건이 있어 취업 후 빠른 신청 필요</li>
-    <li><strong>세부 조건 미확정</strong>: 은행 금리·협약 은행 등은 2026년 6월 출시 시점에 확정</li>
-  </ul>
-
-  <h2>예금·적금 이자, 세금 떼면 실제로 얼마나 남나</h2>
-  <h3>단리와 복리, 이자 과세 구조</h3>
-  <p>월 납입액, 연 금리, 납입 기간을 입력하면 세전·세후 만기 수령액과 이자수익을 계산합니다. 이자소득세 15.4%(소득세 14% + 지방소득세 1.4%)가 자동 차감됩니다.</p>
-
-  <h3>📊 월 납입액·기간별 세후 수령액 (금리 4% 기준)</h3>
-  <table>
-    <thead><tr><th>월 납입액</th><th>6개월</th><th>12개월</th><th>24개월</th><th>36개월</th></tr></thead>
-    <tbody>
-      <tr><td>10만 원</td><td>약 601,000원</td><td>약 1,205,000원</td><td>약 2,451,000원</td><td>약 3,739,000원</td></tr>
-      <tr><td>30만 원</td><td>약 1,803,000원</td><td>약 3,616,000원</td><td>약 7,353,000원</td><td>약 1,122만</td></tr>
-      <tr><td>50만 원</td><td>약 3,005,000원</td><td>약 6,027,000원</td><td>약 1,226만</td><td>약 1,870만</td></tr>
-      <tr><td>100만 원</td><td>약 601만</td><td>약 1,205만</td><td>약 2,451만</td><td>약 3,739만</td></tr>
-    </tbody>
-  </table>
-
-  <h3>💡 적금 수익률을 높이는 방법</h3>
-  <ul>
-    <li><strong>청년도약계좌</strong>: 정부 기여금 + 비과세 혜택, 연 최대 6%대 효과</li>
-    <li><strong>ISA 계좌</strong>: 200~400만 원 비과세, 초과분 9.9% 분리과세</li>
-    <tr><td><strong>특판 적금</strong></td><td>은행 이벤트로 연 5~10% 고금리 적금 수시 출시</td></tr>
-    <li><strong>풍차 돌리기</strong>: 매달 1개씩 적금 가입해 만기를 분산하는 전략</li>
-  </ul>
-
-  <div class="tip-box"><strong>💡 Tip.</strong> 같은 금리라도 예금이 적금보다 이자가 약 2배 많습니다. 목돈이 있다면 예금이, 매달 저축하는 방식이라면 적금이 맞습니다.</div>
+  <h2>금리 비교 시뮬레이터 — 월 납입액·기간 입력 시 6가지 시나리오 자동 비교</h2>
+  <p>같은 금액을 저축해도 어디에 맡기느냐에 따라 세후 이자가 수십만원 이상 차이납니다. 위 '금리 비교 시뮬레이터'에서 월 납입액과 기간을 입력하면 보통예금·시중은행 적금·인터넷은행 고금리 적금·특판 적금·청년미래적금까지 6가지 시나리오의 세후 수령액을 한눈에 비교할 수 있습니다.</p>
+  <p>청년미래적금은 일반 적금보다 정부 기여금만큼 추가 수익이 발생합니다. 월 50만원 기준 36개월 동안 일반형은 108만원, 우대형은 216만원의 기여금이 추가로 지급됩니다. 이자까지 비과세여서 같은 금리의 일반 적금 대비 실질 수익률이 월등히 높습니다. 가입 자격이 되는 청년이라면 다른 어떤 적금보다 먼저 검토해야 할 상품입니다.</p>
 
   <h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>청년미래적금은 언제 출시되나요?</summary><div class="faq-answer">2026년 6월 출시 예정입니다. 금융위원회는 KB국민, 신한, 우리, 하나, 농협 등 주요 은행을 협약 은행으로 선정할 예정이며, 모바일 앱 또는 은행 영업점에서 신청할 수 있습니다. 신청 초기에 접속 폭주가 예상되므로 출시 당일 빠른 신청을 권장합니다.</div></details>
-  <details><summary>청년도약계좌를 유지하면서 청년미래적금에 가입할 수 있나요?</summary><div class="faq-answer">아닙니다. 두 상품은 중복 가입이 불가능합니다. 청년도약계좌 가입자는 갈아타기(환승)가 허용될 예정이나, 기존 도약계좌의 남은 기간과 기여금 수령액을 꼼꼼히 비교한 후 결정하세요. 우대형 조건 충족 시 미래적금이 유리할 수 있습니다.</div></details>
-  <details><summary>적금을 중도 해지하면 이자를 얼마나 받나요?</summary><div class="faq-answer">중도 해지 시 약정 금리 대신 중도해지 금리(보통 0.1~1%)가 적용됩니다. 1년 만기 4% 적금을 6개월에 해지하면 실제 이자가 90% 이상 줄어듭니다.</div></details>
-  <details><summary>비과세 한도를 초과하면 세금을 내나요?</summary><div class="faq-answer">일반 적금은 이자의 15.4%를 원천징수합니다. 청년미래적금은 만기까지 유지하면 이자와 기여금 모두 비과세 혜택을 받을 수 있습니다.</div></details>
-  <details><summary>금리가 오르면 기존 적금 해지 후 재가입하는 게 유리한가요?</summary><div class="faq-answer">중도 해지 시 낮은 이자를 받는 손실과 새 상품의 금리 차이를 비교해야 합니다. 보통 금리차가 1.5% 이상일 때 재가입을 고려하세요.</div></details>
+  <details><summary>청년미래적금은 언제 출시되나요?</summary><div class="faq-answer">2026년 6월 출시 예정입니다. KB국민·신한·우리·하나·농협 등 주요 은행이 협약 은행으로 선정될 예정이며, 모바일 앱 또는 은행 영업점에서 신청할 수 있습니다. 신청 초기에 접속 폭주가 예상되므로 출시 당일 빠른 신청을 권장합니다.</div></details>
+  <details><summary>청년도약계좌를 유지하면서 청년미래적금에 가입할 수 있나요?</summary><div class="faq-answer">두 상품은 중복 가입이 불가능합니다. 청년도약계좌 가입자는 갈아타기(환승)가 허용될 예정이나, 기존 도약계좌의 남은 기간과 기여금을 꼼꼼히 비교한 후 결정하세요. 우대형 조건 충족 시 기여금이 2배(12%)로 미래적금이 유리할 수 있습니다.</div></details>
+  <details><summary>적금을 중도 해지하면 이자를 얼마나 받나요?</summary><div class="faq-answer">중도 해지 시 약정 금리 대신 중도해지 금리(보통 0.1~1%)가 적용됩니다. 1년 만기 4% 적금을 6개월에 해지하면 실제 이자가 90% 이상 줄어듭니다. 청년미래적금은 중도해지 시 정부 기여금을 받지 못하고 이자에 15.4% 세금도 부과됩니다.</div></details>
+  <details><summary>금리가 오르면 기존 적금 해지 후 재가입하는 게 유리한가요?</summary><div class="faq-answer">중도 해지 시 낮은 이자를 받는 손실과 새 상품의 금리 차이를 비교해야 합니다. 보통 금리 차이가 1.5% 이상이고 잔여 기간이 길 때 재가입을 고려하세요. 위 '금리 비교 시뮬레이터'에서 현재 금리와 목표 금리로 세후 이자 차이를 직접 계산해볼 수 있습니다.</div></details>
+  <details><summary>같은 금리라면 예금이 적금보다 이자가 많은 이유는?</summary><div class="faq-answer">예금은 원금 전체에 금리가 적용되지만, 적금은 첫 달 납입액만 전체 기간 이자가 붙고 마지막 달 납입액은 1개월 이자만 붙습니다. 12개월 적금의 평균 이자 발생 기간은 약 6.5개월이므로 예금보다 이자가 절반 정도입니다. 목돈이 있다면 예금이, 매달 일정액 저축이라면 적금이 적합합니다.</div></details>
 </div>
 
 <script src="/common.js" defer></script><script src="/share.js" defer></script>
