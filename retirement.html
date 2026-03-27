@@ -303,7 +303,7 @@
       <div class="input-group">
         <label>월 기본급 (세전)</label>
         <div class="input-wrapper">
-          <input type="number" id="baseSalary" placeholder="0" />
+          <input type="text" id="baseSalary" placeholder="3,000,000" oninput="fmtInput(this)" />
           <span class="input-unit">원</span>
         </div>
       </div>
@@ -312,14 +312,14 @@
         <div class="input-group">
           <label>월 고정 수당 합계</label>
           <div class="input-wrapper">
-            <input type="number" id="allowance" placeholder="0" />
+            <input type="text" id="allowance" placeholder="0" oninput="fmtInput(this)" />
             <span class="input-unit">원</span>
           </div>
         </div>
         <div class="input-group">
           <label>연간 상여금 합계</label>
           <div class="input-wrapper">
-            <input type="number" id="bonus" placeholder="0" />
+            <input type="text" id="bonus" placeholder="0" oninput="fmtInput(this)" />
             <span class="input-unit">원</span>
           </div>
         </div>
@@ -328,7 +328,7 @@
       <div class="input-group">
         <label>연간 연차수당 합계</label>
         <div class="input-wrapper">
-          <input type="number" id="vacation" placeholder="0" />
+          <input type="text" id="vacation" placeholder="0" oninput="fmtInput(this)" />
           <span class="input-unit">원</span>
         </div>
       </div>
@@ -380,15 +380,20 @@
     document.getElementById('startDate').value = threeYearsAgo.toISOString().split('T')[0];
     document.getElementById('baseSalary').value = 3000000;
 
+    function fmtInput(el){
+      const raw=el.value.replace(/[^0-9]/g,'');
+      el.value=raw?Number(raw).toLocaleString('ko-KR'):'';
+    }
+    function getNum(id){return parseFloat((document.getElementById(id).value||'').replace(/,/g,''))||0;}
     function fmt(n) { return Math.round(n).toLocaleString('ko-KR'); }
 
     function calculate() {
       const start = new Date(document.getElementById('startDate').value);
       const end = new Date(document.getElementById('endDate').value);
-      const baseSalary = parseFloat(document.getElementById('baseSalary').value) || 0;
-      const allowance = parseFloat(document.getElementById('allowance').value) || 0;
-      const bonus = parseFloat(document.getElementById('bonus').value) || 0;
-      const vacation = parseFloat(document.getElementById('vacation').value) || 0;
+      const baseSalary = getNum('baseSalary');
+      const allowance  = getNum('allowance');
+      const bonus      = getNum('bonus');
+      const vacation   = getNum('vacation');
 
       if (!document.getElementById('startDate').value || !document.getElementById('endDate').value) {
         alert('날짜를 입력해주세요.'); return;
@@ -435,24 +440,66 @@
 
       const resultCard = document.getElementById('resultCard');
       resultCard.classList.add('visible');
+
+      // IRP 시뮬레이터 활성화
+      _retirePay = retirementPay;
+      document.getElementById('irpCard').style.display = 'block';
+      updateIrp();
+    }
+
+    let _retirePay = 0;
+    function updateIrp() {
+      if (!_retirePay) return;
+      const years = parseInt(document.getElementById('irp-years').value) || 10;
+      document.getElementById('irp-years-label').textContent = years + '년';
+      // 퇴직소득세 추정 (간이 계산: 실효세율 약 5~15% 수준 간이 적용)
+      // 실제 퇴직소득세는 근속연수공제 등 복잡하지만, 시뮬용 간이 계산
+      const pay = _retirePay;
+      // 퇴직소득 과세표준 간이 추정 (근속연수공제 무시, 참고용)
+      const roughTax = pay * 0.08; // 약 8% 간이 실효세율
+      const discount = years >= 10 ? 0.40 : 0.30; // 10년이상 40%, 미만 30% 감면
+      const saved = roughTax * discount;
+      const el = document.getElementById('irpResult');
+      el.innerHTML = `
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+          <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center">
+            <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">일시금 수령 (예상 퇴직소득세)</div>
+            <div style="font-size:17px;font-weight:900;font-family:Montserrat,sans-serif;color:#ff6b6b">약 ${fmt(roughTax)}원</div>
+          </div>
+          <div style="background:rgba(0,212,170,.08);border:1px solid rgba(0,212,170,.3);border-radius:12px;padding:14px;text-align:center">
+            <div style="font-size:11px;color:var(--accent);margin-bottom:4px">IRP 연금 수령 (${years}년 분할, 절세 후)</div>
+            <div style="font-size:17px;font-weight:900;font-family:Montserrat,sans-serif;color:var(--accent)">약 ${fmt(roughTax - saved)}원</div>
+          </div>
+        </div>
+        <div style="text-align:center;padding:10px;background:rgba(0,212,170,.05);border-radius:10px;font-size:13px;color:var(--text-muted)">
+          IRP 연금 수령 시 퇴직소득세 <strong style="color:var(--accent)">${(discount*100).toFixed(0)}% 감면</strong> → 약 <strong style="color:var(--accent)">${fmt(saved)}원</strong> 절세 예상<br>
+          <span style="font-size:11px">※ 간이 추정치(실효세율 약 8% 가정). 정확한 세액은 세무사 상담 권장</span>
+        </div>`;
     }
 
     window.onload = () => calculate();
   </script>
+
+<div class="container" style="padding-top:0;padding-bottom:0">
+  <div class="card" id="irpCard" style="display:none">
+    <div class="card-title">💡 IRP 절세 시뮬레이터 — 일시금 vs 연금 수령 비교</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">퇴직금을 IRP 계좌로 이전 후 연금으로 분할 수령하면 퇴직소득세를 감면받습니다. 연금 수령 기간을 선택해 절세 효과를 확인하세요.</p>
+    <div style="display:flex;gap:12px;align-items:center;margin-bottom:14px">
+      <div style="font-size:13px;color:var(--text-muted);font-weight:600;white-space:nowrap">연금 수령 기간</div>
+      <input type="range" id="irp-years" min="5" max="20" step="1" value="10" oninput="document.getElementById('irp-years-label').textContent=this.value+'년';updateIrp()"
+        style="flex:1;accent-color:var(--accent)" />
+      <div id="irp-years-label" style="font-size:16px;font-weight:900;color:var(--accent);min-width:40px">10년</div>
+    </div>
+    <div id="irpResult"></div>
+  </div>
+</div>
 
 <style>
 .seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
 .seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
 .seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}
 .seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
-.seo-section ul{padding-left:20px;margin-bottom:12px}
-.seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
-.seo-section ol{padding-left:20px;margin-bottom:12px}
-.seo-section ol li{font-size:14px;color:#8b949e;line-height:1.9}
 .seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
-.seo-section .example-box{background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:16px 20px;margin:12px 0}
-.seo-section .example-box p{margin:0;font-size:13px;color:#8b949e;line-height:1.9}
-.seo-section .example-box strong{color:#00d4aa}
 .seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
 .seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
 .seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
@@ -480,50 +527,60 @@
   </div>
 </div>
 <div class="seo-section">
-  <h2>퇴직금, 어떻게 계산되고 무엇이 포함되나</h2>
-  <p>퇴직금은 <strong>1년 이상, 주 평균 15시간 이상</strong> 근무한 모든 근로자에게 지급해야 하는 법정 급여입니다. 계산 기준이 되는 '평균임금'에는 단순 기본급 외에도 수당과 상여금 일부가 포함되므로, 실제 수령액은 기본급만 계산했을 때보다 높게 나오는 경우가 많습니다.</p>
+  <h2>퇴직금 계산기 — 2026년 평균임금·계산 공식 완벽 정리</h2>
+  <p><strong>퇴직금</strong>은 근로기준법 제34조에 따라 계속근로기간 1년 이상, 주 평균 15시간 이상 근무한 근로자에게 의무적으로 지급해야 하는 법정 급여입니다. 정규직뿐 아니라 계약직·파트타임도 조건 충족 시 동일하게 적용됩니다. 퇴직 사유(자발적 퇴사·권고사직·해고)와 무관하게 지급 의무가 있습니다.</p>
+  <p>계산의 핵심은 <strong>평균임금</strong>입니다. 단순 기본급이 아니라, 퇴직 전 3개월간의 기본급·수당·상여금 일부·연차수당 일부를 합산한 뒤 해당 기간 총 일수(보통 91일)로 나눈 1일치 금액입니다. 따라서 수당이 많거나 상여금 지급 직후 퇴직하면 퇴직금이 높아집니다. 위 계산기에 항목별로 입력하면 자동으로 계산됩니다.</p>
+  <div class="formula-box">퇴직금 = 1일 평균임금 × 30일 × (재직일수 ÷ 365)
+1일 평균임금 = 퇴직 전 3개월 총 임금 ÷ 3개월 총 일수(91일)
 
-  <h3>퇴직금 계산 공식</h3>
-  <div class="formula-box">퇴직금 = 평균임금 × 30일 × (재직일수 ÷ 365)
-평균임금 = 퇴직 전 3개월 총 임금 ÷ 퇴직 전 3개월 총 일수</div>
-  <p>예를 들어 퇴직 전 3개월 임금 합계가 900만 원이고 해당 기간 일수가 92일이라면, 평균임금은 약 97,826원/일이 됩니다. 재직일수가 1,095일(3년)이라면 퇴직금은 97,826 × 30 × (1,095 ÷ 365) = 약 880만 원입니다.</p>
+퇴직 전 3개월 총 임금 =
+  기본급 × 3
+  + 수당 × 3
+  + 연간 상여금 × (3/12)
+  + 연간 연차수당 × (3/12)</div>
 
-  <h3>평균임금에 포함되는 항목과 제외 항목</h3>
+  <h2>평균임금에 포함되는 항목 vs 제외 항목</h2>
+  <p>퇴직금 계산에서 가장 많이 혼동되는 부분이 평균임금 포함 여부입니다. 정기적·일률적·고정적으로 지급되는 임금은 포함되지만, 복리후생비·실비변상 성격의 금품은 제외됩니다. 특히 상여금은 지급 주기와 방식에 따라 포함 여부가 달라지므로 주의가 필요합니다.</p>
   <table>
     <thead><tr><th>포함 항목</th><th>제외 항목</th></tr></thead>
     <tbody>
       <tr><td>기본급, 직책·직무수당 등 정기 지급 임금</td><td>경조사비, 재해보상금</td></tr>
-      <tr><td>연장·야간·휴일 근로수당</td><td>실비변상적 성격의 금품 (출장비, 작업복 등)</td></tr>
-      <tr><td>퇴직 전 3개월 이내 지급된 상여금 (해당 기간 안분)</td><td>임시·일시적으로 지급된 급여</td></tr>
-      <tr><td>전년도 미사용 연차 보상금</td><td>복리후생 성격의 급여 (기숙사, 통근버스 등)</td></tr>
+      <tr><td>연장·야간·휴일 근로수당</td><td>출장비, 작업복 등 실비변상</td></tr>
+      <tr><td>정기 상여금 (3/12 안분)</td><td>임시·일시적으로 지급된 급여</td></tr>
+      <tr><td>전년도 미사용 연차수당 (3/12 안분)</td><td>기숙사·통근버스 등 복리후생</td></tr>
     </tbody>
   </table>
+  <p>법원 판례에 따르면 "정기적·일률적·고정적으로 지급되는 것은 통상임금에 해당"합니다. 만약 회사가 평균임금 산정 시 이 항목들을 누락했다면, 재계산을 요구하거나 노동청에 진정을 제기할 수 있습니다.</p>
 
-  <h3>재직기간·급여별 퇴직금 예시</h3>
+  <h2>재직 기간·급여별 퇴직금 예시</h2>
+  <p>퇴직금은 재직기간과 평균임금에 정비례합니다. 재직기간이 2배이면 퇴직금도 2배입니다. 아래 표는 상여금·수당이 없는 순수 기본급 기준이며, 수당이나 상여금이 있으면 실제 퇴직금은 더 높아집니다.</p>
   <table>
     <thead><tr><th>재직기간</th><th>월 급여 250만</th><th>월 급여 350만</th><th>월 급여 500만</th></tr></thead>
     <tbody>
-      <tr><td>1년</td><td>약 250만 원</td><td>약 350만 원</td><td>약 500만 원</td></tr>
-      <tr><td>3년</td><td>약 750만 원</td><td>약 1,050만 원</td><td>약 1,500만 원</td></tr>
-      <tr><td>5년</td><td>약 1,250만 원</td><td>약 1,750만 원</td><td>약 2,500만 원</td></tr>
-      <tr><td>10년</td><td>약 2,500만 원</td><td>약 3,500만 원</td><td>약 5,000만 원</td></tr>
-      <tr><td>20년</td><td>약 5,000만 원</td><td>약 7,000만 원</td><td>약 1억 원</td></tr>
+      <tr><td>1년</td><td>약 250만원</td><td>약 350만원</td><td>약 500만원</td></tr>
+      <tr><td>3년</td><td>약 750만원</td><td>약 1,050만원</td><td>약 1,500만원</td></tr>
+      <tr><td>5년</td><td>약 1,250만원</td><td>약 1,750만원</td><td>약 2,500만원</td></tr>
+      <tr><td>10년</td><td>약 2,500만원</td><td>약 3,500만원</td><td>약 5,000만원</td></tr>
+      <tr><td>20년</td><td>약 5,000만원</td><td>약 7,000만원</td><td>약 1억원</td></tr>
     </tbody>
   </table>
 
-  <h3>퇴직금 IRP로 받으면 세금이 줄어드는 이유</h3>
-  <p>퇴직금을 일시금으로 수령하면 퇴직소득세가 바로 징수됩니다. 반면 IRP(개인형 퇴직연금)로 이전한 뒤 55세 이후 10년 이상 연금으로 나눠 받으면 퇴직소득세를 40% 감면받습니다. 퇴직금 규모가 클수록 절세 효과가 커지므로, 퇴직 직후 IRP 이전 여부를 반드시 검토해 보세요.</p>
+  <h2>IRP 절세 시뮬레이터 — 퇴직금 일시금 vs 연금 수령</h2>
+  <p>퇴직금을 일시금으로 수령하면 퇴직소득세가 즉시 원천징수됩니다. 반면 퇴직금을 <strong>IRP(개인형 퇴직연금)</strong>로 이전 후 55세 이후 연금으로 분할 수령하면 퇴직소득세를 감면받습니다. 연금 수령 기간이 10년 미만이면 30%, 10년 이상이면 40%까지 감면됩니다.</p>
+  <p>위 계산기로 퇴직금을 계산하면 'IRP 절세 시뮬레이터'가 나타납니다. 슬라이더로 연금 수령 기간을 조정하면 일시금 수령과 IRP 연금 수령 시 예상 세금 차이를 바로 확인할 수 있습니다. 퇴직금 규모가 클수록 IRP를 통한 절세 효과가 커지므로, 퇴직 직후 반드시 검토하세요.</p>
+  <div class="tip-box"><strong>💡 퇴직금 관련 핵심 체크리스트:</strong><br>
+  ① 퇴직일로부터 <strong>14일 이내</strong> 미지급 시 지연이자 연 20% 발생<br>
+  ② 3년 소멸시효 내 노동청 진정 또는 민원마당 온라인 신고 가능<br>
+  ③ IRP 이전 후 중도 인출 시 세제 혜택 소멸 + 기타소득세 16.5% 부과<br>
+  ④ DC형 퇴직연금 가입자는 이 계산기(DB형 기준)와 계산 방식이 다름</div>
 
-  <div class="warn-box"><strong>⚠️ 퇴직금 미지급 시.</strong> 퇴직일로부터 14일이 지나도 지급되지 않으면 연 20%의 지연이자가 발생합니다. 3년 소멸시효 내에 관할 노동청에 진정을 제기하거나 고용노동부 민원마당(minwon.moel.go.kr)에서 온라인 신고할 수 있습니다.</div>
-
-  <h2>자주 묻는 질문</h2>
-  <details><summary>수습 기간도 재직기간에 포함되나요?</summary><div class="faq-answer">네, 수습 기간도 근로 기간에 포함됩니다. 수습 중 급여가 낮더라도 평균임금 계산 시 해당 급여가 반영됩니다.</div></details>
-  <details><summary>권고사직을 당해도 퇴직금을 받을 수 있나요?</summary><div class="faq-answer">퇴직금은 퇴직 사유와 무관합니다. 자발적 퇴사, 권고사직, 해고 모두 1년 이상 근무했다면 퇴직금을 받을 권리가 있습니다.</div></details>
-  <details><summary>상여금이 많은 달 직전에 퇴직하면 유리한가요?</summary><div class="faq-answer">퇴직 전 3개월 평균임금을 기준으로 계산하므로, 상여금이 해당 3개월 안에 포함되면 퇴직금이 높아질 수 있습니다. 다만 상여금 지급 주기와 퇴직 시점을 맞추는 것은 개인 사정에 따라 다릅니다.</div></details>
-  <details><summary>DC형 퇴직연금 가입자도 이 계산기를 쓸 수 있나요?</summary><div class="faq-answer">DC형은 회사가 매년 연봉의 1/12를 적립하는 방식이라 이 계산기의 DB형 기준과 다릅니다. DC형의 최종 수령액은 적립금 누계에 운용 수익률이 더해진 금액입니다.</div></details>
-  <details><summary>프리랜서나 개인사업자도 퇴직금이 있나요?</summary><div class="faq-answer">퇴직금은 근로기준법상 '근로자'에게만 적용됩니다. 사업소득으로 신고하는 프리랜서나 개인사업자는 해당되지 않습니다. 단, 실질적으로 종속적 근로를 제공했다면 근로자성 인정 가능성이 있습니다.</div></details>
+  <h2>자주 묻는 질문 (FAQ)</h2>
+  <details><summary>수습 기간도 재직기간에 포함되나요?</summary><div class="faq-answer">네, 수습 기간도 근로 기간에 포함됩니다. 수습 중 급여가 낮더라도 해당 급여가 평균임금 계산에 반영됩니다. 수습 기간을 퇴직금 산정에서 제외하는 것은 위법입니다.</div></details>
+  <details><summary>권고사직을 당해도 퇴직금을 받을 수 있나요?</summary><div class="faq-answer">퇴직금은 퇴직 사유와 무관합니다. 자발적 퇴사, 권고사직, 해고 모두 1년 이상 근무했다면 퇴직금을 받을 권리가 있습니다. 퇴직금 미지급 시 퇴직일로부터 14일 이내 지급 의무가 있으며, 위반 시 지연이자(연 20%)가 부과됩니다.</div></details>
+  <details><summary>상여금이 많은 달 직전에 퇴직하면 유리한가요?</summary><div class="faq-answer">퇴직 전 3개월 평균임금을 기준으로 계산하므로, 상여금이 해당 3개월 안에 포함되면 퇴직금이 높아질 수 있습니다. 단, 상여금이 정기적으로 지급되는 경우 연간 총액의 3/12만 반영되므로 효과가 제한적입니다.</div></details>
+  <details><summary>DC형 퇴직연금 가입자도 이 계산기를 쓸 수 있나요?</summary><div class="faq-answer">DC형은 회사가 매년 연봉의 1/12를 적립하는 방식으로, 이 계산기의 DB형(평균임금 기준) 방식과 다릅니다. DC형의 최종 수령액은 적립금 누계에 운용 수익률이 더해진 금액이므로 별도 퇴직연금 계산기를 사용하세요.</div></details>
+  <details><summary>프리랜서나 개인사업자도 퇴직금이 있나요?</summary><div class="faq-answer">퇴직금은 근로기준법상 '근로자'에게만 적용됩니다. 사업소득으로 신고하는 프리랜서나 개인사업자는 해당되지 않습니다. 단, 실질적으로 종속적 근로를 제공했다면 근로자성 인정 가능성이 있으므로 노무사 상담을 권장합니다.</div></details>
 </div>
-
 <script src="/common.js" defer></script><script src="/share.js" defer></script>
 <script src="/calculator.js" defer></script>
 <script>

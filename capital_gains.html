@@ -111,14 +111,14 @@
       <div class="input-group">
         <label>취득가액</label>
         <div class="input-wrapper">
-          <input type="number" id="buyPrice" value="300000000" />
+          <input type="text" id="buyPrice" value="300,000,000" oninput="fmtInput(this)" />
           <span class="input-unit">원</span>
         </div>
       </div>
       <div class="input-group">
         <label>양도가액</label>
         <div class="input-wrapper">
-          <input type="number" id="sellPrice" value="500000000" />
+          <input type="text" id="sellPrice" value="500,000,000" oninput="fmtInput(this)" />
           <span class="input-unit">원</span>
         </div>
       </div>
@@ -127,7 +127,7 @@
       <div class="input-group">
         <label>필요경비 (취득세·중개료 등)</label>
         <div class="input-wrapper">
-          <input type="number" id="expenses" value="5000000" />
+          <input type="text" id="expenses" value="5,000,000" oninput="fmtInput(this)" />
           <span class="input-unit">원</span>
         </div>
       </div>
@@ -190,6 +190,8 @@
   </div>
 </div>
 <script>
+  function fmtInput(el){const raw=el.value.replace(/[^0-9]/g,'');el.value=raw?Number(raw).toLocaleString('ko-KR'):'';}
+  function getNum(id){return parseFloat((document.getElementById(id).value||'').replace(/,/g,''))||0;}
   function fmt(n){return Math.round(n).toLocaleString('ko-KR')}
   // 누진세율
   const brackets=[
@@ -204,41 +206,52 @@
   ];
   function getProgressiveTax(base){
     const b=brackets.find(r=>base<=r.limit)||brackets[brackets.length-1];
-    return base*b.rate-b.deduct;
+    return Math.max(0, base*b.rate-b.deduct);
+  }
+  function calcTax(buy, sell, exp, hold, houses, adj) {
+    let flatRate=null;
+    if(hold===0) flatRate=0.70;
+    else if(hold===1) flatRate=0.60;
+    if(houses===2&&adj) flatRate=Math.max(flatRate||0,0.60);
+    if(houses>=3&&adj) flatRate=Math.max(flatRate||0,0.70);
+    const gain=sell-buy-exp;
+    if(gain<=0) return {gain:0,tax:0,total:0,rateLabel:'—'};
+    const taxBase=Math.max(0,gain-2500000);
+    let tax, rateLabel;
+    if(flatRate!==null){
+      tax=taxBase*flatRate;
+      rateLabel=`${(flatRate*100).toFixed(0)}% (중과)`;
+    } else {
+      tax=getProgressiveTax(taxBase);
+      const b=brackets.find(r=>taxBase<=r.limit)||brackets[brackets.length-1];
+      rateLabel=`${(b.rate*100).toFixed(0)}% (누진)`;
+    }
+    return {gain, tax, total:tax+tax*0.1, rateLabel};
   }
   function calculate(){
-    const buy=parseFloat(document.getElementById('buyPrice').value)||0;
-    const sell=parseFloat(document.getElementById('sellPrice').value)||0;
-    const exp=parseFloat(document.getElementById('expenses').value)||0;
+    const buy=getNum('buyPrice');
+    const sell=getNum('sellPrice');
+    const exp=getNum('expenses');
     const hold=parseInt(document.getElementById('holdPeriod').value);
     const houses=parseInt(document.getElementById('houseCount').value);
     const adj=document.getElementById('adjusted').value==='y';
 
-    // 단기 중과
     let flatRate=null;
     if(hold===0) flatRate=0.70;
     else if(hold===1) flatRate=0.60;
-    // 다주택 조정지역 중과
     if(houses===2&&adj) flatRate=Math.max(flatRate||0,0.60);
     if(houses>=3&&adj) flatRate=Math.max(flatRate||0,0.70);
 
     const gain=sell-buy-exp;
     if(gain<=0){alert('양도차익이 없어 세금이 없습니다.');return;}
 
-    // 장기보유특별공제 (2년 이상 보유, 일반)
     let ltdcRate=0;
-    if(hold>=2&&houses===1&&flatRate===null){
-      // 3년부터 6%, 4년 8%... 최대 30%(15년)
-      // 단순화: 2년이면 0, 이후 별도 입력 없으므로 2년=0 처리
-      ltdcRate=0;
-    }
     const ltdc=gain*ltdcRate;
     const incomeAmt=gain-ltdc;
     const basicDeduct=2500000;
     const taxBase=Math.max(0,incomeAmt-basicDeduct);
 
-    let tax;
-    let rateLabel;
+    let tax, rateLabel;
     if(flatRate!==null){
       tax=taxBase*flatRate;
       rateLabel=`${(flatRate*100).toFixed(0)}% (중과)`;
@@ -253,7 +266,7 @@
     document.getElementById('r-tax').innerHTML=`${fmt(total)}<span>원</span>`;
     document.getElementById('r-sub').textContent=`실수령 예상: ${fmt(sell-total)}원`;
     document.getElementById('d-gain').textContent=`${fmt(gain)}원`;
-    document.getElementById('d-ltdc').textContent=ltdcRate>0?`-${fmt(ltdc)}원 (${ltdcRate*100}%)`:`미적용`;
+    document.getElementById('d-ltdc').textContent=ltdcRate>0?`-${fmt(ltdc)}원 (${ltdcRate*100}%)`:  `미적용`;
     document.getElementById('d-income').textContent=`${fmt(incomeAmt)}원`;
     document.getElementById('d-basic').textContent=`-${fmt(basicDeduct)}원`;
     document.getElementById('d-taxbase').textContent=`${fmt(taxBase)}원`;
@@ -262,25 +275,49 @@
     document.getElementById('d-local').textContent=`${fmt(localTax)}원`;
     document.getElementById('d-total').textContent=`${fmt(total)}원`;
 
-    const rc=document.getElementById('resultCard');
-    rc.classList.add('visible');
+    document.getElementById('resultCard').classList.add('visible');
+
+    // 보유기간별 시뮬레이터 업데이트
+    document.getElementById('simCard').style.display='block';
+    const scenarios=[
+      {label:'1년 미만',hold:0},
+      {label:'1~2년',hold:1},
+      {label:'2년 이상',hold:2},
+    ];
+    const maxTotal=calcTax(buy,sell,exp,0,houses,adj).total;
+    document.getElementById('simResult').innerHTML=scenarios.map(s=>{
+      const r=calcTax(buy,sell,exp,s.hold,houses,adj);
+      const pct=maxTotal>0?Math.round(r.total/maxTotal*100):0;
+      const isCur=s.hold===hold;
+      return `<div style="margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+          <span style="font-size:13px;font-weight:700;color:${isCur?'var(--accent)':'var(--text-muted)'}">${s.label}${isCur?' ← 현재':''} (${r.rateLabel})</span>
+          <span style="font-size:14px;font-weight:900;font-family:Montserrat,sans-serif;color:${s.hold===0?'#ff6b6b':isCur?'var(--accent)':'var(--text)'}">${fmt(r.total)}원</span>
+        </div>
+        <div style="height:7px;background:var(--border);border-radius:4px;overflow:hidden">
+          <div style="height:100%;width:${pct}%;background:${s.hold===0?'#ff6b6b':isCur?'var(--accent)':'#30363d'};border-radius:4px"></div>
+        </div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:2px">실수령 ${fmt(sell-r.total)}원</div>
+      </div>`;
+    }).join('');
   }
   window.onload=()=>calculate();
 </script>
+
+<div class="container" style="padding-top:0;padding-bottom:0">
+  <div class="card" id="simCard" style="display:none">
+    <div class="card-title">📊 보유기간별 세금 비교 — 얼마나 차이나나?</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;line-height:1.7">같은 양도가액이라도 보유기간에 따라 세금이 크게 달라집니다.</p>
+    <div id="simResult"></div>
+  </div>
+</div>
 
 <style>
 .seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
 .seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
 .seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}
 .seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
-.seo-section ul{padding-left:20px;margin-bottom:12px}
-.seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
-.seo-section ol{padding-left:20px;margin-bottom:12px}
-.seo-section ol li{font-size:14px;color:#8b949e;line-height:1.9}
 .seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
-.seo-section .example-box{background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:16px 20px;margin:12px 0}
-.seo-section .example-box p{margin:0;font-size:13px;color:#8b949e;line-height:1.9}
-.seo-section .example-box strong{color:#00d4aa}
 .seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
 .seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
 .seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
@@ -308,36 +345,58 @@
   </div>
 </div>
 <div class="seo-section">
-  <h2>양도소득세 계산기 — 2026년 부동산·주식 양도세 완벽 가이드</h2>
-  <h3>양도소득세란 무엇인가?</h3>
-  <p><strong>양도소득세</strong>는 토지·건물·주식 등 자산을 양도(매각)해 얻은 이익에 부과하는 세금입니다. 부동산은 보유기간·주택 수·조정대상지역 여부에 따라 세율이 크게 달라집니다. 1세대 1주택자는 비과세 요건을 충족하면 양도소득세가 면제되지만, 다주택자는 중과세율이 적용됩니다.</p>
-  <p>2023년 이후 다주택 중과세가 한시 유예(2026년까지)되어 현재는 기본세율이 적용되고 있습니다. 하지만 정책 변화에 주의해야 하며, 양도 전에 세무사 상담을 통해 정확한 세액을 확인하는 것이 중요합니다.</p>
-  <h3>📐 양도소득세 계산 공식</h3>
-  <p>양도소득세는 양도가액에서 취득가액·필요경비·장기보유특별공제를 뺀 양도차익에 기본세율을 적용합니다. 장기보유특별공제는 3년 이상 보유 시 연 2~8%씩 최대 80%까지 공제받을 수 있어 장기 보유가 세금 측면에서 유리합니다.</p>
+  <h2>양도소득세 계산기 — 2026년 부동산 양도세 완벽 가이드</h2>
+  <p><strong>양도소득세</strong>는 부동산·주식 등 자산을 양도해 얻은 이익에 부과하는 세금입니다. 핵심은 <strong>보유기간</strong>과 <strong>주택 수</strong>입니다. 1년 미만 단기 양도는 70%의 중과세율이 적용되지만, 2년 이상 보유하면 6~45%의 기본 누진세율로 크게 낮아집니다. 1세대 1주택자는 비과세 요건(2년 보유·거주, 12억 이하)을 충족하면 세금이 전혀 없습니다.</p>
+  <p>2022년 5월부터 다주택자 중과세가 한시 유예되어 현재(2026년 3월 기준)는 기본세율이 적용되고 있습니다. 유예 종료 시 조정대상지역 2주택자는 기본세율+20%p, 3주택 이상은 +30%p의 중과가 부활합니다. 위 계산기로 세액을 계산하면 '보유기간별 세금 비교 시뮬레이터'에서 1년 미만·1~2년·2년 이상 세 구간의 세금 차이를 한눈에 확인할 수 있습니다.</p>
   <div class="formula-box">양도소득 = 양도가액 − 취득가액 − 필요경비
 과세표준 = 양도소득 − 장기보유특별공제 − 250만원(기본공제)
-양도소득세 = 과세표준 × 세율 − 누진공제
+양도소득세 = 과세표준 × 세율 − 누진공제액
 지방소득세 = 양도소득세 × 10%
 
+단기 중과: 1년 미만 70% / 1~2년 60%
 장기보유특별공제: 3년 이상 보유 시 적용 (최대 80%)</div>
-  <h3>📊 주택 보유기간별 양도소득세율 (2026년 기준)</h3>
-  <p>보유 기간이 짧을수록 세율이 높습니다. 1년 미만 단기 양도는 70%의 세율이 적용되므로 단기 매매는 세금 부담이 매우 큽니다. 2년 이상 보유하면 기본세율(6~45%)이 적용됩니다.</p>
+
+  <h2>보유기간별 양도소득세율 — 1년 차이로 세금이 얼마나 달라지나</h2>
+  <p>양도소득세에서 가장 중요한 변수는 보유기간입니다. 1년 미만은 70%, 1~2년은 60%의 단일 중과세율이 적용됩니다. 2년만 보유하면 6~45%의 기본세율로 낮아지므로, 단기 매매는 세금 부담이 압도적으로 큽니다. 취득 후 최소 2년을 채우는 것이 절세의 기본입니다.</p>
   <table>
-    <thead><tr><th>보유기간</th><th>세율</th><th>비고</th></tr></thead>
+    <thead><tr><th>보유기간</th><th>세율</th><th>3억 차익 시 세금(지방세 포함)</th><th>비고</th></tr></thead>
     <tbody>
-      <tr><td>1년 미만</td><td>70%</td><td>단기 매매 중과</td></tr>
-      <tr><td>1년 이상~2년 미만</td><td>60%</td><td>단기 매매 중과</td></tr>
-      <tr><td>2년 이상 (1주택)</td><td>6~45% (기본세율)</td><td>비과세 가능</td></tr>
-      <tr><td>2년 이상 (다주택, 유예 중)</td><td>6~45% (기본세율)</td><td>중과 한시 유예</td></tr>
+      <tr><td>1년 미만</td><td><strong>70%</strong></td><td>약 2억 750만원</td><td>단기 중과</td></tr>
+      <tr><td>1~2년</td><td><strong>60%</strong></td><td>약 1억 7,820만원</td><td>단기 중과</td></tr>
+      <tr><td>2년 이상 (기본세율)</td><td>6~45% (누진)</td><td>약 9,021만원</td><td>기본세율</td></tr>
+      <tr><td>3년 이상 + 장특공제</td><td>기본세율 − 공제</td><td>더 낮아짐</td><td>최대 80% 공제</td></tr>
+      <tr><td>1세대 1주택 비과세</td><td>0%</td><td>0원</td><td>12억 이하, 2년 보유·거주</td></tr>
     </tbody>
   </table>
-  <div class="tip-box"><strong>💡 양도소득세 절세 전략.</strong> ① 1세대 1주택 비과세 요건(2년 보유·거주) 충족 ② 장기보유특별공제 최대 활용(10년 이상 보유 시 최대 40~80%) ③ 배우자·직계존비속 증여 후 양도로 취득가액 상향 ④ 여러 주택 양도 시 세율이 낮은 해에 분산 양도. 양도 직전 1~2년이 아닌 취득 시점부터 절세 계획을 세우는 것이 중요합니다.</div>
+
+  <h2>장기보유특별공제 — 3년 이상 보유하면 세금이 줄어든다</h2>
+  <p>3년 이상 보유하면 <strong>장기보유특별공제</strong>를 받을 수 있습니다. 일반적으로 연 2%씩 최대 30%(15년)가 공제됩니다. 1세대 1주택자는 거주 기간에 따라 추가 공제가 적용되어 최대 80%(보유 40%+거주 40%)까지 공제받을 수 있습니다. 이 계산기는 보유기간 select에서 '2년 이상'을 선택하면 기본 누진세율만 계산하므로, 정확한 장특공제 적용 세액은 세무사 상담을 권장합니다.</p>
+  <table>
+    <thead><tr><th>보유기간</th><th>일반 공제율</th><th>1세대 1주택 (보유+거주)</th></tr></thead>
+    <tbody>
+      <tr><td>3년</td><td>6%</td><td>24% (보유 12% + 거주 12%)</td></tr>
+      <tr><td>5년</td><td>10%</td><td>40%</td></tr>
+      <tr><td>10년</td><td>20%</td><td>80% (최대)</td></tr>
+      <tr><td>15년</td><td>30% (최대)</td><td>80% (최대)</td></tr>
+    </tbody>
+  </table>
+  <div class="tip-box"><strong>💡 양도소득세 절세 전략:</strong><br>
+  ① <strong>2년 보유 필수</strong> — 단기 중과(60~70%)를 피하고 기본세율 적용<br>
+  ② <strong>1세대 1주택 비과세</strong> — 2년 보유+거주, 12억 이하 요건 충족 시 비과세<br>
+  ③ <strong>장기보유특별공제</strong> — 3년 이상 보유 시 최대 30~80% 공제<br>
+  ④ <strong>분산 양도</strong> — 여러 주택 보유 시 세율 낮은 연도에 분산 양도<br>
+  ⑤ <strong>필요경비 최대화</strong> — 취득세·중개료·인테리어비·법무비 등 빠짐없이 반영</div>
+
+  <h2>보유기간별 세금 비교 시뮬레이터 — 1년만 더 기다리면 얼마나 아끼나</h2>
+  <p>위 계산기에서 취득가·양도가·경비를 입력하고 계산하면, 결과 화면 아래에 '보유기간별 세금 비교' 시뮬레이터가 나타납니다. 1년 미만·1~2년·2년 이상 세 구간의 세금과 실수령액을 막대 그래프로 비교하여 보유기간에 따른 절세 효과를 한눈에 확인할 수 있습니다.</p>
+  <p>예를 들어 취득가 3억, 양도가 5억(차익 2억)의 경우 1년 미만 보유 시 세금이 약 1억 3,750만원이지만, 2년 이상 보유 시 약 5,280만원으로 약 8,470만원 차이납니다. 단 1년의 차이로 세금이 절반 이하로 줄어드는 경우가 많습니다. 매도 타이밍을 결정할 때 반드시 이 시뮬레이터로 세금 차이를 먼저 확인하세요.</p>
+
   <h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>1세대 1주택 비과세 요건은 무엇인가요?</summary><div class="faq-answer">1세대 1주택 양도소득세 비과세를 받으려면 ① 양도 당시 세대 전체 주택 1채 ② 2년 이상 보유(조정대상지역은 2년 거주 추가) ③ 12억원 이하 주택(초과분은 과세) 요건을 모두 충족해야 합니다. 일시적 2주택(이사 목적) 특례도 있으므로 상황에 따라 세무사와 상담하세요.</div></details>
+  <details><summary>1세대 1주택 비과세 요건은 무엇인가요?</summary><div class="faq-answer">1세대 1주택 양도소득세 비과세를 받으려면 ① 양도 당시 세대 전체 주택 1채 ② 2년 이상 보유(조정대상지역은 2년 거주 추가) ③ 12억원 이하 주택(초과분은 과세) 요건을 모두 충족해야 합니다. 일시적 2주택(이사 목적) 특례도 있으니 상황에 따라 세무사와 상담하세요.</div></details>
   <details><summary>해외 부동산 양도 시에도 양도소득세가 부과되나요?</summary><div class="faq-answer">네. 해외 부동산 양도 시 국내 양도소득세가 부과됩니다. 현지에서 납부한 세금은 외국납부세액공제로 중복과세를 피할 수 있습니다. 해외 부동산 취득·보유·처분 시 국세청에 신고 의무가 있으며, 신고 불이행 시 과태료가 부과됩니다.</div></details>
-  <details><summary>양도소득세 신고 기한은 언제인가요?</summary><div class="faq-answer">부동산 양도소득세는 양도일이 속하는 달의 말일부터 2개월 이내에 예정신고·납부를 해야 합니다. 해외 주식 양도소득세는 다음 해 5월 확정신고 기간에 신고합니다. 예정신고를 하지 않으면 가산세가 부과됩니다.</div></details>
-  <details><summary>주택을 증여받은 후 양도하면 취득가액은 어떻게 계산하나요?</summary><div class="faq-answer">증여받은 주택의 취득가액은 증여 당시 시가(시세)가 됩니다. 시가가 높게 평가될수록 나중에 양도할 때 양도차익이 줄어들어 양도소득세가 감소합니다. 이 때문에 주택 가격이 오를 것으로 예상되는 경우 증여 후 보유하다 양도하는 전략이 유리할 수 있습니다.</div></details>
-  <details><summary>이월결손금이란 무엇이고 어떻게 활용하나요?</summary><div class="faq-answer">한 해 양도소득에서 손실이 발생하면 같은 해 다른 양도소득과 통산할 수 있습니다. 해외 주식은 손익통산이 가능해, 수익 종목과 손실 종목을 같은 해에 매도하면 세금을 줄일 수 있습니다. 단, 국내 부동산 손실은 주식 이익과 통산되지 않습니다.</div></details>
+  <details><summary>양도소득세 신고 기한은 언제인가요?</summary><div class="faq-answer">부동산 양도소득세는 양도일이 속하는 달의 말일부터 2개월 이내에 예정신고·납부해야 합니다. 예정신고를 하지 않으면 가산세(무신고 20%, 납부불성실 일별 0.022%)가 부과됩니다. 해외 주식 양도소득세는 다음 해 5월 확정신고 기간에 신고합니다.</div></details>
+  <details><summary>주택을 증여받은 후 양도하면 취득가액은 어떻게 계산하나요?</summary><div class="faq-answer">증여받은 주택의 취득가액은 증여 당시 시가(시세)가 됩니다. 시가가 높게 평가될수록 나중에 양도할 때 양도차익이 줄어들어 양도소득세가 감소합니다. 이 때문에 주택 가격 상승이 예상되는 경우 증여 후 보유하다 양도하는 전략이 유리할 수 있습니다.</div></details>
+  <details><summary>다주택자 중과세 한시 유예는 언제까지인가요?</summary><div class="faq-answer">2022년 5월부터 시작된 다주택자 중과세 한시 유예는 2026년 5월까지 연장 적용 중입니다. 유예 종료 시 조정대상지역 2주택자는 기본세율+20%p, 3주택 이상은 기본세율+30%p의 중과세율이 부활합니다. 유예 종료 전 매각 계획이 있다면 시점을 신중히 검토하세요.</div></details>
 </div>
 <script src="/common.js" defer></script><script src="/share.js" defer></script>
 <script src="/calculator.js" defer></script>
