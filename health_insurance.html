@@ -195,6 +195,7 @@
   function getNum(id){
     return parseFloat((document.getElementById(id).value||'').replace(/,/g,''))||0;
   }
+  function switchTab(tab) {
     currentTab = tab;
     document.getElementById('panel-local').style.display = tab === 'local' ? 'block' : 'none';
     document.getElementById('panel-employee').style.display = tab === 'employee' ? 'block' : 'none';
