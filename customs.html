@@ -91,6 +91,18 @@
 .rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
 .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
 .rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
+    /* 국가비교 */
+    .cmp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
+    .cmp-item{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center}
+    .cmp-item.highlight{border-color:rgba(0,212,170,.4);background:rgba(0,212,170,.05)}
+    .cmp-flag{font-size:20px;margin-bottom:4px}
+    .cmp-country{font-size:11px;color:var(--text-muted);margin-bottom:4px}
+    .cmp-tax{font-size:16px;font-weight:800;color:var(--accent)}
+    .cmp-free{color:#4caf50}
+    .exempt-badge{display:inline-block;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700;margin-top:4px}
+    .exempt-badge.yes{background:rgba(76,175,80,.15);color:#4caf50}
+    .exempt-badge.no{background:rgba(255,107,107,.15);color:#ff6b6b}
+    @media(max-width:480px){.cmp-grid{grid-template-columns:1fr 1fr}}
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-E7GYSXR7WJ"></script>
@@ -173,6 +185,10 @@
       <div class="card-title">📊 세금 상세 내역</div>
       <div class="detail-grid" id="taxDetail"></div>
     </div>
+    <div class="card">
+      <div class="card-title">🌍 국가별 세금 비교 (동일 금액 기준)</div>
+      <div id="countryCompare" class="cmp-grid"></div>
+    </div>
   </div>
 
 <script>
@@ -200,15 +216,23 @@ function updateCustoms(){
   const rate=getNum('exchangeRate');
   const tariffSel=document.getElementById('tariffRate').value;
   const tariffRate=tariffSel==='custom'?getNum('customRate')/100:parseFloat(tariffSel);
-  
-  const krwPrice=(price+ship)*rate; // 과세가격
+  const country=document.getElementById('country').value;
+
+  const krwPrice=(price+ship)*rate;
   const tariff=Math.round(krwPrice*tariffRate);
   const vat=Math.round((krwPrice+tariff)*0.1);
   const total=tariff+vat;
   const totalCost=Math.round(price*rate)+tariff+vat;
-  
+
+  // 면세 여부 판정
+  const usdEquiv = country==='us'?price+ship : country==='eu'?(price+ship)*1.09 : country==='jp'?(price+ship)/145 : country==='cn'?(price+ship)/7.2 : price+ship;
+  const usLimit = 150; // 관세 면제 기준 (목록통관은 200달러)
+  const otherLimit = 150;
+  const isExempt = (country==='us' && usdEquiv<=usLimit) || (country!=='us' && usdEquiv<=otherLimit);
+  const exemptMsg = isExempt ? '✅ 면세 한도 이하 (관세·부가세 면제)' : `⚠️ 면세 한도 초과 (${country==='us'?'미국 기준 $'+usLimit:'$'+otherLimit} 초과)`;
+
   document.getElementById('totalTax').textContent=total.toLocaleString('ko-KR')+'원';
-  document.getElementById('taxSub').textContent=`관세 ${tariff.toLocaleString()}원 + 부가세 ${vat.toLocaleString()}원`;
+  document.getElementById('taxSub').textContent=`관세 ${tariff.toLocaleString()}원 + 부가세 ${vat.toLocaleString()}원 | ${exemptMsg}`;
   document.getElementById('taxDetail').innerHTML=`
     <div class="detail-item"><div class="di-label">물품 금액 (원화 환산)</div><div class="di-value">${Math.round(price*rate).toLocaleString()}원</div></div>
     <div class="detail-item"><div class="di-label">배송비 (원화 환산)</div><div class="di-value">${Math.round(ship*rate).toLocaleString()}원</div></div>
@@ -217,6 +241,31 @@ function updateCustoms(){
     <div class="detail-item"><div class="di-label">총 납부 세금</div><div class="di-value" style="color:#00d4aa">${total.toLocaleString()}원</div></div>
     <div class="detail-item"><div class="di-label">실제 총 구매비용</div><div class="di-value" style="color:#00d4aa">${totalCost.toLocaleString()}원</div></div>
   `;
+
+  // 국가별 비교 (동일 관세율, 각 국가 기준 환율 적용)
+  const COMP=[
+    {flag:'🇺🇸',name:'미국 (USD)',rates:1350,limit:150},
+    {flag:'🇪🇺',name:'유럽 (EUR)',rates:1480,limit:150},
+    {flag:'🇯🇵',name:'일본 (JPY)',rates:9.2,limit:150},
+    {flag:'🇨🇳',name:'중국 (CNY)',rates:188,limit:150},
+  ];
+  const priceKrw=Math.round(price*rate); // 현재 입력 금액의 원화
+  document.getElementById('countryCompare').innerHTML=COMP.map(c=>{
+    const kwp=priceKrw; // 동일 원화 금액 기준
+    const t=Math.round(kwp*tariffRate);
+    const v=Math.round((kwp+t)*0.1);
+    const tot=t+v;
+    const foreignAmt=(priceKrw/c.rates).toFixed(0);
+    const exempt=foreignAmt<=c.limit;
+    const isCurrent=c.name.includes(country==='us'?'미국':country==='eu'?'유럽':country==='jp'?'일본':country==='cn'?'중국':'');
+    return `<div class="cmp-item${isCurrent?' highlight':''}">
+      <div class="cmp-flag">${c.flag}</div>
+      <div class="cmp-country">${c.name}</div>
+      <div class="cmp-tax ${exempt?'cmp-free':''}">${exempt?'면세':''+tot.toLocaleString()+'원'}</div>
+      <div class="exempt-badge ${exempt?'yes':'no'}">${exempt?'✅ 면세':'세금 부과'}</div>
+    </div>`;
+  }).join('');
+
   document.getElementById('customsResult').className='result-section show';
 }
 updateCustoms();
@@ -224,7 +273,6 @@ updateCustoms();
 
 </div>
 
-<style>.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}.seo-section details[open] summary::after{content:'－'}.seo-section details[open]{background:#161b22}.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}</style>
 <style>
 .seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
 .seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
@@ -257,51 +305,74 @@ updateCustoms();
   <a href="/income_tax" class="rel-card"><span class="re">📋</span><span class="rn">소득세</span></a>
   <a href="/savings" class="rel-card"><span class="re">💵</span><span class="rn">예적금 이자</span></a>
   <a href="/inflation" class="rel-card"><span class="re">📊</span><span class="rn">물가상승률</span></a>
-  
   </div>
 </div>
 <div class="seo-section">
-  <h2>해외직구 관세 계산기 — 면세 한도·품목별 관세율 완벽 정리</h2>
-  <h3>해외직구 관세와 부가세 부과 구조 이해하기</h3>
-  <p>해외직구 물품에는 <strong>관세</strong>와 <strong>부가가치세(10%)</strong>가 부과됩니다. 관세는 품목별로 다른 세율이 적용되고, 부가세 과세표준은 물품가격+배송비+관세를 모두 합산한 금액입니다. 미국 직구의 경우 일반 물품은 <strong>200달러 이하</strong>, 그 외 대부분의 국가는 <strong>150달러 이하</strong>면 전액 면세가 적용됩니다.</p>
-  <p>직구 물품의 통관 방법은 <strong>목록통관</strong>과 <strong>일반통관</strong> 두 가지입니다. 목록통관은 세관 심사 없이 데이터 확인만으로 신속하게 통관되지만, 건강기능식품·의약품·식품·동식물 등은 목록통관이 불가해 일반통관으로 처리됩니다. 직구 전 해당 물품의 통관 방법을 미리 확인하는 것이 중요합니다.</p>
-  <h3>📐 관세 및 부가세 계산 공식</h3>
-  <p>관세 계산 시 물품 가격에 배송비를 더한 금액을 원화로 환산한 것이 과세가격이 됩니다. 부가세를 계산할 때 관세를 더한 금액에 10%를 적용하므로, 관세율이 높을수록 부가세도 함께 증가합니다. 면세 한도를 조금만 넘어도 전체 금액에 관세와 부가세가 부과되므로 구매 전 예상 세금을 반드시 확인하세요.</p>
+  <h2>해외직구 관세 계산기 — 면세 한도·관세·부가세 완벽 정리 (2026년)</h2>
+  <p>해외직구가 일상화된 지금, 관세 계산을 모르면 예상보다 훨씬 많은 돈을 낼 수 있습니다. 해외직구 물품에는 <strong>관세</strong>와 <strong>부가가치세(10%)</strong>가 부과되는데, 관세는 품목별로 세율이 다르고, 부가세는 물품가격+배송비+관세를 모두 합산한 금액의 10%입니다. 이 계산기에 구매 국가, 금액, 관세율을 입력하면 총 납부 세금과 국가별 비교를 바로 확인할 수 있습니다.</p>
+  <p>통관 방법도 중요합니다. <strong>목록통관</strong>은 세관 심사 없이 데이터 확인만으로 신속하게 처리되지만, 건강기능식품·의약품·식품·동식물 관련 제품은 목록통관이 불가합니다. 이런 품목은 세관 직원이 직접 심사하는 <strong>일반통관</strong>으로만 처리됩니다. 구매 전 통관 방식을 미리 확인하지 않으면 물건이 세관에 오래 묶이거나 반송될 수 있습니다.</p>
   <div class="formula-box">과세가격(원화) = (물품가 + 배송비) × 환율
 관세 = 과세가격 × 관세율
 부가세 = (과세가격 + 관세) × 10%
-총 납부세금 = 관세 + 부가세</div>
-  <h3>📊 국가별 해외직구 면세 한도 (2024년 기준)</h3>
-  <p>국가별로 면세 한도와 적용 기준이 다릅니다. 미국은 목록통관 기준 200달러지만 건강기능식품·의약품은 150달러 기준의 일반통관이 적용됩니다. 중국 플랫폼(알리익스프레스·테무 등)을 통한 구매가 늘면서 통관 심사가 강화되는 추세입니다.</p>
+총 납부세금 = 관세 + 부가세
+실제 총비용 = 원화 물품가 + 관세 + 부가세</div>
+  <p>주의할 점은 면세 한도를 조금만 넘어도 전체 금액에 세금이 부과된다는 것입니다. 예를 들어 미국에서 155달러 물품을 구매하면 155달러 전체에 관세와 부가세가 붙습니다. 5달러 차이로 수만 원의 세금을 내는 상황이 생길 수 있으므로, 구매 전 예상 세금을 반드시 계산해보는 것이 중요합니다.</p>
+
+  <h2>국가별 면세 한도와 통관 기준 — 미국·유럽·일본·중국 비교</h2>
+  <p>관세청 기준 해외직구 면세 한도는 국가와 통관 방식에 따라 다릅니다. 핵심은 미국만 유일하게 목록통관 한도(200달러)와 관세 면제 한도(150달러)가 다르다는 점입니다. 150달러 초과~200달러 이하의 미국 물품은 목록통관은 가능하지만 관세는 납부해야 합니다. 유럽·일본·중국 등 그 외 국가는 150달러 이하일 때만 관세 면제와 목록통관이 모두 적용됩니다.</p>
   <table>
-    <thead><tr><th>국가</th><th>면세 한도</th><th>통관 방식</th></tr></thead>
+    <thead><tr><th>국가</th><th>관세 면제 한도</th><th>목록통관 한도</th><th>특이사항</th></tr></thead>
     <tbody>
-      <tr><td>미국 (일반 상품)</td><td>200달러 이하</td><td>목록통관</td></tr>
-      <tr><td>미국 (건강기능식품·의약품)</td><td>150달러 이하</td><td>일반통관 필수</td></tr>
-      <tr><td>유럽·일본·기타</td><td>150달러(USD 환산) 이하</td><td>일반통관</td></tr>
-      <tr><td>중국</td><td>150달러 이하</td><td>관세청 기준 동일</td></tr>
+      <tr><td><strong>미국 🇺🇸</strong></td><td>150달러 이하</td><td>200달러 이하</td><td>건강기능식품·의약품은 일반통관</td></tr>
+      <tr><td>유럽 🇪🇺</td><td>150달러 이하</td><td>150달러 이하</td><td>명품·고가품 원산지 주의</td></tr>
+      <tr><td>일본 🇯🇵</td><td>150달러 이하</td><td>150달러 이하</td><td>식품류 검역 별도</td></tr>
+      <tr><td>중국 🇨🇳</td><td>150달러 이하</td><td>150달러 이하</td><td>알리·테무 통관 심사 강화</td></tr>
     </tbody>
   </table>
-  <h3>📊 품목별 관세율 참고표</h3>
-  <p>품목에 따라 관세율 차이가 매우 큽니다. 전자제품은 HS코드에 따라 0%인 경우도 있지만, 의류·신발·가방은 13~20%로 상당히 높습니다. 주류는 관세 30~40% 외에 주세가 별도로 부과되어 실제 세 부담이 매우 큽니다. 직구 전 해당 품목의 HS코드를 확인하면 정확한 관세율을 알 수 있습니다.</p>
+  <p>2023년 이후 중국 플랫폼(알리익스프레스·테무 등)을 통한 저가 물품 대량 직구가 급증하면서 세관의 심사가 눈에 띄게 강화되었습니다. 이전에는 통관이 느슨하게 이루어지던 소액 물품도 과세 통보를 받는 사례가 늘고 있습니다. 중국 직구 시에는 특히 면세 한도를 꼼꼼히 확인하세요.</p>
+  <div class="warn-box"><strong>⚠️ 주의:</strong> 면세 한도는 물품가격만이 아니라 <strong>배송비를 포함한 금액</strong>을 기준으로 합니다. 물품 가격이 140달러여도 배송비 20달러를 더하면 160달러로 면세 한도를 초과합니다.</div>
+
+  <h2>품목별 관세율 — 전자제품·의류·가방·화장품 기준</h2>
+  <p>관세율은 품목에 따라 0%에서 40%까지 크게 다릅니다. HS코드(국제 품목 분류 코드)에 따라 세율이 결정되는데, 같은 카테고리라도 소재·용도에 따라 세율이 달라질 수 있습니다. 직구 전 정확한 세율을 확인하려면 관세청 '전자통관시스템(UNI-PASS)'에서 HS코드를 조회하는 것이 가장 정확합니다.</p>
+  <p>일반적으로 전자제품·컴퓨터 부품은 관세율이 낮은 편(0~8%)이라 직구 비중이 높고, 의류·신발은 13%, 가방·잡화는 20%로 상당히 높습니다. 주류는 관세 30~40%에 주세까지 별도로 붙어 실제 세 부담이 매우 크기 때문에 직구 이점이 거의 없습니다. 화장품은 6.5~8%로 중간 수준입니다.</p>
   <table>
-    <thead><tr><th>품목</th><th>관세율</th><th>비고</th></tr></thead>
+    <thead><tr><th>품목</th><th>관세율</th><th>참고</th><th>직구 유리도</th></tr></thead>
     <tbody>
-      <tr><td>전자제품·컴퓨터</td><td>0~8%</td><td>HS코드별 상이</td></tr>
-      <tr><td>의류·신발</td><td>13%</td><td>신발은 품목별 상이</td></tr>
-      <tr><td>가방·잡화</td><td>20%</td><td>원산지 증명 확인</td></tr>
-      <tr><td>화장품</td><td>6.5~8%</td><td>—</td></tr>
-      <tr><td>건강기능식품</td><td>8%</td><td>일반통관 필수</td></tr>
-      <tr><td>주류</td><td>30~40%</td><td>주세 별도 부과</td></tr>
+      <tr><td>컴퓨터·노트북</td><td>0%</td><td>HS코드 확인 필수</td><td>★★★★★</td></tr>
+      <tr><td>스마트폰·태블릿</td><td>0~8%</td><td>일부 0% 적용</td><td>★★★★</td></tr>
+      <tr><td>화장품·스킨케어</td><td>6.5~8%</td><td>—</td><td>★★★</td></tr>
+      <tr><td>건강기능식품</td><td>8%</td><td>일반통관 필수</td><td>★★★</td></tr>
+      <tr><td>의류·신발</td><td>13%</td><td>신발은 품목별 상이</td><td>★★</td></tr>
+      <tr><td>가방·잡화·악세서리</td><td>20%</td><td>명품 원산지 주의</td><td>★★</td></tr>
+      <tr><td>주류</td><td>30~40%</td><td>주세 별도 부과</td><td>★</td></tr>
     </tbody>
   </table>
-  <div class="tip-box"><strong>💡 관세 절약 팁.</strong> ① 미국 직구는 200달러 이하 유지 시 완전 면세 ② 여러 물건은 분리 주문으로 각각 면세 한도 이하 유지 ③ 배송대행지 합포장 배송은 합산 과세 주의 ④ 건강기능식품·의약품·식품은 목록통관 불가이므로 별도 검역·허가가 필요할 수 있습니다.</div>
+
+  <h2>직구 관세 절약 방법 — 분리 주문·합포장 주의·통관 유형별 전략</h2>
+  <p>해외직구 관세를 합법적으로 줄이는 방법이 몇 가지 있습니다. 가장 기본적인 방법은 면세 한도 이하로 주문을 나누는 것입니다. 200달러짜리 물품을 한 번에 사면 세금이 붙지만, 두 번에 나눠 각 100달러씩 사면 각각 면세가 됩니다. 단, 세관에서 같은 날 같은 수취인에게 여러 건이 들어오면 합산 과세할 수 있으므로 주문 날짜를 분산하는 것이 안전합니다.</p>
+  <p>배송대행지(배대지)를 이용할 때는 합포장에 특히 주의해야 합니다. 여러 쇼핑몰에서 따로 산 물건을 배대지에서 하나로 합쳐 보내면 합산 금액으로 과세되어 면세 한도를 쉽게 초과합니다. 또한 배대지의 실제 배송비도 과세가격에 포함되므로 계산 시 반드시 반영해야 합니다. 이 계산기의 배송비 입력란에 배대지 국제배송비도 포함해서 계산하세요.</p>
+  <div class="tip-box"><strong>💡 관세 절약 핵심 팁.</strong> ① 미국 직구는 <strong>물품가+배송비 합산 150달러 이하</strong> 유지 시 관세 면제 ② 분리 주문 시 주문일을 다르게 분산 ③ 배송대행지 합포장은 합산 과세 주의 ④ 건강기능식품·의약품·식품·동식물은 목록통관 불가 → 일반통관 절차(추가 서류·검역) 필수 ⑤ 쿠팡 로켓직구는 세금 포함 가격이라 별도 납부 불필요</div>
+
+  <h2>관세 통관 절차 — 과세 통보받았을 때 대처법</h2>
+  <p>세관에서 과세 통보를 받았다면 당황하지 않아도 됩니다. 고지된 세금을 납부하면 물품을 받을 수 있고, 세금 금액이 과도하다고 판단되면 이의신청도 가능합니다. 세금 납부는 관세청 전자통관시스템(UNI-PASS) 또는 배송업체 앱을 통해 간편하게 처리할 수 있습니다.</p>
+  <table>
+    <thead><tr><th>단계</th><th>내용</th><th>소요 기간</th></tr></thead>
+    <tbody>
+      <tr><td>1. 물품 입항</td><td>항공기·선박으로 물품이 한국에 도착</td><td>—</td></tr>
+      <tr><td>2. 통관 심사</td><td>목록통관(데이터 확인) 또는 일반통관(서류 심사)</td><td>1~7일</td></tr>
+      <tr><td>3. 과세 통보</td><td>면세 한도 초과 시 문자·앱으로 세금 고지</td><td>—</td></tr>
+      <tr><td>4. 세금 납부</td><td>UNI-PASS, 신용카드, 계좌이체로 납부</td><td>30일 이내</td></tr>
+      <tr><td>5. 물품 수령</td><td>납부 확인 후 배송 재개</td><td>1~2일</td></tr>
+    </tbody>
+  </table>
+  <p>납부 기한(30일) 내에 세금을 내지 않으면 물품은 반송 또는 폐기됩니다. 또한 목록통관 불가 품목(건강기능식품·식품·동식물 등)은 추가 서류나 검역 결과서를 제출해야 할 수 있어 통관에 훨씬 더 오래 걸릴 수 있습니다. 건강기능식품을 직구할 때는 개인 사용 목적임을 증명하는 서류를 미리 준비해두는 것이 좋습니다.</p>
+
   <h2>자주 묻는 질문 (FAQ)</h2>
   <details><summary>관세와 부가세를 같이 내야 하나요?</summary><div class="faq-answer">네. 관세 과세 대상이면 관세와 함께 부가세(10%)도 납부합니다. 부가세 과세표준은 물품가+배송비+관세의 합산 금액으로, 관세가 높을수록 부가세도 증가합니다. 면세 한도를 넘기면 소액이라도 전체 금액에 관세와 부가세가 부과됩니다.</div></details>
-  <details><summary>직구 물품이 통관 보류되면 어떻게 되나요?</summary><div class="faq-answer">세관에서 과세 통보서가 발송됩니다. 고지된 세금을 납부하면 수령할 수 있고, 납부하지 않으면 반송 또는 폐기됩니다. 목록통관 불가 품목(건강기능식품·식품 등)은 추가 서류 제출이 필요할 수 있어 통관에 시간이 더 걸릴 수 있습니다.</div></details>
-  <details><summary>목록통관과 일반통관 중 어느 것이 빠른가요?</summary><div class="faq-answer">목록통관이 훨씬 빠릅니다. 세관 심사 없이 데이터 확인만으로 통관되어 보통 1~3일 내 수령 가능합니다. 일반통관은 서류 심사로 수일~수주가 소요될 수 있습니다. 건강기능식품은 한국으로 들어올 때 반드시 일반통관 대상이 됩니다.</div></details>
-  <details><summary>배송대행지를 이용할 때 관세 계산은 어떻게 하나요?</summary><div class="faq-answer">배송대행지를 통한 배송도 동일하게 관세가 부과됩니다. 여러 쇼핑몰 물건을 합포장하면 합산 금액으로 과세되어 면세 한도를 초과할 수 있습니다. 배송대행지의 실제 배송비도 과세가격에 포함되므로, 가능하면 분리 배송을 요청하는 것이 유리합니다.</div></details>
-  <details><summary>개인 사용 목적 직구도 상업 수입으로 간주될 수 있나요?</summary><div class="faq-answer">동일 품목을 다수 구매하거나 반복 구매하면 상업 수입으로 간주될 수 있습니다. 일반적으로 개인 사용 목적이 명확한 소량 구매는 문제없지만, 대량 구매는 세관에서 목적을 확인할 수 있습니다. 상업 수입으로 판단되면 일반 수입통관 절차를 따라야 합니다.</div></details>
+  <details><summary>미국 직구 면세 한도가 200달러인가요, 150달러인가요?</summary><div class="faq-answer">두 가지가 다릅니다. <strong>관세 면제</strong> 기준은 150달러 이하입니다. <strong>목록통관(간이통관)</strong> 가능 한도는 200달러 이하입니다. 즉, 150~200달러 구간의 미국 물품은 목록통관으로 빠르게 통관할 수 있지만 관세는 납부해야 합니다. 완전 면세(관세+부가세 없음)를 원한다면 물품가+배송비 합산 150달러 이하여야 합니다.</div></details>
+  <details><summary>직구 물품이 통관 보류되면 어떻게 되나요?</summary><div class="faq-answer">세관에서 과세 통보서(문자·앱)가 발송됩니다. 고지된 세금을 납부하면 수령할 수 있고, 30일 내 납부하지 않으면 반송 또는 폐기됩니다. 목록통관 불가 품목(건강기능식품·식품 등)은 추가 서류 제출이 필요할 수 있습니다.</div></details>
+  <details><summary>배송대행지를 이용할 때 관세는 어떻게 계산되나요?</summary><div class="faq-answer">배대지를 통한 배송도 동일하게 관세가 부과됩니다. 여러 쇼핑몰 물건을 합포장하면 합산 금액으로 과세되어 면세 한도를 초과할 수 있습니다. 배대지 국제배송비도 과세가격에 포함되므로 계산 시 반드시 반영해야 합니다. 분리 배송을 요청하는 것이 세금 측면에서 유리합니다.</div></details>
+  <details><summary>건강기능식품 직구 시 주의할 점은?</summary><div class="faq-answer">건강기능식품은 목록통관 불가 품목으로 반드시 일반통관을 거쳐야 합니다. 개인 사용 목적 소량(6병 이하 등)이라도 통관 심사가 필요합니다. 일부 품목은 국내 판매 허가를 받지 않아 수입 자체가 금지될 수 있으므로, 구매 전 식약처의 수입 가능 여부를 확인하는 것이 안전합니다.</div></details>
 </div>
 <script src="/common.js" defer></script><script src="/share.js" defer></script>
 <script src="/calculator.js" defer></script>

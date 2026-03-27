@@ -88,6 +88,7 @@
     <div class="tab-group">
       <button class="tab-btn active" onclick="switchTab('calc',this)">📊 배당수익률 계산</button>
       <button class="tab-btn" onclick="switchTab('goal',this)">🎯 목표 배당수익 역산</button>
+      <button class="tab-btn" onclick="switchTab('compound',this)">📈 복리 재투자 시뮬</button>
     </div>
 
     <!-- 배당수익률 계산 -->
@@ -151,6 +152,49 @@
         </div>
       </div>
       <button class="calc-btn" onclick="calcGoal()">🎯 필요 투자금 계산하기</button>
+    </div>
+
+    <!-- 복리 재투자 시뮬레이터 -->
+    <div id="panel-compound" style="display:none">
+      <div class="card-title">📈 배당 재투자 복리 시뮬레이터</div>
+      <div class="info-box">배당금을 매년 재투자했을 때 <strong>n년 후 총 자산</strong>과 연도별 성장을 계산합니다.</div>
+      <div class="row2">
+        <div class="input-group">
+          <label>초기 투자금 (원)</label>
+          <div class="input-wrapper"><input type="number" id="cp-invest" placeholder="10000000" /><span class="input-unit">원</span></div>
+        </div>
+        <div class="input-group">
+          <label>연간 배당수익률 (세전)</label>
+          <div class="input-wrapper"><input type="number" id="cp-yield" placeholder="4" step="0.1" /><span class="input-unit">%</span></div>
+        </div>
+      </div>
+      <div class="row2">
+        <div class="input-group">
+          <label>연간 주가 상승률 (예상)</label>
+          <div class="input-wrapper"><input type="number" id="cp-growth" placeholder="3" step="0.1" /><span class="input-unit">%</span></div>
+        </div>
+        <div class="input-group">
+          <label>투자 기간</label>
+          <div class="input-wrapper"><input type="number" id="cp-years" placeholder="20" min="1" max="50" /><span class="input-unit">년</span></div>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>과세 구분</label>
+        <div class="seg-group" id="cp-tax-group">
+          <button class="seg-btn active" data-tax="0.154" onclick="selectSeg(this,'cp-tax-group')">일반 (15.4%)</button>
+          <button class="seg-btn" data-tax="0" onclick="selectSeg(this,'cp-tax-group')">연금계좌 (이연)</button>
+        </div>
+      </div>
+      <button class="calc-btn" onclick="calcCompound()">📈 복리 시뮬레이션 시작</button>
+    </div>
+  </div>
+
+  <!-- 복리 결과 -->
+  <div class="card" id="compoundResult" style="display:none">
+    <div class="card-title">📈 복리 재투자 시뮬레이션 결과</div>
+    <div class="summary-grid" id="cp-summary"></div>
+    <div style="margin-top:16px;overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:12px" id="cp-table"></table>
     </div>
   </div>
 
@@ -223,56 +267,89 @@
   </div>
 <div class="seo-section">
   <h2>배당금 수익률 계산기 — 세후 배당 수익과 복리 재투자 완벽 분석</h2>
-  <h3>배당투자의 기본 — 배당수익률이란?</h3>
-  <p><strong>배당수익률(Dividend Yield)</strong>은 주가 대비 연간 배당금의 비율로, 주식 보유만으로 얻는 현금 수익을 나타냅니다. 배당투자는 주가 상승 외에 정기적인 현금 흐름을 확보하는 전략으로, 장기적으로 배당 재투자를 통해 복리 효과를 극대화할 수 있습니다. 특히 리츠(REITs)·고배당주·배당성장주가 인기 있는 배당투자 자산입니다.</p>
-  <p>한국의 배당소득세는 15.4%(소득세 14% + 지방소득세 1.4%)로, 세후 배당수익률을 기준으로 투자 판단을 해야 합니다. 연간 금융소득(배당+이자)이 2,000만원을 초과하면 종합과세 대상이 되어 세 부담이 더 커지므로, 고배당 투자자는 ISA 계좌 활용을 적극 검토해야 합니다.</p>
-  <h3>📐 배당수익률 계산 공식</h3>
-  <p>배당수익률은 투자 시점의 주가를 기준으로 계산하는 현재 수익률과, 매수 가격을 기준으로 계산하는 취득원가 수익률(YOC)로 나뉩니다. 배당성장주에 장기 투자하면 취득원가 수익률이 시간이 지날수록 높아지는 효과가 있습니다. 복리 재투자를 가정한 장기 수익률 계산이 가장 현실적인 투자 성과 예측 방법입니다.</p>
+  <p><strong>배당수익률(Dividend Yield)</strong>은 주가 대비 연간 배당금의 비율로, 주식을 보유하는 것만으로 얻는 현금 수익을 나타냅니다. 예를 들어 5만원짜리 주식에서 1년에 2,000원의 배당금을 준다면 배당수익률은 4%입니다. 배당투자는 주가 상승 차익 외에 정기적인 현금 흐름을 확보하는 전략으로, 특히 은퇴 후 생활비를 주식 포트폴리오에서 조달하려는 투자자에게 인기가 높습니다.</p>
+  <p>한국의 배당소득세는 15.4%(소득세 14% + 지방소득세 1.4%)로 배당금을 받을 때 원천징수됩니다. 따라서 투자 판단 시에는 세전 배당수익률이 아닌 <strong>세후 배당수익률</strong>을 기준으로 삼아야 합니다. 세전 4% 배당수익률이라면 세후 실질 수익률은 약 3.38%입니다. 연간 금융소득(배당+이자) 합계가 2,000만원을 초과하면 초과분은 다른 소득과 합산해 종합과세(최고 45%)되므로, 고배당 투자자라면 ISA 계좌 활용을 반드시 검토해야 합니다.</p>
   <div class="formula-box">배당수익률(%) = 주당 연간 배당금 ÷ 현재 주가 × 100
-세후 배당금 = 배당금 × (1 − 0.154)
-배당재투자 복리 = 투자원금 × (1 + 세후배당수익률)ⁿ
-금융소득 2,000만원 초과 시 종합과세 적용</div>
-  <h3>📊 배당수익률별 세후 수익 비교 (1,000만원 투자)</h3>
-  <p>아래 표는 배당수익률별 연간 수령액과 10년 복리 재투자 시 최종 자산을 보여줍니다. 배당수익률 6%로 10년 복리 투자 시 원금이 약 64.7% 증가하는 효과가 있습니다. 단, 이 계산은 주가 변동과 배당 삭감이 없다는 가정 하의 이론적 수치임을 주의해야 합니다.</p>
+세후 배당금 = 배당금 × (1 − 0.154)  ← 국내·해외 주식
+세후 배당수익률 = 배당수익률 × (1 − 0.154)
+배당 재투자 복리 = 원금 × (1 + 세후배당수익률 + 주가상승률)ⁿ</div>
+  <p>이 계산기는 세 가지 기능을 제공합니다. '배당수익률 계산' 탭에서는 현재 주가와 배당금, 보유 주수를 입력해 세후 배당금과 월 평균 수령액을 계산합니다. '목표 배당수익 역산' 탭에서는 원하는 월 배당수입에 필요한 투자금을 계산합니다. '복리 재투자 시뮬' 탭에서는 배당금을 재투자했을 때 n년 후 자산이 얼마나 커지는지 연도별로 확인할 수 있습니다.</p>
+
+  <h2>배당소득세 절세 전략 — ISA·연금저축·연금계좌 활용법</h2>
+  <p>배당투자에서 세금 관리는 수익률만큼 중요합니다. 같은 배당수익률이라도 어느 계좌에서 투자하느냐에 따라 실수령액이 크게 달라집니다. 특히 장기 투자자라면 절세 계좌를 적극 활용해 복리 효과를 극대화해야 합니다.</p>
+  <p>ISA(개인종합자산관리계좌)는 연간 2,000만원(최대 1억원)까지 납입할 수 있으며, 만기 시 발생한 배당소득에 대해 최대 200만원까지 비과세, 초과분은 9.9% 분리과세 혜택이 있습니다. 일반 계좌의 15.4%보다 세율이 낮습니다. 연금저축·IRP 계좌에서 국내 ETF를 통해 배당을 받으면 연금 수령 시점까지 과세가 이연되어 복리 효과가 극대화됩니다.</p>
   <table>
-    <thead><tr><th>배당수익률</th><th>연간 배당금</th><th>세후 수령액</th><th>10년 복리(재투자)</th></tr></thead>
+    <thead><tr><th>계좌 유형</th><th>배당소득세율</th><th>특징</th><th>납입 한도</th></tr></thead>
     <tbody>
-      <tr><td>2%</td><td>20만원</td><td>약 16.9만원</td><td>약 1,184만원</td></tr>
-      <tr><td>4%</td><td>40만원</td><td>약 33.8만원</td><td>약 1,396만원</td></tr>
-      <tr><td>6%</td><td>60만원</td><td>약 50.8만원</td><td>약 1,647만원</td></tr>
-      <tr><td>8%</td><td>80만원</td><td>약 67.7만원</td><td>약 1,941만원</td></tr>
+      <tr><td>일반 계좌</td><td>15.4% (원천징수)</td><td>즉시 과세</td><td>제한 없음</td></tr>
+      <tr><td>ISA</td><td>비과세 200만원 + 9.9%</td><td>만기 분리과세</td><td>연 2,000만원</td></tr>
+      <tr><td>연금저축·IRP</td><td>과세 이연 (3.3~5.5%)</td><td>연금 수령 시 저율 과세</td><td>연 1,800만원(IRP포함)</td></tr>
     </tbody>
   </table>
-  <h3>📊 국내 주요 고배당 업종 현황 (2024년 기준)</h3>
-  <p>업종에 따라 배당수익률과 안정성이 크게 다릅니다. 리츠는 배당수익률이 높지만 금리 변동에 민감하고, 통신주는 낮지만 배당이 안정적입니다. 배당투자 시 단순히 수익률이 높은 것만 보지 말고 배당의 지속 가능성과 기업 재무 건전성을 함께 분석해야 합니다.</p>
+  <p>해외 주식 배당의 경우 미국 주식은 현지에서 배당 원천세 15%를 먼저 공제하고, 국내에서 추가 세금은 크게 부과되지 않습니다. 단, 해외 주식 배당금도 연 2,000만원 초과 시 종합과세 대상에 포함됩니다. 미국 SCHD·VYM 같은 배당 ETF는 ISA 계좌에서 국내 상장 버전(예: TIGER 미국배당다우존스)으로 투자하면 절세 효과를 누릴 수 있습니다.</p>
+
+  <h2>배당 함정(Dividend Trap) — 고배당주 투자 전 반드시 확인할 것</h2>
+  <p>배당수익률이 비정상적으로 높은 주식을 보면 매력적으로 느껴지지만, 주의가 필요합니다. <strong>배당 함정(Dividend Trap)</strong>이란 주가가 크게 하락해서 배당수익률이 높아 보이는 상황입니다. 주가가 하락한 이유가 기업 실적 악화라면, 머지않아 배당금이 삭감되거나 아예 중단될 수 있습니다. 배당수익률이 10%를 넘는다면 특히 의심해봐야 합니다.</p>
+  <p>배당의 지속 가능성을 판단하는 지표로 <strong>배당성향(Payout Ratio)</strong>이 있습니다. 배당성향은 당기순이익 대비 배당금 비율로, 100%를 넘으면 이익보다 많은 배당을 지급하는 것이므로 지속 불가능합니다. 일반적으로 50~70% 수준이 건전한 배당성향으로 봅니다. 또한 배당금이 매년 증가하는 <strong>배당성장주</strong>는 현재 수익률은 낮더라도 장기적으로 취득원가 기준 수익률(YOC)이 크게 높아집니다.</p>
   <table>
-    <thead><tr><th>업종</th><th>평균 배당수익률</th><th>특징</th></tr></thead>
+    <thead><tr><th>확인 지표</th><th>안전 기준</th><th>주의 신호</th></tr></thead>
     <tbody>
-      <tr><td>리츠(REITs)</td><td>5~8%</td><td>분기 배당, 임대수익 분배</td></tr>
-      <tr><td>은행·금융주</td><td>5~7%</td><td>안정적 배당, 경기민감</td></tr>
-      <tr><td>통신주</td><td>4~6%</td><td>배당 안정성 높음</td></tr>
-      <tr><td>고배당 ETF</td><td>3~6%</td><td>분산투자·월배당 상품 다양</td></tr>
+      <tr><td>배당수익률</td><td>2~7%</td><td>10% 이상 (배당 함정 의심)</td></tr>
+      <tr><td>배당성향</td><td>30~70%</td><td>100% 초과 (지속 불가)</td></tr>
+      <tr><td>EPS 대비 배당금</td><td>배당금 < EPS</td><td>배당금 > EPS (위험)</td></tr>
+      <tr><td>배당 연속 지급 기간</td><td>5년 이상 연속</td><td>최근 삭감 이력</td></tr>
+      <tr><td>부채비율</td><td>200% 이하</td><td>높은 부채 = 배당 삭감 리스크</td></tr>
     </tbody>
   </table>
-  <div class="tip-box"><strong>💡 배당투자 핵심 전략.</strong> ① 배당수익률이 10%를 넘으면 주가 하락·배당 삭감 가능성인 '배당 함정'을 의심하세요. ② ISA·연금저축 계좌를 활용하면 배당소득세를 절감·이연할 수 있습니다. ③ 배당성장주(매년 배당 지속 증가 기업)는 장기 보유 시 취득원가 기준 수익률이 크게 높아집니다.</div>
+
+  <h2>배당 재투자 복리 효과 — 20년 장기 투자 시 자산이 몇 배가 될까?</h2>
+  <p>배당투자의 진짜 힘은 배당금을 재투자할 때 나타납니다. 배당금을 소비하지 않고 같은 주식을 더 사는 데 쓰면(DRIP: Dividend Reinvestment Plan), 보유 주수가 늘고 다음 해에 더 많은 배당금을 받는 복리 사이클이 시작됩니다. 이 계산기의 '복리 재투자 시뮬' 탭에서 직접 확인해볼 수 있습니다.</p>
+  <p>아래 표는 1억원을 초기 투자하고 세후 배당수익률 4%로 배당금을 100% 재투자하면서 주가도 연 3% 상승한다고 가정했을 때 연도별 총 자산입니다. 20년 후 자산은 약 2억 8,700만원으로 초기 투자금의 약 2.87배가 됩니다. 배당을 소비만 했다면 주가 상승분만으로 1억 8,000만원이므로 재투자 효과가 약 9,000만원에 달합니다.</p>
+  <table>
+    <thead><tr><th>투자 연차</th><th>총 자산 (재투자)</th><th>연간 배당금</th><th>총 수익률</th></tr></thead>
+    <tbody>
+      <tr><td>5년차</td><td>약 1억 4,000만원</td><td>약 552만원</td><td>+40%</td></tr>
+      <tr><td>10년차</td><td>약 1억 9,700만원</td><td>약 775만원</td><td>+97%</td></tr>
+      <tr><td>20년차</td><td>약 3억 8,700만원</td><td>약 1,527만원</td><td>+287%</td></tr>
+      <tr><td>30년차</td><td>약 7억 5,900만원</td><td>약 2,993만원</td><td>+659%</td></tr>
+    </tbody>
+  </table>
+  <p>※ 세후 배당수익률 4%, 주가 연 3% 상승 가정, 실제 수익은 시장 상황에 따라 크게 다를 수 있습니다. 이 계산기에서 본인 상황에 맞는 수치로 직접 시뮬레이션해보세요.</p>
+  <div class="tip-box"><strong>💡 배당투자 핵심 전략.</strong> ① 배당수익률 10% 이상은 배당 함정을 의심하세요 ② ISA·연금계좌로 배당소득세 절감 ③ 배당금은 소비하지 말고 재투자해 복리 효과 극대화 ④ 배당성장주(매년 배당 증가 기업)는 장기 보유 시 취득원가 기준 수익률이 크게 높아집니다 ⑤ 월배당 ETF는 현금 흐름이 필요한 은퇴자에게 유리합니다.</div>
+
+  <h2>국내 주요 고배당 업종 현황과 투자 전략 (2025년 기준)</h2>
+  <p>업종에 따라 배당수익률 수준과 안정성이 크게 다릅니다. 리츠(REITs)는 법적으로 배당 가능 이익의 90% 이상을 배당해야 해서 수익률이 높지만, 금리가 오르면 대체 투자처(채권) 대비 매력이 떨어져 주가가 하락하는 경향이 있습니다. 통신주는 배당수익률이 상대적으로 낮지만 배당이 매우 안정적이고, 국내 시장에서 오랫동안 꾸준히 배당을 늘려온 배당성장 업종입니다.</p>
+  <table>
+    <thead><tr><th>업종</th><th>평균 배당수익률</th><th>배당 안정성</th><th>주의사항</th></tr></thead>
+    <tbody>
+      <tr><td>리츠(REITs)</td><td>5~8%</td><td>중 (금리 민감)</td><td>금리 인상 시 주가 하락</td></tr>
+      <tr><td>은행·금융주</td><td>5~7%</td><td>중상 (경기 민감)</td><td>경기 침체 시 배당 삭감 리스크</td></tr>
+      <tr><td>통신주</td><td>4~6%</td><td>높음</td><td>성장성 제한적</td></tr>
+      <tr><td>고배당 ETF</td><td>3~6%</td><td>높음 (분산)</td><td>운용 보수 확인 필요</td></tr>
+      <tr><td>에너지·유틸리티</td><td>3~5%</td><td>높음</td><td>원자재 가격 변동 영향</td></tr>
+    </tbody>
+  </table>
+
   <h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>배당금을 받으려면 언제 주식을 사야 하나요?</summary><div class="faq-answer">배당 기준일(보통 12월 31일)의 2영업일 전까지(T+2 결제 기준) 주식을 매수해야 합니다. 배당락일(기준일 1영업일 전)에 매수하면 배당을 받을 수 없으며, 배당락일에는 배당금만큼 주가가 하락하는 것이 일반적입니다. 배당을 위한 단기 매수는 세금과 거래비용을 감안하면 유리하지 않을 수 있습니다.</div></details>
-  <details><summary>배당소득세는 어떻게 과세되나요?</summary><div class="faq-answer">배당금 수령 시 15.4%(소득세 14% + 지방소득세 1.4%)가 원천징수됩니다. 연간 금융소득(배당+이자)이 2,000만원을 초과하면 초과분은 다른 소득과 합산해 종합과세(6~45%)가 됩니다. 금융소득이 많은 경우 ISA 계좌 활용으로 세 부담을 줄일 수 있습니다.</div></details>
-  <details><summary>배당수익률이 높다고 무조건 좋은 주식인가요?</summary><div class="faq-answer">아닙니다. 주가가 크게 하락해서 배당수익률이 높아진 경우(배당 함정)일 수 있습니다. 배당의 지속성(배당성향·이익 추이), 배당성장률, 부채비율을 함께 분석해야 합니다. 주당순이익(EPS)보다 배당금이 많다면 지속 불가능한 배당일 가능성이 높습니다.</div></details>
-  <details><summary>국내 vs 해외 배당 ETF 세금 차이는?</summary><div class="faq-answer">국내 상장 배당 ETF는 분배금에 15.4% 배당소득세가 적용됩니다. 미국 배당 ETF(SCHD, VYM 등)는 현지 배당 원천세 15%가 먼저 공제된 후 국내 세금이 추가 적용될 수 있습니다. ISA 계좌 내에서 운용하면 국내 세율 기준으로 절세가 가능합니다.</div></details>
-  <details><summary>월배당 ETF와 연배당 ETF 중 어떤 게 유리한가요?</summary><div class="faq-answer">복리 관점에서는 배당금을 더 자주 재투자할 수 있는 월배당 ETF가 미미하게 유리합니다. 현금 흐름이 필요한 은퇴 투자자라면 월배당, 장기 성장을 원하는 적립식 투자자라면 자동재투자(TR) ETF가 적합합니다. 재투자 시 매수 수수료도 고려해야 합니다.</div></details>
+  <details><summary>배당금을 받으려면 언제 주식을 사야 하나요?</summary><div class="faq-answer">배당 기준일(보통 12월 31일)의 2영업일 전(T+2 결제 기준)까지 주식을 매수해야 합니다. 기준일 1영업일 전인 배당락일에 매수하면 배당을 받을 수 없으며, 배당락일에는 통상 배당금만큼 주가가 하락합니다. 배당만을 위한 단기 매수는 세금과 거래비용을 감안하면 실익이 거의 없습니다.</div></details>
+  <details><summary>배당소득세는 어떻게 과세되나요?</summary><div class="faq-answer">배당금 수령 시 15.4%(소득세 14% + 지방소득세 1.4%)가 원천징수됩니다. 연간 금융소득(배당+이자)이 2,000만원을 초과하면 초과분은 다른 소득과 합산해 종합과세(6~45%)가 적용됩니다. ISA 계좌를 활용하면 최대 200만원 비과세, 초과분 9.9% 분리과세 혜택을 받을 수 있습니다.</div></details>
+  <details><summary>배당수익률이 높다고 무조건 좋은 주식인가요?</summary><div class="faq-answer">아닙니다. 주가가 크게 하락해서 배당수익률이 높아 보이는 '배당 함정'일 수 있습니다. 배당의 지속성(배당성향·이익 추이), 배당성장률, 부채비율을 함께 분석해야 합니다. 주당순이익(EPS)보다 배당금이 많다면 지속 불가능한 배당일 가능성이 높습니다.</div></details>
+  <details><summary>국내 vs 해외 배당 ETF 세금 차이는?</summary><div class="faq-answer">국내 상장 배당 ETF는 분배금에 15.4% 배당소득세가 적용됩니다. 미국 직접 투자 배당 ETF(SCHD, VYM 등)는 현지 원천세 15%가 공제됩니다. ISA 계좌에서 국내 상장 미국 배당 ETF(TIGER 미국배당다우존스 등)를 운용하면 절세와 환헤지를 동시에 고려할 수 있습니다.</div></details>
+  <details><summary>월배당 ETF와 연배당 ETF 중 어떤 게 유리한가요?</summary><div class="faq-answer">복리 관점에서는 배당금을 더 자주 재투자할 수 있는 월배당 ETF가 미미하게 유리합니다. 현금 흐름이 필요한 은퇴 투자자라면 월배당, 장기 성장을 원하는 적립식 투자자라면 자동재투자(TR) ETF가 적합합니다. 월배당 ETF는 매월 재투자 수수료가 발생하므로 소액이면 연배당 ETF가 실질 유리할 수 있습니다.</div></details>
 </div>
 <script>
 let currentTab='calc';
-let freqVal=1, taxVal=0.154, gTaxVal=0.154;
+let freqVal=1, taxVal=0.154, gTaxVal=0.154, cpTaxVal=0.154;
 
 function switchTab(tab,el){
   currentTab=tab;
   document.getElementById('panel-calc').style.display=tab==='calc'?'block':'none';
   document.getElementById('panel-goal').style.display=tab==='goal'?'block':'none';
+  document.getElementById('panel-compound').style.display=tab==='compound'?'block':'none';
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   el.classList.add('active');
   document.getElementById('resultCard').classList.remove('visible');
+  document.getElementById('compoundResult').style.display='none';
 }
 
 function selectSeg(btn,groupId){
@@ -281,6 +358,7 @@ function selectSeg(btn,groupId){
   if(groupId==='freq-group') freqVal=parseInt(btn.dataset.freq);
   if(groupId==='tax-group') taxVal=parseFloat(btn.dataset.tax);
   if(groupId==='g-tax-group') gTaxVal=parseFloat(btn.dataset.tax);
+  if(groupId==='cp-tax-group') cpTaxVal=parseFloat(btn.dataset.tax);
 }
 
 function fmt(n){return Math.round(n).toLocaleString('ko-KR');}
@@ -343,6 +421,58 @@ function calcGoal(){
   document.getElementById('row-per-pay').style.display='none';
   document.getElementById('result-title').textContent='🎯 필요 투자금 결과';
   document.getElementById('resultCard').classList.add('visible');
+}
+
+function calcCompound(){
+  const invest=parseFloat(document.getElementById('cp-invest').value)||0;
+  const yieldRate=parseFloat(document.getElementById('cp-yield').value)||0;
+  const growth=parseFloat(document.getElementById('cp-growth').value)||0;
+  const years=parseInt(document.getElementById('cp-years').value)||0;
+  if(!invest||!yieldRate||!years){alert('투자금, 배당수익률, 투자 기간을 입력하세요.');return;}
+
+  const netYield=(yieldRate*(1-cpTaxVal))/100;
+  const gr=growth/100;
+
+  let asset=invest, totalDiv=0;
+  const rows=[];
+  for(let y=1;y<=years;y++){
+    const div=asset*netYield;  // 세후 배당금
+    asset=(asset+div)*(1+gr);  // 재투자 후 주가 상승 반영
+    totalDiv+=div;
+    rows.push({y,asset:Math.round(asset),div:Math.round(div),totalDiv:Math.round(totalDiv)});
+  }
+  const finalAsset=rows[rows.length-1].asset;
+  const totalReturn=((finalAsset-invest)/invest*100).toFixed(1);
+
+  document.getElementById('cp-summary').innerHTML=`
+    <div class="s-box main"><div class="s-label">${years}년 후 총 자산</div><div class="s-value">${Math.round(finalAsset/10000).toLocaleString()}</div><div class="s-unit">만원</div></div>
+    <div class="s-box"><div class="s-label">총 누적 배당금</div><div class="s-value">${Math.round(totalDiv/10000).toLocaleString()}</div><div class="s-unit">만원</div></div>
+    <div class="s-box"><div class="s-label">총 수익률</div><div class="s-value">${totalReturn}</div><div class="s-unit">%</div></div>`;
+
+  // 연도별 테이블 (5년 단위 + 마지막 해)
+  const milestones=new Set([1,3,5,10,15,20,25,30,35,40,45,50,years]);
+  const thStyle='background:#21262d;color:#e6edf3;padding:8px 10px;text-align:right;border:1px solid #30363d;font-size:11px;font-weight:700';
+  const tdStyle='padding:7px 10px;text-align:right;border:1px solid #30363d;color:#8b949e;font-size:12px';
+  let html=`<thead><tr>
+    <th style="${thStyle};text-align:left">연차</th>
+    <th style="${thStyle}">총 자산</th>
+    <th style="${thStyle}">연간 배당금(세후)</th>
+    <th style="${thStyle}">누적 배당금</th>
+    <th style="${thStyle}">수익률</th>
+  </tr></thead><tbody>`;
+  rows.filter(r=>milestones.has(r.y)).forEach(r=>{
+    const ret=((r.asset-invest)/invest*100).toFixed(1);
+    html+=`<tr>
+      <td style="${tdStyle};text-align:left;color:#e6edf3;font-weight:700">${r.y}년차</td>
+      <td style="${tdStyle};color:#00d4aa;font-weight:700">${Math.round(r.asset/10000).toLocaleString()}만원</td>
+      <td style="${tdStyle}">${Math.round(r.div/10000).toLocaleString()}만원</td>
+      <td style="${tdStyle}">${Math.round(r.totalDiv/10000).toLocaleString()}만원</td>
+      <td style="${tdStyle};color:#4caf50">+${ret}%</td>
+    </tr>`;
+  });
+  html+='</tbody>';
+  document.getElementById('cp-table').innerHTML=html;
+  document.getElementById('compoundResult').style.display='block';
 }
 </script>
 <script src="/common.js" defer></script><script src="/share.js" defer></script><script src="/calculator.js" defer></script>
