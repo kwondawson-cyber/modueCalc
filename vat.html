@@ -107,7 +107,7 @@
     </div>
     <div class="input-group">
       <label id="amountLabel">공급가액 (VAT 제외)</label>
-      <div class="input-wrapper"><input type="number" id="amount" value="1000000" /><span class="input-unit">원</span></div>
+      <div class="input-wrapper"><input type="text" id="amount" value="1,000,000" oninput="fmtInput(this)" /><span class="input-unit">원</span></div>
     </div>
     <button class="calc-btn" onclick="calculate()">🧮 부가세 계산하기</button>
   </div>
@@ -125,7 +125,18 @@
     </div>
   </div>
 </div>
+
+<!-- 금액별 VAT 비교 시뮬레이터 -->
+<div class="container" style="padding-top:0;padding-bottom:0">
+  <div class="card" id="simCard" style="display:none">
+    <div class="card-title">📊 주요 거래금액별 VAT 비교</div>
+    <div id="simResult"></div>
+  </div>
+</div>
+
 <script>
+  function fmtInput(el){const raw=el.value.replace(/[^0-9]/g,'');el.value=raw?Number(raw).toLocaleString('ko-KR'):'';}
+  function getNum(id){return parseFloat((document.getElementById(id).value||'').replace(/,/g,''))||0;}
   let mode='add';
   function setMode(m){
     mode=m;
@@ -135,7 +146,7 @@
   }
   function fmt(n){return Math.round(n).toLocaleString('ko-KR')}
   function calculate(){
-    const amount=parseFloat(document.getElementById('amount').value)||0;
+    const amount=getNum('amount');
     let supply,vat,total;
     if(mode==='add'){supply=amount;vat=supply*0.1;total=supply+vat;}
     else{total=amount;supply=total/1.1;vat=total-supply;}
@@ -145,7 +156,23 @@
     document.getElementById('d-supply').textContent=`${fmt(supply)}원`;
     document.getElementById('d-vat').textContent=`${fmt(vat)}원`;
     document.getElementById('d-total').textContent=`${fmt(total)}원`;
-    const rc=document.getElementById('resultCard');rc.classList.add('visible');
+    document.getElementById('resultCard').classList.add('visible');
+    // 시뮬레이터
+    document.getElementById('simCard').style.display='block';
+    const curSupply = mode==='add'?amount:amount/1.1;
+    const amounts=[100000,500000,1000000,3000000,5000000,10000000,50000000];
+    document.getElementById('simResult').innerHTML=amounts.map(a=>{
+      const v=a*0.1, t=a+v;
+      const isCur=Math.abs(a-curSupply)<1000;
+      return `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:${isCur?'rgba(0,212,170,.08)':'var(--surface2)'};border:1px solid ${isCur?'rgba(0,212,170,.3)':'var(--border)'};border-radius:8px;margin-bottom:6px">
+        <div><span style="font-size:13px;font-weight:600;color:${isCur?'var(--accent)':'var(--text-muted)'}">${fmt(a)}원${isCur?' ← 현재':''}</span></div>
+        <div style="text-align:right">
+          <span style="font-size:11px;color:var(--text-muted)">VAT </span>
+          <span style="font-size:14px;font-weight:700;color:${isCur?'var(--accent)':'var(--text)'}">${fmt(v)}원</span>
+          <span style="font-size:11px;color:var(--text-muted)"> → 합계 ${fmt(t)}원</span>
+        </div>
+      </div>`;
+    }).join('');
   }
   window.onload=()=>calculate();
 </script>
@@ -190,36 +217,66 @@
   </div>
 </div>
 <div class="seo-section">
-  <h2>부가가치세 계산기 — 2026년 VAT 포함·별도 계산 완벽 정리</h2>
-  <h3>부가가치세(VAT)란 무엇인가?</h3>
-  <p><strong>부가가치세(VAT, Value Added Tax)</strong>는 상품·서비스 거래 과정에서 창출되는 부가가치에 부과되는 간접세로, 세율은 10%입니다. 최종 소비자가 부담하지만 사업자가 대신 징수해 국세청에 납부합니다. 일반과세자는 연 2회(1월, 7월) 확정신고, 간이과세자는 연 1회 신고합니다.</p>
-  <p>소비자 입장에서 가격 표시가 VAT 포함인지 별도인지 확인하는 것이 중요합니다. 음식점·편의점 등 B2C 매장은 VAT 포함 가격을 표시하고, B2B 거래나 세금계산서 발행 시에는 공급가액(VAT 제외)을 기준으로 합니다. 이 차이를 혼동하면 실제 결제 금액이 달라질 수 있습니다.</p>
-  <h3>📐 부가세 계산 공식</h3>
-  <p>VAT 계산은 방향에 따라 공식이 다릅니다. VAT가 포함된 금액에서 공급가액을 역산할 때는 1.1로 나눕니다. 공급가액에서 VAT를 추가할 때는 10%를 곱해서 더합니다. 간이과세자는 업종별 부가가치율(15~40%)에 따라 납부세액이 달라집니다.</p>
-  <div class="formula-box">VAT 포함가 → 공급가액: 총액 ÷ 1.1
-공급가액 → VAT 포함가: 공급가액 × 1.1
-VAT금액 = 공급가액 × 10%
+  <h2>부가가치세 계산기 — 2026년 VAT 포함·별도 완벽 정리</h2>
+  <p><strong>부가가치세(VAT)</strong>는 상품·서비스 거래 과정에서 발생하는 부가가치에 부과되는 간접세입니다. 세율은 <strong>10%</strong>로 단일세율이며, 최종 소비자가 부담하지만 사업자가 대신 징수해 국세청에 납부합니다. 계산 방향이 두 가지여서 혼동하기 쉽습니다. 공급가액에 VAT를 더하는 경우(×1.1)와, VAT 포함 금액에서 공급가액을 역산하는 경우(÷1.1)를 정확히 구분해야 합니다.</p>
+  <p>사업자에게 부가세는 단순한 세금 계산 이상의 의미가 있습니다. 매출에서 받은 부가세(매출세액)에서 매입 시 낸 부가세(매입세액)를 차감한 금액만 납부합니다. 매입세액 공제를 제대로 받으려면 세금계산서·카드영수증을 빠짐없이 수취하는 것이 핵심입니다. 위 계산기에서 금액을 계산하면 주요 거래금액별 VAT 비교 시뮬레이터가 자동으로 나타납니다.</p>
+  <div class="formula-box">공급가액 → VAT 포함가: 공급가액 × 1.1
+VAT 포함가 → 공급가액: 합계금액 ÷ 1.1
+부가가치세: 공급가액 × 10%
 
-예) 총액 110,000원
-공급가액 = 110,000 ÷ 1.1 = 100,000원
-부가세 = 10,000원</div>
-  <h3>📊 업종별 간이과세자 부가가치율 (2026년 기준)</h3>
-  <p>간이과세자는 일반 과세자와 달리 업종별 부가가치율을 적용해 세금을 계산합니다. 연매출 8,000만원 미만 사업자가 해당되며, 납부 세액이 적어 소규모 사업자에게 유리합니다. 단, 세금계산서 발행이 제한되어 B2B 거래에는 불리합니다.</p>
+매입세액 공제 후 납부세액:
+납부세액 = 매출세액 − 매입세액
+(매입세액: 사업 관련 구매 시 부담한 VAT)</div>
+
+  <h2>일반과세자 vs 간이과세자 — 어느 쪽이 유리할까</h2>
+  <p>사업자는 연 매출 규모에 따라 일반과세자와 간이과세자로 구분됩니다. 직전 연도 매출이 <strong>8,000만원 미만</strong>이면 간이과세자로 등록 가능하며, 간이과세자는 업종별 부가가치율(15~40%)에 세율 10%를 곱한 낮은 세금만 납부합니다. 다만 세금계산서 발행이 제한되어 B2B 거래가 많다면 일반과세자가 유리할 수 있습니다.</p>
   <table>
-    <thead><tr><th>업종</th><th>부가가치율</th><th>실효세율</th></tr></thead>
+    <thead><tr><th>구분</th><th>일반과세자</th><th>간이과세자</th></tr></thead>
     <tbody>
-      <tr><td>소매업·음식점·숙박</td><td>15%</td><td>1.5%</td></tr>
-      <tr><td>제조업·농업·임업</td><td>20%</td><td>2.0%</td></tr>
-      <tr><td>건설·운수·창고</td><td>30%</td><td>3.0%</td></tr>
-      <tr><td>서비스업</td><td>40%</td><td>4.0%</td></tr>
+      <tr><td>매출 기준</td><td>8,000만원 이상</td><td>8,000만원 미만</td></tr>
+      <tr><td>세율</td><td>10% (매입세액 전액 공제)</td><td>업종별 1.5~4% (부가가치율×10%)</td></tr>
+      <tr><td>세금계산서</td><td>발행 가능</td><td>제한적 (수취만 가능)</td></tr>
+      <tr><td>신고 횟수</td><td>연 2회 (1월, 7월)</td><td>연 1회 (1월)</td></tr>
+      <tr><td>유리한 경우</td><td>B2B 거래 많음, 매입 많음</td><td>B2C 위주, 소규모 사업</td></tr>
     </tbody>
   </table>
-  <div class="tip-box"><strong>💡 부가세 신고 핵심 포인트.</strong> ① 매입세액 공제로 납부 세액 감소 — 사업 관련 지출은 반드시 세금계산서·카드영수증 수취 ② 의제매입세액공제 — 음식점 등 면세 농산물 구입 시 적용 ③ 신용카드 매출세액공제 — 소비자 대상 사업자는 카드 결제 수수료 공제 ④ 조기환급 — 수출 사업자 또는 설비 투자 시 환급 신청 가능. 부가세는 사업자 통장에서 미리 분리해두는 관리 습관이 중요합니다.</div>
+
+  <h2>업종별 간이과세자 부가가치율 — 실효세율 1.5~4%</h2>
+  <p>간이과세자는 업종마다 다른 부가가치율이 적용됩니다. 부가가치율이 낮은 소매업·음식점은 실효세율이 1.5%에 불과해 세금 부담이 크게 낮습니다. 연 매출이 4,800만원 미만인 간이과세자는 납부 의무가 면제됩니다.</p>
+  <table>
+    <thead><tr><th>업종</th><th>부가가치율</th><th>실효세율</th><th>납부세액 예시 (매출 5,000만원)</th></tr></thead>
+    <tbody>
+      <tr><td>소매업·음식점·숙박</td><td>15%</td><td>1.5%</td><td>약 75만원</td></tr>
+      <tr><td>제조업·농업·임업·어업</td><td>20%</td><td>2.0%</td><td>약 100만원</td></tr>
+      <tr><td>건설·운수·창고·통신</td><td>30%</td><td>3.0%</td><td>약 150만원</td></tr>
+      <tr><td>서비스업·기타</td><td>40%</td><td>4.0%</td><td>약 200만원</td></tr>
+    </tbody>
+  </table>
+  <div class="tip-box"><strong>💡 부가세 절세 핵심 체크리스트:</strong><br>
+  ① <strong>매입세액 공제</strong> — 사업 관련 모든 구매 시 법인카드 사용 또는 세금계산서 수취 필수<br>
+  ② <strong>신용카드 매출세액공제</strong> — 소비자 대상 사업자는 카드 결제 수수료의 1.3% 공제<br>
+  ③ <strong>의제매입세액공제</strong> — 음식점 등 면세 농산물 구입 시 매입세액 공제 가능<br>
+  ④ <strong>조기환급</strong> — 수출·설비 투자 시 매입세액이 매출세액 초과하면 환급 신청<br>
+  ⑤ <strong>부가세 통장 분리</strong> — 매출의 10%를 별도 통장에 관리하면 납부 시 자금 부족 방지</div>
+
+  <h2>부가세 신고·납부 일정 — 놓치면 가산세 20%</h2>
+  <p>일반과세자는 연 2회(1기: 7월 25일, 2기: 다음 해 1월 25일) 확정신고·납부합니다. 예정신고는 4월 25일, 10월 25일에 있으며, 예정신고 시 전기 납부세액의 50%를 예정고지납부합니다. 기한을 놓치면 무신고 가산세 20%와 납부지연 가산세(일 0.022%)가 동시에 부과되니 일정을 꼭 체크하세요.</p>
+  <table>
+    <thead><tr><th>구분</th><th>과세 기간</th><th>신고·납부 기한</th></tr></thead>
+    <tbody>
+      <tr><td>1기 예정 (일반)</td><td>1월 1일 ~ 3월 31일</td><td>4월 25일</td></tr>
+      <tr><td>1기 확정</td><td>1월 1일 ~ 6월 30일</td><td>7월 25일</td></tr>
+      <tr><td>2기 예정 (일반)</td><td>7월 1일 ~ 9월 30일</td><td>10월 25일</td></tr>
+      <tr><td>2기 확정</td><td>7월 1일 ~ 12월 31일</td><td>다음 해 1월 25일</td></tr>
+      <tr><td>간이과세자 확정</td><td>1월 1일 ~ 12월 31일</td><td>다음 해 1월 25일</td></tr>
+    </tbody>
+  </table>
+
   <h2>자주 묻는 질문 (FAQ)</h2>
   <details><summary>부가세 면세 사업자와 과세 사업자의 차이는?</summary><div class="faq-answer">면세 사업자(의사·학원·농어업·도서 등)는 부가세를 징수하지 않고 납부도 하지 않지만, 매입 부가세를 공제받지 못합니다. 과세 사업자는 매출에 부가세를 징수하고 매입 부가세를 차감해 차액만 납부합니다. 면세 사업자는 부가세 신고 의무가 없습니다.</div></details>
   <details><summary>세금계산서 발행을 못 받으면 어떻게 되나요?</summary><div class="faq-answer">적법한 세금계산서가 없으면 매입 부가세 공제를 받지 못합니다. 세금계산서 대신 신용카드 매출전표나 현금영수증을 받으면 매입세액 공제가 가능합니다. 거래 시 반드시 사업용 카드로 결제하거나 세금계산서를 요청하는 습관이 필요합니다.</div></details>
   <details><summary>간이과세자는 언제 일반과세자로 전환해야 하나요?</summary><div class="faq-answer">직전 연도 매출이 8,000만원을 초과하면 다음 해부터 자동으로 일반과세자로 전환됩니다. 또한 세금계산서 발행이 필요한 B2B 거래가 많다면 자발적으로 일반과세자로 전환하는 것이 유리합니다. 전환 후에는 매입세액 전액 공제가 가능합니다.</div></details>
-  <details><summary>부가세 신고를 늦게 하면 어떻게 되나요?</summary><div class="faq-answer">기한 후 신고 시 무신고 가산세(20% 또는 무수입신고 40%), 납부 지연 가산세(일 0.022%)가 부과됩니다. 자진신고의 경우 기한 후 1개월 이내라면 가산세의 50%, 3개월 이내라면 30%를 감면받을 수 있습니다. 홈택스에서 간편 신고가 가능합니다.</div></details>
+  <details><summary>부가세 신고를 늦게 하면 어떻게 되나요?</summary><div class="faq-answer">기한 후 신고 시 무신고 가산세(20% 또는 부정행위 40%), 납부 지연 가산세(일 0.022%)가 부과됩니다. 자진신고의 경우 기한 후 1개월 이내라면 가산세의 50%, 3개월 이내라면 30%를 감면받을 수 있습니다. 홈택스에서 간편 신고가 가능합니다.</div></details>
   <details><summary>해외 구매 대행업자도 부가세를 내야 하나요?</summary><div class="faq-answer">해외 구매 대행은 용역 제공으로 과세 대상이며, 구매 대행 수수료에 부가세를 징수해야 합니다. 단, 수출 용역으로 영세율(0%)을 적용받는 경우도 있습니다. 연 매출이 8,000만원 미만이면 간이과세자로 등록이 가능합니다.</div></details>
 </div>
 <script src="/common.js" defer></script><script src="/share.js" defer></script>

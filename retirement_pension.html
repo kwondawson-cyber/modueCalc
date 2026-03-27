@@ -149,13 +149,13 @@
       </div>
       <div class="form-group">
         <label>재직 기간 (년)</label>
-        <input type="number" id="workYears" placeholder="예: 15" />
+        <input type="number" id="workYears" placeholder="예: 15" value="10" />
       </div>
     </div>
     <div class="row2">
       <div class="form-group">
         <label>최종 3개월 평균 월급 (만원)</label>
-        <input type="number" id="salary" placeholder="예: 450" />
+        <input type="number" id="salary" placeholder="예: 450" value="400" />
       </div>
       <div class="form-group">
         <label>연평균 수익률 (%)</label>
@@ -295,8 +295,10 @@ function calcPension() {
 
 let _pension = null;
 function updatePeriodSim() {
-  if (!_pension) return;
-  const { totalWon, lumpTax, roughTaxRate } = _pension;
+  // _pension 없으면 기본값(DB형 10년, 월 400만원)으로 시뮬
+  const totalWon = _pension ? _pension.totalWon : (400*10000/91)*30*10;
+  const roughTaxRate = _pension ? _pension.roughTaxRate : 0.065;
+  const lumpTax = _pension ? _pension.lumpTax : totalWon * roughTaxRate;
   const periods = [5, 10, 15, 20, 25];
   const el = document.getElementById('simResult');
   el.innerHTML = periods.map(y => {
@@ -321,7 +323,7 @@ function updatePeriodSim() {
 
 <!-- 수령기간별 시뮬레이터 -->
 <div style="max-width:700px;margin:0 auto 16px;padding:0 20px">
-  <div class="card" id="simCard" style="display:none">
+  <div class="card" id="simCard">
     <div class="card-title">📊 연금 수령기간별 절세 비교 — 몇 년으로 나눠 받는 게 유리할까</div>
     <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;line-height:1.7">연금 수령 기간이 길수록 퇴직소득세 감면이 크고 월 연금액은 작아집니다. 슬라이더는 메인 계산기의 수령 기간과 연동됩니다.</p>
     <div id="simResult"></div>
@@ -384,6 +386,8 @@ IRP 연금 수령 시 퇴직소득세 감면:
 </div>
 
 <script src="/common.js" defer></script><script src="/share.js" defer></script><script src="/calculator.js" defer></script>
-<script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}</script>
+<script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}
+document.addEventListener('DOMContentLoaded', () => { updatePeriodSim(); });
+</script>
 </body>
 </html>
