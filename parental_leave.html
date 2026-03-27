@@ -94,7 +94,7 @@
     <div class="input-group">
       <label>월 통상임금 (세전)</label>
       <div class="input-wrapper">
-        <input type="number" id="salary" value="3000000" min="0" />
+        <input type="text" id="salary" value="3,000,000" oninput="fmtInput(this)" />
         <span class="input-unit">원</span>
       </div>
     </div>
@@ -176,47 +176,12 @@
   <a href="/pregnancy" class="rel-card"><span class="re">🤰</span><span class="rn">임신 주수</span></a>
   </div>
 </div>
-<div class="seo-section">
-  <h2>육아휴직 급여 계산기 — 2026년 6+6 특례·일반 급여 완벽 정리</h2>
-  <h3>육아휴직 급여 제도 이해하기</h3>
-  <p>육아휴직 급여는 고용보험에서 지원하는 제도로, 만 8세 이하(초등학교 2학년 이하) 자녀를 둔 근로자가 최대 1년까지 사용할 수 있습니다. 2024년부터 대폭 개선된 <strong>6+6 부모 육아휴직 특례</strong>가 시행되어, 생후 18개월 이내 자녀를 둔 부모가 동시에 또는 순차적으로 육아휴직을 사용하면 첫 6개월간 통상임금 100%를 받을 수 있습니다.</p>
-  <p>육아휴직 급여는 사업주가 아닌 고용보험공단에서 직접 지급합니다. 따라서 회사 규모나 재정 상황과 무관하게 지급받을 수 있습니다. 육아휴직 중 해고는 원칙적으로 금지되며, 복직 후 동일하거나 동등한 업무에 복귀할 권리가 보장됩니다.</p>
-  <h3>📐 육아휴직 급여 계산 공식 (2025년 기준)</h3>
-  <p>2025년 1월 1일부터 일반 육아휴직 급여도 구간별로 달라졌습니다. 1~3개월은 통상임금 100%(상한 250만원), 4~6개월은 100%(상한 200만원), 7개월부터는 80%(상한 160만원)입니다. 사후지급금 제도도 폐지되어 전액 즉시 지급됩니다.</p>
-  <div class="formula-box">일반 육아휴직 (2025년 기준):
-  1~3개월: 통상임금 100%, 상한 250만원, 하한 70만원
-  4~6개월: 통상임금 100%, 상한 200만원, 하한 70만원
-  7~12개월: 통상임금 80%, 상한 160만원, 하한 70만원
-
-6+6 부모 육아휴직 특례 (생후 18개월 이내):
-  1~2개월: 통상임금 100%, 상한 250만원
-  3개월:   통상임금 100%, 상한 300만원
-  4개월:   통상임금 100%, 상한 350만원
-  5개월:   통상임금 100%, 상한 400만원
-  6개월:   통상임금 100%, 상한 450만원
-  7~12개월: 통상임금 80%, 상한 160만원</div>
-  <h3>📊 월 통상임금별 육아휴직 급여 예시</h3>
-  <p>아래 표는 월 통상임금별 예상 육아휴직 급여입니다. 6+6 특례 적용 시 고소득자일수록 혜택이 크게 늘어납니다. 2025년부터 사후지급금 제도가 폐지되어 전액 즉시 수령합니다.</p>
-  <table>
-    <thead><tr><th>월 통상임금</th><th>1~3개월 (100%)</th><th>4~6개월 (100%)</th><th>7~12개월 (80%)</th></tr></thead>
-    <tbody>
-      <tr><td>150만원</td><td>150만원</td><td>150만원</td><td>120만원</td></tr>
-      <tr><td>200만원</td><td>200만원</td><td>200만원</td><td>160만원 (상한)</td></tr>
-      <tr><td>300만원</td><td>250만원 (상한)</td><td>200만원 (상한)</td><td>160만원 (상한)</td></tr>
-      <tr><td>500만원</td><td>250만원 (상한)</td><td>200만원 (상한)</td><td>160만원 (상한)</td></tr>
-    </tbody>
-  </table>
-  <div class="tip-box"><strong>💡 육아휴직 활용 팁.</strong> ① 6+6 특례는 부모 양쪽 모두 사용 시 적용 — 배우자도 반드시 육아휴직을 사용해야 합니다 ② 육아휴직은 분할 사용 가능(최대 3회) ③ 배우자 출산휴가(10일)와 육아휴직 연속 사용 가능 ④ 고용보험 가입 180일 이상이면 신청 자격 발생. 신청은 휴직 시작일 30일 전까지 고용센터에 제출해야 합니다.</div>
-  <h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>6+6 부모 육아휴직 특례는 어떤 경우에 적용되나요?</summary><div class="faq-answer">생후 18개월 이내의 자녀를 둔 부모가 동시에 또는 순차적으로 육아휴직을 사용하는 경우 적용됩니다. 부모 각각의 첫 번째 육아휴직에만 적용되며, 한 부모가 특례 구간(6개월)을 사용한 뒤 나머지 기간은 일반 육아휴직(80%) 기준이 적용됩니다.</div></details>
-  <details><summary>자영업자나 프리랜서도 육아휴직 급여를 받을 수 있나요?</summary><div class="faq-answer">육아휴직 급여는 고용보험 의무 가입 대상인 근로자(임금 근로자)에게 적용됩니다. 자영업자는 임의 고용보험에 가입한 경우에만 혜택을 받을 수 있습니다. 프리랜서는 고용보험 미가입자가 많아 일반적으로 육아휴직 급여를 받기 어렵습니다.</div></details>
-  <details><summary>육아휴직 중 회사가 해고할 수 있나요?</summary><div class="faq-answer">육아휴직 기간 중 및 복직 후 30일 이내 해고는 남녀고용평등법으로 금지됩니다. 위반 시 3년 이하 징역 또는 3,000만원 이하 벌금입니다. 육아휴직을 이유로 불이익을 주는 행위도 금지되어 있으며, 고용노동부에 신고할 수 있습니다.</div></details>
-  <details><summary>육아휴직 후 복직이 어렵다면 어떻게 하나요?</summary><div class="faq-answer">복직 시 동일하거나 동등한 직위와 업무에 복귀할 권리가 보장됩니다. 회사가 불이익 처우(강등·부당한 부서 이동 등)를 하면 남녀고용평등법 위반으로 신고 가능합니다. 복직 거부 또는 권고사직 강요도 위법입니다. 고용노동부(1350)에 상담하세요.</div></details>
-  <details><summary>육아휴직 급여 신청 기한이 있나요?</summary><div class="faq-answer">육아휴직이 끝난 날부터 12개월 이내에 신청해야 합니다. 매월 신청도 가능하며, 고용보험 홈페이지(ei.go.kr) 또는 관할 고용센터에서 신청합니다. 2025년부터 사후지급금 제도가 폐지되어 별도 사후 신청 없이 매월 전액을 받을 수 있습니다.</div></details>
-</div>
 <script>
+function fmtInput(el){const raw=el.value.replace(/[^0-9]/g,'');el.value=raw?Number(raw).toLocaleString('ko-KR'):'';}
+function getNum(id){return parseFloat((document.getElementById(id).value||'').replace(/,/g,''))||0;}
+
 function calcLeave() {
-  const salary = parseFloat(document.getElementById('salary').value) || 0;
+  const salary = getNum('salary');
   const type   = document.getElementById('leaveType').value;
   const months = parseInt(document.getElementById('months').value) || 1;
 
@@ -235,12 +200,10 @@ function calcLeave() {
     }
   }
 
-  // 구간별 합산 + 상세 내역 생성
   let i = 1;
   while (i <= months) {
     const amt = monthlyAmt(i, salary, type);
     totalAmt += amt;
-
     let label = '';
     if (type === 'normal') {
       if (i <= 3)      label = `${i}개월차 (통상임금 100%, 상한 250만원)`;
@@ -263,8 +226,211 @@ function calcLeave() {
   document.getElementById('r-ratio').textContent   = ratio;
   document.getElementById('detail-section').innerHTML = detailHtml;
   document.getElementById('resultCard').classList.add('visible');
+
+  // 비교 시뮬레이터 활성화
+  document.getElementById('simCard').style.display = 'block';
+  renderSim(type);
+  // 부부 합산 시뮬레이터 활성화
+  document.getElementById('coupleCard').style.display = 'block';
+  updateCouple();
+}
+
+function renderSim(type) {
+  const salaries = [1500000, 2000000, 2500000, 3000000, 4000000, 5000000];
+  const fmtW = v => Math.round(v/10000).toLocaleString() + '만원';
+  const months12 = sal => {
+    let tot = 0;
+    for(let i=1;i<=12;i++){
+      if(type==='normal'){
+        if(i<=3) tot+=Math.min(Math.max(sal,700000),2500000);
+        else if(i<=6) tot+=Math.min(Math.max(sal,700000),2000000);
+        else tot+=Math.min(Math.max(sal*0.8,700000),1600000);
+      } else {
+        const caps=[2500000,2500000,3000000,3500000,4000000,4500000];
+        if(i<=6) tot+=Math.min(Math.max(sal,700000),caps[i-1]);
+        else tot+=Math.min(Math.max(sal*0.8,700000),1600000);
+      }
+    }
+    return tot;
+  };
+  const maxTot = months12(salaries[salaries.length-1]);
+  document.getElementById('simResult').innerHTML = salaries.map(sal => {
+    const tot = months12(sal);
+    const pct = Math.round(tot/maxTot*100);
+    const cur = getNum('salary');
+    const isMatch = Math.abs(sal-cur)<100000;
+    return `<div style="margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <span style="font-size:13px;font-weight:600;color:${isMatch?'var(--accent)':'var(--text-muted)'}">${fmtW(sal)}/월${isMatch?' ← 현재':''}</span>
+        <span style="font-size:14px;font-weight:900;font-family:Montserrat,sans-serif;color:${isMatch?'var(--accent)':'var(--text)'}">${fmtW(tot)}</span>
+      </div>
+      <div style="height:7px;background:var(--border);border-radius:4px;overflow:hidden">
+        <div style="height:100%;width:${pct}%;background:${isMatch?'var(--accent)':'#30363d'};border-radius:4px"></div>
+      </div>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:2px">월 평균 ${fmtW(tot/12)}</div>
+    </div>`;
+  }).join('');
 }
 </script>
+<div class="container" style="padding-top:0;padding-bottom:0">
+  <div class="card" id="simCard" style="display:none">
+    <div class="card-title">📊 통상임금별 12개월 총 수령액 비교</div>
+    <div id="simResult"></div>
+  </div>
+
+  <!-- 부부 합산 시뮬레이터 -->
+  <div class="card" id="coupleCard" style="display:none">
+    <div class="card-title">👫 부부 합산 육아휴직 급여 시뮬레이터</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">배우자 월 통상임금을 입력하면, 부부가 순차로 6+6 특례를 활용할 때 <strong style="color:var(--accent)">12개월간 부부 합산 수령액</strong>을 계산합니다.</p>
+    <div style="margin-bottom:14px">
+      <div style="font-size:12px;color:var(--text-muted);font-weight:600;margin-bottom:6px">배우자 월 통상임금</div>
+      <div style="position:relative">
+        <input type="text" id="spouse-salary" value="3,000,000" oninput="fmtInput(this);updateCouple()"
+          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:11px 44px 11px 14px;font-size:18px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none" />
+        <span style="position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--text-muted)">원</span>
+      </div>
+    </div>
+    <div id="coupleResult"></div>
+  </div>
+</div>
+
+<script>
+// 부부 합산 시뮬레이터
+function updateCouple() {
+  const mySal   = getNum('salary');
+  const spSal   = getNum('spouse-salary');
+  if (!mySal || !spSal) return;
+
+  const fmtW = v => Math.round(v/10000).toLocaleString() + '만원';
+
+  function calc12(sal, type) {
+    let tot = 0;
+    const caps = [2500000,2500000,3000000,3500000,4000000,4500000];
+    for(let i=1;i<=12;i++){
+      if(type==='special6'){
+        if(i<=6) tot+=Math.min(Math.max(sal,700000),caps[i-1]);
+        else tot+=Math.min(Math.max(sal*0.8,700000),1600000);
+      } else {
+        if(i<=3) tot+=Math.min(Math.max(sal,700000),2500000);
+        else if(i<=6) tot+=Math.min(Math.max(sal,700000),2000000);
+        else tot+=Math.min(Math.max(sal*0.8,700000),1600000);
+      }
+    }
+    return tot;
+  }
+
+  const mySpecial  = calc12(mySal,  'special6');
+  const spSpecial  = calc12(spSal,  'special6');
+  const myNormal   = calc12(mySal,  'normal');
+  const spNormal   = calc12(spSal,  'normal');
+
+  const coupleSpecial = mySpecial + spSpecial;
+  const coupleNormal  = myNormal  + spNormal;
+  const saved = coupleSpecial - coupleNormal;
+
+  const el = document.getElementById('coupleResult');
+  el.innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:13px;text-align:center">
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:3px">나의 12개월 수령 (6+6)</div>
+        <div style="font-size:16px;font-weight:900;font-family:Montserrat,sans-serif;color:var(--accent)">${fmtW(mySpecial)}</div>
+        <div style="font-size:10px;color:var(--text-muted);margin-top:2px">일반 시 ${fmtW(myNormal)}</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:13px;text-align:center">
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:3px">배우자 12개월 수령 (6+6)</div>
+        <div style="font-size:16px;font-weight:900;font-family:Montserrat,sans-serif;color:var(--accent)">${fmtW(spSpecial)}</div>
+        <div style="font-size:10px;color:var(--text-muted);margin-top:2px">일반 시 ${fmtW(spNormal)}</div>
+      </div>
+    </div>
+    <div style="background:rgba(0,212,170,.08);border:1px solid rgba(0,212,170,.3);border-radius:12px;padding:14px;text-align:center;margin-bottom:10px">
+      <div style="font-size:12px;color:var(--accent);margin-bottom:4px">부부 합산 12개월 수령액 (6+6 특례 활용)</div>
+      <div style="font-size:24px;font-weight:900;font-family:Montserrat,sans-serif;color:var(--accent)">${fmtW(coupleSpecial)}</div>
+      <div style="font-size:12px;color:var(--text-muted);margin-top:4px">부부 모두 일반 육아휴직 시 ${fmtW(coupleNormal)}</div>
+    </div>
+    <div style="text-align:center;padding:10px;background:rgba(0,212,170,.05);border-radius:10px;font-size:13px;color:var(--text-muted)">
+      6+6 특례 활용 시 일반 대비 <strong style="color:var(--accent)">+${fmtW(saved)}</strong> 추가 수령<br>
+      <span style="font-size:11px">※ 부부 각각의 첫 육아휴직, 생후 18개월 이내 자녀 기준</span>
+    </div>`;
+}
+</script>
+
+<style>
+.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
+.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
+.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}
+.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
+.seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
+.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
+.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
+.seo-section details[open] summary::after{content:'－'}
+.seo-section details[open]{background:#161b22}
+.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .tip-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .tip-box strong{color:#00d4aa}
+.seo-section .warn-box{background:rgba(255,107,107,0.05);border:1px solid rgba(255,107,107,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .warn-box strong{color:#ff6b6b}
+.seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+.seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
+.seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
+.seo-section table tr:nth-child(even) td{background:#161b22}
+</style>
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/unemployment" class="rel-card"><span class="re">📋</span><span class="rn">실업급여</span></a>
+  <a href="/salary" class="rel-card"><span class="re">💰</span><span class="rn">월급 실수령액</span></a>
+  <a href="/health_insurance" class="rel-card"><span class="re">🏥</span><span class="rn">건강보험료</span></a>
+  <a href="/annual_leave" class="rel-card"><span class="re">📅</span><span class="rn">연차수당</span></a>
+  <a href="/pregnancy" class="rel-card"><span class="re">🤰</span><span class="rn">임신 주수</span></a>
+  </div>
+</div>
+<div class="seo-section">
+  <h2>육아휴직 급여 계산기 — 2026년 6+6 특례·일반 급여 완벽 정리</h2>
+  <p>육아휴직 급여는 고용보험에서 지원하는 제도로, 만 8세 이하(초등학교 2학년 이하) 자녀를 둔 근로자가 최대 1년까지 사용할 수 있습니다. 2024년부터 <strong>6+6 부모 육아휴직 특례</strong>가 시행되어 생후 18개월 이내 자녀를 둔 부모가 동시·순차로 육아휴직을 사용하면 첫 6개월간 통상임금 100%를 단계별 높은 상한으로 지급합니다.</p>
+  <p>육아휴직 급여는 사업주가 아닌 <strong>고용보험공단에서 직접 지급</strong>합니다. 회사 재정 상황과 무관하게 지급받을 수 있으며, 육아휴직 중 해고는 원칙적으로 금지됩니다. 2025년부터는 사후지급금 제도가 폐지되어 급여 전액을 매월 즉시 받습니다. 위 계산기로 급여를 계산하면 '통상임금별 비교 시뮬레이터'가 나타납니다.</p>
+  <div class="formula-box">일반 육아휴직 (2025년 이후):
+  1~3개월: 통상임금 100%, 상한 250만원, 하한 70만원
+  4~6개월: 통상임금 100%, 상한 200만원, 하한 70만원
+  7~12개월: 통상임금 80%, 상한 160만원, 하한 70만원
+
+6+6 부모 육아휴직 특례 (생후 18개월 이내, 부모 각각 첫 휴직):
+  1~2개월: 상한 250만원  |  3개월: 상한 300만원
+  4개월:   상한 350만원  |  5개월: 상한 400만원
+  6개월:   상한 450만원  |  7~12개월: 80%, 상한 160만원</div>
+
+  <h2>월 통상임금별 육아휴직 급여 — 일반 vs 6+6 비교</h2>
+  <p>통상임금이 높을수록 6+6 특례의 혜택이 크게 늘어납니다. 월 250만원 이하라면 두 제도 모두 전액 지급되어 차이가 없지만, 월 300만원 이상부터 6+6 특례의 단계별 상한이 높아 일반 육아휴직보다 유리합니다. 특히 월 450만원 이상 고소득자는 6+6 특례 6개월차에 최대 450만원까지 수령할 수 있습니다.</p>
+  <table>
+    <thead><tr><th>월 통상임금</th><th>일반 1~3개월</th><th>일반 4~6개월</th><th>6+6 6개월차</th><th>일반 12개월 합계</th></tr></thead>
+    <tbody>
+      <tr><td>150만원</td><td>150만원</td><td>150만원</td><td>150만원</td><td>1,650만원</td></tr>
+      <tr><td>200만원</td><td>200만원</td><td>200만원</td><td>200만원</td><td>2,160만원</td></tr>
+      <tr><td>300만원</td><td>250만원 (상한)</td><td>200만원 (상한)</td><td>300만원 (상한)</td><td>2,310만원</td></tr>
+      <tr><td>500만원</td><td>250만원 (상한)</td><td>200만원 (상한)</td><td>450만원 (상한)</td><td>2,310만원</td></tr>
+    </tbody>
+  </table>
+
+  <h2>통상임금별 비교 시뮬레이터 — 내 급여와 비교해보기</h2>
+  <p>위 계산기에서 급여를 입력하고 계산하면 나타나는 '통상임금별 12개월 총 수령액 비교' 시뮬레이터에서 150만~500만원 6개 구간의 총 수령액을 한눈에 비교할 수 있습니다. 내 통상임금이 상한에 걸리는지 여부도 바로 확인됩니다. 6+6 특례 유형으로 계산하면 일반 육아휴직 대비 얼마나 더 받는지도 비교됩니다.</p>
+  <div class="tip-box"><strong>💡 육아휴직 활용 핵심 체크리스트:</strong><br>
+  ① <strong>6+6 특례</strong>는 부모 양쪽 모두 육아휴직을 사용해야 적용 — 배우자도 반드시 사용<br>
+  ② 육아휴직 <strong>분할 사용 최대 3회</strong> 가능 (예: 6개월 + 6개월 분리 사용)<br>
+  ③ 배우자 출산휴가(10일)와 연속 사용 가능<br>
+  ④ 고용보험 가입 <strong>180일 이상</strong>이면 신청 자격 발생<br>
+  ⑤ 육아휴직 시작일 <strong>30일 전까지</strong> 고용센터에 신청서 제출</div>
+
+  <h2>육아휴직 신청 방법과 주의사항</h2>
+  <p>육아휴직은 사용 시작일 30일 전까지 사업주에게 서면으로 신청해야 합니다. 급여는 고용보험 홈페이지(ei.go.kr) 또는 관할 고용센터에 별도 신청합니다. 매월 신청이 원칙이며, 육아휴직 종료 후 12개월 이내에 신청하면 소급 적용됩니다. 2025년부터 사후지급금 제도가 폐지되어 별도 사후 신청 없이 매월 전액을 즉시 수령합니다.</p>
+  <p>육아휴직 중 다른 회사에서 취업하거나 소득이 발생하면 급여가 감액·중단될 수 있으므로 주의해야 합니다. 육아휴직 기간은 계속근로기간에 포함되어 퇴직금·연차 산정 시 유리하게 적용됩니다. 복직 후 6개월 이내 자발적 퇴사 시 일부 급여를 반환해야 할 수 있으므로, 퇴사 계획이 있다면 반환 조건을 미리 확인하세요.</p>
+
+  <h2>자주 묻는 질문 (FAQ)</h2>
+  <details><summary>6+6 부모 육아휴직 특례는 어떤 경우에 적용되나요?</summary><div class="faq-answer">생후 18개월 이내의 자녀를 둔 부모가 동시에 또는 순차적으로 육아휴직을 사용하는 경우 적용됩니다. 부모 각각의 첫 번째 육아휴직에만 적용되며, 특례 구간(6개월) 이후는 일반 육아휴직(80%, 상한 160만원) 기준이 적용됩니다.</div></details>
+  <details><summary>자영업자나 프리랜서도 육아휴직 급여를 받을 수 있나요?</summary><div class="faq-answer">육아휴직 급여는 고용보험 가입 근로자에게 적용됩니다. 자영업자는 임의 고용보험에 가입한 경우에만 혜택을 받을 수 있습니다. 프리랜서는 고용보험 미가입자가 많아 일반적으로 받기 어렵습니다.</div></details>
+  <details><summary>육아휴직 중 회사가 해고할 수 있나요?</summary><div class="faq-answer">육아휴직 기간 중 및 복직 후 30일 이내 해고는 남녀고용평등법으로 금지됩니다. 위반 시 3년 이하 징역 또는 3,000만원 이하 벌금입니다. 육아휴직을 이유로 불이익을 주는 행위도 금지되며, 고용노동부에 신고할 수 있습니다.</div></details>
+  <details><summary>육아휴직 후 복직이 어렵다면 어떻게 하나요?</summary><div class="faq-answer">복직 시 동일하거나 동등한 직위와 업무에 복귀할 권리가 보장됩니다. 회사가 불이익 처우(강등·부당한 부서 이동 등)를 하면 남녀고용평등법 위반으로 신고 가능합니다. 고용노동부(1350)에 상담하세요.</div></details>
+  <details><summary>육아휴직 급여 신청 기한이 있나요?</summary><div class="faq-answer">육아휴직이 끝난 날부터 12개월 이내에 신청해야 합니다. 매월 신청도 가능하며, 고용보험 홈페이지(ei.go.kr) 또는 관할 고용센터에서 신청합니다. 2025년부터 사후지급금 제도가 폐지되어 별도 사후 신청 없이 매월 전액을 받습니다.</div></details>
+</div>
 <script src="/common.js" defer></script><script src="/share.js" defer></script>
 <script src="/calculator.js" defer></script>
 <script>

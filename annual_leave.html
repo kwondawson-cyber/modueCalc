@@ -108,7 +108,7 @@
     <div class="card-title">급여 정보</div>
     <div class="input-group">
       <label>월 기본급</label>
-      <div class="input-wrapper"><input type="number" id="monthly" value="3000000" /><span class="input-unit">원</span></div>
+      <div class="input-wrapper"><input type="text" id="monthly" value="3,000,000" oninput="fmtInput(this)" /><span class="input-unit">원</span></div>
     </div>
     <div class="input-row">
       <div class="input-group">
@@ -165,9 +165,14 @@
     {label:'9~10년',days:'19일',y:9},
     {label:'10년 이상',days:'최대 25일',y:10},
   ];
+  function fmtInput(el){
+    const raw=el.value.replace(/[^0-9]/g,'');
+    el.value=raw?Number(raw).toLocaleString('ko-KR'):'';
+  }
+  function getNum(id){return parseFloat((document.getElementById(id).value||'').replace(/,/g,''))||0;}
   function fmt(n){return Math.round(n).toLocaleString('ko-KR')}
   function calculate(){
-    const monthly=parseFloat(document.getElementById('monthly').value)||0;
+    const monthly=getNum('monthly');
     const unused=parseFloat(document.getElementById('unusedDays').value)||0;
     const years=parseInt(document.getElementById('years').value);
     const hourly=monthly/209;
@@ -183,10 +188,62 @@
     const currentY=parseInt(document.getElementById('years').value);
     document.getElementById('annualBody').innerHTML=annualDays.map(r=>`
       <tr class="${r.y===currentY?'current':''}"><td>${r.label}</td><td>${r.days}</td></tr>`).join('');
-    const rc=document.getElementById('resultCard');rc.classList.add('visible');
+    document.getElementById('resultCard').classList.add('visible');
+    // 타임라인 업데이트
+    document.getElementById('timelineCard').style.display = 'block';
+    updateTimeline();
+  }
+  function updateTimeline() {
+    const joinMonth = parseInt(document.getElementById('tl-joinMonth').value) || 1;
+    const el = document.getElementById('timelineResult');
+    const months = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+    // 입사월 기준 연차 발생 일정
+    const events = [
+      {m:0, label:'입사일', note:'주 15시간+ 근무 시 다음달부터 월 1일 연차 발생 시작', color:'var(--accent)'},
+      {m:1, label:'1개월 만근 → 연차 1일 발생', note:'매월 만근 시 반복', color:'var(--text-muted)'},
+      {m:11, label:'11개월 만근 → 연차 11일 누적', note:'1년 미만 최대치', color:'#ffd54f'},
+      {m:12, label:'1주년 → 연차 15일 신규 발생', note:'이전 11일과 별도 (차감 안 함)', color:'var(--accent)'},
+      {m:18, label:'연차 사용 촉진 1차 통보 시점', note:'연차 소멸 6개월 전 서면 통보 필요', color:'#ff8a65'},
+      {m:22, label:'연차 사용 촉진 2차 통보 시점', note:'연차 소멸 2개월 전 서면 통보 필요', color:'#ff6b6b'},
+      {m:24, label:'2주년 → 입사 1년차 연차 15일 소멸', note:'미사용 연차 → 수당 지급 (촉진 없었을 시)', color:'#ff6b6b'},
+    ];
+    el.innerHTML = events.map(ev => {
+      const absMonth = (joinMonth - 1 + ev.m) % 12;
+      const year = Math.floor((joinMonth - 1 + ev.m) / 12) + 1;
+      return `<div style="display:flex;gap:12px;margin-bottom:12px;align-items:flex-start">
+        <div style="min-width:64px;text-align:center">
+          <div style="font-size:10px;color:var(--text-muted)">+${ev.m}개월</div>
+          <div style="font-size:12px;font-weight:700;color:${ev.color}">${months[absMonth]}</div>
+          <div style="font-size:10px;color:var(--text-muted)">${year}년차</div>
+        </div>
+        <div style="flex:1;border-left:2px solid ${ev.color};padding-left:10px">
+          <div style="font-size:13px;font-weight:700;color:${ev.color}">${ev.label}</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:2px">${ev.note}</div>
+        </div>
+      </div>`;
+    }).join('');
   }
   window.onload=()=>calculate();
 </script>
+
+<!-- 연차 소멸 타임라인 -->
+<div class="container" style="padding-top:0;padding-bottom:0">
+  <div class="card" id="timelineCard" style="display:none">
+    <div class="card-title">📅 연차 소멸·촉진 타임라인</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">입사 월을 선택하면 연차 발생·사용 촉진·소멸 일정을 자동으로 계산합니다.</p>
+    <div style="display:flex;gap:12px;align-items:center;margin-bottom:16px">
+      <div style="font-size:13px;color:var(--text-muted);font-weight:600;white-space:nowrap">입사 월</div>
+      <select id="tl-joinMonth" onchange="updateTimeline()"
+        style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:15px;color:var(--text);outline:none;flex:1;font-family:'Noto Sans KR',sans-serif">
+        <option value="1">1월</option><option value="2">2월</option><option value="3">3월</option>
+        <option value="4">4월</option><option value="5">5월</option><option value="6">6월</option>
+        <option value="7">7월</option><option value="8">8월</option><option value="9">9월</option>
+        <option value="10">10월</option><option value="11">11월</option><option value="12">12월</option>
+      </select>
+    </div>
+    <div id="timelineResult"></div>
+  </div>
+</div>
 
 <style>
 .seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
@@ -195,12 +252,7 @@
 .seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
 .seo-section ul{padding-left:20px;margin-bottom:12px}
 .seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
-.seo-section ol{padding-left:20px;margin-bottom:12px}
-.seo-section ol li{font-size:14px;color:#8b949e;line-height:1.9}
 .seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
-.seo-section .example-box{background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:16px 20px;margin:12px 0}
-.seo-section .example-box p{margin:0;font-size:13px;color:#8b949e;line-height:1.9}
-.seo-section .example-box strong{color:#00d4aa}
 .seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
 .seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
 .seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
@@ -228,35 +280,70 @@
   </div>
 </div>
 <div class="seo-section">
-  <h2>연차수당 계산기 — 2026년 연차 발생 기준과 미사용 수당 완벽 정리</h2>
-  <h3>연차휴가는 언제, 얼마나 발생하나?</h3>
-  <p>연차휴가는 근로기준법 제60조에 따라 1년 미만 근로자는 매월 개근 시 1일씩(최대 11일), 1년 이상 근로자는 15일이 기본으로 발생하며 2년마다 1일씩 가산되어 최대 25일까지 늘어납니다. 5인 이상 사업장이면 정규직·계약직·아르바이트 모두 동일하게 적용됩니다.</p>
-  <p>미사용 연차는 연차 발생일로부터 1년 이내에 사용하지 않으면 수당으로 전환됩니다. 단, 회사가 연차 사용 촉진 절차(서면 통보 2회)를 밟았다면 수당 지급 의무가 면제됩니다. 퇴직 시에는 미사용 연차에 대한 수당을 무조건 지급해야 합니다.</p>
-  <h3>📐 연차수당 계산 공식</h3>
-  <p>연차수당은 통상임금 기준으로 계산합니다. 통상임금은 기본급과 정기적·일률적으로 지급되는 고정 수당을 포함하며, 비정기 성과급이나 식대는 제외되는 경우가 많습니다. 1일 통상임금은 월 통상임금을 209시간으로 나눈 후 8시간을 곱해 계산합니다.</p>
+  <h2>연차수당 계산기 — 2026년 연차 발생 기준·미사용 수당 완벽 정리</h2>
+  <p><strong>연차휴가(유급휴가)</strong>는 근로기준법 제60조에 따른 법적 권리입니다. 1년 미만 근로자는 매월 개근 시 1일(최대 11일), 1년 이상은 15일이 기본으로 발생하며 2년마다 1일씩 가산되어 최대 25일까지 늘어납니다. 5인 이상 사업장이면 정규직·계약직·아르바이트 무관하게 주 15시간 이상 근무자 모두에게 동일하게 적용됩니다. 5인 미만 사업장은 적용 제외입니다.</p>
+  <p>미사용 연차는 원칙적으로 발생일로부터 1년 이내에 사용하지 않으면 수당으로 전환됩니다. 단, 회사가 연차 사용 촉진 절차(소멸 6개월 전 1차·2개월 전 2차 서면 통보)를 적법하게 밟았다면 수당 지급 의무가 면제됩니다. 퇴직 시에는 촉진 여부와 무관하게 미사용 연차 수당을 반드시 지급해야 합니다. 위 계산기로 연차수당을 계산한 뒤 나타나는 '연차 소멸·촉진 타임라인'에서 입사 월 기준으로 정확한 연차 일정을 확인하세요.</p>
   <div class="formula-box">1일 통상임금 = 월 통상임금 ÷ 209시간 × 8시간
 연차수당 = 1일 통상임금 × 미사용 연차 일수
 
 예) 월 통상임금 300만원, 미사용 연차 5일
 1일 통상임금 = 3,000,000 ÷ 209 × 8 = 114,833원
-연차수당 = 114,833원 × 5일 = 574,163원</div>
-  <h3>📊 입사일별 연차 발생 일수 기준</h3>
-  <p>아래 표는 근속 기간별 연간 연차 발생 일수입니다. 1년 미만은 월마다 개근해야 발생하며, 1년이 되는 순간 15일이 한꺼번에 발생합니다. 1년 미만에 발생한 연차(최대 11일)는 1년차 15일에서 차감하지 않는 것이 원칙입니다.</p>
+연차수당 = 114,833원 × 5일 = 574,163원
+
+※ 통상임금 = 기본급 + 정기·일률·고정적으로 지급되는 수당
+   (비정기 성과급·복리후생비 제외)</div>
+
+  <h2>근속 기간별 연차 발생 일수 — 2년마다 +1일, 최대 25일</h2>
+  <p>연차는 근속 기간에 비례해 늘어납니다. 1년차에 15일, 3년차에 16일... 이런 식으로 2년마다 1일이 가산됩니다. 법 개정 전(2018년 이전)에는 1년 미만 근로자 연차가 1년차 15일에서 차감됐지만, 현재는 차감하지 않는 것이 원칙입니다. 즉, 1년 미만에 발생한 최대 11일과 1주년 시 발생하는 15일은 별개입니다.</p>
   <table>
     <thead><tr><th>근속 기간</th><th>연간 연차 일수</th><th>비고</th></tr></thead>
     <tbody>
       <tr><td>1년 미만</td><td>월 1일 (최대 11일)</td><td>매월 개근 시 발생</td></tr>
-      <tr><td>1년 이상 ~ 3년 미만</td><td>15일</td><td>기본 연차</td></tr>
-      <tr><td>3년 이상 ~ 5년 미만</td><td>16일</td><td>2년마다 +1일</td></tr>
-      <tr><td>5년 이상 ~ 7년 미만</td><td>17일</td><td>—</td></tr>
-      <tr><td>10년 이상</td><td>20일</td><td>—</td></tr>
-      <tr><td>21년 이상</td><td>25일 (최대)</td><td>상한선</td></tr>
+      <tr><td>1년 이상 ~ 3년 미만</td><td><strong>15일</strong></td><td>기본 연차 (1주년 시 발생)</td></tr>
+      <tr><td>3년 이상 ~ 5년 미만</td><td>16일</td><td>+1일 가산</td></tr>
+      <tr><td>5년 이상 ~ 7년 미만</td><td>17일</td><td>+1일 가산</td></tr>
+      <tr><td>7년 이상 ~ 9년 미만</td><td>18일</td><td>+1일 가산</td></tr>
+      <tr><td>9년 이상 ~ 11년 미만</td><td>19일</td><td>+1일 가산</td></tr>
+      <tr><td>11년 이상 ~ 21년 미만</td><td>20~24일</td><td>2년마다 +1일</td></tr>
+      <tr><td>21년 이상</td><td><strong>25일 (최대)</strong></td><td>상한선</td></tr>
     </tbody>
   </table>
-  <div class="tip-box"><strong>💡 연차 소멸 전 체크리스트.</strong> ① 연차 발생일로부터 1년 내 사용 원칙 ② 회사가 사용 촉진 통보를 서면 2회 하지 않았다면 미사용 연차 수당 청구 가능 ③ 퇴직 시 잔여 연차 무조건 수당으로 수령 가능 ④ 연차수당 미지급 시 고용노동부(1350) 신고 가능.</div>
+  <p>연차는 원칙적으로 입사일 기준으로 계산하지만, 많은 회사가 편의상 회계연도(1월 1일) 기준으로 관리합니다. 회계연도 기준 적용 시 입사 첫해 연차가 줄어들 수 있으므로, 입사일 기준 계산과 비교해 불리한 경우 입사일 기준을 요청할 수 있습니다.</p>
+
+  <h2>연차 소멸·촉진 타임라인 — 언제 써야 하고, 언제 수당을 받나</h2>
+  <p>연차는 발생일로부터 1년 이내에 사용해야 합니다. 1년이 지나면 소멸되어 더 이상 사용할 수 없고, 미사용 수당으로만 청구할 수 있습니다. 단, 회사가 연차 사용 촉진 절차를 적법하게 진행한 경우에는 수당 지급 의무도 없어집니다. 촉진 절차의 핵심은 <strong>서면 통보 2회</strong>입니다. 카카오톡·구두 통보는 효력이 없고 반드시 서면(문서·이메일)이어야 합니다.</p>
+  <p>위 계산기 결과 화면에서 나타나는 '연차 소멸·촉진 타임라인'에서 입사 월을 선택하면 연차 발생→1차 촉진→2차 촉진→소멸 시점을 월별로 자동 계산해줍니다. 내 연차가 언제 소멸되는지, 회사가 촉진 통보를 적법하게 했는지 확인하는 데 활용하세요.</p>
+  <table>
+    <thead><tr><th>단계</th><th>시점</th><th>내용</th><th>효과</th></tr></thead>
+    <tbody>
+      <tr><td>연차 발생</td><td>1주년</td><td>15일 신규 발생</td><td>1년간 사용 가능</td></tr>
+      <tr><td>1차 촉진 통보</td><td>소멸 6개월 전</td><td>사용 시기 서면 통보</td><td>미실시 시 수당 지급 의무 유지</td></tr>
+      <tr><td>2차 촉진 통보</td><td>소멸 2개월 전</td><td>잔여 연차·사용 시기 지정</td><td>미실시 시 수당 지급 의무 유지</td></tr>
+      <tr><td>연차 소멸</td><td>발생 후 1년</td><td>미사용 연차 소멸</td><td>촉진 없으면 수당 지급</td></tr>
+    </tbody>
+  </table>
+  <div class="tip-box"><strong>💡 연차수당 놓치지 않는 법:</strong><br>
+  ① 퇴직 시 잔여 연차 일수 반드시 확인 — 퇴직일 14일 이내 수당 지급 의무<br>
+  ② 촉진 통보는 서면 확인 — 카카오톡·구두는 효력 없음<br>
+  ③ 수당 미지급 시 고용노동부(1350) 신고 가능 — 3년 소멸시효<br>
+  ④ 통상임금 확인 — 기본급 외 정기 수당 포함 여부 체크</div>
+
+  <h2>연차수당 계산 예시 — 월급별·미사용 일수별 수당 비교</h2>
+  <p>연차수당은 1일 통상임금에 미사용 일수를 곱한 금액입니다. 월 통상임금을 209로 나눈 후 8을 곱하면 1일 통상임금이 나옵니다. 미사용 연차가 많을수록, 월급이 높을수록 수당이 커집니다. 퇴직 시 남은 연차가 10일 이상이라면 수십만원 이상의 수당을 받을 수 있으니 반드시 확인하세요.</p>
+  <table>
+    <thead><tr><th>월 통상임금</th><th>1일 통상임금</th><th>미사용 5일</th><th>미사용 10일</th><th>미사용 15일</th></tr></thead>
+    <tbody>
+      <tr><td>250만원</td><td>약 95,694원</td><td>약 478,469원</td><td>약 956,938원</td><td>약 143만원</td></tr>
+      <tr><td>300만원</td><td>약 114,833원</td><td>약 574,163원</td><td>약 114만원</td><td>약 172만원</td></tr>
+      <tr><td>400만원</td><td>약 153,110원</td><td>약 765,550원</td><td>약 153만원</td><td>약 230만원</td></tr>
+      <tr><td>500만원</td><td>약 191,388원</td><td>약 956,938원</td><td>약 191만원</td><td>약 287만원</td></tr>
+    </tbody>
+  </table>
+  <p>※ 1일 통상임금 = 월 통상임금 ÷ 209시간 × 8시간. 위 계산기에서 정확한 금액을 확인하세요.</p>
+
   <h2>자주 묻는 질문 (FAQ)</h2>
   <details><summary>입사 첫해(1년 미만)에 연차를 못 쓰면 수당이 나오나요?</summary><div class="faq-answer">1년 미만 기간에 발생한 연차(최대 11일)는 발생 후 1년 이내 미사용 시 수당으로 지급받을 수 있습니다. 단, 회사가 연차 사용 촉진 절차를 밟았다면 수당 지급 의무가 면제됩니다. 퇴직 시에는 잔여 연차 수당을 무조건 받을 수 있습니다.</div></details>
-  <details><summary>연차 사용 촉진이란 무엇인가요?</summary><div class="faq-answer">회사가 연차 소멸 6개월 전까지 1차로 사용 시기를 근로자에게 통보하고, 소멸 2개월 전 2차로 통보해도 근로자가 미사용한 경우 회사의 수당 지급 의무가 면제됩니다. 촉진 통보는 반드시 서면(이메일·문서)으로 해야 효력이 있습니다. 구두 통보만으로는 촉진 절차가 완료되지 않습니다.</div></details>
+  <details><summary>연차 사용 촉진이란 무엇인가요?</summary><div class="faq-answer">회사가 연차 소멸 6개월 전까지 1차로 사용 시기를 근로자에게 서면 통보하고, 소멸 2개월 전 2차로 통보해도 근로자가 미사용한 경우 회사의 수당 지급 의무가 면제됩니다. 촉진 통보는 반드시 서면(이메일·문서)으로 해야 효력이 있습니다. 구두 통보만으로는 촉진 절차가 완료되지 않습니다.</div></details>
   <details><summary>연차수당 계산 시 통상임금에 상여금이 포함되나요?</summary><div class="faq-answer">정기적·일률적·고정적으로 지급되는 상여금은 통상임금에 포함됩니다. 예를 들어 매달 고정으로 지급하는 직책수당, 분기마다 고정액으로 지급하는 상여금은 포함됩니다. 반면 실적에 따라 달라지는 성과급, 비정기 인센티브는 제외됩니다.</div></details>
   <details><summary>계약직·아르바이트도 연차수당을 받을 수 있나요?</summary><div class="faq-answer">근로기준법은 고용 형태와 무관하게 5인 이상 사업장의 주 15시간 이상 근로자에게 모두 적용됩니다. 계약직·아르바이트도 동일하게 연차가 발생하며, 미사용 시 수당 청구가 가능합니다. 5인 미만 사업장은 연차 관련 규정이 적용되지 않습니다.</div></details>
   <details><summary>퇴직 시 연차수당은 언제 지급되나요?</summary><div class="faq-answer">퇴직 시 발생한 미사용 연차 수당은 퇴직일로부터 14일 이내에 지급해야 합니다. 당사자 합의 없이 14일을 초과하면 임금체불로 지연 이자(연 20%)가 발생합니다. 퇴직 전 잔여 연차 일수를 반드시 확인하고 수당을 청구하세요.</div></details>

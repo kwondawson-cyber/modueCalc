@@ -102,35 +102,50 @@
   <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
   <div class="header">
     <h1><span class="emoji">🏥</span> 건강보험료 계산기</h1>
-    <p>현행 기준 소득·재산 점수 합산 계산</p>
+    <p>직장·지역 가입자 보험료 자동 계산</p>
   </div>
+
+  <!-- 탭 -->
   <div class="card">
-    <div class="card-title">소득 정보</div>
-    <div class="input-group">
-      <label>연간 소득 (사업소득·금융소득·근로소득 등)</label>
-      <div class="input-wrapper"><input type="number" id="income" value="30000000" /><span class="input-unit">원</span></div>
-      <div class="hint">※ 직장 외 소득 합계 (이자·배당·임대·사업·기타)</div>
+    <div class="card-title">가입자 유형</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px">
+      <button id="tab-local" class="calc-btn" onclick="switchTab('local')" style="background:linear-gradient(135deg,var(--accent),var(--accent2))">🏠 지역가입자</button>
+      <button id="tab-employee" class="calc-btn" onclick="switchTab('employee')" style="background:var(--surface2);color:var(--text-muted);border:1px solid var(--border)">💼 직장가입자</button>
     </div>
-  </div>
-  <div class="card">
-    <div class="card-title">재산 정보</div>
-    <div class="input-group">
-      <label>재산세 과세표준액 (공시가격 × 공정시장가액비율)</label>
-      <div class="input-wrapper"><input type="number" id="property" value="200000000" /><span class="input-unit">원</span></div>
-      <div class="hint">※ 부동산·전세금·금융재산 포함, 기본공제 5,000만원 적용</div>
+
+    <!-- 지역가입자 입력 -->
+    <div id="panel-local">
+      <div class="card-title">소득 정보</div>
+      <div class="input-group">
+        <label>연간 소득 (사업소득·금융소득·근로소득 등)</label>
+        <div class="input-wrapper"><input type="text" id="income" value="30,000,000" oninput="fmtInput(this)" /><span class="input-unit">원</span></div>
+        <div class="hint">※ 직장 외 소득 합계 (이자·배당·임대·사업·기타)</div>
+      </div>
+      <div class="card-title" style="margin-top:16px">재산 정보</div>
+      <div class="input-group">
+        <label>재산세 과세표준액 (공시가격 × 공정시장가액비율)</label>
+        <div class="input-wrapper"><input type="text" id="property" value="200,000,000" oninput="fmtInput(this)" /><span class="input-unit">원</span></div>
+        <div class="hint">※ 부동산·전세금·금융재산 포함, 기본공제 5,000만원 적용</div>
+      </div>
+      <div class="input-group">
+        <label>자동차 가액 (4,000만원 이상·9년 미만만 부과, 없으면 0)</label>
+        <div class="input-wrapper"><input type="text" id="car" value="0" oninput="fmtInput(this)" /><span class="input-unit">원</span></div>
+      </div>
     </div>
-    <div class="input-group">
-      <label>자동차 연간 사용연수 및 가액 (없으면 0)</label>
-      <div class="input-wrapper"><input type="number" id="car" value="0" /><span class="input-unit">원</span></div>
-      <div class="hint">※ 4,000만원 이상 or 9년 미만 차량만 반영</div>
+
+    <!-- 직장가입자 입력 -->
+    <div id="panel-employee" style="display:none">
+      <div class="card-title">보수 정보</div>
+      <div class="input-group">
+        <label>월 보수월액 (세전 월급)</label>
+        <div class="input-wrapper"><input type="text" id="emp-salary" value="3,000,000" oninput="fmtInput(this)" /><span class="input-unit">원</span></div>
+        <div class="hint">※ 기본급 + 고정 수당 합계</div>
+      </div>
     </div>
-  </div>
-  <div class="card">
+
     <div class="info-box">
-      📌 2024년 부과점수당 금액: <strong style="color:var(--accent)">208.4원</strong><br>
-      📌 소득점수: 연소득을 구간별 환산<br>
-      📌 재산점수: (재산 - 5,000만원) 구간별 환산<br>
-      📌 장기요양보험료: 건강보험료의 <strong style="color:var(--accent)">13.14%</strong>
+      📌 2026년 건강보험료율: 직장 <strong style="color:var(--accent)">7.09%</strong> (본인 3.545%) / 지역 점수당 <strong style="color:var(--accent)">208.4원</strong><br>
+      📌 장기요양보험료: 건강보험료의 <strong style="color:var(--accent)">12.95%</strong>
     </div>
     <button class="calc-btn" onclick="calculate()">🏥 건강보험료 계산하기</button>
   </div>
@@ -156,11 +171,44 @@
     <div class="notice">⚠️ 본 계산기는 참고용입니다. 정확한 보험료는 국민건강보험공단(1577-1000)에 문의하거나 The건강보험 앱을 이용하세요.</div>
   </div>
 </div>
+
+<!-- 임의계속가입 시뮬레이터 -->
+<div class="container" style="padding-top:0;padding-bottom:0">
+  <div class="card" id="simCard" style="display:none">
+    <div class="card-title">📊 임의계속가입 vs 지역가입자 비교</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">퇴직 전 직장 보수월액을 입력하면 임의계속가입 시 보험료와 현재 지역가입자 보험료를 비교합니다.<br>임의계속가입은 퇴직 후 최대 <strong style="color:var(--accent)">36개월간</strong> 직장가입자 수준 보험료 유지 가능합니다.</p>
+    <div style="margin-bottom:12px">
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px;font-weight:600">퇴직 전 월 보수월액 (세전 월급)</div>
+      <input type="text" id="sim-salary" value="3,000,000" oninput="fmtInput(this);updateSim()"
+        style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:16px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none" />
+    </div>
+    <div id="simResult"></div>
+  </div>
+</div>
 <script>
-  // 2024년 소득점수 환산표 (구간별 점수)
+  let currentTab = 'local';
+
+  function fmtInput(el){
+    const raw = el.value.replace(/[^0-9]/g,'');
+    el.value = raw ? Number(raw).toLocaleString('ko-KR') : '';
+  }
+  function getNum(id){
+    return parseFloat((document.getElementById(id).value||'').replace(/,/g,''))||0;
+  }
+    currentTab = tab;
+    document.getElementById('panel-local').style.display = tab === 'local' ? 'block' : 'none';
+    document.getElementById('panel-employee').style.display = tab === 'employee' ? 'block' : 'none';
+    document.getElementById('tab-local').style.cssText = tab === 'local'
+      ? 'background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000'
+      : 'background:var(--surface2);color:var(--text-muted);border:1px solid var(--border)';
+    document.getElementById('tab-employee').style.cssText = tab === 'employee'
+      ? 'background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000'
+      : 'background:var(--surface2);color:var(--text-muted);border:1px solid var(--border)';
+  }
+
+  // 소득점수 환산 (2024년 기준)
   function getIncomeScore(annual) {
-    // 연소득 구간별 점수 (100만원 단위)
-    const won = annual / 10000; // 만원 단위
+    const won = annual / 10000;
     if (won <= 100) return 0;
     if (won <= 500) return Math.round(won * 0.0183);
     if (won <= 1000) return Math.round(9.15 + (won-500)*0.0283);
@@ -171,9 +219,8 @@
     return Math.round(547.0 + (won-10000)*0.0883);
   }
 
-  // 재산점수 환산 (기본공제 5천만원 후)
   function getPropertyScore(prop) {
-    const net = Math.max(0, prop - 50000000); // 5천만원 공제
+    const net = Math.max(0, prop - 50000000);
     const won = net / 10000;
     if (won <= 0) return 0;
     if (won <= 450) return Math.round(won * 0.0498);
@@ -186,43 +233,96 @@
   }
 
   function getCarScore(carVal) {
-    if (carVal <= 0 || carVal < 40000000) return 0;
-    const won = carVal / 10000;
-    return Math.round(won * 0.0254);
+    if (carVal < 40000000) return 0;
+    return Math.round(carVal / 10000 * 0.0254);
   }
 
   function fmt(n) { return Math.round(n).toLocaleString('ko-KR'); }
 
   function calculate() {
-    const income = parseFloat(document.getElementById('income').value) || 0;
-    const property = parseFloat(document.getElementById('property').value) || 0;
-    const car = parseFloat(document.getElementById('car').value) || 0;
+    const CARE_RATE = 0.1295;
+    const SCORE_RATE = 208.4;
+    const MIN_PREMIUM = 19780;
 
-    const iScore = getIncomeScore(income);
-    const pScore = getPropertyScore(property);
-    const cScore = getCarScore(car);
-    const totalScore = iScore + pScore + cScore;
+    if (currentTab === 'local') {
+      const income = getNum('income');
+      const property = getNum('property');
+      const car = getNum('car');
+      const iScore = getIncomeScore(income);
+      const pScore = getPropertyScore(property);
+      const cScore = getCarScore(car);
+      const totalScore = iScore + pScore + cScore;
+      const healthPremium = Math.max(MIN_PREMIUM, Math.round(totalScore * SCORE_RATE));
+      const carePremium = Math.round(healthPremium * CARE_RATE);
+      const monthlyTotal = healthPremium + carePremium;
 
-    const RATE = 208.4; // 2024년 점수당 금액
-    const MIN_PREMIUM = 19780; // 최저 보험료
-    const healthPremium = Math.max(MIN_PREMIUM, Math.round(totalScore * RATE));
-    const carePremium = Math.round(healthPremium * 0.1314);
-    const monthlyTotal = healthPremium + carePremium;
+      document.getElementById('r-total').innerHTML = `${fmt(monthlyTotal)}<span>원</span>`;
+      document.getElementById('r-sub').textContent = `건강 ${fmt(healthPremium)}원 + 장기요양 ${fmt(carePremium)}원`;
+      document.getElementById('s-iscore').textContent = iScore;
+      document.getElementById('s-pscore').textContent = pScore + (cScore > 0 ? `+${cScore}` : '');
+      document.getElementById('s-total').textContent = totalScore;
+      document.getElementById('d-score').textContent = `${totalScore}점 × 208.4원`;
+      document.getElementById('d-health').textContent = `${fmt(healthPremium)}원`;
+      document.getElementById('d-care').textContent = `${fmt(carePremium)}원 (건강보험료 × 12.95%)`;
+      document.getElementById('d-monthly').textContent = `${fmt(monthlyTotal)}원`;
+      document.getElementById('d-annual').textContent = `${fmt(monthlyTotal * 12)}원`;
 
-    document.getElementById('r-total').innerHTML = `${fmt(monthlyTotal)}<span>원</span>`;
-    document.getElementById('r-sub').textContent = `건강 ${fmt(healthPremium)}원 + 장기요양 ${fmt(carePremium)}원`;
-    document.getElementById('s-iscore').textContent = iScore;
-    document.getElementById('s-pscore').textContent = pScore + (cScore > 0 ? `+${cScore}` : '');
-    document.getElementById('s-total').textContent = totalScore;
-    document.getElementById('d-score').textContent = `${totalScore}점 × 208.4원`;
-    document.getElementById('d-health').textContent = `${fmt(healthPremium)}원`;
-    document.getElementById('d-care').textContent = `${fmt(carePremium)}원`;
-    document.getElementById('d-monthly').textContent = `${fmt(monthlyTotal)}원`;
-    document.getElementById('d-annual').textContent = `${fmt(monthlyTotal * 12)}원`;
+      // 임의계속가입 시뮬레이터 업데이트
+      document.getElementById('simCard').style.display = 'block';
+      _localMonthly = monthlyTotal;
+      updateSim();
+    } else {
+      // 직장가입자
+      const salary = getNum('emp-salary');
+      const EMP_RATE = 0.03545; // 2024~2026 직장가입자 본인 부담
+      const healthPremium = Math.round(salary * EMP_RATE);
+      const carePremium = Math.round(healthPremium * CARE_RATE);
+      const monthlyTotal = healthPremium + carePremium;
 
-    const rc = document.getElementById('resultCard');
-    rc.classList.add('visible');
+      document.getElementById('r-total').innerHTML = `${fmt(monthlyTotal)}<span>원</span>`;
+      document.getElementById('r-sub').textContent = `건강 ${fmt(healthPremium)}원 + 장기요양 ${fmt(carePremium)}원 (본인 부담)`;
+      document.getElementById('s-iscore').textContent = '—';
+      document.getElementById('s-pscore').textContent = '—';
+      document.getElementById('s-total').textContent = '직장';
+      document.getElementById('d-score').textContent = `보수월액 ${fmt(salary)}원 × 3.545%`;
+      document.getElementById('d-health').textContent = `${fmt(healthPremium)}원`;
+      document.getElementById('d-care').textContent = `${fmt(carePremium)}원 (건강보험료 × 12.95%)`;
+      document.getElementById('d-monthly').textContent = `${fmt(monthlyTotal)}원`;
+      document.getElementById('d-annual').textContent = `${fmt(monthlyTotal * 12)}원 (회사 동일 부담)`;
+      document.getElementById('simCard').style.display = 'none';
+    }
+    document.getElementById('resultCard').classList.add('visible');
   }
+
+  let _localMonthly = 0;
+  function updateSim() {
+    if (!_localMonthly) return;
+    const empSalary = getNum('sim-salary') || 3000000;
+    const CARE_RATE = 0.1295;
+    const EMP_RATE = 0.03545;
+    const empHealth = Math.round(empSalary * EMP_RATE);
+    const empCare = Math.round(empHealth * CARE_RATE);
+    const empTotal = empHealth + empCare;
+    const diff = _localMonthly - empTotal;
+    const el = document.getElementById('simResult');
+    el.innerHTML = `
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px">
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center">
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">지역가입자 (현재)</div>
+          <div style="font-size:18px;font-weight:900;font-family:Montserrat,sans-serif;color:var(--text)">${fmt(_localMonthly)}원</div>
+        </div>
+        <div style="background:rgba(0,212,170,.08);border:1px solid rgba(0,212,170,.3);border-radius:12px;padding:14px;text-align:center">
+          <div style="font-size:11px;color:var(--accent);margin-bottom:4px">임의계속가입 시 (직전 직장 기준)</div>
+          <div style="font-size:18px;font-weight:900;font-family:Montserrat,sans-serif;color:${diff>0?'var(--accent)':'#ff6b6b'}">${fmt(empTotal)}원</div>
+        </div>
+      </div>
+      <div style="text-align:center;padding:10px;background:rgba(0,212,170,.05);border-radius:10px;font-size:13px;color:var(--text-muted)">
+        ${diff > 0
+          ? `임의계속가입 선택 시 월 <strong style="color:var(--accent)">${fmt(diff)}원</strong> 절약 → 36개월 합계 <strong style="color:var(--accent)">${fmt(diff*36)}원</strong> 절약`
+          : `지역가입자가 더 유리합니다 (월 <strong style="color:#ff6b6b">${fmt(-diff)}원</strong>)`}
+      </div>`;
+  }
+
   window.onload = () => calculate();
 </script>
 
@@ -266,44 +366,66 @@
   </div>
 </div>
 <div class="seo-section">
-  <h2>지역가입자 건강보험료 계산기 — 2026년 부과 기준 완벽 정리</h2>
-  <h3>지역가입자 건강보험료 구조 이해하기</h3>
-  <p>지역가입자 건강보험료는 직장가입자와 달리 <strong>소득·재산·자동차</strong>를 점수화한 부과점수에 점수당 금액을 곱해 산정합니다. 2022년 9월 2단계 개편 이후 소득 중심으로 바뀌어 저소득 지역가입자의 부담이 줄었습니다. 2026년 기준 점수당 금액은 <strong>208.4원</strong>이며, 최저보험료는 월 19,780원입니다.</p>
-  <p>직장가입자와 가장 큰 차이는 회사가 보험료 절반을 부담하지 않는다는 점입니다. 퇴직 후 지역가입자가 되면 재산까지 부과 대상에 포함되어 보험료가 갑자기 크게 늘어나는 경우가 많습니다. 이런 경우 임의계속가입 제도를 활용하면 최대 36개월간 직장가입자 수준의 보험료를 유지할 수 있습니다.</p>
-  <h3>📐 지역가입자 건강보험료 계산 공식</h3>
-  <p>부과점수는 소득점수(사업소득·이자·배당 등)와 재산점수(주택·토지·자동차 등)를 합산해 계산됩니다. 소득이 없더라도 재산이 있으면 보험료가 부과되므로, 은퇴 후에도 부동산이나 금융자산이 있으면 상당한 건강보험료를 납부해야 합니다. 장기요양보험료는 건강보험료의 13.14%로 자동 부과됩니다.</p>
-  <div class="formula-box">건강보험료 = 부과점수 × 208.4원 (2026년 기준)
+  <h2>건강보험료 계산기 — 2026년 직장·지역가입자 보험료 완벽 정리</h2>
+  <p><strong>건강보험료</strong>는 국민건강보험법에 따라 모든 국민이 의무 납부하는 사회보험료입니다. 직장가입자와 지역가입자로 나뉘며 부과 방식이 완전히 다릅니다. <strong>직장가입자</strong>는 보수월액(세전 월급)에 건강보험료율(7.09%)을 곱한 금액을 사용자와 절반씩 부담합니다(본인 3.545%). <strong>지역가입자</strong>는 소득·재산·자동차를 점수화한 부과점수에 점수당 금액(208.4원)을 곱해 전액 본인이 부담합니다.</p>
+  <p>장기요양보험료는 건강보험료에 <strong>12.95%</strong>를 곱한 금액이 자동 부과됩니다(2024~2026년 기준). 매달 청구서에 건강보험료와 장기요양보험료가 함께 표기됩니다. 이 계산기는 지역가입자·직장가입자 두 탭 모두 지원하며, 지역가입자 계산 후 나타나는 '임의계속가입 시뮬레이터'에서 퇴직 후 어느 방식이 유리한지 즉시 비교할 수 있습니다.</p>
+  <div class="formula-box">직장가입자 본인 부담 = 보수월액 × 3.545%
+사용자 부담 = 보수월액 × 3.545% (동일)
+장기요양보험료 = 건강보험료 × 12.95%
+
+지역가입자 = 부과점수 × 208.4원 (2026년 기준)
 부과점수 = 소득점수 + 재산점수 + 자동차점수
-장기요양보험료 = 건강보험료 × 13.14%
-최저보험료: 19,780원/월 (2026년 기준)
-실납부액 = 건강보험료 + 장기요양보험료</div>
-  <h3>📊 소득 구간별 지역가입자 건강보험료 예시 (2026년)</h3>
-  <p>소득 구간별 예상 보험료입니다. 재산이 없고 소득만 있는 경우를 가정한 수치로, 실제로는 부동산·자동차 등 재산이 추가되면 보험료가 더 높아집니다. 연 소득 3,000만원이라면 월 건강보험료와 장기요양보험료를 합쳐 약 96,000원 정도를 예상할 수 있습니다.</p>
+최저보험료: 19,780원/월 (장기요양 미포함)</div>
+
+  <h2>직장가입자 vs 지역가입자 — 보험료 부과 방식 완전 비교</h2>
+  <p>직장가입자와 지역가입자의 가장 큰 차이는 <strong>부과 기준</strong>과 <strong>사용자 분담 여부</strong>입니다. 직장가입자는 근로소득(보수월액)에만 보험료가 붙고 회사가 절반을 내주지만, 지역가입자는 소득·재산·자동차까지 모두 부과 대상이 되며 전액 본인이 냅니다. 이 때문에 자영업자·프리랜서나 퇴직 후 지역가입자로 전환된 분들이 보험료 부담이 크게 늘어났다고 느끼는 것입니다.</p>
   <table>
-    <thead><tr><th>연 소득</th><th>월 건강보험료</th><th>장기요양 포함</th><th>비고</th></tr></thead>
+    <thead><tr><th>구분</th><th>부과 기준</th><th>세율(본인)</th><th>사용자 분담</th><th>비고</th></tr></thead>
     <tbody>
-      <tr><td>1,000만원</td><td>약 29,000원</td><td>약 33,000원</td><td>최저보험료 적용 가능</td></tr>
-      <tr><td>3,000만원</td><td>약 85,000원</td><td>약 96,000원</td><td>—</td></tr>
-      <tr><td>5,000만원</td><td>약 140,000원</td><td>약 158,000원</td><td>—</td></tr>
-      <tr><td>1억원</td><td>약 270,000원</td><td>약 305,000원</td><td>재산 포함 시 증가</td></tr>
+      <tr><td>직장가입자</td><td>보수월액 (근로소득)</td><td><strong>3.545%</strong></td><td>동일 3.545%</td><td>사업장 소득 외 연 2,000만원 초과 시 추가</td></tr>
+      <tr><td>지역가입자</td><td>소득+재산+자동차 점수</td><td>점수 × 208.4원</td><td>없음 (전액 본인)</td><td>재산 5,000만원 기본공제</td></tr>
+      <tr><td>임의계속가입</td><td>직전 직장 보수월액 기준</td><td>3.545%</td><td>없음 (전액 본인)</td><td>퇴직 후 최대 36개월</td></tr>
+      <tr><td colspan="5" style="font-size:12px">+ 장기요양보험료: 건강보험료 × 12.95% (모든 유형 동일)</td></tr>
     </tbody>
   </table>
-  <h3>📊 직장가입자 vs 지역가입자 보험료 비교</h3>
-  <p>직장가입자와 지역가입자의 가장 큰 차이는 회사의 분담 여부입니다. 같은 소득이라면 직장가입자는 절반만 부담하지만 지역가입자는 전액을 본인이 부담합니다. 이 때문에 자영업자나 프리랜서의 건강보험료 부담이 직장인보다 훨씬 크게 느껴지는 것입니다.</p>
+  <p>2022년 9월 2단계 개편으로 지역가입자 보험료 부과 체계가 소득 중심으로 바뀌었습니다. 이전에는 피부양자 등록 기준이 느슨했으나, 현재는 연 소득 2,000만원 초과이거나 재산이 5.4억을 넘으면 피부양자 자격이 사라져 지역가입자로 전환됩니다.</p>
+
+  <h2>퇴직 후 건강보험 선택 — 지역가입자 vs 임의계속가입</h2>
+  <p>직장을 퇴직하면 다음 달부터 지역가입자로 자동 전환됩니다. 재산이 많거나 금융소득이 있다면 지역가입자 보험료가 직장 때보다 훨씬 높아질 수 있습니다. 이때 <strong>임의계속가입</strong>을 신청하면 퇴직 전 직장가입자 자격을 최대 36개월간 유지할 수 있습니다. 단, 전액 본인 부담(회사 분담 없음)이므로 퇴직 전 보험료의 2배를 내야 합니다.</p>
+  <p>임의계속가입이 유리한 경우는 지역가입자 예상 보험료가 임의계속가입 예상 보험료보다 높을 때입니다. 재산이 많은 은퇴자나 임대소득이 있는 경우 임의계속가입이 유리한 경우가 많습니다. 위 계산기에서 지역가입자 보험료를 계산한 후 '임의계속가입 시뮬레이터'에 퇴직 전 월급을 입력하면 바로 비교할 수 있습니다.</p>
   <table>
-    <thead><tr><th>구분</th><th>보험료 기준</th><th>본인 부담률</th><th>특징</th></tr></thead>
+    <thead><tr><th>상황</th><th>유리한 선택</th><th>이유</th></tr></thead>
     <tbody>
-      <tr><td>직장가입자</td><td>보수월액</td><td>3.595% (사용자 동일 분담)</td><td>회사가 절반 부담</td></tr>
-      <tr><td>지역가입자</td><td>소득+재산+자동차</td><td>전액 본인 부담</td><td>재산도 부과 대상</td></tr>
+      <tr><td>재산·금융소득 많음</td><td>임의계속가입</td><td>지역가입자 부과 기준에 재산 포함</td></tr>
+      <tr><td>소득·재산 모두 적음</td><td>지역가입자 또는 피부양자</td><td>최저보험료(19,780원) 적용 가능</td></tr>
+      <tr><td>직장인 가족 있음</td><td>피부양자 등록</td><td>소득 2,000만원·재산 5.4억 이하 시 무료</td></tr>
+      <tr><td>재취업 예정</td><td>지역가입자 (단기)</td><td>임의계속가입 신청 없이 자동 전환</td></tr>
     </tbody>
   </table>
-  <div class="tip-box"><strong>💡 보험료 절감 팁.</strong> ① 임의계속가입: 직장 퇴직 후 36개월간 직장가입자 보험료 수준 유지 가능 ② 소득 감소 시 즉시 공단에 조정 신청 ③ 피부양자 요건(연 소득 2,000만원 이하·재산 5.4억 이하) 충족 시 가족 직장보험 편입 검토 ④ 재산 기본공제(5,000만원) 반드시 확인.</div>
+  <div class="tip-box"><strong>💡 건강보험료 절감 전략:</strong><br>
+  ① <strong>피부양자 등록</strong> — 직장인 가족의 건강보험에 편입 시 보험료 0원. 조건: 연 소득 2,000만원 이하, 재산 5.4억 이하<br>
+  ② <strong>임의계속가입</strong> — 퇴직 후 36개월간 직전 직장 수준 보험료 유지. 재산이 많은 은퇴자에게 유리<br>
+  ③ <strong>소득 감소 즉시 신고</strong> — 소득 감소 시 국민건강보험공단에 조정 신청하면 다음 달부터 보험료 감소<br>
+  ④ <strong>재산 기본공제</strong> — 재산 5,000만원까지 기본공제 적용, 전세 보증금도 포함 여부 확인 필요</div>
+
+  <h2>소득 구간별 지역가입자 보험료 (2026년 기준)</h2>
+  <p>지역가입자 보험료는 연소득과 재산에 따라 크게 달라집니다. 아래 표는 재산이 없는 순수 소득 기준 예시입니다. 실제로는 주택·토지·자동차·금융재산이 더해지면 보험료가 훨씬 높아집니다. 연 소득이 1,000만원 이하면 사실상 최저보험료(19,780원) 수준이 적용됩니다.</p>
+  <table>
+    <thead><tr><th>연 소득</th><th>건강보험료</th><th>장기요양 포함</th><th>연간 부담</th></tr></thead>
+    <tbody>
+      <tr><td>1,000만원 이하</td><td>19,780원 (최저)</td><td>약 22,340원</td><td>약 268,000원</td></tr>
+      <tr><td>3,000만원</td><td>약 85,000원</td><td>약 96,000원</td><td>약 115만원</td></tr>
+      <tr><td>5,000만원</td><td>약 140,000원</td><td>약 158,000원</td><td>약 190만원</td></tr>
+      <tr><td>1억원</td><td>약 270,000원</td><td>약 305,000원</td><td>약 366만원</td></tr>
+    </tbody>
+  </table>
+
   <h2>자주 묻는 질문 (FAQ)</h2>
   <details><summary>프리랜서·자영업자의 건강보험료는 어떻게 계산되나요?</summary><div class="faq-answer">사업소득, 이자·배당소득 등 연 2,000만원을 초과하면 지역가입자로 분류되어 소득+재산 기준으로 보험료가 부과됩니다. 직장가입자 피부양자 요건(연 소득 2,000만원 이하, 재산 5.4억 이하)을 충족하면 피부양자로 등록해 보험료를 면제받을 수 있습니다.</div></details>
   <details><summary>퇴직 후 건강보험료가 갑자기 높아지는 이유는?</summary><div class="faq-answer">직장가입자 때는 회사가 보험료의 절반을 부담하지만, 퇴직 후 지역가입자가 되면 전액 본인이 부담합니다. 또한 재산·자동차도 부과 대상에 포함되어 실제 납부액이 크게 늘어납니다. 임의계속가입 제도를 활용하면 최대 36개월간 직장가입자 수준의 보험료를 유지할 수 있습니다.</div></details>
-  <details><summary>장기요양보험료는 별도로 내야 하나요?</summary><div class="faq-answer">장기요양보험료는 건강보험료에 13.14%를 곱한 금액으로, 건강보험료와 함께 청구됩니다. 별도로 신청하는 것이 아니라 자동으로 합산 청구되며, 65세 이상이 되면 장기요양 서비스를 받을 수 있는 자격이 주어집니다.</div></details>
+  <details><summary>장기요양보험료는 별도로 내야 하나요?</summary><div class="faq-answer">장기요양보험료는 건강보험료에 12.95%를 곱한 금액으로(2024~2026년 기준), 건강보험료와 함께 청구됩니다. 별도로 신청하는 것이 아니라 자동으로 합산 청구되며, 65세 이상이 되면 장기요양 서비스를 받을 수 있는 자격이 주어집니다.</div></details>
   <details><summary>해외 거주 중에도 건강보험료를 내야 하나요?</summary><div class="faq-answer">1개월 이상 해외 체류 시 보험료 납부 면제 신청이 가능합니다. 단, 귀국 후에는 다시 납부 의무가 발생합니다. 해외 거주 기간에 국내에서 의료 서비스를 이용하면 보험 적용이 제한되므로 해외 체류 전 공단에 신고하는 것이 좋습니다.</div></details>
-  <details><summary>소득이 없어도 건강보험료를 내야 하나요?</summary><div class="faq-answer">소득이 없더라도 재산(주택·토지·전월세 등)이 있으면 재산 기준으로 보험료가 부과됩니다. 소득·재산이 모두 없거나 매우 낮으면 최저보험료(월 19,780원, 2026년 기준)가 적용됩니다. 가족의 직장보험 피부양자 등록으로 보험료를 면제받는 방법도 활용하세요.</div></details>
+  <details><summary>소득이 없어도 건강보험료를 내야 하나요?</summary><div class="faq-answer">소득이 없더라도 재산(주택·토지·전월세 등)이 있으면 재산 기준으로 보험료가 부과됩니다. 소득·재산이 모두 없거나 매우 낮으면 최저보험료(월 19,780원, 2026년 기준, 장기요양 제외)가 적용됩니다. 가족의 직장보험 피부양자 등록으로 보험료를 면제받는 방법도 활용하세요.</div></details>
 </div>
 <script src="/common.js" defer></script><script src="/share.js" defer></script>
 <script src="/calculator.js" defer></script>
