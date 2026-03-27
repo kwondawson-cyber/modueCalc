@@ -215,36 +215,167 @@
       <a href="/insurance" class="rel-card"><span class="re">🛡️</span><span class="rn">보험료</span></a>
     </div>
   </div>
-<div class="seo-card">
-  <h2>퇴직연금 수령액 계산기 — DB·DC·IRP 완벽 정리</h2>
-  <h3>퇴직연금 제도 이해하기</h3>
-  <p>퇴직연금은 근로자가 재직 중 회사가 퇴직금 재원을 금융기관에 적립해두는 제도입니다. <strong>DB형(확정급여형)</strong>은 퇴직 시 받는 금액이 정해져 있고, <strong>DC형(확정기여형)</strong>은 회사가 내는 부담금은 정해져 있지만 운용 실적에 따라 수령액이 달라집니다. <strong>IRP(개인형퇴직연금)</strong>는 근로자가 추가로 납입할 수 있는 개인 계좌입니다.</p>
-  <p>2022년 4월부터 30인 이하 사업장도 퇴직연금 가입이 의무화됐습니다. 퇴직금을 IRP로 받아 만 55세 이후 연금으로 수령하면 퇴직소득세를 40%(10년 이상 수령 시) 감면받을 수 있습니다. 연금으로 받을수록 세금이 줄어드는 구조입니다.</p>
-  <h3>📐 퇴직금·퇴직연금 계산 공식</h3>
-  <p>법정 퇴직금은 계속근로기간 1년에 대해 30일분의 평균임금을 지급합니다. 평균임금은 퇴직 전 3개월간의 임금 총액을 해당 기간의 총 일수로 나눠 계산합니다. DC형은 매년 연간 임금 총액의 1/12 이상을 적립해야 합니다.</p>
-  <div class="formula-box">법정 퇴직금 = 평균임금 × 30일 × (근속연수)
-평균임금 = 퇴직 전 3개월 임금 총액 ÷ 3개월 총 일수
 
-IRP 연금 수령 시 세금 혜택:
-- 일시금 수령: 퇴직소득세 전액
-- 10년 이상 연금 수령: 퇴직소득세 40% 감면
-- 연금소득세: 3.3~5.5% (나이·수령액에 따라)</div>
-  <h3>📊 DB형 vs DC형 퇴직연금 비교</h3>
-  <p>두 제도는 특성이 다르므로 본인 상황에 맞게 선택해야 합니다. 임금 상승률이 높고 장기 재직이 예상된다면 DB형이, 단기 이직이 잦거나 투자에 적극적이라면 DC형이 유리할 수 있습니다.</p>
+<script>
+function fmtInput(el){const raw=el.value.replace(/[^0-9.]/g,'');el.value=raw?Number(raw.replace(/\./g,'')).toLocaleString('ko-KR'):'';}
+function getNum(id){return parseFloat((document.getElementById(id).value||'').replace(/,/g,''))||0;}
+function fw(n){return Math.round(n).toLocaleString('ko-KR')+'원';}
+function fm(n){return Math.round(n).toLocaleString('ko-KR')+'만원';}
+
+function calcPension() {
+  const type = document.getElementById('type').value;
+  const workYears = getNum('workYears') || parseFloat(document.getElementById('workYears').value) || 0;
+  const salary = parseFloat(document.getElementById('salary').value) || 0; // 만원 단위
+  const returnRate = parseFloat(document.getElementById('returnRate').value) / 100 || 0.04;
+  const annuityPeriod = parseInt(document.getElementById('annuityPeriod').value) || 15;
+  const extra = parseFloat(document.getElementById('extra').value) || 0; // 만원/년
+
+  if (!workYears || !salary) { alert('재직 기간과 월급을 입력해주세요.'); return; }
+
+  const salaryWon = salary * 10000; // 원 단위
+  let totalWon = 0; // 퇴직연금 총액 (원)
+
+  if (type === 'db') {
+    // DB형: 퇴직금 = 평균임금 × 30일 × 근속연수
+    const avgDaily = (salaryWon * 3) / 91;
+    totalWon = avgDaily * 30 * workYears;
+  } else if (type === 'dc') {
+    // DC형: 매년 연봉의 1/12 적립 + 운용 수익
+    const annualContrib = salaryWon * 12 / 12; // 연 적립액 = 연봉/12 × 12 = 연봉
+    const annualExtra = extra * 10000;
+    totalWon = 0;
+    for (let y = 0; y < workYears; y++) {
+      totalWon = (totalWon + annualContrib + annualExtra) * (1 + returnRate);
+    }
+  } else {
+    // IRP: 연 납입액(연봉 1/12 + 추가) + 운용 수익
+    const annualContrib = salaryWon;
+    const annualExtra = extra * 10000;
+    totalWon = 0;
+    for (let y = 0; y < workYears; y++) {
+      totalWon = (totalWon + annualContrib + annualExtra) * (1 + returnRate);
+    }
+  }
+
+  // 연금 vs 일시금 세금
+  // 퇴직소득세 간이 추정 (실효세율 약 6~10%)
+  const roughTaxRate = Math.min(0.06 + (totalWon / 1e9) * 0.02, 0.15);
+  const lumpTax = totalWon * roughTaxRate;
+  const lumpNet = totalWon - lumpTax;
+
+  // 연금 수령: 10년 이상이면 40% 감면, 미만 30% 감면
+  const discount = annuityPeriod >= 10 ? 0.40 : 0.30;
+  const annuityTax = lumpTax * (1 - discount);
+  const annuityNet = totalWon - annuityTax;
+
+  // 월 연금액 (연금소득세 3.3~5.5% 별도 — 단순화하여 미적용)
+  const monthlyAnnuity = annuityNet / (annuityPeriod * 12);
+
+  const totalM = Math.round(totalWon / 10000);
+  document.getElementById('rTotal').textContent = `${totalM.toLocaleString()}만원`;
+  document.getElementById('rSub').textContent = `${type.toUpperCase()}형 · ${workYears}년 근속 기준 예상액`;
+  document.getElementById('rMonthly').textContent = `${Math.round(monthlyAnnuity/10000).toLocaleString()}만원`;
+  document.getElementById('rYearly').textContent = `${Math.round(monthlyAnnuity*12/10000).toLocaleString()}만원`;
+  document.getElementById('rLumpNet').textContent = `${Math.round(lumpNet/10000).toLocaleString()}만원`;
+  document.getElementById('rAnnuityNet').textContent = `${Math.round(annuityNet/10000).toLocaleString()}만원`;
+  document.getElementById('cAnnuityRate').textContent = `${(roughTaxRate*(1-discount)*100).toFixed(1)}%`;
+  document.getElementById('cLumpRate').textContent = `${(roughTaxRate*100).toFixed(1)}%`;
+  document.getElementById('cAnnuityTax').textContent = `${Math.round(annuityTax/10000).toLocaleString()}만원`;
+  document.getElementById('cLumpTax').textContent = `${Math.round(lumpTax/10000).toLocaleString()}만원`;
+  document.getElementById('cAnnuityNet').textContent = `${Math.round(annuityNet/10000).toLocaleString()}만원`;
+  document.getElementById('cLumpNet').textContent = `${Math.round(lumpNet/10000).toLocaleString()}만원`;
+
+  document.getElementById('result').classList.add('show');
+
+  // 수령기간별 시뮬레이터
+  document.getElementById('simCard').style.display = 'block';
+  _pension = { totalWon, lumpTax, roughTaxRate };
+  updatePeriodSim();
+}
+
+let _pension = null;
+function updatePeriodSim() {
+  if (!_pension) return;
+  const { totalWon, lumpTax, roughTaxRate } = _pension;
+  const periods = [5, 10, 15, 20, 25];
+  const el = document.getElementById('simResult');
+  el.innerHTML = periods.map(y => {
+    const discount = y >= 10 ? 0.40 : 0.30;
+    const tax = lumpTax * (1 - discount);
+    const net = totalWon - tax;
+    const monthly = net / (y * 12);
+    const isCur = y === parseInt(document.getElementById('annuityPeriod').value);
+    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:${isCur?'rgba(0,212,170,.08)':'var(--surface2)'};border:1px solid ${isCur?'rgba(0,212,170,.3)':'var(--border)'};border-radius:10px;margin-bottom:8px">
+      <div>
+        <span style="font-size:14px;font-weight:700;color:${isCur?'var(--accent)':'var(--text)'}">${y}년 수령${isCur?' ← 현재':''}</span>
+        <div style="font-size:11px;color:var(--text-muted)">퇴직소득세 ${(discount*100).toFixed(0)}% 감면 · 월 ${Math.round(monthly/10000).toLocaleString()}만원</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:16px;font-weight:900;font-family:Montserrat,sans-serif;color:${isCur?'var(--accent)':'var(--text)'}">${Math.round(net/10000).toLocaleString()}만원</div>
+        <div style="font-size:11px;color:var(--text-muted)">세후 총액</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+</script>
+
+<!-- 수령기간별 시뮬레이터 -->
+<div style="max-width:700px;margin:0 auto 16px;padding:0 20px">
+  <div class="card" id="simCard" style="display:none">
+    <div class="card-title">📊 연금 수령기간별 절세 비교 — 몇 년으로 나눠 받는 게 유리할까</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;line-height:1.7">연금 수령 기간이 길수록 퇴직소득세 감면이 크고 월 연금액은 작아집니다. 슬라이더는 메인 계산기의 수령 기간과 연동됩니다.</p>
+    <div id="simResult"></div>
+  </div>
+</div>
+
+<div class="seo-card">
+  <h2>퇴직연금 수령액 계산기 — 2026년 DB·DC·IRP 완벽 정리</h2>
+  <p><strong>퇴직연금</strong>은 근로자가 재직 중 회사가 퇴직금 재원을 금융기관에 적립해두는 제도입니다. 2005년 도입 이후 2022년 4월부터는 30인 이하 사업장도 의무 가입 대상이 되었습니다. DB형(확정급여형)·DC형(확정기여형)·IRP(개인형) 세 가지로 나뉘며, 유형에 따라 수령액 계산 방식과 세금 혜택이 크게 달라집니다.</p>
+  <p>퇴직연금을 IRP로 이전 후 만 55세 이후 연금으로 수령하면 퇴직소득세를 최대 40% 감면받습니다. 퇴직금 규모가 클수록 감면 효과가 크기 때문에, 퇴직 직후 일시금을 선택하는 것보다 IRP를 통한 연금 수령이 세금 측면에서 훨씬 유리합니다. 위 계산기로 예상 수령액을 계산하면 '연금 수령기간별 절세 비교' 시뮬레이터가 자동으로 나타납니다.</p>
+  <div class="formula-box">DB형 퇴직금 = 평균임금 × 30일 × 근속연수
+DC형 적립액 = 연봉 × 1/12 × 매년 적립 + 운용수익
+
+IRP 연금 수령 시 퇴직소득세 감면:
+  10년 이상 수령 → 40% 감면
+  10년 미만 수령 → 30% 감면
+  연금소득세(수령 시): 3.3~5.5% (55~69세 5.5%, 70~79세 4.4%, 80세↑ 3.3%)</div>
+
+  <h2>DB형 vs DC형 vs IRP — 세 가지 유형 완전 비교</h2>
+  <p>퇴직연금 유형 선택은 입사 초기에 하는 중요한 결정입니다. DB형은 임금 상승률이 높고 장기 재직이 예상되는 경우 유리하고, DC형은 투자 수익률을 높여 더 많은 수령액을 기대하거나 이직이 잦은 경우 유리합니다. IRP는 이직 시 DC형 적립금을 이전하거나 추가 납입으로 세액공제를 받는 계좌입니다.</p>
   <table class="ex-table">
-    <thead><tr><th>구분</th><th>DB형 (확정급여형)</th><th>DC형 (확정기여형)</th></tr></thead>
+    <thead><tr><th>구분</th><th>DB형</th><th>DC형</th><th>IRP</th></tr></thead>
     <tbody>
-      <tr><td>수령액 결정</td><td>최종 평균임금 기준 확정</td><td>운용 실적에 따라 변동</td></tr>
-      <tr><td>운용 주체</td><td>회사</td><td>근로자</td></tr>
-      <tr><td>유리한 경우</td><td>임금 상승률 높은 경우</td><td>투자 적극·단기 이직</td></tr>
-      <tr><td>중도 인출</td><td>불가 (담보 대출만 가능)</td><td>무주택·의료비 등 가능</td></tr>
+      <tr><td>수령액 결정</td><td>최종 평균임금 기준</td><td>운용 실적에 따라 변동</td><td>적립금 + 운용수익</td></tr>
+      <tr><td>운용 주체</td><td>회사</td><td>근로자 직접</td><td>근로자 직접</td></tr>
+      <tr><td>유리한 경우</td><td>임금 상승률 높음·장기 재직</td><td>투자 적극·단기 이직</td><td>세액공제 활용·이직 시</td></tr>
+      <tr><td>추가 납입</td><td>불가</td><td>불가</td><td>연 900만원까지 가능</td></tr>
+      <tr><td>세액공제</td><td>없음</td><td>없음</td><td>13.2~16.5% (연 최대 148만원)</td></tr>
+      <tr><td>중도 인출</td><td>불가 (담보 대출만)</td><td>무주택·의료비 등 제한적</td><td>제한적 (패널티 있음)</td></tr>
     </tbody>
   </table>
-  <div class="hl-box">💡 <strong>핵심.</strong> 퇴직금을 IRP로 이전 후 10년 이상 연금으로 수령하면 퇴직소득세 <strong>40% 감면</strong> 혜택이 적용됩니다. 4,000만원 기준으로 약 112만원을 더 받을 수 있습니다.</div>
-  
-  <div class="hl-box">🔑 <strong>핵심 팁</strong><br>💡 <strong>퇴직연금 수령 전략:</strong> IRP 계좌에서 연금으로 수령하면 퇴직소득세의 60~70%만 납부하는 절세 혜택이 있습니다(10년 이상 수령 시 30% 추가 감면). 일시금보다 연금 수령이 절세에 유리하므로, 55세 이후 연간 1,200만원 이하로 나눠 수령하면 저율 분리과세(3~5%)가 적용됩니다. 퇴직 전 IRP 계좌를 미리 개설해두는 것을 권장합니다.</div>
 
-<h2>자주 묻는 질문 (FAQ)</h2>
+  <h2>연금 수령기간별 절세 비교 — 몇 년으로 나눠 받아야 유리할까</h2>
+  <p>퇴직금을 IRP로 이전 후 연금으로 수령하면 수령 기간에 따라 퇴직소득세 감면율이 달라집니다. 10년 미만이면 30% 감면, 10년 이상이면 40% 감면입니다. 수령 기간이 길수록 세금을 덜 내지만 월 수령액이 줄어들어, 본인의 노후 생활비와 은퇴 시점을 고려한 최적 기간을 선택해야 합니다.</p>
+  <table class="ex-table">
+    <thead><tr><th>수령기간</th><th>퇴직소득세 감면</th><th>3억 퇴직금 세후 총액</th><th>월 수령액</th></tr></thead>
+    <tbody>
+      <tr><td>5년</td><td>30%</td><td>약 2억 8,260만원</td><td>약 471만원</td></tr>
+      <tr><td>10년</td><td>40%</td><td>약 2억 8,920만원</td><td>약 241만원</td></tr>
+      <tr><td>15년</td><td>40%</td><td>약 2억 8,920만원</td><td>약 161만원</td></tr>
+      <tr><td>20년</td><td>40%</td><td>약 2억 8,920만원</td><td>약 121만원</td></tr>
+    </tbody>
+  </table>
+  <p>※ 퇴직소득세 실효세율 약 7% 가정. 10년 이상 수령 시 세후 총액은 동일하므로, 월 수령액과 노후 계획에 맞게 기간을 선택하세요. 위 '연금 수령기간별 절세 비교' 시뮬레이터에서 자신의 퇴직연금 기준으로 정확하게 비교할 수 있습니다.</p>
+
+  <h2>IRP 추가 납입 세액공제 — 연 최대 148만원 돌려받기</h2>
+  <p>IRP에 연간 최대 900만원(연금저축과 합산)을 납입하면 납입액의 13.2%(총급여 5,500만원 초과) 또는 16.5%(이하)를 세액공제받습니다. 900만원 납입 시 최대 148만5,000원을 돌려받을 수 있습니다. 퇴직 후 IRP로 이전한 퇴직금도 여기에 포함되므로, 추가 납입 여력이 있다면 매년 최대 한도를 채우는 것이 유리합니다.</p>
+  <div class="hl-box">💡 <strong>퇴직연금 핵심 전략:</strong><br>
+  ① <strong>IRP로 이전</strong> — 퇴직 즉시 일시금 수령보다 IRP 이전 후 연금 수령으로 최대 40% 세금 절약<br>
+  ② <strong>10년 이상 수령</strong> — 10년 기준으로 감면율이 30%→40%로 점프 (추가 10%p 절세)<br>
+  ③ <strong>연 1,200만원 이하 수령</strong> — 초과 시 종합소득세 합산 과세, 이하 시 저율 분리과세<br>
+  ④ <strong>DC형 운용 전략</strong> — 젊을수록 주식형 비중 높게, 은퇴 근접 시 안전자산으로 전환</div>
+
+  <h2>자주 묻는 질문 (FAQ)</h2>
   <details><summary>DB형과 DC형 중 어떤 게 유리한가요?</summary><div class="faq-answer">DB형은 최종 급여 기준으로 지급되어 임금 상승이 큰 경우 유리합니다. DC형은 본인이 운용하며 수익률에 따라 달라집니다. 급여 상승폭이 크면 DB형, 투자에 자신 있거나 이직이 잦으면 DC형이 유리할 수 있습니다. 입사 시 선택을 신중히 하고, 변경 가능 시기를 확인하세요.</div></details>
   <details><summary>퇴직연금 IRP에 추가로 납입하면 세금 혜택이 있나요?</summary><div class="faq-answer">IRP에 연간 최대 900만원까지 추가 납입하면 납입액의 13.2~16.5%(총급여 5,500만원 이하 16.5%)를 세액공제받을 수 있습니다. 연금저축과 합산 한도입니다. 세액공제 후 55세 이후 연금으로 수령하면 3.3~5.5%의 낮은 연금소득세만 적용됩니다.</div></details>
   <details><summary>퇴직금을 일시금으로 받는 것과 연금으로 받는 것 중 어느 게 유리한가요?</summary><div class="faq-answer">세금 측면에서는 연금 수령이 유리합니다. 10년 이상 연금으로 받으면 퇴직소득세의 40%를 감면받습니다. 단, 당장 목돈이 필요하거나 투자 수익률을 높일 자신이 있다면 일시금 수령 후 자산운용이 나을 수도 있습니다. 개인 재정 상황에 따라 달라집니다.</div></details>

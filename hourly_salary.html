@@ -113,7 +113,7 @@
     <div class="card-title">근무 정보</div>
     <div class="input-group">
       <label>시급</label>
-      <div class="input-wrapper"><input type="number" id="hourly" value="10320" /><span class="input-unit">원</span></div>
+      <div class="input-wrapper"><input type="text" id="hourly" value="10,320" oninput="fmtInput(this)" /><span class="input-unit">원</span></div>
       <input type="range" id="hourlySlider" min="10320" max="50000" step="100" value="10320" />
     </div>
     <div class="input-row">
@@ -147,11 +147,28 @@
   </div>
 </div>
 <script>
-  document.getElementById('hourlySlider').addEventListener('input',e=>{document.getElementById('hourly').value=e.target.value});
-  document.getElementById('hourly').addEventListener('input',e=>{document.getElementById('hourlySlider').value=e.target.value});
+  function fmtInput(el){
+    const raw=el.value.replace(/[^0-9]/g,'');
+    el.value=raw?Number(raw).toLocaleString('ko-KR'):'';
+  }
+  function getNum(id){return parseFloat((document.getElementById(id).value||'').replace(/,/g,''))||0;}
+
+  const slider=document.getElementById('hourlySlider');
+  const hourlyInput=document.getElementById('hourly');
+  slider.addEventListener('input',e=>{
+    hourlyInput.value=Number(e.target.value).toLocaleString('ko-KR');
+    calculate();
+  });
+  hourlyInput.addEventListener('input',e=>{
+    const raw=e.target.value.replace(/[^0-9]/g,'');
+    hourlyInput.value=raw?Number(raw).toLocaleString('ko-KR'):'';
+    slider.value=raw||10320;
+    calculate();
+  });
+
   function fmt(n){return Math.round(n).toLocaleString('ko-KR')}
   function calculate(){
-    const hourly=parseFloat(document.getElementById('hourly').value)||0;
+    const hourly=getNum('hourly');
     const hpd=parseFloat(document.getElementById('hpd').value)||0;
     const days=parseFloat(document.getElementById('days').value)||0;
     const inclHoliday=document.getElementById('includeHoliday').checked;
@@ -171,23 +188,60 @@
     document.getElementById('d-holiday').textContent=inclHoliday&&weekHours>=15?`${fmt(holidayPay)}원`:'미포함';
     document.getElementById('d-daily').textContent=`${fmt(daily)}원`;
     const rc=document.getElementById('resultCard');rc.classList.add('visible');
+
+    // 근무형태별 비교 시뮬레이터
+    document.getElementById('simCard').style.display='block';
+    updateSim(hourly);
   }
-  window.onload=()=>calculate();
+
+  function updateSim(hourly) {
+    if(!hourly) hourly=getNum('hourly');
+    const patterns=[
+      {label:'주 20시간 (단시간)',hpd:4,days:5},
+      {label:'주 30시간 (파트타임)',hpd:6,days:5},
+      {label:'주 40시간 (풀타임)',hpd:8,days:5},
+      {label:'주 48시간 (연장 포함)',hpd:8,days:6},
+    ];
+    const inclHoliday=document.getElementById('includeHoliday').checked;
+    const curHpd=parseFloat(document.getElementById('hpd').value)||8;
+    const curDays=parseFloat(document.getElementById('days').value)||5;
+    document.getElementById('simResult').innerHTML=patterns.map(p=>{
+      const wh=p.hpd*p.days;
+      const holH=wh>=15?Math.min(p.hpd,8):0;
+      const holPay=inclHoliday?hourly*holH:0;
+      const weekly=hourly*wh+holPay;
+      const monthly=Math.round(weekly*4.345);
+      const isCur=p.hpd===curHpd&&p.days===curDays;
+      return `<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:${isCur?'rgba(0,212,170,.08)':'var(--surface2)'};border:1px solid ${isCur?'rgba(0,212,170,.3)':'var(--border)'};border-radius:10px;margin-bottom:8px">
+        <div>
+          <div style="font-size:13px;font-weight:700;color:${isCur?'var(--accent)':'var(--text)'}">${p.label}${isCur?' ← 현재':''}</div>
+          <div style="font-size:11px;color:var(--text-muted)">주급 ${fmt(weekly)}원 | 주휴 ${wh>=15?fmt(holPay)+'원':'미발생'}</div>
+        </div>
+        <div style="font-size:17px;font-weight:900;font-family:Montserrat,sans-serif;color:${isCur?'var(--accent)':'var(--text)'}">${fmt(monthly)}<span style="font-size:11px;font-weight:400">원/월</span></div>
+      </div>`;
+    }).join('');
+  }
+
+  window.onload=()=>{
+    hourlyInput.value=Number(10320).toLocaleString('ko-KR');
+    calculate();
+  };
 </script>
+
+<!-- 근무형태별 비교 시뮬레이터 -->
+<div class="container" style="padding-top:0;padding-bottom:0">
+  <div class="card" id="simCard" style="display:none">
+    <div class="card-title">📊 근무형태별 월급 비교 — 시급 동일 시 근무시간별 차이</div>
+    <div id="simResult"></div>
+  </div>
+</div>
 
 <style>
 .seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
 .seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
 .seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}
 .seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
-.seo-section ul{padding-left:20px;margin-bottom:12px}
-.seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
-.seo-section ol{padding-left:20px;margin-bottom:12px}
-.seo-section ol li{font-size:14px;color:#8b949e;line-height:1.9}
 .seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
-.seo-section .example-box{background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:16px 20px;margin:12px 0}
-.seo-section .example-box p{margin:0;font-size:13px;color:#8b949e;line-height:1.9}
-.seo-section .example-box strong{color:#00d4aa}
 .seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
 .seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
 .seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
@@ -215,33 +269,63 @@
   </div>
 </div>
 <div class="seo-section">
-  <h2>시급 월급 변환 계산기 — 2026년 주휴수당 포함 실수령액 완벽 정리</h2>
-  <h3>시급에서 월급까지 — 정확한 환산법</h3>
-  <p>시급제 근로자가 실제 받는 월급을 정확히 계산하려면 기본 시급 외에 <strong>주휴수당</strong>을 반드시 포함해야 합니다. 주 40시간 근무 기준으로 월 소정근로시간은 209시간(주 40시간 + 주 8시간 주휴)으로, 월급 = 시급 × 209시간이 됩니다. 2026년 최저시급 10,320원으로 계산하면 최저 월급은 2,156,880원입니다.</p>
-  <p>시급제로 일하는 아르바이트·파트타임 근로자는 계약서에 적힌 시급만으로 월 예상 수입을 가늠하기 어렵습니다. 주간 근무시간, 주휴수당 포함 여부, 4대보험 가입 여부에 따라 실수령액이 크게 달라지기 때문입니다. 이 계산기로 미리 정확한 금액을 확인하세요.</p>
-  <h3>📐 시급·월급 환산 공식 (2026년 기준)</h3>
-  <p>월 소정근로시간은 근무 형태에 따라 달라집니다. 주 40시간 풀타임은 209시간, 주 30시간 파트타임은 157시간(주 30+6), 주 20시간은 104.8시간(주 20+4)이 됩니다. 주 15시간 이상이면 주휴수당이 발생하므로 이를 반드시 포함해야 합니다.</p>
+  <h2>시급 월급 계산기 — 2026년 최저시급 기준 주휴수당 포함 환산</h2>
+  <p>시급제 근로자가 실제 받는 월급을 정확히 계산하려면 기본 시급 외에 <strong>주휴수당</strong>을 반드시 포함해야 합니다. 2026년 최저시급은 <strong>10,320원</strong>이며, 주 40시간(5일×8시간) 근무 시 월 소정근로시간은 209시간입니다. 최저임금 적용 최저 월급은 10,320원 × 209시간 = <strong>2,156,880원</strong>입니다.</p>
+  <p>많은 아르바이트·파트타임 근로자가 "시급 × 근무시간 = 월급"으로 단순 계산하지만, 주 15시간 이상 개근하면 주휴수당이 자동 발생합니다. 주 40시간 기준 주휴수당은 시급 × 8시간으로, 월 4.345주 기준 추가로 약 34만5,700원(최저시급 기준)을 더 받게 됩니다. 구인 공고의 "시급에 주휴수당 포함" 표기도 주의해서 확인해야 합니다.</p>
   <div class="formula-box">월급 = 시급 × 월 소정근로시간
-월 소정근로시간 = (주 근무시간 + 주휴시간) × 365/12/7
+월 소정근로시간 = (주 근무시간 + 주휴시간) × 4.345주
 
 주 40시간: 시급 × 209시간
-주 30시간: 시급 × 157시간
-주 20시간: 시급 × 104.8시간
+주 30시간: 시급 × (30+6) × 4.345 = 시급 × 156.4시간
+주 20시간: 시급 × (20+4) × 4.345 = 시급 × 104.3시간
 
-2026년 최저임금 기준 최저 월급
+2026년 최저시급 기준 최저 월급
 = 10,320원 × 209시간 = 2,156,880원</div>
-  <h3>📊 시급별 예상 월급 (주 40시간, 주휴수당 포함)</h3>
-  <p>아래 표는 주 40시간 근무 시 시급별 예상 세전 월급입니다. 4대보험 가입 시 실수령액은 세전의 약 88~90% 수준이며, 월급이 높아질수록 소득세 구간이 올라가 공제율이 높아집니다.</p>
+
+  <h2>시급별 예상 월급 — 주 40시간 주휴수당 포함 (2026년 기준)</h2>
+  <p>아래 표는 주 40시간(5일×8시간) 근무 기준 시급별 세전 월급입니다. 4대보험 가입 시 실수령액은 세전의 약 87~90% 수준입니다. 월급이 높아질수록 소득세 구간이 올라가 공제율이 높아지므로, 정확한 실수령액은 연봉 계산기에서 확인하세요.</p>
   <table>
-    <thead><tr><th>시급</th><th>세전 월급</th><th>연봉 환산</th><th>비고</th></tr></thead>
+    <thead><tr><th>시급</th><th>주급 (주휴 포함)</th><th>월급 (세전)</th><th>연봉 환산</th></tr></thead>
     <tbody>
-      <tr><td>10,320원 (최저)</td><td>2,156,880원</td><td>약 2,588만원</td><td>2026년 법정 최저</td></tr>
-      <tr><td>12,000원</td><td>2,508,000원</td><td>약 3,010만원</td><td>—</td></tr>
-      <tr><td>15,000원</td><td>3,135,000원</td><td>약 3,762만원</td><td>—</td></tr>
-      <tr><td>20,000원</td><td>4,180,000원</td><td>약 5,016만원</td><td>—</td></tr>
+      <tr><td><strong>10,320원</strong> (2026 최저)</td><td>92,880원</td><td>2,156,880원</td><td>약 2,588만원</td></tr>
+      <tr><td>12,000원</td><td>108,000원</td><td>2,508,000원</td><td>약 3,010만원</td></tr>
+      <tr><td>15,000원</td><td>135,000원</td><td>3,135,000원</td><td>약 3,762만원</td></tr>
+      <tr><td>20,000원</td><td>180,000원</td><td>4,180,000원</td><td>약 5,016만원</td></tr>
+      <tr><td>30,000원</td><td>270,000원</td><td>6,270,000원</td><td>약 7,524만원</td></tr>
     </tbody>
   </table>
-  <div class="tip-box"><strong>💡 시급 협상 시 확인할 것.</strong> ① 제시된 시급에 주휴수당 포함 여부 확인 ② 4대보험 가입 여부(미가입 시 추후 불이익) ③ 식대·교통비 별도 지급 여부 ④ 야간·연장 근무 수당 적용 여부. 최저임금 이상이라도 주휴수당 미지급이면 실질적으로 최저임금 위반입니다.</div>
+  <p>※ 주급 = 시급 × 주 40시간 + 주휴수당(시급 × 8시간). 월급 = 주급 × 4.345주. 주 40시간 기준 실질 시급은 계약 시급의 1.2배(주휴수당 포함)입니다.</p>
+
+  <h2>근무형태별 월급 비교 시뮬레이터</h2>
+  <p>위 계산기에서 시급을 입력하고 계산하면, '근무형태별 월급 비교' 시뮬레이터가 나타납니다. 주 20시간(단시간)·30시간(파트타임)·40시간(풀타임)·48시간(연장 포함) 4가지 근무 패턴별 월급을 자동으로 비교해줍니다. 같은 시급이라도 근무시간에 따라 월급이 2배 이상 차이날 수 있어, 알바나 파트타임 조건을 협상할 때 바로 비교하며 활용할 수 있습니다.</p>
+  <table>
+    <thead><tr><th>근무형태</th><th>주 근무시간</th><th>주휴수당</th><th>월급 (최저시급)</th></tr></thead>
+    <tbody>
+      <tr><td>단시간 (주 20h)</td><td>20시간</td><td>발생 (4h)</td><td>약 1,077,000원</td></tr>
+      <tr><td>파트타임 (주 30h)</td><td>30시간</td><td>발생 (6h)</td><td>약 1,615,000원</td></tr>
+      <tr><td><strong>풀타임 (주 40h)</strong></td><td>40시간</td><td>발생 (8h)</td><td><strong>약 2,157,000원</strong></td></tr>
+      <tr><td>연장 포함 (주 48h)</td><td>48시간 (연장 8h)</td><td>발생 (8h)</td><td>약 2,773,000원</td></tr>
+    </tbody>
+  </table>
+
+  <h2>야간·연장·휴일 수당 — 시급제에서 추가 받을 수 있는 수당</h2>
+  <p>시급제 근로자도 법정 요건을 충족하면 연장·야간·휴일 가산수당을 받을 수 있습니다. 단, 5인 미만 사업장은 가산수당 의무가 없습니다. 5인 이상 사업장이라면 연장·야간·휴일 근무 시 각각 50%가 가산된 금액을 받아야 합니다.</p>
+  <table>
+    <thead><tr><th>수당 종류</th><th>가산율</th><th>적용 기준</th><th>비고</th></tr></thead>
+    <tbody>
+      <tr><td>연장근무수당</td><td>+50%</td><td>1일 8시간, 주 40시간 초과</td><td>5인↑ 의무</td></tr>
+      <tr><td>야간근무수당</td><td>+50%</td><td>밤 10시 ~ 새벽 6시</td><td>5인↑ 의무</td></tr>
+      <tr><td>휴일근무수당</td><td>+50%</td><td>법정 공휴일·약정 휴일</td><td>5인↑ 의무</td></tr>
+      <tr><td>연장+야간 중복</td><td>+100%</td><td>야간 연장 시 중복 가산</td><td>—</td></tr>
+    </tbody>
+  </table>
+  <div class="tip-box"><strong>💡 시급 협상 체크리스트:</strong><br>
+  ① 제시된 시급에 주휴수당 포함 여부 확인 (포함이면 실질 시급이 낮은 것)<br>
+  ② 4대보험 가입 여부 — 미가입 시 나중에 실업급여·퇴직금 불이익<br>
+  ③ 야간·연장·휴일 수당 별도 지급 여부<br>
+  ④ 식대·교통비 지급 여부 (최저임금 산정 제외 항목)<br>
+  ⑤ 계약서 확인 — 구두 계약은 분쟁 시 불리</div>
+
   <h2>자주 묻는 질문 (FAQ)</h2>
   <details><summary>시급제와 월급제 중 어느 것이 더 유리한가요?</summary><div class="faq-answer">일반적으로 월급제가 수입 안정성이 높습니다. 시급제는 근무시간에 비례해 받아 성수기·비수기에 따라 수입 변동이 크고, 주휴수당 계산이 복잡합니다. 월급제는 연차·병가 등 복지 혜택도 더 명확합니다. 단기 알바는 시급제, 장기 고용은 월급제가 일반적입니다.</div></details>
   <details><summary>주 15시간 미만 알바는 주휴수당이 없나요?</summary><div class="faq-answer">네. 주 15시간 미만(초단시간 근로자)은 주휴수당이 발생하지 않습니다. 또한 퇴직금, 연차 유급휴가도 적용되지 않습니다. 이 때문에 일부 사업주가 의도적으로 주 14시간 계약을 하는 경우가 있는데, 실제 근무시간이 15시간 이상이면 법적 보호를 받을 수 있습니다.</div></details>
