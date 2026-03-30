@@ -82,6 +82,24 @@
     .notice { margin-top: 16px; padding: 13px 16px; background: rgba(255,165,0,0.05); border: 1px solid rgba(255,165,0,0.15); border-radius: 10px; font-size: 12px; color: var(--text-muted); line-height: 1.7; }
     @media (max-width: 480px) { .card { padding: 20px 16px; } }
 
+.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
+.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
+.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
+.seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
+.seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+.seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
+.seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
+.seo-section table tr:nth-child(even) td{background:#161b22}
+.seo-section table td strong{color:#00d4aa}
+.seo-section .tip-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .tip-box strong{color:#00d4aa}
+.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
+.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
+.seo-section details[open] summary::after{content:'－'}
+.seo-section details[open]{background:#161b22}
+.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
+
     /* ── 홈 버튼 ── */
     .home-btn-wrap { text-align: center; margin-bottom: 8px; }
     .home-btn {
@@ -134,7 +152,7 @@
       <div class="input-group">
         <label>취득 가액 (실거래가)</label>
         <div class="input-wrapper">
-          <input type="number" id="price" value="600000000" />
+          <input type="text" id="price" value="600,000,000" oninput="fmtInput(this)" />
           <span class="input-unit">원</span>
         </div>
       </div>
@@ -219,6 +237,8 @@
   <script>
     let isAdjusted = true;
 
+    function fmtInput(el){const raw=el.value.replace(/[^0-9]/g,'');el.value=raw?Number(raw).toLocaleString('ko-KR'):'';}
+    function getNum(id){return parseFloat((document.getElementById(id).value||'').replace(/,/g,''))||0;}
     function setAdjusted(v) {
       isAdjusted = v;
       document.getElementById('tab-adj').classList.toggle('active', v);
@@ -255,7 +275,7 @@
     }
 
     function calculate() {
-      const price = parseFloat(document.getElementById('price').value) || 0;
+      const price = getNum('price');
       const houseCount = document.getElementById('houseCount').value;
       if (!price) { alert('취득 가액을 입력해주세요.'); return; }
 
@@ -300,42 +320,46 @@
           <span>${r.rate}</span>
         </div>`).join('');
 
-      const rc = document.getElementById('resultCard');
-      rc.classList.add('visible');
+      document.getElementById('resultCard').classList.add('visible');
+
+      // 주택수별 취득세 비교 시뮬레이터
+      document.getElementById('simCard').style.display = 'block';
+      const scenarios = [
+        { label: '1주택 (6억 이하)', hc: '1', adj: false },
+        { label: '1주택 (현재 금액)', hc: '1', adj: false },
+        { label: '2주택 (비조정)', hc: '2', adj: false },
+        { label: '2주택 (조정)', hc: '2', adj: true },
+        { label: '3주택 (조정)', hc: '3', adj: true },
+        { label: '법인', hc: 'corp', adj: false },
+      ];
+      const curKey = `${houseCount}_${isAdjusted}`;
+      document.getElementById('simResult').innerHTML = scenarios.map(s => {
+        let si = getTaxRate(price, s.hc, s.adj);
+        if (si.useNormal) si = { ...getNormalRate(price), label: `1~3%` };
+        const t = price * si.rate + price * si.ruralRate + price * si.eduRate;
+        const isCur = s.hc === houseCount && s.adj === isAdjusted;
+        return `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:${isCur?'rgba(0,212,170,.08)':'var(--surface2)'};border:1px solid ${isCur?'rgba(0,212,170,.3)':'var(--border)'};border-radius:8px;margin-bottom:6px">
+          <div>
+            <span style="font-size:13px;font-weight:600;color:${isCur?'var(--accent)':'var(--text)'}">${s.label}${isCur?' ← 현재':''}</span>
+            <div style="font-size:11px;color:var(--text-muted)">취득세율 ${si.label}</div>
+          </div>
+          <span style="font-size:15px;font-weight:900;font-family:Montserrat,sans-serif;color:${isCur?'var(--accent)':si.rate>=0.08?'#ff6b6b':'var(--text)'}">${fmt(t)}원</span>
+        </div>`;
+      }).join('');
     }
 
     window.onload = () => calculate();
   </script>
 
-<style>
-.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
-.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
-.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}
-.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
-.seo-section ul{padding-left:20px;margin-bottom:12px}
-.seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
-.seo-section ol{padding-left:20px;margin-bottom:12px}
-.seo-section ol li{font-size:14px;color:#8b949e;line-height:1.9}
-.seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
-.seo-section .example-box{background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:16px 20px;margin:12px 0}
-.seo-section .example-box p{margin:0;font-size:13px;color:#8b949e;line-height:1.9}
-.seo-section .example-box strong{color:#00d4aa}
-.seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
-.seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
-.seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
-.seo-section table tr:nth-child(even) td{background:#161b22}
-.seo-section table td strong{color:#00d4aa}
-.seo-section .tip-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
-.seo-section .tip-box strong{color:#00d4aa}
-.seo-section .warn-box{background:rgba(255,107,107,0.05);border:1px solid rgba(255,107,107,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
-.seo-section .warn-box strong{color:#ff6b6b}
-.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
-.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
-.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
-.seo-section details[open] summary::after{content:'－'}
-.seo-section details[open]{background:#161b22}
-.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
-</style>
+<!-- 주택수별 취득세 비교 시뮬레이터 -->
+<div style="max-width:700px;margin:0 auto;padding:0 20px">
+  <div class="card" id="simCard" style="display:none">
+    <div class="card-title">📊 주택수별 취득세 비교 — 같은 금액, 주택 수에 따라 세금이 얼마나 다를까</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;line-height:1.7">위에 입력한 취득 금액 기준으로 주택 수·조정지역 여부별 취득세를 자동 비교합니다.</p>
+    <div id="simResult"></div>
+  </div>
+</div>
+
 <div class="rel-section">
   <h2>📌 함께 쓰면 유용한 계산기</h2>
   <div class="rel-grid">
@@ -347,47 +371,77 @@
   </div>
 </div>
 <div class="seo-section">
-  <h2>취득세 계산기 — 2026년 부동산·주택 취득세 세율 완벽 가이드</h2>
-  <h3>취득세란 무엇인가?</h3>
-  <p><strong>취득세</strong>는 부동산·차량·선박 등을 취득(매매·증여·상속·신축 등)할 때 납부하는 지방세입니다. 주택의 경우 취득가액과 <strong>보유 주택 수</strong>에 따라 세율이 달라지며, 2020년 8월 세제 개편 이후 다주택자와 법인에 대한 중과세율이 크게 높아졌습니다. 취득세는 취득일로부터 <strong>60일 이내</strong>에 신고·납부해야 하며, 기한을 놓치면 20% 가산세가 부과됩니다.</p>
-  <p>취득세에는 본세 외에 지방교육세(취득세의 20%)와 농어촌특별세(85㎡ 초과 주택은 취득가액의 0.2%)가 추가됩니다. 따라서 실제 납부 총액은 취득세만 계산하는 것보다 더 많습니다. 또한 시·군·구에서 의무 매입해야 하는 지역개발공채 비용도 별도로 발생하므로 구입 예산 계획 시 반드시 포함해야 합니다.</p>
-  <h3>📐 취득세 계산 공식</h3>
-  <p>취득세는 실거래가 또는 시가표준액 중 높은 금액을 과세표준으로 합니다. 증여·상속의 경우 시가(공시가격 또는 감정가)를 기준으로 하며, 계약서상 매매가격이 지나치게 낮으면 세무조사 대상이 될 수 있습니다. 정확한 실납부액 계산을 위해 지방교육세와 농어촌특별세를 반드시 포함해야 합니다.</p>
+  <h2>취득세 계산기 — 2026년 주택 취득세율·계산 방법 완벽 가이드</h2>
+  <p><strong>취득세</strong>는 부동산·차량·선박 등을 취득(매매·증여·상속·신축)할 때 납부하는 지방세입니다. 주택의 경우 취득가액과 <strong>보유 주택 수, 조정대상지역 여부</strong>에 따라 세율이 극단적으로 달라집니다. 1주택자는 1~3%의 낮은 세율을 내지만, 조정대상지역에서 2주택을 취득하면 8%, 3주택 이상이면 12%의 중과세율이 적용됩니다. 같은 6억원짜리 아파트라도 1주택자는 660만원, 조정지역 2주택자는 5,280만원으로 무려 8배 차이가 발생합니다.</p>
+  <p>취득세에는 본세 외에 부가세 성격의 세금이 추가됩니다. <strong>지방교육세</strong>(취득세액의 20%)는 모든 주택에 부과되고, <strong>농어촌특별세</strong>(취득가액의 0.2%)는 전용면적 85㎡를 초과하는 주택에만 부과됩니다. 따라서 85㎡ 이하 주택은 취득가액의 약 1.1~14.4%, 85㎡ 초과는 약 1.3~14.6%의 총 세금이 발생합니다. 계약 전 반드시 이 계산기로 총 납부세액을 미리 확인해두세요.</p>
+  <p>취득세는 취득일(잔금 지급일)로부터 <strong>60일 이내</strong>에 관할 시·군·구청에 자진신고·납부해야 합니다. 기한을 넘기면 무신고가산세 20%와 납부지연가산세(일 0.022%)가 동시에 부과됩니다. 또한 시·군·구에서 의무 매입해야 하는 지역개발공채 비용(지역별로 취득가의 1~5%)도 별도로 발생하므로, 주택 구매 예산을 세울 때 취득세+공채 매입 비용을 함께 고려해야 합니다.</p>
   <div class="formula-box">취득세 = 취득가액 × 취득세율
 지방교육세 = 취득세 × 20%
-농어촌특별세 = 취득가액 × 0.2% (85㎡ 초과)
-실납부액 = 취득세 + 지방교육세 + 농어촌특별세</div>
-  <h3>📊 2026년 주택 취득세율표 (유상취득)</h3>
-  <p>1주택자는 취득가액에 따라 1~3%의 세율이 적용되지만, 2주택 이상 조정대상지역 취득은 8~12%의 중과세율이 부과됩니다. 고가 주택을 추가 취득할 경우 수천만원의 취득세 차이가 발생할 수 있습니다. 주택 매입 전 보유 주택 수와 지역을 반드시 확인해야 합니다.</p>
+농어촌특별세 = 취득가액 × 0.2% (전용 85㎡ 초과만)
+실납부액 = 취득세 + 지방교육세 + 농어촌특별세
+
+예시) 1주택, 6억원, 85㎡ 이하:
+  취득세 600만원(1%) + 지방교육세 60만원 = 합계 660만원
+
+예시) 조정지역 2주택, 6억원, 85㎡ 이하:
+  취득세 4,800만원(8%) + 지방교육세 240만원 = 합계 5,040만원</div>
+
+  <h2>2026년 주택 취득세율표 — 주택 수·조정지역별 세율 완전 정리</h2>
+  <p>현재 취득세 중과 체계는 2020년 7월 10일 부동산 대책으로 도입됐습니다. 다주택자의 투기 수요를 억제하기 위해 조정대상지역 내 2주택 취득 시 세율을 기존 1~3%에서 8%로, 3주택 이상은 12%로 대폭 올렸습니다. 2022년 이후 다주택자 양도소득세 중과가 한시 유예됐지만, <strong>취득세 중과는 2026년 현재 유예 없이 그대로 적용 중</strong>입니다. 따라서 조정지역 내 추가 주택 매수 시 세금 부담을 반드시 사전에 파악해야 합니다.</p>
+  <p>1주택자의 경우 취득가액 6억원 이하는 1%, 6억 초과~9억 이하는 가격에 비례해 1~3%가 단계적으로 적용되고, 9억 초과는 3% 고정세율입니다. 비조정대상지역 2주택자는 1주택자와 동일한 일반세율(1~3%)이 적용되는 점이 조정지역과 크게 다릅니다. 이 때문에 주택 매입 예정지가 조정대상지역인지 여부가 세금 부담에 결정적인 영향을 미칩니다.</p>
   <table>
-    <thead><tr><th>구분</th><th>취득가액</th><th>세율</th></tr></thead>
+    <thead><tr><th>구분</th><th>취득가액 기준</th><th>취득세율</th><th>합계 실효세율*</th></tr></thead>
     <tbody>
-      <tr><td>1주택 (6억 이하)</td><td>6억원 이하</td><td>1%</td></tr>
-      <tr><td>1주택 (6억~9억)</td><td>6억~9억원</td><td>1~3% (단계적 적용)</td></tr>
-      <tr><td>1주택 (9억 초과)</td><td>9억원 초과</td><td>3%</td></tr>
-      <tr><td>2주택 (조정대상지역)</td><td>전체</td><td>8%</td></tr>
-      <tr><td>3주택 이상 (조정대상지역)</td><td>전체</td><td>12%</td></tr>
-      <tr><td>법인 취득</td><td>전체</td><td>12%</td></tr>
+      <tr><td>1주택 (6억 이하)</td><td>6억원 이하</td><td>1%</td><td>약 1.1%</td></tr>
+      <tr><td>1주택 (6억~9억)</td><td>6억~9억원</td><td>1~3% 단계 적용</td><td>약 1.1~3.3%</td></tr>
+      <tr><td>1주택 (9억 초과)</td><td>9억원 초과</td><td>3%</td><td>약 3.3%</td></tr>
+      <tr><td>2주택 (비조정)</td><td>전체</td><td>1~3% (일반세율)</td><td>약 1.1~3.3%</td></tr>
+      <tr><td>2주택 (조정대상)</td><td>전체</td><td><strong>8%</strong></td><td>약 9~9.6%</td></tr>
+      <tr><td>3주택↑ (비조정)</td><td>전체</td><td>8%</td><td>약 9~9.6%</td></tr>
+      <tr><td>3주택↑ (조정대상)</td><td>전체</td><td><strong>12%</strong></td><td>약 13.4~13.6%</td></tr>
+      <tr><td>법인 취득</td><td>전체</td><td><strong>12%</strong></td><td>약 13.4~13.6%</td></tr>
     </tbody>
   </table>
-  <h3>📊 취득가액별 실납부세액 예시 (1주택·85㎡ 이하)</h3>
-  <p>아래 표는 1주택자가 85㎡ 이하 주택을 구매할 때 예상 취득세 총액입니다. 6억원 이하는 취득세 1%에 지방교육세가 더해져 약 1.1% 수준의 세금이 발생합니다. 생애 최초 주택 구입자는 200만원 한도 내에서 추가 감면 혜택을 받을 수 있습니다.</p>
+  <p>※ 실효세율은 지방교육세 포함 기준(85㎡ 이하). 85㎡ 초과 시 농어촌특별세 0.2% 추가. 취득세율은 취득일 기준 실제 보유 주택 수로 결정되며, 계약일 기준이 아닙니다. 일시적 2주택 특례, 생애최초 감면, 신혼·다자녀 감면 조건에 해당하면 세율이 낮아질 수 있습니다.</p>
+
+  <h2>주택수별 취득세 비교 시뮬레이터 — 내 상황에서 세금 차이 직접 확인</h2>
+  <p>위 계산기에서 취득 금액을 입력하고 계산하면, 동일 금액 기준으로 1주택·비조정 2주택·조정 2주택·조정 3주택·법인 각 경우의 취득세 총액을 자동으로 비교하는 시뮬레이터가 나타납니다. 특히 "현재 상황"이 형광색으로 표시되어 다른 경우와 얼마나 차이 나는지 한눈에 볼 수 있습니다.</p>
+  <p>예를 들어 8억원 아파트를 살 때, 1주택자라면 취득세가 약 1,760만원(2%)이지만 조정지역 2주택자라면 7,520만원(8%)으로 약 5,760만원이 더 발생합니다. 이 차이는 같은 물건을 사더라도 매수인의 주택 수와 지역에 따라 수천만원씩 달라질 수 있다는 것을 의미합니다. 주택 매입 전 반드시 본인의 보유 주택 수(분양권·입주권 포함)와 해당 지역의 조정대상지역 여부를 확인하세요.</p>
   <table>
-    <thead><tr><th>취득가액</th><th>취득세(1%)</th><th>지방교육세</th><th>합계</th></tr></thead>
+    <thead><tr><th>상황</th><th>5억 취득세 합계</th><th>8억 취득세 합계</th><th>10억 취득세 합계</th></tr></thead>
     <tbody>
-      <tr><td>2억원</td><td>200만원</td><td>40만원</td><td>240만원</td></tr>
-      <tr><td>3억원</td><td>300만원</td><td>60만원</td><td>360만원</td></tr>
-      <tr><td>5억원</td><td>500만원</td><td>100만원</td><td>600만원</td></tr>
-      <tr><td>6억원</td><td>600만원</td><td>120만원</td><td>720만원</td></tr>
+      <tr><td>1주택 (일반)</td><td>약 550만원 (1%)</td><td>약 1,760만원 (2%)</td><td>약 3,300만원 (3%)</td></tr>
+      <tr><td>2주택 (비조정)</td><td>약 550만원 (1%)</td><td>약 1,760만원 (2%)</td><td>약 3,300만원 (3%)</td></tr>
+      <tr><td>2주택 (조정)</td><td>약 4,400만원 (8%)</td><td>약 7,040만원 (8%)</td><td>약 8,800만원 (8%)</td></tr>
+      <tr><td>3주택↑ (조정)</td><td>약 6,600만원 (12%)</td><td>약 1억 560만원 (12%)</td><td>약 1억 3,200만원 (12%)</td></tr>
     </tbody>
   </table>
-  <div class="tip-box"><strong>💡 취득세 절감 팁.</strong> ① 생애 최초 주택 구입자는 12억원 이하 주택 취득 시 200만원 한도 감면 ② 신혼부부·다자녀 가구도 감면 혜택이 있으니 취득 전 확인 ③ 취득세 신고 기한(60일)을 놓치면 20% 가산세가 부과됩니다.</div>
+
+  <h2>생애 최초·신혼·다자녀 취득세 감면 — 조건과 절차</h2>
+  <p>취득세는 중과 부담도 크지만, 반대로 감면 혜택도 다양합니다. 생애 최초 주택 구입자는 취득가 12억원 이하 주택에 대해 최대 200만원 한도 내에서 취득세를 감면받습니다. 신혼부부(혼인 5년 이내)와 다자녀 가구(18세 미만 자녀 3인 이상)도 별도 감면 혜택이 있습니다. 이 감면 혜택들은 자동 적용되는 것이 아니라, <strong>취득 후 60일 이내에 관할 구청에 감면 신청서를 제출</strong>해야 합니다.</p>
+  <p>생애 최초 감면의 경우, 취득 후 3개월 이내 실거주 의무를 이행하지 않으면 감면된 취득세가 추징됩니다. 또한 취득 후 3년 이내에 매도·임대·증여하면 감면분이 추징될 수 있습니다. 신혼부부 감면도 마찬가지로 실거주 요건이 있으며, 소득 기준(합산 연 7,000만원 이하)을 초과하면 적용받지 못합니다. 반드시 취득 전에 관할 구청 세무과에 전화해 감면 가능 여부와 필요 서류를 사전 확인하는 것이 중요합니다.</p>
+  <table>
+    <thead><tr><th>감면 대상</th><th>감면 내용</th><th>주요 요건</th><th>주의사항</th></tr></thead>
+    <tbody>
+      <tr><td>생애 최초 주택</td><td>최대 200만원 한도 감면</td><td>본인·배우자 주택 소유 이력 없음, 12억 이하</td><td>3개월 내 실거주 의무</td></tr>
+      <tr><td>신혼부부</td><td>50% 감면 (한도 있음)</td><td>혼인 5년 이내, 합산 연 7천만원 이하</td><td>실거주 미이행 시 추징</td></tr>
+      <tr><td>다자녀 가구</td><td>30~100% 감면</td><td>18세 미만 자녀 3명 이상</td><td>지자체별 요건 상이</td></tr>
+      <tr><td>상속 주택</td><td>2.8% (무주택 0.8%)</td><td>상속 개시일부터 6개월 이내 신고</td><td>상속 주택은 5년간 중과 제외</td></tr>
+    </tbody>
+  </table>
+  <div class="tip-box"><strong>💡 취득세 절세 핵심 체크리스트:</strong><br>
+  ① <strong>취득일 기준 주택 수 확인</strong> — 계약일이 아닌 잔금일(취득일) 기준으로 주택 수 산정<br>
+  ② <strong>분양권·입주권도 주택 수 포함</strong> — 2021년 이후 취득 분양권은 주택 1채로 산정<br>
+  ③ <strong>일시적 2주택 특례 활용</strong> — 이사 목적 2주택은 기존 주택 3년 내 처분 시 일반세율 적용<br>
+  ④ <strong>조정대상지역 변경 시점 확인</strong> — 계약일과 잔금일 사이 지역 해제되면 세율 달라질 수 있음<br>
+  ⑤ <strong>60일 이내 감면 신청</strong> — 생애최초·신혼·다자녀는 자동 적용 아님, 기한 내 신청 필수</div>
+
   <h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>취득세 신고·납부 기한은 언제인가요?</summary><div class="faq-answer">취득일로부터 60일 이내에 시·군·구청에 신고·납부해야 합니다. 무신고 시 신고불성실가산세 20%, 납부지연 시 일 0.022% 가산세가 부과됩니다. 취득세는 잔금 지급일이 취득일로 인정되므로 잔금일 기준으로 60일을 계산해야 합니다.</div></details>
-  <details><summary>취득가액이 실거래가와 다르면 어떻게 계산하나요?</summary><div class="faq-answer">취득세는 실거래가 기준으로 신고합니다. 무상취득(증여·상속)은 시가표준액(공시가격)을 기준으로 합니다. 실거래가가 시가표준액보다 낮게 신고하면 세무조사 대상이 될 수 있어 반드시 실제 거래 금액으로 신고해야 합니다.</div></details>
-  <details><summary>생애 최초 취득세 감면 요건은 무엇인가요?</summary><div class="faq-answer">본인과 배우자가 주택을 소유한 사실이 없는 생애 최초 구입자로, 12억원 이하 주택 취득 시 200만원 한도로 취득세를 감면받을 수 있습니다. 취득 후 3개월 이내 실거주 요건도 충족해야 하며, 미이행 시 감면된 취득세가 추징될 수 있습니다.</div></details>
-  <details><summary>상속으로 주택을 취득할 때 취득세율은?</summary><div class="faq-answer">상속으로 인한 주택 취득세율은 2.8%(농어촌특별세·지방교육세 포함 시 약 3.16%)입니다. 무주택자 상속은 0.8%의 특례가 있으며, 상속 주택은 다주택자 중과세 산정 시 5년간 제외됩니다. 상속 취득세 신고 기한은 상속 개시일(사망일)로부터 6개월입니다.</div></details>
-  <details><summary>분양권이나 입주권 취득 시에도 취득세를 내나요?</summary><div class="faq-answer">분양권·입주권 자체의 취득세는 없지만, 준공 후 주택 취득 시 취득세가 부과됩니다. 2021년 이후 분양권·입주권도 주택 수 산정에 포함되어 다주택 중과 대상이 될 수 있으므로 계약 전 주택 수를 반드시 확인해야 합니다.</div></details>
+  <details><summary>취득세 신고·납부 기한은 언제인가요?</summary><div class="faq-answer">취득일(잔금 지급일)로부터 60일 이내에 시·군·구청에 신고·납부해야 합니다. 무신고 시 신고불성실가산세 20%, 납부지연 시 일 0.022% 가산세가 부과됩니다. 잔금 지급일이 취득일로 인정되므로 계약일이 아니라 잔금일 기준으로 60일을 계산해야 합니다. 잔금 전에 미리 은행에서 지역개발공채를 매입하고 취득세 신고서를 작성해두는 것을 추천합니다.</div></details>
+  <details><summary>생애 최초 취득세 감면 요건은 무엇인가요?</summary><div class="faq-answer">본인과 배우자가 주택을 소유한 사실이 없는 생애 최초 구입자로, 12억원 이하 주택 취득 시 200만원 한도로 취득세를 감면받을 수 있습니다. 취득 후 3개월 이내 실거주 요건도 충족해야 하며, 미이행 시 감면된 취득세가 추징됩니다. 취득 후 3년 이내 양도·임대 시에도 추징될 수 있으므로 주의하세요.</div></details>
+  <details><summary>분양권이나 입주권도 주택 수에 포함되나요?</summary><div class="faq-answer">2021년 이후 취득한 분양권·입주권은 주택 수 산정에 포함됩니다. 따라서 분양권을 보유한 상태에서 다른 주택을 취득하면 2주택자로 분류되어 취득세 중과세율이 적용될 수 있습니다. 계약 전 본인의 보유 물건(분양권·입주권 포함) 전체를 확인하세요. 단, 2020년 이전 취득한 분양권은 포함되지 않습니다.</div></details>
+  <details><summary>상속으로 주택을 취득할 때 취득세율은?</summary><div class="faq-answer">상속으로 인한 주택 취득세율은 2.8%(농어촌특별세·지방교육세 포함 시 약 3.16%)입니다. 무주택자가 상속받을 경우 0.8%의 특례세율이 적용됩니다. 상속 주택은 다주택자 중과세 산정 시 5년간 제외됩니다. 상속 취득세 신고 기한은 상속 개시일(사망일)로부터 6개월입니다.</div></details>
+  <details><summary>일시적 2주택 특례는 무엇인가요?</summary><div class="faq-answer">기존 주택 보유자가 이사 목적으로 새 주택을 취득한 경우, 기존 주택을 3년 이내에 처분하면 중과세율(8%) 대신 일반세율(1~3%)을 적용받을 수 있습니다. 수천만원의 절세 효과가 있으므로 이사를 계획 중이라면 반드시 활용하세요. 단, 취득 시점에 일시적 2주택 특례를 신고해야 하며, 3년 내 처분하지 않으면 차액이 추징됩니다.</div></details>
 </div>
 <script src="/common.js" defer></script><script src="/share.js" defer></script>
 <script src="/calculator.js" defer></script>
