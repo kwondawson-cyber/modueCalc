@@ -80,6 +80,11 @@
     .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
     .home-btn-emoji{font-size:20px;line-height:1}
     .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+    .sim-tbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px}
+    .sim-tbl th{background:var(--surface2);color:var(--text);padding:8px 10px;border:1px solid var(--border);font-weight:600}
+    .sim-tbl td{padding:7px 10px;border:1px solid var(--border);color:var(--text-muted);text-align:right}
+    .sim-tbl td:first-child{text-align:left}
+    .sim-tbl tr.hl td{color:var(--accent);font-weight:700}
   </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-E7GYSXR7WJ"></script>
@@ -183,6 +188,19 @@
       </table>
     </div>
   </div>
+
+  <div class="card" id="simCard" style="margin-top:8px">
+    <div class="card-title">⚖️ 3가지 방식 월 납입금 시뮬레이터</div>
+    <div class="input-group" style="margin-bottom:14px">
+      <label>차량 가격</label>
+      <div class="input-wrapper">
+        <input type="number" id="sim-car-price" value="3500" oninput="updateSimLease()" style="font-size:16px;padding:11px 60px 11px 16px" />
+        <span class="input-unit">만원</span>
+      </div>
+    </div>
+    <div id="simLeaseCmp"></div>
+    <p style="font-size:11px;color:var(--text-muted);margin-top:8px">※ 48개월 기준 · 할부(5.9%) · 리스(5.5%, 잔존45%) · 렌트(7.5%, 선납20%+보증금10%+잔존40%)</p>
+  </div>
 </div>
 
 <style>
@@ -225,35 +243,66 @@
     </div>
   </div>
 <div class="seo-section">
-  <h2>자동차 장기렌트·리스 계산기 — 2026년 비용과 장단점 완벽 비교</h2>
-  <h3>장기렌트·리스·할부, 어떻게 다른가?</h3>
-  <p>자동차를 이용하는 방법은 크게 세 가지입니다. <strong>할부</strong>는 내 소유의 차를 분할 구매, <strong>리스</strong>는 금융사 소유 차를 빌려 쓰다 만기 후 반납 또는 인수, <strong>장기렌트</strong>는 렌터카 회사 소유 차를 계약 기간 동안 빌려 쓰는 방식입니다. 각각 비용 구조와 장단점이 달라 본인 상황에 맞는 선택이 필요합니다.</p>
-  <p>사업자라면 리스·장기렌트 비용을 전액 또는 일부 비용처리(세금 절감)할 수 있어 세금 측면에서 유리합니다. 개인은 운행 기록부 없이 편리하게 이용할 수 있고, 보험·자동차세 등 관리 부담을 줄일 수 있습니다. 단, 총 비용 기준으로는 할부 구매가 저렴한 경우가 많습니다.</p>
-  <h3>📐 리스·렌트 월 납입금 계산 요소</h3>
-  <p>리스 월 납입금은 차량 가격, 선납금, 계약 기간, 잔존가치, 금융비용(이자율)에 따라 결정됩니다. 잔존가치를 높게 설정하면 월 납입금이 줄지만, 만기 시 반납하지 않고 인수하면 잔존가치를 지불해야 합니다.</p>
-  <div class="formula-box">리스 월 납입금 ≒ (차량가 − 선납금 − 잔존가치) × 금융비용 ÷ 기간
-+ 잔존가치 × 이자율 ÷ 12
+  <h2>장기렌트·리스 월 납입금 결정 요소와 계산 원리</h2>
+  <p>리스 또는 장기렌트의 월 납입금은 차량 가격, 선납금(선수금), 계약 기간, 잔존가치, 금융비용(이자율) 다섯 가지 요소로 결정됩니다. 잔존가치를 높게 설정하면 월 납입금이 줄어들지만, 만기 후 반납하지 않고 인수하려면 잔존가치를 별도로 지불해야 합니다.</p>
+  <p>장기렌트는 여기에 자동차보험료, 자동차세, 정비비가 월 납입금에 포함되는 경우가 많아 보기에는 리스보다 납입금이 낮아 보이지만 실제로는 총비용이 가장 높습니다. 계약 조건마다 포함·제외 항목이 다르므로 견적서의 포함 범위를 꼼꼼히 확인해야 합니다.</p>
+  <div class="formula-box">리스 월 납입금 ≒ (차량가 − 잔존가치) × 금융비용 ÷ 기간
+                   + 잔존가치 × 이자율 ÷ 12
 
-장기렌트 월 납입금: 차량가 ÷ 기간 + 보험료 + 자동차세
-+ 정비비 (업체별 포함 범위 상이)</div>
-  <h3>📊 할부 vs 리스 vs 장기렌트 비교 (3,000만원 차량 기준)</h3>
-  <p>아래 표는 동일 차량에 대한 3가지 이용 방식의 특징을 비교한 것입니다. 총 비용 기준으로는 할부가 유리하지만, 세금 혜택·관리 편의성·초기 비용 부담 등을 종합적으로 고려해야 합니다.</p>
+장기렌트 월 납입금: 차량 감가 ÷ 기간 + 보험료 + 자동차세 + 정비비
+(업체별 포함 범위 상이 → 반드시 견적서 확인)
+
+예) 3,500만원 차량 · 48개월 · 리스 5.5% · 잔존가치 45%
+  월 납입금 ≈ 약 44만원</div>
+
+  <h2>할부 vs 리스 vs 장기렌트 — 3가지 방식 완전 비교</h2>
+  <p>자동차를 이용하는 방법은 크게 세 가지입니다. 총비용만 비교하면 할부 구매가 가장 저렴하고, 장기렌트가 가장 비쌉니다. 하지만 세금 혜택, 관리 편의성, 초기 자금 부담을 함께 고려하면 상황에 따라 최적의 선택이 달라집니다.</p>
+  <p>사업자라면 리스·장기렌트 비용을 연간 1,500만원 한도 내에서 경비 처리(비용처리)할 수 있어 실질 부담이 줄어듭니다. 개인은 할부가 총비용 기준으로 유리하며, 차량 소유권이 내게 귀속되어 중고 매각도 자유롭습니다.</p>
   <table>
-    <thead><tr><th>구분</th><th>할부</th><th>리스</th><th>장기렌트</th></tr></thead>
+    <thead><tr><th>구분</th><th>할부 구매</th><th>운용리스</th><th>장기렌트</th></tr></thead>
     <tbody>
-      <tr><td>소유권</td><td>본인</td><td>금융사 (만기 인수 가능)</td><td>렌터카사</td></tr>
-      <tr><td>초기 비용</td><td>계약금 필요</td><td>보증금·선납금</td><td>없거나 적음</td></tr>
-      <tr><td>세금 혜택</td><td>없음</td><td>사업자 전액 비용처리</td><td>사업자 일부 비용처리</td></tr>
-      <tr><td>보험·세금 관리</td><td>본인</td><td>별도 처리</td><td>포함 (업체 관리)</td></tr>
-      <tr><td>총 비용</td><td>가장 저렴</td><td>중간</td><td>가장 비쌈</td></tr>
+      <tr><td>소유권</td><td>✅ 본인</td><td>❌ 금융사</td><td>❌ 렌터카사</td></tr>
+      <tr><td>초기 비용</td><td>선수금 필요</td><td>보증금·선납금</td><td>없거나 적음</td></tr>
+      <tr><td>총 비용 순위</td><td>가장 저렴</td><td>중간</td><td>가장 비쌈</td></tr>
+      <tr><td>보험·세금 관리</td><td>직접 부담</td><td>직접 부담</td><td>렌트사 포함(일부)</td></tr>
+      <tr><td>사업자 세금 혜택</td><td>없음</td><td>전액 비용처리 가능</td><td>일부 비용처리</td></tr>
+      <tr><td>만기 처리</td><td>계속 소유</td><td>반납 또는 인수</td><td>반납</td></tr>
+      <tr><td>추천 대상</td><td>개인·장기 소유 목적</td><td>사업자·세금 절감</td><td>단기·관리 편의</td></tr>
     </tbody>
   </table>
-  <div class="tip-box"><strong>💡 선택 기준 가이드.</strong> ① 개인 & 장기 소유 목적 → 할부 구매 ② 사업자 & 비용처리 필요 → 리스 ③ 단기 이용 & 관리 번거로움 줄이고 싶음 → 장기렌트. 리스·렌트 계약 시 잔존가치·위약금·사고 처리 조건을 꼼꼼히 확인하는 것이 중요합니다.</div>
+  <div class="tip-box"><strong>💡 선택 기준 요약.</strong> ① 오래 타고 싶은 개인 → 할부 구매 ② 사업자로 비용처리가 중요 → 운용리스 ③ 보험·세금 관리가 번거롭고 단기 이용 → 장기렌트. 위 시뮬레이터에서 차량 가격을 입력하면 3가지 방식의 월 납입금을 바로 비교할 수 있습니다.</div>
+
+  <h2>사업자 절세 혜택 — 리스·렌트 비용처리 가이드</h2>
+  <p>개인사업자·법인사업자는 업무용 승용차의 리스료 또는 렌트료를 경비로 처리할 수 있습니다. 단, 무제한이 아니라 연간 1,500만원 한도이며, 초과분은 다음 해로 이월됩니다. 운행일지 작성 여부와 업무 사용 비율에 따라 비용 인정 범위가 달라집니다.</p>
+  <p>운행일지를 작성하지 않으면 연간 1,500만원만 비용처리 가능하고, 운행일지를 작성하면 업무 사용 비율에 따라 최대 전액까지 인정받을 수 있습니다. 단, 임원의 고가 차량(렌트비 월 125만원 초과)은 초과분 전액을 부인당합니다.</p>
+  <table>
+    <thead><tr><th>구분</th><th>운행일지 미작성</th><th>운행일지 작성</th><th>한도</th></tr></thead>
+    <tbody>
+      <tr><td>비용처리 가능액</td><td>연 1,500만원 한도</td><td>업무 비율 × 리스료</td><td>연 1,500만원</td></tr>
+      <tr><td>업무 외 사용분</td><td>전액 부인</td><td>비율만큼 부인</td><td>-</td></tr>
+      <tr><td>고가차량 제한</td><td>월 125만원 초과분 부인</td><td>동일</td><td>연 1,500만원</td></tr>
+    </tbody>
+  </table>
+  <div class="tip-box"><strong>💡 절세 효과 예시.</strong> 법인세율 19% 구간의 사업자가 연 리스료 1,500만원을 비용처리하면 약 285만원의 세금이 절감됩니다. 소득세율이 높을수록 절세 효과가 커지므로, 고소득 사업자일수록 리스가 유리합니다. 세무사와 상담해 최적 구조를 결정하세요.</div>
+
+  <h2>계약 시 꼭 확인해야 할 체크리스트</h2>
+  <p>리스·장기렌트 계약은 한 번 맺으면 중도 해지 시 위약금이 크기 때문에 계약 전 세부 조건을 꼼꼼히 확인하는 것이 중요합니다. 특히 잔존가치 설정, 위약금 조건, 사고 시 처리 방식, 만기 반납 기준을 반드시 확인하세요.</p>
+  <table>
+    <thead><tr><th>확인 항목</th><th>내용</th><th>주의점</th></tr></thead>
+    <tbody>
+      <tr><td>잔존가치</td><td>만기 시 차량 잔여 가치</td><td>높을수록 월 납입 감소, 인수 시 추가 비용</td></tr>
+      <tr><td>중도 해지 위약금</td><td>잔여 기간 렌트료의 10~30%</td><td>계약 초기 해지일수록 위약금 증가</td></tr>
+      <tr><td>주행 거리 제한</td><td>연간 2~3만km 제한 多</td><td>초과 시 km당 추가 요금 부과</td></tr>
+      <tr><td>만기 반납 기준</td><td>공정 마모 vs 과다 손상</td><td>초과 손상 시 추가 수리비 청구</td></tr>
+      <tr><td>포함 서비스</td><td>보험·세금·정비 포함 여부</td><td>업체마다 다름 → 견적서 필수 확인</td></tr>
+    </tbody>
+  </table>
+
   <h2>자주 묻는 질문 (FAQ)</h2>
   <details><summary>리스와 장기렌트의 가장 큰 차이는?</summary><div class="faq-answer">리스는 금융 상품으로 차량 담보 대출 성격이 강합니다. 신용도가 중요하고 만기 시 잔존가치를 내고 인수 가능합니다. 장기렌트는 렌터카 계약으로 보험·세금·정비가 포함되어 관리가 편리하지만 비용이 더 높습니다. 사업자는 세금 처리 방식도 다르므로 세무사와 상담이 필요합니다.</div></details>
   <details><summary>장기렌트 중도 해지하면 어떻게 되나요?</summary><div class="faq-answer">장기렌트는 중도 해지 시 위약금이 발생합니다. 위약금은 통상 잔여 기간 렌트료의 일정 비율(10~30%)로, 계약 초기에 해지할수록 위약금이 큽니다. 계약 전 위약금 조건을 꼼꼼히 확인하고, 불확실한 경우 계약 기간을 짧게 설정하는 것이 안전합니다.</div></details>
-  <details><summary>개인사업자는 리스 비용을 100% 비용처리할 수 있나요?</summary><div class="faq-answer">업무용 승용차(3,500cc 이하 또는 5인승 이하)의 리스료는 연간 1,500만원 한도로 비용처리 가능합니다. 초과분은 다음 해로 이월합니다. 비용처리 시 운행일지 작성이 필요하며, 업무 외 사용 비율에 따라 비용 인정 범위가 달라집니다.</div></details>
-  <details><summary>리스 차량 사고 시 수리 비용은 누가 부담하나요?</summary><div class="faq-answer">리스 차량은 사고 시 본인이 가입한 자동차보험으로 처리합니다. 보험 처리 후 자기부담금은 본인 부담이며, 반납 시 과도한 흠집이나 파손은 별도 비용이 청구될 수 있습니다. 반납 기준(공정 마모 vs 과다 손상)을 계약서에서 미리 확인하는 것이 중요합니다.</div></details>
+  <details><summary>개인사업자는 리스 비용을 100% 비용처리할 수 있나요?</summary><div class="faq-answer">업무용 승용차의 리스료는 연간 1,500만원 한도로 비용처리 가능합니다. 초과분은 다음 해로 이월합니다. 비용처리 시 운행일지 작성이 필요하며, 업무 외 사용 비율에 따라 비용 인정 범위가 달라집니다.</div></details>
+  <details><summary>리스 차량 사고 시 수리 비용은 누가 부담하나요?</summary><div class="faq-answer">리스 차량은 사고 시 본인이 가입한 자동차보험으로 처리합니다. 보험 처리 후 자기부담금은 본인 부담이며, 반납 시 과도한 흠집이나 파손은 별도 비용이 청구될 수 있습니다. 반납 기준을 계약서에서 미리 확인하는 것이 중요합니다.</div></details>
   <details><summary>만기 시 인수와 반납 중 어느 게 유리한가요?</summary><div class="faq-answer">인수가 유리한 경우는 차량 상태가 좋고 중고 시세가 잔존가치보다 높을 때입니다. 반납이 유리한 경우는 차량 노후화로 유지비 증가가 예상되거나, 신차로 교체를 원할 때입니다. 만기 2~3개월 전에 동일 모델의 중고차 시세를 확인하면 인수·반납 결정에 도움이 됩니다.</div></details>
 </div>
 <script>
@@ -324,6 +373,25 @@ function calcCompare(){
   document.getElementById('c-total-l').textContent=fmt(lMonthly*term);
   document.getElementById('result-compare').classList.add('visible');
 }
+function updateSimLease() {
+  var price = parseFloat(document.getElementById('sim-car-price').value) || 3500;
+  var n = 48;
+  var hr = 5.9/100/12;
+  var hM = price * hr * Math.pow(1+hr,n) / (Math.pow(1+hr,n)-1);
+  var lr = 5.5/100/12, lPrincipal = price * 0.55;
+  var lM = lPrincipal * lr * Math.pow(1+lr,n) / (Math.pow(1+lr,n)-1);
+  var rr = 7.5/100/12, rPrincipal = price * 0.3;
+  var rM = rPrincipal * rr * Math.pow(1+rr,n) / (Math.pow(1+rr,n)-1);
+  var rInit = price * 0.3;
+  function fmtV(v) { return Math.round(v).toLocaleString() + '만원'; }
+  var html = '<table class="sim-tbl"><thead><tr><th>구분</th><th>월 납입금</th><th>초기 비용</th><th>총 납부액 (48개월)</th></tr></thead><tbody>';
+  html += '<tr><td>💳 할부 구매</td><td>' + fmtV(hM) + '</td><td>없음</td><td>' + fmtV(hM*n) + '</td></tr>';
+  html += '<tr class="hl"><td>📄 운용리스</td><td>' + fmtV(lM) + '</td><td>없음</td><td>' + fmtV(lM*n) + '</td></tr>';
+  html += '<tr><td>🚗 장기렌트</td><td>' + fmtV(rM) + '</td><td>' + fmtV(rInit) + '</td><td>' + fmtV(rInit + rM*n) + '</td></tr>';
+  html += '</tbody></table>';
+  document.getElementById('simLeaseCmp').innerHTML = html;
+}
+document.addEventListener('DOMContentLoaded', updateSimLease);
 </script>
 <script src="/common.js" defer></script><script src="/share.js" defer></script><script src="/calculator.js" defer></script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{});});}</script>

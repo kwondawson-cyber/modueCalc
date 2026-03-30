@@ -67,6 +67,11 @@
     .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
     .home-btn-emoji{font-size:20px;line-height:1}
     .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+    .sim-tbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px}
+    .sim-tbl th{background:var(--surface2);color:var(--text);padding:8px 10px;border:1px solid var(--border);font-weight:600}
+    .sim-tbl td{padding:7px 10px;border:1px solid var(--border);color:var(--text-muted);text-align:right}
+    .sim-tbl td:first-child{text-align:left}
+    .sim-tbl tr.hl td{color:var(--accent);font-weight:700}
   </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-E7GYSXR7WJ"></script>
@@ -125,6 +130,28 @@
       <div class="result-item"><div class="result-item-label">실제 구매비용</div><div class="result-item-value" id="rRealCost">-</div></div>
     </div>
   </div>
+
+  <div class="card" id="simCard" style="margin-top:8px">
+    <div class="card-title">📊 할부 기간별 비교 시뮬레이터</div>
+    <div class="row2" style="margin-bottom:14px">
+      <div class="input-group" style="margin-bottom:0">
+        <label>차량 가격</label>
+        <div class="input-wrapper">
+          <input type="number" id="sim-price" value="3000" oninput="updateSimInstall()" style="font-size:16px;padding:11px 56px 11px 16px" />
+          <span class="input-unit">만원</span>
+        </div>
+      </div>
+      <div class="input-group" style="margin-bottom:0">
+        <label>할부 금리 (연)</label>
+        <div class="input-wrapper">
+          <input type="number" id="sim-rate-inst" value="5.9" step="0.1" oninput="updateSimInstall()" style="font-size:16px;padding:11px 40px 11px 16px" />
+          <span class="input-unit">%</span>
+        </div>
+      </div>
+    </div>
+    <div id="simTableInstall"></div>
+    <p style="font-size:11px;color:var(--text-muted);margin-top:8px">※ 선수금 없음 · 원리금균등상환 기준 · 36개월 강조</p>
+  </div>
 </div>
 
 <style>
@@ -168,29 +195,61 @@
     </div>
   </div>
 <div class="seo-section">
-  <h2>자동차 할부 계산기 — 2026년 할부 이자와 총 납부액 완벽 분석</h2>
-  <h3>자동차 할부 금융, 꼼꼼히 따져야 하는 이유</h3>
-  <p>자동차 할부는 목돈 없이 차량을 구입할 수 있는 편리한 방법이지만, 할부 기간과 금리에 따라 이자 부담이 크게 달라집니다. 2026년 현재 자동차 할부 금리는 캐피탈사 기준 연 4~8% 수준으로, 할부 기간이 길수록 총 이자 부담이 늘어납니다. 60개월(5년) 할부를 이용하면 원금의 15~25%를 이자로 추가 납부하는 경우도 있습니다.</p>
-  <p>할부 조건을 비교할 때는 명목 금리뿐만 아니라 실제 APR(연 실효이자율)을 확인해야 합니다. 무이자 할부처럼 보이는 조건도 선수금(계약금) 비율이나 잔존가치 설정에 따라 실제 비용이 달라질 수 있습니다. 할부 전 총 납부액을 반드시 계산해보세요.</p>
-  <h3>📐 자동차 할부 이자 계산 공식</h3>
-  <p>자동차 할부는 원리금 균등분할 방식(매월 동일한 금액 납부)이 일반적입니다. 초기에는 이자 비중이 높고 후기에는 원금 비중이 높아집니다. 선수금(계약금)을 많이 낼수록 대출 원금이 줄어 이자 부담이 감소합니다.</p>
+  <h2>자동차 할부 이자 계산 공식 — 원리금 균등 분할의 원리</h2>
+  <p>자동차 할부는 원리금 균등분할 방식이 일반적입니다. 매월 동일한 금액을 납부하되 초기에는 이자 비중이 높고 후기로 갈수록 원금 비중이 높아지는 구조입니다. 선수금(계약금)을 많이 낼수록 대출 원금이 줄어 이자 부담이 감소하고, 할부 기간이 짧을수록 총 이자가 줄어듭니다.</p>
+  <p>2026년 현재 자동차 할부 금리는 캐피탈사 기준 연 4~8% 수준이며, 제조사 프로모션 무이자 할부를 활용하면 이자 부담을 크게 줄일 수 있습니다. 단 무이자 조건 대신 현금 할인 혜택이 제외되는 경우가 많으므로 총비용 기준으로 비교해야 합니다.</p>
   <div class="formula-box">월 납부액 = 대출원금 × [월이율 × (1+월이율)^n] ÷ [(1+월이율)^n − 1]
-월이율 = 연이율 ÷ 12
-n = 할부 개월 수
+월이율 = 연이율 ÷ 12   /   n = 할부 개월 수
+
 총 납부액 = 월 납부액 × n
-총 이자 = 총 납부액 − 대출원금</div>
-  <h3>📊 3,000만원 할부 기간별 납부액 비교 (금리 6% 기준)</h3>
-  <p>아래 표는 동일한 금리(6%)에서 할부 기간만 달리했을 때 총 이자 차이를 보여줍니다. 36개월과 60개월의 총 이자 차이는 약 150만원이 납니다. 월 납부액을 줄이려고 기간을 늘리면 총 비용이 늘어난다는 점을 항상 고려해야 합니다.</p>
+총 이자   = 총 납부액 − 대출원금
+
+예) 3,000만원 · 금리 5.9% · 36개월
+  월 납부액 ≈ 91만원 · 총 이자 ≈ 276만원</div>
+
+  <h2>3,000만원 차량 기간별·금리별 할부 납부액 비교표</h2>
+  <p>동일 금리에서 할부 기간을 늘리면 월 납입금은 줄지만 총 납부 이자는 증가합니다. 아래 표에서 36개월과 60개월의 이자 차이를 확인해보세요. 금리 1%p 차이가 60개월 기준 약 80만원의 이자 차이를 만들기 때문에 금리 비교도 반드시 필요합니다.</p>
   <table>
-    <thead><tr><th>할부 기간</th><th>월 납부액</th><th>총 이자</th><th>총 납부액</th></tr></thead>
+    <thead><tr><th>할부 기간</th><th>월 납입금 (금리 5%)</th><th>월 납입금 (금리 7%)</th><th>총 이자 (금리 5%)</th><th>총 이자 (금리 7%)</th></tr></thead>
     <tbody>
-      <tr><td>24개월</td><td>약 133,000원</td><td>약 192만원</td><td>약 3,192만원</td></tr>
-      <tr><td>36개월</td><td>약 91,300원</td><td>약 287만원</td><td>약 3,287만원</td></tr>
-      <tr><td>48개월</td><td>약 70,400원</td><td>약 379만원</td><td>약 3,379만원</td></tr>
-      <tr><td>60개월</td><td>약 58,000원</td><td>약 480만원</td><td>약 3,480만원</td></tr>
+      <tr><td>24개월</td><td>약 131만원</td><td>약 135만원</td><td>약 149만원</td><td>약 211만원</td></tr>
+      <tr><td><strong>36개월</strong></td><td><strong>약 90만원</strong></td><td><strong>약 93만원</strong></td><td><strong>약 223만원</strong></td><td><strong>약 316만원</strong></td></tr>
+      <tr><td>48개월</td><td>약 69만원</td><td>약 72만원</td><td>약 299만원</td><td>약 423만원</td></tr>
+      <tr><td>60개월</td><td>약 57만원</td><td>약 59만원</td><td>약 377만원</td><td>약 534만원</td></tr>
+      <tr><td>72개월</td><td>약 48만원</td><td>약 50만원</td><td>약 456만원</td><td>약 648만원</td></tr>
     </tbody>
   </table>
-  <div class="tip-box"><strong>💡 할부 비용 줄이는 방법.</strong> ① 선수금(계약금)을 높여 대출 원금 축소 ② 제조사 무이자 할부 프로모션 활용 ③ 중도상환 수수료 확인 후 여유 자금 생기면 조기 상환 ④ 캐피탈사·은행 할부 금리 비교 (카드 할부보다 캐피탈 자동차 할부가 유리한 경우 많음). 금리 1%p 차이가 3,000만원 60개월 기준 약 80만원 차이를 만듭니다.</div>
+  <div class="tip-box"><strong>💡 위 시뮬레이터를 활용하면</strong> 원하는 차량 가격과 금리를 입력해 기간별 납입금을 바로 비교할 수 있습니다. 36개월이 이자와 월 부담의 균형이 가장 좋습니다.</div>
+
+  <h2>자동차 할부 비용 줄이는 현실적인 전략</h2>
+  <p>자동차 할부 비용을 줄이는 가장 효과적인 방법은 선수금을 높이는 것입니다. 선수금을 차량가의 20%만 올려도 이자 부담이 그만큼 줄어들고, 월 납입금도 낮아집니다. 또한 제조사에서 특정 기간 동안 제공하는 무이자 할부 프로모션을 적극 활용하면 이자를 아예 내지 않을 수도 있습니다.</p>
+  <p>중도상환을 고려한다면 계약 시 중도상환 수수료(통상 잔여 원금의 1~2%) 조건을 반드시 확인해야 합니다. 여유 자금이 생겼을 때 중도상환하면 남은 원금에 대한 이자만 내면 되므로 절감 효과가 큽니다. 단, 수수료가 절감 이자보다 높으면 오히려 손해이므로 계산이 필요합니다.</p>
+  <table>
+    <thead><tr><th>절감 전략</th><th>효과</th><th>주의사항</th></tr></thead>
+    <tbody>
+      <tr><td>선수금 높이기</td><td>원금·이자 동시 절감</td><td>초기 현금 부담 증가</td></tr>
+      <tr><td>제조사 무이자 할부</td><td>이자 0%</td><td>현금 할인 혜택 포기</td></tr>
+      <tr><td>기간 단축 (60→36개월)</td><td>이자 약 150만원 절감</td><td>월 납입금 증가</td></tr>
+      <tr><td>금리 비교 후 선택</td><td>1%p 차 → 약 80만원 절감</td><td>캐피탈·은행 모두 비교</td></tr>
+      <tr><td>중도 상환</td><td>남은 이자 절감</td><td>수수료 조건 먼저 확인</td></tr>
+    </tbody>
+  </table>
+
+  <h2>할부 vs 리스 vs 장기렌트 — 총비용 기준 선택 가이드</h2>
+  <p>자동차를 이용하는 방식에는 할부 구매, 운용리스, 장기렌트의 세 가지가 있습니다. 총비용만 비교하면 할부 구매가 가장 저렴한 경우가 많지만, 세금 혜택·관리 편의성·초기 비용 부담을 함께 고려해야 합니다. 사업자는 리스·렌트 비용을 경비 처리할 수 있어 실질 세금 절감 효과가 큽니다.</p>
+  <table>
+    <thead><tr><th>구분</th><th>할부 구매</th><th>운용리스</th><th>장기렌트</th></tr></thead>
+    <tbody>
+      <tr><td>소유권</td><td>✅ 본인</td><td>❌ 금융사</td><td>❌ 렌터카사</td></tr>
+      <tr><td>초기 비용</td><td>선수금 필요</td><td>보증금/선납금</td><td>없거나 적음</td></tr>
+      <tr><td>총 비용</td><td>가장 저렴</td><td>중간</td><td>가장 비쌈</td></tr>
+      <tr><td>보험·세금</td><td>직접 부담</td><td>직접 부담</td><td>렌트사 포함</td></tr>
+      <tr><td>사업자 세금 혜택</td><td>없음</td><td>전액 비용처리 가능</td><td>일부 비용처리</td></tr>
+      <tr><td>추천 대상</td><td>개인·장기 소유</td><td>사업자·비용처리</td><td>단기·관리 편의</td></tr>
+    </tbody>
+  </table>
+  <div class="tip-box"><strong>💡 선택 기준 요약.</strong> ① 개인이 오래 타고 싶다 → 할부 구매 ② 사업자로 비용처리가 중요하다 → 운용리스 ③ 보험·세금 관리 번거롭고 단기 이용이다 → 장기렌트. 총비용 기준으로는 할부 > 리스 > 렌트 순으로 저렴합니다.</div>
+
   <h2>자주 묻는 질문 (FAQ)</h2>
   <details><summary>자동차 할부와 리스의 차이는 무엇인가요?</summary><div class="faq-answer">할부는 최종적으로 차량 소유권이 본인에게 귀속됩니다. 리스는 금융사(리스사)가 소유하고 본인이 빌려 쓰는 형태로, 만기 후 반납하거나 잔존가치를 내고 인수합니다. 사업자는 리스료 전액을 비용처리할 수 있어 세금 절감 효과가 있지만, 개인은 할부가 일반적으로 총 비용이 적습니다.</div></details>
   <details><summary>중도상환을 하면 이자 절감이 될까요?</summary><div class="faq-answer">네. 원리금 균등 방식에서 중도상환하면 남은 원금에 대한 이자만 내면 되므로 이자를 절감할 수 있습니다. 단, 중도상환 수수료(통상 잔여 원금의 1~2%)가 있을 수 있으므로 절감되는 이자와 비교해 유리한지 확인해야 합니다. 계약 시 중도상환 수수료 조건을 꼭 확인하세요.</div></details>
@@ -221,6 +280,23 @@ function calcHalbu() {
   document.getElementById('rRealCost').textContent  = fmt(realCost);
   document.getElementById('result').classList.add('visible');
 }
+function updateSimInstall() {
+  var price = parseFloat(document.getElementById('sim-price').value) || 3000;
+  var annRate = parseFloat(document.getElementById('sim-rate-inst').value) || 5.9;
+  var r = annRate / 100 / 12;
+  var terms = [24, 36, 48, 60, 72];
+  var html = '<table class="sim-tbl"><thead><tr><th>할부 기간</th><th>월 납입금</th><th>총 이자</th><th>총 납부액</th></tr></thead><tbody>';
+  terms.forEach(function(n) {
+    var m = r > 0 ? price * r * Math.pow(1+r,n) / (Math.pow(1+r,n)-1) : price/n;
+    var total = m * n;
+    var interest = total - price;
+    var hl = n === 36 ? ' class="hl"' : '';
+    html += '<tr' + hl + '><td>' + n + '개월</td><td>' + Math.round(m).toLocaleString() + '만원</td><td>' + Math.round(interest).toLocaleString() + '만원</td><td>' + Math.round(total).toLocaleString() + '만원</td></tr>';
+  });
+  html += '</tbody></table>';
+  document.getElementById('simTableInstall').innerHTML = html;
+}
+document.addEventListener('DOMContentLoaded', updateSimInstall);
 </script>
 <script src="/common.js" defer></script><script src="/share.js" defer></script><script src="/calculator.js" defer></script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{});});}</script>
