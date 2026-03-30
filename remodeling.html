@@ -186,6 +186,31 @@
       <div id="breakdownList"></div>
     </div>
   </div>
+
+  <!-- 평수별 견적 즉시 비교 simCard -->
+  <div class="card" id="simCard">
+    <div class="card-title">📊 평수별 견적 즉시 비교 (중급형 풀리모델링 기준)</div>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">도배·마루·욕실 1개·주방·창호·조명 전체 포함 기준입니다. 공사 범위에 따라 실제 비용은 달라집니다.</p>
+    <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:13px">
+        <thead><tr>
+          <th style="padding:8px 12px;text-align:left;background:var(--surface2);color:var(--text-muted);border:1px solid var(--border)">전용면적</th>
+          <th style="padding:8px 10px;text-align:right;background:var(--surface2);color:var(--text-muted);border:1px solid var(--border)">최소</th>
+          <th style="padding:8px 10px;text-align:right;background:var(--surface2);color:#00d4aa;border:1px solid var(--border)">중간 (중급형)</th>
+          <th style="padding:8px 10px;text-align:right;background:var(--surface2);color:var(--text-muted);border:1px solid var(--border)">최대</th>
+        </tr></thead>
+        <tbody>
+          <tr><td style="padding:8px 12px;border:1px solid var(--border);color:var(--text)">10평 이하 (원룸)</td><td style="padding:8px 10px;border:1px solid var(--border);text-align:right;color:var(--text-muted)">약 200만</td><td style="padding:8px 10px;border:1px solid var(--border);text-align:right;color:#00d4aa;font-weight:700">약 450만</td><td style="padding:8px 10px;border:1px solid var(--border);text-align:right;color:var(--text-muted)">약 800만</td></tr>
+          <tr style="background:rgba(255,255,255,0.01)"><td style="padding:8px 12px;border:1px solid var(--border);color:var(--text)">20평 (투룸)</td><td style="padding:8px 10px;border:1px solid var(--border);text-align:right;color:var(--text-muted)">약 500만</td><td style="padding:8px 10px;border:1px solid var(--border);text-align:right;color:#00d4aa;font-weight:700">약 1,000만</td><td style="padding:8px 10px;border:1px solid var(--border);text-align:right;color:var(--text-muted)">약 1,800만</td></tr>
+          <tr><td style="padding:8px 12px;border:1px solid var(--border);color:var(--text)">25평 (소형 아파트)</td><td style="padding:8px 10px;border:1px solid var(--border);text-align:right;color:var(--text-muted)">약 700만</td><td style="padding:8px 10px;border:1px solid var(--border);text-align:right;color:#00d4aa;font-weight:700">약 1,500만</td><td style="padding:8px 10px;border:1px solid var(--border);text-align:right;color:var(--text-muted)">약 2,800만</td></tr>
+          <tr style="background:rgba(0,212,170,0.04)"><td style="padding:8px 12px;border:1px solid var(--border);color:var(--text);font-weight:700">32평 (국민 평형)</td><td style="padding:8px 10px;border:1px solid var(--border);text-align:right;color:var(--text-muted)">약 1,000만</td><td style="padding:8px 10px;border:1px solid var(--border);text-align:right;color:#00d4aa;font-weight:900">약 2,200만</td><td style="padding:8px 10px;border:1px solid var(--border);text-align:right;color:var(--text-muted)">약 3,800만</td></tr>
+          <tr><td style="padding:8px 12px;border:1px solid var(--border);color:var(--text)">40평 이상 (중형)</td><td style="padding:8px 10px;border:1px solid var(--border);text-align:right;color:var(--text-muted)">약 1,500만</td><td style="padding:8px 10px;border:1px solid var(--border);text-align:right;color:#00d4aa;font-weight:700">약 3,000만</td><td style="padding:8px 10px;border:1px solid var(--border);text-align:right;color:var(--text-muted)">약 5,000만</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="margin-top:8px;font-size:11px;color:var(--text-muted);line-height:1.7">※ 서울·수도권은 인건비 15~25% 할증. 자재 등급에 따라 보급형은 −30~40%, 프리미엄은 +50~100% 차이 발생.</div>
+  </div>
+
 </div>
 
 <div class="rel-section">
@@ -228,6 +253,7 @@
 
   <h2>공사 종류별 평균 단가 (2026년 기준)</h2>
   <p>아래 단가는 전국 평균 기준입니다. 서울·경기 수도권은 인건비가 15~25% 높고, 지방은 낮은 경향이 있습니다. 자재 등급(보급형·중급형·프리미엄)에 따라 단가 차이가 2~3배까지 벌어집니다.</p>
+  <p>위 계산기에서 평수와 자재 등급, 공사 항목을 선택하면 아래 단가 기준으로 자동 계산됩니다. 실제 견적 요청 시 이 단가를 기준선으로 활용하면 터무니없이 높은 견적을 걸러내는 데 도움이 됩니다.</p>
   <table>
     <thead><tr><th>공사 종류</th><th>단위</th><th>보급형</th><th>중급형</th><th>프리미엄</th></tr></thead>
     <tbody>
@@ -245,6 +271,7 @@
 
   <h2>평수별 전체 리모델링 예상 비용 — 중급형 기준</h2>
   <p>아래 표는 도배·마루·욕실 1개·주방·창호·조명을 포함한 '풀 리모델링' 기준입니다. 부분 시공이라면 공사 항목 비중에 따라 비용이 달라집니다.</p>
+  <p>위 계산기에서 평수와 원하는 공사 항목을 직접 선택하면 더 정확한 견적을 확인할 수 있습니다. 아래 표는 업체 비교 전 예산 설정 참고용으로 활용하세요.</p>
   <table>
     <thead><tr><th>전용 면적</th><th>최소 견적</th><th>중간 견적</th><th>최대 견적</th><th>참고</th></tr></thead>
     <tbody>
@@ -265,6 +292,7 @@
 
   <h2>리모델링 공사 순서와 체크리스트</h2>
   <p>리모델링은 공사 순서가 중요합니다. 잘못된 순서로 진행하면 완성된 공정을 다시 뜯어야 하는 상황이 발생할 수 있습니다. 일반적인 공사 순서는 다음과 같습니다.</p>
+  <p>공사 전 반드시 관리사무소에 공사 신청을 해야 합니다. 아파트마다 허용 공사 시간(보통 평일 오전 9시~오후 5시)과 금지 공사 유형이 다릅니다. 층간소음을 일으키는 철거·드릴 작업은 특히 민원이 발생하기 쉬우므로 이웃에게 사전 안내하는 것이 좋습니다.</p>
   <table>
     <thead><tr><th>순서</th><th>공사 내용</th><th>주의 사항</th></tr></thead>
     <tbody>
@@ -279,6 +307,8 @@
   </table>
 
   <h2>자주 묻는 질문 — 리모델링 비용</h2>
+  <p>리모델링 계획 시 자주 묻는 6가지 질문을 정리했습니다. 자재 선택, 공사 기간, 세입자 공사 가능 여부, 하자 보증, 계약 시 확인 사항 등 실제 공사 전 반드시 알아야 할 내용입니다.</p>
+  <p>리모델링 계약 시 가장 많이 발생하는 분쟁은 견적서에 없던 추가 비용 청구와 자재 등급 임의 변경입니다. 계약 전 자재 브랜드·모델명·규격을 견적서에 명시하게 하고, 추가 공사 발생 시 사전 서면 동의를 의무화하는 조항을 넣는 것이 분쟁 예방의 핵심입니다.</p>
   <details><summary>강마루와 강화마루의 차이는 무엇인가요?</summary><div class="faq-answer">강마루는 원목 무늬목을 HDF 합판에 접착해 실제 나무 질감이 납니다. 강화마루는 멜라민 필름으로 처리해 내구성이 높고 가격이 저렴합니다. 강마루가 강화마루보다 고급이지만 비용이 30~50% 높습니다. 바닥 온도 차이가 큰 공간(1층, 보일러 바닥 위)에는 강화마루가 더 안정적입니다.</div></details>
   <details><summary>욕실 리모델링 공사 기간은 얼마나 걸리나요?</summary><div class="faq-answer">1개 욕실 기준 철거부터 완공까지 3~5일이 소요됩니다. 타일 시공 후 방수 건조 시간(최소 24~48시간)이 필요해 이 기간 욕실 사용이 불가합니다. 욕실이 2개라면 순차 시공으로 총 7~10일 예상합니다. 여름 장마철에는 방수 건조가 느려져 일정이 늘어날 수 있습니다.</div></details>
   <details><summary>세입자(임차인)도 인테리어 공사를 할 수 있나요?</summary><div class="faq-answer">임차인이 리모델링하려면 임대인(집주인)의 서면 동의가 필요합니다. 구두 동의만으로는 분쟁이 생길 수 있으니 반드시 서면으로 받으세요. 임대차계약서에 인테리어 허용 조항과 퇴거 시 원상복구 여부를 명시하는 것이 안전합니다.</div></details>
@@ -372,13 +402,13 @@
   }
 
   window.onload = () => {
-    // 초기 체크 상태 동기화
     ['wallpaper'].forEach(id => {
       const el = document.getElementById('ci-' + id);
       if (el) el.classList.add('checked');
     });
     document.getElementById('ci-floor').classList.add('checked');
     document.getElementById('floor').checked = true;
+    calc();
   };
 </script>
 <script src="/common.js" defer></script><script src="/share.js" defer></script>
