@@ -217,7 +217,7 @@ function calcHandicap(){
   calcCourseHcp();
 }
 
-function calcCourseHcp(){
+function calcHandicap(){
   const hcp = parseFloat(document.getElementById('hcpValue').textContent);
   if(isNaN(hcp)) return;
   const slope  = parseFloat(document.getElementById('ch-slope').value) || 113;
@@ -234,7 +234,61 @@ function calcCourseHcp(){
   el.innerHTML = html;
   el.style.display = 'block';
 }
+
+function simDiff() {
+  const score  = parseFloat(document.getElementById('sim-score').value) || 90;
+  const rating = parseFloat(document.getElementById('sim-rating').value) || 72.0;
+  const tbody  = document.getElementById('sim-tbody');
+  if (!tbody) return;
+  const slopes = [
+    { label:'쉬운 코스 (슬로프 95)',      slope:95  },
+    { label:'보통 코스 (슬로프 113)',      slope:113 },
+    { label:'어려운 코스 (슬로프 125)',    slope:125 },
+    { label:'매우 어려운 코스 (슬로프 140)',slope:140 },
+  ];
+  tbody.innerHTML = slopes.map(s => {
+    const diff   = ((score - rating) * 113 / s.slope).toFixed(1);
+    const hcpEst = (parseFloat(diff) * 0.96).toFixed(1);
+    return `<tr>
+      <td style="padding:8px 12px;border:1px solid #30363d;color:#e6edf3">${s.label}</td>
+      <td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#00d4aa;font-weight:700">${diff}</td>
+      <td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#8b949e">${hcpEst}</td>
+    </tr>`;
+  }).join('');
+}
+window.addEventListener('DOMContentLoaded', simDiff);
 </script>
+
+<!-- simCard: 타수별 스코어 차등 즉시 비교 -->
+<div style="max-width:800px;margin:0 auto;padding:0 20px 16px">
+  <div style="background:#161b22;border:1px solid #30363d;border-radius:16px;padding:24px" id="simCard">
+    <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:#00d4aa;text-transform:uppercase;margin-bottom:10px">⚡ 타수 입력 → 코스 난이도별 차등 즉시 비교</div>
+    <p style="font-size:12px;color:#8b949e;margin-bottom:14px;line-height:1.7">한 라운드 타수와 코스 레이팅을 입력하면 슬로프 레이팅(코스 난이도)별 스코어 차등을 즉시 계산합니다.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+      <div>
+        <div style="font-size:11px;color:#8b949e;margin-bottom:6px">타수</div>
+        <input type="number" id="sim-score" value="90" min="50" max="150"
+          oninput="simDiff()"
+          style="width:100%;background:#21262d;border:1px solid #30363d;border-radius:8px;padding:10px 12px;font-size:17px;font-weight:700;color:#e6edf3;font-family:inherit;outline:none" />
+      </div>
+      <div>
+        <div style="font-size:11px;color:#8b949e;margin-bottom:6px">코스 레이팅</div>
+        <input type="number" id="sim-rating" value="72.0" step="0.1" min="60" max="80"
+          oninput="simDiff()"
+          style="width:100%;background:#21262d;border:1px solid #30363d;border-radius:8px;padding:10px 12px;font-size:17px;font-weight:700;color:#e6edf3;font-family:inherit;outline:none" />
+      </div>
+    </div>
+    <table style="width:100%;border-collapse:collapse;font-size:13px">
+      <thead><tr>
+        <th style="padding:8px 12px;text-align:left;background:#21262d;color:#8b949e;border:1px solid #30363d">코스 유형</th>
+        <th style="padding:8px 10px;text-align:center;background:#21262d;color:#00d4aa;border:1px solid #30363d">스코어 차등</th>
+        <th style="padding:8px 10px;text-align:center;background:#21262d;color:#8b949e;border:1px solid #30363d">단일 라운드 핸디캡 추정</th>
+      </tr></thead>
+      <tbody id="sim-tbody"></tbody>
+    </table>
+    <div style="margin-top:8px;font-size:11px;color:#8b949e;line-height:1.7">※ 공식 핸디캡 지수는 최근 20라운드 중 상위 차등의 평균 × 0.96으로 결정됩니다. 단일 라운드 추정치는 참고용입니다.</div>
+  </div>
+</div>
 
 </div>
 
@@ -326,6 +380,8 @@ function calcCourseHcp(){
   <div class="tip-box"><strong>💡 핸디캡 공식 등록 방법.</strong> ① 대한골프협회(KGA, kgagolf.or.kr) 홈페이지에서 회원 가입 후 라운드 스코어 등록 ② 소속 골프클럽이나 스크린골프 앱(카카오골프·골프존 등)을 통한 등록도 가능 ③ WHS 공인 앱(18Birdies, Golfshot, The Handicap Network 등)에서도 핸디캡 추적 가능 ④ 공식 대회 출전 시 반드시 KGA 공인 핸디캡 필요</div>
 
   <h2>자주 묻는 질문 (FAQ)</h2>
+  <p>골프 핸디캡 계산에서 자주 헷갈리는 5가지 질문을 정리했습니다. 초보자의 임시 핸디캡 부여 방법, 네트 스코어 계산법, 핸디캡 등록 방법 등 실전에 바로 적용할 수 있는 내용입니다.</p>
+  <p>공식 핸디캡 등록은 대한골프협회(KGA, kgagolf.or.kr) 회원 가입 후 라운드 스코어를 제출하면 됩니다. WHS 공인 앱(18Birdies, Golfshot 등)을 활용해도 핸디캡 추적이 가능합니다.</p>
   <details><summary>핸디캡이 없는 초보자는 어떻게 경기에 참가하나요?</summary><div class="faq-answer">초보자는 WHS 시스템에서 최대 54.0의 임시 핸디캡으로 시작할 수 있습니다. 최소 3라운드 이상의 스코어 카드를 제출하면 공식 핸디캡 인덱스가 부여됩니다. 친선 경기에서는 자신의 평균 스코어를 기반으로 임의 핸디캡을 설정하기도 합니다.</div></details>
   <details><summary>네트 스코어와 그로스 스코어의 차이는?</summary><div class="faq-answer">그로스 스코어는 핸디캡 없이 실제로 친 총 타수입니다. 네트 스코어는 그로스 스코어에서 코스 핸디캡을 뺀 점수로, 핸디캡 경기에서는 네트 스코어로 순위를 결정합니다. 예를 들어 핸디캡 18인 골퍼가 90타를 치면 네트 스코어는 72(파 기준 스크래치)가 됩니다.</div></details>
   <details><summary>버디·이글·파 등 골프 용어는 어떤 의미인가요?</summary><div class="faq-answer">파(Par)는 각 홀의 기준 타수입니다. 버디(Birdie)는 파보다 1타 적게, 이글(Eagle)은 2타 적게, 알바트로스(Albatross)는 3타 적게 홀인한 것입니다. 보기(Bogey)는 파보다 1타 많게, 더블보기는 2타 많게 친 것입니다. 홀인원은 1타에 홀인하는 것으로 골프 최고의 성과입니다.</div></details>

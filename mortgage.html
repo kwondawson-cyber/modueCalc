@@ -171,6 +171,24 @@
       <div class="prepay-result" id="prepayResult" style="display:none"></div>
     </div>
   </div>
+
+  <!-- 대출금액별 월납입 비교 simCard -->
+  <div class="card" id="simCard">
+    <div class="card-title">⚡ 대출금액별 월납입 즉시 비교</div>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">현재 입력한 금리·기간 기준으로 주요 대출금액별 월 납입액과 총이자를 한눈에 비교합니다. (원리금균등 기준)</p>
+    <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:13px">
+        <thead><tr>
+          <th style="padding:8px 12px;text-align:left;background:var(--surface2);color:var(--text-muted);border:1px solid var(--border)">대출 원금</th>
+          <th style="padding:8px 10px;text-align:right;background:var(--surface2);color:#00d4aa;border:1px solid var(--border)">월 납입액</th>
+          <th style="padding:8px 10px;text-align:right;background:var(--surface2);color:var(--danger);border:1px solid var(--border)">총 이자</th>
+        </tr></thead>
+        <tbody id="sim-mortgage-body"></tbody>
+      </table>
+    </div>
+    <div style="margin-top:8px;font-size:11px;color:var(--text-muted);line-height:1.7">※ 금리·기간을 변경하고 계산 버튼을 누르면 업데이트됩니다.</div>
+  </div>
+
 </div>
 
 <div class="rel-section">
@@ -226,6 +244,7 @@
 
   <h2>원리금균등 vs 원금균등, 어느 방식이 유리한가</h2>
   <p>주택담보대출 상환 방식은 크게 두 가지입니다. <strong>원리금균등상환</strong>은 매달 동일한 금액을 납입하는 방식으로 생활비 예산을 짜기 쉽습니다. <strong>원금균등상환</strong>은 매달 갚는 원금이 동일하고 이자는 줄어드는 구조로, 초기 납입액이 높지만 총이자 부담이 가장 적습니다. 5억 원, 연 4%, 30년 기준으로 비교하면 원금균등이 원리금균등보다 총이자를 약 1,000만 원 이상 아낄 수 있습니다.</p>
+  <p>어느 방식이 맞는지는 소득 패턴에 달려 있습니다. 초기 소득 여유가 있는 맞벌이·고소득자라면 초기 납입이 높더라도 총이자가 적은 원금균등을 선택하는 것이 유리합니다. 반대로 초기 생활비 부담이 크다면 원리금균등을 선택하고, 나중에 여유 생기면 조기상환으로 이자를 줄이는 전략이 현실적입니다.</p>
   <table>
     <thead><tr><th>상환 방식</th><th>초기 월납입 (5억·4%·30년)</th><th>총 이자 부담</th><th>적합한 경우</th></tr></thead>
     <tbody>
@@ -236,6 +255,7 @@
 
   <h2>DSR·LTV 규제 — 내가 받을 수 있는 한도 계산법</h2>
   <p><strong>LTV(주택담보대출비율)</strong>는 집값 대비 최대 대출 가능 비율입니다. 투기과열지구(서울 일부)에서는 LTV 40%, 조정대상지역은 50%, 비규제지역은 70%가 적용됩니다. <strong>DSR(총부채원리금상환비율)</strong>은 연간 모든 대출 원리금 합계가 연소득의 40%(은행권)를 초과할 수 없는 규제입니다. 예를 들어 연봉 6,000만 원이라면 연간 원리금 한도는 2,400만 원, 월 200만 원이 됩니다. 기존 자동차 할부·신용대출도 DSR에 포함되므로 반드시 함께 계산해야 합니다.</p>
+  <p>DSR 한도 내에서 실제 대출 가능 금액을 역산하면, 연봉 6,000만원 기준 월 200만원 납입 가능 → 연 4%, 30년 조건에서 약 4억 1,900만원까지 대출이 가능합니다. 위 계산기의 대출금액별 비교 시뮬레이터에서 본인 납입 여력에 맞는 대출 규모를 먼저 확인하세요.</p>
   <table>
     <thead><tr><th>규제 지역</th><th>LTV 한도</th><th>DSR 한도 (은행권)</th><th>비고</th></tr></thead>
     <tbody>
@@ -255,14 +275,18 @@
   <p>단, 대출 실행 후 3년 이내에는 보통 잔액의 0.5~1.5% 중도상환수수료가 부과됩니다. 수수료보다 절감 이자가 크다면 조기상환이 유리합니다. 위 계산기의 <strong>조기상환 시뮬레이션</strong>에 추가 납입액을 입력하면 절감 효과를 바로 확인할 수 있습니다.</p>
 
   <h2>주택담보대출 금리를 낮추는 현실적인 방법</h2>
+  <p>대출 실행 후에도 금리를 낮출 수 있는 방법이 여러 가지 있습니다. 가장 비용이 들지 않는 방법은 금리 인하 요구권 행사와 우대금리 조건 충족이며, 더 큰 절감을 원한다면 대환대출(갈아타기)을 검토할 수 있습니다.</p>
   <ul>
     <li><strong>금리 인하 요구권 행사</strong> — 승진, 소득 증가, 신용점수 상승 시 은행에 금리 인하를 요구할 수 있는 법적 권리입니다. 6개월에 1회 신청 가능하며, 평균 0.1~0.5%p 인하 효과를 기대할 수 있습니다.</li>
     <li><strong>대환대출(갈아타기)</strong> — 더 낮은 금리 상품으로 이동하는 방법입니다. 온라인 주담대 대환 플랫폼을 통해 간편 비교가 가능합니다. 중도상환수수료와 기대 절감 이자를 비교하세요.</li>
     <li><strong>고정금리 vs 변동금리 선택</strong> — 금리 상승기에는 고정금리가 유리하고, 하락기에는 변동금리가 유리합니다. 현재 금리 수준과 향후 방향성을 고려해 선택하세요.</li>
     <li><strong>우대금리 조건 충족</strong> — 급여이체, 자동이체, 신용카드 사용 실적 등 거래 조건을 충족하면 0.1~0.5%p 우대금리를 받을 수 있습니다.</li>
   </ul>
+  <p>금리 인하 요구권은 행사하지 않으면 자동으로 반영되지 않습니다. 소득이 늘거나 신용점수가 오른 시점에 바로 신청하는 것이 중요합니다. 연간 주담대 이자가 1,000만 원이라면 0.3%p만 낮춰도 매년 약 15만~30만 원을 절약할 수 있습니다.</p>
 
   <h2>자주 묻는 질문 — 주택담보대출</h2>
+  <p>주택담보대출 실행 전후에 자주 묻는 7가지 질문을 정리했습니다. 상환 방식 선택, DSR·LTV 차이, 중도상환수수료, 이자 세금 공제 등 실제 계약 전에 반드시 확인해야 할 내용입니다.</p>
+  <p>대출 조건은 은행별·시기별로 크게 달라질 수 있습니다. 최종 결정 전 2~3개 은행의 조건을 비교하고, 금리 인하 요구권과 우대금리 조건도 함께 확인하세요. 온라인 주담대 대환 플랫폼을 활용하면 간편하게 비교할 수 있습니다.</p>
   <details><summary>원리금균등과 원금균등 중 어느 것이 유리한가요?</summary><div class="faq-answer">총이자만 보면 원금균등이 유리합니다. 5억 원, 연 4%, 30년 기준으로 원금균등이 원리금균등보다 약 1,000만 원 이상 이자를 아낄 수 있습니다. 하지만 초기 월납입이 높기 때문에 소득 여유가 있을 때만 선택할 수 있습니다. 초기 부담이 크다면 원리금균등을 선택하고 여유 생길 때 추가 납입하는 전략도 효과적입니다.</div></details>
   <details><summary>LTV와 DSR의 차이는 무엇인가요?</summary><div class="faq-answer">LTV(주택담보대출비율)는 집값 대비 대출금의 비율로, 담보 가치 기준의 규제입니다. DSR(총부채원리금상환비율)은 내 연소득 대비 연간 원리금 합계의 비율로, 상환 능력 기준의 규제입니다. 대출 한도는 두 규제 중 더 제한적인 기준이 적용됩니다.</div></details>
   <details><summary>변동금리와 고정금리, 어느 것을 선택해야 하나요?</summary><div class="faq-answer">현재 금리 수준과 향후 금리 전망에 따라 다릅니다. 금리 하락이 예상되면 변동금리가 유리하고, 금리 상승이 예상되면 고정금리가 안정적입니다. 초기 고정 후 변동으로 전환되는 혼합형(5년 고정)도 많이 선택합니다. 장기적으로 보면 금리 예측은 어렵기 때문에 상환 부담을 감당할 수 있는 상한 금리 기준으로 판단하는 것이 현명합니다.</div></details>
@@ -357,6 +381,7 @@
     document.getElementById('r-ratio').textContent = (totalInterest / P * 100).toFixed(1) + '%';
     document.getElementById('resultCard').classList.add('visible');
     calcPrepay();
+    simMortgage();
   }
 
   function calcPrepay() {
@@ -388,7 +413,36 @@
     el.style.display = 'block';
   }
 
-  window.onload = () => { updateLoanAmount(); ['homePrice'].forEach(id => showComma(document.getElementById(id))); };
+  window.onload = () => {
+    updateLoanAmount();
+    ['homePrice'].forEach(id => showComma(document.getElementById(id)));
+    calc();
+    simMortgage();
+  };
+
+  function simMortgage() {
+    const annualRate = parseFloat(document.getElementById('rate').value) || 4.0;
+    const years = parseInt(document.getElementById('period').value) || 30;
+    const r = annualRate / 100 / 12;
+    const n = years * 12;
+    const LOANS = [200000000, 300000000, 400000000, 500000000, 700000000];
+    const tbody = document.getElementById('sim-mortgage-body');
+    if (!tbody) return;
+    tbody.innerHTML = LOANS.map(P => {
+      const monthly = r === 0 ? P/n : P * r * Math.pow(1+r,n) / (Math.pow(1+r,n)-1);
+      const totalInterest = monthly * n - P;
+      const f = v => Math.round(v).toLocaleString('ko-KR');
+      const eok = v => {
+        const e = Math.floor(v/100000000), m = Math.round((v%100000000)/10000);
+        return e > 0 ? (m > 0 ? `${e}억 ${m.toLocaleString()}만` : `${e}억`) : `${m.toLocaleString()}만`;
+      };
+      return `<tr>
+        <td style="padding:8px 12px;border:1px solid var(--border);color:var(--text);font-weight:700">${eok(P)}원</td>
+        <td style="padding:8px 10px;border:1px solid var(--border);text-align:right;color:#00d4aa;font-weight:900">${f(monthly)}원</td>
+        <td style="padding:8px 10px;border:1px solid var(--border);text-align:right;color:var(--danger)">${eok(totalInterest)}원</td>
+      </tr>`;
+    }).join('');
+  }
 </script>
 
 <script src="/common.js" defer></script><script src="/share.js" defer></script>

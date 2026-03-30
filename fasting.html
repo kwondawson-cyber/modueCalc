@@ -104,7 +104,9 @@
 
     <div class="input-group">
       <label>마지막 식사를 마친 시간 (또는 지금 시작할 시간)</label>
-      <input type="time" id="lastMeal" value="20:00" />
+      <input type="time" id="lastMeal" value="20:00"
+        onclick="try{this.showPicker()}catch(e){}"
+        oninput="calc()" />
     </div>
 
     <button class="calc-btn" onclick="calc()">⏱ 단식 시간 계산하기</button>
