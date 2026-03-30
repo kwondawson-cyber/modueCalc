@@ -165,6 +165,7 @@
 
   <div class="card">
     <h2>💰 매출 정보</h2>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">월 카드 매출과 현금 매출을 구분해 입력하면 실수령액과 연간 수수료 합계를 확인할 수 있습니다.</p>
     <div class="row2">
       <div class="form-group">
         <label>월 카드 매출 (원)</label>
@@ -214,6 +215,28 @@
       <div style="font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:10px">💡 수수료 절감 시뮬레이션</div>
       <div id="saving-content"></div>
     </div>
+  </div>
+
+  <!-- 빠른 수수료 시뮬레이터 -->
+  <div class="card" id="simCard" style="margin-top:16px">
+    <div style="font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:10px">⚡ 구간별 수수료 즉시 비교</div>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">월 카드 매출을 입력하면 영세~일반 구간별 수수료를 한눈에 비교합니다. (기본값: 월 1,000만원)</p>
+    <div class="form-group">
+      <label>월 카드 매출 (원)</label>
+      <input type="number" id="sim-sales" value="10000000" oninput="simFee()" />
+    </div>
+    <div style="background:var(--surface2);border-radius:10px;overflow:hidden;margin-top:6px">
+      <table style="width:100%;border-collapse:collapse;font-size:13px">
+        <thead><tr>
+          <th style="text-align:left;padding:8px 12px;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border)">구간 (연 매출)</th>
+          <th style="text-align:center;padding:8px 10px;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border)">수수료율</th>
+          <th style="text-align:right;padding:8px 10px;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border)">월 수수료</th>
+          <th style="text-align:right;padding:8px 10px;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border)">연 수수료</th>
+        </tr></thead>
+        <tbody id="sim-tbody"></tbody>
+      </table>
+    </div>
+    <div style="margin-top:10px;font-size:11px;color:var(--text-muted);line-height:1.7">※ 체크카드는 신용카드 대비 약 0.25%p 낮음 · 제로페이 수수료 0%</div>
   </div>
 
 </div>
@@ -291,6 +314,8 @@
   <p>제로페이는 소상공인시장진흥공단에서 무료로 가맹 신청할 수 있습니다. QR코드만 프린트해 계산대에 붙여두면 되며 별도 단말기가 필요 없습니다. 아직 QR 결제에 익숙하지 않은 고객도 있으므로 기존 카드 단말기와 병행 운영하는 것이 현실적입니다. 현금 결제를 유도하기 위해 소액 할인이나 서비스를 제공하는 것도 합법적인 수수료 절감 방법입니다. 단, 카드 결제 고객에게 현금보다 더 높은 가격을 받는 것은 여신전문금융업법 위반이므로 주의가 필요합니다.</p>
 
   <h2>자주 묻는 질문 (FAQ)</h2>
+  <p>소상공인이 카드 수수료와 관련해 실무에서 자주 부딪히는 질문들을 정리했습니다. 수수료 부담을 줄이려면 내 가맹점 구간과 적용 수수료율을 먼저 정확히 파악하는 것이 첫걸음입니다.</p>
+  <p>수수료율은 여신금융협회(crefia.or.kr)에서 사업자 인증 후 조회할 수 있습니다. 생각보다 많은 소상공인이 자신의 정확한 수수료율을 모른 채 영업하고 있으며, 매출 감소 후 구간이 낮아졌는데도 재심사 신청을 놓쳐 높은 수수료를 계속 내는 경우가 자주 발생합니다.</p>
   <details><summary>카드 수수료는 누가 부담하나요?</summary><div class="faq-answer">카드 수수료는 가맹점(판매자)이 부담합니다. 소비자에게 카드 수수료를 전가하는 행위(현금과 카드 가격 차별, 수수료 별도 청구)는 여신전문금융업법 위반입니다. 단, 제로페이나 현금 결제 시 할인을 제공하는 것은 허용됩니다.</div></details>
   <details><summary>영세 가맹점 우대 수수료는 자동으로 적용되나요?</summary><div class="faq-answer">여신금융협회에서 매년 1월 가맹점 매출 규모를 확인해 자동 조정합니다. 다만 신규 가맹점이나 매출 구간이 변동된 경우 적용 지연이 있을 수 있으므로, 매출이 줄었다면 카드사에 직접 재심사 신청하는 것이 유리합니다.</div></details>
   <details><summary>카드 수수료를 가장 확실히 줄이는 방법은?</summary><div class="faq-answer">제로페이 가맹이 가장 효과적입니다(수수료 0%). 소상공인시장진흥공단을 통해 무료로 신청할 수 있습니다. 단 소비자가 QR코드 결제에 익숙하지 않을 수 있어 병행 운영이 현실적입니다. 또한 매출 감소 시 영세가맹 재심사 신청을 즉시 해야 합니다.</div></details>
@@ -300,6 +325,29 @@
 
 
 <script>
+function simFee() {
+  const sales = +document.getElementById('sim-sales').value || 0;
+  const tiers = [
+    { name:'영세 (3억 이하)', rate:0.5 },
+    { name:'중소1 (3억~5억)', rate:1.1 },
+    { name:'중소2 (5억~10억)', rate:1.25 },
+    { name:'중소3 (10억~30억)', rate:1.5 },
+    { name:'일반 (30억 초과)', rate:2.0 },
+  ];
+  const tbody = document.getElementById('sim-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = tiers.map(t => {
+    const fee = Math.round(sales * t.rate / 100);
+    return `<tr>
+      <td style="padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text-muted)">${t.name}</td>
+      <td style="padding:8px 10px;border-bottom:1px solid var(--border);text-align:center;color:var(--accent);font-weight:700">${t.rate}%</td>
+      <td style="padding:8px 10px;border-bottom:1px solid var(--border);text-align:right;color:var(--danger);font-weight:700">${fee.toLocaleString()}원</td>
+      <td style="padding:8px 10px;border-bottom:1px solid var(--border);text-align:right;color:var(--text-muted)">${(fee*12).toLocaleString()}원</td>
+    </tr>`;
+  }).join('');
+}
+window.addEventListener('DOMContentLoaded', simFee);
+
 const fw = n => Math.round(n).toLocaleString() + '원';
 const TIERS = [
   { name:'영세', rate:0.5, range:'연 3억 이하' },

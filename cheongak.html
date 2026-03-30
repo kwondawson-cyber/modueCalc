@@ -117,9 +117,11 @@
   <div class="card">
     <h2>① 무주택기간 <span style="font-weight:400;color:var(--text-muted)">(최대 32점)</span></h2>
     <div class="card-sub">세대주 및 세대원 전원 무주택 기준 · 만 30세 미만 미혼은 최초 독립일부터 산정</div>
+    <p style="font-size:12px;color:var(--text-muted);margin:8px 0 12px;line-height:1.7">1년마다 2점씩 올라가며 15년 이상이면 32점 만점입니다. 과거 주택 보유 이력이 있다면 처분일부터 다시 기산됩니다.</p>
+    <p style="font-size:12px;color:var(--text-muted);margin:0 0 12px;line-height:1.7">배우자 포함 세대원 전원이 무주택자여야 무주택기간이 인정됩니다. 배우자가 주택을 보유하고 있다면 해당 기간은 무주택 기간에서 제외됩니다.</p>
     <div class="form-group">
       <label>무주택 기간</label>
-      <select id="nohouse">
+      <select id="nohouse" onchange="calc()">
         <option value="2">1년 미만 — 2점</option>
         <option value="4">1년 이상 2년 미만 — 4점</option>
         <option value="6">2년 이상 3년 미만 — 6점</option>
@@ -145,9 +147,11 @@
   <div class="card">
     <h2>② 부양가족 수 <span style="font-weight:400;color:var(--text-muted)">(최대 35점)</span></h2>
     <div class="card-sub">주민등록표상 같이 사는 직계존속(부모·조부모 3년 이상)·직계비속·배우자 포함</div>
+    <p style="font-size:12px;color:var(--text-muted);margin:8px 0 12px;line-height:1.7">배우자·자녀는 기간 무관하게 인정되며, 부모·조부모는 3년 이상 동거가 필수입니다. 형제·자매는 부양가족에 포함되지 않습니다.</p>
+    <p style="font-size:12px;color:var(--text-muted);margin:0 0 12px;line-height:1.7">부모님을 세대원으로 등재하면 최대 10점까지 추가되지만, 부모님이 주택을 보유 중이라면 청약자의 무주택 세대원 요건에 영향을 줄 수 있으니 반드시 사전 확인이 필요합니다.</p>
     <div class="form-group">
       <label>부양가족 수 (본인 제외)</label>
-      <select id="family">
+      <select id="family" onchange="calc()">
         <option value="5">0명 — 5점</option>
         <option value="10">1명 — 10점</option>
         <option value="15">2명 — 15점</option>
@@ -164,9 +168,10 @@
   <div class="card">
     <h2>③ 청약통장 가입기간 <span style="font-weight:400;color:var(--text-muted)">(최대 17점)</span></h2>
     <div class="card-sub">주택청약종합저축 · 청약저축 · 청약부금 · 청약예금 모두 해당</div>
+    <p style="font-size:12px;color:var(--text-muted);margin:8px 0 12px;line-height:1.7">6개월마다 1점씩 올라가며 15년 이상이면 17점 만점입니다. 미가입이라면 오늘 즉시 주택청약종합저축을 개설하는 것이 가장 확실한 가점 올리기 방법입니다.</p>
     <div class="form-group">
       <label>가입 기간</label>
-      <select id="savings">
+      <select id="savings" onchange="calc()">
         <option value="1">6개월 미만 — 1점</option>
         <option value="2">6개월 이상 1년 미만 — 2점</option>
         <option value="3">1년 이상 2년 미만 — 3점</option>
@@ -218,6 +223,14 @@
     <div class="rating-box" id="rating-box"></div>
   </div>
 
+  <!-- 지역별 당첨 가능성 시뮬레이터 -->
+  <div class="card" id="simCard" style="margin-top:16px">
+    <div style="font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:10px">📍 지역별 당첨 가능성</div>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">위 항목을 바꾸면 지역별 당첨 가능성이 실시간으로 업데이트됩니다.</p>
+    <div id="region-result" style="display:grid;gap:8px"></div>
+    <div style="margin-top:12px;font-size:11px;color:var(--text-muted);line-height:1.7">※ 커트라인은 2023~2025년 실거래 평균 기준 추정치입니다. 단지·평형·시기에 따라 크게 달라질 수 있습니다.</div>
+  </div>
+
 </div>
   <div class="rel-section">
     <h2>📌 함께 쓰면 유용한 계산기</h2>
@@ -230,43 +243,98 @@
     </div>
   </div>
 <div class="seo-card">
-  <h2>청약 가점 계산기 — 2026년 무주택·부양가족·청약통장 가점 완벽 정리</h2>
-  <h3>청약 가점제, 어떻게 계산하나?</h3>
-  <p>청약 가점제는 <strong>무주택 기간(32점), 부양가족 수(35점), 청약통장 가입 기간(17점)</strong> 세 가지 항목으로 총 84점 만점을 계산합니다. 1순위 청약자 중 가점 점수가 높은 순서대로 당첨되는 방식으로, 가점이 높을수록 인기 단지 당첨 가능성이 커집니다. 특히 서울·수도권 인기 지역은 가점 60점 이상이어야 경쟁력이 있습니다.</p>
-  <p>무주택 기간이 가장 큰 비중(최대 32점)을 차지하므로 주택 미보유를 오래 유지할수록 유리합니다. 청약통장은 지금 당장 개설해도 15년 만기까지 17점 만점이 쌓이므로, 미가입자라면 즉시 가입하는 것이 중요합니다. 부양가족은 결혼·출산으로 자연스럽게 늘어납니다.</p>
-  <h3>📐 청약 가점 계산 공식</h3>
-  <p>각 항목별 점수는 구체적인 기준표에 따라 계산됩니다. 무주택 기간과 청약통장 가입 기간은 만 나이·년수를 기준으로 하며, 부양가족은 주민등록표상 같이 등재된 가족만 인정됩니다.</p>
-  <div class="formula-box">총 가점 = 무주택 기간(최대 32점) + 부양가족 수(최대 35점) + 청약통장 가입 기간(최대 17점)
+  <h2>청약 가점 3항목 완벽 정리 — 무주택기간·부양가족·청약통장 점수 기준</h2>
+  <p>청약 가점제는 <strong>무주택 기간(최대 32점) + 부양가족 수(최대 35점) + 청약통장 가입 기간(최대 17점)</strong> 세 항목을 합산해 총 84점 만점으로 경쟁하는 방식입니다. 1순위 청약자 중 가점이 높은 순서대로 당첨자를 선정하며, 동점일 경우 추첨으로 결정됩니다. 청약 가점제는 분양가 상한제 적용 단지(전용 85㎡ 이하 100% 가점), 투기과열지구(75%), 청약과열지구(50%) 등 지역·단지 유형에 따라 적용 비율이 달라집니다.</p>
+  <p>세 항목 중 단기간에 바꿀 수 있는 것은 청약통장 가입기간뿐입니다. 무주택기간은 시간이 쌓여야 하고, 부양가족은 결혼·출산에 의존하지만, 청약통장은 지금 당장 개설해도 매달 점수가 쌓입니다. 아직 미가입자라면 오늘 바로 주택청약종합저축을 개설하는 것이 가장 확실한 가점 올리기 첫걸음입니다.</p>
 
-무주택 기간: 만 30세 이상이거나 혼인 시 기산
-부양가족: 직계존속 3년 이상 동거 필수
-청약통장: 6개월 1점 ~ 15년 이상 17점</div>
-  <h3>📊 무주택 기간별 청약 가점</h3>
-  <p>무주택 기간은 본인이 무주택자인 기간을 기준으로 하며, 만 30세가 되는 날부터 기산됩니다(30세 미만 미혼은 혼인신고일 또는 최초 세대 분리일부터). 과거에 주택을 보유했다가 처분한 경우 처분일부터 다시 계산합니다.</p>
+  <h2>청약 가점 계산 공식 — 항목별 점수표와 실전 계산 예시</h2>
+  <p>무주택기간은 만 30세가 된 날(30세 미만 미혼은 혼인신고일·최초 세대분리일)부터 기산하며, 1년마다 2점씩 올라가 15년 이상이면 32점 만점입니다. 부양가족은 배우자·자녀(기간 무관)와 직계존속(부모·조부모, 3년 이상 동거)이 해당하며, 6명 이상이면 35점 만점입니다. 청약통장은 6개월부터 1점, 15년 이상이면 17점 만점입니다.</p>
+  <div class="formula-box">총 가점 = 무주택기간(최대 32점) + 부양가족 수(최대 35점) + 청약통장 가입기간(최대 17점)
+
+예) 무주택 7년(16점) + 부양가족 2명(15점) + 청약통장 8년(9점) = 40점
+
+무주택기간: 1년마다 +2점 / 15년 이상 = 32점
+부양가족:  0명=5점, 1명=10점, 2명=15점, 3명=20점, 4명=25점, 5명=30점, 6명+=35점
+청약통장:  6개월=1점 ~ 15년 이상=17점</div>
   <table class="ex-table">
-    <thead><tr><th>무주택 기간</th><th>점수</th><th>부양가족 수</th><th>점수</th></tr></thead>
+    <thead><tr><th>무주택기간</th><th>점수</th><th>부양가족</th><th>점수</th><th>청약통장</th><th>점수</th></tr></thead>
     <tbody>
-      <tr><td>1년 미만</td><td>2점</td><td>0명 (신청자 본인)</td><td>5점</td></tr>
-      <tr><td>1년~2년 미만</td><td>4점</td><td>1명</td><td>10점</td></tr>
-      <tr><td>5년~6년 미만</td><td>12점</td><td>3명</td><td>20점</td></tr>
-      <tr><td>10년~11년 미만</td><td>22점</td><td>5명</td><td>30점</td></tr>
-      <tr><td>15년 이상</td><td>32점</td><td>6명 이상</td><td>35점</td></tr>
+      <tr><td>1년 미만</td><td>2점</td><td>0명</td><td>5점</td><td>6개월~1년</td><td>2점</td></tr>
+      <tr><td>3년~4년</td><td>8점</td><td>2명</td><td>15점</td><td>5년~6년</td><td>7점</td></tr>
+      <tr><td>7년~8년</td><td>16점</td><td>4명</td><td>25점</td><td>10년~11년</td><td>12점</td></tr>
+      <tr><td>15년 이상</td><td><strong>32점</strong></td><td>6명 이상</td><td><strong>35점</strong></td><td>15년 이상</td><td><strong>17점</strong></td></tr>
     </tbody>
   </table>
-  <div class="hl-box">💡 <strong>가점 높이는 핵심 전략.</strong> 청약통장은 지금 당장 개설하는 것만으로도 시간이 쌓입니다. 15년 만기까지 17점 만점이므로 가입을 미룰수록 손해입니다. 부양가족은 결혼·출산으로 늘어나고, 무주택기간은 매년 자동으로 쌓입니다.</div>
-  
-  <div class="hl-box">🔑 <strong>핵심 팁</strong><br>💡 <strong>청약 가점 올리는 현실적 방법:</strong> 세 항목 중 단기간에 올릴 수 있는 것은 청약통장 가입기간뿐입니다. 지금 당장 청약통장이 없다면 오늘 개설하세요 — 하루라도 빠를수록 유리합니다. 부양가족 점수는 주민등록 등재 기준이므로 부모님을 세대원으로 등재하면 점수가 올라가지만, 부모님의 주택·자산 상황에 따라 무주택 요건에 영향을 줄 수 있으니 확인이 필요합니다.</div>
+  <p>위 계산기에서 3가지 항목을 선택하면 총 가점과 항목별 비율 막대 그래프를 즉시 확인할 수 있습니다. 셀렉트박스를 바꾸는 즉시 점수가 실시간으로 업데이트되어 다양한 조합을 비교해볼 수 있습니다.</p>
 
-<h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>무주택 기간은 언제부터 계산하나요?</summary><div class="faq-answer">만 30세 이상이면 결혼 전이라도 만 30세가 된 날부터 계산합니다. 만 30세 미만이면 혼인신고일 또는 최초 독립일부터 계산합니다. 이전에 주택을 소유했다면 처분한 날부터 다시 계산합니다.</div></details>
-  <details><summary>부양가족에 부모님도 포함되나요?</summary><div class="faq-answer">직계존속(부모·조부모)은 3년 이상 같은 주민등록표에 등재되어 있어야 부양가족으로 인정됩니다. 배우자와 자녀는 기간 제한 없이 인정됩니다. 형제·자매는 포함되지 않습니다.</div></details>
+  <h2>서울·수도권·지방 당첨 가점 커트라인 — 2023~2025년 실거래 추정 기준</h2>
+  <p>청약 당첨 가점은 단지·평형·시기에 따라 크게 달라지지만, 지역별로 대략적인 경쟁력 기준이 형성되어 있습니다. 서울 강남권 인기 단지는 60점대 이상이 일반적이며, 청약 과열이 심할 때는 70점 이상이 필요한 경우도 있습니다. 수도권 외곽이나 지방 광역시는 상대적으로 낮은 가점으로도 당첨 기회가 있습니다.</p>
+  <table class="ex-table">
+    <thead><tr><th>지역</th><th>경쟁력 있는 가점</th><th>비고</th></tr></thead>
+    <tbody>
+      <tr><td>서울 강남권 인기 단지</td><td>65점 이상</td><td>70점+ 필요한 경우도 다수</td></tr>
+      <tr><td>서울 강북·비인기 지역</td><td>55~65점</td><td>단지별 편차 큼</td></tr>
+      <tr><td>수도권 1기 신도시권</td><td>50~60점</td><td>분당·일산·평촌 등</td></tr>
+      <tr><td>수도권 외곽·신도시</td><td>40~55점</td><td>인천·화성·평택 등</td></tr>
+      <tr><td>지방 광역시 인기 단지</td><td>40~55점</td><td>부산·대구·광주 등</td></tr>
+      <tr><td>지방 중소도시</td><td>30~45점</td><td>추첨제 비율 높은 경우도</td></tr>
+    </tbody>
+  </table>
+  <p>가점이 낮다면 추첨제 비율이 높은 전용 85㎡ 초과 대형 평형이나, 신생아 특공·신혼부부·생애최초 등 특별공급을 활용하는 전략이 현실적입니다. 특별공급은 가점이 아닌 별도 자격 요건으로 심사하므로 해당 조건을 먼저 확인하세요.</p>
+
+  <h2>청약 가점 올리는 3가지 핵심 전략 — 지금 당장 실천 가능한 방법</h2>
+  <p>청약 가점을 높이는 가장 빠른 방법은 청약통장 즉시 개설입니다. 하루 늦게 개설할수록 점수 누적도 그만큼 늦어지므로 미가입자라면 오늘 바로 주택청약종합저축 계좌를 만들어야 합니다. 무주택기간과 부양가족은 시간과 삶의 변화에 따라 자연스럽게 쌓이는 항목이므로 장기적인 계획이 필요합니다.</p>
+  <table class="ex-table">
+    <thead><tr><th>전략</th><th>효과</th><th>주의사항</th></tr></thead>
+    <tbody>
+      <tr><td>① 청약통장 즉시 개설</td><td>매달 점수 누적 시작</td><td>주택청약종합저축으로 개설</td></tr>
+      <tr><td>② 부모님 세대 등재</td><td>부양가족 +5~10점</td><td>3년 이상 동거 필수, 부모님 주택 유무 확인</td></tr>
+      <tr><td>③ 주택 처분 후 무주택 유지</td><td>매년 +2점 누적</td><td>처분일부터 다시 기산, 배우자 포함</td></tr>
+    </tbody>
+  </table>
+  <p>부모님을 세대원으로 주민등록에 등재하면 부양가족 점수가 올라가지만, 부모님이 주택이나 일정 이상 자산을 보유하고 있으면 청약 자격(무주택 세대원 요건)에 영향을 줄 수 있습니다. 등재 전 부모님의 주택 보유 여부와 자산 상황을 반드시 확인하세요.</p>
+  <div class="hl-box"><strong>💡 청약 가점 체크리스트:</strong><br>① 청약통장 미가입이면 오늘 즉시 개설<br>② 무주택기간 — 배우자 포함 세대원 전원 무주택 여부 확인<br>③ 부모님 세대 등재 — 3년 이상 동거 요건 + 부모님 주택 유무 확인<br>④ 분양가 상한제·투기과열지구 여부에 따라 가점제 적용 비율 확인</div>
+  <p>청약 전략은 단순히 가점을 높이는 것에 그치지 않습니다. 내 가점대에서 경쟁력 있는 지역·단지·평형을 선택하는 것이 당첨 확률을 높이는 핵심입니다. 위 지역별 당첨 가능성 시뮬레이터를 활용해 현재 가점으로 어느 지역을 공략할 수 있는지 먼저 파악하세요.</p>
+
+  <h2>자주 묻는 질문 (FAQ)</h2>
+  <p>청약 가점 계산에서 실무적으로 자주 헷갈리는 질문들을 정리했습니다. 무주택기간 기산 시점, 부양가족 인정 범위, 특별공급과의 관계 등을 꼭 확인하세요.</p>
+  <p>청약 관련 규정은 정부 정책에 따라 수시로 변경될 수 있습니다. 실제 청약 신청 전에는 반드시 청약홈(applyhome.co.kr)의 공고문을 직접 확인하시고, 불확실한 사항은 한국부동산원 청약상담센터(1644-7445)에 문의하시기 바랍니다.</p>
+  <details><summary>무주택 기간은 언제부터 계산하나요?</summary><div class="faq-answer">만 30세 이상이면 결혼 전이라도 만 30세가 된 날부터 계산합니다. 만 30세 미만이면 혼인신고일 또는 최초 독립(세대분리)일부터 계산합니다. 이전에 주택을 소유했다면 처분한 날부터 다시 계산합니다. 배우자와 세대원 전원이 무주택자여야 합니다.</div></details>
+  <details><summary>부양가족에 부모님도 포함되나요?</summary><div class="faq-answer">직계존속(부모·조부모)은 3년 이상 같은 주민등록표에 등재되어 있어야 부양가족으로 인정됩니다. 배우자와 자녀는 기간 제한 없이 인정됩니다. 형제·자매는 포함되지 않습니다. 단, 부모님이 주택을 보유하고 있으면 청약자의 무주택 세대원 자격에 영향을 줄 수 있으므로 반드시 확인하세요.</div></details>
   <details><summary>청약통장 납입 횟수가 부족하면 1순위가 안 되나요?</summary><div class="faq-answer">지역과 공급 유형에 따라 다릅니다. 투기과열지구·청약과열지구에서는 청약저축 가입 2년 이상·납입 24회 이상이 1순위 조건입니다. 일반 지역은 가입 1년·납입 12회 이상으로 1순위가 됩니다. 납입 금액도 지역·공급 유형마다 요건이 다릅니다.</div></details>
   <details><summary>분양가 상한제 적용 단지는 가점제 비율이 더 높나요?</summary><div class="faq-answer">네. 분양가 상한제 적용 단지는 전용 85㎡ 이하는 100% 가점제, 85㎡ 초과는 50% 가점제·50% 추첨제가 적용됩니다. 비상한제 단지는 투기과열지구 75% 가점, 청약과열지구 50% 가점으로 가점 비중이 낮습니다.</div></details>
-  <details><summary>청약 가점이 낮으면 당첨 방법이 없나요?</summary><div class="faq-answer">가점이 낮다면 추첨제 비율이 높은 단지나 전용 85㎡ 초과 대형 평형을 공략하는 전략이 있습니다. 또한 신생아 특공·생애최초·신혼부부 특별공급은 가점이 아닌 다른 기준으로 당첨자를 선정하므로 해당 자격이 있다면 특공을 우선 활용하는 것이 유리합니다.</div></details>
+  <details><summary>청약 가점이 낮으면 당첨 방법이 없나요?</summary><div class="faq-answer">가점이 낮다면 추첨제 비율이 높은 전용 85㎡ 초과 대형 평형을 공략하거나, 신생아 특공·생애최초·신혼부부 특별공급 등을 활용하는 전략이 있습니다. 특별공급은 가점이 아닌 별도 자격 기준으로 선정하므로 해당 자격이 있다면 특별공급을 우선 검토하세요.</div></details>
 </div>
 
 
 <script>
+function updateRegion(total) {
+  const regions = [
+    { name:'서울 강남권 인기 단지', cut:65, color:'#ff6b6b' },
+    { name:'서울 강북·비인기 지역', cut:55, color:'#f5a623' },
+    { name:'수도권 1기 신도시권', cut:50, color:'#f5a623' },
+    { name:'수도권 외곽·신도시', cut:42, color:'#00d4aa' },
+    { name:'지방 광역시 인기 단지', cut:42, color:'#00d4aa' },
+    { name:'지방 중소도시', cut:33, color:'#0095ff' },
+  ];
+  const el = document.getElementById('region-result');
+  if (!el) return;
+  el.innerHTML = regions.map(r => {
+    const ok = total >= r.cut;
+    const pct = Math.min(Math.round(total / r.cut * 100), 100);
+    return `<div style="background:var(--surface2);border-radius:10px;padding:12px 14px;display:flex;align-items:center;gap:12px">
+      <div style="font-size:18px">${ok ? '✅' : '❌'}</div>
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:700;color:${ok ? 'var(--accent)' : 'var(--text-muted)'};margin-bottom:4px">${r.name}</div>
+        <div style="background:var(--bg);border-radius:6px;height:6px;overflow:hidden">
+          <div style="width:${pct}%;height:100%;background:${ok ? r.color : '#30363d'};border-radius:6px;transition:width .4s"></div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:${ok ? 'var(--accent)' : 'var(--text-muted)'};white-space:nowrap;min-width:48px;text-align:right">${ok ? '가능' : r.cut+'점+\n필요'}</div>
+    </div>`;
+  }).join('');
+}
+
 document.querySelectorAll('select').forEach(sel => {
   sel.addEventListener('change', () => {
     const map = { nohouse:'s1', family:'s2', savings:'s3' };
@@ -307,7 +375,11 @@ function calc() {
   const pct = total/84*100;
   document.getElementById('r-sub').textContent = `전체 84점 중 ${pct.toFixed(1)}% 달성`;
   document.getElementById('result').classList.add('show');
+
+  updateRegion(total);
 }
+
+window.addEventListener('DOMContentLoaded', calc);
 </script>
 <script src="/common.js" defer></script><script src="/share.js" defer></script><script src="/calculator.js" defer></script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}</script>
