@@ -196,30 +196,45 @@ function calcPension(){
   const yearsRemaining = Math.max(0, receiveAge - curAge);
   const totalYears = yearsSoFar + yearsRemaining;
   const totalMonths = totalYears * 12;
-  
-  // 간이 산식: 기본연금액 = 1.2 × (A + B) × (1 + 0.05n/12)
-  // A = 전체 가입자 평균 소득월액(2024년 약 298만원), B = 본인 평균 소득
-  const A = 2980000;
-  const B = income;
+
+  // ─── 2026년 기준 국민연금 기본연금액 공식 (국민연금공단 공식) ───
+  // A = 2025.12~2026.11 전체 가입자 평균소득월액 (국민연금공단 고시)
+  // Y = 2026.1.1 이후 수급권 취득자 소득대체율 상수
+  // 기준소득월액 상한: 6,370,000원
+  const A = 3193511;   // 2025.12~2026.11 A값
+  const Y = 1.29;      // 2026년 이후 수급권 취득자
+  const B = Math.min(income, 6370000);  // 상한 637만원 적용
   const n = totalMonths;
-  // 기본연금액 (20년 기준)
-  const base = 1.2 * (A + B) / 2 * (n / 240);
-  const monthly = Math.round(base / 10000) * 10000;
-  
-  const monthlyPremium = Math.round(income * 0.045 / 10000) * 10000;
+
+  // 연간 기본연금액 산식
+  // · 가입 20년(240개월) 이하: Y×(A+B)×(n/240)
+  // · 가입 20년 초과: Y×(A+B)×(1 + 0.05×초과월수/12)
+  let annualBase;
+  if (n <= 0) {
+    annualBase = 0;
+  } else if (n <= 240) {
+    annualBase = Y * (A + B) * (n / 240);
+  } else {
+    const excess = n - 240; // 20년 초과 월수
+    annualBase = Y * (A + B) * (1 + 0.05 * excess / 12);
+  }
+  const monthly = Math.round(annualBase / 12 / 10000) * 10000;
+
+  // 2026년 보험료율: 9.5%, 직장가입자 본인 4.75%
+  const monthlyPremium = Math.round(Math.min(income, 6370000) * 0.0475 / 10000) * 10000;
   const totalPremium = monthlyPremium * totalMonths;
   const yearlyReceive = monthly * 12;
-  const breakEven = totalPremium > 0 ? Math.ceil(totalPremium / monthly) : 0;
+  const breakEven = (monthly > 0 && totalPremium > 0) ? Math.ceil(totalPremium / monthly) : 0;
 
   document.getElementById('pensionMonthly').textContent = monthly.toLocaleString('ko-KR') + '원';
   document.getElementById('pensionSub').textContent = `총 가입기간 약 ${totalYears}년 · ${receiveAge}세부터 수령`;
   document.getElementById('pensionDetail').innerHTML = `
     <div class="detail-item"><div class="di-label">총 가입기간</div><div class="di-value">약 ${totalYears}년 (${totalMonths}개월)</div></div>
-    <div class="detail-item"><div class="di-label">월 납입 보험료 (본인)</div><div class="di-value">${monthlyPremium.toLocaleString()}원</div></div>
-    <div class="detail-item"><div class="di-label">총 납입 보험료</div><div class="di-value">${Math.round(totalPremium/10000).toLocaleString()}만원</div></div>
+    <div class="detail-item"><div class="di-label">월 납입 보험료 (본인 4.75%)</div><div class="di-value">${monthlyPremium.toLocaleString()}원</div></div>
+    <div class="detail-item"><div class="di-label">총 납입 보험료 (추정)</div><div class="di-value">${Math.round(totalPremium/10000).toLocaleString()}만원</div></div>
     <div class="detail-item"><div class="di-label">연 수령액</div><div class="di-value">${yearlyReceive.toLocaleString()}원</div></div>
     <div class="detail-item"><div class="di-label">수령 시작 나이</div><div class="di-value">${receiveAge}세</div></div>
-    <div class="detail-item"><div class="di-label">원금 회수 기간</div><div class="di-value">약 ${Math.ceil(breakEven/12)}년</div></div>
+    <div class="detail-item"><div class="di-label">원금 회수 기간</div><div class="di-value">${breakEven>0?`약 ${Math.ceil(breakEven/12)}년`:'—'}</div></div>
   `;
   document.getElementById('pensionResult').className = 'result-section show';
 
@@ -309,7 +324,88 @@ function updateSim() {
   </div>
 </div>
 <div class="seo-section">
-  <h2>국민연금 예상 수령액 계산기 — 2024년 보험료·수령액 완벽 정리</h2>
+  <h2>국민연금 예상 수령액 계산기 — 2026년 연금개혁 반영 완벽 정리</h2>
+  <p><strong>국민연금</strong>은 18세 이상 60세 미만 소득 있는 국민이 의무 가입하는 공적 연금입니다. 2025년 3월 국민연금법 개정으로 2026년 1월부터 <strong>보험료율이 9%→9.5%</strong>로 인상되고 <strong>소득대체율이 41.5%→43%</strong>로 상향됐습니다. 보험료율은 이후 매년 0.5%p씩 단계적으로 인상되어 2033년 13%까지 올라갈 예정입니다. 직장가입자는 사용자 4.75%·본인 4.75%씩 부담합니다.</p>
+  <p>국민연금의 가장 큰 장점은 <strong>물가 연동</strong>입니다. 매년 전년도 소비자물가 상승률을 반영해 수령액이 올라가므로, 실질 구매력이 평생 보전됩니다. 2026년부터는 연금액이 2.1% 인상되어 월평균 수급액이 약 69만 6천원 수준입니다. 이 계산기에서 예상 월 수령액을 계산한 뒤, '수령 시기 조정 시뮬레이터'로 조기수령(감액)과 연기수령(증액)의 차이를 직접 비교해보세요.</p>
+  <div class="formula-box">기본연금액 산식 (2026.1.1 이후 수급권 취득자):
+
+· 가입 20년(240개월) 이하:
+  연간 기본연금액 = 1.29 × (A + B) × (가입월수 / 240)
+
+· 가입 20년 초과:
+  연간 기본연금액 = 1.29 × (A + B) × (1 + 0.05 × 초과월수 / 12)
+
+월 수령액 = 연간 기본연금액 ÷ 12
+
+A = 전체 가입자 평균소득월액 (2025.12~2026.11: 3,193,511원)
+B = 가입자 개인 평균소득월액 (상한 6,370,000원)
+보험료율: 9.5% (직장가입자 본인 4.75%)</div>
+
+  <h2>2026년 국민연금 핵심 변경사항 — 연금개혁 완전 정리</h2>
+  <p>2025년 3월 국민연금법 개정으로 18년 만에 연금개혁이 확정됐습니다. 더 내고 더 받는 방향으로 바뀌었으며, 특히 소득대체율 상향은 미래 수령액 증가를 의미합니다. 국가지급보장도 법에 명문화되어 국민연금에 대한 신뢰를 높였습니다.</p>
+  <table>
+    <thead><tr><th>항목</th><th>2025년 (개혁 전)</th><th>2026년 (개혁 후)</th><th>비고</th></tr></thead>
+    <tbody>
+      <tr><td>보험료율</td><td>9%</td><td><strong>9.5%</strong></td><td>이후 매년 0.5%p↑, 2033년 13%</td></tr>
+      <tr><td>소득대체율</td><td>41.5%</td><td><strong>43%</strong></td><td>40년 가입 기준</td></tr>
+      <tr><td>소득대체율 상수(Y)</td><td>1.245</td><td><strong>1.29</strong></td><td>수급권 취득 시점 기준</td></tr>
+      <tr><td>전체 가입자 A값</td><td>약 309만원</td><td><strong>3,193,511원</strong></td><td>2025.12~2026.11 적용</td></tr>
+      <tr><td>기준소득 상한</td><td>617만원</td><td><strong>637만원</strong></td><td>2025.7~2026.6 적용</td></tr>
+      <tr><td>기준소득 하한</td><td>37만원</td><td><strong>40만원</strong></td><td>2025.7~2026.6 적용</td></tr>
+      <tr><td>국가지급보장</td><td>미명문화</td><td><strong>법 명문화</strong></td><td>연금개혁 핵심 성과</td></tr>
+    </tbody>
+  </table>
+
+  <h2>출생연도별 국민연금 수급 개시 연령 — 1969년생 이후는 만 65세</h2>
+  <p>국민연금 노령연금은 출생연도에 따라 수급 개시 연령이 다릅니다. 1969년생 이후는 만 65세부터 받을 수 있습니다. 이보다 일찍 받고 싶다면 조기노령연금(1개월당 0.5% 감액, 최대 30%)을, 더 늦게 받아 금액을 늘리고 싶다면 연기연금(1개월당 0.6% 가산, 최대 36%)을 신청할 수 있습니다.</p>
+  <table>
+    <thead><tr><th>출생연도</th><th>노령연금 수급 개시</th><th>조기수령 가능 연령</th></tr></thead>
+    <tbody>
+      <tr><td>1952년생 이전</td><td>만 60세</td><td>만 55세부터</td></tr>
+      <tr><td>1953~1956년생</td><td>만 61세</td><td>만 56세부터</td></tr>
+      <tr><td>1957~1960년생</td><td>만 62세</td><td>만 57세부터</td></tr>
+      <tr><td>1961~1964년생</td><td>만 63세</td><td>만 58세부터</td></tr>
+      <tr><td>1965~1968년생</td><td>만 64세</td><td>만 59세부터</td></tr>
+      <tr><td><strong>1969년생 이후</strong></td><td><strong>만 65세</strong></td><td>만 60세부터</td></tr>
+    </tbody>
+  </table>
+
+  <h2>월 소득별 예상 수령액 — 2026년 기준 40년 가입</h2>
+  <p>아래 표는 2026년 A값(3,193,511원)·소득대체율 상수 1.29 기준으로 40년(480개월) 가입 시 예상 월 수령액입니다. 실제 수령액은 개인 가입 이력과 매년 물가 반영률에 따라 달라집니다. 정확한 예상액은 국민연금공단(nps.or.kr) 또는 내연금 앱에서 개인 인증 후 확인하세요.</p>
+  <table>
+    <thead><tr><th>월 소득</th><th>월 보험료 (본인 4.75%)</th><th>40년 가입 예상 월 수령액</th><th>소득대체율 실효</th></tr></thead>
+    <tbody>
+      <tr><td>200만원</td><td>95,000원</td><td>약 107만원</td><td>약 53%</td></tr>
+      <tr><td>300만원</td><td>142,500원</td><td>약 133만원</td><td>약 44%</td></tr>
+      <tr><td>400만원</td><td>190,000원</td><td>약 155만원</td><td>약 39%</td></tr>
+      <tr><td>637만원 (상한)</td><td>302,575원</td><td>약 206만원</td><td>약 32%</td></tr>
+    </tbody>
+  </table>
+  <p>※ 2026년 A값(3,193,511원)·Y=1.29 기준, 40년(480개월) 가입 간이 산식. 실제 수령액은 매년 물가연동·재평가율이 적용되어 다를 수 있습니다. A값이 B값보다 높은 저소득 가입자는 실효 소득대체율이 더 높아 유리합니다.</p>
+  <div class="tip-box"><strong>💡 국민연금 수령액 높이는 4가지 방법:</strong><br>
+  ① <strong>임의가입</strong> — 전업주부·학생도 월 38,000원(최저, 40만원×9.5%)부터 자발적 가입<br>
+  ② <strong>추납(추후납부)</strong> — 과거 납부 공백 기간을 소급 납부해 가입 기간 채우기<br>
+  ③ <strong>연기연금</strong> — 수령 시기를 늦춰 월 0.6% 가산 (최대 5년, 36% 증가)<br>
+  ④ <strong>임의계속가입</strong> — 60~65세에도 계속 납부해 가입 기간·수령액 증가</div>
+
+  <h2>국민연금 vs 개인연금 vs 퇴직연금 — 노후 3층 구조</h2>
+  <p>국민연금만으로 노후를 대비하기는 어렵습니다. 2026년 기준 월평균 수급액은 약 69만 6천원 수준이어서, 기본 생활비도 충당하기 어렵습니다. 국민연금(1층)·퇴직연금(2층)·개인연금(3층)의 3층 구조를 갖추는 것이 중요합니다.</p>
+  <table>
+    <thead><tr><th>구분</th><th>종류</th><th>특징</th><th>2026년 세제 혜택</th></tr></thead>
+    <tbody>
+      <tr><td>1층 (공적)</td><td>국민연금</td><td>의무 가입, 물가 연동, 종신</td><td>보험료 전액 소득공제</td></tr>
+      <tr><td>2층 (퇴직)</td><td>퇴직연금 (DB·DC·IRP)</td><td>퇴직 시 적립, 연금 전환</td><td>연금 수령 시 저율 과세 (3.3~5.5%)</td></tr>
+      <tr><td>3층 (개인)</td><td>연금저축·IRP</td><td>자발적 적립, 세액공제</td><td>연 최대 900만원 세액공제 (13.2~16.5%)</td></tr>
+    </tbody>
+  </table>
+
+  <h2>자주 묻는 질문 (FAQ)</h2>
+  <details><summary>2026년 연금개혁으로 수령액이 실제로 얼마나 늘어나나요?</summary><div class="faq-answer">소득대체율이 41.5%→43%로 올라 40년 가입 기준 약 3.6% 더 받습니다. 월소득 300만원, 40년 가입 기준으로는 약 5만원 정도 더 받게 됩니다. 단, 소득대체율 상향은 2026년 이후 새로 가입하는 기간부터 적용되므로, 이미 가입 중인 분은 2026년 이후 가입 기간에만 새 소득대체율이 반영됩니다.</div></details>
+  <details><summary>국민연금 수령 중 소득이 생기면 감액되나요?</summary><div class="faq-answer">노령연금 수령 중 월 소득이 A값(2026년 약 319만원)을 초과하면 초과액에 비례해 연금이 감액됩니다. 2026년 연금개혁으로 감액 기준이 완화되어 일하면서 연금을 받더라도 불이익이 줄었습니다. 65세 이후에는 소득에 관계없이 전액 수령합니다.</div></details>
+  <details><summary>국민연금을 10년 못 채우면 어떻게 되나요?</summary><div class="faq-answer">최소 가입 기간(120개월·10년)을 채우지 못하면 노령연금을 받을 수 없습니다. 60세 이후 납부한 보험료에 이자를 더한 반환일시금을 수령할 수 있습니다. 추납 제도나 임의계속가입(60~65세)으로 가입 기간을 늘릴 수 있습니다.</div></details>
+  <details><summary>배우자가 사망하면 국민연금을 받을 수 있나요?</summary><div class="faq-answer">국민연금 가입자 또는 수급자가 사망하면 유족(배우자·자녀·부모 등)에게 유족연금이 지급됩니다. 유족연금액은 사망자 기본연금액의 40~60%(가입 기간 10년 미만 40%, 10~20년 미만 50%, 20년 이상 60%)입니다. 본인도 연금 수급자라면 두 연금 중 유리한 방식을 선택할 수 있습니다.</div></details>
+  <details><summary>국민연금 임의가입이란 무엇인가요?</summary><div class="faq-answer">의무 가입 대상이 아닌 전업주부·학생·프리랜서 등도 자발적으로 국민연금에 가입할 수 있는 제도입니다. 2026년 기준 최소 보험료는 월 38,000원(기준소득월액 40만원×9.5%)입니다. 가입 기간이 늘어날수록 수령액이 높아지므로, 경력 공백 기간이 있다면 임의가입이나 추납을 적극 활용하세요.</div></details>
+</div>
   <p><strong>국민연금</strong>은 18세 이상 60세 미만 소득 있는 국민이 의무 가입하는 공적 연금으로, 노령·장애·사망 시 본인 또는 유족에게 연금을 지급합니다. 보험료율은 기준소득월액의 <strong>9%</strong>이며, 직장가입자는 사용자 4.5%·본인 4.5%를 부담합니다(2024년 기준). 지역가입자는 본인이 9% 전액 부담합니다. 기준소득월액 하한은 37만원, 상한은 617만원으로 상한을 넘어도 보험료는 617만원 기준으로만 냅니다.</p>
   <p>국민연금의 가장 큰 장점은 <strong>물가 연동</strong>입니다. 매년 전년도 소비자물가 상승률을 반영해 수령액이 올라가므로, 30~40년 뒤에도 실질 구매력이 보전됩니다. 또한 가입자 사망 시 배우자와 자녀에게 유족연금이 지급되어 가족 보장 기능도 합니다. 이 계산기에서 예상 월 수령액을 계산한 뒤, '수령 시기 조정 시뮬레이터'로 조기수령(감액)과 연기수령(증액)의 차이를 직접 비교해보세요.</p>
   <div class="formula-box">기본연금액 = 1.2 × (A + B) / 2 × (n / 240)
