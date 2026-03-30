@@ -85,6 +85,12 @@
     .home-btn:hover { background: rgba(0,212,170,0.18); transform: translateY(-2px); }
     .home-btn-emoji { font-size: 20px; line-height: 1; }
     .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
+    .sim-tbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px}
+    .sim-tbl th{background:var(--surface2);color:var(--text);padding:8px 10px;border:1px solid var(--border);font-weight:600;text-align:left}
+    .sim-tbl td{padding:7px 10px;border:1px solid var(--border);color:var(--text-muted)}
+    .sim-tbl tr.hl td{color:var(--pink);font-weight:700}
+    .sim-tbl td.pink{color:var(--pink)}
+    .sim-tbl td.grn{color:var(--accent)}
   
 .rel-section{margin:32px auto 8px;padding:0 20px;max-width:640px}
 .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
@@ -170,6 +176,19 @@
     <div class="notice">
       <strong style="color:orange">ℹ️ 안내</strong> 임신 주수는 마지막 생리 첫날부터 계산하는 것이 의학적 기준입니다. 실제 분만 예정일은 초음파 검사 결과와 다를 수 있습니다.
     </div>
+  <div class="card" id="simCard" style="margin-top:8px">
+    <div class="card-title">👶 주수별 태아 발달 현황</div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+      <label style="font-size:13px;color:var(--text-muted);white-space:nowrap;font-weight:500;flex-shrink:0">현재 주수</label>
+      <div style="position:relative;flex:1">
+        <input type="number" id="sim-weeks" value="12" min="1" max="40" oninput="updatePregnancySim()"
+          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:9px 40px 9px 12px;font-size:14px;font-weight:600;font-family:'Noto Sans KR',sans-serif;color:var(--text);outline:none"/>
+        <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--text-muted)">주</span>
+      </div>
+    </div>
+    <div id="simPregnancyTable"></div>
+    <p style="font-size:11px;color:var(--text-muted);margin-top:8px">※ 평균 기준 · 개인차 있음 · 초음파 측정값이 더 정확합니다</p>
+  </div>
   </div>
 </div>
 <script>
@@ -227,7 +246,41 @@
     const rc=document.getElementById('resultCard');
     rc.classList.add('visible');
   }
-  window.onload=()=>calculate();
+  window.onload=()=>{ calculate(); updatePregnancySim(); };
+
+var _fetusData = [
+  {w:4,  size:'양귀비씨', len:'0.1cm', dev:'착상 직후, 세포 분열 시작'},
+  {w:6,  size:'완두콩',  len:'0.6cm', dev:'심장 박동 시작'},
+  {w:8,  size:'블루베리', len:'1.6cm', dev:'뇌·주요 장기 형성 중'},
+  {w:10, size:'방울토마토', len:'3.1cm', dev:'손발가락 형성, 태아 움직임 시작'},
+  {w:12, size:'키위',    len:'5.4cm', dev:'12개 장기 모두 형성, 신장 기능 시작'},
+  {w:16, size:'아보카도', len:'11.6cm', dev:'성별 구분 가능, 얼굴 형태 완성'},
+  {w:20, size:'바나나',  len:'16.4cm', dev:'태동 느끼기 시작, 청각 발달'},
+  {w:24, size:'옥수수',  len:'30cm',  dev:'폐 발달 중, 눈썹·속눈썹 형성'},
+  {w:28, size:'가지',   len:'37cm',  dev:'눈 뜨기 시작, 뇌 급격히 발달'},
+  {w:32, size:'스쿼시',  len:'42cm',  dev:'피하지방 증가, 폐 거의 성숙'},
+  {w:36, size:'로메인',  len:'47cm',  dev:'태아 위치 결정, 분만 준비'},
+  {w:40, size:'수박',   len:'51cm',  dev:'출산 준비 완료, 체중 약 3~3.5kg'}
+];
+function updatePregnancySim() {
+  var weeks = parseInt(document.getElementById('sim-weeks').value) || 12;
+  weeks = Math.min(40, Math.max(1, weeks));
+  var data = _fetusData[0];
+  for (var i = 0; i < _fetusData.length; i++) {
+    if (weeks >= _fetusData[i].w) data = _fetusData[i];
+  }
+  var tri = weeks <= 13 ? '🌱 1분기 (초기)' : weeks <= 27 ? '🌸 2분기 (중기)' : '🌟 3분기 (후기)';
+  var remain = Math.max(0, 40 - weeks);
+  var html = '<table class="sim-tbl"><thead><tr><th>항목</th><th>현황</th></tr></thead><tbody>';
+  html += '<tr class="hl"><td>현재 주수</td><td class="pink">임신 '+weeks+'주</td></tr>';
+  html += '<tr><td>임신 시기</td><td>'+tri+'</td></tr>';
+  html += '<tr><td>태아 크기 비유</td><td>'+data.size+' (약 '+data.len+')</td></tr>';
+  html += '<tr><td>주요 발달</td><td>'+data.dev+'</td></tr>';
+  html += '<tr><td>출산까지 남은 주수</td><td class="grn">약 '+remain+'주</td></tr>';
+  html += '</tbody></table>';
+  document.getElementById('simPregnancyTable').innerHTML = html;
+}
+document.addEventListener('DOMContentLoaded', updatePregnancySim);
 </script>
 
 <style>
@@ -270,48 +323,66 @@
   </div>
 </div>
 <div class="seo-section">
-  <h2>임신 주수 계산기 — 출산 예정일과 임신 단계별 변화 완벽 정리</h2>
-  <h3>임신 주수는 어떻게 계산하나요?</h3>
-  <p>임신 주수는 <strong>마지막 생리 시작일(LMP)</strong>을 기준으로 계산하며, 실제 수정일보다 약 2주 앞선 시점을 기준으로 합니다. 임신 기간은 총 40주(280일)이며, 출산 예정일은 <strong>네겔레(Naegele) 공식</strong>으로 계산합니다. 산부인과 초음파 측정이 더 정확하며, 특히 임신 초기(6~10주) 태아 머리-엉덩이 길이(CRL) 측정이 가장 신뢰도가 높습니다.</p>
-  <p>임신 40주를 3분기로 나누어 각 시기별 특징적인 변화가 나타납니다. 1분기(1~13주)는 심장·뇌 등 주요 장기가 형성되는 매우 중요한 시기로 입덧·피로가 심하고, 2분기(14~27주)는 태동을 느끼고 배가 불러오며 비교적 안정적인 시기입니다. 3분기(28~40주)는 태아가 급성장하며 출산을 준비하는 단계로 부종·요통 등의 불편감이 생길 수 있습니다.</p>
-  <h3>📐 출산 예정일 계산 (네겔레 공식)</h3>
-  <p>네겔레 공식은 마지막 생리 시작일에서 3개월을 빼고 7일을 더하는 방법입니다. 단, 이 공식은 생리 주기가 28일인 경우를 기준으로 하므로, 주기가 길거나 불규칙한 경우에는 초음파 측정으로 주수를 보정합니다. 출산 예정일을 중심으로 37~42주 사이를 정상 분만 기간으로 봅니다.</p>
-  <div class="formula-box">출산 예정일 = 마지막 생리 시작일 + 280일
-= 마지막 생리 시작일의 월 −3, 일 +7, 연도 +1
+  <h2>임신 주수 계산 원리 — 수정일이 아닌 생리일 기준인 이유</h2>
+  <p>임신 주수는 마지막 생리 시작일(LMP, Last Menstrual Period)을 기준으로 계산합니다. 실제 수정은 생리 후 약 2주 뒤 배란 시점에 일어나지만, 의학적으로는 LMP를 임신 0주 0일로 정의합니다. 이는 대부분의 여성이 수정 정확한 날짜보다 마지막 생리일을 더 잘 기억하고, 임신 초기에는 정확한 수정일을 알기 어렵기 때문입니다. 이로 인해 임신 주수 계산기상 "임신 1~2주"는 실제로는 아직 수정 전일 수도 있습니다.</p>
+  <p>임신 기간은 총 40주(280일)이며, 이 40주는 생리일부터 분만 예정일까지 계산됩니다. 실제 분만 예정일 당일에 출산하는 경우는 약 5%에 불과하고, 37~41주 사이가 정상 분만 범위입니다. 42주 이상은 과기 임신으로 분류해 유도분만을 고려합니다. 초음파 검사로 측정한 태아 크기(CRL, 머리-엉덩이 길이)가 주수 판정에 가장 정확하며, 특히 임신 6~10주 초음파가 기준 주수 설정에 중요합니다.</p>
+  <div class="formula-box">분만 예정일(EDC) = 마지막 생리 시작일 + 280일
+네겔레 공식: LMP 날짜에서 월 −3, 일 +7, 연도 +1
+임신 주수 = (오늘 − LMP) ÷ 7
 
-임신 주수 = (오늘 − 마지막 생리 시작일) ÷ 7
+예) LMP 2025년 1월 15일
+  분만 예정일 = 2025년 10월 22일
+  임신 13주 기준 = LMP + 91일 = 4월 16일부터</div>
+  <p>생리 주기가 28일보다 길거나 불규칙한 경우 네겔레 공식의 오차가 커집니다. 이 경우 초음파로 주수를 보정합니다. 실제 임상에서는 초음파 측정과 LMP 기준을 병행해 가장 신뢰도 높은 주수를 채택합니다. 위 시뮬레이터에서 주수를 입력하면 해당 시기의 태아 발달 현황을 확인할 수 있습니다.</p>
 
-예) 마지막 생리 2025년 1월 1일
-출산 예정일 = 2025년 10월 8일</div>
-  <h3>📊 임신 3분기 단계별 주요 변화</h3>
-  <p>임신 각 분기별로 태아와 산모에게 나타나는 특징적인 변화가 있습니다. 1분기는 기형 발생 위험이 가장 높은 시기로 약물 복용과 방사선 노출에 특히 주의해야 합니다. 3분기에는 태아 위치(두위·역위)가 결정되며, 역위의 경우 제왕절개 가능성이 높아집니다.</p>
+  <h2>임신 3분기(트라이메스터) 단계별 주요 변화</h2>
+  <p>임신 40주는 크게 3분기로 나뉩니다. 1분기(1~13주)는 심장·뇌·주요 장기가 형성되는 결정적 시기로, 기형 발생 위험이 가장 높습니다. 약물 복용, 방사선 노출, 음주에 가장 주의해야 하는 시기입니다. 2분기(14~27주)는 입덧이 줄고 태동을 처음 느끼는 비교적 안정된 시기입니다. 3분기(28~40주)는 태아가 가장 빠르게 성장하고 폐가 성숙하며 출산을 준비하는 단계입니다.</p>
   <table>
-    <thead><tr><th>분기</th><th>주수</th><th>태아 발달</th><th>산모 변화</th></tr></thead>
+    <thead><tr><th>분기</th><th>주수</th><th>태아 크기</th><th>주요 태아 발달</th><th>산모 변화</th></tr></thead>
     <tbody>
-      <tr><td>1분기</td><td>1~13주</td><td>심장·뇌·주요 장기 형성</td><td>입덧·피로·빈뇨</td></tr>
-      <tr><td>2분기</td><td>14~27주</td><td>태동 시작, 20cm 이상 성장</td><td>배 불러짐, 태동 느낌</td></tr>
-      <tr><td>3분기</td><td>28~40주</td><td>급성장, 폐 성숙, 태위 결정</td><td>부종·요통·숨참</td></tr>
+      <tr><td>🌱 1분기</td><td>1~13주</td><td>씨앗→키위</td><td>심장·뇌·주요 장기 형성</td><td>입덧·피로·빈뇨</td></tr>
+      <tr><td>🌸 2분기</td><td>14~27주</td><td>키위→파인애플</td><td>태동 시작, 청각 발달, 성별 구분</td><td>배 불러짐, 태동 느낌</td></tr>
+      <tr><td>🌟 3분기</td><td>28~40주</td><td>파인애플→수박</td><td>급성장, 폐 성숙, 태위 결정</td><td>부종·요통·숨참</td></tr>
     </tbody>
   </table>
-  <h3>📊 주요 산전 검사 일정</h3>
-  <p>임신 기간 중 시기별로 필수적인 산전 검사들이 있습니다. 기형아 선별 검사는 반드시 해당 시기에 받아야 하며, 임신성 당뇨 검사도 빠뜨리면 합병증 위험이 높아집니다. 각 검사의 의미와 결과 해석에 대해 담당 산부인과 의사와 충분히 상담하는 것이 중요합니다.</p>
+  <p>3분기에는 태아가 급격히 성장해 산모의 몸에 부담이 커집니다. 요통·다리 부종·수면 불편 등이 흔하며, 36주 이후에는 태아 머리가 골반 안으로 내려오면서 숨쉬기가 오히려 편해지는 '하강' 현상이 나타납니다. 역위(둔위)인 경우 34~36주에 외회전술이나 제왕절개를 고려합니다.</p>
+  <div class="tip-box"><strong>💡 분기별 꼭 해야 할 일 요약.</strong> 1분기: 엽산 400~800μg 매일 복용, 알코올·카페인 제한, 기형아 1차 검사(11~13주). 2분기: 철분 보충 시작, 기형아 2차 검사(16~18주), 임신성 당뇨 검사(24~28주). 3분기: 분만 준비 교육, 태동 모니터링, GBS 검사(35~37주), 병원 분만 계획 확정.</div>
+
+  <h2>주수별 필수 산전 검사 일정</h2>
+  <p>임신 중 시기별로 반드시 받아야 하는 산전 검사들이 있습니다. 검사 시기를 놓치면 정보를 얻을 수 없는 경우가 있으므로(특히 기형아 선별 검사), 임신 초기부터 검사 일정을 파악하고 관리하는 것이 중요합니다. 국민행복카드(구 고운맘카드)를 통해 대부분의 임신·분만 진료비 지원이 가능합니다.</p>
   <table>
-    <thead><tr><th>시기</th><th>검사</th><th>목적</th></tr></thead>
+    <thead><tr><th>시기</th><th>검사명</th><th>목적</th><th>지원 여부</th></tr></thead>
     <tbody>
-      <tr><td>6~8주</td><td>첫 초음파</td><td>착상 확인·심박 확인</td></tr>
-      <tr><td>11~13주</td><td>기형아 검사 1차</td><td>NT 초음파·혈액검사</td></tr>
-      <tr><td>16~18주</td><td>기형아 검사 2차</td><td>쿼드 마커 검사</td></tr>
-      <tr><td>24~28주</td><td>임신성 당뇨 검사</td><td>혈당 이상 확인</td></tr>
-      <tr><td>36~40주</td><td>GBS 검사</td><td>그룹 B 연쇄구균 확인</td></tr>
+      <tr><td>6~8주</td><td>임신 확인 초음파</td><td>착상 확인·심박 확인·주수 설정</td><td>국민행복카드</td></tr>
+      <tr><td>11~13주</td><td>1차 기형아 검사 (NT)</td><td>다운증후군 등 염색체 이상 선별</td><td>일부 지원</td></tr>
+      <tr><td>15~17주</td><td>2차 기형아 검사 (쿼드)</td><td>신경관 결손·염색체 이상 추가 선별</td><td>지원</td></tr>
+      <tr><td>18~22주</td><td>정밀 초음파</td><td>태아 기형 정밀 확인</td><td>지원</td></tr>
+      <tr><td>24~28주</td><td>임신성 당뇨 검사</td><td>혈당 이상 확인</td><td>지원</td></tr>
+      <tr><td>35~37주</td><td>GBS 검사</td><td>그룹B 연쇄구균 확인</td><td>지원</td></tr>
     </tbody>
   </table>
-  <div class="tip-box"><strong>💡 임신 중 필수 영양소.</strong> ① 엽산(1분기): 신경관 결손 예방, 하루 400~800μg ② 철분(2~3분기): 빈혈 예방, 하루 27mg ③ 칼슘: 태아 뼈·치아 형성, 하루 1,000mg ④ DHA: 태아 뇌 발달, 하루 200mg 이상. 카페인은 하루 200mg 이하(아메리카노 약 1잔), 알코올은 임신 기간 전체 금지입니다.</div>
+  <p>2024년 기준 임산부 1인당 국민행복카드 바우처는 단태아 100만원, 다태아 140만원입니다. 분만 취약지 추가 지원(20만원)과 2회 이상 고위험 임산부 지원도 별도로 있으므로 보건소 또는 건강보험공단에 문의하세요.</p>
+
+  <h2>임신 중 영양 관리 — 시기별 필수 영양소와 주의 식품</h2>
+  <p>임신 중에는 일반 성인보다 더 많은 영양소가 필요하지만, "2인분을 먹어야 한다"는 것은 잘못된 속설입니다. 칼로리는 1분기에 추가 섭취가 거의 필요 없고, 2분기 +340kcal, 3분기 +450kcal 정도면 충분합니다. 중요한 것은 칼로리 양보다 영양의 질입니다. 엽산, 철분, 칼슘, DHA 4가지가 임신 중 핵심 영양소입니다.</p>
+  <table>
+    <thead><tr><th>영양소</th><th>필요 시기</th><th>하루 권장량</th><th>주요 식품</th></tr></thead>
+    <tbody>
+      <tr><td>엽산</td><td>임신 전~1분기</td><td>400~800μg</td><td>시금치, 브로콜리, 아보카도</td></tr>
+      <tr><td>철분</td><td>2~3분기</td><td>27mg</td><td>소고기, 닭고기, 두부, 시금치</td></tr>
+      <tr><td>칼슘</td><td>전 기간</td><td>1,000mg</td><td>우유, 요거트, 두부, 뱅어포</td></tr>
+      <tr><td>DHA (오메가-3)</td><td>전 기간</td><td>200mg 이상</td><td>연어, 고등어, 견과류</td></tr>
+      <tr><td>비타민D</td><td>전 기간</td><td>600~800IU</td><td>햇빛, 연어, 달걀노른자</td></tr>
+    </tbody>
+  </table>
+  <div class="tip-box"><strong>⚠️ 임신 중 반드시 피해야 할 것들.</strong> ① 알코올: 소량도 태아 알코올 스펙트럼 장애 유발 가능, 임신 전 기간 금지 ② 카페인: 하루 200mg 이하(아메리카노 1잔 = 약 100~150mg) ③ 날 음식: 회·육회·날달걀·훈제 식품 ④ 고수은 생선: 참치·황새치·상어(주 1회 이하로 제한) ⑤ 미숙성 치즈: 리스테리아균 위험. 건강기능식품 복용 전에는 반드시 산부인과 의사 확인이 필요합니다.</div>
+
   <h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>임신 주수 계산 시 생리 주기가 불규칙하면 어떻게 하나요?</summary><div class="faq-answer">생리 주기가 28일보다 길거나 불규칙하면 네겔레 공식만으로 정확한 주수 계산이 어렵습니다. 이 경우 초음파로 태아 크기를 측정해 주수를 보정합니다. 초음파 측정이 가장 정확하며, 특히 임신 초기(6~10주) CRL 측정이 신뢰도가 가장 높습니다.</div></details>
-  <details><summary>출산 예정일과 실제 출산일이 다를 수 있나요?</summary><div class="faq-answer">출산 예정일 당일 출산하는 경우는 약 5%에 불과합니다. 정상 분만은 37~42주 사이에 이루어지며, 예정일 전후 2주 이내는 정상 범위입니다. 42주를 넘기면 과기 임신으로 유도분만을 고려하게 됩니다.</div></details>
-  <details><summary>입덧은 언제 시작해서 언제 끝나나요?</summary><div class="faq-answer">입덧은 보통 임신 6주경 시작해 12~16주에 자연스럽게 호전됩니다. 일부는 20주 이후까지 지속되거나 임신 내내 계속되는 경우도 있습니다. 수분 섭취를 유지하고 소량씩 자주 먹는 것이 도움이 되며, 심한 경우(과다 임신 구토증) 의사 상담이 필요합니다.</div></details>
-  <details><summary>임신 초기에 피해야 할 음식은 무엇인가요?</summary><div class="faq-answer">날 음식(회·육회·날달걀), 훈제 식품, 고수은 생선(참치·황새치·상어), 미숙성 치즈, 알코올은 임신 중 피해야 합니다. 카페인은 하루 200mg 이하로 제한하세요. 건강기능식품을 복용할 경우에도 반드시 산부인과 의사와 상담 후 결정해야 합니다.</div></details>
-  <details><summary>임신 중 비행기 탑승이 가능한가요?</summary><div class="faq-answer">대부분의 항공사는 임신 28~36주까지 비행기 탑승을 허용하며, 일부는 32~36주 이후 의사 소견서를 요구합니다. 임신 후기(36주 이후)에는 대부분 탑승이 제한됩니다. 장시간 비행 시 혈전 예방을 위해 2시간마다 일어나 걷는 것이 권장됩니다.</div></details>
+  <details><summary>임신 주수가 병원 초음파와 계산기 결과가 다른 이유는?</summary><div class="faq-answer">이 계산기는 생리 주기 28일 기준 LMP 공식을 사용합니다. 생리 주기가 28일이 아니거나 불규칙하다면 실제 배란일이 달라져 오차가 생깁니다. 또한 초음파로 태아 크기(CRL)를 직접 측정하면 더 정확한 주수를 알 수 있습니다. 초음파 측정 주수가 LMP 주수와 1주 이상 차이가 나면 초음파 결과를 우선합니다.</div></details>
+  <details><summary>입덧은 언제 시작해서 언제 끝나나요?</summary><div class="faq-answer">입덧은 보통 임신 6주경 시작해 12~16주에 자연스럽게 호전됩니다. 일부는 20주 이후까지 지속되거나 임신 내내 계속되는 경우도 있습니다. 수분 섭취를 유지하고 소량씩 자주 먹는 것이 도움이 됩니다. 하루 3회 이상 구토로 탈수·체중 감소가 심하면 과다 임신 구토증(Hyperemesis Gravidarum)으로 입원 치료가 필요할 수 있습니다.</div></details>
+  <details><summary>출산 예정일과 실제 출산일이 다를 수 있나요?</summary><div class="faq-answer">출산 예정일 당일 출산하는 경우는 약 5%에 불과합니다. 정상 분만은 37주 0일~41주 6일 사이이며, 예정일 전후 2주 이내는 정상 범위입니다. 42주 이상이면 과기 임신으로 유도분만을 고려합니다. 37주 이전 출산은 조산으로 신생아 집중치료가 필요할 수 있습니다.</div></details>
+  <details><summary>임신 중 비행기 탑승이 가능한가요?</summary><div class="faq-answer">대부분의 항공사는 임신 36주까지 탑승을 허용하며, 28~36주는 의사 소견서가 필요한 경우도 있습니다. 36주 이후는 대부분 탑승이 제한됩니다. 장시간 비행 시 혈전 예방을 위해 2시간마다 일어나 걷고 충분한 수분을 섭취하세요. 임신성 당뇨, 고위험 임신인 경우 항공사와 주치의에게 미리 확인하세요.</div></details>
+  <details><summary>임신 초기에 피해야 할 음식은 무엇인가요?</summary><div class="faq-answer">날 음식(회·육회·날달걀), 훈제 식품, 고수은 생선(참치·황새치·상어), 미숙성 소프트 치즈, 알코올은 임신 중 피해야 합니다. 카페인은 하루 200mg 이하로 제한합니다(아메리카노 약 1잔). 건강기능식품도 임신 중에는 모두 안전한 것은 아니므로 산부인과 의사와 상담 후 복용 여부를 결정하세요.</div></details>
 </div>
 <script src="/common.js" defer></script><script src="/share.js" defer></script>
 <script src="/calculator.js" defer></script>

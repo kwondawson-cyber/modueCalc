@@ -142,6 +142,38 @@
     <div class="detail-item"><span class="d-label">🏃 운동 (줄넘기·농구·수영)</span><span class="d-value">효과적</span></div>
     <div class="detail-item"><span class="d-label">📅 성장판 닫히는 시기</span><span class="d-value">여 만 14~16세, 남 만 16~18세</span></div>
   </div>
+
+  <div class="card" id="simCard" style="margin-top:8px">
+    <div class="card-title">📏 우리 아이 또래 키 백분위 확인</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">아이의 현재 나이와 키를 입력하면, 질병관리청 소아 성장도표 기준으로 또래 중 어느 위치인지 확인할 수 있습니다.</p>
+    <div style="display:flex;gap:10px;margin-bottom:12px">
+      <div style="flex:1">
+        <label style="display:block;font-size:12px;color:var(--text-muted);margin-bottom:5px">성별</label>
+        <div style="display:flex;gap:6px">
+          <button id="pct-boy" onclick="setPctGender('boy')" style="flex:1;padding:8px 4px;font-size:12px;font-weight:700;font-family:'Noto Sans KR',sans-serif;border-radius:8px;border:1px solid var(--accent);background:rgba(0,212,170,0.15);color:var(--accent);cursor:pointer">👦 남아</button>
+          <button id="pct-girl" onclick="setPctGender('girl')" style="flex:1;padding:8px 4px;font-size:12px;font-weight:700;font-family:'Noto Sans KR',sans-serif;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text-muted);cursor:pointer">👧 여아</button>
+        </div>
+      </div>
+      <div style="flex:1">
+        <label style="display:block;font-size:12px;color:var(--text-muted);margin-bottom:5px">나이 (만)</label>
+        <div style="position:relative">
+          <input type="number" id="pct-age" value="10" min="2" max="18" oninput="updatePercentile()"
+            style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:9px 32px 9px 12px;font-size:14px;font-weight:600;font-family:'Noto Sans KR',sans-serif;color:var(--text);outline:none"/>
+          <span style="position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--text-muted)">세</span>
+        </div>
+      </div>
+      <div style="flex:1">
+        <label style="display:block;font-size:12px;color:var(--text-muted);margin-bottom:5px">현재 키</label>
+        <div style="position:relative">
+          <input type="number" id="pct-height" value="140" min="60" max="200" oninput="updatePercentile()"
+            style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:9px 32px 9px 12px;font-size:14px;font-weight:600;font-family:'Noto Sans KR',sans-serif;color:var(--text);outline:none"/>
+          <span style="position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--text-muted)">cm</span>
+        </div>
+      </div>
+    </div>
+    <div id="pctResult"></div>
+    <p style="font-size:11px;color:var(--text-muted);margin-top:8px">※ 질병관리청 2017 소아청소년 성장도표 기준 · 만 2~18세 적용 · 의료적 진단 대체 불가</p>
+  </div>
 </div>
 
 <style>
@@ -157,6 +189,18 @@
 .seo-section details[open]{background:#161b22}
 .seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
 .seo-section .warn-box{background:rgba(255,165,0,0.05);border:1px solid rgba(255,165,0,0.2);border-radius:10px;padding:14px 18px;font-size:13px;color:#8b949e;line-height:1.8;margin:16px 0}
+.seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+.seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
+.seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
+.seo-section table tr:nth-child(even) td{background:#161b22}
+.seo-section table td strong{color:#00d4aa}
+.seo-section .tip-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .tip-box strong{color:#00d4aa}
+.sim-tbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px}
+.sim-tbl th{background:var(--surface2);color:var(--text);padding:8px 10px;border:1px solid var(--border);font-weight:600;text-align:left}
+.sim-tbl td{padding:7px 10px;border:1px solid var(--border);color:var(--text-muted);text-align:right}
+.sim-tbl td:first-child{text-align:left}
+.sim-tbl tr.hl td{color:var(--accent);font-weight:700}
 </style>
 <div class="rel-section">
   <h2>📌 함께 쓰면 유용한 계산기</h2>
@@ -169,37 +213,184 @@
   </div>
 </div>
 <div class="seo-section">
-  <h2>아이 예상키 계산 공식 완벽 정리 — 미드패런탈 공식이란?</h2>
-  <p>아이의 예상키를 계산하는 가장 신뢰도 높은 방법은 <strong>미드패런탈 공식(Mid-Parental Height, MPH)</strong>입니다. 소아청소년과에서 실제로 사용하는 공식으로, 부모의 키를 바탕으로 자녀의 유전적 신장 잠재력을 추정합니다. 오차 범위는 ±8.5cm입니다.</p>
-  <div class="formula-box">남아 예상키 = (아버지키 + 어머니키 + 13) ÷ 2  (±8.5cm 범위)
-여아 예상키 = (아버지키 + 어머니키 − 13) ÷ 2  (±8.5cm 범위)
+  <h2>미드패런탈 공식이란 — 소아과에서 실제로 쓰는 예상키 계산법</h2>
+  <p>아이의 예상 최종키를 계산하는 가장 신뢰도 높은 방법은 미드패런탈 공식(Mid-Parental Height, MPH)입니다. 소아청소년과에서 성장 평가 시 실제로 사용하는 공식으로, 부모의 키를 평균 낸 뒤 성별 보정값(±6.5cm)을 더하거나 빼는 방식입니다. 오차 범위는 ±8.5cm로, 이 범위 안에서 95%의 아이가 성장한다는 통계적 근거를 가집니다. 즉 예상키 ±8.5cm가 정상 성장 범위로 해석됩니다.</p>
+  <p>유전은 최종 키에 약 60~80%의 영향을 미치지만, 나머지 20~40%는 영양·수면·운동·질환 여부 등 환경 요인에 달려 있습니다. 이 20~40%의 환경 요인을 최적화하면 유전적으로 예측된 키보다 더 클 가능성이 있습니다. 특히 성장판이 열려 있는 시기에 수면·영양·운동 3가지를 잘 관리하는 것이 핵심입니다. 위 시뮬레이터에서 부모 키를 조합해 남아·여아 예상키를 동시에 확인해보세요.</p>
+  <div class="formula-box">미드패런탈 공식 (Mid-Parental Height):
+남아 예상키 = (아버지키 + 어머니키 + 13) ÷ 2  (오차범위 ±8.5cm)
+여아 예상키 = (아버지키 + 어머니키 − 13) ÷ 2  (오차범위 ±8.5cm)
 
-예) 아버지 175cm, 어머니 162cm인 경우
-  남아: (175 + 162 + 13) ÷ 2 = 175cm  (범위: 166.5 ~ 183.5cm)
-  여아: (175 + 162 − 13) ÷ 2 = 162cm  (범위: 153.5 ~ 170.5cm)</div>
+예) 아버지 175cm, 어머니 162cm
+  남아: (175 + 162 + 13) ÷ 2 = 175.0cm (범위: 166.5~183.5cm)
+  여아: (175 + 162 − 13) ÷ 2 = 162.0cm (범위: 153.5~170.5cm)
 
-  <h3>📊 한국 아이들의 평균 키는?</h3>
-  <p>2023년 기준 한국 남성 평균 신장은 약 174cm, 여성은 약 161cm입니다. 1970년대 대비 남성은 약 6cm, 여성은 약 5cm 커졌습니다. 영양 개선과 생활 환경의 변화가 주요 원인으로 꼽힙니다. 부모 세대보다 자녀가 평균적으로 1~3cm 더 큰 경향이 있습니다.</p>
+※ 보정값 13cm = 남녀 평균 키 차이(약 12~13cm)를 반영한 값</div>
+  <p>공식의 보정값 +13cm(남아)/-13cm(여아)은 남녀 평균 키 차이를 반영합니다. 부모의 키가 평균이면 예상키도 평균에 가깝고, 부모가 특별히 크거나 작으면 자녀도 그 방향으로 편향됩니다. 단, 이 공식은 통계적 예측이므로 개별 아이에게는 큰 개인차가 있을 수 있습니다.</p>
 
-  <h3>🌙 성장호르몬과 수면의 관계 — 밤 10시가 중요한 이유</h3>
-  <p>성장호르몬의 60~70%는 깊은 잠(서파수면) 중 분비됩니다. 특히 잠든 후 1~2시간 사이에 가장 많이 분비되므로, 밤 10시~11시 이전에 잠드는 것이 중요합니다. 초등학생은 9~11시간, 중학생은 8~10시간의 수면이 권장됩니다. 스마트폰·유튜브로 늦게 자는 습관은 성장호르몬 분비를 방해하는 가장 큰 원인입니다.</p>
+  <h2>부모키 조합별 남아·여아 예상키 비교표</h2>
+  <p>아래 표는 부모 키 조합에 따른 남아·여아 예상키입니다. 부모 키 1cm 차이가 예상키에 0.5cm 차이를 만들기 때문에, 부모 두 명의 키를 함께 고려해야 합니다. 부모 중 한 명이 특별히 크더라도 다른 한 명이 작으면 상쇄됩니다. 위 계산기에 부모 키를 직접 입력해 본인 상황의 정확한 예상키를 확인해보세요.</p>
+  <table>
+    <thead><tr><th>아버지 키</th><th>어머니 키</th><th>남아 예상키</th><th>남아 범위</th><th>여아 예상키</th><th>여아 범위</th></tr></thead>
+    <tbody>
+      <tr><td>165cm</td><td>155cm</td><td>166.5cm</td><td>158~175cm</td><td>153.5cm</td><td>145~162cm</td></tr>
+      <tr><td>170cm</td><td>158cm</td><td>170.5cm</td><td>162~179cm</td><td>157.5cm</td><td>149~166cm</td></tr>
+      <tr><td><strong>175cm</strong></td><td><strong>162cm</strong></td><td><strong>175.0cm</strong></td><td><strong>167~184cm</strong></td><td><strong>162.0cm</strong></td><td><strong>154~171cm</strong></td></tr>
+      <tr><td>178cm</td><td>165cm</td><td>178.0cm</td><td>170~187cm</td><td>165.0cm</td><td>157~174cm</td></tr>
+      <tr><td>180cm</td><td>168cm</td><td>180.5cm</td><td>172~189cm</td><td>167.5cm</td><td>159~176cm</td></tr>
+      <tr><td>183cm</td><td>170cm</td><td>183.0cm</td><td>175~192cm</td><td>170.0cm</td><td>162~179cm</td></tr>
+    </tbody>
+  </table>
+  <p>예상키보다 실제 키가 오차범위(±8.5cm)를 벗어나 지나치게 작거나 크다면 성장 장애나 성조숙증 가능성이 있습니다. 미드패런탈 공식은 통계적 예측이므로 개별 아이에게는 큰 개인차가 있을 수 있고, 이상이 의심되면 소아청소년과 전문의 상담을 권장합니다.</p>
+  <div class="tip-box"><strong>💡 예상키보다 더 크게 자라게 하는 환경 요인 3가지.</strong> ① 수면: 성장호르몬의 60~70%는 깊은 수면 중 분비됩니다. 초등학생 9~11시간, 중학생 8~10시간 권장. 밤 10시 이전 취침 습관이 중요합니다. ② 영양: 칼슘(우유·두부·멸치), 아연(굴·소고기), 비타민D(햇빛·연어), 단백질을 균형 있게 섭취하세요. ③ 운동: 줄넘기·농구·수영 등 성장판 자극 운동이 효과적입니다. 과도한 역도나 체조는 오히려 성장판에 부담을 줄 수 있습니다.</div>
 
-  <h3>🥗 키 성장에 도움이 되는 영양소</h3>
-  <p>칼슘은 뼈 성장에 직접적으로 필요하며, 우유·치즈·두부·멸치에 풍부합니다. 아연은 성장호르몬 분비를 돕는데 굴·소고기·견과류에 많습니다. 비타민D는 칼슘 흡수를 도와주며 햇빛과 연어·달걀노른자에서 얻을 수 있습니다. 단백질은 근육과 뼈 형성에 필수적으로 매 끼니 적절히 섭취해야 합니다.</p>
+  <h2>우리 아이 키 백분위란 — 또래 비교가 중요한 이유</h2>
+  <p>아이의 키가 "잘 크고 있는지" 판단하는 가장 정확한 방법은 절대적인 키 수치보다 또래 대비 백분위(percentile)를 확인하는 것입니다. 백분위 P50은 또래 100명 중 50번째, 즉 평균을 의미합니다. P10이면 100명 중 키 순서로 10번째로 작다는 뜻이고, P90이면 90번째로 크다는 뜻입니다. 성장 이상 여부를 판단하는 의학적 기준은 P3 미만(하위 3%) 또는 P97 초과(상위 3%)입니다.</p>
+  <p>위 시뮬레이터는 질병관리청이 2017년 발표한 소아청소년 성장도표를 기준으로, 아이의 현재 나이와 키를 입력하면 또래 백분위를 즉시 확인할 수 있습니다. 절대 키보다 백분위 추이가 더 중요합니다. 예를 들어 P30이더라도 매년 꾸준히 유지되고 있다면 정상 성장이지만, P50에서 P15로 떨어지는 추세라면 원인을 파악해야 합니다. 6개월~1년 간격으로 백분위를 기록해두는 것이 좋습니다.</p>
+  <table>
+    <thead><tr><th>백분위 범위</th><th>의미</th><th>권장 행동</th></tr></thead>
+    <tbody>
+      <tr><td>P3 미만</td><td>또래 하위 3% — 성장 부진 기준</td><td>소아청소년과 전문의 상담 권장</td></tr>
+      <tr><td>P3~P10</td><td>또래 하위 3~10%</td><td>성장 추이 모니터링, 원인 확인</td></tr>
+      <tr><td>P10~P25</td><td>평균보다 작은 편</td><td>영양·수면·운동 점검</td></tr>
+      <tr><td><strong>P25~P75</strong></td><td><strong>정상 평균 범위</strong></td><td><strong>정상 성장 중</strong></td></tr>
+      <tr><td>P75~P90</td><td>평균보다 큰 편</td><td>정상, 꾸준히 유지</td></tr>
+      <tr><td>P90~P97</td><td>또래 상위 10%</td><td>정상 (성조숙증 여부 확인 권장)</td></tr>
+      <tr><td>P97 초과</td><td>또래 상위 3% — 과성장 기준</td><td>소아청소년과 전문의 상담 권장</td></tr>
+    </tbody>
+  </table>
+  <div class="tip-box"><strong>⚠️ 성장 우려 신호 체크리스트.</strong> 다음 중 해당 항목이 있다면 소아청소년과 방문을 권장합니다: ① 또래 키 백분위 P3 미만 ② 연간 성장 속도 4cm 미만 ③ 여아 8세 미만·남아 9세 미만에 2차 성징 출현(성조숙증 의심) ④ 6개월 이상 키 백분위가 지속 하락 ⑤ 예상키보다 10cm 이상 작게 성장 중. 조기 발견할수록 개입 효과가 큽니다.</div>
 
-  <h3>🏃 키 성장에 효과적인 운동 TOP 3</h3>
-  <p>줄넘기는 성장판에 적절한 자극을 주면서 전신 운동이 가능해 가장 추천되는 성장 운동입니다. 농구·배구처럼 점프 동작이 많은 스포츠도 효과적입니다. 수영은 척추 압박 없이 키 성장을 돕는 저충격 전신 운동입니다. 반면 과도한 역도·파워리프팅은 성장판에 부담을 줄 수 있어 성장기에는 피하는 것이 좋습니다.</p>
+  <h2>키 성장을 결정하는 4가지 환경 요인</h2>
+  <p>유전 외에 키 성장에 영향을 주는 환경 요인 중 가장 중요한 3가지는 수면·영양·운동입니다. 이 세 가지가 최적화되어 있을 때 유전적 잠재키에 가장 가깝게 성장할 수 있습니다. 여기에 스트레스·질병 여부도 성장에 영향을 줍니다. 만성 스트레스는 코르티솔 분비를 높여 성장호르몬 분비를 억제하고, 잦은 감기나 만성 질환은 에너지가 성장보다 면역에 쓰이게 합니다.</p>
+  <table>
+    <thead><tr><th>요인</th><th>중요도</th><th>핵심 내용</th><th>실천 방법</th></tr></thead>
+    <tbody>
+      <tr><td>🧬 유전</td><td>60~80%</td><td>부모 키가 가장 큰 변수</td><td>미드패런탈 공식으로 예측</td></tr>
+      <tr><td>😴 수면</td><td>매우 높음</td><td>성장호르몬 60~70% 수면 중 분비</td><td>밤 10시 이전 취침, 9~11시간 수면</td></tr>
+      <tr><td>🥗 영양</td><td>높음</td><td>칼슘·아연·단백질·비타민D</td><td>우유·두부·소고기·햇빛 충분히</td></tr>
+      <tr><td>🏃 운동</td><td>보통</td><td>성장판 자극, 성장호르몬 분비 촉진</td><td>줄넘기·농구·수영 권장, 역도 자제</td></tr>
+    </tbody>
+  </table>
+  <div class="tip-box"><strong>💡 줄넘기가 성장에 좋은 이유.</strong> 줄넘기는 점프 시 성장판에 적절한 압력과 충격을 줘 골세포 증식을 자극합니다. 동시에 성장호르몬 분비도 촉진됩니다. 하루 10~15분, 주 5회 정도가 적당합니다. 수영은 척추 압박 없이 전신을 균형 있게 발달시켜 체형 교정에도 도움이 됩니다.</div>
+
+  <h2>성장판과 성장 가능 시기 — 언제까지 키가 크나</h2>
+  <p>성장판(골단판)은 뼈의 끝 부분에 있는 연골 조직으로, 여기서 새로운 뼈 세포가 생성돼 키가 자랍니다. 성장판이 닫히면 더 이상 키가 크지 않습니다. 여아는 일반적으로 만 12~14세, 남아는 만 14~17세에 성장 속도가 가장 빠른 급성장기(성장 급등기, Growth Spurt)가 나타나며, 이 시기를 최대한 활용하는 것이 중요합니다.</p>
+  <p>성장판 상태는 손목 X-ray(골연령 검사)로 확인할 수 있습니다. 골연령이 실제 나이보다 어리면 아직 성장 여력이 남아 있고, 반대로 골연령이 실제 나이보다 빠르면(성조숙증) 성장판이 일찍 닫혀 최종 키가 예상보다 작아질 수 있습니다. 연간 성장 속도가 4cm 미만이거나 또래 하위 3% 미만이라면 소아청소년과 전문의를 방문하는 것이 좋습니다.</p>
+  <table>
+    <thead><tr><th>성별</th><th>급성장기</th><th>성장 속도</th><th>성장판 닫히는 시기</th><th>이후 성장</th></tr></thead>
+    <tbody>
+      <tr><td>여아</td><td>만 10~12세</td><td>연 6~9cm</td><td>만 14~16세</td><td>거의 없음</td></tr>
+      <tr><td>남아</td><td>만 12~14세</td><td>연 7~10cm</td><td>만 16~18세</td><td>소량 가능</td></tr>
+    </tbody>
+  </table>
+  <div class="tip-box"><strong>⚠️ 성장 우려 기준 체크리스트.</strong> 다음 중 해당 항목이 있다면 소아청소년과 방문을 권장합니다: ① 연간 성장 속도가 4cm 미만 ② 또래 100명 중 키 순위가 최하위 3명 이내 ③ 여아 8세 미만·남아 9세 미만에 2차 성징 출현(성조숙증 의심) ④ 예상키보다 10cm 이상 작게 성장 중. 조기 발견할수록 개입 효과가 큽니다.</div>
 
   <h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>우리 아이 키가 또래보다 작은데 성장 부진인가요?</summary><div class="faq-answer">같은 나이·성별 중 키가 하위 3% 미만이거나, 1년에 4cm 미만으로 자란다면 성장 부진을 의심할 수 있습니다. 소아청소년과에서 골연령 검사(손목 X-ray)를 통해 성장 가능성을 확인해보세요.</div></details>
-  <details><summary>성장판이 닫혔는지 확인하는 방법은?</summary><div class="faq-answer">소아청소년과나 정형외과에서 손목 X-ray(골연령 검사)를 통해 성장판 상태를 확인할 수 있습니다. 여아는 만 14~16세, 남아는 만 16~18세 전후로 성장판이 닫힙니다.</div></details>
-  <details><summary>성장호르몬 주사가 효과 있나요?</summary><div class="faq-answer">성장호르몬 결핍증이 진단된 경우 의료진의 처방 하에 투여합니다. 정상 범위 아이에게 무분별하게 투여하는 것은 효과가 제한적이며 부작용 위험이 있습니다. 반드시 소아내분비 전문의 상담이 필요합니다.</div></details>
-  <details><summary>부모가 모두 작으면 아이도 무조건 작은가요?</summary><div class="faq-answer">유전은 60~80%의 영향을 미치지만 나머지 20~40%는 환경 요인입니다. 부모가 작더라도 충분한 영양, 규칙적인 수면, 적절한 운동을 통해 유전적 잠재키에 가까운 성장을 달성할 수 있습니다.</div></details>
-  <details><summary>초등학생 때 키가 작아도 나중에 클 수 있나요?</summary><div class="faq-answer">늦게 크는 경우(late bloomer)가 있습니다. 골연령이 실제 나이보다 어리다면 성장 여력이 남아 있다는 뜻입니다. 반면 골연령이 실제 나이보다 빠르다면(성조숙증) 성장판이 일찍 닫혀 최종 키가 작아질 수 있습니다.</div></details>
-
+  <details><summary>우리 아이 키가 또래보다 작은데 성장 부진인가요?</summary><div class="faq-answer">같은 나이·성별 중 키가 하위 3% 미만이거나, 1년에 4cm 미만으로 자란다면 성장 부진을 의심할 수 있습니다. 소아청소년과에서 골연령 검사(손목 X-ray)를 통해 성장 가능성을 확인해보세요. 성장 부진의 원인으로는 성장호르몬 결핍, 갑상선 기능 저하, 영양 결핍, 만성 질환 등이 있습니다.</div></details>
+  <details><summary>성장판이 닫혔는지 확인하는 방법은?</summary><div class="faq-answer">소아청소년과나 정형외과에서 손목 X-ray(골연령 검사)를 통해 성장판 상태를 확인할 수 있습니다. 여아는 만 14~16세, 남아는 만 16~18세 전후로 성장판이 닫힙니다. 골연령이 실제 나이보다 어릴수록 성장 여력이 더 남아 있습니다.</div></details>
+  <details><summary>성장호르몬 주사가 효과 있나요?</summary><div class="faq-answer">성장호르몬 결핍증이 진단된 경우 의료진 처방 하에 투여합니다. 정상 범위 아이에게 무분별하게 투여하는 것은 효과가 제한적이며 부작용(관절통, 부종, 드물게 혈당 이상) 위험이 있습니다. 반드시 소아내분비 전문의 상담이 필요합니다.</div></details>
+  <details><summary>부모가 모두 작으면 아이도 무조건 작은가요?</summary><div class="faq-answer">유전은 60~80%의 영향을 미치지만 나머지 20~40%는 환경 요인입니다. 부모가 작더라도 충분한 영양, 규칙적인 수면, 적절한 운동을 통해 유전적 잠재키에 가까운 성장을 달성할 수 있습니다. 조부모 세대보다 부모 세대가 평균 5~6cm 큰 것처럼, 환경 개선의 효과는 세대를 거쳐 누적됩니다.</div></details>
+  <details><summary>초등학생 때 키가 작아도 나중에 클 수 있나요?</summary><div class="faq-answer">늦게 크는 경우(Late Bloomer)가 있습니다. 골연령이 실제 나이보다 어리다면 성장 여력이 남아 있다는 뜻입니다. 반면 골연령이 실제 나이보다 빠르다면(성조숙증) 성장판이 일찍 닫혀 최종 키가 작아질 수 있습니다. 정기적인 성장 모니터링과 골연령 검사로 판단하는 것이 정확합니다.</div></details>
 </div>
-
 <script>
+
+// ── 또래 키 백분위 (질병관리청 2017 성장도표 P3/P10/P25/P50/P75/P90/P97 기준) ──
+// [나이(세), P3, P10, P25, P50, P75, P90, P97]
+var _boyH = {
+  2:[82.5,84.5,86.5,88.5,90.7,92.7,94.7],3:[88.4,90.7,93.0,95.3,97.7,99.9,102.2],
+  4:[94.2,96.8,99.4,102.0,104.7,107.2,109.8],5:[99.7,102.6,105.5,108.5,111.5,114.2,117.0],
+  6:[104.8,108.1,111.4,114.7,118.2,121.3,124.5],7:[109.7,113.3,116.9,120.7,124.4,127.8,131.3],
+  8:[114.4,118.3,122.2,126.3,130.4,134.1,137.8],9:[119.0,123.2,127.4,131.8,136.3,140.2,144.2],
+  10:[123.5,128.0,132.5,137.2,142.1,146.4,150.7],11:[128.3,133.1,137.9,143.1,148.3,152.9,157.6],
+  12:[133.4,138.7,144.0,149.7,155.5,160.6,165.7],13:[139.2,144.9,150.7,156.8,163.0,168.3,173.7],
+  14:[145.2,151.1,156.9,163.0,169.2,174.4,179.7],15:[150.1,155.8,161.3,167.2,173.0,178.0,183.0],
+  16:[153.3,158.6,163.9,169.5,175.2,180.0,184.7],17:[154.9,160.0,165.2,170.6,176.1,180.7,185.4],
+  18:[155.6,160.6,165.6,170.9,176.3,181.0,185.6]
+};
+var _girlH = {
+  2:[81.5,83.5,85.5,87.5,89.6,91.5,93.5],3:[87.4,89.6,91.8,94.1,96.4,98.5,100.7],
+  4:[93.1,95.5,97.9,100.4,102.9,105.2,107.6],5:[98.5,101.2,103.9,106.7,109.5,112.0,114.6],
+  6:[103.6,106.6,109.6,112.7,115.9,118.6,121.4],7:[108.5,111.8,115.1,118.5,122.0,124.9,127.9],
+  8:[113.3,116.9,120.5,124.2,128.0,131.2,134.4],9:[118.1,122.0,125.9,129.9,134.0,137.4,140.8],
+  10:[123.2,127.3,131.4,135.7,140.1,143.8,147.5],11:[128.7,133.0,137.4,142.0,146.6,150.5,154.5],
+  12:[134.3,138.8,143.3,148.0,152.8,156.8,160.9],13:[138.8,143.2,147.7,152.3,157.0,160.9,164.9],
+  14:[141.4,145.6,149.9,154.4,159.0,162.8,166.7],15:[142.5,146.7,150.9,155.4,160.0,163.8,167.6],
+  16:[142.8,147.0,151.2,155.7,160.3,164.1,167.9],17:[143.0,147.2,151.4,155.9,160.5,164.3,168.1],
+  18:[143.2,147.4,151.6,156.1,160.7,164.5,168.3]
+};
+var _pctGender = 'boy';
+function setPctGender(g) {
+  _pctGender = g;
+  var ac = 'rgba(0,212,170,0.15)', bc = 'var(--surface2)', ab = 'var(--accent)', bb = 'var(--border)', at = 'var(--accent)', bt = 'var(--text-muted)';
+  document.getElementById('pct-boy').style.background  = g==='boy'?ac:bc;
+  document.getElementById('pct-boy').style.borderColor = g==='boy'?ab:bb;
+  document.getElementById('pct-boy').style.color       = g==='boy'?at:bt;
+  document.getElementById('pct-girl').style.background  = g==='girl'?ac:bc;
+  document.getElementById('pct-girl').style.borderColor = g==='girl'?ab:bb;
+  document.getElementById('pct-girl').style.color       = g==='girl'?at:bt;
+  updatePercentile();
+}
+function updatePercentile() {
+  var age = parseInt(document.getElementById('pct-age').value) || 10;
+  var h   = parseFloat(document.getElementById('pct-height').value) || 140;
+  age = Math.min(18, Math.max(2, age));
+  var table = _pctGender === 'boy' ? _boyH : _girlH;
+  var row = table[age];
+  if (!row) return;
+  var pcts = [3,10,25,50,75,90,97];
+  // 백분위 보간
+  var pctile = 0;
+  if (h <= row[0]) pctile = 3;
+  else if (h >= row[6]) pctile = 97;
+  else {
+    for (var i = 0; i < 6; i++) {
+      if (h >= row[i] && h <= row[i+1]) {
+        pctile = pcts[i] + (h - row[i]) / (row[i+1] - row[i]) * (pcts[i+1] - pcts[i]);
+        break;
+      }
+    }
+  }
+  var pctile_r = Math.round(pctile);
+  var grade, color;
+  if (pctile < 3)        { grade = '또래 하위 3% 미만 — 성장 전문의 상담 권장'; color = '#ff6b6b'; }
+  else if (pctile < 10)  { grade = '또래 하위 3~10% — 성장 모니터링 필요';      color = '#f5a623'; }
+  else if (pctile < 25)  { grade = '또래 하위 10~25% — 평균보다 작은 편';        color = '#8b949e'; }
+  else if (pctile < 75)  { grade = '또래 25~75% — 정상 평균 범위';              color = '#00d4aa'; }
+  else if (pctile < 90)  { grade = '또래 75~90% — 평균보다 큰 편';              color = '#00d4aa'; }
+  else if (pctile < 97)  { grade = '또래 90~97% — 또래 상위 10%';              color = '#0095ff'; }
+  else                   { grade = '또래 상위 3% 이상 — 매우 큰 편';            color = '#0095ff'; }
+
+  // 막대 시각화
+  var barPct = Math.min(97, Math.max(3, pctile));
+  var barW = ((barPct - 3) / 94 * 100).toFixed(1);
+
+  var html = '<div style="background:var(--surface2);border-radius:12px;padding:16px;margin-bottom:10px">';
+  html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">';
+  html += '<span style="font-size:13px;color:var(--text-muted)">또래 백분위</span>';
+  html += '<span style="font-family:Montserrat,sans-serif;font-size:28px;font-weight:900;color:'+color+'">P'+pctile_r+'</span>';
+  html += '</div>';
+  html += '<div style="background:var(--border);border-radius:4px;height:8px;position:relative;margin-bottom:8px">';
+  html += '<div style="position:absolute;left:0;top:0;height:100%;width:'+barW+'%;background:'+color+';border-radius:4px;transition:width .4s"></div>';
+  html += '</div>';
+  html += '<div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted);margin-bottom:12px"><span>P3</span><span>P25</span><span>P50</span><span>P75</span><span>P97</span></div>';
+  html += '<div style="font-size:13px;font-weight:700;color:'+color+'">'+grade+'</div>';
+  html += '</div>';
+
+  // 또래 비교표
+  html += '<table class="sim-tbl"><thead><tr><th>백분위</th><th>기준 키</th><th>내 아이</th></tr></thead><tbody>';
+  var labels = ['P3 (하위 3%)', 'P10', 'P25', 'P50 (평균)', 'P75', 'P90', 'P97 (상위 3%)'];
+  for (var j = 0; j < row.length; j++) {
+    var isMe = (j === 0 && h <= row[0]) || (j === 6 && h >= row[6]) ||
+               (j > 0 && j < 6 && h >= row[j] && h < row[j+1]) ||
+               (j === Math.min(6, Math.max(0, pcts.findIndex(function(p){return p >= pctile_r}))));
+    var diff = (h - row[j]).toFixed(1);
+    var sign = diff > 0 ? '+' : '';
+    html += '<tr'+(Math.abs(h-row[j]) < 2?' class="hl"':'')+'><td>'+labels[j]+'</td><td>'+row[j].toFixed(1)+'cm</td><td>'+(Math.abs(h-row[j]) < 2?'← 내 아이 ('+h+'cm)':sign+diff+'cm')+'</td></tr>';
+  }
+  html += '</tbody></table>';
+  document.getElementById('pctResult').innerHTML = html;
+}
+document.addEventListener('DOMContentLoaded', updatePercentile);
 let gender = 'boy';
 function setGender(g) {
   gender = g;
