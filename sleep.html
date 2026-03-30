@@ -198,8 +198,35 @@
     document.getElementById('resultCard').classList.add('visible');
   }
 
-  window.onload = () => {};
+  window.onload = () => { calculate(); };
 </script>
+
+<!-- 기상시간별 취침시간 simCard -->
+<div style="max-width:640px;margin:0 auto;padding:0 20px 8px">
+  <div style="background:#161b22;border:1px solid #30363d;border-radius:16px;padding:24px" id="simCard">
+    <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:#00d4aa;text-transform:uppercase;margin-bottom:10px">⚡ 기상 시간별 최적 취침 시간 (5사이클 기준)</div>
+    <p style="font-size:12px;color:#8b949e;margin-bottom:14px;line-height:1.7">5사이클(7시간 30분) 기준 잠드는 데 15분 소요 가정. 위 계산기에서 더 다양한 사이클을 확인하세요.</p>
+    <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:13px">
+        <thead><tr>
+          <th style="padding:8px 12px;text-align:left;background:#21262d;color:#8b949e;border:1px solid #30363d">기상 시간</th>
+          <th style="padding:8px 10px;text-align:center;background:#21262d;color:#00d4aa;border:1px solid #30363d">권장 취침 (5사이클)</th>
+          <th style="padding:8px 10px;text-align:center;background:#21262d;color:#8b949e;border:1px solid #30363d">차선 취침 (4사이클)</th>
+          <th style="padding:8px 10px;text-align:center;background:#21262d;color:#8b949e;border:1px solid #30363d">총 수면</th>
+        </tr></thead>
+        <tbody>
+          <tr><td style="padding:8px 12px;border:1px solid #30363d;color:#e6edf3">오전 5:00</td><td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#00d4aa;font-weight:700">오후 9:15</td><td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#8b949e">오후 10:45</td><td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#8b949e">7h 30m / 6h</td></tr>
+          <tr style="background:rgba(255,255,255,0.01)"><td style="padding:8px 12px;border:1px solid #30363d;color:#e6edf3">오전 6:00</td><td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#00d4aa;font-weight:700">오후 10:15</td><td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#8b949e">오후 11:45</td><td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#8b949e">7h 30m / 6h</td></tr>
+          <tr><td style="padding:8px 12px;border:1px solid #30363d;color:#e6edf3">오전 7:00</td><td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#00d4aa;font-weight:700">오후 11:15</td><td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#8b949e">오전 12:45</td><td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#8b949e">7h 30m / 6h</td></tr>
+          <tr style="background:rgba(255,255,255,0.01)"><td style="padding:8px 12px;border:1px solid #30363d;color:#e6edf3">오전 7:30</td><td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#00d4aa;font-weight:700">오전 12:00 (자정)</td><td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#8b949e">오전 1:30</td><td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#8b949e">7h 30m / 6h</td></tr>
+          <tr><td style="padding:8px 12px;border:1px solid #30363d;color:#e6edf3">오전 8:00</td><td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#00d4aa;font-weight:700">오전 12:15</td><td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#8b949e">오전 2:15</td><td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#8b949e">7h 30m / 6h</td></tr>
+          <tr style="background:rgba(255,255,255,0.01)"><td style="padding:8px 12px;border:1px solid #30363d;color:#e6edf3">오전 9:00</td><td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#00d4aa;font-weight:700">오전 1:15</td><td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#8b949e">오전 2:45</td><td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#8b949e">7h 30m / 6h</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="margin-top:8px;font-size:11px;color:#8b949e">※ 잠드는 데 15분 가정. 수면 사이클 개인차(80~110분) 있음. 위 계산기에서 본인 기상 시간으로 정확히 확인하세요.</div>
+  </div>
+</div>
 
 <div class="rel-section">
   <h2>📌 함께 쓰면 유용한 계산기</h2>
@@ -215,6 +242,7 @@
 <div class="seo-section">
   <h2>😴 수면 사이클이란? — 90분의 과학</h2>
   <p>사람의 수면은 약 <strong>90분을 한 사이클</strong>로 하여 반복됩니다. 한 사이클은 얕은 수면(N1·N2) → 깊은 수면(N3) → 렘(REM) 수면 순서로 진행되며, 이 사이클이 완료되는 시점에 깨어나야 뇌가 자연스럽게 각성 상태가 됩니다. 사이클 중간에 깨면 뇌가 깊은 수면에서 강제로 끊기므로 피로감과 두통이 생기고 하루 종일 멍한 느낌이 납니다.</p>
+  <p>위 계산기는 기상 시간 또는 취침 시간을 입력하면 90분 사이클 기준으로 2~6사이클 각각의 최적 시간을 계산합니다. 잠드는 데 걸리는 시간(약 15분)까지 반영해 실제 누워야 하는 시간을 알려줍니다.</p>
 
   <div class="formula-box">
 취침 시간 = 기상 시간 − (수면 사이클 수 × 90분) − 15분(잠드는 시간)
@@ -224,6 +252,8 @@
   <div class="tip-box">💡 <strong>가장 개운한 수면:</strong> 5~6 사이클 (7시간 30분 ~ 9시간)이 이상적입니다. 4사이클(6시간)도 사이클 끝에 깨면 3사이클(4시간 30분)보다 훨씬 개운합니다.</div>
 
   <h2>📊 나이별 권장 수면 시간</h2>
+  <p>미국 수면의학회(AASM)와 수면연구학회(SRS) 권고 기준입니다. 성인은 7~9시간, 즉 5~6사이클이 적정 수면 시간입니다. 나이가 들수록 깊은 수면(N3) 비중이 줄어들고 렘수면이 잦아져 수면 효율이 낮아질 수 있습니다.</p>
+  <p>권장 수면 시간보다 적게 자면 수면 부채가 쌓이고, 너무 많이 자도 수면 리듬이 깨질 수 있습니다. 아래 표를 기준으로 본인 연령대에 맞는 수면 시간을 확인하고, 위 계산기로 최적 취침 시간을 설정하세요.</p>
   <table>
     <thead><tr><th>연령대</th><th>권장 수면 시간</th><th>적정 사이클</th></tr></thead>
     <tbody>
@@ -236,9 +266,8 @@
   </table>
 
   <h2>⚠️ 수면 부채와 건강 영향</h2>
-  <p>수면 부채(sleep debt)는 매일 조금씩 부족한 수면이 누적된 상태입니다. 하루 1시간씩 부족해도 일주일이면 7시간, 한 달이면 30시간이 쌓입니다.</p>
-
-  <h3>수면 부족이 미치는 영향</h3>
+  <p>수면 부채(sleep debt)는 매일 조금씩 부족한 수면이 누적된 상태입니다. 하루 1시간씩 부족해도 일주일이면 7시간, 한 달이면 30시간이 쌓입니다. 미국 펜실베이니아대 연구에 따르면 2주간 하루 6시간 수면을 유지한 그룹의 인지 능력 저하가 완전 72시간 수면 박탈 그룹과 비슷한 수준이었습니다.</p>
+  <p>수면 부채의 무서운 점은 본인이 느끼는 주관적 졸림 정도와 실제 인지 능력 저하가 불일치한다는 것입니다. 즉 "나는 별로 안 피곤한데"라고 느껴도 실제로는 판단력과 반응 속도가 크게 떨어져 있을 수 있습니다.</p>
   <table>
     <thead><tr><th>지속 기간</th><th>주요 영향</th></tr></thead>
     <tbody>
@@ -252,6 +281,8 @@
   <div class="warn-box">⚠️ <strong>주말 몰아자기의 함정:</strong> 주말에 2~3시간 더 자는 것으로 수면 부채를 갚을 수 없습니다. 오히려 수면 리듬이 깨져 월요일 아침이 더 힘들어집니다. 매일 일정한 취침·기상 시간 유지가 가장 효과적입니다.</div>
 
   <h2>💡 수면의 질을 높이는 실전 팁</h2>
+  <p>수면 시간만큼 중요한 것이 수면의 질입니다. 같은 7시간을 자도 수면 환경과 습관에 따라 개운함의 차이가 크게 납니다. 아래 팁들은 수면 의학 연구에서 검증된 실천 방법들입니다.</p>
+  <p>특히 취침 1시간 전 스마트폰 사용과 카페인 섭취는 수면 시작 자체를 늦추는 가장 흔한 원인입니다. 이 두 가지만 바꿔도 수면의 질이 눈에 띄게 개선되는 경우가 많습니다.</p>
   <ul>
     <li><strong>기상 시간을 고정하세요</strong>: 취침 시간보다 기상 시간을 먼저 고정하는 것이 수면 리듬 유지에 효과적입니다.</li>
     <li><strong>취침 1시간 전 스마트폰 금지</strong>: 블루라이트가 멜라토닌 분비를 억제해 잠들기 어렵게 만듭니다.</li>
@@ -263,6 +294,8 @@
   <div class="tip-box">💡 <strong>낮잠의 적정 시간:</strong> 낮잠은 <strong>10~20분</strong>이 최적입니다. 30분을 넘기면 깊은 수면에 진입해 일어나기 힘들고 밤잠에 영향을 줍니다. 오후 1~3시 사이가 가장 효과적입니다.</div>
 
   <h2>자주 묻는 질문 (FAQ)</h2>
+  <p>수면 계산기 사용 시 자주 묻는 5가지 질문을 정리했습니다. 6시간 vs 7시간 30분 비교, 잠드는 시간 개인차, 수면 사이클 개인차, 기상 시간 고정의 중요성, 단기 수면 효과에 대한 과학적 설명을 담았습니다.</p>
+  <p>수면 계산기는 참고 도구입니다. 실제 수면 패턴은 개인차가 크고, 스트레스·건강 상태·나이에 따라 달라집니다. 2주 이상 잠들기 어렵거나 낮에 심한 졸음이 지속된다면 수면 전문의 상담을 받아보세요.</p>
   <details><summary>6시간 자는 것과 7시간 30분 자는 것, 어떤 게 더 개운할까요?</summary><div class="faq-answer">7시간 30분이 훨씬 개운합니다. 6시간은 4사이클이 완료되는 시간이고, 7시간 30분은 5사이클이 완료됩니다. 사이클 끝에 맞춰 일어나면 렘수면을 마친 직후라 뇌가 자연스럽게 각성 상태에 있어 알람 없이도 비교적 쉽게 일어날 수 있습니다.</div></details>
   <details><summary>잠드는 데 15분이 아닌 경우는 어떻게 하나요?</summary><div class="faq-answer">평소 잠드는 데 걸리는 시간이 다르다면 그에 맞게 취침 시간을 조정하세요. 잠드는 데 5분이면 계산 결과보다 10분 늦게 누워도 됩니다. 30분 이상 걸린다면 수면 위생을 점검해 보세요 — 스마트폰 사용, 카페인 섭취, 스트레스 등이 원인일 수 있습니다.</div></details>
   <details><summary>수면 사이클이 정확히 90분인가요?</summary><div class="faq-answer">개인차가 있어 80~110분 범위 안에서 다양합니다. 대부분의 성인은 평균 90분으로 볼 수 있습니다. 정확한 본인의 사이클을 알고 싶다면 수면 추적 앱이나 스마트 워치를 활용해 여러 날 수면 패턴을 분석해 보세요.</div></details>
