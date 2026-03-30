@@ -83,6 +83,11 @@
     .home-btn:hover { background: rgba(0,212,170,0.18); transform: translateY(-2px); }
     .home-btn-emoji { font-size: 20px; line-height: 1; }
     .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
+    .sim-tbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px}
+    .sim-tbl th{background:var(--surface2);color:var(--text);padding:8px 10px;border:1px solid var(--border);font-weight:600;text-align:left}
+    .sim-tbl td{padding:7px 10px;border:1px solid var(--border);color:var(--text-muted)}
+    .sim-tbl td:not(:first-child){text-align:right}
+    .sim-tbl tr.hl td{color:var(--accent);font-weight:700}
   
 .rel-section{margin:32px auto 8px;padding:0 20px;max-width:640px}
 .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
@@ -187,6 +192,430 @@ function syncInch(el){
 }
 </script>
 
+  <div class="card" id="simCard" style="margin-top:8px">
+    <div class="card-title">&#128248; 체형 사이즈 변환기</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">가슴&#183;허리&#183;엉덩이 둘레(cm)를 입력하면 한국&#183;미국&#183;유럽 의류 사이즈를 알려드립니다. 해외 직구 시 활용하세요.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">
+      <div>
+        <label style="display:block;font-size:12px;color:var(--text-muted);margin-bottom:5px">가슴 둘레</label>
+        <div style="position:relative">
+          <input type="number" id="sz-chest" value="88" min="60" max="140" oninput="updateSizeSim()"
+            style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:9px 30px 9px 10px;font-size:14px;font-weight:700;color:var(--text);outline:none"/>
+          <span style="position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--text-muted);pointer-events:none">cm</span>
+        </div>
+      </div>
+      <div>
+        <label style="display:block;font-size:12px;color:var(--text-muted);margin-bottom:5px">허리 둘레</label>
+        <div style="position:relative">
+          <input type="number" id="sz-waist" value="74" min="50" max="130" oninput="updateSizeSim()"
+            style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:9px 30px 9px 10px;font-size:14px;font-weight:700;color:var(--text);outline:none"/>
+          <span style="position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--text-muted);pointer-events:none">cm</span>
+        </div>
+      </div>
+      <div>
+        <label style="display:block;font-size:12px;color:var(--text-muted);margin-bottom:5px">엉덩이 둘레</label>
+        <div style="position:relative">
+          <input type="number" id="sz-hip" value="94" min="60" max="140" oninput="updateSizeSim()"
+            style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:9px 30px 9px 10px;font-size:14px;font-weight:700;color:var(--text);outline:none"/>
+          <span style="position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--text-muted);pointer-events:none">cm</span>
+        </div>
+      </div>
+    </div>
+    <div id="sizeSimResult"></div>
+    <p style="font-size:11px;color:var(--text-muted);margin-top:8px">&#8251; 브랜드&#183;국가마다 기준이 다를 수 있으니 구매 전 해당 브랜드 사이즈 차트를 반드시 확인하세요</p>
+  </div></div>
+
+<style>.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}.seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}.seo-section details[open] summary::after{content:'－'}.seo-section details[open]{background:#161b22}.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}</style>
+<style>
+.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
+.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
+.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}
+.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
+.seo-section ul{padding-left:20px;margin-bottom:12px}
+.seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+.seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
+.seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+.seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
+.seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
+.seo-section table tr:nth-child(even) td{background:#161b22}
+.seo-section table td strong{color:#00d4aa}
+.seo-section .tip-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .tip-box strong{color:#00d4aa}
+.seo-section .warn-box{background:rgba(255,107,107,0.05);border:1px solid rgba(255,107,107,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .warn-box strong{color:#ff6b6b}
+.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
+.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
+.seo-section details[open] summary::after{content:'－'}
+.seo-section details[open]{background:#161b22}
+.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
+</style>
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/bmi" class="rel-card"><span class="re">⚖️</span><span class="rn">BMI</span></a>
+  <a href="/area_converter" class="rel-card"><span class="re">📐</span><span class="rn">평수 변환</span></a>
+  <a href="/child_height" class="rel-card"><span class="re">📏</span><span class="rn">아이 키 성장</span></a>
+  <a href="/bmr" class="rel-card"><span class="re">🔥</span><span class="rn">기초대사량</span></a>
+  <a href="/age" class="rel-card"><span class="re">🎂</span><span class="rn">나이 계산기</span></a>
+  
+  </div>
+</div>
+<div class="seo-section">
+  <h2>cm·inch·feet 단위 변환 — 언제 어디서 필요한가</h2>
+  <p>전 세계 대부분의 나라는 국제단위계(SI)인 미터법을 사용하지만, 미국·영국 등 영미권 국가는 야드파운드법(인치·피트·마일·파운드)을 아직 사용합니다. 한국에서 cm↔inch 변환이 필요한 상황은 생각보다 많습니다. 해외 직구로 의류·신발을 살 때 사이즈 표기가 인치 기준이고, TV·모니터·스마트폰 화면 크기는 전 세계적으로 인치로 표기합니다. 또 미국·캐나다 드라마에서 인물의 키를 "5피트 10인치"로 말할 때 바로 이해하려면 변환 지식이 필요합니다.</p>
+  <p>1인치는 정확히 2.54cm로 국제 표준에 의해 고정되어 있습니다. 이 수치는 1959년 영미 협약(International Yard and Pound Agreement)으로 확정된 것입니다. 빠른 암산을 위해서는 1인치 ≈ 2.5cm, 1피트 ≈ 30cm, 1야드 ≈ 90cm로 외워두면 일상에서 편리합니다. 단 정확한 계산이 필요할 때는 반드시 2.54를 사용해야 합니다.</p>
+  <div class="formula-box">1 inch = 2.54 cm  (국제 표준, 정확한 값)
+1 cm   = 1 ÷ 2.54 = 0.393701 inch
+1 feet = 12 inch = 30.48 cm
+1 yard = 3 feet = 36 inch = 91.44 cm
+
+cm → inch: cm ÷ 2.54
+inch → cm: inch × 2.54
+피트+인치 → cm: (피트 × 12 + 인치) × 2.54
+
+예) 5피트 10인치 → (5×12 + 10) × 2.54 = 70 × 2.54 = 177.8cm</div>
+  <p>빠른 암산 팁으로 cm를 2.5로 나누면 대략적인 인치가 나옵니다. 175cm라면 175÷2.5=70인치 → 5피트 10인치로 빠르게 어림잡을 수 있습니다. 이 방법은 약 1.6%의 오차가 있으므로 의류·신발 주문처럼 정확도가 중요한 경우에는 위 계산기를 사용하세요.</p>
+
+  <h2>키 cm↔피트·인치 환산표 — 한국인 평균 범위 포함</h2>
+  <p>한국인 평균 키는 질병관리청 국민건강통계 기준 남성 약 172.5cm(5ft 8in), 여성 약 159.7cm(5ft 3in)입니다. 해외 의료기관이나 스포츠 관련 서류, 소셜미디어 프로필에 키를 영문으로 표기할 때 아래 환산표가 유용합니다.</p>
+  <table>
+    <thead><tr><th>cm</th><th>인치(inch)</th><th>피트·인치</th><th>참고</th></tr></thead>
+    <tbody>
+      <tr><td>155cm</td><td>61.0″</td><td>5ft 1in</td><td>한국 여성 평균 하한</td></tr>
+      <tr><td>160cm</td><td>63.0″</td><td>5ft 3in</td><td>한국 여성 평균</td></tr>
+      <tr><td>165cm</td><td>65.0″</td><td>5ft 5in</td><td></td></tr>
+      <tr><td>170cm</td><td>66.9″</td><td>5ft 7in</td><td>한국 남성 평균 하한</td></tr>
+      <tr><td><strong>175cm</strong></td><td><strong>68.9″</strong></td><td><strong>5ft 9in</strong></td><td><strong>한국 남성 평균</strong></td></tr>
+      <tr><td>180cm</td><td>70.9″</td><td>5ft 11in</td><td></td></tr>
+      <tr><td>183cm</td><td>72.0″</td><td>6ft 0in</td><td>6피트의 경계</td></tr>
+      <tr><td>190cm</td><td>74.8″</td><td>6ft 3in</td><td></td></tr>
+    </tbody>
+  </table>
+  <p>미국·캐나다에서는 일상적으로 키를 피트와 인치로 표현합니다. "5피트 9인치(5′9″)"는 177.8cm로 미국 남성 평균키(약 175.4cm, 5ft 9in)와 비슷합니다. 반면 NBA 선수들은 6피트 6인치(198.1cm) 이상이 많아 한국인 기준으로 상당히 큰 편입니다.</p>
+
+  <h2>TV·모니터 화면 크기 인치의 의미 — 실제 가로·세로는 얼마?</h2>
+  <p>TV와 모니터의 인치 크기는 화면의 대각선 길이를 의미합니다. 65인치 TV의 화면 대각선이 165.1cm라는 뜻이지, 가로나 세로가 165cm가 아닙니다. 실제 설치 공간을 계획할 때는 가로 크기가 더 중요합니다. 16:9 비율 기준으로 65인치 TV의 화면 가로는 약 143.9cm, 세로는 약 80.9cm입니다.</p>
+  <p>위 시뮬레이터에서 인치를 입력하면 화면 비율(16:9, 21:9, 4:3)에 따른 실제 가로·세로 크기를 계산할 수 있습니다. TV 거치대나 TV장의 가로 크기와 비교해 설치 가능 여부를 미리 확인할 수 있습니다. 일반적으로 시청 거리는 TV 화면 높이의 2~3배, 즉 55인치 TV(세로 약 68cm)라면 최소 136~204cm 거리가 적당합니다.</p>
+  <table>
+    <thead><tr><th>인치</th><th>대각선 (cm)</th><th>가로 (16:9)</th><th>세로 (16:9)</th><th>권장 시청거리</th></tr></thead>
+    <tbody>
+      <tr><td>27인치</td><td>68.6cm</td><td>59.8cm</td><td>33.6cm</td><td>67~100cm (모니터)</td></tr>
+      <tr><td>32인치</td><td>81.3cm</td><td>70.8cm</td><td>39.9cm</td><td>100~150cm</td></tr>
+      <tr><td><strong>55인치</strong></td><td><strong>139.7cm</strong></td><td><strong>121.8cm</strong></td><td><strong>68.5cm</strong></td><td><strong>136~205cm</strong></td></tr>
+      <tr><td>65인치</td><td>165.1cm</td><td>143.9cm</td><td>80.9cm</td><td>162~242cm</td></tr>
+      <tr><td>75인치</td><td>190.5cm</td><td>166.0cm</td><td>93.4cm</td><td>187~280cm</td></tr>
+    </tbody>
+  </table>
+  <div class="tip-box"><strong>💡 TV 크기 선택 가이드.</strong> 소파에서 TV까지 거리가 250cm라면 65인치(권장 162~242cm)~75인치가 적당합니다. 최근에는 OTT 콘텐츠 소비 증가로 대형 TV 수요가 늘어 65인치가 거실 TV 표준으로 자리잡고 있습니다. 다만 설치 공간과 시청 거리를 먼저 측정하고 구매해야 후회가 없습니다.</div>
+
+  <h2>해외 직구 사이즈 변환 — 의류·신발 실전 가이드</h2>
+  <p>해외 직구에서 가장 많은 실수가 발생하는 부분이 사이즈 변환입니다. 미국 의류는 한국보다 1~2 사이즈 크게 설계된 경우가 많아, 미국 M을 주문하면 한국 L에 해당하는 경우가 많습니다. 정확한 사이즈를 맞추려면 S/M/L 레이블보다 가슴·허리·엉덩이 측정값(cm)을 해당 브랜드의 사이즈 차트와 직접 비교하는 것이 가장 안전합니다.</p>
+  <table>
+    <thead><tr><th>측정 부위</th><th>측정 방법</th><th>활용</th></tr></thead>
+    <tbody>
+      <tr><td>가슴둘레</td><td>겨드랑이 아래 가장 두꺼운 부분 수평 측정</td><td>상의, 재킷, 원피스</td></tr>
+      <tr><td>허리둘레</td><td>배꼽 위 가장 좁은 부분 수평 측정</td><td>하의, 원피스</td></tr>
+      <tr><td>엉덩이둘레</td><td>엉덩이 가장 두꺼운 부분 수평 측정</td><td>하의, 원피스</td></tr>
+      <tr><td>발 길이</td><td>가장 긴 발가락 끝~뒤꿈치 직선 거리</td><td>신발 (mm 단위 기재)</td></tr>
+    </tbody>
+  </table>
+  <div class="tip-box"><strong>💡 신발 사이즈 빠른 환산.</strong> 한국 신발 사이즈(mm)를 미국 사이즈로 변환: 남성은 (mm÷10 − 14.2), 여성은 (mm÷10 − 13.2) 공식을 사용합니다. 단 브랜드별 편차가 크므로 반드시 해당 브랜드 사이즈 차트를 확인하세요. 예) 한국 남성 270mm = US 10 / 여성 240mm ≈ US 7.5.</div>
+
+  <h2>자주 묻는 질문 (FAQ)</h2>
+  <details><summary>5피트 10인치를 cm로 변환하면 얼마인가요?</summary><div class="faq-answer">5피트 10인치 = (5×12 + 10) × 2.54 = 70 × 2.54 = 177.8cm입니다. 빠른 계산법으로 피트×30 + 인치×2.5를 하면 5×30 + 10×2.5 = 175cm로 약 1.6% 오차의 어림값을 구할 수 있습니다. 정확한 값이 필요하면 위 계산기를 이용하세요.</div></details>
+  <details><summary>모니터·TV 인치는 화면 어디를 측정하는 건가요?</summary><div class="faq-answer">TV·모니터 인치 크기는 화면(패널)의 대각선 길이입니다. 베젤(테두리)은 포함하지 않습니다. 55인치 TV라면 화면 대각선이 약 139.7cm입니다. 실제 가로 크기는 16:9 비율 기준으로 대각선의 약 87.2%인 약 121.8cm입니다. 설치 공간 계획 시 TV 전체 가로(베젤 포함)도 함께 확인하세요.</div></details>
+  <details><summary>해외 의류 사이즈 XS/S/M/L은 한국과 같은가요?</summary><div class="faq-answer">아닙니다. 미국·유럽 의류는 한국보다 사이즈가 크게 설정된 경우가 많습니다. 브랜드마다 다르지만 대체로 미국 M = 한국 L 정도입니다. 정확한 사이즈 매칭을 위해 가슴·허리·엉덩이 둘레(cm)를 직접 측정하고 브랜드별 사이즈 차트와 비교하는 것이 가장 안전합니다.</div></details>
+  <details><summary>야드(yard)와 미터(meter)는 얼마나 차이 나나요?</summary><div class="faq-answer">1야드 = 91.44cm = 약 0.914m로 1미터보다 약 8.6cm 짧습니다. 1마일 = 1,609.34m = 약 1.609km입니다. 미국 도로 표지판의 속도(mph)를 km/h로 변환하려면 mph × 1.609를 하면 됩니다. 예를 들어 60mph = 약 96.6km/h, 100mph = 약 160.9km/h입니다.</div></details>
+  <details><summary>미국 신발 사이즈를 한국 mm로 변환하는 법은?</summary><div class="faq-answer">미국 남성 신발 기준으로 US 10 ≈ 280mm, US 9 ≈ 270mm, US 8 ≈ 260mm 정도입니다. 여성 기준은 US 8 ≈ 255mm, US 7 ≈ 247mm입니다. 그러나 브랜드마다 편차가 크므로 반드시 해당 브랜드의 사이즈 차트를 확인하고, 가능하면 발 길이(mm)를 직접 재서 비교하는 것이 가장 정확합니다.</div></details>
+</div>
+<script src="/common.js" defer></script><script src="/share.js" defer></script>
+<script src="/calculator.js" defer></script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(r => console.log('[PWA] SW registered:', r.scope))
+      .catch(e => console.warn('[PWA] SW failed:', e));
+  });
+}
+</script>
+</body>
+</htmlvar _htGender = 'male';
+function htSetGender(g) {
+  _htGender = g;
+  var ac = 'rgba(0,212,170,0.15)', bc = 'var(--surface2)';
+  var ab = 'var(--accent)', bb = 'var(--border)';
+  var at = 'var(--accent)', bt = 'var(--text-muted)';
+  document.getElementById('ht-male').style.background   = g==='male'?ac:bc;
+  document.getElementById('ht-male').style.borderColor  = g==='male'?ab:bb;
+  document.getElementById('ht-male').style.color        = g==='male'?at:bt;
+  document.getElementById('ht-female').style.background  = g==='female'?ac:bc;
+  document.getElementById('ht-female').style.borderColor = g==='female'?ab:bb;
+  document.getElementById('ht-female').style.color       = g==='female'?at:bt;
+  updateHtSim();
+}
+function updateHtSim() {
+  var cm = parseFloat(document.getElementById('ht-cm').value) || 175;
+  var totalInch = cm / 2.54;
+  var ft = Math.floor(totalInch / 12);
+  var inch = Math.round(totalInch % 12 * 10) / 10;
+  if (inch >= 12) { ft++; inch = 0; }
+
+  // 평균 키 데이터 (cm)
+  var avgs = _htGender === 'male' ? [
+    {country:'한국 남성 평균', cm:172.5, flag:'&#127472;&#127479;'},
+    {country:'미국 남성 평균', cm:175.4, flag:'&#127482;&#127480;'},
+    {country:'일본 남성 평균', cm:171.8, flag:'&#127471;&#127477;'},
+    {country:'NBA 선수 평균',  cm:200.4, flag:'&#127944;'},
+  ] : [
+    {country:'한국 여성 평균', cm:159.7, flag:'&#127472;&#127479;'},
+    {country:'미국 여성 평균', cm:162.0, flag:'&#127482;&#127480;'},
+    {country:'일본 여성 평균', cm:158.3, flag:'&#127471;&#127477;'},
+    {country:'모델 평균',      cm:178.0, flag:'&#127774;'},
+  ];
+
+  // 결과 상단 변환값
+  var topHTML = '<div style="background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.04));border:1px solid rgba(0,212,170,0.25);border-radius:12px;padding:16px;text-align:center;margin-bottom:12px">'
+    + '<div style="font-size:12px;color:var(--text-muted);margin-bottom:6px">피트&#183;인치 변환 결과</div>'
+    + '<div style="font-size:32px;font-weight:900;color:var(--accent)">' + ft + 'ft ' + inch.toFixed(0) + 'in</div>'
+    + '<div style="font-size:13px;color:var(--text-muted);margin-top:4px">'
+    + cm.toFixed(1) + 'cm = ' + ft + '&#8242;' + inch.toFixed(0) + '&#8243; = ' + totalInch.toFixed(1) + 'inch</div>'
+    + '</div>';
+
+  // 비교 테이블
+  var rows = '';
+  avgs.forEach(function(a) {
+    var diff = (cm - a.cm).toFixed(1);
+    var sign = diff > 0 ? '+' : '';
+    var isSame = Math.abs(cm - a.cm) < 3;
+    var diffColor = diff > 0 ? 'color:#00d4aa' : diff < 0 ? 'color:#ff6b6b' : 'color:var(--text-muted)';
+    rows += '<tr' + (isSame ? ' class="hl"' : '') + '>'
+      + '<td>' + a.flag + ' ' + a.country + '</td>'
+      + '<td style="text-align:right">' + a.cm + 'cm</td>'
+      + '<td style="text-align:right;' + diffColor + '">' + sign + diff + 'cm</td>'
+      + '</tr>';
+  });
+
+  var tbl = '<table class="sim-tbl"><thead><tr><th>비교 대상</th><th>평균 키</th><th>차이</th></tr></thead><tbody>'
+    + rows + '</tbody></table>';
+
+  document.getElementById('htSimResult').innerHTML = topHTML + tbl;
+}
+document.addEventListener('DOMContentLoaded', updateHtSim);
+});<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#00d4aa" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="모두의계산기" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cm inch 변환 계산기 | 모두의계산기</title>
+  <meta name="description" content="cm↔인치 변환 계산기 — 수치 입력 즉시 양방향 자동 변환. 한국인 평균 키 변환 참고표, TV·모니터 화면 크기 인치 환산, 피트·인치 표기법, 신발 사이즈 변환 포함." />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" /></noscript>
+  <style>
+    :root {
+      --bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;
+      --accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;
+      --danger:#ff6b6b;--radius:16px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+    .container{max-width:800px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .header{text-align:center;margin-bottom:48px}
+    .site-name{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:4px;color:var(--accent);text-transform:uppercase;margin-bottom:16px;opacity:.8;display:inline-block}
+    .header h1{font-size:clamp(28px,6vw,48px);font-weight:900;line-height:1.1;margin-bottom:12px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
+    .header p{font-size:14px;color:var(--text-muted)}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:20px}
+    .card-title{font-size:14px;font-weight:700;color:var(--text-muted);letter-spacing:1px;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+    .input-group{margin-bottom:20px}
+    .input-group label{display:block;font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:8px}
+    .input-wrapper{position:relative;display:flex;align-items:center}
+    .input-wrapper input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 52px 14px 16px;font-size:18px;font-weight:700;color:var(--text);font-family:'Noto Sans KR',sans-serif;outline:none;transition:border-color .2s;-moz-appearance:textfield}
+    .input-wrapper input::-webkit-outer-spin-button,.input-wrapper input::-webkit-inner-spin-button{-webkit-appearance:none}
+    .input-wrapper input:focus{border-color:rgba(0,212,170,.5);box-shadow:0 0 0 3px rgba(0,212,170,.08)}
+    .input-unit{position:absolute;right:14px;font-size:14px;font-weight:600;color:var(--text-muted)}
+    select{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-size:15px;font-weight:600;color:var(--text);font-family:'Noto Sans KR',sans-serif;outline:none;appearance:none;cursor:pointer}
+    select:focus{border-color:rgba(0,212,170,.5)}
+    .btn{width:100%;padding:18px;border:none;border-radius:12px;font-size:17px;font-weight:800;cursor:pointer;transition:all .2s;font-family:'Noto Sans KR',sans-serif;margin-top:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,212,170,.3)}
+    .result-section{display:none}
+    .result-section.show{display:block}
+    .result-card{background:linear-gradient(135deg,rgba(0,212,170,.08),rgba(0,149,255,.05));border:1px solid rgba(0,212,170,.2);border-radius:var(--radius);padding:28px;margin-bottom:20px;text-align:center}
+    .result-label{font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:10px}
+    .result-value{font-size:clamp(28px,5vw,44px);font-weight:900;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.1}
+    .result-sub{font-size:13px;color:var(--text-muted);margin-top:8px}
+    .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+    .detail-item{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px}
+    .detail-item .di-label{font-size:11px;color:var(--text-muted);margin-bottom:4px}
+    .detail-item .di-value{font-size:16px;font-weight:700;color:var(--text)}
+    .info-box{background:rgba(0,212,170,.05);border:1px solid rgba(0,212,170,.15);border-radius:10px;padding:14px 16px;margin-bottom:16px;font-size:13px;color:var(--text-muted);line-height:1.8}
+    .info-box strong{color:var(--accent)}
+    .two-btn{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .btn-sub{background:var(--surface2);color:var(--accent);border:1px solid rgba(0,212,170,.3)}
+    .btn-sub:hover{background:rgba(0,212,170,.1)}
+    @media(max-width:600px){.detail-grid{grid-template-columns:1fr}.two-btn{grid-template-columns:1fr}}
+
+    /* ── 홈 버튼 ── */
+    .home-btn-wrap { text-align: center; margin-bottom: 8px; }
+    .home-btn {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      width: 54px; height: 54px;
+      background: rgba(0,212,170,0.08);
+      border: 1.5px solid rgba(0,212,170,0.35);
+      border-radius: 50%;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .home-btn:hover { background: rgba(0,212,170,0.18); transform: translateY(-2px); }
+    .home-btn-emoji { font-size: 20px; line-height: 1; }
+    .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
+    .sim-tbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px}
+    .sim-tbl th{background:var(--surface2);color:var(--text);padding:8px 10px;border:1px solid var(--border);font-weight:600;text-align:left}
+    .sim-tbl td{padding:7px 10px;border:1px solid var(--border);color:var(--text-muted)}
+    .sim-tbl td:not(:first-child){text-align:right}
+    .sim-tbl tr.hl td{color:var(--accent);font-weight:700}
+  
+.rel-section{margin:32px auto 8px;padding:0 20px;max-width:640px}
+.rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
+.rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+.rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+.rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
+</style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7GYSXR7WJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+    <h1><span class="emoji">📏</span> cm ↔ inch 변환기</h1>
+    <p>센티미터 · 인치 · 피트 즉시 변환</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📏 단위 입력</div>
+    <div class="input-group">
+      <label>센티미터 (cm)</label>
+      <div class="input-wrapper">
+        <input type="text" id="cmVal" placeholder="예: 175" oninput="syncCm(this)" />
+        <span class="input-unit">cm</span>
+      </div>
+    </div>
+    <div class="input-group">
+      <label>인치 (inch)</label>
+      <div class="input-wrapper">
+        <input type="text" id="inchVal" placeholder="예: 68.9" oninput="syncInch(this)" />
+        <span class="input-unit">inch</span>
+      </div>
+    </div>
+    <div class="input-group">
+      <label>피트+인치 (ft″)</label>
+      <div class="input-wrapper">
+        <input type="text" id="ftVal" placeholder="예: 5′9″" readonly style="background:#0d1117;color:#8b949e;font-size:15px" />
+        <span class="input-unit">ft</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="cmResult" style="display:none" class="result-card">
+    <div class="result-label">변환 결과</div>
+    <div id="cmResultVal" class="result-value"></div>
+    <div id="cmResultSub" class="result-sub"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 키 변환 참고표</div>
+    <table style="width:100%;border-collapse:collapse;font-size:13px">
+      <thead><tr style="background:#21262d"><th style="padding:10px;border:1px solid #30363d;color:#e6edf3">cm</th><th style="padding:10px;border:1px solid #30363d;color:#e6edf3">inch</th><th style="padding:10px;border:1px solid #30363d;color:#e6edf3">피트+인치</th></tr></thead>
+      <tbody id="cmTable"></tbody>
+    </table>
+  </div>
+
+<script>
+const heights=[155,160,163,165,168,170,173,175,178,180,183,185,188,190];
+const tb=document.getElementById('cmTable');
+heights.forEach(h=>{
+  const inch=h/2.54;
+  const ft=Math.floor(inch/12);
+  const remIn=Math.round(inch%12);
+  tb.innerHTML+=`<tr><td style="padding:9px;border:1px solid #30363d;color:#8b949e;text-align:center">${h}cm</td><td style="padding:9px;border:1px solid #30363d;color:#8b949e;text-align:center">${inch.toFixed(1)}"</td><td style="padding:9px;border:1px solid #30363d;color:#8b949e;text-align:center">${ft}'${remIn}"</td></tr>`;
+});
+
+function toFtIn(inch){
+  const ft=Math.floor(inch/12);
+  const rem=Math.floor(inch%12);
+  return `${ft}′${rem}″`;
+}
+function showResult(cm,inch){
+  const r=document.getElementById('cmResult');
+  r.style.display='block';
+  document.getElementById('cmResultVal').textContent=`${cm.toFixed(1)} cm = ${inch.toFixed(2)} inch`;
+  document.getElementById('cmResultSub').textContent=toFtIn(inch)+'  |  '+cm.toFixed(1)+' cm';
+}
+function syncCm(el){
+  const v=parseFloat(el.value);
+  if(isNaN(v)){document.getElementById('inchVal').value='';document.getElementById('ftVal').value='';document.getElementById('cmResult').style.display='none';return;}
+  const inch=v/2.54;
+  document.getElementById('inchVal').value=inch.toFixed(2);
+  document.getElementById('ftVal').value=toFtIn(inch);
+  showResult(v,inch);
+}
+function syncInch(el){
+  const v=parseFloat(el.value);
+  if(isNaN(v)){document.getElementById('cmVal').value='';document.getElementById('ftVal').value='';document.getElementById('cmResult').style.display='none';return;}
+  const cm=v*2.54;
+  document.getElementById('cmVal').value=cm.toFixed(2);
+  document.getElementById('ftVal').value=toFtIn(v);
+  showResult(cm,v);
+}
+</script>
+
+  <div class="card" id="simCard" style="margin-top:8px">
+    <div class="card-title">📺 TV·모니터 화면 실제 크기 계산기</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">TV·모니터 인치 수는 화면 대각선 길이입니다. 인치를 입력하면 16:9 기준 실제 가로·세로 크기를 계산합니다.</p>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+      <label style="font-size:13px;color:var(--text-muted);white-space:nowrap;font-weight:500;flex-shrink:0">화면 크기</label>
+      <div style="position:relative;flex:1">
+        <input type="number" id="sim-inch-tv" value="55" min="10" max="200" oninput="updateTVSim()"
+          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:9px 46px 9px 12px;font-size:14px;font-weight:600;font-family:'Noto Sans KR',sans-serif;color:var(--text);outline:none"/>
+        <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--text-muted)">인치</span>
+      </div>
+      <select id="sim-ratio" onchange="updateTVSim()" style="flex:1;padding:9px 10px;font-size:13px;font-family:'Noto Sans KR',sans-serif;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);outline:none">
+        <option value="16:9" selected>16:9 (일반 TV)</option>
+        <option value="21:9">21:9 (울트라와이드)</option>
+        <option value="4:3">4:3 (구형)</option>
+      </select>
+    </div>
+    <div id="tvSimResult"></div>
+    <p style="font-size:11px;color:var(--text-muted);margin-top:8px">※ 베젤(테두리) 미포함 화면 크기 기준</p>
+  </div>
 </div>
 
 <style>.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}.seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}.seo-section details[open] summary::after{content:'－'}.seo-section details[open]{background:#161b22}.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}</style>
@@ -226,50 +655,896 @@ function syncInch(el){
   </div>
 </div>
 <div class="seo-section">
-  <h2>cm inch 변환기 — 센티미터·인치·피트·야드 단위 완벽 정리</h2>
-  <h3>cm와 inch, 어디서 어떻게 사용하나요?</h3>
-  <p>한국·유럽 등 대부분의 국가는 국제 단위계인 <strong>미터법(cm·m)</strong>을 사용하지만, 미국과 일부 영미권 국가는 <strong>야드파운드법(inch·feet·yard)</strong>을 사용합니다. 해외 직구로 의류·가전을 구매하거나, TV·모니터 화면 크기를 확인하거나, 해외 건축 도면을 볼 때 cm↔inch 변환이 필요합니다. 두 단위 체계를 모두 이해하면 해외 제품 구매 시 사이즈 오류를 줄일 수 있습니다.</p>
-  <p>실생활에서 가장 자주 쓰이는 변환은 키 표기입니다. 미국 영화·드라마에서 인물의 키를 "5피트 10인치" 등으로 표현할 때 바로 이해하려면 환산이 필요합니다. TV·모니터 화면 크기도 "65인치"처럼 인치로 표기되므로, 실제 크기를 가늠하려면 cm 변환이 필요합니다.</p>
-  <h3>📐 cm·inch·feet 변환 공식</h3>
-  <p>기억하기 쉬운 방법으로, 1인치 ≈ 2.5cm(정확히는 2.54cm)로 외우면 빠른 암산이 가능합니다. 키를 feet-inch로 변환할 때는 총 인치수를 먼저 구한 다음 12로 나누어 feet와 inch로 분리합니다. 반대로 feet-inch를 cm로 변환할 때는 총 인치수에 2.54를 곱합니다.</p>
-  <div class="formula-box">1 inch = 2.54 cm
-1 cm = 0.3937 inch
-1 feet(ft) = 30.48 cm = 12 inch
-1 yard = 91.44 cm = 3 feet
+  <h2>cm·inch·feet 단위 변환 — 언제 어디서 필요한가</h2>
+  <p>전 세계 대부분의 나라는 국제단위계(SI)인 미터법을 사용하지만, 미국·영국 등 영미권 국가는 야드파운드법(인치·피트·마일·파운드)을 아직 사용합니다. 한국에서 cm↔inch 변환이 필요한 상황은 생각보다 많습니다. 해외 직구로 의류·신발을 살 때 사이즈 표기가 인치 기준이고, TV·모니터·스마트폰 화면 크기는 전 세계적으로 인치로 표기합니다. 또 미국·캐나다 드라마에서 인물의 키를 "5피트 10인치"로 말할 때 바로 이해하려면 변환 지식이 필요합니다.</p>
+  <p>1인치는 정확히 2.54cm로 국제 표준에 의해 고정되어 있습니다. 이 수치는 1959년 영미 협약(International Yard and Pound Agreement)으로 확정된 것입니다. 빠른 암산을 위해서는 1인치 ≈ 2.5cm, 1피트 ≈ 30cm, 1야드 ≈ 90cm로 외워두면 일상에서 편리합니다. 단 정확한 계산이 필요할 때는 반드시 2.54를 사용해야 합니다.</p>
+  <div class="formula-box">1 inch = 2.54 cm  (국제 표준, 정확한 값)
+1 cm   = 1 ÷ 2.54 = 0.393701 inch
+1 feet = 12 inch = 30.48 cm
+1 yard = 3 feet = 36 inch = 91.44 cm
 
 cm → inch: cm ÷ 2.54
 inch → cm: inch × 2.54
-피트-인치 → cm: (feet × 12 + inch) × 2.54</div>
-  <h3>📊 주요 신체 키 cm↔feet-inch 환산표</h3>
-  <p>아래는 한국인 평균 키 범위를 포함한 cm↔feet-inch 환산표입니다. 해외 사이트에서 5ft 9in로 표기되면 약 175cm임을 바로 알 수 있습니다. SNS 프로필에 키를 영문으로 표기하거나 해외 의료 기관에서 신체 정보를 제공할 때도 유용합니다.</p>
+피트+인치 → cm: (피트 × 12 + 인치) × 2.54
+
+예) 5피트 10인치 → (5×12 + 10) × 2.54 = 70 × 2.54 = 177.8cm</div>
+  <p>빠른 암산 팁으로 cm를 2.5로 나누면 대략적인 인치가 나옵니다. 175cm라면 175÷2.5=70인치 → 5피트 10인치로 빠르게 어림잡을 수 있습니다. 이 방법은 약 1.6%의 오차가 있으므로 의류·신발 주문처럼 정확도가 중요한 경우에는 위 계산기를 사용하세요.</p>
+
+  <h2>키 cm↔피트·인치 환산표 — 한국인 평균 범위 포함</h2>
+  <p>한국인 평균 키는 질병관리청 국민건강통계 기준 남성 약 172.5cm(5ft 8in), 여성 약 159.7cm(5ft 3in)입니다. 해외 의료기관이나 스포츠 관련 서류, 소셜미디어 프로필에 키를 영문으로 표기할 때 아래 환산표가 유용합니다.</p>
   <table>
-    <thead><tr><th>cm</th><th>feet-inch</th><th>비고</th></tr></thead>
+    <thead><tr><th>cm</th><th>인치(inch)</th><th>피트·인치</th><th>참고</th></tr></thead>
     <tbody>
-      <tr><td>155cm</td><td>5ft 1in</td><td>한국 여성 평균 하한</td></tr>
-      <tr><td>163cm</td><td>5ft 4in</td><td>한국 여성 평균</td></tr>
-      <tr><td>170cm</td><td>5ft 7in</td><td>한국 남성 평균 하한</td></tr>
-      <tr><td>175cm</td><td>5ft 9in</td><td>한국 남성 평균</td></tr>
-      <tr><td>180cm</td><td>5ft 11in</td><td>—</td></tr>
+      <tr><td>155cm</td><td>61.0″</td><td>5ft 1in</td><td>한국 여성 평균 하한</td></tr>
+      <tr><td>160cm</td><td>63.0″</td><td>5ft 3in</td><td>한국 여성 평균</td></tr>
+      <tr><td>165cm</td><td>65.0″</td><td>5ft 5in</td><td></td></tr>
+      <tr><td>170cm</td><td>66.9″</td><td>5ft 7in</td><td>한국 남성 평균 하한</td></tr>
+      <tr><td><strong>175cm</strong></td><td><strong>68.9″</strong></td><td><strong>5ft 9in</strong></td><td><strong>한국 남성 평균</strong></td></tr>
+      <tr><td>180cm</td><td>70.9″</td><td>5ft 11in</td><td></td></tr>
+      <tr><td>183cm</td><td>72.0″</td><td>6ft 0in</td><td>6피트의 경계</td></tr>
+      <tr><td>190cm</td><td>74.8″</td><td>6ft 3in</td><td></td></tr>
     </tbody>
   </table>
-  <h3>📊 TV·모니터 화면 크기 인치↔cm 환산표 (대각선 기준)</h3>
-  <p>TV·모니터의 인치 사이즈는 화면의 대각선 길이를 의미합니다. 65인치 TV의 화면 대각선은 약 165cm입니다. 같은 인치라도 화면 비율(16:9 vs 21:9)에 따라 실제 가로·세로 크기가 다르므로, 설치 공간을 고려할 때는 실제 가로 크기도 확인해야 합니다.</p>
+  <p>미국·캐나다에서는 일상적으로 키를 피트와 인치로 표현합니다. "5피트 9인치(5′9″)"는 177.8cm로 미국 남성 평균키(약 175.4cm, 5ft 9in)와 비슷합니다. 반면 NBA 선수들은 6피트 6인치(198.1cm) 이상이 많아 한국인 기준으로 상당히 큰 편입니다.</p>
+
+  <h2>TV·모니터 화면 크기 인치의 의미 — 실제 가로·세로는 얼마?</h2>
+  <p>TV와 모니터의 인치 크기는 화면의 대각선 길이를 의미합니다. 65인치 TV의 화면 대각선이 165.1cm라는 뜻이지, 가로나 세로가 165cm가 아닙니다. 실제 설치 공간을 계획할 때는 가로 크기가 더 중요합니다. 16:9 비율 기준으로 65인치 TV의 화면 가로는 약 143.9cm, 세로는 약 80.9cm입니다.</p>
+  <p>위 시뮬레이터에서 인치를 입력하면 화면 비율(16:9, 21:9, 4:3)에 따른 실제 가로·세로 크기를 계산할 수 있습니다. TV 거치대나 TV장의 가로 크기와 비교해 설치 가능 여부를 미리 확인할 수 있습니다. 일반적으로 시청 거리는 TV 화면 높이의 2~3배, 즉 55인치 TV(세로 약 68cm)라면 최소 136~204cm 거리가 적당합니다.</p>
   <table>
-    <thead><tr><th>인치</th><th>cm (대각선)</th><th>용도</th></tr></thead>
+    <thead><tr><th>인치</th><th>대각선 (cm)</th><th>가로 (16:9)</th><th>세로 (16:9)</th><th>권장 시청거리</th></tr></thead>
     <tbody>
-      <tr><td>27인치</td><td>68.6cm</td><td>PC 모니터 표준</td></tr>
-      <tr><td>32인치</td><td>81.3cm</td><td>소형 TV</td></tr>
-      <tr><td>55인치</td><td>139.7cm</td><td>거실 TV 표준</td></tr>
-      <tr><td>65인치</td><td>165.1cm</td><td>대형 TV</td></tr>
+      <tr><td>27인치</td><td>68.6cm</td><td>59.8cm</td><td>33.6cm</td><td>67~100cm (모니터)</td></tr>
+      <tr><td>32인치</td><td>81.3cm</td><td>70.8cm</td><td>39.9cm</td><td>100~150cm</td></tr>
+      <tr><td><strong>55인치</strong></td><td><strong>139.7cm</strong></td><td><strong>121.8cm</strong></td><td><strong>68.5cm</strong></td><td><strong>136~205cm</strong></td></tr>
+      <tr><td>65인치</td><td>165.1cm</td><td>143.9cm</td><td>80.9cm</td><td>162~242cm</td></tr>
+      <tr><td>75인치</td><td>190.5cm</td><td>166.0cm</td><td>93.4cm</td><td>187~280cm</td></tr>
     </tbody>
   </table>
-  <div class="tip-box"><strong>💡 해외 직구 의류 사이즈 변환 팁.</strong> 미국 의류 사이즈 S/M/L은 한국과 다릅니다. 가슴·허리·엉덩이 치수를 cm로 확인해 브랜드 사이즈표와 비교하는 것이 가장 정확합니다. 신발 사이즈는 미국 남성 10 = 약 280mm, 여성 8 = 약 255mm 수준이지만 브랜드마다 차이가 있습니다.</div>
+  <div class="tip-box"><strong>💡 TV 크기 선택 가이드.</strong> 소파에서 TV까지 거리가 250cm라면 65인치(권장 162~242cm)~75인치가 적당합니다. 최근에는 OTT 콘텐츠 소비 증가로 대형 TV 수요가 늘어 65인치가 거실 TV 표준으로 자리잡고 있습니다. 다만 설치 공간과 시청 거리를 먼저 측정하고 구매해야 후회가 없습니다.</div>
+
+  <h2>해외 직구 사이즈 변환 — 의류·신발 실전 가이드</h2>
+  <p>해외 직구에서 가장 많은 실수가 발생하는 부분이 사이즈 변환입니다. 미국 의류는 한국보다 1~2 사이즈 크게 설계된 경우가 많아, 미국 M을 주문하면 한국 L에 해당하는 경우가 많습니다. 정확한 사이즈를 맞추려면 S/M/L 레이블보다 가슴·허리·엉덩이 측정값(cm)을 해당 브랜드의 사이즈 차트와 직접 비교하는 것이 가장 안전합니다.</p>
+  <table>
+    <thead><tr><th>측정 부위</th><th>측정 방법</th><th>활용</th></tr></thead>
+    <tbody>
+      <tr><td>가슴둘레</td><td>겨드랑이 아래 가장 두꺼운 부분 수평 측정</td><td>상의, 재킷, 원피스</td></tr>
+      <tr><td>허리둘레</td><td>배꼽 위 가장 좁은 부분 수평 측정</td><td>하의, 원피스</td></tr>
+      <tr><td>엉덩이둘레</td><td>엉덩이 가장 두꺼운 부분 수평 측정</td><td>하의, 원피스</td></tr>
+      <tr><td>발 길이</td><td>가장 긴 발가락 끝~뒤꿈치 직선 거리</td><td>신발 (mm 단위 기재)</td></tr>
+    </tbody>
+  </table>
+  <div class="tip-box"><strong>💡 신발 사이즈 빠른 환산.</strong> 한국 신발 사이즈(mm)를 미국 사이즈로 변환: 남성은 (mm÷10 − 14.2), 여성은 (mm÷10 − 13.2) 공식을 사용합니다. 단 브랜드별 편차가 크므로 반드시 해당 브랜드 사이즈 차트를 확인하세요. 예) 한국 남성 270mm = US 10 / 여성 240mm ≈ US 7.5.</div>
+
   <h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>5피트 10인치를 cm로 변환하면 얼마인가요?</summary><div class="faq-answer">5피트 = 152.4cm, 10인치 = 25.4cm이므로 5피트 10인치 = 177.8cm입니다. 빠른 계산법으로는 피트 수에 30을 곱하고 인치 수에 2.5를 곱해서 더하면 대략적인 cm를 구할 수 있습니다(5×30 + 10×2.5 = 175cm, 약간의 오차 있음).</div></details>
-  <details><summary>해외 의류 사이즈 XS/S/M/L은 한국과 같은가요?</summary><div class="faq-answer">아닙니다. 미국·유럽 의류는 한국보다 사이즈가 크게 설정된 경우가 많습니다. 미국 M은 한국 L에 해당하는 경우가 많습니다. 정확한 사이즈 매칭을 위해 브랜드별 치수표(가슴·허리·엉덩이 cm)를 확인하고, 리뷰에서 실제 착용 사이즈도 참고하는 것이 좋습니다.</div></details>
-  <details><summary>모니터·TV 인치는 화면 어디를 측정하는 건가요?</summary><div class="faq-answer">TV·모니터 인치 크기는 화면의 대각선 길이를 의미합니다. 55인치 TV라면 화면 대각선이 약 139.7cm입니다. 실제 화면 가로·세로 크기를 알려면 화면 비율(16:9 기준 가로:세로 = 약 1.78:1)로 계산해야 합니다.</div></details>
-  <details><summary>미국 신발 사이즈를 한국 mm로 변환하는 법은?</summary><div class="faq-answer">미국 남성 신발과 한국 mm 사이즈의 대략적인 환산은 US size 10 ≈ 280mm, US size 9 ≈ 270mm 정도입니다. 그러나 브랜드마다 편차가 있으므로 주문 전 해당 브랜드의 사이즈 차트를 반드시 확인하세요. 여성 기준은 US size 8 ≈ 255mm입니다.</div></details>
-  <details><summary>야드(yard)와 미터(meter)는 얼마나 차이 나나요?</summary><div class="faq-answer">1야드 = 91.44cm = 약 0.914m로 1미터보다 약 8.6cm 짧습니다. 1마일 = 1,609.34m = 약 1.609km입니다. 미국 도로 표지판의 속도(mph)를 km/h로 변환하려면 mph × 1.609를 하면 됩니다. 예를 들어 60mph = 약 96.6km/h입니다.</div></details>
+  <details><summary>5피트 10인치를 cm로 변환하면 얼마인가요?</summary><div class="faq-answer">5피트 10인치 = (5×12 + 10) × 2.54 = 70 × 2.54 = 177.8cm입니다. 빠른 계산법으로 피트×30 + 인치×2.5를 하면 5×30 + 10×2.5 = 175cm로 약 1.6% 오차의 어림값을 구할 수 있습니다. 정확한 값이 필요하면 위 계산기를 이용하세요.</div></details>
+  <details><summary>모니터·TV 인치는 화면 어디를 측정하는 건가요?</summary><div class="faq-answer">TV·모니터 인치 크기는 화면(패널)의 대각선 길이입니다. 베젤(테두리)은 포함하지 않습니다. 55인치 TV라면 화면 대각선이 약 139.7cm입니다. 실제 가로 크기는 16:9 비율 기준으로 대각선의 약 87.2%인 약 121.8cm입니다. 설치 공간 계획 시 TV 전체 가로(베젤 포함)도 함께 확인하세요.</div></details>
+  <details><summary>해외 의류 사이즈 XS/S/M/L은 한국과 같은가요?</summary><div class="faq-answer">아닙니다. 미국·유럽 의류는 한국보다 사이즈가 크게 설정된 경우가 많습니다. 브랜드마다 다르지만 대체로 미국 M = 한국 L 정도입니다. 정확한 사이즈 매칭을 위해 가슴·허리·엉덩이 둘레(cm)를 직접 측정하고 브랜드별 사이즈 차트와 비교하는 것이 가장 안전합니다.</div></details>
+  <details><summary>야드(yard)와 미터(meter)는 얼마나 차이 나나요?</summary><div class="faq-answer">1야드 = 91.44cm = 약 0.914m로 1미터보다 약 8.6cm 짧습니다. 1마일 = 1,609.34m = 약 1.609km입니다. 미국 도로 표지판의 속도(mph)를 km/h로 변환하려면 mph × 1.609를 하면 됩니다. 예를 들어 60mph = 약 96.6km/h, 100mph = 약 160.9km/h입니다.</div></details>
+  <details><summary>미국 신발 사이즈를 한국 mm로 변환하는 법은?</summary><div class="faq-answer">미국 남성 신발 기준으로 US 10 ≈ 280mm, US 9 ≈ 270mm, US 8 ≈ 260mm 정도입니다. 여성 기준은 US 8 ≈ 255mm, US 7 ≈ 247mm입니다. 그러나 브랜드마다 편차가 크므로 반드시 해당 브랜드의 사이즈 차트를 확인하고, 가능하면 발 길이(mm)를 직접 재서 비교하는 것이 가장 정확합니다.</div></details>
+</div>
+<script src="/common.js" defer></script><script src="/share.js" defer></script>
+<script src="/calculator.js" defer></script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(r => console.log('[PWA] SW registered:', r.scope))
+      .catch(e => console.warn('[PWA] SW failed:', e));
+  });
+}
+</script>
+</body>
+</html
+var _szData = {
+  // [라벨, 가슴min, 가슴max, 허리min, 허리max]
+  KR: [
+    {label:'XS (44)',  chest:[79,83],  waist:[62,66],  hip:[87,91]},
+    {label:'S (55)',   chest:[83,87],  waist:[66,70],  hip:[91,95]},
+    {label:'M (66)',   chest:[87,91],  waist:[70,74],  hip:[95,99]},
+    {label:'L (77)',   chest:[91,96],  waist:[74,79],  hip:[99,104]},
+    {label:'XL (88)', chest:[96,101], waist:[79,84],  hip:[104,109]},
+    {label:'XXL',     chest:[101,108],waist:[84,91],  hip:[109,116]},
+  ],
+  US: [
+    {label:'XS (0-2)',  chest:[79,83],  waist:[62,66],  hip:[87,91]},
+    {label:'S (4-6)',   chest:[83,87],  waist:[66,70],  hip:[91,95]},
+    {label:'M (8-10)',  chest:[87,92],  waist:[70,75],  hip:[95,100]},
+    {label:'L (12-14)', chest:[92,97],  waist:[75,80],  hip:[100,105]},
+    {label:'XL (16)',   chest:[97,103], waist:[80,86],  hip:[105,111]},
+    {label:'XXL (18)', chest:[103,110],waist:[86,93],  hip:[111,118]},
+  ],
+  EU: [
+    {label:'EU 34', chest:[79,83],  waist:[62,66],  hip:[87,91]},
+    {label:'EU 36', chest:[83,87],  waist:[66,70],  hip:[91,95]},
+    {label:'EU 38', chest:[87,91],  waist:[70,74],  hip:[95,99]},
+    {label:'EU 40', chest:[91,96],  waist:[74,79],  hip:[99,104]},
+    {label:'EU 42', chest:[96,101], waist:[79,84],  hip:[104,109]},
+    {label:'EU 44', chest:[101,108],waist:[84,91],  hip:[109,116]},
+  ],
+};
+function _findSize(data, chest, waist, hip) {
+  // 가슴 우선 매칭
+  for (var i = 0; i < data.length; i++) {
+    var d = data[i];
+    if (chest >= d.chest[0] && chest < d.chest[1]) return {label: d.label, match: 'chest'};
+  }
+  // 허리 매칭
+  for (var i = 0; i < data.length; i++) {
+    var d = data[i];
+    if (waist >= d.waist[0] && waist < d.waist[1]) return {label: d.label, match: 'waist'};
+  }
+  // 엉덩이 매칭
+  for (var i = 0; i < data.length; i++) {
+    var d = data[i];
+    if (hip >= d.hip[0] && hip < d.hip[1]) return {label: d.label, match: 'hip'};
+  }
+  // 범위 초과 처리
+  if (chest < _szData.KR[0].chest[0]) return {label: data[0].label + ' 이하', match: 'under'};
+  return {label: data[data.length-1].label + ' 이상', match: 'over'};
+}
+function updateSizeSim() {
+  var chest = parseFloat(document.getElementById('sz-chest').value) || 88;
+  var waist = parseFloat(document.getElementById('sz-waist').value) || 74;
+  var hip   = parseFloat(document.getElementById('sz-hip').value)   || 94;
+
+  var kr = _findSize(_szData.KR, chest, waist, hip);
+  var us = _findSize(_szData.US, chest, waist, hip);
+  var eu = _findSize(_szData.EU, chest, waist, hip);
+
+  var matchLabel = {'chest':'가슴 기준', 'waist':'허리 기준', 'hip':'엉덩이 기준', 'under':'최소 이하', 'over':'최대 초과'};
+
+  // 상단 결과 카드
+  var topHTML = '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px">';
+  var regions = [{name:'한국', r:kr, flag:'&#127472;&#127479;'}, {name:'미국', r:us, flag:'&#127482;&#127480;'}, {name:'유럽', r:eu, flag:'&#127466;&#127482;'}];
+  regions.forEach(function(reg) {
+    topHTML += '<div style="background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.04));border:1px solid rgba(0,212,170,0.25);border-radius:12px;padding:12px;text-align:center">'
+      + '<div style="font-size:18px;margin-bottom:4px">' + reg.flag + '</div>'
+      + '<div style="font-size:11px;color:var(--text-muted);margin-bottom:6px">' + reg.name + '</div>'
+      + '<div style="font-size:17px;font-weight:900;color:var(--accent)">' + reg.r.label + '</div>'
+      + '<div style="font-size:10px;color:var(--text-muted);margin-top:3px">' + matchLabel[reg.r.match] + '</div>'
+      + '</div>';
+  });
+  topHTML += '</div>';
+
+  // 상세 사이즈 참고표 (한국 기준)
+  var rows = '';
+  _szData.KR.forEach(function(d, i) {
+    var isMatch = (chest >= d.chest[0] && chest < d.chest[1]);
+    rows += '<tr' + (isMatch ? ' class="hl"' : '') + '>'
+      + '<td>' + d.label + '</td>'
+      + '<td>' + d.chest[0] + '~' + d.chest[1] + '</td>'
+      + '<td>' + d.waist[0] + '~' + d.waist[1] + '</td>'
+      + '<td>' + d.hip[0]   + '~' + d.hip[1]   + '</td>'
+      + '</tr>';
+  });
+  var tbl = '<table class="sim-tbl"><thead><tr><th>한국 사이즈</th><th>가슴(cm)</th><th>허리(cm)</th><th>엉덩이(cm)</th></tr></thead><tbody>'
+    + rows + '</tbody></table>';
+
+  document.getElementById('sizeSimResult').innerHTML = topHTML + tbl;
+}
+document.addEventListener('DOMContentLoaded', updateSizeSim);<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#00d4aa" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="모두의계산기" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cm inch 변환 계산기 | 모두의계산기</title>
+  <meta name="description" content="cm↔인치 변환 계산기 — 수치 입력 즉시 양방향 자동 변환. 한국인 평균 키 변환 참고표, TV·모니터 화면 크기 인치 환산, 피트·인치 표기법, 신발 사이즈 변환 포함." />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" /></noscript>
+  <style>
+    :root {
+      --bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;
+      --accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;
+      --danger:#ff6b6b;--radius:16px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+    .container{max-width:800px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .header{text-align:center;margin-bottom:48px}
+    .site-name{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:4px;color:var(--accent);text-transform:uppercase;margin-bottom:16px;opacity:.8;display:inline-block}
+    .header h1{font-size:clamp(28px,6vw,48px);font-weight:900;line-height:1.1;margin-bottom:12px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
+    .header p{font-size:14px;color:var(--text-muted)}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:20px}
+    .card-title{font-size:14px;font-weight:700;color:var(--text-muted);letter-spacing:1px;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+    .input-group{margin-bottom:20px}
+    .input-group label{display:block;font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:8px}
+    .input-wrapper{position:relative;display:flex;align-items:center}
+    .input-wrapper input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 52px 14px 16px;font-size:18px;font-weight:700;color:var(--text);font-family:'Noto Sans KR',sans-serif;outline:none;transition:border-color .2s;-moz-appearance:textfield}
+    .input-wrapper input::-webkit-outer-spin-button,.input-wrapper input::-webkit-inner-spin-button{-webkit-appearance:none}
+    .input-wrapper input:focus{border-color:rgba(0,212,170,.5);box-shadow:0 0 0 3px rgba(0,212,170,.08)}
+    .input-unit{position:absolute;right:14px;font-size:14px;font-weight:600;color:var(--text-muted)}
+    select{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-size:15px;font-weight:600;color:var(--text);font-family:'Noto Sans KR',sans-serif;outline:none;appearance:none;cursor:pointer}
+    select:focus{border-color:rgba(0,212,170,.5)}
+    .btn{width:100%;padding:18px;border:none;border-radius:12px;font-size:17px;font-weight:800;cursor:pointer;transition:all .2s;font-family:'Noto Sans KR',sans-serif;margin-top:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,212,170,.3)}
+    .result-section{display:none}
+    .result-section.show{display:block}
+    .result-card{background:linear-gradient(135deg,rgba(0,212,170,.08),rgba(0,149,255,.05));border:1px solid rgba(0,212,170,.2);border-radius:var(--radius);padding:28px;margin-bottom:20px;text-align:center}
+    .result-label{font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:10px}
+    .result-value{font-size:clamp(28px,5vw,44px);font-weight:900;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.1}
+    .result-sub{font-size:13px;color:var(--text-muted);margin-top:8px}
+    .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+    .detail-item{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px}
+    .detail-item .di-label{font-size:11px;color:var(--text-muted);margin-bottom:4px}
+    .detail-item .di-value{font-size:16px;font-weight:700;color:var(--text)}
+    .info-box{background:rgba(0,212,170,.05);border:1px solid rgba(0,212,170,.15);border-radius:10px;padding:14px 16px;margin-bottom:16px;font-size:13px;color:var(--text-muted);line-height:1.8}
+    .info-box strong{color:var(--accent)}
+    .two-btn{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .btn-sub{background:var(--surface2);color:var(--accent);border:1px solid rgba(0,212,170,.3)}
+    .btn-sub:hover{background:rgba(0,212,170,.1)}
+    @media(max-width:600px){.detail-grid{grid-template-columns:1fr}.two-btn{grid-template-columns:1fr}}
+
+    /* ── 홈 버튼 ── */
+    .home-btn-wrap { text-align: center; margin-bottom: 8px; }
+    .home-btn {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      width: 54px; height: 54px;
+      background: rgba(0,212,170,0.08);
+      border: 1.5px solid rgba(0,212,170,0.35);
+      border-radius: 50%;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .home-btn:hover { background: rgba(0,212,170,0.18); transform: translateY(-2px); }
+    .home-btn-emoji { font-size: 20px; line-height: 1; }
+    .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
+    .sim-tbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px}
+    .sim-tbl th{background:var(--surface2);color:var(--text);padding:8px 10px;border:1px solid var(--border);font-weight:600;text-align:left}
+    .sim-tbl td{padding:7px 10px;border:1px solid var(--border);color:var(--text-muted)}
+    .sim-tbl td:not(:first-child){text-align:right}
+    .sim-tbl tr.hl td{color:var(--accent);font-weight:700}
+  
+.rel-section{margin:32px auto 8px;padding:0 20px;max-width:640px}
+.rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
+.rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+.rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+.rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
+</style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7GYSXR7WJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+    <h1><span class="emoji">📏</span> cm ↔ inch 변환기</h1>
+    <p>센티미터 · 인치 · 피트 즉시 변환</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📏 단위 입력</div>
+    <div class="input-group">
+      <label>센티미터 (cm)</label>
+      <div class="input-wrapper">
+        <input type="text" id="cmVal" placeholder="예: 175" oninput="syncCm(this)" />
+        <span class="input-unit">cm</span>
+      </div>
+    </div>
+    <div class="input-group">
+      <label>인치 (inch)</label>
+      <div class="input-wrapper">
+        <input type="text" id="inchVal" placeholder="예: 68.9" oninput="syncInch(this)" />
+        <span class="input-unit">inch</span>
+      </div>
+    </div>
+    <div class="input-group">
+      <label>피트+인치 (ft″)</label>
+      <div class="input-wrapper">
+        <input type="text" id="ftVal" placeholder="예: 5′9″" readonly style="background:#0d1117;color:#8b949e;font-size:15px" />
+        <span class="input-unit">ft</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="cmResult" style="display:none" class="result-card">
+    <div class="result-label">변환 결과</div>
+    <div id="cmResultVal" class="result-value"></div>
+    <div id="cmResultSub" class="result-sub"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 키 변환 참고표</div>
+    <table style="width:100%;border-collapse:collapse;font-size:13px">
+      <thead><tr style="background:#21262d"><th style="padding:10px;border:1px solid #30363d;color:#e6edf3">cm</th><th style="padding:10px;border:1px solid #30363d;color:#e6edf3">inch</th><th style="padding:10px;border:1px solid #30363d;color:#e6edf3">피트+인치</th></tr></thead>
+      <tbody id="cmTable"></tbody>
+    </table>
+  </div>
+
+<script>
+const heights=[155,160,163,165,168,170,173,175,178,180,183,185,188,190];
+const tb=document.getElementById('cmTable');
+heights.forEach(h=>{
+  const inch=h/2.54;
+  const ft=Math.floor(inch/12);
+  const remIn=Math.round(inch%12);
+  tb.innerHTML+=`<tr><td style="padding:9px;border:1px solid #30363d;color:#8b949e;text-align:center">${h}cm</td><td style="padding:9px;border:1px solid #30363d;color:#8b949e;text-align:center">${inch.toFixed(1)}"</td><td style="padding:9px;border:1px solid #30363d;color:#8b949e;text-align:center">${ft}'${remIn}"</td></tr>`;
+});
+
+function toFtIn(inch){
+  const ft=Math.floor(inch/12);
+  const rem=Math.floor(inch%12);
+  return `${ft}′${rem}″`;
+}
+function showResult(cm,inch){
+  const r=document.getElementById('cmResult');
+  r.style.display='block';
+  document.getElementById('cmResultVal').textContent=`${cm.toFixed(1)} cm = ${inch.toFixed(2)} inch`;
+  document.getElementById('cmResultSub').textContent=toFtIn(inch)+'  |  '+cm.toFixed(1)+' cm';
+}
+function syncCm(el){
+  const v=parseFloat(el.value);
+  if(isNaN(v)){document.getElementById('inchVal').value='';document.getElementById('ftVal').value='';document.getElementById('cmResult').style.display='none';return;}
+  const inch=v/2.54;
+  document.getElementById('inchVal').value=inch.toFixed(2);
+  document.getElementById('ftVal').value=toFtIn(inch);
+  showResult(v,inch);
+}
+function syncInch(el){
+  const v=parseFloat(el.value);
+  if(isNaN(v)){document.getElementById('cmVal').value='';document.getElementById('ftVal').value='';document.getElementById('cmResult').style.display='none';return;}
+  const cm=v*2.54;
+  document.getElementById('cmVal').value=cm.toFixed(2);
+  document.getElementById('ftVal').value=toFtIn(v);
+  showResult(cm,v);
+}
+</script>
+
+  <div class="card" id="simCard" style="margin-top:8px">
+    <div class="card-title">&#128248; 체형 사이즈 변환기</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">가슴&#183;허리&#183;엉덩이 둘레(cm)를 입력하면 한국&#183;미국&#183;유럽 의류 사이즈를 알려드립니다. 해외 직구 시 활용하세요.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">
+      <div>
+        <label style="display:block;font-size:12px;color:var(--text-muted);margin-bottom:5px">가슴 둘레</label>
+        <div style="position:relative">
+          <input type="number" id="sz-chest" value="88" min="60" max="140" oninput="updateSizeSim()"
+            style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:9px 30px 9px 10px;font-size:14px;font-weight:700;color:var(--text);outline:none"/>
+          <span style="position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--text-muted);pointer-events:none">cm</span>
+        </div>
+      </div>
+      <div>
+        <label style="display:block;font-size:12px;color:var(--text-muted);margin-bottom:5px">허리 둘레</label>
+        <div style="position:relative">
+          <input type="number" id="sz-waist" value="74" min="50" max="130" oninput="updateSizeSim()"
+            style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:9px 30px 9px 10px;font-size:14px;font-weight:700;color:var(--text);outline:none"/>
+          <span style="position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--text-muted);pointer-events:none">cm</span>
+        </div>
+      </div>
+      <div>
+        <label style="display:block;font-size:12px;color:var(--text-muted);margin-bottom:5px">엉덩이 둘레</label>
+        <div style="position:relative">
+          <input type="number" id="sz-hip" value="94" min="60" max="140" oninput="updateSizeSim()"
+            style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:9px 30px 9px 10px;font-size:14px;font-weight:700;color:var(--text);outline:none"/>
+          <span style="position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--text-muted);pointer-events:none">cm</span>
+        </div>
+      </div>
+    </div>
+    <div id="sizeSimResult"></div>
+    <p style="font-size:11px;color:var(--text-muted);margin-top:8px">&#8251; 브랜드&#183;국가마다 기준이 다를 수 있으니 구매 전 해당 브랜드 사이즈 차트를 반드시 확인하세요</p>
+  </div></div>
+
+<style>.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}.seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}.seo-section details[open] summary::after{content:'－'}.seo-section details[open]{background:#161b22}.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}</style>
+<style>
+.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
+.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
+.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}
+.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
+.seo-section ul{padding-left:20px;margin-bottom:12px}
+.seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+.seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
+.seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+.seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
+.seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
+.seo-section table tr:nth-child(even) td{background:#161b22}
+.seo-section table td strong{color:#00d4aa}
+.seo-section .tip-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .tip-box strong{color:#00d4aa}
+.seo-section .warn-box{background:rgba(255,107,107,0.05);border:1px solid rgba(255,107,107,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .warn-box strong{color:#ff6b6b}
+.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
+.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
+.seo-section details[open] summary::after{content:'－'}
+.seo-section details[open]{background:#161b22}
+.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
+</style>
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/bmi" class="rel-card"><span class="re">⚖️</span><span class="rn">BMI</span></a>
+  <a href="/area_converter" class="rel-card"><span class="re">📐</span><span class="rn">평수 변환</span></a>
+  <a href="/child_height" class="rel-card"><span class="re">📏</span><span class="rn">아이 키 성장</span></a>
+  <a href="/bmr" class="rel-card"><span class="re">🔥</span><span class="rn">기초대사량</span></a>
+  <a href="/age" class="rel-card"><span class="re">🎂</span><span class="rn">나이 계산기</span></a>
+  
+  </div>
+</div>
+<div class="seo-section">
+  <h2>cm·inch·feet 단위 변환 — 언제 어디서 필요한가</h2>
+  <p>전 세계 대부분의 나라는 국제단위계(SI)인 미터법을 사용하지만, 미국·영국 등 영미권 국가는 야드파운드법(인치·피트·마일·파운드)을 아직 사용합니다. 한국에서 cm↔inch 변환이 필요한 상황은 생각보다 많습니다. 해외 직구로 의류·신발을 살 때 사이즈 표기가 인치 기준이고, TV·모니터·스마트폰 화면 크기는 전 세계적으로 인치로 표기합니다. 또 미국·캐나다 드라마에서 인물의 키를 "5피트 10인치"로 말할 때 바로 이해하려면 변환 지식이 필요합니다.</p>
+  <p>1인치는 정확히 2.54cm로 국제 표준에 의해 고정되어 있습니다. 이 수치는 1959년 영미 협약(International Yard and Pound Agreement)으로 확정된 것입니다. 빠른 암산을 위해서는 1인치 ≈ 2.5cm, 1피트 ≈ 30cm, 1야드 ≈ 90cm로 외워두면 일상에서 편리합니다. 단 정확한 계산이 필요할 때는 반드시 2.54를 사용해야 합니다.</p>
+  <div class="formula-box">1 inch = 2.54 cm  (국제 표준, 정확한 값)
+1 cm   = 1 ÷ 2.54 = 0.393701 inch
+1 feet = 12 inch = 30.48 cm
+1 yard = 3 feet = 36 inch = 91.44 cm
+
+cm → inch: cm ÷ 2.54
+inch → cm: inch × 2.54
+피트+인치 → cm: (피트 × 12 + 인치) × 2.54
+
+예) 5피트 10인치 → (5×12 + 10) × 2.54 = 70 × 2.54 = 177.8cm</div>
+  <p>빠른 암산 팁으로 cm를 2.5로 나누면 대략적인 인치가 나옵니다. 175cm라면 175÷2.5=70인치 → 5피트 10인치로 빠르게 어림잡을 수 있습니다. 이 방법은 약 1.6%의 오차가 있으므로 의류·신발 주문처럼 정확도가 중요한 경우에는 위 계산기를 사용하세요.</p>
+
+  <h2>키 cm↔피트·인치 환산표 — 한국인 평균 범위 포함</h2>
+  <p>한국인 평균 키는 질병관리청 국민건강통계 기준 남성 약 172.5cm(5ft 8in), 여성 약 159.7cm(5ft 3in)입니다. 해외 의료기관이나 스포츠 관련 서류, 소셜미디어 프로필에 키를 영문으로 표기할 때 아래 환산표가 유용합니다.</p>
+  <table>
+    <thead><tr><th>cm</th><th>인치(inch)</th><th>피트·인치</th><th>참고</th></tr></thead>
+    <tbody>
+      <tr><td>155cm</td><td>61.0″</td><td>5ft 1in</td><td>한국 여성 평균 하한</td></tr>
+      <tr><td>160cm</td><td>63.0″</td><td>5ft 3in</td><td>한국 여성 평균</td></tr>
+      <tr><td>165cm</td><td>65.0″</td><td>5ft 5in</td><td></td></tr>
+      <tr><td>170cm</td><td>66.9″</td><td>5ft 7in</td><td>한국 남성 평균 하한</td></tr>
+      <tr><td><strong>175cm</strong></td><td><strong>68.9″</strong></td><td><strong>5ft 9in</strong></td><td><strong>한국 남성 평균</strong></td></tr>
+      <tr><td>180cm</td><td>70.9″</td><td>5ft 11in</td><td></td></tr>
+      <tr><td>183cm</td><td>72.0″</td><td>6ft 0in</td><td>6피트의 경계</td></tr>
+      <tr><td>190cm</td><td>74.8″</td><td>6ft 3in</td><td></td></tr>
+    </tbody>
+  </table>
+  <p>미국·캐나다에서는 일상적으로 키를 피트와 인치로 표현합니다. "5피트 9인치(5′9″)"는 177.8cm로 미국 남성 평균키(약 175.4cm, 5ft 9in)와 비슷합니다. 반면 NBA 선수들은 6피트 6인치(198.1cm) 이상이 많아 한국인 기준으로 상당히 큰 편입니다.</p>
+
+  <h2>TV·모니터 화면 크기 인치의 의미 — 실제 가로·세로는 얼마?</h2>
+  <p>TV와 모니터의 인치 크기는 화면의 대각선 길이를 의미합니다. 65인치 TV의 화면 대각선이 165.1cm라는 뜻이지, 가로나 세로가 165cm가 아닙니다. 실제 설치 공간을 계획할 때는 가로 크기가 더 중요합니다. 16:9 비율 기준으로 65인치 TV의 화면 가로는 약 143.9cm, 세로는 약 80.9cm입니다.</p>
+  <p>위 시뮬레이터에서 인치를 입력하면 화면 비율(16:9, 21:9, 4:3)에 따른 실제 가로·세로 크기를 계산할 수 있습니다. TV 거치대나 TV장의 가로 크기와 비교해 설치 가능 여부를 미리 확인할 수 있습니다. 일반적으로 시청 거리는 TV 화면 높이의 2~3배, 즉 55인치 TV(세로 약 68cm)라면 최소 136~204cm 거리가 적당합니다.</p>
+  <table>
+    <thead><tr><th>인치</th><th>대각선 (cm)</th><th>가로 (16:9)</th><th>세로 (16:9)</th><th>권장 시청거리</th></tr></thead>
+    <tbody>
+      <tr><td>27인치</td><td>68.6cm</td><td>59.8cm</td><td>33.6cm</td><td>67~100cm (모니터)</td></tr>
+      <tr><td>32인치</td><td>81.3cm</td><td>70.8cm</td><td>39.9cm</td><td>100~150cm</td></tr>
+      <tr><td><strong>55인치</strong></td><td><strong>139.7cm</strong></td><td><strong>121.8cm</strong></td><td><strong>68.5cm</strong></td><td><strong>136~205cm</strong></td></tr>
+      <tr><td>65인치</td><td>165.1cm</td><td>143.9cm</td><td>80.9cm</td><td>162~242cm</td></tr>
+      <tr><td>75인치</td><td>190.5cm</td><td>166.0cm</td><td>93.4cm</td><td>187~280cm</td></tr>
+    </tbody>
+  </table>
+  <div class="tip-box"><strong>💡 TV 크기 선택 가이드.</strong> 소파에서 TV까지 거리가 250cm라면 65인치(권장 162~242cm)~75인치가 적당합니다. 최근에는 OTT 콘텐츠 소비 증가로 대형 TV 수요가 늘어 65인치가 거실 TV 표준으로 자리잡고 있습니다. 다만 설치 공간과 시청 거리를 먼저 측정하고 구매해야 후회가 없습니다.</div>
+
+  <h2>해외 직구 사이즈 변환 — 의류·신발 실전 가이드</h2>
+  <p>해외 직구에서 가장 많은 실수가 발생하는 부분이 사이즈 변환입니다. 미국 의류는 한국보다 1~2 사이즈 크게 설계된 경우가 많아, 미국 M을 주문하면 한국 L에 해당하는 경우가 많습니다. 정확한 사이즈를 맞추려면 S/M/L 레이블보다 가슴·허리·엉덩이 측정값(cm)을 해당 브랜드의 사이즈 차트와 직접 비교하는 것이 가장 안전합니다.</p>
+  <table>
+    <thead><tr><th>측정 부위</th><th>측정 방법</th><th>활용</th></tr></thead>
+    <tbody>
+      <tr><td>가슴둘레</td><td>겨드랑이 아래 가장 두꺼운 부분 수평 측정</td><td>상의, 재킷, 원피스</td></tr>
+      <tr><td>허리둘레</td><td>배꼽 위 가장 좁은 부분 수평 측정</td><td>하의, 원피스</td></tr>
+      <tr><td>엉덩이둘레</td><td>엉덩이 가장 두꺼운 부분 수평 측정</td><td>하의, 원피스</td></tr>
+      <tr><td>발 길이</td><td>가장 긴 발가락 끝~뒤꿈치 직선 거리</td><td>신발 (mm 단위 기재)</td></tr>
+    </tbody>
+  </table>
+  <div class="tip-box"><strong>💡 신발 사이즈 빠른 환산.</strong> 한국 신발 사이즈(mm)를 미국 사이즈로 변환: 남성은 (mm÷10 − 14.2), 여성은 (mm÷10 − 13.2) 공식을 사용합니다. 단 브랜드별 편차가 크므로 반드시 해당 브랜드 사이즈 차트를 확인하세요. 예) 한국 남성 270mm = US 10 / 여성 240mm ≈ US 7.5.</div>
+
+  <h2>자주 묻는 질문 (FAQ)</h2>
+  <details><summary>5피트 10인치를 cm로 변환하면 얼마인가요?</summary><div class="faq-answer">5피트 10인치 = (5×12 + 10) × 2.54 = 70 × 2.54 = 177.8cm입니다. 빠른 계산법으로 피트×30 + 인치×2.5를 하면 5×30 + 10×2.5 = 175cm로 약 1.6% 오차의 어림값을 구할 수 있습니다. 정확한 값이 필요하면 위 계산기를 이용하세요.</div></details>
+  <details><summary>모니터·TV 인치는 화면 어디를 측정하는 건가요?</summary><div class="faq-answer">TV·모니터 인치 크기는 화면(패널)의 대각선 길이입니다. 베젤(테두리)은 포함하지 않습니다. 55인치 TV라면 화면 대각선이 약 139.7cm입니다. 실제 가로 크기는 16:9 비율 기준으로 대각선의 약 87.2%인 약 121.8cm입니다. 설치 공간 계획 시 TV 전체 가로(베젤 포함)도 함께 확인하세요.</div></details>
+  <details><summary>해외 의류 사이즈 XS/S/M/L은 한국과 같은가요?</summary><div class="faq-answer">아닙니다. 미국·유럽 의류는 한국보다 사이즈가 크게 설정된 경우가 많습니다. 브랜드마다 다르지만 대체로 미국 M = 한국 L 정도입니다. 정확한 사이즈 매칭을 위해 가슴·허리·엉덩이 둘레(cm)를 직접 측정하고 브랜드별 사이즈 차트와 비교하는 것이 가장 안전합니다.</div></details>
+  <details><summary>야드(yard)와 미터(meter)는 얼마나 차이 나나요?</summary><div class="faq-answer">1야드 = 91.44cm = 약 0.914m로 1미터보다 약 8.6cm 짧습니다. 1마일 = 1,609.34m = 약 1.609km입니다. 미국 도로 표지판의 속도(mph)를 km/h로 변환하려면 mph × 1.609를 하면 됩니다. 예를 들어 60mph = 약 96.6km/h, 100mph = 약 160.9km/h입니다.</div></details>
+  <details><summary>미국 신발 사이즈를 한국 mm로 변환하는 법은?</summary><div class="faq-answer">미국 남성 신발 기준으로 US 10 ≈ 280mm, US 9 ≈ 270mm, US 8 ≈ 260mm 정도입니다. 여성 기준은 US 8 ≈ 255mm, US 7 ≈ 247mm입니다. 그러나 브랜드마다 편차가 크므로 반드시 해당 브랜드의 사이즈 차트를 확인하고, 가능하면 발 길이(mm)를 직접 재서 비교하는 것이 가장 정확합니다.</div></details>
+</div>
+<script src="/common.js" defer></script><script src="/share.js" defer></script>
+<script src="/calculator.js" defer></script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(r => console.log('[PWA] SW registered:', r.scope))
+      .catch(e => console.warn('[PWA] SW failed:', e));
+  });
+}
+</script>
+</body>
+</htmlvar _htGender = 'male';
+function htSetGender(g) {
+  _htGender = g;
+  var ac = 'rgba(0,212,170,0.15)', bc = 'var(--surface2)';
+  var ab = 'var(--accent)', bb = 'var(--border)';
+  var at = 'var(--accent)', bt = 'var(--text-muted)';
+  document.getElementById('ht-male').style.background   = g==='male'?ac:bc;
+  document.getElementById('ht-male').style.borderColor  = g==='male'?ab:bb;
+  document.getElementById('ht-male').style.color        = g==='male'?at:bt;
+  document.getElementById('ht-female').style.background  = g==='female'?ac:bc;
+  document.getElementById('ht-female').style.borderColor = g==='female'?ab:bb;
+  document.getElementById('ht-female').style.color       = g==='female'?at:bt;
+  updateHtSim();
+}
+function updateHtSim() {
+  var cm = parseFloat(document.getElementById('ht-cm').value) || 175;
+  var totalInch = cm / 2.54;
+  var ft = Math.floor(totalInch / 12);
+  var inch = Math.round(totalInch % 12 * 10) / 10;
+  if (inch >= 12) { ft++; inch = 0; }
+
+  // 평균 키 데이터 (cm)
+  var avgs = _htGender === 'male' ? [
+    {country:'한국 남성 평균', cm:172.5, flag:'&#127472;&#127479;'},
+    {country:'미국 남성 평균', cm:175.4, flag:'&#127482;&#127480;'},
+    {country:'일본 남성 평균', cm:171.8, flag:'&#127471;&#127477;'},
+    {country:'NBA 선수 평균',  cm:200.4, flag:'&#127944;'},
+  ] : [
+    {country:'한국 여성 평균', cm:159.7, flag:'&#127472;&#127479;'},
+    {country:'미국 여성 평균', cm:162.0, flag:'&#127482;&#127480;'},
+    {country:'일본 여성 평균', cm:158.3, flag:'&#127471;&#127477;'},
+    {country:'모델 평균',      cm:178.0, flag:'&#127774;'},
+  ];
+
+  // 결과 상단 변환값
+  var topHTML = '<div style="background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.04));border:1px solid rgba(0,212,170,0.25);border-radius:12px;padding:16px;text-align:center;margin-bottom:12px">'
+    + '<div style="font-size:12px;color:var(--text-muted);margin-bottom:6px">피트&#183;인치 변환 결과</div>'
+    + '<div style="font-size:32px;font-weight:900;color:var(--accent)">' + ft + 'ft ' + inch.toFixed(0) + 'in</div>'
+    + '<div style="font-size:13px;color:var(--text-muted);margin-top:4px">'
+    + cm.toFixed(1) + 'cm = ' + ft + '&#8242;' + inch.toFixed(0) + '&#8243; = ' + totalInch.toFixed(1) + 'inch</div>'
+    + '</div>';
+
+  // 비교 테이블
+  var rows = '';
+  avgs.forEach(function(a) {
+    var diff = (cm - a.cm).toFixed(1);
+    var sign = diff > 0 ? '+' : '';
+    var isSame = Math.abs(cm - a.cm) < 3;
+    var diffColor = diff > 0 ? 'color:#00d4aa' : diff < 0 ? 'color:#ff6b6b' : 'color:var(--text-muted)';
+    rows += '<tr' + (isSame ? ' class="hl"' : '') + '>'
+      + '<td>' + a.flag + ' ' + a.country + '</td>'
+      + '<td style="text-align:right">' + a.cm + 'cm</td>'
+      + '<td style="text-align:right;' + diffColor + '">' + sign + diff + 'cm</td>'
+      + '</tr>';
+  });
+
+  var tbl = '<table class="sim-tbl"><thead><tr><th>비교 대상</th><th>평균 키</th><th>차이</th></tr></thead><tbody>'
+    + rows + '</tbody></table>';
+
+  document.getElementById('htSimResult').innerHTML = topHTML + tbl;
+}
+document.addEventListener('DOMContentLoaded', updateHtSim);
+});<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#00d4aa" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="모두의계산기" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cm inch 변환 계산기 | 모두의계산기</title>
+  <meta name="description" content="cm↔인치 변환 계산기 — 수치 입력 즉시 양방향 자동 변환. 한국인 평균 키 변환 참고표, TV·모니터 화면 크기 인치 환산, 피트·인치 표기법, 신발 사이즈 변환 포함." />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" /></noscript>
+  <style>
+    :root {
+      --bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;
+      --accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;
+      --danger:#ff6b6b;--radius:16px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+    .container{max-width:800px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .header{text-align:center;margin-bottom:48px}
+    .site-name{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:4px;color:var(--accent);text-transform:uppercase;margin-bottom:16px;opacity:.8;display:inline-block}
+    .header h1{font-size:clamp(28px,6vw,48px);font-weight:900;line-height:1.1;margin-bottom:12px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
+    .header p{font-size:14px;color:var(--text-muted)}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:20px}
+    .card-title{font-size:14px;font-weight:700;color:var(--text-muted);letter-spacing:1px;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+    .input-group{margin-bottom:20px}
+    .input-group label{display:block;font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:8px}
+    .input-wrapper{position:relative;display:flex;align-items:center}
+    .input-wrapper input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 52px 14px 16px;font-size:18px;font-weight:700;color:var(--text);font-family:'Noto Sans KR',sans-serif;outline:none;transition:border-color .2s;-moz-appearance:textfield}
+    .input-wrapper input::-webkit-outer-spin-button,.input-wrapper input::-webkit-inner-spin-button{-webkit-appearance:none}
+    .input-wrapper input:focus{border-color:rgba(0,212,170,.5);box-shadow:0 0 0 3px rgba(0,212,170,.08)}
+    .input-unit{position:absolute;right:14px;font-size:14px;font-weight:600;color:var(--text-muted)}
+    select{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-size:15px;font-weight:600;color:var(--text);font-family:'Noto Sans KR',sans-serif;outline:none;appearance:none;cursor:pointer}
+    select:focus{border-color:rgba(0,212,170,.5)}
+    .btn{width:100%;padding:18px;border:none;border-radius:12px;font-size:17px;font-weight:800;cursor:pointer;transition:all .2s;font-family:'Noto Sans KR',sans-serif;margin-top:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,212,170,.3)}
+    .result-section{display:none}
+    .result-section.show{display:block}
+    .result-card{background:linear-gradient(135deg,rgba(0,212,170,.08),rgba(0,149,255,.05));border:1px solid rgba(0,212,170,.2);border-radius:var(--radius);padding:28px;margin-bottom:20px;text-align:center}
+    .result-label{font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:10px}
+    .result-value{font-size:clamp(28px,5vw,44px);font-weight:900;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.1}
+    .result-sub{font-size:13px;color:var(--text-muted);margin-top:8px}
+    .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+    .detail-item{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px}
+    .detail-item .di-label{font-size:11px;color:var(--text-muted);margin-bottom:4px}
+    .detail-item .di-value{font-size:16px;font-weight:700;color:var(--text)}
+    .info-box{background:rgba(0,212,170,.05);border:1px solid rgba(0,212,170,.15);border-radius:10px;padding:14px 16px;margin-bottom:16px;font-size:13px;color:var(--text-muted);line-height:1.8}
+    .info-box strong{color:var(--accent)}
+    .two-btn{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .btn-sub{background:var(--surface2);color:var(--accent);border:1px solid rgba(0,212,170,.3)}
+    .btn-sub:hover{background:rgba(0,212,170,.1)}
+    @media(max-width:600px){.detail-grid{grid-template-columns:1fr}.two-btn{grid-template-columns:1fr}}
+
+    /* ── 홈 버튼 ── */
+    .home-btn-wrap { text-align: center; margin-bottom: 8px; }
+    .home-btn {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      width: 54px; height: 54px;
+      background: rgba(0,212,170,0.08);
+      border: 1.5px solid rgba(0,212,170,0.35);
+      border-radius: 50%;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .home-btn:hover { background: rgba(0,212,170,0.18); transform: translateY(-2px); }
+    .home-btn-emoji { font-size: 20px; line-height: 1; }
+    .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
+    .sim-tbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px}
+    .sim-tbl th{background:var(--surface2);color:var(--text);padding:8px 10px;border:1px solid var(--border);font-weight:600;text-align:left}
+    .sim-tbl td{padding:7px 10px;border:1px solid var(--border);color:var(--text-muted)}
+    .sim-tbl td:not(:first-child){text-align:right}
+    .sim-tbl tr.hl td{color:var(--accent);font-weight:700}
+  
+.rel-section{margin:32px auto 8px;padding:0 20px;max-width:640px}
+.rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
+.rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+.rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+.rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
+</style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7GYSXR7WJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+    <h1><span class="emoji">📏</span> cm ↔ inch 변환기</h1>
+    <p>센티미터 · 인치 · 피트 즉시 변환</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📏 단위 입력</div>
+    <div class="input-group">
+      <label>센티미터 (cm)</label>
+      <div class="input-wrapper">
+        <input type="text" id="cmVal" placeholder="예: 175" oninput="syncCm(this)" />
+        <span class="input-unit">cm</span>
+      </div>
+    </div>
+    <div class="input-group">
+      <label>인치 (inch)</label>
+      <div class="input-wrapper">
+        <input type="text" id="inchVal" placeholder="예: 68.9" oninput="syncInch(this)" />
+        <span class="input-unit">inch</span>
+      </div>
+    </div>
+    <div class="input-group">
+      <label>피트+인치 (ft″)</label>
+      <div class="input-wrapper">
+        <input type="text" id="ftVal" placeholder="예: 5′9″" readonly style="background:#0d1117;color:#8b949e;font-size:15px" />
+        <span class="input-unit">ft</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="cmResult" style="display:none" class="result-card">
+    <div class="result-label">변환 결과</div>
+    <div id="cmResultVal" class="result-value"></div>
+    <div id="cmResultSub" class="result-sub"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 키 변환 참고표</div>
+    <table style="width:100%;border-collapse:collapse;font-size:13px">
+      <thead><tr style="background:#21262d"><th style="padding:10px;border:1px solid #30363d;color:#e6edf3">cm</th><th style="padding:10px;border:1px solid #30363d;color:#e6edf3">inch</th><th style="padding:10px;border:1px solid #30363d;color:#e6edf3">피트+인치</th></tr></thead>
+      <tbody id="cmTable"></tbody>
+    </table>
+  </div>
+
+<script>
+const heights=[155,160,163,165,168,170,173,175,178,180,183,185,188,190];
+const tb=document.getElementById('cmTable');
+heights.forEach(h=>{
+  const inch=h/2.54;
+  const ft=Math.floor(inch/12);
+  const remIn=Math.round(inch%12);
+  tb.innerHTML+=`<tr><td style="padding:9px;border:1px solid #30363d;color:#8b949e;text-align:center">${h}cm</td><td style="padding:9px;border:1px solid #30363d;color:#8b949e;text-align:center">${inch.toFixed(1)}"</td><td style="padding:9px;border:1px solid #30363d;color:#8b949e;text-align:center">${ft}'${remIn}"</td></tr>`;
+});
+
+function toFtIn(inch){
+  const ft=Math.floor(inch/12);
+  const rem=Math.floor(inch%12);
+  return `${ft}′${rem}″`;
+}
+function showResult(cm,inch){
+  const r=document.getElementById('cmResult');
+  r.style.display='block';
+  document.getElementById('cmResultVal').textContent=`${cm.toFixed(1)} cm = ${inch.toFixed(2)} inch`;
+  document.getElementById('cmResultSub').textContent=toFtIn(inch)+'  |  '+cm.toFixed(1)+' cm';
+}
+function syncCm(el){
+  const v=parseFloat(el.value);
+  if(isNaN(v)){document.getElementById('inchVal').value='';document.getElementById('ftVal').value='';document.getElementById('cmResult').style.display='none';return;}
+  const inch=v/2.54;
+  document.getElementById('inchVal').value=inch.toFixed(2);
+  document.getElementById('ftVal').value=toFtIn(inch);
+  showResult(v,inch);
+}
+function syncInch(el){
+  const v=parseFloat(el.value);
+  if(isNaN(v)){document.getElementById('cmVal').value='';document.getElementById('ftVal').value='';document.getElementById('cmResult').style.display='none';return;}
+  const cm=v*2.54;
+  document.getElementById('cmVal').value=cm.toFixed(2);
+  document.getElementById('ftVal').value=toFtIn(v);
+  showResult(cm,v);
+}
+</script>
+
+  <div class="card" id="simCard" style="margin-top:8px">
+    <div class="card-title">📺 TV·모니터 화면 실제 크기 계산기</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">TV·모니터 인치 수는 화면 대각선 길이입니다. 인치를 입력하면 16:9 기준 실제 가로·세로 크기를 계산합니다.</p>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+      <label style="font-size:13px;color:var(--text-muted);white-space:nowrap;font-weight:500;flex-shrink:0">화면 크기</label>
+      <div style="position:relative;flex:1">
+        <input type="number" id="sim-inch-tv" value="55" min="10" max="200" oninput="updateTVSim()"
+          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:9px 46px 9px 12px;font-size:14px;font-weight:600;font-family:'Noto Sans KR',sans-serif;color:var(--text);outline:none"/>
+        <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--text-muted)">인치</span>
+      </div>
+      <select id="sim-ratio" onchange="updateTVSim()" style="flex:1;padding:9px 10px;font-size:13px;font-family:'Noto Sans KR',sans-serif;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);outline:none">
+        <option value="16:9" selected>16:9 (일반 TV)</option>
+        <option value="21:9">21:9 (울트라와이드)</option>
+        <option value="4:3">4:3 (구형)</option>
+      </select>
+    </div>
+    <div id="tvSimResult"></div>
+    <p style="font-size:11px;color:var(--text-muted);margin-top:8px">※ 베젤(테두리) 미포함 화면 크기 기준</p>
+  </div>
+</div>
+
+<style>.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}.seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}.seo-section details[open] summary::after{content:'－'}.seo-section details[open]{background:#161b22}.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}</style>
+<style>
+.seo-section{max-width:680px;margin:60px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
+.seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
+.seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}
+.seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
+.seo-section ul{padding-left:20px;margin-bottom:12px}
+.seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+.seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
+.seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+.seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
+.seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
+.seo-section table tr:nth-child(even) td{background:#161b22}
+.seo-section table td strong{color:#00d4aa}
+.seo-section .tip-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .tip-box strong{color:#00d4aa}
+.seo-section .warn-box{background:rgba(255,107,107,0.05);border:1px solid rgba(255,107,107,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+.seo-section .warn-box strong{color:#ff6b6b}
+.seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
+.seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
+.seo-section details[open] summary::after{content:'－'}
+.seo-section details[open]{background:#161b22}
+.seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
+</style>
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/bmi" class="rel-card"><span class="re">⚖️</span><span class="rn">BMI</span></a>
+  <a href="/area_converter" class="rel-card"><span class="re">📐</span><span class="rn">평수 변환</span></a>
+  <a href="/child_height" class="rel-card"><span class="re">📏</span><span class="rn">아이 키 성장</span></a>
+  <a href="/bmr" class="rel-card"><span class="re">🔥</span><span class="rn">기초대사량</span></a>
+  <a href="/age" class="rel-card"><span class="re">🎂</span><span class="rn">나이 계산기</span></a>
+  
+  </div>
+</div>
+<div class="seo-section">
+  <h2>cm·inch·feet 단위 변환 — 언제 어디서 필요한가</h2>
+  <p>전 세계 대부분의 나라는 국제단위계(SI)인 미터법을 사용하지만, 미국·영국 등 영미권 국가는 야드파운드법(인치·피트·마일·파운드)을 아직 사용합니다. 한국에서 cm↔inch 변환이 필요한 상황은 생각보다 많습니다. 해외 직구로 의류·신발을 살 때 사이즈 표기가 인치 기준이고, TV·모니터·스마트폰 화면 크기는 전 세계적으로 인치로 표기합니다. 또 미국·캐나다 드라마에서 인물의 키를 "5피트 10인치"로 말할 때 바로 이해하려면 변환 지식이 필요합니다.</p>
+  <p>1인치는 정확히 2.54cm로 국제 표준에 의해 고정되어 있습니다. 이 수치는 1959년 영미 협약(International Yard and Pound Agreement)으로 확정된 것입니다. 빠른 암산을 위해서는 1인치 ≈ 2.5cm, 1피트 ≈ 30cm, 1야드 ≈ 90cm로 외워두면 일상에서 편리합니다. 단 정확한 계산이 필요할 때는 반드시 2.54를 사용해야 합니다.</p>
+  <div class="formula-box">1 inch = 2.54 cm  (국제 표준, 정확한 값)
+1 cm   = 1 ÷ 2.54 = 0.393701 inch
+1 feet = 12 inch = 30.48 cm
+1 yard = 3 feet = 36 inch = 91.44 cm
+
+cm → inch: cm ÷ 2.54
+inch → cm: inch × 2.54
+피트+인치 → cm: (피트 × 12 + 인치) × 2.54
+
+예) 5피트 10인치 → (5×12 + 10) × 2.54 = 70 × 2.54 = 177.8cm</div>
+  <p>빠른 암산 팁으로 cm를 2.5로 나누면 대략적인 인치가 나옵니다. 175cm라면 175÷2.5=70인치 → 5피트 10인치로 빠르게 어림잡을 수 있습니다. 이 방법은 약 1.6%의 오차가 있으므로 의류·신발 주문처럼 정확도가 중요한 경우에는 위 계산기를 사용하세요.</p>
+
+  <h2>키 cm↔피트·인치 환산표 — 한국인 평균 범위 포함</h2>
+  <p>한국인 평균 키는 질병관리청 국민건강통계 기준 남성 약 172.5cm(5ft 8in), 여성 약 159.7cm(5ft 3in)입니다. 해외 의료기관이나 스포츠 관련 서류, 소셜미디어 프로필에 키를 영문으로 표기할 때 아래 환산표가 유용합니다.</p>
+  <table>
+    <thead><tr><th>cm</th><th>인치(inch)</th><th>피트·인치</th><th>참고</th></tr></thead>
+    <tbody>
+      <tr><td>155cm</td><td>61.0″</td><td>5ft 1in</td><td>한국 여성 평균 하한</td></tr>
+      <tr><td>160cm</td><td>63.0″</td><td>5ft 3in</td><td>한국 여성 평균</td></tr>
+      <tr><td>165cm</td><td>65.0″</td><td>5ft 5in</td><td></td></tr>
+      <tr><td>170cm</td><td>66.9″</td><td>5ft 7in</td><td>한국 남성 평균 하한</td></tr>
+      <tr><td><strong>175cm</strong></td><td><strong>68.9″</strong></td><td><strong>5ft 9in</strong></td><td><strong>한국 남성 평균</strong></td></tr>
+      <tr><td>180cm</td><td>70.9″</td><td>5ft 11in</td><td></td></tr>
+      <tr><td>183cm</td><td>72.0″</td><td>6ft 0in</td><td>6피트의 경계</td></tr>
+      <tr><td>190cm</td><td>74.8″</td><td>6ft 3in</td><td></td></tr>
+    </tbody>
+  </table>
+  <p>미국·캐나다에서는 일상적으로 키를 피트와 인치로 표현합니다. "5피트 9인치(5′9″)"는 177.8cm로 미국 남성 평균키(약 175.4cm, 5ft 9in)와 비슷합니다. 반면 NBA 선수들은 6피트 6인치(198.1cm) 이상이 많아 한국인 기준으로 상당히 큰 편입니다.</p>
+
+  <h2>TV·모니터 화면 크기 인치의 의미 — 실제 가로·세로는 얼마?</h2>
+  <p>TV와 모니터의 인치 크기는 화면의 대각선 길이를 의미합니다. 65인치 TV의 화면 대각선이 165.1cm라는 뜻이지, 가로나 세로가 165cm가 아닙니다. 실제 설치 공간을 계획할 때는 가로 크기가 더 중요합니다. 16:9 비율 기준으로 65인치 TV의 화면 가로는 약 143.9cm, 세로는 약 80.9cm입니다.</p>
+  <p>위 시뮬레이터에서 인치를 입력하면 화면 비율(16:9, 21:9, 4:3)에 따른 실제 가로·세로 크기를 계산할 수 있습니다. TV 거치대나 TV장의 가로 크기와 비교해 설치 가능 여부를 미리 확인할 수 있습니다. 일반적으로 시청 거리는 TV 화면 높이의 2~3배, 즉 55인치 TV(세로 약 68cm)라면 최소 136~204cm 거리가 적당합니다.</p>
+  <table>
+    <thead><tr><th>인치</th><th>대각선 (cm)</th><th>가로 (16:9)</th><th>세로 (16:9)</th><th>권장 시청거리</th></tr></thead>
+    <tbody>
+      <tr><td>27인치</td><td>68.6cm</td><td>59.8cm</td><td>33.6cm</td><td>67~100cm (모니터)</td></tr>
+      <tr><td>32인치</td><td>81.3cm</td><td>70.8cm</td><td>39.9cm</td><td>100~150cm</td></tr>
+      <tr><td><strong>55인치</strong></td><td><strong>139.7cm</strong></td><td><strong>121.8cm</strong></td><td><strong>68.5cm</strong></td><td><strong>136~205cm</strong></td></tr>
+      <tr><td>65인치</td><td>165.1cm</td><td>143.9cm</td><td>80.9cm</td><td>162~242cm</td></tr>
+      <tr><td>75인치</td><td>190.5cm</td><td>166.0cm</td><td>93.4cm</td><td>187~280cm</td></tr>
+    </tbody>
+  </table>
+  <div class="tip-box"><strong>💡 TV 크기 선택 가이드.</strong> 소파에서 TV까지 거리가 250cm라면 65인치(권장 162~242cm)~75인치가 적당합니다. 최근에는 OTT 콘텐츠 소비 증가로 대형 TV 수요가 늘어 65인치가 거실 TV 표준으로 자리잡고 있습니다. 다만 설치 공간과 시청 거리를 먼저 측정하고 구매해야 후회가 없습니다.</div>
+
+  <h2>해외 직구 사이즈 변환 — 의류·신발 실전 가이드</h2>
+  <p>해외 직구에서 가장 많은 실수가 발생하는 부분이 사이즈 변환입니다. 미국 의류는 한국보다 1~2 사이즈 크게 설계된 경우가 많아, 미국 M을 주문하면 한국 L에 해당하는 경우가 많습니다. 정확한 사이즈를 맞추려면 S/M/L 레이블보다 가슴·허리·엉덩이 측정값(cm)을 해당 브랜드의 사이즈 차트와 직접 비교하는 것이 가장 안전합니다.</p>
+  <table>
+    <thead><tr><th>측정 부위</th><th>측정 방법</th><th>활용</th></tr></thead>
+    <tbody>
+      <tr><td>가슴둘레</td><td>겨드랑이 아래 가장 두꺼운 부분 수평 측정</td><td>상의, 재킷, 원피스</td></tr>
+      <tr><td>허리둘레</td><td>배꼽 위 가장 좁은 부분 수평 측정</td><td>하의, 원피스</td></tr>
+      <tr><td>엉덩이둘레</td><td>엉덩이 가장 두꺼운 부분 수평 측정</td><td>하의, 원피스</td></tr>
+      <tr><td>발 길이</td><td>가장 긴 발가락 끝~뒤꿈치 직선 거리</td><td>신발 (mm 단위 기재)</td></tr>
+    </tbody>
+  </table>
+  <div class="tip-box"><strong>💡 신발 사이즈 빠른 환산.</strong> 한국 신발 사이즈(mm)를 미국 사이즈로 변환: 남성은 (mm÷10 − 14.2), 여성은 (mm÷10 − 13.2) 공식을 사용합니다. 단 브랜드별 편차가 크므로 반드시 해당 브랜드 사이즈 차트를 확인하세요. 예) 한국 남성 270mm = US 10 / 여성 240mm ≈ US 7.5.</div>
+
+  <h2>자주 묻는 질문 (FAQ)</h2>
+  <details><summary>5피트 10인치를 cm로 변환하면 얼마인가요?</summary><div class="faq-answer">5피트 10인치 = (5×12 + 10) × 2.54 = 70 × 2.54 = 177.8cm입니다. 빠른 계산법으로 피트×30 + 인치×2.5를 하면 5×30 + 10×2.5 = 175cm로 약 1.6% 오차의 어림값을 구할 수 있습니다. 정확한 값이 필요하면 위 계산기를 이용하세요.</div></details>
+  <details><summary>모니터·TV 인치는 화면 어디를 측정하는 건가요?</summary><div class="faq-answer">TV·모니터 인치 크기는 화면(패널)의 대각선 길이입니다. 베젤(테두리)은 포함하지 않습니다. 55인치 TV라면 화면 대각선이 약 139.7cm입니다. 실제 가로 크기는 16:9 비율 기준으로 대각선의 약 87.2%인 약 121.8cm입니다. 설치 공간 계획 시 TV 전체 가로(베젤 포함)도 함께 확인하세요.</div></details>
+  <details><summary>해외 의류 사이즈 XS/S/M/L은 한국과 같은가요?</summary><div class="faq-answer">아닙니다. 미국·유럽 의류는 한국보다 사이즈가 크게 설정된 경우가 많습니다. 브랜드마다 다르지만 대체로 미국 M = 한국 L 정도입니다. 정확한 사이즈 매칭을 위해 가슴·허리·엉덩이 둘레(cm)를 직접 측정하고 브랜드별 사이즈 차트와 비교하는 것이 가장 안전합니다.</div></details>
+  <details><summary>야드(yard)와 미터(meter)는 얼마나 차이 나나요?</summary><div class="faq-answer">1야드 = 91.44cm = 약 0.914m로 1미터보다 약 8.6cm 짧습니다. 1마일 = 1,609.34m = 약 1.609km입니다. 미국 도로 표지판의 속도(mph)를 km/h로 변환하려면 mph × 1.609를 하면 됩니다. 예를 들어 60mph = 약 96.6km/h, 100mph = 약 160.9km/h입니다.</div></details>
+  <details><summary>미국 신발 사이즈를 한국 mm로 변환하는 법은?</summary><div class="faq-answer">미국 남성 신발 기준으로 US 10 ≈ 280mm, US 9 ≈ 270mm, US 8 ≈ 260mm 정도입니다. 여성 기준은 US 8 ≈ 255mm, US 7 ≈ 247mm입니다. 그러나 브랜드마다 편차가 크므로 반드시 해당 브랜드의 사이즈 차트를 확인하고, 가능하면 발 길이(mm)를 직접 재서 비교하는 것이 가장 정확합니다.</div></details>
 </div>
 <script src="/common.js" defer></script><script src="/share.js" defer></script>
 <script src="/calculator.js" defer></script>

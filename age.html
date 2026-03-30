@@ -431,9 +431,11 @@
     </div>
 
     <div class="card" id="simCard" style="margin-top:8px">
-      <div class="card-title">🏁 주요 나이 마일스톤 달성 연도</div>
-      <div id="milestoneTable"><p style="font-size:13px;color:var(--text-muted)">나이를 계산하면 주요 시점이 표시됩니다.</p></div>
-      <p style="font-size:11px;color:var(--text-muted);margin-top:8px">※ 만 나이 기준 · 국민연금 수령 나이는 출생연도별 상이 · 개인 상황에 따라 다를 수 있음</p>
+      <div class="card-title">🌍 내 생애 통계</div>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">나이를 계산하면 지금까지 살아온 시간의 규모를 실감할 수 있는 통계가 표시됩니다.</p>
+      <div id="lifeStatsGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px"></div>
+      <div id="milestoneTable" style="margin-top:14px"></div>
+      <p style="font-size:11px;color:var(--text-muted);margin-top:10px">※ 평균 수치 기준 · 수면 7.5시간/일, 식사 3회/일, 심장박동 70회/분 적용</p>
     </div>
   </div>
 
@@ -549,40 +551,77 @@
 function updateMilestone(birthVal) {
   if (!birthVal) return;
   var birth = new Date(birthVal);
-  var by = birth.getFullYear();
-  var bm = birth.getMonth();
-  var bd = birth.getDate();
   var today = new Date();
-  // 국민연금 수령 나이 결정
-  var pensionAge = 65;
-  if (by <= 1952) pensionAge = 60;
-  else if (by <= 1956) pensionAge = 61;
-  else if (by <= 1960) pensionAge = 62;
-  else if (by <= 1964) pensionAge = 63;
-  else if (by <= 1968) pensionAge = 64;
-  var milestones = [
-    {label:'운전면허 취득 가능 (만 18세)', age:18, note:'도로교통법'},
-    {label:'성인 (만 19세)', age:19, note:'민법 제4조'},
-    {label:'만 30세', age:30, note:''},
-    {label:'만 40세', age:40, note:''},
-    {label:'만 50세', age:50, note:''},
-    {label:'국민연금 수령 개시 (만 '+pensionAge+'세)', age:pensionAge, note:'출생연도 '+by+'년'},
-    {label:'기초연금·노인복지 기준 (만 65세)', age:65, note:'노인복지법'}
+  var diffMs = today - birth;
+  var totalDays = Math.floor(diffMs / (1000*60*60*24));
+  var totalHours = Math.floor(diffMs / (1000*60*60));
+  var sleepDays  = Math.round(totalDays * 7.5 / 24);
+  var meals      = totalDays * 3;
+  var heartbeats = Math.round(totalDays * 24 * 60 * 70);
+  var breaths    = Math.round(totalDays * 24 * 60 * 15);
+  var steps      = Math.round(totalDays * 7500);
+
+  function fc(n) {
+    // 억 단위
+    if (n >= 100000000) return (n/100000000).toFixed(1) + '억 회';
+    if (n >= 10000000)  return Math.round(n/10000000) + '천만 회';
+    if (n >= 1000000)   return Math.round(n/100000)/10 + '백만 회';
+    return n.toLocaleString() + '회';
+  }
+  function fd(n) { return n.toLocaleString() + '일'; }
+  function fh(n) { return n.toLocaleString() + '시간'; }
+
+  var stats = [
+    {emoji:'📅', label:'살아온 날',    value:totalDays.toLocaleString(), unit:'일'},
+    {emoji:'⏰', label:'살아온 시간',  value:totalHours.toLocaleString(), unit:'시간'},
+    {emoji:'💤', label:'수면한 날',    value:sleepDays.toLocaleString(), unit:'일 (추정)'},
+    {emoji:'🍚', label:'식사 횟수',    value:(meals>=10000000 ? (meals/10000000).toFixed(1)+'천만' : meals>=100000 ? Math.round(meals/10000)+'만' : meals.toLocaleString()), unit:'회'},
+    {emoji:'❤️', label:'심장 박동',   value:(heartbeats>=100000000?(heartbeats/100000000).toFixed(1)+'억':Math.round(heartbeats/10000000)+'천만'), unit:'회'},
+    {emoji:'💨', label:'호흡 횟수',   value:(breaths>=100000000?(breaths/100000000).toFixed(1)+'억':Math.round(breaths/10000000)+'천만'), unit:'회'},
   ];
-  var html = '<table class="sim-tbl"><thead><tr><th>마일스톤</th><th>달성 연도</th><th>현황</th><th>비고</th></tr></thead><tbody>';
-  milestones.forEach(function(m) {
-    var achYear = by + m.age + (((bm > today.getMonth()) || (bm === today.getMonth() && bd > today.getDate())) ? 0 : 0);
-    // 달성 연도: 생일이 지나는 해
-    achYear = by + m.age;
-    var curManAge = today.getFullYear() - by - ((today.getMonth() < bm || (today.getMonth() === bm && today.getDate() < bd)) ? 1 : 0);
-    var status, cls;
-    if (curManAge > m.age) { status = '✅ 완료'; cls = 'done'; }
-    else if (curManAge === m.age) { status = '🎉 올해!'; cls = 'soon'; }
-    else { status = achYear + '년'; cls = 'future'; }
-    html += '<tr><td>' + m.label + '</td><td>' + achYear + '년</td><td class="' + cls + '">' + status + '</td><td>' + m.note + '</td></tr>';
+
+  var gridHTML = '';
+  stats.forEach(function(s) {
+    gridHTML += '<div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center">'
+      + '<div style="font-size:20px;margin-bottom:4px">' + s.emoji + '</div>'
+      + '<div style="font-size:11px;color:var(--text-muted);margin-bottom:6px">' + s.label + '</div>'
+      + '<div style="font-family:Montserrat,sans-serif;font-size:18px;font-weight:900;color:var(--accent)">' + s.value + '</div>'
+      + '<div style="font-size:10px;color:var(--text-muted);margin-top:2px">' + s.unit + '</div>'
+      + '</div>';
   });
-  html += '</tbody></table>';
-  document.getElementById('milestoneTable').innerHTML = html;
+  document.getElementById('lifeStatsGrid').innerHTML = gridHTML;
+
+  // 미래 이정표
+  var by = birth.getFullYear(), bm = birth.getMonth(), bd = birth.getDate();
+  var curManAge = today.getFullYear() - by - ((today.getMonth() < bm || (today.getMonth() === bm && today.getDate() < bd)) ? 1 : 0);
+  var pensionAge = 65;
+  if (by <= 1952) pensionAge=60; else if (by<=1956) pensionAge=61;
+  else if (by<=1960) pensionAge=62; else if (by<=1964) pensionAge=63; else if (by<=1968) pensionAge=64;
+
+  var milestones = [
+    {label:'운전면허 취득 가능', age:18, note:'도로교통법'},
+    {label:'성인 (민법상)',      age:19, note:'독립적 법률행위'},
+    {label:'만 30세',            age:30, note:''},
+    {label:'만 40세',            age:40, note:''},
+    {label:'만 50세',            age:50, note:''},
+    {label:'국민연금 수령 시작', age:pensionAge, note:'1969년 이후 생 기준 만 65세'},
+    {label:'기초연금 수급 가능', age:65, note:'노인복지법'},
+  ];
+
+  var mHTML = '<div style="font-size:11px;font-weight:700;color:var(--accent);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px">&#127937; 주요 나이 이정표</div>';
+  mHTML += '<table class="sim-tbl"><thead><tr><th>이정표</th><th>달성 연도</th><th>현황</th></tr></thead><tbody>';
+  milestones.forEach(function(m) {
+    var achYear = by + m.age;
+    var status, color;
+    if (curManAge > m.age)      { status = '✅ 완료';   color = 'var(--text-muted)'; }
+    else if (curManAge === m.age){ status = '🎉 올해!'; color = 'var(--accent)'; }
+    else                        { status = achYear + '년'; color = 'var(--accent2)'; }
+    mHTML += '<tr><td>' + m.label + (m.note ? '<br><span style="font-size:10px;color:var(--text-muted)">' + m.note + '</span>' : '') + '</td>'
+           + '<td style="text-align:right">' + achYear + '년</td>'
+           + '<td style="text-align:right;color:' + color + ';font-weight:700">' + status + '</td></tr>';
+  });
+  mHTML += '</tbody></table>';
+  document.getElementById('milestoneTable').innerHTML = mHTML;
 }
   </script>
 
