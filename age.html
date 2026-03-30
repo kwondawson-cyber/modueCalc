@@ -329,6 +329,12 @@
     .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
       .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
   
+    .sim-tbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px}
+    .sim-tbl th{background:var(--surface2);color:var(--text);padding:8px 10px;border:1px solid var(--border);font-weight:600;text-align:left}
+    .sim-tbl td{padding:7px 10px;border:1px solid var(--border);color:var(--text-muted)}
+    .sim-tbl td.done{color:var(--text-muted);text-decoration:line-through}
+    .sim-tbl td.soon{color:var(--accent);font-weight:700}
+    .sim-tbl td.future{color:var(--accent2)}
 .rel-section{margin:32px auto 8px;padding:0 20px;max-width:640px}
 .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
 .rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
@@ -424,6 +430,11 @@
       </div>
     </div>
 
+    <div class="card" id="simCard" style="margin-top:8px">
+      <div class="card-title">🏁 주요 나이 마일스톤 달성 연도</div>
+      <div id="milestoneTable"><p style="font-size:13px;color:var(--text-muted)">나이를 계산하면 주요 시점이 표시됩니다.</p></div>
+      <p style="font-size:11px;color:var(--text-muted);margin-top:8px">※ 만 나이 기준 · 국민연금 수령 나이는 출생연도별 상이 · 개인 상황에 따라 다를 수 있음</p>
+    </div>
   </div>
 
   <script>
@@ -526,10 +537,53 @@
 
       const resultCard = document.getElementById('resultCard');
       resultCard.classList.add('visible');
+      updateMilestone(birthVal);
     }
 
     // 자동 계산
-    window.onload = () => calculate();
+    window.onload = () => {
+      calculate();
+      updateMilestone(document.getElementById('birthdate').value);
+    };
+  
+function updateMilestone(birthVal) {
+  if (!birthVal) return;
+  var birth = new Date(birthVal);
+  var by = birth.getFullYear();
+  var bm = birth.getMonth();
+  var bd = birth.getDate();
+  var today = new Date();
+  // 국민연금 수령 나이 결정
+  var pensionAge = 65;
+  if (by <= 1952) pensionAge = 60;
+  else if (by <= 1956) pensionAge = 61;
+  else if (by <= 1960) pensionAge = 62;
+  else if (by <= 1964) pensionAge = 63;
+  else if (by <= 1968) pensionAge = 64;
+  var milestones = [
+    {label:'운전면허 취득 가능 (만 18세)', age:18, note:'도로교통법'},
+    {label:'성인 (만 19세)', age:19, note:'민법 제4조'},
+    {label:'만 30세', age:30, note:''},
+    {label:'만 40세', age:40, note:''},
+    {label:'만 50세', age:50, note:''},
+    {label:'국민연금 수령 개시 (만 '+pensionAge+'세)', age:pensionAge, note:'출생연도 '+by+'년'},
+    {label:'기초연금·노인복지 기준 (만 65세)', age:65, note:'노인복지법'}
+  ];
+  var html = '<table class="sim-tbl"><thead><tr><th>마일스톤</th><th>달성 연도</th><th>현황</th><th>비고</th></tr></thead><tbody>';
+  milestones.forEach(function(m) {
+    var achYear = by + m.age + (((bm > today.getMonth()) || (bm === today.getMonth() && bd > today.getDate())) ? 0 : 0);
+    // 달성 연도: 생일이 지나는 해
+    achYear = by + m.age;
+    var curManAge = today.getFullYear() - by - ((today.getMonth() < bm || (today.getMonth() === bm && today.getDate() < bd)) ? 1 : 0);
+    var status, cls;
+    if (curManAge > m.age) { status = '✅ 완료'; cls = 'done'; }
+    else if (curManAge === m.age) { status = '🎉 올해!'; cls = 'soon'; }
+    else { status = achYear + '년'; cls = 'future'; }
+    html += '<tr><td>' + m.label + '</td><td>' + achYear + '년</td><td class="' + cls + '">' + status + '</td><td>' + m.note + '</td></tr>';
+  });
+  html += '</tbody></table>';
+  document.getElementById('milestoneTable').innerHTML = html;
+}
   </script>
 
 <style>
@@ -572,47 +626,79 @@
   </div>
 </div>
 <div class="seo-section">
-  <h2>만 나이 계산기 — 한국 만 나이 통일법과 올바른 계산법 완벽 정리</h2>
-  <h3>2023년 6월부터 달라진 한국의 나이 계산법</h3>
-  <p>2023년 6월 28일부터 법·행정에서 공식적으로 <strong>만 나이</strong>를 사용합니다. 과거에는 세는 나이(태어나자마자 1살, 새해 1살 추가)와 연 나이(출생연도만 기준)가 혼용되어 혼란이 있었지만, 이제 공식적으로는 만 나이 하나로 통일됐습니다. 한국이 만 나이로 통일한 것은 국제 기준에 맞추고 행정 혼란을 줄이기 위한 조치입니다.</p>
-  <p>만 나이는 생일이 지났으면 '올해 연도 − 출생 연도', 생일이 아직 안 지났으면 '올해 연도 − 출생 연도 − 1'로 계산합니다. 예를 들어 2000년 9월 1일생이라면, 2026년 3월 17일 기준으로 아직 생일이 안 지났으므로 만 나이는 25세입니다. 세는 나이로는 27세이므로 나이 차이가 최대 2살까지 날 수 있습니다.</p>
-  <h3>📐 만 나이 계산 공식</h3>
-  <p>만 나이 계산에서 가장 중요한 것은 오늘 기준으로 생일이 지났는지 여부입니다. 생일이 지난 경우와 아직 안 지난 경우에 결과가 1살 차이 나므로 월과 일을 정확히 비교해야 합니다. 한국의 세는 나이는 국제적으로 사용되지 않으므로 외국인과 대화하거나 공식 문서 작성 시에는 반드시 만 나이를 사용해야 합니다.</p>
-  <div class="formula-box">만 나이 = 올해 연도 − 출생 연도 (생일 지난 경우)
-만 나이 = 올해 연도 − 출생 연도 − 1 (생일 안 지난 경우)
+  <h2>만 나이 통일법 — 2023년 6월 이후 달라진 것과 달라지지 않은 것</h2>
+  <p>2023년 6월 28일부터 민법, 행정기본법, 공문서 등 법적·행정적 맥락에서 만 나이를 공식 기준으로 사용하게 됐습니다. 그동안 한국에서는 태어나자마자 1살로 시작하고 새해에 한 살씩 더하는 '세는 나이'와, 올해 연도에서 출생 연도만 빼는 '연 나이', 그리고 생일 기준의 '만 나이'가 상황에 따라 혼용되어 혼란이 잦았습니다. 이 개편은 국제 기준에 맞추고 의료·행정·법적 처리에서 발생하는 혼란을 줄이기 위한 조치였습니다.</p>
+  <p>그러나 모든 나이 기준이 만 나이로 바뀐 것은 아닙니다. 청소년보호법상 음주·흡연 금지 기준은 여전히 '연 나이 19세 미만'이고, 학교 취학 기준은 '취학 연도 1월 1일 기준 만 6세'입니다. 병역법 기준도 별도로 규정되어 있습니다. "만 나이 통일 = 모든 나이가 만 나이"라고 단순화하면 안 되며, 법령별로 적용 기준을 확인해야 합니다.</p>
+  <div class="formula-box">만 나이 = 올해 연도 − 출생 연도       (생일이 지난 경우)
+만 나이 = 올해 연도 − 출생 연도 − 1  (생일이 아직 안 지난 경우)
 세는 나이 = 올해 연도 − 출생 연도 + 1
-연 나이 = 올해 연도 − 출생 연도
+연 나이   = 올해 연도 − 출생 연도
 
-예) 2000년 9월 1일생, 오늘 2026년 3월 17일
-만 나이 = 2026 − 2000 − 1 = 25세 (생일 미도래)</div>
-  <h3>📊 나이 계산 방식 비교</h3>
-  <p>세 가지 나이 계산 방식이 아직 일부 상황에서 혼용됩니다. 음주·흡연 허용 연령은 청소년보호법상 '연 나이 19세'가 기준이고, 학교 입학은 만 나이 기준, 일상 대화에서는 세는 나이가 여전히 많이 사용됩니다. 공식 서류 작성이나 법적 상황에서는 반드시 만 나이를 사용해야 합니다.</p>
+예) 생년월일 2000년 9월 1일, 오늘 2026년 3월 30일
+  → 생일 미도래: 만 나이 = 2026 − 2000 − 1 = 25세
+  → 세는 나이 = 2026 − 2000 + 1 = 27세 (차이: 2살)</div>
+  <p>만 나이와 세는 나이의 차이는 생일 전에는 최대 2살, 생일 당일~연말에는 1살입니다. 이 2살 차이가 의료 기록, 보험 가입, 법적 문서에서 혼란을 일으켰던 배경입니다. 이제 공식 서류에서는 만 나이를 기준으로 일관되게 처리됩니다.</p>
+
+  <h2>세 가지 나이 계산법 완전 비교 — 만 나이·세는 나이·연 나이</h2>
+  <p>한국에서는 역사적으로 세 가지 나이 계산법이 공존했습니다. 만 나이 통일 이후에도 일상 대화에서는 세는 나이가 여전히 사용되고, 청소년보호법에서는 연 나이 기준이 유지됩니다. 각 방식의 정확한 차이를 이해하면 상황에 맞는 나이를 올바르게 적용할 수 있습니다.</p>
   <table>
-    <thead><tr><th>계산 방식</th><th>기준</th><th>사용처</th></tr></thead>
+    <thead><tr><th>계산 방식</th><th>계산 기준</th><th>생일 전 나이</th><th>생일 후 나이</th><th>사용처</th></tr></thead>
     <tbody>
-      <tr><td>만 나이</td><td>생일 기준 연수</td><td>법·행정·의료 공식 기준</td></tr>
-      <tr><td>세는 나이</td><td>태어날 때 1살, 새해 +1</td><td>일상 대화(비공식)</td></tr>
-      <tr><td>연 나이</td><td>올해 연도 − 출생 연도</td><td>청소년보호법 일부 규정</td></tr>
+      <tr><td><strong>만 나이</strong></td><td>생일 지남 여부 반영</td><td>연도차 − 1</td><td>연도차</td><td>법·행정·의료 공식 기준</td></tr>
+      <tr><td>세는 나이</td><td>태어날 때 1살, 매년 1월 1일 +1</td><td>연도차 + 1</td><td>연도차 + 1</td><td>일상 대화(비공식)</td></tr>
+      <tr><td>연 나이</td><td>올해 연도 − 출생 연도</td><td>연도차</td><td>연도차</td><td>청소년보호법 등 일부 법령</td></tr>
     </tbody>
   </table>
-  <h3>📊 만 나이 관련 주요 법적 기준</h3>
-  <p>다양한 법령에서 나이를 기준으로 권리와 의무가 달라집니다. 특히 성인 여부(만 19세), 운전면허 취득(만 18세), 국민연금 수령(만 63~65세) 등은 만 나이를 기준으로 합니다. 생일이 지났는지 여부가 해당 권리의 시작 시점을 결정하므로 정확한 만 나이 계산이 필요합니다.</p>
+  <p>같은 2000년생이라도 2026년 기준으로 1월생은 만 26세(생일 지남), 12월생은 만 25세(생일 미도래)입니다. 세는 나이로는 둘 다 27세이고, 연 나이로는 둘 다 26세입니다. 공식 서류 작성 시에는 만 나이 기준이 원칙이므로, 생일 전후 여부를 반드시 확인하세요.</p>
+  <div class="tip-box"><strong>💡 외국인·해외에서는?</strong> 대부분의 국가는 한국의 만 나이 방식을 사용합니다. 세는 나이는 과거 일본·중국·한국 등 동아시아에서 사용했으나 일본과 중국은 이미 공식적으로 만 나이만 사용합니다. 영문 서류에는 반드시 만 나이(International Age / Western Age)를 기재하세요.</div>
+
+  <h2>생년월일별 주요 나이 마일스톤 달성 연도</h2>
+  <p>위 계산기에 생년월일을 입력하면 바로 아래에 주요 나이 마일스톤(운전면허, 성인, 국민연금 수령 등) 달성 연도가 자동으로 표시됩니다. 출생 연도에 따라 국민연금 수령 개시 나이가 다르므로 수령 시점을 미리 파악해두는 것이 노후 계획에 중요합니다.</p>
   <table>
-    <thead><tr><th>기준</th><th>만 나이</th><th>비고</th></tr></thead>
+    <thead><tr><th>마일스톤</th><th>만 나이 기준</th><th>근거 법령</th><th>비고</th></tr></thead>
     <tbody>
-      <tr><td>초등학교 입학</td><td>만 6세</td><td>입학 연도 1월 1일 기준</td></tr>
-      <tr><td>성인 (민법)</td><td>만 19세</td><td>계약·법적 행위 가능</td></tr>
-      <tr><td>운전면허 취득</td><td>만 18세</td><td>2종 소형 이상</td></tr>
-      <tr><td>국민연금 수령</td><td>만 63~65세</td><td>출생연도별 상이</td></tr>
+      <tr><td>초등학교 입학</td><td>만 6세</td><td>초·중등교육법</td><td>취학 연도 1월 1일 기준</td></tr>
+      <tr><td>운전면허 취득 가능</td><td>만 18세</td><td>도로교통법</td><td>2종 소형 이상</td></tr>
+      <tr><td>성인 (민법)</td><td>만 19세</td><td>민법 제4조</td><td>독립적 법률행위 가능</td></tr>
+      <tr><td>음주·흡연 가능</td><td>연 나이 19세</td><td>청소년보호법</td><td>만 나이 아님 주의</td></tr>
+      <tr><td>국민연금 수령 개시</td><td>만 60~65세</td><td>국민연금법</td><td>출생연도별 상이 (아래 표 참조)</td></tr>
+      <tr><td>기초연금 수령 가능</td><td>만 65세</td><td>기초연금법</td><td>소득·재산 기준 충족 시</td></tr>
+      <tr><td>노인 기준 (복지법)</td><td>만 65세</td><td>노인복지법</td><td>노인복지 서비스 수급 기준</td></tr>
     </tbody>
   </table>
-  <div class="tip-box"><strong>💡 만 나이 통일 핵심.</strong> 2023년 6월 이후 의료기관 진료·약 복용량·법적 서류 등 공식 문서에서는 모두 만 나이를 기준으로 합니다. 일상 대화에서는 여전히 세는 나이를 사용하는 경우가 많지만, 공식 상황에서는 만 나이를 사용해야 혼란이 없습니다.</div>
+  <p>국민연금 수령 개시 나이는 출생 연도에 따라 달라집니다. 1969년 이후 출생자는 만 65세부터 수령 가능하며, 이는 노후 설계에서 중요한 기준점입니다. 조기 노령연금(만 60~64세, 감액)이나 연기 연금(최대 만 70세까지, 증액) 선택도 가능합니다.</p>
+  <table>
+    <thead><tr><th>출생 연도</th><th>국민연금 수령 개시 나이</th><th>2026년 기준 현재 수령 여부</th></tr></thead>
+    <tbody>
+      <tr><td>1952년 이전</td><td>만 60세</td><td>이미 수령 중</td></tr>
+      <tr><td>1953~1956년</td><td>만 61세</td><td>이미 수령 중</td></tr>
+      <tr><td>1957~1960년</td><td>만 62세</td><td>이미 수령 중</td></tr>
+      <tr><td>1961~1964년</td><td>만 63세</td><td>이미 수령 중 또는 수령 예정</td></tr>
+      <tr><td>1965~1968년</td><td>만 64세</td><td>2026~2032년 수령 예정</td></tr>
+      <tr><td><strong>1969년 이후</strong></td><td><strong>만 65세</strong></td><td><strong>2034년 이후 수령 예정</strong></td></tr>
+    </tbody>
+  </table>
+
+  <h2>만 나이 계산 시 자주 하는 실수 — 놓치면 불이익이 생기는 경우</h2>
+  <p>만 나이 계산에서 가장 흔한 실수는 생일 전후 여부를 무시하고 단순히 올해 연도에서 출생 연도를 빼는 것입니다. 1월생과 12월생은 같은 해에 태어났어도 대부분의 시점에서 만 나이가 1살 차이납니다. 국민연금 수령 자격, 기초연금 수급 자격 등 만 나이를 기준으로 하는 혜택에서 생일 전후를 잘못 계산하면 신청 시점이 달라집니다.</p>
+  <p>음주·흡연 허용 기준은 만 나이 통일 이후에도 여전히 청소년보호법상 '연 나이 19세'를 사용합니다. 2007년생이라면 생일과 관계없이 2026년 1월 1일부터 연 나이 19세가 되어 허용됩니다. 이를 만 나이로 혼동하여 생일 이전에는 안 된다고 생각하는 경우가 있으므로 주의해야 합니다.</p>
+  <table>
+    <thead><tr><th>실수 유형</th><th>잘못된 계산</th><th>올바른 기준</th></tr></thead>
+    <tbody>
+      <tr><td>생일 전후 무시</td><td>연도차로만 계산</td><td>생일 미도래 시 −1 적용</td></tr>
+      <tr><td>음주·흡연 기준 혼동</td><td>만 나이 19세로 오해</td><td>연 나이 19세 (생일 무관, 1월 1일 기준)</td></tr>
+      <tr><td>국민연금 수령 나이 혼동</td><td>60세로 일괄 적용</td><td>출생연도별 61~65세 상이</td></tr>
+      <tr><td>입학 기준 혼동</td><td>만 7세로 오해</td><td>취학연도 1월 1일 기준 만 6세</td></tr>
+    </tbody>
+  </table>
+  <div class="tip-box"><strong>💡 공식 서류에는 항상 생년월일을 함께 기재하세요.</strong> 만 나이는 기준일(오늘)에 따라 바뀌므로, 공식 문서에는 나이만 쓰지 말고 반드시 생년월일을 함께 기재해야 혼동이 없습니다. 외국인을 상대할 때도 생년월일(Date of Birth)이 국제 표준입니다.</div>
+
   <h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>만 나이 통일 이후 음주·흡연 허용 나이는 어떻게 되나요?</summary><div class="faq-answer">음주·흡연은 청소년보호법에 따라 '연 나이 19세 미만'이 금지 기준으로 만 나이 통일의 영향을 받지 않습니다. 2007년생이라면 2026년 1월 1일부터 연 나이 19세가 되어 음주·흡연이 가능합니다. 이 기준은 생일에 관계없이 해당 연도 1월 1일부터 적용됩니다.</div></details>
-  <details><summary>학교 입학 나이는 만 나이 기준인가요?</summary><div class="faq-answer">초등학교 입학은 취학 당해 연도 1월 1일 기준 만 6세가 된 아이가 대상입니다. 즉, 2020년 1월 1일~12월 31일 출생아는 2026년에 입학합니다. 12월 말 출생아는 입학 연도가 달라질 수 있어 취학 유예·조기 입학 등의 선택이 가능한 경우도 있습니다.</div></details>
-  <details><summary>군 입대 나이 기준은 어떻게 되나요?</summary><div class="faq-answer">병역의무는 만 18세가 되는 해 1월 1일부터 발생하며, 현역 입대는 만 18~28세 사이에 가능합니다. 만 나이 통일 이후에도 병역법 기준은 변경이 없습니다. 정확한 입영 일정은 병무청 홈페이지에서 확인하거나 병무청에 문의하는 것이 좋습니다.</div></details>
-  <details><summary>외국에서는 나이를 어떻게 계산하나요?</summary><div class="faq-answer">대부분의 국가는 한국의 만 나이 방식(생일 기준)을 사용합니다. 한국의 세는 나이 문화는 동아시아 일부(중국·일본·한국)에만 있었으며, 일본과 중국은 이미 공식적으로 만 나이만 사용합니다. 한국이 2023년 만 나이로 통일한 것은 국제 기준을 따른 것입니다.</div></details>
-  <details><summary>주민등록증이나 여권에 나이가 표시되지 않는 이유는?</summary><div class="faq-answer">공식 신분증에는 나이 대신 생년월일이 기재됩니다. 나이는 매년 바뀌지만 생년월일은 불변이기 때문입니다. 나이가 필요한 상황에서는 생년월일을 기준으로 만 나이를 계산해 적용합니다. 외국 여행 시에도 생년월일로 나이를 확인하는 것이 국제 표준입니다.</div></details>
+  <details><summary>만 나이 통일 이후 음주·흡연 허용 나이는 어떻게 되나요?</summary><div class="faq-answer">음주·흡연은 청소년보호법에 따라 '연 나이 19세 미만'이 금지 기준으로, 만 나이 통일의 영향을 받지 않습니다. 2007년생이라면 생일과 관계없이 2026년 1월 1일부터 연 나이 19세가 되어 음주·흡연이 가능합니다. 만 나이와 혼동하지 않도록 주의하세요.</div></details>
+  <details><summary>학교 입학 나이는 만 나이 기준인가요?</summary><div class="faq-answer">초등학교 입학은 취학 연도 1월 1일 기준 만 6세가 된 아이가 대상입니다. 2020년 1월 1일~12월 31일 출생아는 2026년에 입학합니다. 12월 말 출생아는 1월생과 같은 학년이 됩니다. 취학 유예(1년 늦춤)나 조기 입학은 별도 신청이 필요합니다.</div></details>
+  <details><summary>군 입대 나이 기준은 어떻게 되나요?</summary><div class="faq-answer">병역의무는 만 18세가 되는 해 1월 1일부터 발생하며, 현역 입대는 만 18~28세 사이에 가능합니다. 만 나이 통일 이후에도 병역법 기준은 별도로 유지됩니다. 정확한 입영 일정은 병무청 홈페이지(mma.go.kr) 또는 병무청 앱에서 확인하거나 병무청에 문의하세요.</div></details>
+  <details><summary>외국에서는 나이를 어떻게 계산하나요?</summary><div class="faq-answer">대부분의 국가는 한국의 만 나이 방식(생일 기준)을 사용합니다. 한국의 세는 나이 문화는 동아시아 일부에서 사용됐으며, 일본과 중국은 이미 공식적으로 만 나이만 사용합니다. 한국이 2023년 만 나이로 통일한 것은 국제 기준을 따른 것입니다. 해외 서류 작성 시에는 항상 만 나이와 생년월일을 기재하세요.</div></details>
+  <details><summary>국민연금 수령 나이가 65세로 통일되나요?</summary><div class="faq-answer">현재 1969년생 이후 출생자는 만 65세부터 수령 가능합니다. 정부는 고령화로 인한 재정 부담으로 수령 나이를 추가로 늦추는 방안을 검토 중이지만, 2026년 기준 법령상 1969년생 이후는 만 65세입니다. 정확한 본인의 수령 개시 나이는 국민연금공단(nps.or.kr)에서 확인하세요.</div></details>
 </div>
 <script src="/common.js" defer></script><script src="/share.js" defer></script>
 <script src="/calculator.js" defer></script>

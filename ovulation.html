@@ -91,6 +91,11 @@
     .ex-table tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
     .hl-box{background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.25);border-radius:10px;padding:14px 16px;margin:14px 0;font-size:13px;color:var(--text);line-height:1.8}
     .hl-box strong{color:var(--accent)}
+    .sim-tbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px}
+    .sim-tbl th{background:rgba(0,212,170,0.1);color:var(--accent);padding:8px 10px;border:1px solid var(--border);font-weight:600;text-align:left}
+    .sim-tbl td{padding:7px 10px;border:1px solid var(--border);color:var(--text-muted)}
+    .sim-tbl td.pink{color:var(--pink);font-weight:700}
+    .sim-tbl td.grn{color:var(--accent)}
     .rel-section{margin:32px auto 8px;padding:0 20px;max-width:640px}
     .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
     .rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
@@ -192,6 +197,26 @@
     </div>
   </div>
 
+  <div class="card" id="simCard" style="margin-top:8px">
+    <div style="font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:16px">🗓️ 향후 3개월 배란 예측</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;line-height:1.7">마지막 생리일을 입력하면 다음 3주기 배란 예정일과 가임기를 미리 확인할 수 있습니다.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+      <div class="form-group" style="margin-bottom:0">
+        <label>마지막 생리 시작일</label>
+        <input type="date" id="sim-period-date" oninput="updateOvulSim()" />
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label>평균 주기 (일)</label>
+        <select id="sim-cycle" onchange="updateOvulSim()">
+          <option value="24">24일</option><option value="25">25일</option><option value="26">26일</option>
+          <option value="27">27일</option><option value="28" selected>28일</option><option value="29">29일</option>
+          <option value="30">30일</option><option value="31">31일</option><option value="32">32일</option><option value="35">35일</option>
+        </select>
+      </div>
+    </div>
+    <div id="simOvulTable"></div>
+    <p style="font-size:11px;color:var(--text-muted);margin-top:8px">※ 평균 주기 기반 예측값 · 개인차 있음 · 배란 테스트기와 병행 권장</p>
+  </div>
 </div>
 <div class="rel-section">
     <h2>📌 함께 쓰면 유용한 계산기</h2>
@@ -204,43 +229,70 @@
     </div>
   </div>
 <div class="seo-card">
-  <h2>배란일 가임기 계산기 — 배란 주기와 임신 가능 기간 완벽 정리</h2>
-  <h3>배란일과 가임기는 어떻게 계산하나?</h3>
-  <p><strong>배란일</strong>은 난소에서 난자가 방출되는 날로, 일반적으로 다음 생리 시작일로부터 약 14일 전입니다. 생리 주기가 28일인 경우 생리 시작일부터 14일 후가 배란일이 됩니다. <strong>가임기</strong>는 배란 전 5일~배란 후 1~2일로, 이 기간에 성관계 시 임신 확률이 가장 높습니다. 난자의 생존 기간은 24~48시간, 정자의 생존 기간은 3~5일입니다.</p>
-  <p>생리 주기가 불규칙하다면 배란일 예측이 부정확할 수 있습니다. 배란 여부를 더 정확히 파악하려면 기초체온 측정(배란 후 0.2~0.5도 상승), 배란 예측 키트(LH 호르몬 검사), 초음파 검사를 활용하는 것이 좋습니다. 임신을 계획하거나 피하는 경우 모두 정확한 배란일 파악이 중요합니다.</p>
-  <h3>📐 배란일·가임기 계산 공식</h3>
-  <p>배란일 계산은 생리 주기의 규칙성을 전제로 합니다. 주기가 불규칙한 경우 최근 3~6개월의 평균 주기를 사용합니다. 단, 이 계산은 통계적 예측값으로 개인차가 있으며 의학적 진단을 대체하지 않습니다.</p>
+  <h2>배란일·가임기 계산 원리 — 임신을 결정하는 기간의 과학</h2>
+  <p>배란일은 난소에서 난자가 방출되는 날로, 여성의 생리 주기에서 가장 중요한 시점입니다. 배란은 다음 생리 시작일로부터 역산해 약 14일 전에 일어납니다. 생리 주기가 28일인 경우 생리 시작 후 14일째가 배란 예정일이지만, 주기가 21일이면 7일째, 35일이면 21일째가 됩니다. 즉 배란일은 생리 시작 후 고정된 날이 아니라 다음 생리 예정일로부터 역산합니다.</p>
+  <p>가임기는 난자와 정자가 만날 수 있는 기간으로, 배란일 기준 전 5일부터 배란 후 1~2일입니다. 정자는 자궁 내에서 최대 5일간 생존할 수 있고, 난자는 배란 후 24~48시간만 생존합니다. 이 생물학적 사실이 가임기를 결정합니다. 임신 확률이 가장 높은 시점은 배란 2~3일 전으로, 이 때 성관계 시 정자가 기다리다가 난자를 만나는 구조입니다.</p>
   <div class="formula-box">배란 예상일 = 다음 생리 예정일 − 14일
-다음 생리 예정일 = 마지막 생리 시작일 + 생리 주기
-
+다음 생리 예정일 = 마지막 생리 시작일 + 평균 생리 주기
 가임기 = 배란 예상일 − 5일 ~ 배란 예상일 + 1일
-예) 생리 주기 28일, 마지막 생리 3월 1일
-다음 생리 예정 = 3월 29일
-배란 예상일 = 3월 29일 − 14일 = 3월 15일
-가임기 = 3월 10일 ~ 3월 16일</div>
-  <h3>📊 생리 주기별 배란 예상일</h3>
-  <p>생리 주기가 28일보다 길거나 짧으면 배란일도 달라집니다. 중요한 것은 배란일은 다음 생리 예정일로부터 역산한다는 점입니다. 주기가 길수록 생리 후 배란까지 더 오랜 시간이 걸립니다.</p>
+
+예) 주기 28일, 마지막 생리 4월 1일
+  다음 생리 예정 = 4월 29일
+  배란 예상일   = 4월 15일 (4월 29일 − 14일)
+  가임기        = 4월 10일 ~ 4월 16일</div>
+  <p>이 계산식은 황체기(배란 후 ~ 다음 생리까지)가 일정하게 약 14일이라는 전제를 바탕으로 합니다. 개인마다 황체기가 12~16일로 다를 수 있어 계산에 오차가 생길 수 있습니다. 생리 주기가 불규칙하다면 최근 3~6개월의 평균 주기를 사용하는 것이 정확도를 높이는 방법입니다.</p>
+
+  <h2>생리 주기별 배란 예상일 완전 비교표</h2>
+  <p>생리 주기가 다르면 배란일도 달라집니다. 핵심은 배란일이 "생리 후 며칠째"가 아니라 "다음 생리 예정일로부터 14일 전"이라는 점입니다. 주기가 길수록 생리 후 배란까지 기다리는 기간이 길어집니다. 아래 표에서 본인의 주기에 해당하는 칸을 확인하고, 위 계산기에 입력해 정확한 날짜를 확인해보세요.</p>
   <table class="ex-table">
-    <thead><tr><th>생리 주기</th><th>생리 시작 후 배란 예상일</th><th>가임기(생리 후)</th></tr></thead>
+    <thead><tr><th>생리 주기</th><th>생리 시작 후 배란 예상</th><th>가임기 (생리 후 기준)</th><th>다음 생리 예정</th></tr></thead>
     <tbody>
-      <tr><td>24일</td><td>약 10일 후</td><td>5~11일</td></tr>
-      <tr><td>28일</td><td>약 14일 후</td><td>9~15일</td></tr>
-      <tr><td>30일</td><td>약 16일 후</td><td>11~17일</td></tr>
-      <tr><td>35일</td><td>약 21일 후</td><td>16~22일</td></tr>
+      <tr><td>21일</td><td>7일 후</td><td>2~8일</td><td>21일 후</td></tr>
+      <tr><td>24일</td><td>10일 후</td><td>5~11일</td><td>24일 후</td></tr>
+      <tr><td>25일</td><td>11일 후</td><td>6~12일</td><td>25일 후</td></tr>
+      <tr><td>27일</td><td>13일 후</td><td>8~14일</td><td>27일 후</td></tr>
+      <tr><td><strong>28일</strong></td><td><strong>14일 후</strong></td><td><strong>9~15일</strong></td><td><strong>28일 후</strong></td></tr>
+      <tr><td>30일</td><td>16일 후</td><td>11~17일</td><td>30일 후</td></tr>
+      <tr><td>32일</td><td>18일 후</td><td>13~19일</td><td>32일 후</td></tr>
+      <tr><td>35일</td><td>21일 후</td><td>16~22일</td><td>35일 후</td></tr>
     </tbody>
   </table>
-  <div class="hl-box">💡 <strong>배란일 정확도 높이는 방법.</strong> ① 기초체온 측정 — 매일 아침 기상 직후 체온 기록, 배란 후 0.2~0.5°C 상승 ② 배란 테스트기(OPK) — 소변의 LH 호르몬 급증으로 배란 36~48시간 전 예측 ③ 배란 점액 관찰 — 배란기에 계란 흰자 형태의 투명하고 늘어나는 점액 발생 ④ 산부인과 초음파 — 가장 정확한 배란 확인 방법.</div>
-  
-  <div class="hl-box">🔑 <strong>핵심 팁</strong><br>💡 <strong>임신 가능성을 높이는 팁:</strong> 배란일 2~3일 전부터 배란 당일이 임신 가능성이 가장 높은 기간입니다. 배란 테스트기(LH 서지 감지)를 사용하면 정확한 배란 시점을 파악할 수 있습니다. 생리주기가 불규칙한 경우(±7일 이상) 계산 오차가 크므로, 3~6개월간 기초체온을 측정하거나 산부인과 초음파로 정확한 배란 시점을 확인하는 것을 권장합니다.</div>
+  <p>주기가 짧은 경우(21~24일) 가임기가 생리 직후에 시작될 수 있습니다. 생리 중이나 직후에도 임신 가능성이 완전히 없는 것은 아니므로, 피임이 목적이라면 "생리 기간 = 안전기"로 가정하는 것은 위험합니다.</p>
+  <div class="hl-box"><strong>💡 향후 3개월 배란 예정일을 미리 확인하세요.</strong> 위 시뮬레이터에 마지막 생리일과 주기를 입력하면 다음 3주기의 배란 예정일과 가임기를 한눈에 볼 수 있습니다. 임신을 계획 중이라면 미리 일정을 파악해두는 것이 중요합니다.</div>
 
-<h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>생리가 불규칙할 때 가임기를 어떻게 파악하나요?</summary><div class="faq-answer">생리 주기가 불규칙하다면 최근 6개월간 주기 중 가장 짧은 것에서 18을 빼고, 가장 긴 것에서 11을 빼면 가임기 범위가 나옵니다. 예를 들어 주기가 26~35일이라면 가임기는 8일~24일입니다. 이렇게 범위가 넓어 불규칙한 경우 배란 테스트기를 활용하는 것이 더 정확합니다.</div></details>
-  <details><summary>배란일에만 임신이 되나요?</summary><div class="faq-answer">배란일 당일 외에 배란 전 5일도 임신 가능성이 있습니다. 정자가 자궁 내에서 최대 5일까지 생존하기 때문입니다. 난자는 배란 후 24~48시간만 생존하므로, 배란 후보다는 배란 2~3일 전 성관계가 임신 확률이 더 높습니다.</div></details>
-  <details><summary>임신 테스트기는 배란 후 언제부터 사용하나요?</summary><div class="faq-answer">임신 테스트기는 수정란이 착상된 후 hCG 호르몬이 분비되는 시점부터 확인 가능합니다. 일반적으로 다음 생리 예정일부터 또는 배란 후 약 14일 이후가 정확합니다. 너무 일찍 검사하면 음성이 나올 수 있으므로 생리 예정일을 기다렸다가 검사하는 것이 권장됩니다.</div></details>
-  <details><summary>배란일 계산기가 100% 정확한가요?</summary><div class="faq-answer">아닙니다. 배란일 계산기는 평균 생리 주기를 기반으로 한 통계적 예측값입니다. 스트레스, 체중 변화, 질병, 수면 부족 등 다양한 요인으로 실제 배란일이 달라질 수 있습니다. 임신을 적극적으로 계획한다면 배란 테스트기와 기초체온 측정을 병행하는 것이 더 정확합니다.</div></details>
-  <details><summary>자연주기법(임신 피임)은 얼마나 효과적인가요?</summary><div class="faq-answer">자연주기법(가임기 피임)의 피임 실패율은 이상적 사용 시 약 1~5%, 일반적 사용 시 10~25%로 콘돔·피임약보다 높습니다. 생리 주기가 불규칙하거나 스트레스가 많은 경우 더욱 부정확해집니다. 피임이 목적이라면 의사와 상담 후 적합한 피임 방법을 선택하는 것이 안전합니다.</div></details>
+  <h2>배란일 정확도를 높이는 4가지 방법</h2>
+  <p>생리 주기를 이용한 배란일 계산은 평균값 기반의 예측이므로 오차가 있을 수 있습니다. 스트레스, 체중 변화, 질병, 수면 부족, 여행 등 다양한 요인이 실제 배란일에 영향을 줍니다. 임신을 적극적으로 계획하거나 피하려면 아래 방법들을 병행하는 것이 더 정확합니다.</p>
+  <table class="ex-table">
+    <thead><tr><th>방법</th><th>원리</th><th>정확도</th><th>비용·편의성</th></tr></thead>
+    <tbody>
+      <tr><td>생리 주기 계산법</td><td>다음 생리 −14일 공식</td><td>보통 (주기 규칙 시)</td><td>무료, 간편</td></tr>
+      <tr><td>기초체온(BBT) 측정</td><td>배란 후 0.2~0.5°C 상승</td><td>높음 (꾸준히 기록 시)</td><td>무료, 매일 측정 필요</td></tr>
+      <tr><td>배란 테스트기(OPK)</td><td>LH 호르몬 급증 감지</td><td>매우 높음</td><td>1회 2,000~5,000원</td></tr>
+      <tr><td>산부인과 초음파</td><td>난포 크기 직접 관찰</td><td>가장 정확</td><td>진찰비 필요</td></tr>
+    </tbody>
+  </table>
+  <p>기초체온(Basal Body Temperature, BBT)은 아침에 눈을 뜨자마자 몸을 움직이기 전 측정하는 안정 시 체온입니다. 배란 직전에는 약간 낮아지고 배란 후 황체호르몬의 영향으로 0.2~0.5°C 상승합니다. 이 패턴이 3주기 이상 일관되게 나타나면 배란 주기를 예측하는 데 활용할 수 있습니다.</p>
+  <div class="hl-box"><strong>💡 LH 급증과 배란 테스트기 사용법.</strong> 배란 테스트기는 소변에서 LH(황체형성호르몬) 급증을 감지합니다. LH 급증 후 24~48시간 내에 배란이 일어납니다. 테스트는 배란 예상일보다 5~6일 전부터 매일 오후 2~8시 사이에 검사하는 것이 권장됩니다. 양성(두 줄) 반응이 나오면 48시간 이내가 가장 임신 확률이 높은 시기입니다.</div>
+
+  <h2>불규칙 생리 주기 — 가임기 예측이 어려울 때 대처법</h2>
+  <p>생리 주기가 불규칙하다면(주기 편차 ±7일 이상) 단순 계산법의 오차가 커집니다. 이 경우 최근 3~6개월 중 가장 짧은 주기와 가장 긴 주기를 파악해 가임기 범위를 넓게 잡는 방법을 사용합니다. 예를 들어 최근 주기가 24~35일이라면 가임기는 생리 시작 후 6일~21일로 넓게 봐야 합니다. 이 기간이 너무 길다면 배란 테스트기를 활용하는 것이 현실적입니다.</p>
+  <p>불규칙 주기의 원인으로는 극심한 스트레스, 급격한 체중 변화, 다낭성난소증후군(PCOS), 갑상선 기능 이상, 고강도 운동 등이 있습니다. 불규칙 주기가 지속된다면 산부인과에서 원인 파악과 치료를 받는 것이 임신 준비에 도움이 됩니다. 단순히 배란일 계산만으로는 한계가 있습니다.</p>
+  <table class="ex-table">
+    <thead><tr><th>구분</th><th>가임기 계산법</th><th>주의사항</th></tr></thead>
+    <tbody>
+      <tr><td>규칙적 주기 (편차 ±3일 이하)</td><td>주기 계산법 충분히 유효</td><td>테스트기 병행 시 더 정확</td></tr>
+      <tr><td>약간 불규칙 (편차 ±4~7일)</td><td>최단~최장 주기 평균 사용</td><td>가임기 범위 ±3일 추가 확보</td></tr>
+      <tr><td>심하게 불규칙 (편차 ±7일 초과)</td><td>계산법 단독 사용 비권장</td><td>배란 테스트기 또는 초음파 필수</td></tr>
+    </tbody>
+  </table>
+
+  <h2>자주 묻는 질문 (FAQ)</h2>
+  <details><summary>생리가 불규칙할 때 가임기를 어떻게 파악하나요?</summary><div class="faq-answer">최근 6개월간 주기 중 가장 짧은 것에서 18을 빼면 가임기 시작일, 가장 긴 것에서 11을 빼면 가임기 마지막일이 됩니다. 예를 들어 주기가 26~35일이라면 가임기는 생리 시작 후 8일~24일입니다. 범위가 넓어 불편하다면 배란 테스트기를 활용하는 것이 더 정확합니다.</div></details>
+  <details><summary>배란일에만 임신이 되나요?</summary><div class="faq-answer">배란 당일 외에 배란 전 5일도 임신 가능성이 있습니다. 정자가 자궁 내에서 최대 5일까지 생존하기 때문입니다. 난자는 배란 후 24~48시간만 생존하므로, 배란 당일보다 배란 2~3일 전 성관계가 임신 확률이 통계적으로 더 높다는 연구결과가 있습니다.</div></details>
+  <details><summary>임신 테스트기는 배란 후 언제부터 사용하나요?</summary><div class="faq-answer">임신 테스트기(hCG 검출)는 수정란이 착상(배란 후 6~12일)된 이후부터 hCG 호르몬이 분비됩니다. 정확한 결과를 위해서는 다음 생리 예정일 이후, 또는 배란 후 14일 이후에 검사하는 것이 권장됩니다. 착상 초기에는 hCG 농도가 낮아 음성이 나올 수 있으므로 생리 예정일을 기다리는 것이 좋습니다.</div></details>
+  <details><summary>배란일 계산기가 100% 정확한가요?</summary><div class="faq-answer">아닙니다. 배란일 계산기는 평균 주기 기반의 통계적 예측값입니다. 스트레스, 체중 변화, 질병, 수면 부족 등 다양한 요인으로 실제 배란일이 달라질 수 있습니다. 임신을 적극적으로 계획한다면 배란 테스트기와 기초체온 측정을 병행하는 것이 더 정확합니다.</div></details>
+  <details><summary>자연주기법 피임의 효과는 어느 정도인가요?</summary><div class="faq-answer">자연주기법의 피임 실패율은 이상적 사용 시 약 1~5%이지만 일반적 사용 시 10~25%로 콘돔·피임약보다 높습니다. 생리 주기가 불규칙하거나 스트레스가 많으면 더욱 부정확해집니다. 피임이 목적이라면 의사와 상담 후 적합한 피임 방법을 선택하는 것이 안전합니다.</div></details>
 </div>
-
 <script>
 const fmtDate = d => `${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일`;
 const fmtShort = d => `${d.getMonth()+1}/${d.getDate()}`;
@@ -312,6 +364,36 @@ function drawCalendar(lastPeriod, duration, fertileStart, fertileEnd, ovulation)
 }
 
 // 오늘 날짜 기본값
+
+function updateOvulSim() {
+  var dateVal = document.getElementById('sim-period-date').value;
+  var cycle = parseInt(document.getElementById('sim-cycle').value) || 28;
+  if (!dateVal) return;
+  var base = new Date(dateVal);
+  var months = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+  var html = '<table class="sim-tbl"><thead><tr><th>주기</th><th>배란 예정일</th><th>가임기 시작</th><th>가임기 종료</th><th>다음 생리 예정</th></tr></thead><tbody>';
+  for (var i = 0; i < 3; i++) {
+    var periodStart = new Date(base);
+    periodStart.setDate(base.getDate() + cycle * i);
+    var nextPeriod = new Date(periodStart);
+    nextPeriod.setDate(periodStart.getDate() + cycle);
+    var ovul = new Date(nextPeriod);
+    ovul.setDate(nextPeriod.getDate() - 14);
+    var fs = new Date(ovul); fs.setDate(ovul.getDate() - 5);
+    var fe = new Date(ovul); fe.setDate(ovul.getDate() + 1);
+    function fd(d) { return (d.getMonth()+1) + '/' + d.getDate(); }
+    html += '<tr><td>' + (i+1) + '주기</td><td class="pink">' + fd(ovul) + '</td><td class="grn">' + fd(fs) + '</td><td class="grn">' + fd(fe) + '</td><td>' + fd(nextPeriod) + '</td></tr>';
+  }
+  html += '</tbody></table>';
+  document.getElementById('simOvulTable').innerHTML = html;
+}
+document.addEventListener('DOMContentLoaded', function() {
+  var today = new Date();
+  var y = today.getFullYear();
+  var m = String(today.getMonth()+1).padStart(2,'0');
+  document.getElementById('sim-period-date').value = y + '-' + m + '-01';
+  updateOvulSim();
+});
 document.addEventListener('DOMContentLoaded', () => {
   const today = new Date();
   const y = today.getFullYear();
