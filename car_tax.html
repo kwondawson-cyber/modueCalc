@@ -70,6 +70,11 @@
     .total-row span:last-child{color:var(--accent);font-size:20px}
     .badge{display:inline-block;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700;background:rgba(0,212,170,0.15);color:var(--accent);margin-left:6px}
     .rate-tag{font-size:12px;color:var(--accent);background:rgba(0,212,170,0.1);padding:2px 8px;border-radius:20px}
+    .sim-tbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px}
+    .sim-tbl th{background:var(--surface2);color:var(--text);padding:8px 10px;border:1px solid var(--border);font-weight:600;text-align:left}
+    .sim-tbl td{padding:7px 10px;border:1px solid var(--border);color:var(--text-muted)}
+    .sim-tbl td:not(:first-child){text-align:right}
+    .sim-tbl tr.hl td{color:var(--accent);font-weight:700}
   </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-E7GYSXR7WJ"></script>
@@ -111,6 +116,19 @@
     <div class="total-row"><span>총 부대비용 (취득세+공채손실)</span><span id="r-total">—</span></div>
     <div class="warn-box" id="r-note">⚠️ 실제 취득세는 과세표준(시가표준액)이 구매가보다 높으면 시가표준액 기준으로 부과됩니다.</div>
   </div>
+
+  <div class="card" id="simCard" style="margin-top:8px">
+    <div class="card-title">📊 차량 가격별 취득세 시뮬레이터</div>
+    <div class="input-group" style="margin-bottom:10px">
+      <label>차량 가격 범위 설정</label>
+      <div class="input-wrapper">
+        <input type="number" id="sim-base" value="3000" oninput="updateCarTaxSim()" style="font-size:16px;padding:11px 60px 11px 16px" />
+        <span class="input-unit">만원</span>
+      </div>
+    </div>
+    <div id="simCarTaxTable"></div>
+    <p style="font-size:11px;color:var(--text-muted);margin-top:8px">※ 서울 기준 공채 할인 손실 포함 / 지방교육세 포함 / 전기차·하이브리드 감면 적용</p>
+  </div>
 </div>
 
 <style>
@@ -151,47 +169,71 @@
     </div>
   </div>
 <div class="seo-section">
-  <h2>자동차 취득세 계산기 — 2026년 차종별 세율과 감면 완벽 정리</h2>
-  <h3>자동차 취득세란 무엇인가?</h3>
-  <p>자동차를 취득(구입·이전)할 때 납부하는 지방세입니다. 취득가액에 차종별 세율을 곱해 계산하며, 신차는 공장도 가격(VAT 포함), 중고차는 시가표준액이 기준입니다. 취득세 외에 지역개발공채(지역마다 다름) 의무 매입 비용도 함께 발생하므로 실제 구입 비용 계획 시 포함해야 합니다.</p>
-  <p>2026년 현재 전기차·하이브리드 등 친환경 차량은 취득세 감면 혜택이 적용됩니다. 또한 경차, 장애인·국가유공자·다자녀 가구 등에도 추가 감면 혜택이 있어 차량 구입 전에 자신에게 해당하는 감면 혜택을 반드시 확인해야 합니다. 취득 후 60일 이내에 신고·납부를 해야 하며, 기한을 넘기면 20% 가산세가 부과됩니다.</p>
-  <h3>📐 자동차 취득세 계산 공식</h3>
-  <p>취득세 계산 시 본세(취득세)만이 아니라 부가되는 세금들을 모두 합산해야 실제 납부액을 정확히 파악할 수 있습니다. 공채 할인 비용까지 포함하면 취득 시 부대비용이 상당히 커지므로, 차량 예산 계획 시 취득가액의 약 10% 정도를 세금과 부대비용으로 예상하는 것이 안전합니다.</p>
+  <h2>자동차 취득세란 — 언제, 얼마나 내야 하는가</h2>
+  <p>자동차 취득세는 차량을 새로 취득(구매·이전)할 때 납부하는 지방세입니다. 신차를 살 때만 내는 것이 아니라 중고차 매매, 증여, 상속 등 소유권이 이전되는 모든 경우에 발생합니다. 납부 기한은 취득일(등록일)로부터 60일 이내이며, 기한을 초과하면 납부액의 20%에 해당하는 가산세가 부과됩니다. 대부분의 경우 차량 등록과 동시에 딜러·대행사가 처리해주지만, 개인 간 거래나 증여의 경우 직접 신고해야 합니다.</p>
+  <p>취득세 외에 지방교육세(취득세의 10%)가 함께 부과되며, 지역개발공채를 의무 매입해야 합니다. 공채는 만기 보유 시 이자를 받을 수 있지만 대부분 즉시 매도(할인 매각)하는데, 이때 매입가의 15~25%를 손해 봅니다. 즉, 차량 구매 시 실제 부대비용은 취득세+지방교육세+공채 할인 손실을 모두 더해야 합니다. 위 시뮬레이터에서 차량 가격별 실제 부담을 미리 확인해보세요.</p>
   <div class="formula-box">취득세 = 과세표준 × 취득세율
-신차: 과세표준 = 차량 출고가(VAT 포함)
-중고차: 과세표준 = max(거래가, 시가표준액)
+지방교육세 = 취득세 × 10%
+공채 매입액 = 차량가 × 공채 매입 비율 (지역별 상이)
+공채 할인 손실 = 공채 매입액 × 즉시 매도 할인율 (약 15~25%)
 
-실납부액 = 취득세 + 공채매입비(지역개발공채)
-취득 후 60일 이내 신고·납부 의무</div>
-  <h3>📊 2026년 자동차 취득세율표</h3>
-  <p>비영업용 승용차는 취득가액의 7%가 기본 세율입니다. 경차는 4%의 낮은 세율이 적용되고 추가 감면도 받을 수 있어 세제 측면에서 유리합니다. 전기차는 140만원 한도 감면이 적용되어 고가의 전기차일수록 감면 효과가 상대적으로 작아집니다.</p>
-  <table class="ex-table">
-    <thead><tr><th>차종</th><th>취득세율</th><th>비고</th></tr></thead>
+총 실부담 = 취득세 + 지방교육세 + 공채 할인 손실
+
+신차 과세표준: 차량 출고가 (VAT 포함)
+중고차 과세표준: max(실거래가, 보험개발원 시가표준액)</div>
+  <p>중고차는 실거래가가 아무리 낮아도 보험개발원에서 산정한 시가표준액 이상으로 과세됩니다. 예를 들어 시세보다 싸게 산 중고차라도 시가표준액이 높으면 그 기준으로 취득세가 부과됩니다. 반대로 시가표준액보다 높은 가격에 구매했다면 실거래가를 기준으로 과세됩니다.</p>
+
+  <h2>2026년 차종별 취득세율표 — 경차·전기차·하이브리드 감면 정리</h2>
+  <p>취득세율은 차종에 따라 다르게 적용됩니다. 일반 비영업용 승용차는 7%이고, 경형 자동차(경차)는 4%의 낮은 세율이 적용됩니다. 전기차와 하이브리드차는 기본 세율(7%)을 적용한 후 일정 금액을 한도로 감면해주는 방식입니다. 감면 한도가 고정돼 있으므로 고가 차량일수록 감면 효과가 상대적으로 작아집니다.</p>
+  <p>전기차 취득세 감면은 친환경 차량 보급 촉진을 위해 도입된 제도로, 지방세특례제한법에 근거합니다. 감면 한도와 적용 기간은 정기적으로 갱신되므로 취득 시점에 최신 내용을 확인하는 것이 중요합니다. 2026년 기준 전기차는 140만원 한도, 하이브리드는 40만원 한도 감면이 적용됩니다.</p>
+  <table>
+    <thead><tr><th>차종</th><th>취득세율</th><th>감면 혜택</th><th>실효세율 예시 (3,000만원 기준)</th></tr></thead>
     <tbody>
-      <tr><td>비영업용 승용차</td><td>7%</td><td>일반 승용차</td></tr>
-      <tr><td>경형 자동차 (경차)</td><td>4%</td><td>추가 감면 가능</td></tr>
-      <tr><td>승합·화물·특수차</td><td>5%</td><td>—</td></tr>
-      <tr><td>전기차 (100% 전기)</td><td>140만원 한도 감면</td><td>2026년 기준</td></tr>
-      <tr><td>하이브리드차</td><td>40만원 한도 감면</td><td>—</td></tr>
+      <tr><td>비영업용 승용차 (일반)</td><td>7%</td><td>없음</td><td>210만원</td></tr>
+      <tr><td>경형 자동차 (경차)</td><td>4%</td><td>추가 감면 가능</td><td>120만원</td></tr>
+      <tr><td>승합·화물·특수차</td><td>5%</td><td>없음</td><td>150만원</td></tr>
+      <tr><td>전기차 (100% 전기)</td><td>7%</td><td>140만원 한도 감면</td><td>70만원 (210만-140만)</td></tr>
+      <tr><td>플러그인 하이브리드 (PHEV)</td><td>7%</td><td>90만원 한도 감면</td><td>120만원 (210만-90만)</td></tr>
+      <tr><td>일반 하이브리드 (HEV)</td><td>7%</td><td>40만원 한도 감면</td><td>170만원 (210만-40만)</td></tr>
     </tbody>
   </table>
-  <h3>📊 차량 가격별 취득세 예시 (비영업용 승용차 7%)</h3>
-  <p>아래 표는 차량 가격별 예상 취득세입니다. 취득세만으로도 상당한 금액이 발생하므로 차량 구매 예산 계획 시 반드시 포함해야 합니다. 공채 할인 비용은 지역과 차종에 따라 다르지만 대략 취득세의 10~15% 정도로 추가 예상하는 것이 좋습니다.</p>
-  <table class="ex-table">
-    <thead><tr><th>차량 가격</th><th>취득세(7%)</th><th>공채 포함 예상액</th></tr></thead>
+  <div class="tip-box"><strong>💡 추가 감면 혜택 대상.</strong> 장애인(1~3급)·국가유공자·다자녀 가구(자녀 3인 이상, 막내 만 18세 이하)·다둥이 가정은 취득세 감면 혜택이 추가로 있습니다. 해당 여부는 차량 등록 시 관할 구청에 확인하세요. 감면 혜택은 중복 적용에 제한이 있을 수 있습니다.</div>
+
+  <h2>차량 가격별 취득세 실부담액 비교 — 서울 기준</h2>
+  <p>취득세만 계산하면 예산이 부족한 경우가 많습니다. 지방교육세와 공채 할인 손실까지 포함한 실제 부대비용은 차량 가격의 약 9~11% 수준입니다. 1,000만원 미만 소형차도 취득세+공채 포함 100만원 이상의 추가 비용이 발생하고, 5,000만원급 차량은 600만원 이상이 부대비용으로 나갑니다. 위 시뮬레이터로 내 차량 가격에서의 정확한 부담을 확인해보세요.</p>
+  <table>
+    <thead><tr><th>차량 가격</th><th>취득세 (7%)</th><th>지방교육세</th><th>공채 할인 손실 (서울)</th><th>총 부대비용</th></tr></thead>
     <tbody>
-      <tr><td>2,000만원</td><td>140만원</td><td>약 160~165만원</td></tr>
-      <tr><td>4,000만원</td><td>280만원</td><td>약 315~325만원</td></tr>
-      <tr><td>6,000만원</td><td>420만원</td><td>약 470~485만원</td></tr>
+      <tr><td>1,500만원</td><td>105만원</td><td>10.5만원</td><td>약 36만원</td><td>약 152만원</td></tr>
+      <tr><td>2,000만원</td><td>140만원</td><td>14만원</td><td>약 48만원</td><td>약 202만원</td></tr>
+      <tr><td>3,000만원</td><td>210만원</td><td>21만원</td><td>약 72만원</td><td>약 303만원</td></tr>
+      <tr><td>4,000만원</td><td>280만원</td><td>28만원</td><td>약 96만원</td><td>약 404만원</td></tr>
+      <tr><td>5,000만원</td><td>350만원</td><td>35만원</td><td>약 120만원</td><td>약 505만원</td></tr>
+      <tr><td>8,000만원</td><td>560만원</td><td>56만원</td><td>약 192만원</td><td>약 808만원</td></tr>
     </tbody>
   </table>
-  <div class="tip-box"><strong>💡 취득세 절감 팁.</strong> ① 경차(1,000cc 이하) 구매 시 취득세 최대 75만원 감면 ② 전기차는 140만원 한도로 취득세 감면 ③ 장애인·국가유공자·다자녀 가구는 추가 감면 혜택이 있으니 취득 전 확인하세요. ④ 취득 후 60일 이내 신고 필수입니다.</div>
+  <p>공채 할인 손실은 지역마다 다릅니다. 서울은 일반 승용차 기준 차량가의 12%를 공채로 매입해야 하고, 경기도는 9%, 기타 지방은 4~5% 수준입니다. 즉시 매도 시 할인율(손실)은 통상 15~25%이므로, 서울에서 3,000만원 차량을 구매하면 공채 360만원 매입 → 즉시 매도 시 약 72만원의 손실이 발생합니다.</p>
+
+  <h2>중고차 취득세 — 시가표준액과 실거래가의 차이가 중요한 이유</h2>
+  <p>중고차를 저렴하게 구매해도 취득세는 실거래가와 시가표준액 중 높은 쪽을 기준으로 부과됩니다. 시가표준액은 보험개발원이 차종·연식·주행거리 등을 반영해 산정하는 기준 가격으로, 중고차 시세와 차이가 날 수 있습니다. 특히 인기 차종이나 최근 모델은 시가표준액이 높게 책정돼 있어 실거래가보다 시가표준액이 높은 경우가 많습니다.</p>
+  <p>예를 들어 시세 2,000만원 중고차를 1,700만원에 구매했더라도, 시가표준액이 2,100만원이라면 2,100만원 기준으로 취득세가 부과됩니다. 반대로 희귀 수집차나 고가 개조 차량을 시가표준액보다 비싸게 구매했다면 실거래가 기준으로 과세됩니다. 중고차 구매 전 해당 차량의 시가표준액을 국토교통부 자동차민원 대국민포털에서 미리 확인하는 것이 좋습니다.</p>
+  <table>
+    <thead><tr><th>구분</th><th>과세표준</th><th>취득세 계산 예시</th></tr></thead>
+    <tbody>
+      <tr><td>신차 구매</td><td>출고가 (VAT 포함)</td><td>3,000만원 × 7% = 210만원</td></tr>
+      <tr><td>중고차: 실거래가 > 시가표준액</td><td>실거래가</td><td>실거래가 2,500만원 × 7% = 175만원</td></tr>
+      <tr><td>중고차: 실거래가 < 시가표준액</td><td>시가표준액</td><td>시가표준액 2,200만원 × 7% = 154만원</td></tr>
+      <tr><td>증여 취득</td><td>시가표준액</td><td>증여가 무관, 시가표준액 기준</td></tr>
+    </tbody>
+  </table>
+  <div class="tip-box"><strong>💡 취득 후 60일 기한 반드시 확인.</strong> 취득세 신고·납부 기한은 취득일(등록일)로부터 60일입니다. 기한을 1일이라도 초과하면 납부액의 20% 가산세가 붙습니다. 개인 간 매매로 직접 등록하는 경우 특히 기한을 놓치기 쉬우므로 주의하세요. 딜러를 통한 구매는 보통 등록 대행 시 자동 처리됩니다.</div>
+
   <h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>중고차 구매 시 취득세는 어떻게 계산하나요?</summary><div class="faq-answer">중고차 취득세는 실제 거래가격과 시가표준액 중 높은 금액을 과세표준으로 합니다. 시가표준액은 차종·연식·주행거리에 따라 결정되며 국토부 차량기준가액 조회 시스템에서 확인할 수 있습니다. 시가표준액보다 낮은 가격에 거래해도 시가표준액 기준으로 취득세가 부과됩니다.</div></details>
-  <details><summary>차량 이전 시에도 취득세를 내야 하나요?</summary><div class="faq-answer">네. 매매·증여·상속 등 모든 차량 취득(이전) 시 취득세가 부과됩니다. 가족 간 무상 이전도 과세 대상입니다. 단, 상속으로 인한 취득은 세율이 다를 수 있으며, 장애인·국가유공자 등 특수한 경우 감면 혜택이 있습니다.</div></details>
-  <details><summary>공채는 무엇이고 꼭 매입해야 하나요?</summary><div class="faq-answer">지역개발공채는 자동차 취득 시 지자체에 의무적으로 매입해야 하는 채권입니다. 5~7년 만기로 이자를 받을 수 있지만, 즉시 매도(할인 판매)하는 경우 매입가의 10~15%를 손해 보게 됩니다. 대부분의 딜러사에서 공채 즉시 매도를 대행해주므로 실질 비용을 미리 확인하는 것이 좋습니다.</div></details>
-  <details><summary>전기차 취득세 감면은 2026년에도 유효한가요?</summary><div class="faq-answer">2026년에도 전기차 취득세 감면(140만원 한도)이 적용됩니다. 감면 혜택은 정기적으로 연장되어 왔으나 정확한 기간은 지방세특례제한법 개정에 따라 달라질 수 있어 취득 시점에 확인이 필요합니다.</div></details>
-  <details><summary>법인 차량 취득세율은 개인과 다른가요?</summary><div class="faq-answer">법인 차량도 개인과 동일한 세율(승용차 7%)이 적용됩니다. 단, 법인은 세금계산서를 통한 부가세 환급, 감가상각 등 다른 세무 처리가 가능합니다. 영업용(렌터카·택시) 차량은 취득세율이 다르게 적용됩니다.</div></details>
+  <details><summary>중고차 구매 시 취득세는 어떻게 계산하나요?</summary><div class="faq-answer">중고차 취득세는 실제 거래가격과 보험개발원 시가표준액 중 높은 금액을 과세표준으로 합니다. 시가표준액은 국토교통부 자동차민원 대국민포털 또는 보험개발원 홈페이지에서 조회할 수 있습니다. 시가표준액보다 낮은 가격에 거래해도 시가표준액 기준으로 취득세가 부과되므로, 구매 전에 반드시 확인하세요.</div></details>
+  <details><summary>차량 이전(명의변경) 시에도 취득세를 내야 하나요?</summary><div class="faq-answer">네. 매매·증여·상속 등 모든 차량 소유권 이전 시 취득세가 부과됩니다. 가족 간 무상 이전(증여)도 과세 대상입니다. 상속으로 인한 취득은 별도 세율이 적용될 수 있으며, 장애인·국가유공자 등 특수한 경우 감면 혜택이 있습니다. 취득 후 60일 이내에 신고·납부해야 가산세를 피할 수 있습니다.</div></details>
+  <details><summary>공채는 무엇이고 꼭 즉시 매도해야 하나요?</summary><div class="faq-answer">지역개발공채는 자동차 취득 시 지자체에 의무적으로 매입해야 하는 채권입니다. 5~7년 만기로 매년 이자를 받고 원금을 회수할 수 있어 실제 손실이 없지만, 만기까지 보유하는 사람은 거의 없습니다. 즉시 매도(할인 매각)하면 매입가의 15~25% 수준을 손해 보게 됩니다. 딜러사에서 공채 매도를 대행해주므로 실질 비용을 미리 확인하세요.</div></details>
+  <details><summary>전기차 취득세 감면은 2026년에도 유효한가요?</summary><div class="faq-answer">2026년에도 전기차 취득세 감면(140만원 한도), 플러그인 하이브리드(90만원 한도), 일반 하이브리드(40만원 한도) 혜택이 적용됩니다. 다만 지방세특례제한법에 따라 감면 기간이 정기적으로 연장되므로, 취득 시점에 최신 감면 내용을 지자체나 국세청에 확인하는 것이 정확합니다.</div></details>
+  <details><summary>법인 차량 취득세율은 개인과 다른가요?</summary><div class="faq-answer">법인 차량도 개인과 동일한 세율(비영업용 승용차 7%)이 적용됩니다. 다만 법인은 세금계산서를 통한 부가세 환급, 감가상각 비용처리 등 추가적인 세무 처리가 가능합니다. 영업용 차량(렌터카, 택시 등)은 취득세율이 다르게 적용되므로 별도 확인이 필요합니다.</div></details>
 </div>
 <script>
 let carType = '일반';
@@ -255,6 +297,30 @@ function calcCarTax() {
     : '⚠️ 신차 취득세는 출고가(VAT 포함) 기준입니다. 딜러 할인가가 아닌 과세표준으로 부과될 수 있습니다.';
   document.getElementById('resultCard').classList.add('visible');
 }
+function updateCarTaxSim() {
+  var base = parseFloat(document.getElementById('sim-base').value) * 10000 || 30000000;
+  var types = [
+    {name:'일반 승용', rate:0.07, disc:0},
+    {name:'경차 (4%)', rate:0.04, disc:0},
+    {name:'전기차', rate:0.07, disc:1400000},
+    {name:'하이브리드', rate:0.07, disc:400000}
+  ];
+  var bondRate = 0.12; var bondDisc = 0.20;
+  var html = '<table class="sim-tbl"><thead><tr><th>차종</th><th>취득세</th><th>지방교육세</th><th>공채 손실(서울)</th><th>총 부대비용</th></tr></thead><tbody>';
+  types.forEach(function(t, i) {
+    var acq = Math.floor(base * t.rate);
+    acq = Math.max(0, acq - t.disc);
+    var edu = Math.floor(acq * 0.1);
+    var bond = Math.floor(base * bondRate * bondDisc);
+    var total = acq + edu + bond;
+    var hl = i === 0 ? ' class="hl"' : '';
+    function f(n) { return (n/10000).toFixed(0) + '만'; }
+    html += '<tr' + hl + '><td>' + t.name + '</td><td>' + f(acq) + '</td><td>' + f(edu) + '</td><td>' + f(bond) + '</td><td>' + f(total) + '</td></tr>';
+  });
+  html += '</tbody></table>';
+  document.getElementById('simCarTaxTable').innerHTML = html;
+}
+document.addEventListener('DOMContentLoaded', updateCarTaxSim);
 </script><script src="/common.js" defer></script><script src="/share.js" defer></script><script src="/calculator.js" defer></script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{});});}</script>
 </body>

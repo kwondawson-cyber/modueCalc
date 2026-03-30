@@ -206,7 +206,29 @@
         <strong style="color:orange">⚠️ 안내</strong> 중개보수는 법정 상한 요율 이내에서 협의 가능합니다. 실제 수수료는 공인중개사와 협의하여 결정하세요. VAT는 별도 청구될 수 있습니다.
       </div>
     </div>
+
+  <div class="card" id="simCard" style="margin-top:8px">
+    <div class="card-title">📊 거래금액별 수수료 시뮬레이터</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+      <div class="input-group" style="margin-bottom:0">
+        <label style="font-size:13px;color:var(--text-muted);margin-bottom:6px;display:block">거래금액</label>
+        <div class="input-wrapper">
+          <input type="number" id="sim-amount" value="500000000" oninput="updateRESim()" style="font-size:15px;padding:11px 40px 11px 14px"/>
+          <span class="input-unit" style="font-size:12px">원</span>
+        </div>
+      </div>
+      <div class="input-group" style="margin-bottom:0">
+        <label style="font-size:13px;color:var(--text-muted);margin-bottom:6px;display:block">거래 유형</label>
+        <select id="sim-type" onchange="updateRESim()" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:11px 14px;font-size:14px;font-family:'Noto Sans KR',sans-serif;color:var(--text);outline:none">
+          <option value="buy">매매</option>
+          <option value="jeonse">전세/월세</option>
+        </select>
+      </div>
+    </div>
+    <div id="simREResult"></div>
+    <p style="font-size:11px;color:var(--text-muted);margin-top:8px">※ 법정 상한 요율 기준 · VAT 미포함 · 협의 가능</p>
   </div>
+</div>
 
   <script>
     let tradeType = 'buy';
@@ -294,7 +316,52 @@
       rc.classList.add('visible');
     }
 
-    window.onload = () => calculate();
+    window.onload = () => { calculate(); updateRESim(); };
+  
+var _buyRates = [
+  {min:0,max:50000000,rate:0.006,limit:250000},
+  {min:50000000,max:200000000,rate:0.005,limit:800000},
+  {min:200000000,max:900000000,rate:0.004,limit:null},
+  {min:900000000,max:1200000000,rate:0.005,limit:null},
+  {min:1200000000,max:1500000000,rate:0.006,limit:null},
+  {min:1500000000,max:Infinity,rate:0.007,limit:null}
+];
+var _jeRates = [
+  {min:0,max:50000000,rate:0.005,limit:200000},
+  {min:50000000,max:100000000,rate:0.004,limit:300000},
+  {min:100000000,max:600000000,rate:0.003,limit:null},
+  {min:600000000,max:1200000000,rate:0.004,limit:null},
+  {min:1200000000,max:Infinity,rate:0.008,limit:null}
+];
+function _calcFee(amount, rates) {
+  var row = rates[rates.length-1];
+  for(var i=0;i<rates.length;i++){if(amount>=rates[i].min&&amount<rates[i].max){row=rates[i];break;}}
+  var fee = amount * row.rate;
+  if(row.limit) fee = Math.min(fee, row.limit);
+  return {fee:fee, rate:row.rate};
+}
+function updateRESim() {
+  var amount = parseFloat(document.getElementById('sim-amount').value) || 500000000;
+  var type = document.getElementById('sim-type').value;
+  var rates = type === 'buy' ? _buyRates : _jeRates;
+  var checkAmounts = [];
+  var base = Math.round(amount / 100000000);
+  for(var i = Math.max(1, base-2); i <= base+3; i++) checkAmounts.push(i * 100000000);
+  if(amount > 0 && !checkAmounts.includes(amount)) checkAmounts.unshift(amount);
+  checkAmounts.sort(function(a,b){return a-b;});
+  var html = '<table class="rate-table" style="font-size:13px"><thead><tr><th>거래금액</th><th>요율</th><th>수수료(상한)</th><th>VAT포함</th></tr></thead><tbody>';
+  checkAmounts.forEach(function(a) {
+    var r = _calcFee(a, rates);
+    var isCur = (a === amount) || (Math.abs(a-amount) < 1000000 && a === checkAmounts.reduce(function(p,c){return Math.abs(c-amount)<Math.abs(p-amount)?c:p;}));
+    var cls = (a === amount) ? ' class="current"' : '';
+    function f(n){return (n/10000).toFixed(0)+'만원';}
+    function fa(n){if(n>=100000000)return (n/100000000).toFixed(1)+'억';return (n/10000).toFixed(0)+'만원';}
+    html += '<tr'+cls+'><td>'+fa(a)+'</td><td>'+(r.rate*100).toFixed(1)+'%</td><td>'+f(r.fee)+'</td><td>'+f(r.fee*1.1)+'</td></tr>';
+  });
+  html += '</tbody></table>';
+  document.getElementById('simREResult').innerHTML = html;
+}
+document.addEventListener('DOMContentLoaded', updateRESim);
   </script>
 
 <style>
@@ -337,48 +404,66 @@
   </div>
 </div>
 <div class="seo-section">
-  <h2>부동산 중개수수료 계산기 — 2026년 복비 요율표 완벽 정리</h2>
-  <h3>부동산 중개수수료(복비)란?</h3>
-  <p>부동산 중개수수료는 공인중개사가 매매·임대차 계약을 중개했을 때 받는 보수입니다. 상한 요율은 거래 유형(매매/전월세)과 금액에 따라 달라지며, <strong>2021년 10월</strong> 전면 개편된 요율이 현재 적용됩니다. 법적으로 정해진 상한 이하로 협의할 수 있지만, 상한을 초과해서 받으면 처벌 대상이 됩니다.</p>
-  <p>중개수수료에는 부가세(VAT 10%)가 별도 부과될 수 있습니다. 일반과세자 공인중개사는 수수료에 10% 부가세를 청구할 수 있으므로, 계약 전에 부가세 포함 여부를 명확히 확인해야 합니다. 또한 매도인과 매수인이 각각 중개사에게 수수료를 지불하는 구조이므로 실제 비용은 각자 부담하게 됩니다.</p>
-  <h3>📐 중개수수료 계산 공식</h3>
-  <p>수수료 계산 시 한도액이 있는 구간에서는 계산된 금액과 한도액 중 낮은 금액을 적용합니다. 월세의 경우 단순히 보증금만이 아니라 월세 환산액을 더한 금액을 거래금액으로 봅니다. 이 방식은 월세 거래에서도 임대 조건 전체를 반영한 적정 수수료를 산정하기 위한 것입니다.</p>
-  <div class="formula-box">중개수수료 = 거래금액 × 상한 요율 (한도액 이하)
+  <h2>부동산 중개수수료(복비)란 — 왜 2021년 개편이 중요한가</h2>
+  <p>부동산 중개수수료(복비)는 공인중개사가 매매·임대차 계약을 중개했을 때 의뢰인으로부터 받는 보수입니다. 법정 상한 요율이 존재하고 이를 초과해서 받으면 처벌 대상이 됩니다. 반대로 상한 이하로 협의해서 낼 수 있으며, 시장 상황이나 관계에 따라 상한보다 낮은 수수료가 적용되기도 합니다.</p>
+  <p>2021년 10월, 수수료 요율이 전면 개편됐습니다. 개편 전에는 9억원 이상 주택 매매 시 수수료 상한이 0.9%로 매우 높아, 거래금액 10억짜리 주택을 사면 수수료만 최대 900만원이었습니다. 국민 청원과 정책 논의 끝에 2억~9억 구간을 0.4%로 낮추고 9억 이상 구간을 세분화해 수수료 부담을 크게 줄였습니다. 이 개편이 현재까지 적용되고 있습니다.</p>
+  <div class="formula-box">중개보수 = 거래금액 × 상한 요율 (단, 한도액이 있는 구간은 한도 이하)
 월세 거래금액 = 보증금 + (월세 × 100)
-→ 5천만원 미만이면 보증금 + (월세 × 70)
-실납부 = 중개수수료 × 1.1 (부가세 포함 시)</div>
-  <h3>📊 주택 매매 중개수수료 상한 요율 (2021.10 이후)</h3>
-  <p>2021년 개편 전에는 9억원 이상 주택의 수수료 상한이 0.9%여서 수백만원의 과도한 수수료 문제가 있었습니다. 개편 후 2억~9억 구간은 0.4%로 낮아졌습니다. 거래 전 아래 표로 해당 구간 상한 요율을 반드시 확인하세요.</p>
+  → 단, 이 금액이 5천만원 미만이면 = 보증금 + (월세 × 70)
+VAT 포함 실납부액 = 중개보수 × 1.1 (일반과세자의 경우)</div>
+  <p>매도인과 매수인(또는 임대인과 임차인)이 각각 중개사에게 수수료를 지불합니다. 한 쪽이 양쪽 모두의 수수료를 대신 내주는 경우도 있지만, 법적으로는 각자 부담이 원칙입니다. 부가세(VAT 10%)는 일반과세자 공인중개사에게 별도 청구될 수 있으므로 계약 전에 VAT 포함 여부를 반드시 확인해야 합니다.</p>
+
+  <h2>주택 매매 중개수수료 상한 요율표 — 2021년 개편 후 현행 기준</h2>
+  <p>2021년 10월 개편으로 가장 크게 달라진 구간은 2억~9억입니다. 종전 0.5%(5억 이상 0.9%)에서 0.4%로 낮아졌고, 9억~15억 구간이 0.5%~0.6%~0.7%로 세분화됐습니다. 이전 제도에서는 9억 이상이 모두 0.9%였기 때문에, 9억원 거래 시 수수료가 810만원에 달했던 것이 개편 후 360만원으로 낮아졌습니다.</p>
   <table>
-    <thead><tr><th>거래금액</th><th>상한 요율</th><th>한도액</th></tr></thead>
+    <thead><tr><th>거래금액 구간</th><th>상한 요율</th><th>한도액</th><th>5억원 기준 수수료</th></tr></thead>
     <tbody>
-      <tr><td>5천만원 미만</td><td>0.6%</td><td>25만원</td></tr>
-      <tr><td>5천만~2억 미만</td><td>0.5%</td><td>80만원</td></tr>
-      <tr><td>2억~9억 미만</td><td>0.4%</td><td>없음</td></tr>
-      <tr><td>9억~12억 미만</td><td>0.5%</td><td>없음</td></tr>
-      <tr><td>12억~15억 미만</td><td>0.6%</td><td>없음</td></tr>
-      <tr><td>15억 이상</td><td>0.7%</td><td>없음</td></tr>
+      <tr><td>5천만원 미만</td><td>0.6%</td><td>25만원</td><td>-</td></tr>
+      <tr><td>5천만원 ~ 2억 미만</td><td>0.5%</td><td>80만원</td><td>-</td></tr>
+      <tr><td><strong>2억 ~ 9억 미만</strong></td><td><strong>0.4%</strong></td><td>없음</td><td><strong>200만원</strong></td></tr>
+      <tr><td>9억 ~ 12억 미만</td><td>0.5%</td><td>없음</td><td>-</td></tr>
+      <tr><td>12억 ~ 15억 미만</td><td>0.6%</td><td>없음</td><td>-</td></tr>
+      <tr><td>15억 이상</td><td>0.7%</td><td>없음</td><td>-</td></tr>
     </tbody>
   </table>
-  <h3>📊 주택 임대차(전·월세) 중개수수료 상한 요율</h3>
-  <p>전월세 수수료는 매매보다 낮은 요율이 적용됩니다. 1억~6억 미만 구간에서 0.3%의 낮은 요율이 적용되는데, 이 구간이 서울·수도권 전세 계약의 대부분을 차지합니다. 예를 들어 전세금 3억원이라면 상한 수수료는 3억 × 0.3% = 90만원입니다.</p>
+  <p>5천만원 미만 구간에 한도액 25만원이 있다는 것은, 5천만원 × 0.6% = 30만원이지만 한도액 25만원 이하로만 받을 수 있다는 의미입니다. 2억~9억 구간은 한도액이 없으므로 거래금액에 0.4%를 그대로 곱한 금액이 상한이 됩니다. 5억원 매매라면 200만원(VAT 별도)이 상한입니다.</p>
+  <div class="tip-box"><strong>💡 개편 전후 비교 예시 (10억원 매매).</strong> 2021년 이전: 10억 × 0.9% = <strong>900만원</strong> / 2021년 이후: 10억 × 0.5% = <strong>500만원</strong> → 400만원 절감. 15억원 이상은 0.7%로 여전히 부담이 크지만, 이전 0.9%보다는 낮아졌습니다.</div>
+
+  <h2>전세·월세 중개수수료 상한 요율표 — 2021년 개편 현행 기준</h2>
+  <p>전세·월세 수수료는 매매보다 낮은 요율이 적용됩니다. 1억~6억 미만 구간이 0.3%로 가장 낮고, 이 구간이 서울·수도권 전세 계약의 상당수를 차지합니다. 가장 주의해야 할 점은 6억 이상 구간으로, 0.8%로 급격히 높아집니다. 전세 6억원과 6억 1,000만원의 수수료 차이가 상당히 크므로 계약 전 확인이 필요합니다.</p>
+  <p>월세 수수료는 보증금과 월세를 환산한 거래금액 기준으로 계산됩니다. 환산 방법은 "보증금 + 월세×100"이 원칙이며, 이 금액이 5천만원 미만이면 "보증금 + 월세×70"으로 계산합니다. 예를 들어 보증금 1,000만원 + 월세 50만원이라면 환산금액은 1,000만 + 50만×100 = 6,000만원이 되어 0.4% 구간이 적용됩니다.</p>
   <table>
-    <thead><tr><th>거래금액</th><th>상한 요율</th><th>한도액</th></tr></thead>
+    <thead><tr><th>거래금액 구간</th><th>상한 요율</th><th>한도액</th><th>3억원 기준 수수료</th></tr></thead>
     <tbody>
-      <tr><td>5천만원 미만</td><td>0.5%</td><td>20만원</td></tr>
-      <tr><td>5천만~1억 미만</td><td>0.4%</td><td>30만원</td></tr>
-      <tr><td>1억~6억 미만</td><td>0.3%</td><td>없음</td></tr>
-      <tr><td>6억~12억 미만</td><td>0.4%</td><td>없음</td></tr>
-      <tr><td>12억 이상</td><td>0.5%</td><td>없음</td></tr>
+      <tr><td>5천만원 미만</td><td>0.5%</td><td>20만원</td><td>-</td></tr>
+      <tr><td>5천만원 ~ 1억 미만</td><td>0.4%</td><td>30만원</td><td>-</td></tr>
+      <tr><td><strong>1억 ~ 6억 미만</strong></td><td><strong>0.3%</strong></td><td>없음</td><td><strong>90만원</strong></td></tr>
+      <tr><td>6억 ~ 12억 미만</td><td>0.4%</td><td>없음</td><td>-</td></tr>
+      <tr><td><strong>12억 이상</strong></td><td><strong>0.8%</strong></td><td>없음</td><td>-</td></tr>
     </tbody>
   </table>
-  <div class="tip-box"><strong>💡 절약 팁.</strong> 중개수수료는 상한 요율 이하로 협상 가능합니다. 부동산 시장이 침체기일 때 더 유리한 조건을 얻기 쉽습니다. 매도인·임대인과 임차인 양측이 각각 부담하므로, 계약 전 각자 부담액을 명확히 확인하고 부가세 포함 여부도 반드시 체크하세요.</div>
+  <p>※ 위 표는 2021년 10월 개편 후 주택 임대차 기준입니다. 6억원 전세의 상한 수수료는 180만원(6억×0.3%), 6억 1,000만원은 244만원(6억1천×0.4%)으로 1,000만원 차이에 수수료가 64만원 늘어납니다.</p>
+  <div class="tip-box"><strong>💡 수수료 절약 핵심 포인트 3가지.</strong> ① 상한 요율이므로 반드시 협상 시도 — 시장 침체기나 재계약 시 협상력이 높습니다. ② VAT 포함 여부를 계약 전 명시 — 간이과세자는 VAT 없음, 일반과세자는 10% 추가. ③ 1억~6억 전세 구간(0.3%)은 협상 시 0.2~0.25%까지도 가능한 경우가 있습니다.</div>
+
+  <h2>거래 유형별 수수료 실전 계산 예시</h2>
+  <p>수수료 계산에서 실수가 많은 부분은 한도액이 있는 구간과 없는 구간을 혼동하는 것입니다. 5천만원 미만 매매 구간에서 계산값이 한도(25만원)를 초과하면 25만원을 적용하고, 2억 이상 구간에는 한도가 없으므로 요율을 그대로 곱합니다. 위 시뮬레이터에서 거래금액을 직접 입력해 정확한 수수료를 확인해보세요.</p>
+  <table>
+    <thead><tr><th>거래 유형</th><th>거래금액</th><th>적용 요율</th><th>수수료 (상한)</th><th>VAT 포함</th></tr></thead>
+    <tbody>
+      <tr><td>매매</td><td>5억원</td><td>0.4%</td><td>200만원</td><td>220만원</td></tr>
+      <tr><td>매매</td><td>10억원</td><td>0.5%</td><td>500만원</td><td>550만원</td></tr>
+      <tr><td>전세</td><td>3억원</td><td>0.3%</td><td>90만원</td><td>99만원</td></tr>
+      <tr><td>전세</td><td>5억원</td><td>0.3%</td><td>150만원</td><td>165만원</td></tr>
+      <tr><td>월세 (보증금 5천+월세 80만)</td><td>환산 8,500만원</td><td>0.3%</td><td>25.5만원</td><td>약 28만원</td></tr>
+    </tbody>
+  </table>
+
   <h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>중개수수료는 누가 내나요?</summary><div class="faq-answer">매매 시 매도인과 매수인이 각각, 임대차 시 임대인과 임차인이 각각 중개사에게 수수료를 지불합니다. 한 쪽이 양쪽 수수료를 모두 내는 것이 아니라 각자 계약금액에 따른 수수료를 부담합니다. 간혹 임차인이 수수료를 대신 내주는 관행이 있는 지역도 있지만 법적으로는 각자 부담이 원칙입니다.</div></details>
-  <details><summary>오피스텔·상가 중개수수료 요율은 주택과 다른가요?</summary><div class="faq-answer">주거용 오피스텔은 주택 기준 요율이 적용됩니다. 상가·사무실 등 비주거용 부동산은 법정 상한이 0.9%이며, 실제 요율은 거래 당사자 간 협의로 결정됩니다. 비주거용 부동산은 협의가 더 자유롭습니다.</div></details>
-  <details><summary>중개수수료에 부가세가 붙나요?</summary><div class="faq-answer">연 매출 8,000만원 이상인 일반과세자 공인중개사는 수수료에 10% 부가세를 별도 청구할 수 있습니다. 간이과세자는 부가세 포함 금액으로 청구합니다. 계약 전 반드시 부가세 포함 여부를 확인해야 예산 계획에 혼선이 없습니다.</div></details>
-  <details><summary>계약이 취소되면 수수료를 돌려받을 수 있나요?</summary><div class="faq-answer">중개가 완성(계약서 작성)된 후 취소된 경우 원칙적으로 수수료 반환이 어렵습니다. 단, 중개사의 과실이나 허위 설명으로 계약이 취소된 경우 손해배상 청구가 가능합니다. 계약 전 특약으로 수수료 반환 조건을 명시하는 방법도 있습니다.</div></details>
-  <details><summary>직거래하면 수수료가 없나요?</summary><div class="faq-answer">공인중개사를 통하지 않는 직거래는 중개수수료가 발생하지 않습니다. 단, 등기·계약서 작성 등 법적 절차를 직접 처리해야 하며 사기·분쟁 발생 시 보호받기 어렵습니다. 중개사를 통하면 분쟁 발생 시 공제조합 보상을 받을 수 있어 안전성이 높습니다.</div></details>
+  <details><summary>중개수수료는 매도인과 매수인 중 누가 내나요?</summary><div class="faq-answer">매매 시 매도인과 매수인이 각각 중개사에게 수수료를 지불합니다. 즉 같은 거래에서 매도인도 수수료를 내고 매수인도 수수료를 납니다. 임대차는 임대인과 임차인이 각각 부담합니다. 간혹 임차인이 양쪽 수수료를 다 내는 관행이 있는 지역도 있지만, 법적으로는 각자 부담이 원칙이며 상한은 양쪽 각각 동일하게 적용됩니다.</div></details>
+  <details><summary>오피스텔·상가 중개수수료 요율은 주택과 다른가요?</summary><div class="faq-answer">주거용 오피스텔(전용 85㎡ 이하, 준주거·상업지역)은 주택 기준 요율이 적용됩니다. 상가·사무실 등 비주거용 부동산은 법정 상한이 0.9%이며, 실제 요율은 거래 당사자 간 협의로 결정됩니다. 같은 오피스텔이라도 주거용인지 업무용인지에 따라 요율이 달라지므로 등기부등본상 용도를 확인하세요.</div></details>
+  <details><summary>중개수수료에 부가세(VAT)가 붙나요?</summary><div class="faq-answer">연 매출 8,000만원 이상인 일반과세자 공인중개사는 수수료에 10% 부가세를 별도 청구할 수 있습니다. 간이과세자(연 매출 8,000만원 미만)는 부가세를 별도 청구할 수 없습니다. 계약 전 "VAT 별도입니까?"를 직접 확인해두어야 예산 계획에 혼선이 없습니다.</div></details>
+  <details><summary>계약이 취소되면 수수료를 돌려받을 수 있나요?</summary><div class="faq-answer">계약서 작성이 완료된 후 취소된 경우 원칙적으로 수수료 반환이 어렵습니다. 단, 중개사의 과실·허위 설명으로 계약이 취소된 경우 손해배상 청구가 가능하며, 공제조합을 통해 보상받을 수 있습니다. 계약 전 특약으로 취소 시 수수료 반환 조건을 명시하는 방법도 있습니다.</div></details>
+  <details><summary>직거래하면 수수료가 없나요?</summary><div class="faq-answer">공인중개사를 통하지 않는 직거래는 중개수수료가 발생하지 않습니다. 단, 등기·계약서 작성 등 법적 절차를 직접 처리해야 하며, 사기·허위 계약 등 분쟁 발생 시 보호받기 어렵습니다. 중개사를 통하면 분쟁 발생 시 공제조합 보상(최대 1억원)을 받을 수 있어 안전성이 높습니다. 고가 거래일수록 중개를 통하는 것이 안전합니다.</div></details>
 </div>
 <script src="/common.js" defer></script><script src="/share.js" defer></script>
 <script src="/calculator.js" defer></script>

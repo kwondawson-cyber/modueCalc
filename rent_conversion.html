@@ -80,6 +80,11 @@
     .home-btn:hover { background: rgba(0,212,170,0.18); transform: translateY(-2px); }
     .home-btn-emoji { font-size: 20px; line-height: 1; }
     .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
+    .sim-tbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px}
+    .sim-tbl th{background:var(--surface2);color:var(--text);padding:8px 10px;border:1px solid var(--border);font-weight:600;text-align:left}
+    .sim-tbl td{padding:7px 10px;border:1px solid var(--border);color:var(--text-muted)}
+    .sim-tbl td:not(:first-child){text-align:right}
+    .sim-tbl tr.hl td{color:var(--accent);font-weight:700}
   
 .rel-section{margin:32px auto 8px;padding:0 20px;max-width:640px}
 .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
@@ -170,6 +175,19 @@
       <strong style="color:orange">⚠️ 안내</strong> 법정 전환율은 주택임대차보호법 기준 상한선입니다. 집주인과 협의하여 결정하며, 법정 상한을 초과할 수 없습니다.
     </div>
   </div>
+
+  <div class="card" id="simCard" style="margin-top:8px">
+    <div class="card-title">📊 전환율별 월세 비교 시뮬레이터</div>
+    <div class="input-group" style="margin-bottom:10px">
+      <label>전환 보증금 (전세 − 월세보증금)</label>
+      <div class="input-wrapper">
+        <input type="number" id="sim-conv-dep" value="200000000" oninput="updateConvSim()" style="font-size:16px;padding:11px 40px 11px 16px"/>
+        <span class="input-unit">원</span>
+      </div>
+    </div>
+    <div id="simConvTable"></div>
+    <p style="font-size:11px;color:var(--text-muted);margin-top:8px">※ 법정 상한 = 기준금리 + 2%p (주택임대차보호법 시행령 제2조)</p>
+  </div>
 </div>
 <script>
   let mode='to_rent';
@@ -213,6 +231,25 @@
     rc.classList.add('visible');
   }
   window.onload=()=>calculate();
+
+function updateConvSim() {
+  var dep = parseFloat(document.getElementById('sim-conv-dep').value) || 200000000;
+  var rates = [3.0, 4.0, 5.0, 6.0, 7.0];
+  var html = '<table class="sim-tbl"><thead><tr><th>전환율</th><th>월세</th><th>연간 임대료</th><th>법정 상한 여부</th></tr></thead><tbody>';
+  rates.forEach(function(r) {
+    var monthly = Math.round(dep * (r/100) / 12);
+    var annual = monthly * 12;
+    // 기준금리 + 2%p 기준(기준금리 3% 가정)
+    var legalLimit = 3.0 + 2.0;
+    var isOk = r <= legalLimit;
+    var hl = r === 5.0 ? ' class="hl"' : '';
+    var limitStr = isOk ? '✅ 상한 이내' : '⚠️ 상한 초과 가능';
+    html += '<tr'+hl+'><td>'+r.toFixed(1)+'%</td><td>'+monthly.toLocaleString()+'원/월</td><td>'+annual.toLocaleString()+'원</td><td>'+limitStr+'</td></tr>';
+  });
+  html += '</tbody></table>';
+  document.getElementById('simConvTable').innerHTML = html;
+}
+document.addEventListener('DOMContentLoaded', updateConvSim);
 </script>
 
 <style>
@@ -255,46 +292,66 @@
   </div>
 </div>
 <div class="seo-section">
-  <h2>전월세 전환율 계산기 — 보증금 월세 전환 기준과 법정 상한 완벽 정리</h2>
-  <h3>전월세 전환율이란 무엇인가?</h3>
-  <p><strong>전월세 전환율</strong>은 전세보증금 일부 또는 전부를 월세로 바꿀 때 적용하는 연간 이율입니다. 예를 들어 전환율 5%라면 보증금 1억원을 월세로 돌릴 때 연 500만원, 즉 월 약 41.7만원의 월세를 받게 됩니다. 임대차보호법에 따라 법정 상한이 있으며, 전환율이 높을수록 임대인에게 유리하고 낮을수록 임차인에게 유리합니다.</p>
-  <p>2024년 기준 법정 전월세 전환율 상한은 <strong>한국은행 기준금리 + 3.5%p</strong>입니다. 이를 초과하는 전환율로 체결한 계약은 임차인이 초과분 반환을 청구할 수 있습니다. 계약 전 반드시 현재 기준금리를 확인해 법정 상한 이내인지 점검하는 것이 필요합니다.</p>
-  <h3>📐 전월세 전환 계산 공식</h3>
-  <p>전세보증금에서 월세보증금을 뺀 금액이 월세로 전환되는 기준 금액(전환 보증금)이 됩니다. 이 금액에 전환율을 곱하고 12로 나누면 월 납부 월세가 계산됩니다. 반대로 현재 월세와 보증금에서 역산해 실질 전환율을 구하면 계약 조건이 적정한지 판단할 수 있습니다.</p>
+  <h2>전월세 전환율이란 — 왜 임차인에게 중요한 숫자인가</h2>
+  <p>전월세 전환율은 전세보증금의 일부 또는 전부를 월세로 전환할 때 적용하는 연간 이율입니다. 집주인이 임의로 정하는 것처럼 보이지만, 주택임대차보호법에 따라 법정 상한이 존재합니다. 전환율이 높을수록 임대인에게 유리하고 임차인의 월세 부담이 커지므로, 임차인은 계약 전에 반드시 이 비율을 확인해야 합니다.</p>
+  <p>전월세 전환율은 금리와 밀접하게 연동됩니다. 기준금리가 높을 때는 전세보증금을 예금에 넣어도 이자 수익이 크기 때문에 전세 유지가 유리할 수 있고, 기준금리가 낮아지면 임대인 입장에서 전세금을 운용해 얻는 수익이 줄어 월세 전환을 선호하게 됩니다. 즉 금리 흐름에 따라 전세 vs 월세의 경제적 유불리가 달라집니다. 위 계산기로 현재 조건에서 어느 쪽이 유리한지 시뮬레이션해보세요.</p>
   <div class="formula-box">월세 = (전세보증금 − 월세보증금) × 전환율 ÷ 12
-실질 전환율 = 월세 × 12 ÷ 전환 보증금 × 100
+전환 보증금 = 전세보증금 − 월세보증금
 
-예) 전세 3억 → 보증금 5천만·전환율 5%
-전환 보증금 = 2억 5천만원
-월세 = 250,000,000 × 5% ÷ 12 = 약 104만원</div>
-  <h3>📊 전환율별 월세 비교 (전환 보증금 1억원 기준)</h3>
-  <p>같은 보증금이라도 전환율에 따라 월세 부담이 크게 달라집니다. 전환율이 1%p 오를 때마다 전환 보증금 1억원 기준 월세가 약 8.3만원 증가합니다. 계약 협상 시 전환율 1%p 차이가 연간 100만원의 주거비 차이를 만든다는 점을 기억하세요.</p>
+역산: 실질 전환율 = 월세 × 12 ÷ 전환 보증금 × 100
+
+예) 전세 3억 → 보증금 5천만 · 전환율 5%
+  전환 보증금 = 2억 5천만원
+  월세 = 250,000,000 × 5% ÷ 12 ≈ 1,041,667원 ≈ 약 104만원</div>
+  <p>실질 전환율을 역산해두면 집주인이 제시하는 월세 조건이 법정 상한 이내인지 바로 확인할 수 있습니다. 예를 들어 전환 보증금 1억원에 월세 70만원이라면 실질 전환율 = 70만 × 12 ÷ 1억 × 100 = 8.4%로, 법정 상한을 초과하는지 계산 가능합니다. 위 계산기에서 실질 전환율도 함께 확인해보세요.</p>
+
+  <h2>2026년 법정 전월세 전환율 상한 — 기준금리 + 2%p의 의미</h2>
+  <p>주택임대차보호법 시행령 제2조에 따라 전월세 전환율 상한은 한국은행 기준금리에 2%p를 더한 값입니다. 이 상한을 초과해서 체결된 전환 계약은 임차인이 초과분의 반환을 청구할 수 있습니다. 기준금리가 변동될 때마다 법정 상한도 함께 바뀌므로, 계약 시점의 기준금리를 한국은행 홈페이지에서 확인하는 것이 중요합니다.</p>
+  <p>법정 상한이 존재한다는 것은 임차인에게 강력한 협상 도구가 됩니다. 집주인이 상한을 넘는 전환율을 요구한다면 법적 근거를 들어 거부할 수 있고, 이미 초과 계약이 체결됐다면 초과분 반환 청구가 가능합니다. 다만 실제 시장에서는 법정 상한보다 낮은 전환율로 협상되는 경우도 많으므로, 상한을 기준선으로 협상에 활용하는 것이 좋습니다.</p>
   <table>
-    <thead><tr><th>전환율</th><th>월세</th><th>연간 임대료</th><th>비고</th></tr></thead>
+    <thead><tr><th>법정 근거</th><th>상한 공식</th><th>기준금리 예시</th><th>상한 전환율</th></tr></thead>
     <tbody>
+      <tr><td>주택임대차보호법 시행령 제2조</td><td>기준금리 + 2%p</td><td>2.5%</td><td>4.5%</td></tr>
+      <tr><td rowspan="2">(동일)</td><td rowspan="2">(동일)</td><td>3.0%</td><td>5.0%</td></tr>
+      <tr><td>3.5%</td><td>5.5%</td></tr>
+    </tbody>
+  </table>
+  <div class="tip-box"><strong>💡 상가건물과 주택 상한율은 다릅니다.</strong> 주택임대차보호법 상한은 기준금리+2%p이지만, 상가건물임대차보호법의 차임 전환율 상한은 12% 또는 기준금리+4.5%p 중 낮은 쪽입니다. 주거용 오피스텔은 주택임대차보호법 적용을 받아 기준금리+2%p가 상한입니다.</div>
+
+  <h2>전환율별 월세 비교표 — 전환 보증금 1억 기준</h2>
+  <p>같은 전환 보증금이라도 전환율에 따라 월세 부담이 얼마나 달라지는지 파악해두는 것이 중요합니다. 전환율 1%p 차이가 전환 보증금 1억원 기준으로 월세 약 8.3만원, 연간 약 100만원의 차이를 만들어냅니다. 전환율 협상에서 0.5%p라도 낮추면 연간 50만원을 아낄 수 있다는 뜻입니다. 위 시뮬레이터에서 내 전환 보증금 기준으로 직접 확인해보세요.</p>
+  <table>
+    <thead><tr><th>전환율</th><th>월세 (전환보증금 1억)</th><th>연간 임대료</th><th>비고</th></tr></thead>
+    <tbody>
+      <tr><td>3.0%</td><td>약 25만원</td><td>300만원</td><td>임차인 매우 유리</td></tr>
       <tr><td>4.0%</td><td>약 33만원</td><td>400만원</td><td>임차인 유리</td></tr>
-      <tr><td>5.0%</td><td>약 42만원</td><td>500만원</td><td>시장 평균</td></tr>
+      <tr><td><strong>5.0%</strong></td><td><strong>약 42만원</strong></td><td><strong>500만원</strong></td><td><strong>시장 평균 수준</strong></td></tr>
       <tr><td>6.0%</td><td>약 50만원</td><td>600만원</td><td>임대인 유리</td></tr>
-      <tr><td>7.0%</td><td>약 58만원</td><td>700만원</td><td>법정 상한 근접</td></tr>
+      <tr><td>7.0%</td><td>약 58만원</td><td>700만원</td><td>법정 상한 근접·초과 가능</td></tr>
     </tbody>
   </table>
-  <h3>📊 지역별 평균 전월세 전환율 (2024년 기준)</h3>
-  <p>서울 아파트는 전세 수요가 많아 전환율이 상대적으로 낮게 형성됩니다. 반면 지방이나 오피스텔은 전세 수요가 적고 월세 선호가 높아 전환율이 높게 형성되는 경향이 있습니다. 임차인 입장에서는 전환율이 예금금리보다 낮은 경우 전세를 유지하는 것이 더 유리합니다.</p>
+  <p>임차인 입장에서 전환율이 본인의 예금 금리보다 낮다면 월세 전환이 불리합니다. 예를 들어 예금 금리가 연 3.5%인데 전환율이 4.0%라면, 전환 보증금을 예금에 넣어도 얻는 이자(3.5%)보다 더 많은 월세(4.0% 상당)를 내야 하므로 전세를 유지하는 것이 유리합니다. 반대로 전환율이 예금 금리보다 낮다면 월세 전환도 나쁘지 않습니다.</p>
+
+  <h2>전세 vs 월세 — 어느 쪽이 더 유리한지 판단하는 기준</h2>
+  <p>전세와 월세의 경제적 유불리는 단순 비교가 어렵습니다. 전세는 보증금이라는 큰 목돈이 묶이지만 월세를 내지 않아도 되고, 월세는 보증금 부담이 적지만 매달 고정 지출이 생깁니다. 핵심 판단 기준은 전환 보증금을 예금에 넣으면 얻는 이자(기회비용)와 지불해야 하는 월세를 비교하는 것입니다.</p>
   <table>
-    <thead><tr><th>지역·유형</th><th>평균 전환율</th><th>특징</th></tr></thead>
+    <thead><tr><th>구분</th><th>전세 유지가 유리한 경우</th><th>월세 전환이 유리한 경우</th></tr></thead>
     <tbody>
-      <tr><td>서울 아파트</td><td>4.0~5.0%</td><td>전세 수요 많아 전환율 낮음</td></tr>
-      <tr><td>수도권 빌라·오피스텔</td><td>5.0~6.5%</td><td>전세 리스크로 월세 비중 증가</td></tr>
-      <tr><td>지방 광역시</td><td>5.5~7.0%</td><td>전세 수요 감소 추세</td></tr>
+      <tr><td>금리 조건</td><td>전환율 > 예금 금리</td><td>전환율 ≤ 예금 금리</td></tr>
+      <tr><td>자금 상황</td><td>보증금 마련 가능</td><td>목돈 부족, 유동성 필요</td></tr>
+      <tr><td>거주 기간</td><td>2년 이상 장기 거주</td><td>단기 거주 예정</td></tr>
+      <tr><td>전세 리스크</td><td>보증보험 가입 가능 시</td><td>깡통전세 우려 시</td></tr>
+      <tr><td>사업자</td><td>해당 없음</td><td>월세 비용처리 가능</td></tr>
     </tbody>
   </table>
-  <div class="tip-box"><strong>💡 협상 팁.</strong> 전환율이 법정 상한(기준금리+3.5%)을 초과하면 임차인은 초과분 반환을 요구할 수 있습니다. 임차인 입장에서 전환율이 예금금리보다 낮은 경우 월세 전환이 불리하므로 전세 유지를 강하게 요청할 수 있습니다. 계약 시 이 기준을 알고 협상에 임하면 불리한 조건을 피할 수 있습니다.</div>
+  <div class="tip-box"><strong>💡 전세 유지 vs 월세 전환 계산법.</strong> 전환 보증금 × 예금 금리 ÷ 12 = 예금 이자(월) → 이 금액이 요구 월세보다 작으면 전세가 유리, 크거나 같으면 월세가 불리하지 않습니다. 예) 전환보증금 2억 · 예금금리 3.5% → 월 이자 약 58만원. 요구 월세가 58만원 이하라면 월세도 나쁘지 않습니다.</div>
+
   <h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>법정 전월세 전환율 상한은 얼마인가요?</summary><div class="faq-answer">주택임대차보호법에 따라 전월세 전환율 상한은 한국은행 기준금리 + 3.5%p입니다. 2024년 기준금리 3.5% 기준 상한은 7.0%이며, 이를 초과하는 전환율은 무효로 임차인이 초과분 반환을 청구할 수 있습니다. 기준금리가 변동되면 상한도 함께 변동됩니다.</div></details>
-  <details><summary>월세에서 전세로 역전환도 가능한가요?</summary><div class="faq-answer">네, 임대인과 합의하면 월세를 전세보증금으로 전환할 수 있습니다. 역전환 시에도 동일한 전환율 공식을 적용하며 임대인의 동의와 계약서 재작성이 필요합니다. 금리 인하 시기에는 임차인이 전세 전환을 선호하는 경향이 있습니다.</div></details>
-  <details><summary>전세보증금 일부만 월세로 전환할 수 있나요?</summary><div class="faq-answer">가능합니다. 전체 전세금 중 일부만 월세로 전환하는 것을 보증부 월세(반전세)라 합니다. 예를 들어 전세 3억 중 1억만 월세로 전환하고 나머지 2억은 보증금으로 유지할 수 있어 임차인 초기 자금 부담을 줄일 수 있습니다.</div></details>
-  <details><summary>오피스텔 전월세 전환율은 아파트와 다른가요?</summary><div class="faq-answer">법적 상한은 동일하지만 시장에서는 오피스텔이 아파트보다 전환율이 높게 형성됩니다. 오피스텔은 전세 수요가 적어 월세 비중이 높으며 평균 전환율은 5~7% 수준입니다. 주거용 오피스텔은 주택임대차보호법이 적용되므로 법정 상한 규제를 받습니다.</div></details>
-  <details><summary>전환율이 법정 상한을 초과하는지 어떻게 확인하나요?</summary><div class="faq-answer">실질 전환율 = 월세 × 12 ÷ 전환 보증금 × 100으로 계산합니다. 예를 들어 전환 보증금 1억원에 월세 60만원이라면 전환율 = 60만 × 12 ÷ 1억 × 100 = 7.2%입니다. 현재 기준금리 3.5%에 3.5%를 더한 7.0%가 상한이므로 이 경우 초과에 해당해 임차인이 초과분 반환을 요구할 수 있습니다.</div></details>
+  <details><summary>법정 전월세 전환율 상한은 얼마인가요?</summary><div class="faq-answer">주택임대차보호법 시행령 제2조에 따라 전환율 상한은 한국은행 기준금리 + 2%p입니다. 기준금리가 변동되면 상한도 함께 바뀝니다. 이 상한을 초과하는 전환율로 체결된 계약은 임차인이 초과분 반환을 청구할 수 있습니다. 계약 전 한국은행 홈페이지에서 현재 기준금리를 확인하세요.</div></details>
+  <details><summary>월세에서 전세로 역전환도 가능한가요?</summary><div class="faq-answer">네, 임대인과 합의하면 월세를 전세보증금으로 전환할 수 있습니다. 역전환 시에도 동일한 전환율 공식을 적용하며, 임대인의 동의와 계약서 재작성이 필요합니다. 기준금리가 낮아지는 시기(저금리 환경)에는 임대인이 전세 전환을 꺼리는 경향이 있어 협상이 어려울 수 있습니다.</div></details>
+  <details><summary>전세보증금 일부만 월세로 전환할 수 있나요?</summary><div class="faq-answer">가능합니다. 전체 전세금 중 일부만 월세로 전환하는 것을 보증부 월세(반전세)라 합니다. 예를 들어 전세 3억 중 1억만 월세로 전환하고 나머지 2억은 보증금으로 유지할 수 있어 초기 자금 부담을 줄이면서 월세도 낮출 수 있습니다. 위 계산기에서 전환 보증금 1억, 월세보증금 2억으로 입력해 계산해보세요.</div></details>
+  <details><summary>오피스텔 전월세 전환율은 아파트와 다른가요?</summary><div class="faq-answer">법적 상한은 동일하지만(기준금리+2%p), 시장에서는 오피스텔이 아파트보다 전환율이 높게 형성됩니다. 오피스텔은 전세 수요가 적고 월세 선호가 높아 평균 전환율이 4~6% 수준으로, 아파트(3~5%)보다 높습니다. 주거용 오피스텔은 주택임대차보호법 적용을 받으므로 법정 상한은 동일합니다.</div></details>
+  <details><summary>전환율이 법정 상한을 초과하는지 어떻게 확인하나요?</summary><div class="faq-answer">실질 전환율 = 월세 × 12 ÷ 전환 보증금 × 100으로 계산합니다. 예를 들어 전환 보증금 1억원에 월세 60만원이라면 전환율 = 60만 × 12 ÷ 1억 × 100 = 7.2%입니다. 현재 기준금리(예: 3.0%) + 2%p = 5.0%가 상한이므로 이 경우 2.2%p 초과에 해당합니다. 초과분에 대해 임차인은 임대인에게 반환을 청구할 수 있습니다.</div></details>
 </div>
 <script src="/common.js" defer></script><script src="/share.js" defer></script>
 <script src="/calculator.js" defer></script>
