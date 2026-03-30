@@ -267,9 +267,61 @@ function updateCustoms(){
   }).join('');
 
   document.getElementById('customsResult').className='result-section show';
+  updateSimCustoms();
 }
+
+function updateSimCustoms() {
+  const price = parseFloat(document.getElementById('foreignPrice')?.value?.replace(/,/g,'')) || 0;
+  const ship  = parseFloat(document.getElementById('shippingFee')?.value?.replace(/,/g,'')) || 0;
+  const rate  = parseFloat(document.getElementById('exchangeRate')?.value?.replace(/,/g,'')) || 1350;
+  const krw   = (price + ship) * rate;
+  const tbody = document.getElementById('simCustomsBody');
+  if (!tbody) return;
+  const ITEMS = [
+    { name:'컴퓨터·노트북', rate:0 },
+    { name:'스마트폰·태블릿', rate:0.08 },
+    { name:'화장품·스킨케어', rate:0.08 },
+    { name:'건강기능식품', rate:0.08 },
+    { name:'의류·신발', rate:0.13 },
+    { name:'가방·잡화', rate:0.20 },
+    { name:'주류', rate:0.40 },
+  ];
+  const f = n => Math.round(n).toLocaleString('ko-KR') + '원';
+  tbody.innerHTML = ITEMS.map(it => {
+    const tariff = Math.round(krw * it.rate);
+    const vat = Math.round((krw + tariff) * 0.1);
+    const total = tariff + vat;
+    return `<tr>
+      <td style="padding:8px 10px;border:1px solid #30363d;color:#e6edf3;font-weight:600">${it.name}</td>
+      <td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#8b949e">${(it.rate*100).toFixed(0)}%</td>
+      <td style="padding:8px 10px;border:1px solid #30363d;text-align:right;color:#8b949e">${f(tariff)}</td>
+      <td style="padding:8px 10px;border:1px solid #30363d;text-align:right;color:#8b949e">${f(vat)}</td>
+      <td style="padding:8px 10px;border:1px solid #30363d;text-align:right;color:#00d4aa;font-weight:700">${f(total)}</td>
+    </tr>`;
+  }).join('');
+}
+
 updateCustoms();
 </script>
+
+  <!-- 품목별 세금 빠른 비교 시뮬레이터 -->
+  <div class="card" id="simCard" style="margin-top:0">
+    <div class="card-title">⚡ 품목별 관세 즉시 비교</div>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">위에 입력한 금액·환율 기준으로 품목별 예상 세금을 한눈에 비교합니다. (입력값 변경 시 자동 업데이트)</p>
+    <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:13px">
+        <thead><tr>
+          <th style="padding:8px 10px;text-align:left;background:#21262d;color:#8b949e;border:1px solid #30363d">품목</th>
+          <th style="padding:8px 10px;text-align:center;background:#21262d;color:#8b949e;border:1px solid #30363d">관세율</th>
+          <th style="padding:8px 10px;text-align:right;background:#21262d;color:#8b949e;border:1px solid #30363d">관세</th>
+          <th style="padding:8px 10px;text-align:right;background:#21262d;color:#8b949e;border:1px solid #30363d">부가세</th>
+          <th style="padding:8px 10px;text-align:right;background:#21262d;color:#00d4aa;border:1px solid #30363d">총 세금</th>
+        </tr></thead>
+        <tbody id="simCustomsBody"></tbody>
+      </table>
+    </div>
+    <div style="margin-top:8px;font-size:11px;color:var(--text-muted);line-height:1.7">※ 관세율은 일반 기준이며 품목·원산지에 따라 다를 수 있습니다.</div>
+  </div>
 
 </div>
 
@@ -368,6 +420,8 @@ updateCustoms();
   <p>납부 기한(30일) 내에 세금을 내지 않으면 물품은 반송 또는 폐기됩니다. 또한 목록통관 불가 품목(건강기능식품·식품·동식물 등)은 추가 서류나 검역 결과서를 제출해야 할 수 있어 통관에 훨씬 더 오래 걸릴 수 있습니다. 건강기능식품을 직구할 때는 개인 사용 목적임을 증명하는 서류를 미리 준비해두는 것이 좋습니다.</p>
 
   <h2>자주 묻는 질문 (FAQ)</h2>
+  <p>해외직구 관세와 관련해 실무에서 자주 발생하는 질문들을 정리했습니다. 면세 한도 오해로 인한 과세, 배송비 포함 여부, 배송대행지 합포장 합산 과세 등이 가장 흔한 실수입니다.</p>
+  <p>관세 납부나 통관 관련 상세 문의는 관세청 전자통관시스템 UNI-PASS(unipass.customs.go.kr) 또는 관세청 콜센터(☎ 125)를 이용하면 무료로 상담받을 수 있습니다.</p>
   <details><summary>관세와 부가세를 같이 내야 하나요?</summary><div class="faq-answer">네. 관세 과세 대상이면 관세와 함께 부가세(10%)도 납부합니다. 부가세 과세표준은 물품가+배송비+관세의 합산 금액으로, 관세가 높을수록 부가세도 증가합니다. 면세 한도를 넘기면 소액이라도 전체 금액에 관세와 부가세가 부과됩니다.</div></details>
   <details><summary>미국 직구 면세 한도가 200달러인가요, 150달러인가요?</summary><div class="faq-answer">두 가지가 다릅니다. <strong>관세 면제</strong> 기준은 150달러 이하입니다. <strong>목록통관(간이통관)</strong> 가능 한도는 200달러 이하입니다. 즉, 150~200달러 구간의 미국 물품은 목록통관으로 빠르게 통관할 수 있지만 관세는 납부해야 합니다. 완전 면세(관세+부가세 없음)를 원한다면 물품가+배송비 합산 150달러 이하여야 합니다.</div></details>
   <details><summary>직구 물품이 통관 보류되면 어떻게 되나요?</summary><div class="faq-answer">세관에서 과세 통보서(문자·앱)가 발송됩니다. 고지된 세금을 납부하면 수령할 수 있고, 30일 내 납부하지 않으면 반송 또는 폐기됩니다. 목록통관 불가 품목(건강기능식품·식품 등)은 추가 서류 제출이 필요할 수 있습니다.</div></details>

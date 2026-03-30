@@ -188,6 +188,25 @@
       ⚠️ 은행 금리는 2026년 6월 출시 시점에 확정됩니다. 실제 수령액과 다를 수 있으며, 만기 전 해지 시 정부 기여금 미지급 및 이자에 15.4% 세금이 부과됩니다.
     </div>
   </div>
+
+  <!-- 납입액별 비교 시뮬레이터 -->
+  <div class="card" id="simCard" style="margin-top:16px">
+    <div class="card-title">📊 납입액별 만기 수령액 비교</div>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">현재 설정 금리 기준, 월 납입액별 일반형·우대형 예상 수령액을 비교합니다. (슬라이더 조정 시 자동 업데이트)</p>
+    <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:13px" id="simTable">
+        <thead><tr>
+          <th style="padding:8px 10px;text-align:left;background:#21262d;color:#8b949e;border:1px solid #30363d;font-weight:600">월 납입액</th>
+          <th style="padding:8px 10px;text-align:right;background:#21262d;color:#8b949e;border:1px solid #30363d;font-weight:600">원금 (3년)</th>
+          <th style="padding:8px 10px;text-align:right;background:rgba(0,212,170,0.06);color:#00d4aa;border:1px solid #30363d;font-weight:600">일반형 (기여금 6%)</th>
+          <th style="padding:8px 10px;text-align:right;background:rgba(0,149,255,0.06);color:#0095ff;border:1px solid #30363d;font-weight:600">우대형 (기여금 12%)</th>
+        </tr></thead>
+        <tbody id="simBody"></tbody>
+      </table>
+    </div>
+    <div style="margin-top:8px;font-size:11px;color:var(--text-muted);line-height:1.7">※ 단리 계산 기준. 이자·기여금 전액 비과세 가정. 실제 은행 금리는 2026년 6월 출시 시점에 확정됩니다.</div>
+  </div>
+
 </div>
 
 <script>
@@ -201,9 +220,11 @@
   });
   document.getElementById('rate-slider').addEventListener('input', e => {
     document.getElementById('rate').value = e.target.value;
+    updateSim();
   });
   document.getElementById('rate').addEventListener('input', e => {
     document.getElementById('rate-slider').value = e.target.value;
+    updateSim();
   });
 
   function setYouthType(t) {
@@ -244,9 +265,32 @@
     document.getElementById('d-total-benefit').textContent = `${fmt(totalBenefit)}원`;
     document.getElementById('d-yield').textContent = `연 ${effectiveRate}% 효과`;
     document.getElementById('resultCard').classList.add('visible');
+    updateSim();
   }
 
-  window.onload = () => calculate();
+  function updateSim() {
+    const annualRate = parseFloat(document.getElementById('rate').value) / 100;
+    const months = 36;
+    const AMOUNTS = [100000, 200000, 300000, 400000, 500000];
+    const tbody = document.getElementById('simBody');
+    if (!tbody) return;
+    tbody.innerHTML = AMOUNTS.map(m => {
+      const principal = m * months;
+      let interest = 0;
+      for (let i = 1; i <= months; i++) interest += m * annualRate * ((months - i + 1) / 12);
+      const gen = Math.round(principal + interest + m * 0.06 * months);
+      const pre = Math.round(principal + interest + m * 0.12 * months);
+      const f = n => n.toLocaleString('ko-KR') + '원';
+      return `<tr>
+        <td style="padding:8px 10px;border:1px solid #30363d;color:#e6edf3;font-weight:700">${(m/10000).toFixed(0)}만원</td>
+        <td style="padding:8px 10px;border:1px solid #30363d;color:#8b949e;text-align:right">${f(principal)}</td>
+        <td style="padding:8px 10px;border:1px solid #30363d;color:#00d4aa;text-align:right;font-weight:700">${f(gen)}</td>
+        <td style="padding:8px 10px;border:1px solid #30363d;color:#0095ff;text-align:right;font-weight:700">${f(pre)}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  window.onload = () => { calculate(); updateSim(); };
 </script>
 
 <div class="rel-section">
@@ -271,6 +315,7 @@
 
   <h2>🌱 청년미래적금이란? — 2026년 핵심 가이드</h2>
   <p><strong>청년미래적금</strong>은 만 19~34세 청년이 월 최대 50만원을 저축하면 정부가 기여금을 지원해 3년 만기 시 최대 <strong>약 2,200만원</strong>을 수령할 수 있는 정책형 적금입니다. 2026년 6월 출시 예정으로, 청년도약계좌(5년)보다 만기가 짧고 기여금 비율이 더 높습니다. 은행 이자는 비과세 혜택까지 적용되어 실질 수익률이 일반 적금 대비 현저히 높습니다.</p>
+  <p>정부 기여금은 별도 신청 없이 매달 자동으로 지급되며, 만기까지 유지하면 이자+기여금 전액이 비과세로 수령됩니다. 청년도약계좌와 중복 가입은 불가능하므로 두 상품을 비교한 뒤 본인에게 유리한 상품을 선택하는 것이 중요합니다. 아래 납입액별 비교 시뮬레이터에서 내 납입 계획에 맞는 예상 수령액을 확인하세요.</p>
 
   <h3>📋 청년미래적금 핵심 스펙</h3>
   <table>
@@ -289,6 +334,7 @@
 
   <h2>📐 수령액 계산 공식 — 단리 + 기여금 구조</h2>
   <p>청년미래적금은 단리 방식으로 이자를 계산하며, 여기에 정부 기여금이 추가됩니다. 이자는 비과세이므로 세금 차감 없이 전액 수령합니다.</p>
+  <p>일반 정기적금과 달리 첫 달 납입액은 36개월 치, 마지막 달 납입액은 1개월 치 이자가 붙는 방식입니다. 위 계산기의 금리 슬라이더를 조정하면 금리 변화에 따른 수령액을 즉시 확인할 수 있으며, 아래 납입액별 비교표도 자동으로 업데이트됩니다.</p>
 
   <div class="formula-box">
 만기 수령액 = 원금 + 은행 이자(비과세) + 정부 기여금
@@ -308,6 +354,8 @@
   </div>
 
   <h2>🔍 일반형 vs 우대형 — 조건과 혜택 완전 비교</h2>
+  <p>두 유형의 차이는 정부 기여금 비율입니다. 일반형은 납입액의 6%, 우대형은 납입액의 12%를 지원받습니다. 월 50만원 납입 기준으로 3년간 기여금 차이가 108만원에 달하므로, 우대형 조건(중소기업 신규취업 6개월 이내·소상공인)을 충족한다면 반드시 우대형으로 신청해야 합니다.</p>
+  <p>우대형 소득 조건은 개인소득 3,600만원 이하로, 일반형 조건(6,000만원 이하)보다 엄격합니다. 소득 기준은 직전 연도 종합소득세 신고 또는 근로소득 원천징수 자료를 기준으로 하며, 가입 신청 시 은행에서 확인합니다.</p>
 
   <h3>가입 조건 비교</h3>
   <table>
@@ -335,6 +383,7 @@
 
   <h2>📊 청년미래적금 vs 청년도약계좌 vs ISA 비교</h2>
   <p>청년 대상 주요 저축 상품 3가지를 한눈에 비교합니다. 중복 가입 제한이 있으므로 본인 상황에 맞는 상품을 선택하는 것이 중요합니다.</p>
+  <p>우대형 조건(중소기업 신규취업자·소상공인)에 해당한다면 기여금 12%를 지급하는 청년미래적금이 단연 유리합니다. 5년 장기 저축이 가능하고 소득이 낮은 경우에는 청년도약계좌의 누적 기여금이 더 클 수 있으며, 소득 조건을 충족하지 못하거나 투자 다변화가 필요한 경우에는 ISA가 현실적인 대안입니다.</p>
   <table>
     <thead><tr><th>구분</th><th>청년미래적금</th><th>청년도약계좌</th><th>ISA (서민형)</th></tr></thead>
     <tbody>
@@ -354,6 +403,8 @@
   · 투자 다양화 원하거나 소득 조건 미충족 → <strong>ISA</strong>로 ETF·펀드 운용</div>
 
   <h2>📋 청년미래적금 가입 전 체크리스트</h2>
+  <p>청년미래적금은 3년 만기를 유지해야 모든 혜택을 받을 수 있습니다. 가입 전 아래 다섯 가지 사항을 반드시 확인하고, 3년간 납입을 지속할 수 있는지 자금 계획을 먼저 세우세요.</p>
+  <p>특히 현재 청년도약계좌를 유지 중이라면 환승 시 기존 도약계좌의 남은 기간과 누적 기여금을 꼼꼼히 비교해야 합니다. 무조건 갈아타는 것이 유리하지 않을 수 있으므로 본인 상황에 맞게 판단하세요.</p>
   <ol>
     <li><strong>나이 확인</strong>: 가입 시점 기준 만 19세 이상 ~ 34세 이하인지 확인</li>
     <li><strong>소득 조건</strong>: 직전 연도 개인소득 6,000만원(우대형 3,600만원) 이하인지 확인 — 국세청 홈택스에서 소득 확인 가능</li>
@@ -365,6 +416,8 @@
   <div class="warn-box">⚠️ <strong>중도해지 시 손실 예시</strong>: 월 50만원씩 18개월 납입 후 해지하면 정부 기여금 0원 + 이자에 15.4% 세금 부과. 원금 900만원에 세후 이자 약 19만원만 수령하게 됩니다. 납입 원금 대비 실질 손실은 없지만 기대했던 기여금 혜택을 모두 잃게 됩니다. 3년 만기를 반드시 유지하세요.</div>
 
   <h2>자주 묻는 질문 (FAQ)</h2>
+  <p>청년미래적금에 대해 가장 많이 묻는 8가지 질문을 정리했습니다. 가입 시기·우대형 조건·중도해지 불이익·ISA 병행 가능 여부 등을 꼼꼼히 확인하세요.</p>
+  <p>※ 이 계산기는 2026년 3월 기준 발표된 내용을 바탕으로 제작되었습니다. 은행 금리·세부 규정은 2026년 6월 출시 시점에 최종 확정되므로, 실제 가입 전 금융위원회 공식 발표 및 가입 은행 안내를 반드시 확인하시기 바랍니다.</p>
   <details><summary>청년미래적금은 언제, 어디서 가입하나요?</summary><div class="faq-answer">2026년 6월 출시 예정입니다. KB국민, 신한, 우리, 하나, 농협 등 협약 은행의 모바일 앱 또는 영업점에서 신청할 수 있습니다. 출시 초기에는 접속이 몰릴 수 있으므로 출시 당일 오전 일찍 앱으로 신청하는 것을 권장합니다. 가입 전 앱 업데이트와 공인인증서(또는 공동인증서)를 미리 준비해 두세요.</div></details>
   <details><summary>청년도약계좌를 유지하면서 청년미래적금에 가입할 수 있나요?</summary><div class="faq-answer">아닙니다. 두 상품은 중복 가입이 불가능합니다. 청년도약계좌 가입자는 갈아타기(환승)가 허용될 예정이나, 기존 도약계좌의 남은 기간과 누적 기여금 수령액을 꼼꼼히 비교한 후 결정하세요. 우대형 조건을 충족한다면 미래적금이 기여금 측면에서 유리할 수 있습니다.</div></details>
   <details><summary>우대형 조건인 '중소기업 신규취업자'는 어떻게 확인하나요?</summary><div class="faq-answer">건강보험 직장가입자 자격 취득일 기준 6개월 이내인 중소기업 재직자가 해당됩니다. 중소기업 여부는 중소기업확인서(중소벤처기업부 발급) 또는 사업자등록 업종·매출 기준으로 판단하며, 신청 시 은행에서 서류를 안내합니다. 취업 직후 바로 신청하는 것이 유리합니다.</div></details>
