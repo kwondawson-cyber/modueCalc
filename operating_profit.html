@@ -125,6 +125,7 @@
 
   <div class="card">
     <h2>💰 매출액</h2>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px;line-height:1.7">배달앱·온라인 등 채널별 월 매출을 항목별로 구분해 입력하세요. 채널별로 분리하면 수익성 분석이 더 정확해집니다.</p>
     <div id="rev-list">
       <div class="cost-row"><input type="text" value="매장 매출" /><input type="number" placeholder="월 금액(원)" /><button class="btn-del" onclick="delRow(this)">✕</button></div>
     </div>
@@ -134,6 +135,7 @@
 
   <div class="card">
     <h2>🥩 매출원가 (재료비·상품구입비)</h2>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px;line-height:1.7">재료비·식재료비·상품구입비 등 매출과 직접 연결된 원가 항목을 입력합니다. 원가율(원가÷매출)은 업종마다 다르며, 외식업 기준 30~40%가 일반적입니다.</p>
     <div id="cogs-list">
       <div class="cost-row"><input type="text" value="재료비·식재료" /><input type="number" placeholder="월 금액(원)" /><button class="btn-del" onclick="delRow(this)">✕</button></div>
     </div>
@@ -143,6 +145,7 @@
 
   <div class="card">
     <h2>🏪 판매관리비 (고정비·운영비)</h2>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px;line-height:1.7">임차료·인건비 등 고정비와 광고비·배달앱 수수료·카드수수료 등 운영비를 모두 입력합니다. 판관비율이 낮을수록 영업이익률이 높아집니다.</p>
     <div id="opex-list">
       <div class="cost-row"><input type="text" value="임차료" /><input type="number" placeholder="월 금액(원)" /><button class="btn-del" onclick="delRow(this)">✕</button></div>
       <div class="cost-row"><input type="text" value="인건비 합계" /><input type="number" placeholder="월 금액(원)" /><button class="btn-del" onclick="delRow(this)">✕</button></div>
@@ -155,6 +158,7 @@
 
   <div class="card">
     <h2>🏦 영업외 비용 (이자 등, 선택)</h2>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px;line-height:1.7">대출이자·투자손실 등 본업 외에서 발생하는 비용입니다. 없으면 비워두세요. 이 항목은 순이익 계산에만 영향을 주며 영업이익에는 포함되지 않습니다.</p>
     <div id="nonop-list">
       <div class="cost-row"><input type="text" value="대출이자" /><input type="number" placeholder="월 금액(원)" /><div></div></div>
     </div>
@@ -235,6 +239,31 @@
   </div>
 
 </div>
+
+<!-- simCard: 매출·이익률별 영업이익 즉시 비교 -->
+<div style="max-width:680px;margin:0 auto;padding:0 20px 16px">
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px" id="simCard">
+    <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:10px">⚡ 매출·이익률별 영업이익 즉시 비교</div>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">월 매출을 입력하면 다양한 영업이익률에서 실제 영업이익이 얼마인지 한눈에 비교합니다.</p>
+    <div style="margin-bottom:14px">
+      <div style="font-size:11px;color:var(--text-muted);margin-bottom:6px">월 매출액 (원)</div>
+      <input type="number" id="sim-rev" value="30000000" oninput="simProfit()"
+        style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:17px;font-weight:700;color:var(--text);font-family:inherit;outline:none" />
+    </div>
+    <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:13px">
+        <thead><tr>
+          <th style="padding:8px 12px;text-align:left;background:var(--surface2);color:var(--text-muted);border:1px solid var(--border)">영업이익률</th>
+          <th style="padding:8px 10px;text-align:right;background:var(--surface2);color:var(--accent);border:1px solid var(--border)">월 영업이익</th>
+          <th style="padding:8px 10px;text-align:right;background:var(--surface2);color:var(--text-muted);border:1px solid var(--border)">연간 영업이익</th>
+          <th style="padding:8px 10px;text-align:left;background:var(--surface2);color:var(--text-muted);border:1px solid var(--border)">해당 업종</th>
+        </tr></thead>
+        <tbody id="sim-profit-body"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
 <div class="rel-section">
     <h2>📌 함께 쓰면 유용한 계산기</h2>
     <div class="rel-grid">
@@ -315,6 +344,8 @@ EBITDA = 영업이익 + 감가상각비 + 무형자산상각비</div>
   <p>이 예시에서 영업이익률 26.7%는 외식업 평균(3~10%)을 크게 웃도는 수준입니다. 현실에서는 임차료·인건비 부담으로 대부분의 소규모 카페가 5~15% 수준을 기록합니다. 본인 사업의 실제 수치를 입력해 위 계산기에서 직접 확인해보세요.</p>
 
   <h2>자주 묻는 질문 (FAQ)</h2>
+  <p>영업이익 계산에서 자주 헷갈리는 5가지 질문을 정리했습니다. EBITDA와의 차이, 영업이익 적자에도 순이익 흑자인 경우, 판관비 항목, 원가율 절감 방법 등 경영 실무에 바로 적용할 수 있는 내용입니다.</p>
+  <p>소상공인은 월 단위 손익계산서를 꾸준히 작성하는 습관이 중요합니다. 매달 같은 형식으로 기록하면 계절별 매출 패턴, 비용 증감 추이를 파악해 경영 결정에 활용할 수 있습니다.</p>
   <details><summary>영업이익과 EBITDA의 차이는 무엇인가요?</summary><div class="faq-answer">EBITDA는 영업이익에 감가상각비와 무형자산상각비를 더한 값입니다. 감가상각비는 현금 지출 없이 발생하는 비용이므로, EBITDA는 실제 현금 창출 능력을 더 잘 반영합니다. M&A나 기업 가치 평가 시 EBITDA 배수가 많이 활용됩니다.</div></details>
   <details><summary>영업이익이 적자인데 순이익이 흑자인 경우가 있나요?</summary><div class="faq-answer">가능합니다. 영업외 수익(자산 매각 차익·이자 수익·투자 이익)이 영업 손실을 초과하면 순이익이 흑자가 될 수 있습니다. 하지만 이는 지속 가능한 수익이 아니므로, 영업이익이 계속 적자라면 본업 경쟁력에 문제가 있는 것으로 봐야 합니다.</div></details>
   <details><summary>판관비(SG&A)에는 어떤 비용이 포함되나요?</summary><div class="faq-answer">판매비에는 광고·마케팅비, 영업 인력 인건비, 포장·배송비 등이 포함됩니다. 관리비에는 경영진 급여, 사무실 임대료, 법무·회계 비용, 전산 비용 등이 포함됩니다. 스타트업은 초기 성장을 위해 판관비 비중이 높지만, 성숙 기업은 매출 대비 판관비 비율을 낮춰야 영업이익률이 개선됩니다.</div></details>
@@ -326,6 +357,32 @@ EBITDA = 영업이익 + 감가상각비 + 무형자산상각비</div>
 <script>
 const fw = n => Math.round(n).toLocaleString() + '원';
 let _rev=0, _cogs=0, _opex=0, _opProfit=0, _opRate=0;
+
+function simProfit() {
+  const rev = parseFloat(document.getElementById('sim-rev')?.value) || 30000000;
+  const RATES = [
+    { rate:3,  label:'3%', industry:'도소매·유통 하한' },
+    { rate:5,  label:'5%', industry:'외식업·건설업 평균' },
+    { rate:10, label:'10%', industry:'외식업 상한·제조업' },
+    { rate:15, label:'15%', industry:'소프트웨어·IT 하한' },
+    { rate:20, label:'20%', industry:'IT 서비스 평균' },
+    { rate:30, label:'30%', industry:'플랫폼·SaaS 수준' },
+  ];
+  const tbody = document.getElementById('sim-profit-body');
+  if (!tbody) return;
+  tbody.innerHTML = RATES.map(r => {
+    const monthly  = Math.round(rev * r.rate / 100);
+    const annually = monthly * 12;
+    return `<tr>
+      <td style="padding:8px 12px;border:1px solid var(--border);color:var(--text);font-weight:700">${r.label}</td>
+      <td style="padding:8px 10px;border:1px solid var(--border);text-align:right;color:#00d4aa;font-weight:900">${fw(monthly)}</td>
+      <td style="padding:8px 10px;border:1px solid var(--border);text-align:right;color:var(--text-muted)">${fw(annually)}</td>
+      <td style="padding:8px 10px;border:1px solid var(--border);color:var(--text-muted);font-size:12px">${r.industry}</td>
+    </tr>`;
+  }).join('');
+}
+
+window.addEventListener('DOMContentLoaded', simProfit);
 
 function addRow(listId, canDel=true) {
   const list = document.getElementById(listId);

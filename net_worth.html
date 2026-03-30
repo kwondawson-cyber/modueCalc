@@ -138,6 +138,23 @@
     </div>
     <div class="grade-bar" id="gradeBadge"></div>
   </div>
+
+  <!-- 연령대별 순자산 비교 simCard -->
+  <div class="card" id="simCard" style="margin-top:0">
+    <div class="card-title">📍 또래 중위값 대비 내 순자산 위치</div>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">연령대를 선택하면 통계청 기준 중위 순자산과 비교해 내 재무 위치를 확인할 수 있습니다.</p>
+    <div style="margin-bottom:12px">
+      <div style="font-size:11px;color:var(--text-muted);margin-bottom:6px">연령대 선택</div>
+      <select id="sim-age" onchange="simNetWorth()" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:15px;font-weight:600;color:var(--text);font-family:inherit;outline:none">
+        <option value="30,104,230">30대 (중위 1억 400만)</option>
+        <option value="40,210,410" selected>40대 (중위 2억 1,000만)</option>
+        <option value="50,280,510">50대 (중위 2억 8,000만)</option>
+        <option value="60,260,490">60대 이상 (중위 2억 6,000만)</option>
+      </select>
+    </div>
+    <div id="sim-nw-result" style="background:var(--surface2);border-radius:10px;padding:16px"></div>
+  </div>
+
 </div>
 
 <div class="rel-section">
@@ -180,6 +197,7 @@
 
   <h2>연령대별 가구 순자산 — 나는 어디에 있나</h2>
   <p>연령대가 높을수록 자산 축적 기간이 길어 순자산이 증가하는 경향이 있습니다. 50대에 정점을 찍고 60대 이후 은퇴 생활비로 소진이 시작됩니다. 내 연령대 중위값과 비교해보면 재무 목표를 현실적으로 설정할 수 있습니다.</p>
+  <p>위 시뮬레이터에서 연령대를 선택하면 내 순자산이 또래 중위값 대비 어느 수준인지 즉시 확인할 수 있습니다. 평균값에 속지 마세요 — 평균은 고자산가에 의해 크게 왜곡되기 때문에 중위값이 실질적인 비교 기준입니다.</p>
   <table>
     <thead><tr><th>연령대</th><th>평균 순자산</th><th>중위 순자산</th><th>주요 자산 구성</th></tr></thead>
     <tbody>
@@ -192,6 +210,7 @@
 
   <h2>부채 비율로 재무 건강 등급 확인하기</h2>
   <p>부채비율(Debt-to-Asset Ratio)은 총자산 대비 총부채의 비율입니다. 낮을수록 재무적으로 안정됩니다. 주택담보대출처럼 레버리지를 활용한 부채는 어느 정도 허용되지만, 신용대출·카드론 같은 고금리 소비성 부채는 가능한 한 빨리 상환해야 합니다.</p>
+  <p>이 계산기에 자산과 부채를 입력하면 부채비율과 재무 건강 등급이 자동으로 계산됩니다. 주택담보대출 중심의 부채는 자산 가치 상승으로 상쇄되는 경우가 많지만, 소비성 부채(신용카드·카드론)는 자산 가치와 무관하게 쌓이는 순수 손실이므로 반드시 구분해서 봐야 합니다.</p>
   <table>
     <thead><tr><th>부채 비율</th><th>재무 건강 등급</th><th>권고 사항</th></tr></thead>
     <tbody>
@@ -204,6 +223,7 @@
 
   <h2>순자산을 빠르게 늘리는 전략</h2>
   <p>순자산 증가는 크게 두 가지 방향입니다. 하나는 부채를 줄이는 것이고, 다른 하나는 자산을 키우는 것입니다. 두 가지를 병행할 때 가장 효과적이지만, 우선순위는 부채 금리 수준에 따라 달라집니다.</p>
+  <p>순자산을 늘리는 가장 확실한 방법은 저축률을 높이는 것입니다. 소득 대비 저축률이 10%일 때와 30%일 때의 30년 뒤 자산 차이는 단순 계산 이상으로 큽니다. 저축된 돈이 투자 원금이 되어 복리로 불어나기 때문입니다. 지출을 줄이거나 소득을 늘려 저축률을 높이는 것이 가장 확실한 순자산 성장 전략입니다.</p>
   <ul>
     <li><strong>고금리 부채 먼저 상환</strong> — 카드론(연 15~20%)·신용대출(연 5~8%)은 어떤 투자 수익률보다 높습니다. 연 10% 이상 부채는 투자보다 상환이 우선입니다.</li>
     <li><strong>저금리 부채는 레버리지 활용</strong> — 주택담보대출(연 3~5%)은 자산 가치 상승을 기대할 수 있는 상황에서 레버리지로 활용 가능합니다. 다만 금리 상승 리스크를 항상 고려하세요.</li>
@@ -212,6 +232,8 @@
   </ul>
 
   <h2>자주 묻는 질문 — 순자산 계산기</h2>
+  <p>순자산 계산에서 자주 헷갈리는 6가지 질문을 정리했습니다. 자동차·전세보증금·퇴직금의 자산 포함 여부, 부동산 평가 기준, 순자산 마이너스 대처법 등 실전에 바로 적용할 수 있는 내용입니다.</p>
+  <p>순자산은 한 번만 계산하고 끝내는 것이 아니라 분기 또는 반기마다 정기적으로 기록하는 것이 중요합니다. 순자산이 늘어나는 추세를 확인하는 것 자체가 강력한 저축 동기가 되며, 재무 목표 달성 여부를 직관적으로 파악할 수 있습니다.</p>
   <details><summary>자동차는 자산에 포함해야 하나요?</summary><div class="faq-answer">포함할 수 있지만 자동차는 매년 10~15%씩 가치가 감소하는 감가상각 자산입니다. 현재 중고 시세(KB차차차·엔카 기준)를 기준으로 입력하세요. 레저 목적 차량은 수익을 창출하지 않으므로 보수적인 재무 계획에서는 제외하는 시각도 있습니다.</div></details>
   <details><summary>전세 보증금은 자산인가요, 부채인가요?</summary><div class="faq-answer">집을 빌린 임차인 입장에서 전세 보증금은 집주인에게 맡긴 채권이므로 자산입니다. 반면 집주인은 언젠가 돌려줘야 할 부채입니다. 역전세 위험(보증금 반환 불능)이 있다면 보증금 전액을 온전한 자산으로 보기 어려울 수 있으니 전세보증보험 가입을 확인하세요.</div></details>
   <details><summary>퇴직금도 자산에 포함해야 하나요?</summary><div class="faq-answer">재직 중에도 이미 발생한 퇴직금은 법적 채권이므로 자산에 포함할 수 있습니다. 다만 실제 수령 전이고, 퇴직소득세(8~45%) 차감 후 금액이 실수령액이 됩니다. 세후 예상액 기준으로 입력하는 것이 더 정확합니다. IRP에 쌓인 퇴직연금도 동일하게 적용됩니다.</div></details>
@@ -240,6 +262,7 @@
     const d = getSum(['d1','d2','d3','d4','d5','d6']);
     document.getElementById('totalAsset').textContent = fmt(a) + '원';
     document.getElementById('totalDebt').textContent = fmt(d) + '원';
+    simNetWorth();
   }
 
 
@@ -304,7 +327,40 @@
     document.getElementById('resultCard').classList.add('visible');
   }
 
-  window.onload = () => liveSum();
+  function simNetWorth() {
+    const sel = document.getElementById('sim-age');
+    if (!sel) return;
+    const [ageKey, median, avg] = sel.value.split(',').map(Number);
+    const asset = parseFloat(['a1','a2','a3','a4','a5','a6'].reduce((s,id) => s + (parseFloat(document.getElementById(id)?.value)||0), 0));
+    const debt  = parseFloat(['d1','d2','d3','d4','d5','d6'].reduce((s,id) => s + (parseFloat(document.getElementById(id)?.value)||0), 0));
+    const net   = asset - debt;
+    const medianWon = median * 10000;
+    const avgWon    = avg    * 10000;
+    const pct = medianWon > 0 ? Math.round(net / medianWon * 100) : 0;
+    const barW = Math.max(0, Math.min(pct, 200));
+    const color = pct >= 100 ? '#00d4aa' : pct >= 60 ? '#f5a623' : '#ff6b6b';
+    const msg   = pct >= 100 ? '✅ 또래 중위값 이상' : pct >= 60 ? '⚠️ 중위값에 근접 중' : '🔴 중위값 미달';
+    document.getElementById('sim-nw-result').innerHTML = `
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+        <div style="text-align:center">
+          <div style="font-size:11px;color:#8b949e;margin-bottom:4px">내 순자산</div>
+          <div style="font-size:18px;font-weight:900;color:${color}">${fmt(net)}원</div>
+        </div>
+        <div style="text-align:center">
+          <div style="font-size:11px;color:#8b949e;margin-bottom:4px">또래 중위값</div>
+          <div style="font-size:18px;font-weight:900;color:#8b949e">${fmt(medianWon)}원</div>
+        </div>
+      </div>
+      <div style="margin-bottom:6px;font-size:12px;color:#8b949e;display:flex;justify-content:space-between">
+        <span>중위값 대비</span><span style="color:${color};font-weight:700">${pct}% ${msg}</span>
+      </div>
+      <div style="background:#0d1117;border-radius:6px;height:8px;overflow:hidden">
+        <div style="width:${Math.min(barW,100)}%;height:100%;background:${color};border-radius:6px;transition:width .5s"></div>
+      </div>
+      <div style="margin-top:10px;font-size:11px;color:#8b949e">※ 통계청 2023년 가계금융복지조사 기준. 중위값: ${median.toLocaleString()}만원 / 평균: ${avg.toLocaleString()}만원</div>`;
+  }
+
+  window.onload = () => { liveSum(); simNetWorth(); };
 </script>
 <script src="/common.js" defer></script><script src="/share.js" defer></script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));}</script>
