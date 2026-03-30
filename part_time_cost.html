@@ -157,14 +157,24 @@
     <div class="insurance-box">
       <h3>🏦 4대보험 사업주 부담 요율 (2026)</h3>
       <div class="ins-row"><span class="label">국민연금</span><span>4.75%</span></div>
-      <div class="ins-row"><span class="label">건강보험 + 장기요양</span><span>3.595% + 0.466% = 4.011%</span></div>
+      <div class="ins-row"><span class="label">건강보험 + 장기요양</span><span>3.545% + 0.459% = 4.004%</span></div>
       <div class="ins-row"><span class="label">고용보험 (사업주 측)</span><span>0.9%</span></div>
       <div class="ins-row"><span class="label">산재보험 (업종별 상이)</span><span>평균 약 1.5%</span></div>
-      <div class="ins-row"><span>합계 (산재 제외)</span><span id="ins-total-rate">약 9.4%</span></div>
+      <div class="ins-row"><span>합계 (산재 제외)</span><span id="ins-total-rate">약 9.35%</span></div>
     </div>
   </div>
 
 </div>
+
+<!-- 직원수별 인건비 시뮬레이터 -->
+<div style="max-width:700px;margin:0 auto;padding:0 20px">
+  <div class="card" id="simCard" style="display:none">
+    <div class="card-title">📊 직원 수별 월 인건비 시뮬레이터 — 규모 확장 시 총 인건비</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;line-height:1.7">첫 번째 직원 기준으로 인원 확장 시 총 인건비를 자동 계산합니다.</p>
+    <div id="simResult"></div>
+  </div>
+</div>
+
 <div class="rel-section">
     <h2>📌 함께 쓰면 유용한 계산기</h2>
     <div class="rel-grid">
@@ -177,50 +187,86 @@
   </div>
 <div class="seo-card">
   <h2>알바 인건비 계산기 — 2026년 최저임금·주휴수당·4대보험 완벽 정리</h2>
-  <h3>알바 고용 시 실제 인건비는 시급보다 훨씬 많다</h3>
-  <p>알바(아르바이트)를 고용할 때 사업주가 부담하는 실제 인건비는 시급×근무시간 외에 <strong>주휴수당, 4대보험 사업주 부담분</strong>이 추가됩니다. 주 15시간 이상 근무하면 주휴수당이 발생해 실질 인건비는 시급의 약 120~125% 수준이 됩니다. 여기에 4대보험까지 포함하면 시급의 130~135%까지 올라갑니다.</p>
-  <p>2026년 최저시급은 10,320원으로, 주 40시간 알바를 고용한다면 최소 월 2,156,880원(세전)의 인건비가 발생합니다. 4대보험 사업주 부담분(약 9%)을 더하면 실제 인건비는 약 235만원에 달합니다. 창업 전 인건비를 정확히 계산해야 수익성을 예측할 수 있습니다.</p>
-  <h3>📐 알바 인건비 계산 공식 (2026년 기준)</h3>
-  <p>사업주 입장에서의 실제 인건비는 세전 임금 외에 사업주 부담 4대보험을 더한 금액입니다. 주 40시간 미만 단기 알바는 4대보험 의무 가입 여부가 달라지므로 근로 시간을 확인해야 합니다.</p>
-  <div class="formula-box">월 임금 = 시급 × 월 소정근로시간 (+ 주휴수당)
-주 40시간: 시급 × 209시간
-주 20시간: 시급 × 104.8시간
+  <p>알바를 고용할 때 사업주가 실제로 부담하는 인건비는 <strong>시급×근무시간</strong>만이 아닙니다. 주 15시간 이상 근무하면 <strong>주휴수당</strong>이 자동 발생하고, 여기에 <strong>4대보험 사업주 부담분(약 9.35%)</strong>이 추가됩니다. 2026년 최저시급 10,320원으로 주 40시간 알바 1명을 고용하면 세전 월급만 계산하면 2,156,880원이지만, 주휴수당과 4대보험을 모두 포함하면 실제 사업주가 부담하는 금액은 <strong>약 235만원</strong>이 됩니다.</p>
+  <p>많은 자영업자와 소규모 창업자들이 알바 고용 시 시급만 보고 인건비를 산정하다가 실제로 직원을 고용한 후 예상치 못한 비용 초과를 경험합니다. 월급 외에 매달 추가로 나가는 4대보험료, 격월 정산하는 산재보험, 월 1회 납부하는 건강보험료 등 여러 항목이 있어 전체 인건비를 파악하기 어렵기 때문입니다. 이 계산기는 직원별로 정확한 총 인건비(월급+주휴수당+4대보험)를 자동으로 계산해줍니다. 계산 후 나타나는 '직원 수별 시뮬레이터'로 1~10명 규모별 월·연 인건비도 즉시 비교할 수 있습니다.</p>
+  <div class="formula-box">월 임금 = 시급 × 월 소정근로시간 (주휴수당 포함)
+주 40시간 (5일): 시급 × 209시간
+주 20시간 (5일, 일 4h): 시급 × 104.3시간
 
-사업주 4대보험 부담:
-국민연금 4.75% + 건강보험 3.595% + 고용보험 0.9% + 산재보험 ≈ 총 약 9~10%
-실 인건비 = 월 임금 × (1 + 9~10%)</div>
-  <h3>📊 시급별 고용주 실제 인건비 (주 40시간, 2026년 기준)</h3>
-  <p>아래 표는 주 40시간 알바 고용 시 시급별 고용주 실제 부담액입니다. 최저시급인 10,320원으로 고용해도 4대보험까지 포함하면 월 235만원 이상의 인건비가 발생합니다.</p>
+주휴수당 = 시급 × (주 근무시간 ÷ 5)
+  ※ 주 15시간 이상 근무자에게만 발생
+
+사업주 4대보험 부담 (2026년):
+  국민연금 4.75% + 건강보험 3.545%
+  + 장기요양 0.459% + 고용보험 0.9%
+  = 합계 약 9.354% (산재보험 별도)
+
+실 인건비 = 월 임금 × (1 + 9.354%)</div>
+
+  <h2>2026년 4대보험 사업주 부담 요율 — 왜 시급 외 추가 비용이 10%나 더 드는가</h2>
+  <p>4대보험은 국민연금·건강보험·장기요양보험·고용보험·산재보험으로 구성되며, 사업주는 근로자와 절반씩 부담합니다(산재보험은 사업주 전액). 2026년부터 국민연금 보험료율이 9%→9.5%로 인상되어 사업주 부담도 4.5%→4.75%로 올랐습니다. 이는 2025년 3월 연금개혁으로 확정된 변경사항으로, 이후 매년 0.5%p씩 인상되어 2033년 13%가 될 예정입니다.</p>
+  <p>건강보험과 장기요양보험도 매년 요율이 조정됩니다. 2026년 건강보험료율은 7.09%(사업주 3.545%), 장기요양보험은 건강보험료의 12.95%(사업주 0.459%)입니다. 사업주가 부담하는 4대보험(산재 제외) 합계는 임금의 약 9.354%로, 직원 1명을 고용할 때마다 임금 외 약 10%의 추가 비용을 별도로 예산에 반영해야 합니다. 산재보험은 업종별 위험도에 따라 0.7~34%까지 다양하며, 사업주가 전액 부담합니다.</p>
   <table class="ex-table">
-    <thead><tr><th>시급</th><th>세전 월 임금</th><th>4대보험(사업주)</th><th>실제 인건비</th></tr></thead>
+    <thead><tr><th>보험 종류</th><th>사업주 부담률</th><th>근로자 부담률</th><th>2026년 변경사항</th></tr></thead>
     <tbody>
-      <tr><td>10,320원 (최저)</td><td>2,156,880원</td><td>약 194,120원</td><td>약 2,351,000원</td></tr>
-      <tr><td>12,000원</td><td>2,508,000원</td><td>약 225,720원</td><td>약 2,733,720원</td></tr>
-      <tr><td>15,000원</td><td>3,135,000원</td><td>약 282,150원</td><td>약 3,417,150원</td></tr>
+      <tr><td>국민연금</td><td><strong>4.75%</strong></td><td>4.75%</td><td>4.5%→4.75% 인상 (연금개혁)</td></tr>
+      <tr><td>건강보험</td><td><strong>3.545%</strong></td><td>3.545%</td><td>전년 대비 동결</td></tr>
+      <tr><td>장기요양보험</td><td><strong>0.459%</strong></td><td>0.459%</td><td>건강보험료의 12.95%</td></tr>
+      <tr><td>고용보험</td><td><strong>0.9%</strong></td><td>0.9%</td><td>변경 없음</td></tr>
+      <tr><td>산재보험</td><td>업종별 0.7~34%</td><td>없음 (사업주 전액)</td><td>업종별 상이</td></tr>
+      <tr><td><strong>합계 (산재 제외)</strong></td><td><strong>약 9.354%</strong></td><td>약 9.354%</td><td>—</td></tr>
     </tbody>
   </table>
-  <div class="hl-box">💡 <strong>인건비 관리 핵심.</strong> ① 주 15시간 미만 고용 시 주휴수당·4대보험(고용·산재 제외) 의무 없음 ② 주 40시간 이상 연장근무는 통상임금의 150% 지급 의무 ③ 야간근무(22시~6시)는 통상임금 50% 가산 ④ 인건비도 부가세 매입세액은 공제 불가지만 소득세·법인세 비용 처리 가능.</div>
-  
-  <div class="hl-box">🔑 <strong>핵심 팁</strong><br>💡 <strong>4대보험 절감 팁:</strong> 주 15시간 미만 초단시간 근로자는 국민연금·건강보험 의무 가입 대상에서 제외됩니다(고용·산재보험은 가입 의무). 단, 동일 사업장에서 3개월 이상 계속 근무하면 고용보험 가입 의무가 생깁니다. 인건비 예산 내에서 고용을 계획할 때 근무시간 조정이 비용에 미치는 영향을 미리 계산해보세요.</div>
+  <p>사업주가 부담하는 4대보험료는 근로자 임금의 약 9.35%이지만, 여기에 산재보험(평균 1.5%)까지 포함하면 실제 추가 부담은 임금의 약 10~11% 수준입니다. 직원 월급이 250만원이라면 4대보험+산재 포함 사업주 추가 부담은 약 27만원이 됩니다. 이 금액은 부가가치세 환급 대상이 아니므로 실질 비용으로 처리됩니다.</p>
+
+  <h2>주휴수당이란? — 알바 고용 시 가장 많이 놓치는 비용</h2>
+  <p>주휴수당은 1주일 동안 소정 근무일을 개근한 근로자에게 유급 주휴일을 부여하는 제도입니다. <strong>주 15시간 이상</strong> 근무하면 사업장 규모와 무관하게 반드시 지급해야 합니다. 주휴수당을 지급하지 않으면 임금체불로 고용노동부에 신고될 수 있으며, 3년 이하 징역 또는 3,000만원 이하 벌금이 부과될 수 있습니다.</p>
+  <p>주휴수당 계산 방법은 '1주 소정근로시간 ÷ 5 × 시급'입니다. 주 40시간 근무자의 주휴수당은 시급 × 8시간, 주 20시간 근무자는 시급 × 4시간입니다. 월 단위로 환산하면 4.345주(365÷12÷7)를 곱합니다. 사업주 입장에서는 실제 근무 대가인 월급 외에 이 주휴수당이 추가 비용으로 발생한다는 점을 반드시 인지해야 합니다. 최저시급 기준 주 40시간 근무자의 월 주휴수당은 약 35만원에 달합니다.</p>
+  <table class="ex-table">
+    <thead><tr><th>시급</th><th>세전 월 기본급</th><th>주휴수당 (주40h)</th><th>4대보험 (사업주)</th><th>월 총 인건비</th></tr></thead>
+    <tbody>
+      <tr><td>10,320원 (최저)</td><td>약 180만원</td><td>약 36만원</td><td>약 19만원</td><td><strong>약 235만원</strong></td></tr>
+      <tr><td>12,000원</td><td>약 209만원</td><td>약 42만원</td><td>약 23만원</td><td><strong>약 274만원</strong></td></tr>
+      <tr><td>15,000원</td><td>약 261만원</td><td>약 52만원</td><td>약 29만원</td><td><strong>약 342만원</strong></td></tr>
+    </tbody>
+  </table>
+
+  <h2>5인 미만 vs 5인 이상 — 직원 수에 따라 달라지는 노무 의무</h2>
+  <p>근로기준법 적용 범위는 상시 근로자 수 5인을 기준으로 크게 달라집니다. 5인 미만 사업장은 연장·야간·휴일 근무에 대한 50% 가산수당 의무가 없고, 연차 유급휴가·부당해고 보호 규정도 적용받지 않습니다. 이 때문에 소규모 자영업자는 5인 미만을 유지하는 경우도 있습니다. 단, 최저임금·주휴수당·4대보험은 5인 미만도 예외 없이 적용됩니다.</p>
+  <p>5인이 되는 순간 연장수당(시급 × 1.5배), 야간수당(22시~06시, 시급 × 1.5배), 휴일수당(시급 × 1.5배 이상) 의무가 생깁니다. 만약 야간+연장 중복이면 시급의 2배까지 올라갑니다. 이처럼 5인 이상이 되면 실질 인건비가 급격히 증가할 수 있으므로, 4명에서 5명으로 늘리는 결정은 단순한 인력 충원 이상의 의미를 갖습니다. 연차수당·퇴직금 부담도 함께 늘어납니다.</p>
+  <table class="ex-table">
+    <thead><tr><th>항목</th><th>5인 미만</th><th>5인 이상</th></tr></thead>
+    <tbody>
+      <tr><td>최저임금·주휴수당</td><td>✅ 적용</td><td>✅ 적용</td></tr>
+      <tr><td>4대보험 의무 가입</td><td>✅ 적용</td><td>✅ 적용</td></tr>
+      <tr><td>연장·야간·휴일 가산수당</td><td>❌ 미적용</td><td>✅ 각 50% 가산 의무</td></tr>
+      <tr><td>연차 유급휴가</td><td>❌ 미적용</td><td>✅ 최소 15일 (1년 이상)</td></tr>
+      <tr><td>퇴직금</td><td>✅ 적용 (1년 이상 시)</td><td>✅ 적용</td></tr>
+      <tr><td>부당해고 구제 신청</td><td>❌ 미적용</td><td>✅ 적용</td></tr>
+    </tbody>
+  </table>
+  <div class="hl-box">💡 <strong>인건비 절감 핵심 포인트:</strong><br>
+  ① <strong>주 15시간 미만</strong> 초단시간 근로자는 국민연금·건강보험 의무 가입 제외 (고용·산재보험은 가입 필수)<br>
+  ② 단, 동일 사업장 3개월 이상 계속 근무 시 고용보험 의무 가입 발생<br>
+  ③ <strong>수습 3개월</strong>: 최저임금의 90% 지급 가능 (단순노무직·청소·주차관리 등은 불가)<br>
+  ④ 인건비(급여+4대보험+퇴직충당금)는 소득세·법인세 과세표준에서 전액 비용 처리 가능<br>
+  ⑤ 4대보험 신고를 누락하면 과거 3년치 소급 적용 + 과태료 부과 위험</div>
 
 <h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>알바에게 4대보험을 꼭 들어야 하나요?</summary><div class="faq-answer">주 15시간 이상, 1개월 이상 고용하면 4대보험 가입이 의무입니다. 주 15시간 미만(초단시간) 근로자는 고용·산재보험만 의무 가입이고 국민연금·건강보험은 제외됩니다. 의무 가입 위반 시 과태료가 부과됩니다.</div></details>
-  <details><summary>5인 미만 사업장은 주휴수당 안 줘도 되나요?</summary><div class="faq-answer">아닙니다. 주휴수당은 사업장 규모와 무관하게 주 15시간 이상 근무하는 모든 근로자에게 적용됩니다. 5인 미만 사업장도 주휴수당은 반드시 지급해야 하며, 미지급 시 임금체불로 신고 대상입니다.</div></details>
-  <details><summary>수습 기간에도 최저임금을 줘야 하나요?</summary><div class="faq-answer">3개월 이내 수습 근로자는 최저임금의 90%를 지급할 수 있습니다. 단, 단순 노무 종사자(배달·청소·주차 관리 등)는 수습 감액이 적용되지 않습니다. 3개월을 초과하면 무조건 최저임금 100%를 지급해야 합니다.</div></details>
-  <details><summary>야간·주말 알바 수당은 어떻게 되나요?</summary><div class="faq-answer">5인 이상 사업장에서 밤 10시~새벽 6시 야간근무 시 통상임금의 50% 야간수당이 가산됩니다. 휴일(법정 공휴일) 근무도 150% 이상의 수당이 지급됩니다. 5인 미만 사업장은 연장·야간·휴일 가산수당 적용이 제외됩니다.</div></details>
-  <details><summary>알바를 시켰는데 일을 못 하면 해고가 가능한가요?</summary><div class="faq-answer">근로기간이 3개월 미만이면 해고 예고(30일 전 통보 또는 30일치 급여 지급) 의무가 없습니다. 단, 부당해고 문제를 피하려면 명확한 근거(규정 위반·결근 등)가 있어야 합니다. 계약 기간이 정해진 단기 알바는 계약 만료로 종료하면 됩니다.</div></details>
+  <details><summary>알바에게 4대보험을 꼭 들어야 하나요?</summary><div class="faq-answer">주 15시간 이상, 1개월 이상 고용하면 4대보험 가입이 의무입니다. 주 15시간 미만(초단시간) 근로자는 고용·산재보험만 의무 가입이고 국민연금·건강보험은 제외됩니다. 의무 가입 위반 시 과태료가 부과되고, 추후 소급 적용 청구를 받을 수 있어 더 많은 비용이 발생할 수 있습니다.</div></details>
+  <details><summary>5인 미만 사업장은 주휴수당 안 줘도 되나요?</summary><div class="faq-answer">아닙니다. 주휴수당은 사업장 규모와 무관하게 주 15시간 이상 근무하는 모든 근로자에게 적용됩니다. 5인 미만 사업장도 주휴수당은 반드시 지급해야 하며, 미지급 시 임금체불로 고용노동부(1350)에 신고 대상이 됩니다. 3년분 소급 청구도 가능합니다.</div></details>
+  <details><summary>수습 기간에도 최저임금을 줘야 하나요?</summary><div class="faq-answer">3개월 이내 수습 근로자는 최저임금의 90%를 지급할 수 있습니다(2026년 기준 9,288원). 단, 청소·주차·음식 배달 등 단순 노무 종사자는 수습 감액이 적용되지 않습니다. 3개월을 초과하면 반드시 최저임금 100% 이상을 지급해야 합니다.</div></details>
+  <details><summary>야간·주말 알바 수당은 어떻게 되나요?</summary><div class="faq-answer">5인 이상 사업장에서 밤 10시~새벽 6시 야간근무 시 통상임금의 50% 야간수당이 가산됩니다. 휴일(법정 공휴일·약정 휴일) 근무도 50% 이상의 수당이 지급됩니다. 5인 미만 사업장은 연장·야간·휴일 가산수당 적용이 제외됩니다. 야간+연장이 겹치면 중복 가산(최대 100%)됩니다.</div></details>
+  <details><summary>알바를 시켰는데 일을 못 하면 해고가 가능한가요?</summary><div class="faq-answer">근로기간이 3개월 미만이면 해고 예고(30일 전 통보 또는 30일치 급여 지급) 의무가 없습니다. 단, 부당해고 문제를 피하려면 명확한 근거(규정 위반·결근 등)가 있어야 합니다. 5인 이상 사업장에서 계속 근무 중인 직원은 정당한 이유와 절차 없이 해고하면 부당해고로 처리될 수 있습니다. 계약 기간이 정해진 단기 알바는 계약 만료로 종료하는 것이 안전합니다.</div></details>
 </div>
-
-
 <script>
 const fw = n => Math.round(n).toLocaleString() + '원';
 const MIN_WAGE = 10320;
-// 4대보험 사업주 부담률 (2026)
-const INS_NPS   = 0.0475;   // 국민연금
-const INS_HI    = 0.03595; // 건강보험
-const INS_LTC   = 0.00466; // 장기요양 (건강보험의 13.14%)
-const INS_EMP   = 0.009;   // 고용보험
-const INS_TOTAL = INS_NPS + INS_HI + INS_LTC + INS_EMP; // ~9.404%
+const INS_NPS   = 0.0475;
+const INS_HI    = 0.03545;
+const INS_LTC   = 0.00459;
+const INS_EMP   = 0.009;
+const INS_TOTAL = INS_NPS + INS_HI + INS_LTC + INS_EMP;
 
 let staffCount = 0;
 
@@ -236,28 +282,12 @@ function addStaff() {
       <button class="btn-remove" onclick="removeStaff(${id})">✕</button>
     </div>
     <div class="row2">
-      <div class="form-group">
-        <label>이름(선택)</label>
-        <input type="text" id="s${id}-name" placeholder="직원 ${id}" />
-      </div>
-      <div class="form-group">
-        <label>시급 (원)</label>
-        <input type="number" id="s${id}-wage" value="${MIN_WAGE}" min="${MIN_WAGE}" />
-      </div>
+      <div class="form-group"><label>이름(선택)</label><input type="text" id="s${id}-name" placeholder="직원 ${id}" /></div>
+      <div class="form-group"><label>시급 (원)</label><input type="number" id="s${id}-wage" value="${MIN_WAGE}" min="${MIN_WAGE}" /></div>
     </div>
     <div class="row2">
-      <div class="form-group">
-        <label>주 근무시간</label>
-        <input type="number" id="s${id}-hours" placeholder="예: 40" value="40" />
-      </div>
-      <div class="form-group">
-        <label>근무 형태</label>
-        <select id="s${id}-type">
-          <option value="full">주 5일 (풀타임)</option>
-          <option value="part">주 3~4일 (파트타임)</option>
-          <option value="custom">직접입력</option>
-        </select>
-      </div>
+      <div class="form-group"><label>주 근무시간</label><input type="number" id="s${id}-hours" value="40" /></div>
+      <div class="form-group"><label>근무 형태</label><select id="s${id}-type"><option value="full">주 5일 (풀타임)</option><option value="part">주 3~4일 (파트타임)</option></select></div>
     </div>`;
   document.getElementById('staff-list').appendChild(div);
 }
@@ -279,23 +309,17 @@ function calc() {
     const name = document.getElementById(`s${id}-name`)?.value || `직원 ${id}`;
     const wage = +document.getElementById(`s${id}-wage`)?.value || MIN_WAGE;
     const hours = +document.getElementById(`s${id}-hours`)?.value || 40;
-
-    // 월 소정근로시간 계산
     const weeklyHoliday = hours >= 15 ? (hours / 5) : 0;
     const monthHours = (hours + weeklyHoliday) * (365 / 12 / 7);
     const monthPay = wage * monthHours;
     const holidayPay = wage * weeklyHoliday * (365 / 12 / 7);
     const ins = monthPay * INS_TOTAL;
     const totalCost = monthPay + ins;
-
-    totalPay += monthPay;
-    totalHoliday += holidayPay;
-    totalIns += ins;
+    totalPay += monthPay; totalHoliday += holidayPay; totalIns += ins;
     results.push({ name, monthPay, holidayPay, ins, totalCost });
   });
 
   const grandTotal = totalPay + totalIns;
-
   document.getElementById('r-total').textContent = fw(grandTotal);
   document.getElementById('r-sub').textContent = `직원 ${results.length}명 합산 (월급+주휴+4대보험)`;
   document.getElementById('r-pay').textContent = fw(totalPay);
@@ -310,16 +334,26 @@ function calc() {
     tr.innerHTML = `<td>${r.name}</td><td>${fw(r.monthPay - r.holidayPay)}</td><td>${fw(r.holidayPay)}</td><td>${fw(r.ins)}</td><td><strong>${fw(r.totalCost)}</strong></td>`;
     tbody.appendChild(tr);
   });
-
   const tfoot = document.getElementById('staff-result-foot');
-  if (tfoot) {
-    tfoot.innerHTML = `<tr><td><strong>합계</strong></td><td>${fw(totalPay - totalHoliday)}</td><td>${fw(totalHoliday)}</td><td>${fw(totalIns)}</td><td><strong>${fw(grandTotal)}</strong></td></tr>`;
-  }
-
+  if (tfoot) tfoot.innerHTML = `<tr><td><strong>합계</strong></td><td>${fw(totalPay - totalHoliday)}</td><td>${fw(totalHoliday)}</td><td>${fw(totalIns)}</td><td><strong>${fw(grandTotal)}</strong></td></tr>`;
   document.getElementById('result').style.display = 'block';
+
+  // 직원수별 시뮬레이터
+  document.getElementById('simCard').style.display = 'block';
+  const costPerPerson = results[0].totalCost;
+  const curCount = results.length;
+  document.getElementById('simResult').innerHTML = [1,2,3,5,10].map(c => {
+    const total = costPerPerson * c;
+    const annual = total * 12;
+    const isCur = c === curCount;
+    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 12px;background:${isCur?'rgba(0,212,170,.08)':'var(--surface2)'};border:1px solid ${isCur?'rgba(0,212,170,.3)':'var(--border)'};border-radius:8px;margin-bottom:6px">
+      <div><span style="font-size:13px;font-weight:700;color:${isCur?'var(--accent)':'var(--text)'}">직원 ${c}명${isCur?' ← 현재':''}</span>
+      <div style="font-size:11px;color:var(--text-muted)">연간 ${Math.round(annual/10000).toLocaleString()}만원</div></div>
+      <span style="font-size:15px;font-weight:900;font-family:Montserrat,sans-serif;color:${isCur?'var(--accent)':'var(--text)'}">${Math.round(total/10000).toLocaleString()}만원/월</span>
+    </div>`;
+  }).join('');
 }
 
-// 페이지 로드 시 직원 1명 자동 추가
 document.addEventListener('DOMContentLoaded', () => { addStaff(); });
 </script>
 <script src="/common.js" defer></script><script src="/share.js" defer></script><script src="/calculator.js" defer></script>
