@@ -136,6 +136,26 @@
   </div>
 </div>
 
+<!-- 단식 방법별 비교 simCard (container 밖, rel-section 앞) -->
+<div style="max-width:700px;margin:0 auto 0;padding:0 20px">
+  <div style="background:#161b22;border:1px solid #30363d;border-radius:16px;padding:24px;margin-bottom:8px" id="simCard">
+    <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:#00d4aa;text-transform:uppercase;margin-bottom:10px">⚡ 단식 방법별 시간 비교</div>
+    <p style="font-size:12px;color:#8b949e;margin-bottom:14px;line-height:1.7">현재 입력한 시간 기준으로 4가지 방법의 단식 종료·식사 종료 시간을 한눈에 비교합니다.</p>
+    <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:13px" id="simTable">
+        <thead><tr>
+          <th style="padding:8px 12px;text-align:left;background:#21262d;color:#8b949e;border:1px solid #30363d">방법</th>
+          <th style="padding:8px 10px;text-align:center;background:#21262d;color:#8b949e;border:1px solid #30363d">단식 시간</th>
+          <th style="padding:8px 10px;text-align:center;background:#21262d;color:#00d4aa;border:1px solid #30363d">단식 종료</th>
+          <th style="padding:8px 10px;text-align:center;background:#21262d;color:#8b949e;border:1px solid #30363d">식사 마감</th>
+        </tr></thead>
+        <tbody id="simBody"></tbody>
+      </table>
+    </div>
+    <div style="margin-top:8px;font-size:11px;color:#8b949e">※ 마지막 식사 시간 입력 후 "단식 시간 계산하기" 버튼을 누르면 업데이트됩니다.</div>
+  </div>
+</div>
+
 <div class="rel-section">
   <h2>📌 함께 쓰면 유용한 계산기</h2>
   <div class="rel-grid">
@@ -178,6 +198,7 @@
 
   <h2>단식 방법별 비교 — 16:8, 18:6, 20:4</h2>
   <p>간헐적 단식에는 여러 프로토콜이 있으며, 단식 시간이 길수록 효과는 크지만 난이도도 높아집니다. 처음 시작한다면 14:10 방식으로 2~4주 적응 후 16:8로 전환하는 것을 권장합니다.</p>
+  <p>위 시뮬레이터에서 마지막 식사 시간을 입력하면 4가지 방법 모두의 단식 종료·식사 가능 시간을 한눈에 비교할 수 있습니다. 본인의 생활 패턴(기상·취침 시간)에 맞는 방법을 선택하세요.</p>
   <table>
     <thead><tr><th>방법</th><th>단식 시간</th><th>식사 시간</th><th>난이도</th><th>적합 대상</th></tr></thead>
     <tbody>
@@ -190,6 +211,7 @@
 
   <h2>단식 시간별 신체 변화 — 언제 지방이 연소되나</h2>
   <p>단식이 진행될수록 신체는 에너지원을 포도당에서 지방산으로 전환합니다. 이 전환 과정이 간헐적 단식 다이어트 효과의 핵심입니다. 특히 14시간 이후부터 시작되는 케토시스와 16시간 이후의 오토파지(세포 자가포식)는 체중 감량 외에도 노화 방지·대사 건강에 긍정적인 영향을 미치는 것으로 알려져 있습니다.</p>
+  <p>12시간 이후 간의 글리코겐(포도당 저장 형태)이 고갈되면 신체는 지방을 분해해 케톤체를 만들어 에너지로 사용합니다. 이 상태를 케토시스(Ketosis)라 하며, 16:8 단식의 핵심 효과가 여기서 발생합니다. 단, 탄수화물 섭취가 많은 경우 케토시스 진입이 더 늦어질 수 있습니다.</p>
   <table>
     <thead><tr><th>단식 경과 시간</th><th>신체 변화</th><th>체감 증상</th></tr></thead>
     <tbody>
@@ -209,6 +231,7 @@
 
   <h2>간헐적 단식 효과 — 다이어트 외에도 있을까</h2>
   <p>체중 감량 외에도 간헐적 단식의 잠재적 효과로는 혈당 조절 개선(인슐린 저항성 감소), 혈압·중성지방·LDL 콜레스테롤 수치 개선, 뇌 건강(BDNF 증가), 오토파지를 통한 세포 청소 효과 등이 연구되고 있습니다. 단, 이러한 효과는 건강 상태와 개인 차에 따라 다르며, 기저 질환이 있다면 반드시 의사와 상담 후 시작하세요.</p>
+  <p>간헐적 단식은 식이 제한 없이 먹는 시간만 조절하기 때문에 장기적으로 유지하기 비교적 쉽습니다. 다만 식사 시간대에 폭식하면 효과가 크게 줄어드므로, 식사 창에서는 단백질·채소 위주의 균형 잡힌 식사를 유지하는 것이 중요합니다.</p>
 
   <div class="warn-box">
     <strong>⚠️ 간헐적 단식 금기 대상</strong><br>
@@ -216,6 +239,8 @@
   </div>
 
   <h2>자주 묻는 질문 — 간헐적 단식</h2>
+  <p>간헐적 단식을 시작할 때 가장 많이 묻는 6가지 질문을 정리했습니다. 식사 시간대 선택, 운동 타이밍, 두통·어지러움 대처법, 커피 허용 여부 등 실천에 바로 적용할 수 있는 내용입니다.</p>
+  <p>간헐적 단식은 의학적 치료가 아니므로, 지병이 있거나 약을 복용 중인 경우 반드시 의사와 상담 후 시작하세요. 특히 당뇨 약물 복용자는 저혈당 위험이 있어 주의가 필요합니다.</p>
   <details><summary>16:8 단식은 언제 식사하는 것이 가장 좋나요?</summary><div class="faq-answer">가장 일반적인 패턴은 정오(12시)~오후 8시입니다. 직장인이라면 점심 식사를 첫 끼로, 저녁 7~8시에 마지막 식사를 하는 패턴이 현실적입니다. 아침을 중요시한다면 오전 8시~오후 4시 패턴도 가능합니다. 중요한 것은 식사 시간대를 일정하게 유지하는 것입니다.</div></details>
   <details><summary>단식 중 운동해도 되나요?</summary><div class="faq-answer">가벼운 유산소 운동(걷기·조깅)은 공복 상태에서도 가능하며 지방 연소 효율이 높아질 수 있습니다. 고강도 근력 운동이나 HIIT는 식사 직전(단식 종료 직전)이나 식사 후에 하는 것이 퍼포먼스와 근육 합성에 더 유리합니다. 현기증이 느껴지면 즉시 중단하고 수분을 보충하세요.</div></details>
   <details><summary>단식 중 두통·어지러움이 생기는 이유는 무엇인가요?</summary><div class="faq-answer">처음 2~3일간은 혈당 저하와 체내 나트륨 배출로 인한 두통·어지러움이 생길 수 있습니다. 물과 전해질(소금 약간, 마그네슘)을 충분히 보충하면 증상이 완화됩니다. 1~2주 적응 기간이 지나면 대부분 사라집니다.</div></details>
@@ -262,6 +287,29 @@
     document.getElementById('r-end-sub').textContent = fastHours + '시간 단식 완료 — 첫 식사 가능';
     document.getElementById('r-window').textContent = fmtTime(endTime) + ' ~ ' + fmtTime(windowEnd);
     document.getElementById('resultCard').classList.add('visible');
+
+    // simCard 업데이트
+    const METHODS = [
+      { id:'m14', label:'14:10 (입문)', fh:14, eh:10 },
+      { id:'m16', label:'16:8 (표준)',  fh:16, eh:8  },
+      { id:'m18', label:'18:6 (심화)',  fh:18, eh:6  },
+      { id:'m20', label:'20:4 (고급)',  fh:20, eh:4  },
+    ];
+    const tbody = document.getElementById('simBody');
+    if (tbody) {
+      tbody.innerHTML = METHODS.map(mt => {
+        const end = addHours(lastMeal, mt.fh);
+        const close = addHours(end, mt.eh);
+        const isCur = mt.fh === fastHours;
+        const bg = isCur ? 'background:rgba(0,212,170,0.06)' : '';
+        return `<tr style="${bg}">
+          <td style="padding:8px 12px;border:1px solid #30363d;color:${isCur?'#00d4aa':'#e6edf3'};font-weight:${isCur?'700':'400'}">${mt.label}</td>
+          <td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#8b949e">${mt.fh}h</td>
+          <td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#00d4aa;font-weight:700">${fmtTime(end)}</td>
+          <td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#8b949e">${fmtTime(close)}</td>
+        </tr>`;
+      }).join('');
+    }
   }
 
   window.onload = () => {
@@ -269,6 +317,7 @@
     const h = String(now.getHours()).padStart(2,'0');
     const m = String(now.getMinutes()).padStart(2,'0');
     document.getElementById('lastMeal').value = h + ':' + m;
+    calc();
   };
 </script>
 <script src="/common.js" defer></script><script src="/share.js" defer></script>
