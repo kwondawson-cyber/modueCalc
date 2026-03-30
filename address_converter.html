@@ -83,7 +83,10 @@
     .home-btn:hover { background: rgba(0,212,170,0.18); transform: translateY(-2px); }
     .home-btn-emoji { font-size: 20px; line-height: 1; }
     .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
-  
+    .sim-tbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px}
+    .sim-tbl th{background:var(--surface2);color:var(--text);padding:8px 10px;border:1px solid var(--border);font-weight:600;text-align:left}
+    .sim-tbl td{padding:7px 10px;border:1px solid var(--border);color:var(--text-muted)}
+
 .rel-section{margin:32px auto 8px;padding:0 20px;max-width:640px}
 .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
 .rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
@@ -277,52 +280,164 @@
   <a href="/area_converter" class="rel-card"><span class="re">📐</span><span class="rn">평수 변환</span></a>
   <a href="/exchange" class="rel-card"><span class="re">💱</span><span class="rn">환율 계산기</span></a>
   </div>
+
+  <div class="card" id="simCard" style="margin-top:8px">
+    <div class="card-title">&#9997;&#65039; 영문 주소 직접 조합기</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">동&#183;호수 등 상세주소를 추가해 완전한 영문 주소를 완성하세요.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+      <div>
+        <label style="display:block;font-size:11px;color:var(--text-muted);margin-bottom:4px">건물번호 + 도로명 (영문)</label>
+        <input type="text" id="comp-road" placeholder="123 Teheran-ro"
+          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:9px 10px;font-size:13px;color:var(--text);outline:none;font-family:inherit"
+          oninput="buildAddr()" />
+      </div>
+      <div>
+        <label style="display:block;font-size:11px;color:var(--text-muted);margin-bottom:4px">구 + 시 (영문)</label>
+        <input type="text" id="comp-city" placeholder="Gangnam-gu, Seoul"
+          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:9px 10px;font-size:13px;color:var(--text);outline:none;font-family:inherit"
+          oninput="buildAddr()" />
+      </div>
+      <div>
+        <label style="display:block;font-size:11px;color:var(--text-muted);margin-bottom:4px">동&#183;호수 (선택)</label>
+        <input type="text" id="comp-apt" placeholder="101-dong, 502-ho"
+          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:9px 10px;font-size:13px;color:var(--text);outline:none;font-family:inherit"
+          oninput="buildAddr()" />
+      </div>
+      <div>
+        <label style="display:block;font-size:11px;color:var(--text-muted);margin-bottom:4px">우편번호 5자리 (선택)</label>
+        <input type="text" id="comp-zip" placeholder="06130" maxlength="5"
+          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:9px 10px;font-size:13px;color:var(--text);outline:none;font-family:inherit"
+          oninput="buildAddr()" />
+      </div>
+    </div>
+    <div id="addrBuildResult"><p style="font-size:12px;color:var(--text-muted);text-align:center;padding:8px">건물번호+도로명과 구&#183;시를 입력하면 영문 주소가 완성됩니다.</p></div>
+    <p style="font-size:11px;color:var(--text-muted);margin-top:8px">&#8251; 위 변환기 결과를 참고해 항목별로 입력하세요</p>
+  </div>
 </div>
 <div class="seo-section">
-  <h2>한글 주소 영문 변환기 — 로마자 표기법과 해외 발송 완벽 가이드</h2>
-  <h3>한국 주소를 영문으로 바꿔야 하는 상황들</h3>
-  <p>해외 배송 신청, 비자·여권 서류 작성, 외국인 초청장, 영문 명함 제작, 해외 쇼핑몰 가입 등에서 정확한 영문 주소가 필요합니다. 한국 주소의 영문 표기는 <strong>국어의 로마자 표기법(2000년 문화관광부 고시)</strong>을 따르며, 2014년 도로명주소 전면 시행 이후 도로명주소 기반 영문 표기가 공식 표준입니다.</p>
-  <p>영문 주소 표기에서 가장 중요한 것은 순서입니다. 한국어 주소는 큰 단위(도·시)에서 작은 단위(동·호수)로 쓰지만, 영문 주소는 반대로 <strong>작은 단위에서 큰 단위(국가)</strong>로 씁니다. 이 순서를 반대로 하면 해외 배송에서 주소 인식 오류가 발생할 수 있으므로 반드시 올바른 순서를 지켜야 합니다.</p>
-  <h3>📐 한국 주소 영문 표기 규칙</h3>
-  <p>도로명주소의 영문 표기는 도로명 로마자 표기 후 -ro(로), -daero(대로), -gil(길)을 붙이는 방식입니다. 행정 단위는 -do(도), -si(시), -gu(구), -dong(동) 형태로 표기합니다. 아파트 동·호수는 뒤에 붙이는 방식이 가장 일반적이며, 해외 플랫폼마다 입력 형식이 조금씩 다를 수 있습니다.</p>
-  <div class="formula-box">표기 순서: 상세주소 → 도로명·번지 → 구·시 → 도/특별시 → Korea
+  <h2>한국 주소를 영문으로 변환해야 하는 상황들</h2>
+  <p>해외 배송 신청, 비자·여권 서류 작성, 외국인 초청장, 영문 명함 제작, 해외 쇼핑몰 회원가입 등에서 정확한 영문 주소가 반드시 필요합니다. 특히 미국·유럽·일본으로 직구 배송 시 영문 주소가 잘못되면 배송 실패로 반송되거나 분실될 수 있습니다. 영문 표기의 기준은 2000년 문화관광부가 고시한 국어의 로마자 표기법이며, 2014년 도로명주소 전면 시행 이후 도로명주소 기반 영문 표기가 공식 표준으로 자리잡았습니다.</p>
+  <p>영문 주소에서 가장 중요한 것은 순서입니다. 한국어 주소는 큰 단위(도·시)에서 작은 단위(동·호수)로 쓰지만, 영문 주소는 정반대로 작은 단위에서 시작해 국가로 끝납니다. 이 순서를 반대로 하면 해외 우편·배송 시스템이 주소를 인식하지 못해 배송 실패로 이어집니다. 위 영문 주소 조합기에 각 구성요소를 입력하면 올바른 형식의 완전한 영문 주소를 바로 만들 수 있습니다.</p>
+  <div class="formula-box">영문 주소 표기 순서:
+  상세주소(동&#183;호수) &#8594; 건물번호 도로명 &#8594; 구 &#8594; 시/도 &#8594; 국가
 
-예) 서울특별시 강남구 테헤란로 123, 456호
-→ 456, 123 Teheran-ro, Gangnam-gu, Seoul, Korea
+예) 서울특별시 강남구 테헤란로 123, 101동 502호
+&#8594; 502-ho, 101-dong, 123 Teheran-ro, Gangnam-gu, Seoul, Republic of Korea
 
 도(道): Gyeonggi-do / 구(區): Gangnam-gu
-로(路): Teheran-ro / 길(街): -gil / 대로: -daero</div>
-  <h3>📊 주요 행정구역 영문 표기 기준</h3>
-  <p>행정구역 영문 표기는 로마자 표기법을 따르되, 서울·부산·인천 등 주요 도시는 영문 표기가 국제적으로 고정되어 있습니다. 경기도는 Gyeonggi-do, 충청도는 Chungcheong-do 형태로 표기합니다. 행정구역 표기가 틀리면 해외 우편물이 반송되는 경우가 있으므로 정확한 표기를 사용해야 합니다.</p>
+로(路): Teheran-ro / 길: -gil / 대로: -daero</div>
+  <p>동&#183;호수는 영문 주소 맨 앞에 씁니다. "502-ho, 101-dong"처럼 호수를 먼저 쓰는 것이 국제 우편 표기에 더 일반적입니다. 해외 배송 플랫폼의 Address Line 1에는 도로명+번지를, Address Line 2에는 동&#183;호수를 분리해 입력하는 방식도 많이 사용됩니다.</p>
+
+  <h2>주요 행정구역&#183;도로 영문 표기 기준표</h2>
+  <p>로마자 표기법에 따라 한국 행정구역과 도로 유형은 영문 표기 방식이 정해져 있습니다. 서울&#183;부산&#183;인천 등 광역시는 영문 명칭이 국제적으로 고정돼 있고, 도(道)는 -do, 구(區)는 -gu 등을 붙입니다. 이 기준을 벗어난 표기는 공식 서류에서 문제가 될 수 있으니 정확히 숙지해야 합니다.</p>
   <table>
-    <thead><tr><th>한글</th><th>영문 표기</th><th>예시</th></tr></thead>
+    <thead><tr><th>한글 단위</th><th>영문 표기</th><th>예시</th><th>비고</th></tr></thead>
     <tbody>
-      <tr><td>특별시</td><td>city 단독 표기</td><td>Seoul</td></tr>
-      <tr><td>광역시</td><td>단독 표기</td><td>Busan, Incheon</td></tr>
-      <tr><td>도(道)</td><td>-do</td><td>Gyeonggi-do</td></tr>
-      <tr><td>구(區)</td><td>-gu</td><td>Gangnam-gu</td></tr>
-      <tr><td>로(路)</td><td>-ro</td><td>Teheran-ro</td></tr>
-      <tr><td>길(街)</td><td>-gil</td><td>Insadong-gil</td></tr>
+      <tr><td>특별시</td><td>단독 표기</td><td>Seoul</td><td>-si 붙이지 않음</td></tr>
+      <tr><td>광역시</td><td>단독 표기</td><td>Busan, Incheon, Daegu</td><td>-si 붙이지 않음</td></tr>
+      <tr><td>도(道)</td><td>-do</td><td>Gyeonggi-do</td><td>하이픈 필수</td></tr>
+      <tr><td>시(市)</td><td>-si</td><td>Suwon-si</td><td>도 아래 일반 시</td></tr>
+      <tr><td>구(區)</td><td>-gu</td><td>Gangnam-gu</td><td></td></tr>
+      <tr><td>로(路)</td><td>-ro</td><td>Teheran-ro</td><td></td></tr>
+      <tr><td>대로(大路)</td><td>-daero</td><td>Sejong-daero</td><td></td></tr>
+      <tr><td>길</td><td>-gil</td><td>Insadong-gil</td><td></td></tr>
     </tbody>
   </table>
-  <h3>📊 해외 배송 시 주소 입력 주의사항</h3>
-  <p>해외 쇼핑몰·배송 플랫폼마다 주소 입력 형식이 다소 다릅니다. 아마존은 보통 2줄의 주소(Address Line 1, 2)를 제공하며, 도로명+건물번호를 첫 줄에, 동·호수를 두 번째 줄에 입력하는 것이 일반적입니다. 우편번호는 한국의 5자리 우편번호를 그대로 입력하면 됩니다.</p>
+  <div class="tip-box"><strong>&#128161; 로마자 표기 핵심 규칙.</strong> &#12619;&#8594;g(어두)/k(받침), &#12657;&#8594;d(어두)/t(받침), &#12622;&#8594;b(어두)/p(받침). &#12619;&#12631;&#8594;kk, &#12620;&#8594;n, &#12621;&#8594;r(모음 앞)/l(받침). &#12623;&#8594;a, &#12627;&#8594;eo, &#12631;&#8594;o, &#12636;&#8594;u, &#12641;&#8594;eu, &#12643;&#8594;i. 서울(Seoul), 강남(Gangnam), 판교(Pangyo).</div>
+
+  <h2>해외 배송&#183;직구 플랫폼별 주소 입력 가이드</h2>
+  <p>해외 쇼핑몰&#183;배송 플랫폼마다 주소 입력 필드 구성이 다릅니다. 특히 우편번호(5자리)를 정확히 입력하는 것이 중요합니다. 우편번호가 틀리면 지역 배송센터 분류 오류로 반송되는 경우가 많습니다. Address Line 1에는 도로명+번지를, Line 2에는 동&#183;호수를 분리해 입력하는 것이 일반적으로 가장 안전합니다.</p>
   <table>
-    <thead><tr><th>플랫폼</th><th>주소 형식</th><th>주의사항</th></tr></thead>
+    <thead><tr><th>플랫폼</th><th>Address Line 1</th><th>Address Line 2</th><th>City</th><th>우편번호</th></tr></thead>
     <tbody>
-      <tr><td>아마존(미국)</td><td>도로명주소 영문, 시·우편번호</td><td>5자리 우편번호 필수</td></tr>
-      <tr><td>iHerb</td><td>도로명주소 영문 입력</td><td>상세주소 별도 입력칸</td></tr>
-      <tr><td>일본 배송</td><td>한국 주소 영문 전환 후 입력</td><td>Republic of Korea로 국가 명시</td></tr>
+      <tr><td>아마존 (미국)</td><td>번지 + 도로명 (영문)</td><td>동&#183;호수</td><td>Seoul</td><td>5자리</td></tr>
+      <tr><td>iHerb</td><td>도로명주소 영문</td><td>상세주소</td><td>Seoul</td><td>5자리</td></tr>
+      <tr><td>일본 배송</td><td>영문 도로명</td><td>동&#183;호수</td><td>Seoul</td><td>5자리</td></tr>
+      <tr><td>ASOS (영국)</td><td>번지+도로명</td><td>구&#183;시 정보</td><td>Seoul</td><td>5자리</td></tr>
     </tbody>
   </table>
-  <div class="tip-box"><strong>💡 영문 주소 정확히 확인하는 방법.</strong> 도로명주소 안내시스템(juso.go.kr)에서 공식 영문 주소를 무료로 조회할 수 있습니다. 중요한 서류(비자·여권·계약서)에는 반드시 이 공식 시스템에서 확인한 주소를 사용하세요. 아파트 동·호수는 "101-dong, 502-ho" 또는 "Apt 502, Bldg 101" 형식이 통용됩니다.</div>
+  <p>국가 선택 시 "South Korea" 또는 "Republic of Korea (KOR)" 중 해당 플랫폼이 제공하는 표현을 사용하세요. 국가 코드는 KR 또는 KOR입니다. 전화번호 국가 코드는 +82이며, 010으로 시작하는 번호는 앞의 0을 빼고 +82-10-XXXX-XXXX 형식으로 입력합니다.</p>
+
+  <h2>비자&#183;여권 서류 영문 주소 작성 시 주의사항</h2>
+  <p>비자 신청서, 외국 대학 지원서, 국제 계약서 등 공식 서류에 영문 주소를 기재할 때는 반드시 공식 시스템에서 확인한 정확한 표기를 사용해야 합니다. 임의로 한글 발음대로 표기하면 공식 영문 주소와 다를 수 있어 서류 심사에서 불이익이 생길 수 있습니다. 행정안전부 도로명주소 안내시스템(juso.go.kr)에서 무료로 공식 영문 주소를 조회할 수 있습니다.</p>
+  <table>
+    <thead><tr><th>서류 유형</th><th>주의사항</th><th>권장 주소 소스</th></tr></thead>
+    <tbody>
+      <tr><td>미국 비자 (DS-160)</td><td>Mailing Address와 Home Address 구분</td><td>juso.go.kr 공식 영문</td></tr>
+      <tr><td>여권 발급 신청</td><td>한글 주소로도 가능, 영문 기재 시 로마자 표기법 준수</td><td>행정안전부 공식 영문</td></tr>
+      <tr><td>해외 대학 지원서</td><td>Permanent Address 별도 기재 필요 多</td><td>juso.go.kr 조회</td></tr>
+      <tr><td>국제 계약서</td><td>공식 우편번호 포함 필수</td><td>juso.go.kr</td></tr>
+    </tbody>
+  </table>
+  <div class="tip-box"><strong>&#128161; 아파트 동&#183;호수 영문 표기 3가지 방식.</strong> ① 502-ho, 101-dong (행안부 표준) ② Apt 502, Bldg 101 (해외 쇼핑몰에서 많이 사용) ③ #502, 101 (비공식이지만 통용). 중요한 공식 서류에는 ①번 행안부 표준을 사용하고, 해외 배송에는 ②번이 외국 배달원이 이해하기 더 쉽습니다.</div>
+
   <h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>아파트 동·호수 영문 표기는 어떻게 하나요?</summary><div class="faq-answer">아파트 동·호수는 "101-dong, 502-ho" 또는 "101 Dong, 502 Ho" 형식으로 표기합니다. 해외 배송 시 상세 주소란에 "101-502" 또는 "Apt 502, Bldg 101"로 입력하는 것이 일반적입니다. 플랫폼마다 입력 방식이 다를 수 있으니 Address Line 1과 2를 잘 구분해서 입력하세요.</div></details>
-  <details><summary>구 주소(지번주소)와 도로명주소 영문 표기가 다른가요?</summary><div class="faq-answer">도로명주소 체계를 기반으로 영문 변환하는 것이 공식 표준입니다. 지번주소도 사용 가능하지만 공식 서류에는 도로명주소 영문 변환을 사용하는 것이 권장됩니다. 공식 영문 주소는 도로명주소 안내시스템(juso.go.kr)에서 조회할 수 있습니다.</div></details>
-  <details><summary>해외 배송 시 주소가 틀리면 어떻게 되나요?</summary><div class="faq-answer">영문 주소 오류로 배송 실패 시 반송되거나 분실될 수 있습니다. 특히 우편번호(5자리) 오류는 배송 실패의 주요 원인입니다. 발송 전 도로명주소 공식 사이트에서 영문 주소를 다시 한번 확인하고, 전화번호를 정확히 입력하면 배달원이 연락할 수 있어 분실 위험을 줄일 수 있습니다.</div></details>
-  <details><summary>로마자 표기 시 ㄱ·ㄷ·ㅂ 표기가 헷갈려요</summary><div class="faq-answer">어두(단어 첫 자음)에서는 g·d·b로 표기합니다. 예) 강남 → Gangnam, 대전 → Daejeon, 부산 → Busan. 된소리(ㄲ·ㄸ·ㅃ)는 kk·tt·pp로 표기합니다. ㄹ은 모음 앞에서는 r, 모음 뒤나 어말에서는 l로 표기합니다(예: 서울 Seoul).</div></details>
-  <details><summary>Juso API(공식 주소 API)가 더 정확한가요?</summary><div class="faq-answer">네, 행정안전부에서 제공하는 도로명주소 API(juso.go.kr)를 활용하면 공식 영문 주소를 자동으로 조회할 수 있습니다. 단, 운영키를 별도로 발급받아야 하며 월 이용 한도가 있습니다. 중요한 서류나 대량 변환이 필요한 경우 공식 API를 통한 주소 확인을 권장합니다.</div></details>
+  <details><summary>아파트 동&#183;호수 영문 표기는 어떻게 하나요?</summary><div class="faq-answer">행안부 표준은 "101-dong, 502-ho" 형식입니다. 해외 배송 시에는 "Apt 502, Bldg 101"이 더 직관적으로 이해됩니다. 해외 플랫폼의 Address Line 1에는 도로명+번지를 입력하고, Address Line 2에는 동&#183;호수를 입력하는 방식이 일반적입니다.</div></details>
+  <details><summary>구 주소(지번주소)와 도로명주소 영문 표기가 다른가요?</summary><div class="faq-answer">도로명주소 기반 영문 변환이 공식 표준입니다. 지번주소도 사용 가능하지만 공식 서류&#183;비자 신청에는 도로명주소 영문을 사용하는 것이 권장됩니다. 공식 영문 주소는 도로명주소 안내시스템(juso.go.kr)에서 무료로 조회할 수 있습니다.</div></details>
+  <details><summary>해외 배송 시 주소가 틀리면 어떻게 되나요?</summary><div class="faq-answer">영문 주소 오류로 배송 실패 시 반송되거나 분실될 수 있습니다. 특히 우편번호(5자리) 오류는 배송 실패의 주요 원인입니다. 발송 전 juso.go.kr에서 영문 주소를 확인하고, 전화번호(+82-10-XXXX-XXXX)를 정확히 입력하면 배달원이 연락할 수 있어 분실 위험을 줄일 수 있습니다.</div></details>
+  <details><summary>로마자 표기 시 &#12619;&#183;&#12621;&#183;&#12613; 표기가 헷갈려요</summary><div class="faq-answer">어두에서는 g&#183;d&#183;b로 표기합니다: 강남&#8594;Gangnam, 대전&#8594;Daejeon, 부산&#8594;Busan. 받침에서는 k&#183;t&#183;p로 표기합니다. &#12621;은 모음 앞에서는 r, 받침에서는 l로 표기합니다(서울&#8594;Seoul). 된소리는 kk&#183;tt&#183;pp&#183;ss&#183;jj로 표기합니다.</div></details>
+  <details><summary>국가 명칭은 Korea와 Republic of Korea 중 어느 것을 써야 하나요?</summary><div class="faq-answer">공식 국가 명칭은 "Republic of Korea"이며, 국가 코드는 KR입니다. 비자&#183;공식 서류&#183;계약서에는 "Republic of Korea"를 사용하는 것이 원칙입니다. 해외 배송 플랫폼에서는 드롭다운 메뉴에서 직접 선택하세요.</div></details>
 </div>
+<script>
+function buildAddr() {
+  var road = (document.getElementById('comp-road').value || '').trim();
+  var city = (document.getElementById('comp-city').value || '').trim();
+  var apt  = (document.getElementById('comp-apt').value  || '').trim();
+  var zip  = (document.getElementById('comp-zip').value  || '').trim();
+  var el   = document.getElementById('addrBuildResult');
+
+  if (!road && !city) {
+    el.innerHTML = '<p style="font-size:12px;color:var(--text-muted);text-align:center;padding:8px">건물번호+도로명과 구&#183;시를 입력하면 영문 주소가 완성됩니다.</p>';
+    return;
+  }
+
+  var parts = [];
+  if (apt)  parts.push(apt);
+  if (road) parts.push(road);
+  if (city) parts.push(city);
+
+  var full    = parts.join(', ') + ', Republic of Korea';
+  var withZip = zip ? parts.join(', ') + ', ' + zip + ', Republic of Korea' : '';
+
+  el.innerHTML = '';
+
+  var entries = [['해외 배송용', full]];
+  if (withZip) entries.push(['국제 우편용 (우편번호 포함)', withZip]);
+
+  entries.forEach(function(entry) {
+    var label = entry[0], addr = entry[1];
+    var wrap = document.createElement('div');
+    wrap.style.cssText = 'background:var(--surface2);border:1px solid rgba(0,212,170,0.25);border-radius:10px;padding:12px 14px;margin-bottom:8px;position:relative';
+
+    var lbl = document.createElement('div');
+    lbl.style.cssText = 'font-size:10px;color:var(--accent);font-weight:700;letter-spacing:1px;margin-bottom:6px';
+    lbl.textContent = label;
+
+    var txt = document.createElement('div');
+    txt.style.cssText = 'font-size:14px;font-weight:600;color:var(--text);word-break:break-word;padding-right:60px';
+    txt.textContent = addr;
+
+    var btn = document.createElement('button');
+    btn.textContent = '복사';
+    btn.style.cssText = 'position:absolute;top:10px;right:10px;padding:4px 10px;font-size:11px;background:rgba(0,212,170,0.1);border:1px solid rgba(0,212,170,0.3);border-radius:6px;color:var(--accent);cursor:pointer;font-family:inherit';
+    btn.addEventListener('click', (function(a) {
+      return function() {
+        var self = this;
+        navigator.clipboard.writeText(a).then(function() {
+          self.textContent = '&#10003; 복사됨';
+          setTimeout(function() { self.textContent = '복사'; }, 1500);
+        });
+      };
+    })(addr));
+
+    wrap.appendChild(lbl);
+    wrap.appendChild(txt);
+    wrap.appendChild(btn);
+    el.appendChild(wrap);
+  });
+}
+document.addEventListener('DOMContentLoaded', buildAddr);
+</script>
 <script src="/common.js" defer></script><script src="/share.js" defer></script>
 <script src="/calculator.js" defer></script>
 <script>
