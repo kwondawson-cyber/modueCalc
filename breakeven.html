@@ -164,6 +164,38 @@
 
   <button class="btn" onclick="calc()">손익분기점 계산하기</button>
 
+  <!-- 빠른 시뮬레이터 -->
+  <div class="card" id="simCard" style="margin-top:16px">
+    <div style="font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:10px">⚡ 빠른 BEP 시뮬레이터</div>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">값을 바꾸면 손익분기점이 즉시 업데이트됩니다. (기본값: 카페 예시)</p>
+    <div class="row2">
+      <div class="form-group">
+        <label>월 고정비 합계 (원)</label>
+        <input type="number" id="sim-fixed" value="2500000" oninput="simCalc()" />
+      </div>
+      <div class="form-group">
+        <label>판매 단가 (원)</label>
+        <input type="number" id="sim-price" value="4000" oninput="simCalc()" />
+      </div>
+      <div class="form-group">
+        <label>단위 변동비 (원)</label>
+        <input type="number" id="sim-var" value="1500" oninput="simCalc()" />
+      </div>
+      <div class="form-group">
+        <label>현재 월 판매량 (개)</label>
+        <input type="number" id="sim-qty" value="1200" oninput="simCalc()" />
+      </div>
+    </div>
+    <div style="background:var(--surface2);border-radius:10px;padding:16px;margin-top:4px">
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;text-align:center">
+        <div><div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">BEP 수량</div><div id="sim-bep-qty" style="font-size:22px;font-weight:900;color:var(--accent)">-</div></div>
+        <div><div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">BEP 매출액</div><div id="sim-bep-rev" style="font-size:22px;font-weight:900;color:var(--accent)">-</div></div>
+        <div><div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">공헌이익률</div><div id="sim-cm" style="font-size:18px;font-weight:700;color:var(--text)">-</div></div>
+        <div><div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">현재 월 손익</div><div id="sim-profit" style="font-size:18px;font-weight:700">-</div></div>
+      </div>
+    </div>
+  </div>
+
   <div class="result-card" id="result">
     <div class="result-main">
       <div class="result-label">손익분기 수량 (월)</div>
@@ -200,44 +232,83 @@
     </div>
   </div>
 <div class="seo-card">
-  <h2>손익분기점 계산기 — 2026년 BEP 완벽 분석과 창업 적용 가이드</h2>
-  <h3>손익분기점(BEP)이란 무엇인가?</h3>
-  <p><strong>손익분기점(BEP, Break-Even Point)</strong>은 총수익과 총비용이 같아지는 지점으로, 이 매출 이상을 달성해야 이익이 발생합니다. 창업 전 BEP를 계산하면 최소 몇 개를 팔아야 하는지, 월 최소 매출이 얼마여야 하는지 파악할 수 있습니다. BEP를 모르고 사업을 시작하면 아무리 열심히 팔아도 손해를 보는 상황이 반복될 수 있습니다.</p>
-  <p>BEP 분석의 핵심은 고정비와 변동비를 정확히 구분하는 것입니다. 고정비(임대료·인건비·감가상각비)는 매출에 관계없이 발생하고, 변동비(재료비·포장비·수수료)는 매출에 비례해 증가합니다. 매출에서 변동비를 뺀 공헌이익으로 고정비를 커버해야 이익이 발생합니다.</p>
-  <h3>📐 손익분기점 계산 공식</h3>
-  <p>BEP는 수량 기준과 매출액 기준 두 가지로 계산합니다. 공헌이익률(1 − 변동비율)이 높을수록 BEP 달성이 쉽습니다. 마진율이 낮은 사업은 같은 고정비를 커버하려면 더 많이 팔아야 합니다.</p>
-  <div class="formula-box">BEP 수량 = 고정비 ÷ (판매가 − 단위 변동비)
-BEP 매출액 = 고정비 ÷ 공헌이익률
-공헌이익률 = (판매가 − 변동비) ÷ 판매가
+  <h2>손익분기점(BEP)이란? — 고정비·변동비·공헌이익 핵심 개념</h2>
+  <p><strong>손익분기점(BEP, Break-Even Point)</strong>은 총수익과 총비용이 일치하는 매출 수준으로, 이 이상을 달성해야 이익이 발생합니다. 창업 전 BEP를 계산하면 '최소 몇 개를 팔아야 하는지', '월 최소 매출이 얼마여야 하는지'를 미리 파악할 수 있어 경영 리스크를 크게 줄일 수 있습니다.</p>
+  <p>BEP 분석의 핵심은 비용을 <strong>고정비</strong>와 <strong>변동비</strong>로 정확히 구분하는 것입니다. 고정비(임대료·인건비·감가상각비)는 매출과 관계없이 매달 발생하고, 변동비(재료비·포장비·배달 수수료)는 판매량에 비례해 늘어납니다. 매출에서 변동비를 뺀 <strong>공헌이익</strong>이 고정비를 완전히 커버하는 순간이 바로 BEP입니다.</p>
 
-예) 고정비 300만원, 판매가 1만원, 변동비 6천원
-BEP 수량 = 300만 ÷ (1만 − 6천) = 750개
-BEP 매출 = 300만 ÷ 40% = 750만원</div>
-  <h3>📊 업종별 평균 공헌이익률과 BEP 특성</h3>
-  <p>공헌이익률이 높을수록 한 건 판매로 고정비를 더 많이 커버할 수 있어 BEP 달성이 빠릅니다. 외식업은 재료비·인건비로 변동비가 높아 공헌이익률이 낮고, 소프트웨어는 한계비용이 낮아 공헌이익률이 매우 높습니다.</p>
+  <h2>BEP 계산 공식 — 수량·매출액 기준 실전 예시</h2>
+  <p>BEP는 <strong>수량 기준</strong>과 <strong>매출액 기준</strong> 두 가지로 계산합니다. 수량 기준은 몇 개를 팔아야 하는지, 매출액 기준은 얼마의 매출이 필요한지를 보여줍니다. 공헌이익률(= 공헌이익 ÷ 판매단가 × 100)이 높을수록 같은 고정비를 더 빨리 커버할 수 있습니다.</p>
+  <div class="formula-box">BEP 수량 = 고정비 ÷ (판매단가 − 단위변동비)
+BEP 매출액 = 고정비 ÷ 공헌이익률
+공헌이익률 = (판매단가 − 변동비) ÷ 판매단가
+
+예) 카페 창업: 고정비 250만원, 아메리카노 4,000원, 재료비 1,500원
+→ 공헌이익 = 4,000 − 1,500 = 2,500원
+→ BEP 수량 = 2,500,000 ÷ 2,500 = 1,000잔/월
+→ BEP 매출 = 2,500,000 ÷ 62.5% = 4,000,000원/월
+→ 25일 영업 기준 하루 40잔 달성 필요</div>
+  <p>BEP를 일 단위로 환산하면 목표가 더 체감됩니다. 위 예시에서 월 1,000잔은 25일 영업 시 하루 40잔입니다. 오전·오후 피크타임을 합쳐 40잔이 현실적인지 입지와 함께 반드시 검토해야 합니다. 위 빠른 시뮬레이터에서 고정비와 단가를 직접 바꿔보며 내 사업의 BEP를 확인해보세요.</p>
+
+  <h2>업종별 BEP 특성 비교 — 카페·음식점·온라인몰·프리랜서</h2>
+  <p>업종마다 고정비 구조와 공헌이익률이 다르기 때문에 BEP 특성도 크게 달라집니다. 외식업은 인건비·임대료·재료비가 모두 높아 BEP 달성이 까다롭고, 소프트웨어·정보 서비스업은 한계비용이 거의 0에 가까워 BEP 이후 이익률이 폭발적으로 높아집니다.</p>
   <table class="ex-table">
-    <thead><tr><th>업종</th><th>평균 공헌이익률</th><th>BEP 특성</th></tr></thead>
+    <thead><tr><th>업종</th><th>고정비 특성</th><th>평균 공헌이익률</th><th>BEP 핵심 과제</th></tr></thead>
     <tbody>
-      <tr><td>소프트웨어·SaaS</td><td>70~90%</td><td>고정비 커버 빠름</td></tr>
-      <tr><td>의류·패션</td><td>50~70%</td><td>재고 관리 중요</td></tr>
-      <tr><td>외식·카페</td><td>30~50%</td><td>인건비·임대료 관리 핵심</td></tr>
-      <tr><td>온라인 쇼핑몰</td><td>20~40%</td><td>플랫폼 수수료 포함 시 낮음</td></tr>
+      <tr><td>카페·음료점</td><td>임대료·인건비 高</td><td>55~65%</td><td>회전율·고정비 절감</td></tr>
+      <tr><td>외식·음식점</td><td>재료비·인건비 高</td><td>40~55%</td><td>재료 원가율 관리</td></tr>
+      <tr><td>온라인 쇼핑몰</td><td>마케팅비 변동 큼</td><td>25~45%</td><td>광고비·수수료 관리</td></tr>
+      <tr><td>소프트웨어·SaaS</td><td>개발비 초기 집중</td><td>70~90%</td><td>초기 고객 확보 속도</td></tr>
+      <tr><td>프리랜서·1인 사업</td><td>생활비가 고정비</td><td>60~80%</td><td>최소 수주 금액 설정</td></tr>
     </tbody>
   </table>
-  <div class="hl-box">💡 <strong>BEP 활용 핵심.</strong> ① 창업 전 반드시 BEP 계산 — 현실적인 달성 가능성 검토 ② 고정비 최소화 전략 — 초기에는 임대료 낮은 곳, 인력 최소화 ③ 공헌이익률 높이기 — 단가 인상 또는 변동비 절감 ④ 매월 실제 매출과 BEP 비교해 경영 상태 모니터링.</div>
-  
-  <div class="hl-box">🔑 <strong>핵심 팁</strong><br>💡 <strong>BEP 달성 이후가 진짜 시작:</strong> 손익분기점을 넘는 순간부터 추가 매출의 대부분이 이익으로 전환됩니다. 고정비가 높은 사업일수록 BEP 이후 이익 증가율이 급격히 높아지는 레버리지 효과가 발생합니다. 창업 초기에는 고정비를 최대한 낮게 유지해 BEP를 낮추는 것이 생존 전략의 핵심입니다.</div>
+  <p>프리랜서나 1인 사업자는 <strong>본인 인건비(최소 생활비)를 고정비에 반드시 포함</strong>해야 합니다. 이를 빼고 계산하면 BEP를 달성했어도 실제로는 손해가 지속되는 함정에 빠집니다. 인건비 포함 기준으로 BEP를 계산해 최소 수주 금액이나 월 필요 프로젝트 수를 파악하세요.</p>
 
-<h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>손익분기점과 흑자전환의 차이는?</summary><div class="faq-answer">손익분기점은 순간의 개념으로 특정 매출 수준에서 비용을 완전히 커버하는 시점입니다. 흑자전환은 누적 기준으로 초기 투자비용(인테리어·장비 등)을 모두 회수하고 누적 순이익이 0을 넘는 시점입니다. 일반적으로 흑자전환이 BEP 도달보다 더 오래 걸립니다.</div></details>
-  <details><summary>고정비와 변동비의 경계가 모호한 경우는 어떻게 하나요?</summary><div class="faq-answer">일부 비용은 준고정비(semi-fixed cost)로 일정 매출 구간까지는 고정이다가 그 이상에서 계단식으로 증가합니다(예: 직원 추가 고용). 이런 경우 현재 매출 수준 근처에서의 고정·변동 구분을 기준으로 BEP를 계산하는 것이 실용적입니다.</div></details>
-  <details><summary>BEP 이후에는 이익이 급격히 늘어나나요?</summary><div class="faq-answer">BEP를 넘으면 추가 매출이 모두 공헌이익(마진)이 되어 이익이 빠르게 늘어납니다. 이를 고정비 레버리지 효과라고 합니다. 공헌이익률이 높을수록 BEP 이후 이익 증가 속도가 빠릅니다. 반대로 매출이 BEP 이하로 떨어지면 손실도 빠르게 커집니다.</div></details>
-  <details><summary>프리랜서나 1인 사업자도 BEP를 계산해야 하나요?</summary><div class="faq-answer">네. 1인 사업자도 통신비·장비비·소프트웨어 구독료 등 고정비와 프로젝트별 변동비가 있습니다. 특히 본인 인건비(생활비 최소 기준)를 고정비에 반드시 포함해야 합니다. BEP 계산을 통해 최소 수주 금액이나 필요 프로젝트 수를 파악할 수 있습니다.</div></details>
-  <details><summary>BEP를 낮추는 가장 효과적인 방법은?</summary><div class="faq-answer">① 고정비 절감(임대료 절감·재택 전환·인력 효율화) ② 단가 인상으로 공헌이익률 향상 ③ 변동비 절감(재료비 협상·공정 개선) ④ 제품 믹스 최적화(공헌이익률 높은 제품 위주 판매). BEP가 낮을수록 리스크가 줄고 경기 침체에도 생존 가능성이 높아집니다.</div></details>
+  <h2>BEP를 낮추는 4가지 전략 — 소상공인 생존 경영 핵심</h2>
+  <p>BEP가 낮을수록 불황·비수기에도 살아남기 쉽습니다. BEP를 낮추는 방법은 크게 네 가지입니다. 고정비 절감, 단가 인상, 변동비 절감, 고마진 제품 위주 판매. 이 중 가장 빠른 효과는 단가 인상이지만 고객 이탈 리스크가 있어 신중하게 접근해야 합니다.</p>
+  <table class="ex-table">
+    <thead><tr><th>전략</th><th>방법</th><th>효과 속도</th><th>주의점</th></tr></thead>
+    <tbody>
+      <tr><td>① 고정비 절감</td><td>공유 주방·재택·인력 효율화</td><td>즉각적</td><td>서비스 품질 저하 주의</td></tr>
+      <tr><td>② 단가 인상</td><td>프리미엄화·부가가치 추가</td><td>빠름</td><td>고객 이탈 리스크</td></tr>
+      <tr><td>③ 변동비 절감</td><td>재료 협상·공정 개선</td><td>점진적</td><td>품질 유지 필수</td></tr>
+      <tr><td>④ 제품 믹스</td><td>고마진 메뉴·상품 위주 판매</td><td>중기적</td><td>고객 수요 분석 필요</td></tr>
+    </tbody>
+  </table>
+  <p>창업 초기에는 고정비를 최대한 낮게 유지하는 것이 핵심입니다. 공유 주방·팝업스토어·재택 오피스 등을 활용해 임대료를 줄이면 BEP를 크게 낮출 수 있습니다. BEP가 현실적으로 달성 가능한 수준인지 먼저 확인하고 창업 결정을 내리는 것이 중요합니다.</p>
+  <div class="hl-box"><strong>💡 BEP 이후가 진짜 시작:</strong> BEP를 넘는 순간부터 추가 매출의 대부분이 이익으로 전환됩니다. 고정비가 높은 사업일수록 BEP 이후 이익 증가율이 급격히 높아지는 레버리지 효과가 있습니다. 반대로 BEP 이하 구간에서는 고정비가 계속 쌓여 손실이 빠르게 커집니다.</div>
+
+  <h2>자주 묻는 질문 (FAQ)</h2>
+  <p>손익분기점 계산에서 실무적으로 자주 헷갈리는 질문들을 정리했습니다. BEP는 일회성 계산이 아니라 매월 실적과 비교하며 활용하는 경영 모니터링 도구입니다.</p>
+  <p>고정비와 변동비의 경계가 모호한 경우(배달앱 수수료, 알바 인건비 등)는 과거 데이터를 기준으로 고정·변동 비율을 추정해 사용하면 됩니다. 정확도보다 꾸준히 BEP를 체크하는 루틴 자체가 경영 안정성에 더 중요합니다.</p>
+  <details><summary>손익분기점과 흑자전환의 차이는?</summary><div class="faq-answer">손익분기점(BEP)은 월별 기준으로 수익·비용이 같아지는 매출 수준입니다. 흑자전환은 누적 기준으로 인테리어·장비·보증금 등 초기 투자비용을 모두 회수하고 누적 순이익이 0을 넘는 시점입니다. BEP 달성 이후에도 초기 투자금 회수까지는 수개월~수년이 더 걸릴 수 있습니다.</div></details>
+  <details><summary>고정비와 변동비의 경계가 모호한 경우는?</summary><div class="faq-answer">일부 비용은 매출 구간에 따라 계단식으로 증가하는 준고정비(semi-fixed)입니다. 예를 들어 직원을 추가 고용하면 인건비가 뛰지만 그 구간에서는 고정입니다. 실용적으로는 현재 매출 수준에서 고정·변동을 구분하고, 큰 비용 변화가 예상되는 구간을 별도로 시뮬레이션하는 것이 좋습니다.</div></details>
+  <details><summary>BEP 이후에는 이익이 급격히 늘어나나요?</summary><div class="faq-answer">네. BEP를 넘으면 추가 매출이 모두 공헌이익이 되어 이익이 빠르게 늘어납니다. 이를 고정비 레버리지 효과라고 합니다. 공헌이익률이 높을수록 BEP 이후 이익 증가 속도가 빠릅니다. 반대로 BEP 이하 구간에서는 고정비가 계속 발생해 손실도 빠르게 커집니다.</div></details>
+  <details><summary>프리랜서나 1인 사업자도 BEP를 계산해야 하나요?</summary><div class="faq-answer">반드시 계산해야 합니다. 1인 사업자도 통신비·장비비·소프트웨어 구독료 등 고정비와 프로젝트별 변동비가 있습니다. 특히 본인 인건비(최소 생활비)를 고정비에 포함해야 합니다. BEP 계산으로 최소 월 수주 금액과 필요 프로젝트 수를 파악하면 영업 목표를 구체화할 수 있습니다.</div></details>
+  <details><summary>BEP를 낮추는 가장 효과적인 방법은?</summary><div class="faq-answer">① 고정비 절감(임대료 절감·재택 전환·인력 효율화) ② 단가 인상으로 공헌이익률 향상 ③ 변동비 절감(재료비 협상·공정 개선) ④ 고마진 제품 위주 판매. 창업 초기에는 고정비 절감이 가장 안전합니다. BEP가 낮을수록 불황·비수기에도 생존 가능성이 높아집니다.</div></details>
 </div>
 
 
 <script>
+function simCalc() {
+  const fixed = +document.getElementById('sim-fixed').value || 0;
+  const price = +document.getElementById('sim-price').value || 0;
+  const varC = +document.getElementById('sim-var').value || 0;
+  const qty = +document.getElementById('sim-qty').value || 0;
+  if (!price || varC >= price) return;
+  const contrib = price - varC;
+  const cmRate = contrib / price;
+  const bepQty = fixed > 0 ? Math.ceil(fixed / contrib) : 0;
+  const bepRev = fixed > 0 ? Math.round(fixed / cmRate) : 0;
+  const profit = contrib * qty - fixed;
+  document.getElementById('sim-bep-qty').textContent = bepQty.toLocaleString() + '개';
+  document.getElementById('sim-bep-rev').textContent = bepRev.toLocaleString() + '원';
+  document.getElementById('sim-cm').textContent = (cmRate * 100).toFixed(1) + '%';
+  const pEl = document.getElementById('sim-profit');
+  pEl.textContent = (profit >= 0 ? '+' : '') + profit.toLocaleString() + '원';
+  pEl.style.color = profit >= 0 ? 'var(--accent)' : 'var(--danger)';
+}
+window.addEventListener('DOMContentLoaded', simCalc);
+
 const fw = n => Math.round(n).toLocaleString() + '원';
 
 function addRow(listId) {
