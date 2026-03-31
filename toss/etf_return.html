@@ -2,22 +2,28 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>ETF 수익률 계산기</title>
-  <!-- TODO: 앱인토스 SDK 교체 -->
-  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ETF 수익률 계산기 — 국내·해외·연금계좌 세후 수익 계산 | 모두의계산기</title>
+  <meta name="description" content="ETF 수익률 계산기. 국내 ETF(비과세/15.4%), 해외 ETF(양도세 22%), IRP·ISA 연금계좌 세후 실수익 자동 계산. 분배금 포함." />
+  <meta property="og:title" content="ETF 수익률 계산기 | 모두의계산기" />
+  <meta property="og:description" content="국내·해외 ETF 세후 수익률, 연금계좌 과세이연 효과 계산." />
+  <meta property="og:image" content="https://www.everycalc.kr/og-image.png" />
+  <meta property="og:url" content="https://www.everycalc.kr/etf_return" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" /></noscript>
   <style>
-
     :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--danger:#ff6b6b;--radius:16px}
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
-    
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
     .container{max-width:800px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
-    
-    
-    
-    
-    
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;gap:2px;width:48px;height:48px;justify-content:center;border-radius:50%;background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.2);text-decoration:none;transition:all .2s}
+    .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
     .header{text-align:center;margin-bottom:48px}
     .header h1{font-size:clamp(26px,5vw,44px);font-weight:900;line-height:1.1;margin-bottom:12px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
     .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
@@ -56,41 +62,6 @@
     .d-value.red{color:var(--danger)}
     .d-value.green{color:#4caf50}
   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    .home-btn-wrap{text-align:center;margin-bottom:8px}
-    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
-    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
-    .home-btn-emoji{font-size:20px;line-height:1}
-    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
-
     .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
     .toss-header>.emoji{font-size:28px;flex-shrink:0}
     .toss-header h1{font-size:20px;font-weight:800;color:var(--text);margin:0}
@@ -102,148 +73,177 @@
     .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
     .ni-emoji{font-size:20px}
     .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
-
-    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+    .calc-guide{margin-top:20px;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .calc-guide-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:12px}
+    .calc-guide-desc{font-size:13px;color:var(--text-muted);line-height:1.8;margin-bottom:12px}
+    .calc-guide-basis{font-size:12px;color:var(--text-muted);padding:10px 14px;background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;line-height:1.7}
+    .disclaimer{text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280}
+    @media(max-width:360px){.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
 
   </style>
 </head>
 <body>
 <div class="container">
-  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
-  <div class="toss-header">
-    <span class="emoji">📈</span>
-    <div><h1>ETF 수익률 계산기</h1><p>ETF 분배금·세후 수익 계산</p></div>
+    <div class="toss-header">
+    <span class="emoji">📊</span>
+    <div><h1>ETF 수익률 계산기</h1><p>국내·해외·연금계좌 세후 실수익 계산</p></div>
   </div>
 
+  <div class="card">
+    <div class="tab-group">
+      <button class="tab-btn active" onclick="switchTab('domestic',this)">🇰🇷 국내 ETF</button>
+      <button class="tab-btn" onclick="switchTab('overseas',this)">🌍 해외 ETF</button>
+      <button class="tab-btn" onclick="switchTab('pension',this)">🏦 연금계좌</button>
+    </div>
 
+    <!-- 국내 ETF -->
+    <div id="panel-domestic">
+      <div class="card-title">🇰🇷 국내 상장 ETF</div>
+      <div class="input-group">
+        <label>ETF 유형</label>
+        <div class="seg-group" id="domestic-type">
+          <button class="seg-btn active" data-type="equity" onclick="selectSeg(this,'domestic-type')">주식형 (비과세)</button>
+          <button class="seg-btn" data-type="other" onclick="selectSeg(this,'domestic-type')">기타 (15.4%)</button>
+        </div>
+        <div class="info-box" id="domestic-info" style="margin-top:10px">
+          <strong>주식형 ETF</strong>: KODEX 200, TIGER 코스닥150 등 국내주식 추종 — 매매차익 <strong>비과세</strong>
+        </div>
+      </div>
+      <div class="row2">
+        <div class="input-group">
+          <label>매수 금액</label>
+          <div class="input-wrapper"><input type="number" id="d-buy" placeholder="1000000" value="1000000" /><span class="input-unit">원</span></div>
+        </div>
+        <div class="input-group">
+          <label>매도 금액</label>
+          <div class="input-wrapper"><input type="number" id="d-sell" placeholder="1200000" value="1200000" /><span class="input-unit">원</span></div>
+        </div>
+      </div>
+      <div class="row2">
+        <div class="input-group">
+          <label>분배금 수령 (선택)</label>
+          <div class="input-wrapper"><input type="number" id="d-dist" placeholder="0" value="0" /><span class="input-unit">원</span></div>
+        </div>
+        <div class="input-group">
+          <label>보유 기간</label>
+          <div class="input-wrapper"><input type="number" id="d-months" placeholder="12" value="12" /><span class="input-unit">개월</span></div>
+        </div>
+      </div>
+      <button class="calc-btn" onclick="calcDomestic()">📊 수익률 계산하기</button>
+    </div>
 
-<div class="card">
-<div class="tab-group">
-<button class="tab-btn active" onclick="switchTab('domestic',this)">🇰🇷 국내 ETF</button>
-<button class="tab-btn" onclick="switchTab('overseas',this)">🌍 해외 ETF</button>
-<button class="tab-btn" onclick="switchTab('pension',this)">🏦 연금계좌</button>
-</div>
-<!-- 국내 ETF -->
-<div id="panel-domestic">
-<div class="card-title">🇰🇷 국내 상장 ETF</div>
-<div class="input-group">
-<label>ETF 유형</label>
-<div class="seg-group" id="domestic-type">
-<button class="seg-btn active" data-type="equity" onclick="selectSeg(this,'domestic-type')">주식형 (비과세)</button>
-<button class="seg-btn" data-type="other" onclick="selectSeg(this,'domestic-type')">기타 (15.4%)</button>
-</div>
-<div class="info-box" id="domestic-info" style="margin-top:10px">
-<strong>주식형 ETF</strong>: KODEX 200, TIGER 코스닥150 등 국내주식 추종 — 매매차익 <strong>비과세</strong>
-</div>
-</div>
-<div class="row2">
-<div class="input-group">
-<label>매수 금액</label>
-<div class="input-wrapper"><input id="d-buy" placeholder="1000000" type="number"/><span class="input-unit">원</span></div>
-</div>
-<div class="input-group">
-<label>매도 금액</label>
-<div class="input-wrapper"><input id="d-sell" placeholder="1200000" type="number"/><span class="input-unit">원</span></div>
-</div>
-</div>
-<div class="row2">
-<div class="input-group">
-<label>분배금 수령 (선택)</label>
-<div class="input-wrapper"><input id="d-dist" placeholder="0" type="number" value="0"/><span class="input-unit">원</span></div>
-</div>
-<div class="input-group">
-<label>보유 기간</label>
-<div class="input-wrapper"><input id="d-months" placeholder="12" type="number" value="12"/><span class="input-unit">개월</span></div>
-</div>
-</div>
-<button class="calc-btn" onclick="calcDomestic()">📊 수익률 계산하기</button>
-</div>
-<!-- 해외 ETF -->
-<div id="panel-overseas" style="display:none">
-<div class="card-title">🌍 해외 상장 ETF</div>
-<div class="info-box">
-        해외 ETF 매매차익: 연간 <strong>250만원 공제</strong> 후 <strong>양도세 22%</strong> (지방세 포함)<br/>
+    <!-- 해외 ETF -->
+    <div id="panel-overseas" style="display:none">
+      <div class="card-title">🌍 해외 상장 ETF</div>
+      <div class="info-box">
+        해외 ETF 매매차익: 연간 <strong>250만원 공제</strong> 후 <strong>양도세 22%</strong> (지방세 포함)<br>
         분배금: <strong>15.4%</strong> 배당소득세 (또는 현지 원천징수 후 차액)
       </div>
-<div class="row2">
-<div class="input-group">
-<label>매수 금액</label>
-<div class="input-wrapper"><input id="o-buy" placeholder="1000000" type="number"/><span class="input-unit">원</span></div>
-</div>
-<div class="input-group">
-<label>매도 금액</label>
-<div class="input-wrapper"><input id="o-sell" placeholder="1300000" type="number"/><span class="input-unit">원</span></div>
-</div>
-</div>
-<div class="row2">
-<div class="input-group">
-<label>분배금 수령 (선택)</label>
-<div class="input-wrapper"><input id="o-dist" placeholder="0" type="number" value="0"/><span class="input-unit">원</span></div>
-</div>
-<div class="input-group">
-<label>연간 총 양도차익</label>
-<div class="input-wrapper"><input id="o-annual-gain" placeholder="0" type="number" value="0"/><span class="input-unit">원</span></div>
-</div>
-</div>
-<div class="info-box" style="font-size:12px">💡 연간 총 양도차익은 다른 해외주식/ETF 포함 합산 금액입니다. 250만원 공제는 1년에 한 번 적용됩니다.</div>
-<button class="calc-btn" onclick="calcOverseas()">📊 수익률 계산하기</button>
-</div>
-<!-- 연금계좌 -->
-<div id="panel-pension" style="display:none">
-<div class="card-title">🏦 연금계좌 ETF (IRP·ISA·연금저축)</div>
-<div class="info-box">
-        연금계좌 내 ETF: 매매차익·분배금 <strong>과세이연</strong><br/>
+      <div class="row2">
+        <div class="input-group">
+          <label>매수 금액</label>
+          <div class="input-wrapper"><input type="number" id="o-buy" placeholder="1000000" /><span class="input-unit">원</span></div>
+        </div>
+        <div class="input-group">
+          <label>매도 금액</label>
+          <div class="input-wrapper"><input type="number" id="o-sell" placeholder="1300000" /><span class="input-unit">원</span></div>
+        </div>
+      </div>
+      <div class="row2">
+        <div class="input-group">
+          <label>분배금 수령 (선택)</label>
+          <div class="input-wrapper"><input type="number" id="o-dist" placeholder="0" value="0" /><span class="input-unit">원</span></div>
+        </div>
+        <div class="input-group">
+          <label>연간 총 양도차익</label>
+          <div class="input-wrapper"><input type="number" id="o-annual-gain" placeholder="0" value="0" /><span class="input-unit">원</span></div>
+        </div>
+      </div>
+      <div class="info-box" style="font-size:12px">💡 연간 총 양도차익은 다른 해외주식/ETF 포함 합산 금액입니다. 250만원 공제는 1년에 한 번 적용됩니다.</div>
+      <button class="calc-btn" onclick="calcOverseas()">📊 수익률 계산하기</button>
+    </div>
+
+    <!-- 연금계좌 -->
+    <div id="panel-pension" style="display:none">
+      <div class="card-title">🏦 연금계좌 ETF (IRP·ISA·연금저축)</div>
+      <div class="info-box">
+        연금계좌 내 ETF: 매매차익·분배금 <strong>과세이연</strong><br>
         수령 시 연금소득세 <strong>3.3~5.5%</strong> (나이·수령방식에 따라)
       </div>
-<div class="row2">
-<div class="input-group">
-<label>매수 금액</label>
-<div class="input-wrapper"><input id="p-buy" placeholder="1000000" type="number"/><span class="input-unit">원</span></div>
-</div>
-<div class="input-group">
-<label>매도 금액</label>
-<div class="input-wrapper"><input id="p-sell" placeholder="1500000" type="number"/><span class="input-unit">원</span></div>
-</div>
-</div>
-<div class="row2">
-<div class="input-group">
-<label>분배금 합계 (선택)</label>
-<div class="input-wrapper"><input id="p-dist" placeholder="0" type="number" value="0"/><span class="input-unit">원</span></div>
-</div>
-<div class="input-group">
-<label>수령 시 세율</label>
-<div class="input-wrapper">
-<select id="p-tax-rate" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 18px;font-size:15px;color:var(--text);outline:none;font-family:'Noto Sans KR',sans-serif">
-<option value="0.033">3.3% (70세 이상)</option>
-<option selected="" value="0.044">4.4% (60~70세)</option>
-<option value="0.055">5.5% (55~60세)</option>
-<option value="0.154">15.4% (일시수령·중도해지)</option>
-</select>
-</div>
-</div>
-</div>
-<button class="calc-btn" onclick="calcPension()">📊 수익률 계산하기</button>
-</div>
-</div>
-<!-- 결과 -->
-<div class="card result-card" id="resultCard">
-<div class="card-title">💰 계산 결과</div>
-<div class="big-result">
-<div class="br-label">세후 수익률 (연환산)</div>
-<div class="br-value" id="r-yield">—</div>
-<div class="br-unit">% / 년</div>
-</div>
-<div class="detail-item"><span class="d-label">매수 금액</span><span class="d-value" id="r-buy">—</span></div>
-<div class="detail-item"><span class="d-label">매도 금액</span><span class="d-value" id="r-sell">—</span></div>
-<div class="detail-item"><span class="d-label">매매차익 (세전)</span><span class="d-value" id="r-gain">—</span></div>
-<div class="detail-item"><span class="d-label" id="r-tax-label">세금</span><span class="d-value red" id="r-tax">—</span></div>
-<div class="detail-item" id="row-dist" style="display:none"><span class="d-label">분배금 (세후)</span><span class="d-value green" id="r-dist">—</span></div>
-<div class="detail-item"><span class="d-label">세후 순수익</span><span class="d-value accent" id="r-net">—</span></div>
-<div class="detail-item"><span class="d-label">총 수익률 (세후)</span><span class="d-value accent" id="r-total-yield">—</span></div>
-</div>
+      <div class="row2">
+        <div class="input-group">
+          <label>매수 금액</label>
+          <div class="input-wrapper"><input type="number" id="p-buy" placeholder="1000000" /><span class="input-unit">원</span></div>
+        </div>
+        <div class="input-group">
+          <label>매도 금액</label>
+          <div class="input-wrapper"><input type="number" id="p-sell" placeholder="1500000" /><span class="input-unit">원</span></div>
+        </div>
+      </div>
+      <div class="row2">
+        <div class="input-group">
+          <label>분배금 합계 (선택)</label>
+          <div class="input-wrapper"><input type="number" id="p-dist" placeholder="0" value="0" /><span class="input-unit">원</span></div>
+        </div>
+        <div class="input-group">
+          <label>수령 시 세율</label>
+          <div class="input-wrapper">
+            <select id="p-tax-rate" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 18px;font-size:15px;color:var(--text);outline:none;font-family:'Noto Sans KR',sans-serif">
+              <option value="0.033">3.3% (70세 이상)</option>
+              <option value="0.044" selected>4.4% (60~70세)</option>
+              <option value="0.055">5.5% (55~60세)</option>
+              <option value="0.154">15.4% (일시수령·중도해지)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <button class="calc-btn" onclick="calcPension()">📊 수익률 계산하기</button>
+    </div>
+  </div>
 
-    <div style="text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280;">
-    본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.
+  <!-- 결과 -->
+  <div class="card result-card" id="resultCard">
+    <div class="card-title">💰 계산 결과</div>
+    <div class="big-result">
+      <div class="br-label">세후 수익률 (연환산)</div>
+      <div class="br-value" id="r-yield">—</div>
+      <div class="br-unit">% / 년</div>
+    </div>
+    <div class="detail-item"><span class="d-label">매수 금액</span><span class="d-value" id="r-buy">—</span></div>
+    <div class="detail-item"><span class="d-label">매도 금액</span><span class="d-value" id="r-sell">—</span></div>
+    <div class="detail-item"><span class="d-label">매매차익 (세전)</span><span class="d-value" id="r-gain">—</span></div>
+    <div class="detail-item"><span class="d-label" id="r-tax-label">세금</span><span class="d-value red" id="r-tax">—</span></div>
+    <div class="detail-item" id="row-dist" style="display:none"><span class="d-label">분배금 (세후)</span><span class="d-value green" id="r-dist">—</span></div>
+    <div class="detail-item"><span class="d-label">세후 순수익</span><span class="d-value accent" id="r-net">—</span></div>
+    <div class="detail-item"><span class="d-label">총 수익률 (세후)</span><span class="d-value accent" id="r-total-yield">—</span></div>
+  </div>
+
+  <!-- 계좌별 세후 비교 시뮬레이터 -->
+  <div class="card" style="margin-top:4px">
+    <div class="card-title">🏦 계좌 유형별 세후 수익 비교</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;line-height:1.7">같은 ETF라도 어느 계좌에서 투자하느냐에 따라 세후 수익이 달라집니다. 투자 금액과 수익률을 입력하면 일반계좌·ISA·IRP를 자동으로 비교합니다.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+      <div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px;font-weight:600">투자 금액 (원)</div>
+        <input type="number" id="cmp-invest" placeholder="1000000" value="10000000"
+          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:15px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none"
+          oninput="calcAccountSim()" />
+      </div>
+      <div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px;font-weight:600">총 수익률 (%)</div>
+        <input type="number" id="cmp-rate" placeholder="30" value="30" step="0.1"
+          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:15px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none"
+          oninput="calcAccountSim()" />
+      </div>
+    </div>
+    <div id="cmpResult"></div>
+  </div>
+
+  <div class="disclaimer">본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.</div>
+  <div class="calc-guide">
+    <div class="calc-guide-title">📋 사용 방법</div>
+    <div class="calc-guide-desc">매수가·현재가·분배금을 입력하면 ETF 수익률을 계산합니다. 계좌 유형별(일반·IRP·ISA·연금저축) 세후 수익 비교도 확인해보세요.</div>
+    <div class="calc-guide-basis">📌 계산 기준: 2026년 기준 · 국내 ETF 분배금 15.4% 과세 · ISA 비과세 한도 적용</div>
   </div>
   <div class="toss-nav">
     <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
@@ -255,6 +255,46 @@
     </div>
   </div>
 </div>
+
+<script>
+function calcAccountSim(){
+  const invest = parseFloat(document.getElementById('cmp-invest').value)||0;
+  const rate   = parseFloat(document.getElementById('cmp-rate').value)||0;
+  const el     = document.getElementById('cmpResult');
+  if(!invest||!rate){el.innerHTML='';return;}
+  const gain  = invest * rate/100;
+  // 일반계좌 (해외형 ETF 기준 15.4%)
+  const netNormal = invest + gain * (1 - 0.154);
+  // ISA: 200만원 비과세, 초과분 9.9%
+  const isaFree = Math.min(gain, 2000000);
+  const isaOver = Math.max(0, gain - 2000000) * 0.099;
+  const netISA  = invest + gain - isaOver;
+  // IRP/연금저축: 과세이연 후 연금소득세 4.4% (60~70세 기준)
+  const netIRP  = invest + gain * (1 - 0.044);
+  const fmt3 = n => Math.round(n).toLocaleString();
+  const items = [
+    {name:'📊 일반 계좌 (해외형 ETF)', val:netNormal, tax:Math.round(gain*0.154), note:'배당소득세 15.4%'},
+    {name:'💼 ISA 계좌', val:netISA, tax:Math.round(isaOver), note:'200만원 비과세·초과분 9.9%'},
+    {name:'🏦 IRP·연금저축 (60~70세 수령)', val:netIRP, tax:Math.round(gain*0.044), note:'연금소득세 4.4%·과세이연'},
+  ].sort((a,b)=>b.val-a.val);
+  el.innerHTML = items.map((r,i)=>`
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:var(--surface2);border:1px solid ${i===0?'rgba(0,212,170,.4)':'var(--border)'};border-radius:10px;margin-bottom:8px">
+      <div>
+        <div style="font-size:13px;font-weight:700;color:${i===0?'var(--accent)':'var(--text)'}">${i===0?'🥇 ':''}${r.name}</div>
+        <div style="font-size:11px;color:var(--text-muted)">${r.note} · 세금 ${fmt3(r.tax)}원</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:17px;font-weight:900;font-family:Montserrat,sans-serif;color:${i===0?'var(--accent)':'var(--text)'}">
+          ${fmt3(r.val)}원</div>
+        <div style="font-size:11px;color:var(--text-muted)">세후 수령액</div>
+      </div>
+    </div>`).join('')+
+    `<div style="font-size:12px;color:var(--text-muted);padding:8px 4px">※ IRP는 55세 이후 연금 수령 시 3.3~5.5% 적용. 일시 수령·중도 해지 시 16.5% 기타소득세.</div>`;
+}
+calcAccountSim();
+window.onload = () => calcDomestic();
+</script>
+
 <script>
 let currentTab='domestic';
 let domesticType='equity';
