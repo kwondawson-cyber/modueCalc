@@ -144,7 +144,7 @@
     <div id="allowanceList">
       <div class="allowance-row">
         <input class="name-inp" type="text" value="기본급" readonly style="color:var(--text-muted)" />
-        <input class="amt-inp" type="number" id="basicPay" placeholder="월 기본급 (원)" />
+        <input class="amt-inp" type="number" id="basicPay" placeholder="월 기본급 (원)" value="3000000" />
         <select style="flex:0.8;opacity:0"><option>과세</option></select>
         <button class="btn-del" style="opacity:0;pointer-events:none">✕</button>
       </div>
@@ -297,6 +297,12 @@
 </div>
 
 <script src="/common.js" defer></script><script src="/share.js" defer></script><script src="/calculator.js" defer></script>
-<script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}</script>
+<script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}
+window.onload = () => {
+  const now = new Date();
+  document.getElementById('payMonth').value = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+  if(typeof calcPayslip === 'function') calcPayslip();
+};
+</script>
 </body>
 </html>

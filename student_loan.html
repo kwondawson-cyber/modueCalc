@@ -415,6 +415,8 @@
     document.getElementById('graceBox').innerHTML = graceHtml;
     document.getElementById('resultCard').classList.add('visible');
   }
+
+  window.onload = () => calc();
 </script>
 <script src="/common.js" defer></script><script src="/share.js" defer></script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));}</script>
