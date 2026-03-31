@@ -205,16 +205,6 @@
   </div>
 
 </div>
-  <div class="rel-section">
-    <h2>📌 함께 쓰면 유용한 계산기</h2>
-    <div class="rel-grid">
-      <a href="/retirement" class="rel-card"><span class="re">💰</span><span class="rn">퇴직금 계산기</span></a>
-      <a href="/pension" class="rel-card"><span class="re">🏦</span><span class="rn">국민연금</span></a>
-      <a href="/salary" class="rel-card"><span class="re">💵</span><span class="rn">월급 실수령액</span></a>
-      <a href="/income_tax" class="rel-card"><span class="re">📋</span><span class="rn">소득세</span></a>
-      <a href="/insurance" class="rel-card"><span class="re">🛡️</span><span class="rn">보험료</span></a>
-    </div>
-  </div>
 
 <script>
 function fmtInput(el){const raw=el.value.replace(/[^0-9.]/g,'');el.value=raw?Number(raw.replace(/\./g,'')).toLocaleString('ko-KR'):'';}
@@ -293,7 +283,7 @@ function calcPension() {
   updatePeriodSim();
 }
 
-let _pension = null;
+  _pension = null;
 function updatePeriodSim() {
   // _pension 없으면 기본값(DB형 10년, 월 400만원)으로 시뮬
   const totalWon = _pension ? _pension.totalWon : (400*10000/91)*30*10;
@@ -319,6 +309,8 @@ function updatePeriodSim() {
     </div>`;
   }).join('');
 }
+
+window.onload = () => calcPension();
 </script>
 
 <!-- 수령기간별 시뮬레이터 -->
@@ -327,6 +319,17 @@ function updatePeriodSim() {
     <div class="card-title">📊 연금 수령기간별 절세 비교 — 몇 년으로 나눠 받는 게 유리할까</div>
     <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;line-height:1.7">연금 수령 기간이 길수록 퇴직소득세 감면이 크고 월 연금액은 작아집니다. 슬라이더는 메인 계산기의 수령 기간과 연동됩니다.</p>
     <div id="simResult"></div>
+  </div>
+</div>
+
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+    <a href="/retirement" class="rel-card"><span class="re">💰</span><span class="rn">퇴직금 계산기</span></a>
+    <a href="/pension" class="rel-card"><span class="re">🏦</span><span class="rn">국민연금</span></a>
+    <a href="/salary" class="rel-card"><span class="re">💵</span><span class="rn">월급 실수령액</span></a>
+    <a href="/income_tax" class="rel-card"><span class="re">📋</span><span class="rn">소득세</span></a>
+    <a href="/insurance" class="rel-card"><span class="re">🛡️</span><span class="rn">보험료</span></a>
   </div>
 </div>
 
