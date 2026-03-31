@@ -71,10 +71,10 @@
     .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
   
 
-.rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
 
 
-.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+
+
 
 
 
@@ -175,14 +175,31 @@
     <div id="leaveSimTable" style="overflow-x:auto"></div>
   </div>
 
+<div class="card" id="timelineCard" style="display:none">
+    <div class="card-title">📅 연차 소멸·촉진 타임라인</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">입사 월을 선택하면 연차 발생·사용 촉진·소멸 일정을 자동으로 계산합니다.</p>
+    <div style="display:flex;gap:12px;align-items:center;margin-bottom:16px">
+      <div style="font-size:13px;color:var(--text-muted);font-weight:600;white-space:nowrap">입사 월</div>
+      <select id="tl-joinMonth" onchange="updateTimeline()"
+        style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:15px;color:var(--text);outline:none;flex:1;font-family:'Noto Sans KR',sans-serif">
+        <option value="1">1월</option><option value="2">2월</option><option value="3">3월</option>
+        <option value="4">4월</option><option value="5">5월</option><option value="6">6월</option>
+        <option value="7">7월</option><option value="8">8월</option><option value="9">9월</option>
+        <option value="10">10월</option><option value="11">11월</option><option value="12">12월</option>
+      </select>
+    </div>
+    <div id="timelineResult"></div>
+  </div>
+
   <div class="disclaimer">본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.</div>
   <div class="calc-guide">
     <div class="calc-guide-title">📋 사용 방법</div>
-    <div class="calc-guide-desc">입사일을 입력하면 발생 연차 일수와 사용 가능 연차를 자동 계산합니다.</div>
+    <div class="calc-guide-desc">입사일을 입력하면 발생 연차와 잔여 연차를 자동 계산합니다. 연차 소멸·촉진 타임라인도 확인해보세요.</div>
     <div class="calc-guide-basis">📌 계산 기준: 근로기준법 기준 (1년 미만: 월 1일, 1년 이상: 15일, 최대 25일)</div>
   </div>
   <div class="toss-nav">
     <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
+</div>
     <div class="toss-nav-grid">
       <a href="/salary" class="toss-nav-item"><span class="ni-emoji">💰</span><span class="ni-label">연봉</span></a>
       <a href="/weekly_holiday" class="toss-nav-item"><span class="ni-emoji">📅</span><span class="ni-label">주휴수당</span></a>
@@ -291,28 +308,5 @@
 </script>
 
 <!-- 연차 소멸 타임라인 -->
-<div class="container" style="padding-top:0;padding-bottom:0">
-  <div class="card" id="timelineCard" style="display:none">
-    <div class="card-title">📅 연차 소멸·촉진 타임라인</div>
-    <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">입사 월을 선택하면 연차 발생·사용 촉진·소멸 일정을 자동으로 계산합니다.</p>
-    <div style="display:flex;gap:12px;align-items:center;margin-bottom:16px">
-      <div style="font-size:13px;color:var(--text-muted);font-weight:600;white-space:nowrap">입사 월</div>
-      <select id="tl-joinMonth" onchange="updateTimeline()"
-        style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:15px;color:var(--text);outline:none;flex:1;font-family:'Noto Sans KR',sans-serif">
-        <option value="1">1월</option><option value="2">2월</option><option value="3">3월</option>
-        <option value="4">4월</option><option value="5">5월</option><option value="6">6월</option>
-        <option value="7">7월</option><option value="8">8월</option><option value="9">9월</option>
-        <option value="10">10월</option><option value="11">11월</option><option value="12">12월</option>
-      </select>
-    </div>
-    <div id="timelineResult"></div>
-  </div>
-</div>
-
-
-</div>
-
-
-
 </body>
 </html>

@@ -80,10 +80,10 @@
     .sim-tbl tr.hl td{color:var(--accent);font-weight:700}
   
 
-.rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
 
 
-.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+
+
 
 
 
@@ -116,28 +116,9 @@
 <body>
 <div class="container">
     <div class="toss-header">
-    <span class="emoji">🧮</span>
-    <div><h1>계산기</h1><p></p></div>
+    <span class="emoji">📐</span>
+    <div><h1>평 ↔ ㎡ 변환기</h1><p>평수 · ㎡ · 평형 즉시 변환</p></div>
   </div>
-    <h1><span class="emoji">📐</span> 평 ↔ ㎡ 변환기</h1>
-    <p>평수 · ㎡ · 평형 즉시 변환</p>
-  
-  <div class="disclaimer">본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.</div>
-  <div class="calc-guide">
-    <div class="calc-guide-title">📋 사용 방법</div>
-    <div class="calc-guide-desc">평수(py)와 제곱미터(㎡)를 상호 변환합니다. 아파트·사무실 면적 확인에 유용합니다.</div>
-    <div class="calc-guide-basis">📌 계산 기준: 1평 = 3.3058㎡ 기준</div>
-  </div>
-  <div class="toss-nav">
-    <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
-    <div class="toss-nav-grid">
-      <a href="/cm_inch" class="toss-nav-item"><span class="ni-emoji">📏</span><span class="ni-label">cm·인치</span></a>
-      <a href="/acquisition" class="toss-nav-item"><span class="ni-emoji">🏠</span><span class="ni-label">취득세</span></a>
-      <a href="/savings" class="toss-nav-item"><span class="ni-emoji">💳</span><span class="ni-label">적금</span></a>
-      <a href="/compound" class="toss-nav-item"><span class="ni-emoji">📊</span><span class="ni-label">복리</span></a>
-    </div>
-  </div>
-</div>
 
   <div class="card">
     <div class="card-title">📐 평수 입력</div>
@@ -239,6 +220,22 @@ function renderArea(){
     <div id="aptSimResult"></div>
     <p style="font-size:11px;color:var(--text-muted);margin-top:8px">&#8251; 취득세 1주택 일반세율 기준 &#183; 중개수수료 0.4% 기준 &#183; 실제와 다를 수 있음</p>
   </div>
+
+  <div class="disclaimer">본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.</div>
+  <div class="calc-guide">
+    <div class="calc-guide-title">📋 사용 방법</div>
+    <div class="calc-guide-desc">평수·㎡·평형을 상호 변환합니다. 평당 가격으로 아파트 총 가격도 계산할 수 있어요.</div>
+    <div class="calc-guide-basis">📌 계산 기준: 1평 = 3.3058㎡ 기준</div>
+  </div>
+  <div class="toss-nav">
+    <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
+    <div class="toss-nav-grid">
+      <a href="/cm_inch" class="toss-nav-item"><span class="ni-emoji">📏</span><span class="ni-label">cm·인치</span></a>
+      <a href="/acquisition" class="toss-nav-item"><span class="ni-emoji">🏠</span><span class="ni-label">취득세</span></a>
+      <a href="/savings" class="toss-nav-item"><span class="ni-emoji">💳</span><span class="ni-label">적금</span></a>
+      <a href="/compound" class="toss-nav-item"><span class="ni-emoji">📊</span><span class="ni-label">복리</span></a>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -296,8 +293,5 @@ document.addEventListener('DOMContentLoaded', () => { updateAptSim(); const el=d
 
 
 </div>
-
-
-
 </body>
 </html>
