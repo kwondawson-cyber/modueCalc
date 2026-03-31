@@ -260,10 +260,8 @@ function loadTrackerDisplay(){
   el.innerHTML=records.map(r=>`<div class="tracker-row"><span style="color:var(--text-muted);font-size:12px;flex-shrink:0">${r.date}</span><span style="font-weight:700">${r.sys}/${r.dia} <span style="font-size:11px;font-weight:400;color:var(--text-muted)">mmHg</span></span><span class="tracker-status" style="background:${r.color}22;color:${r.color};border:1px solid ${r.color}55">${r.stage}</span></div>`).join('');
 }
 function clearBPRecords(){if(!confirm('모든 혈압 기록을 삭제할까요?'))return;localStorage.removeItem('bp_records');loadTrackerDisplay();}
-judgeBP();
-loadTrackerDisplay();
 
-// ── 생활습관 개선 시뮬레이터 ──
+// ── 생활습관 개선 시뮬레이터 (judgeBP보다 먼저 정의) ──
 const LIFESTYLE = [
   { id:'ls-salt',     label:'🧂 저염식 (나트륨 2g/일 이하)',        sys:-5, dia:-3, note:'WHO 권장 기준' },
   { id:'ls-exercise', label:'🏃 유산소 운동 (주 150분 이상)',        sys:-5, dia:-4, note:'걷기·자전거·수영 등' },
@@ -337,6 +335,9 @@ function updateLifestyle() {
     <div style="font-size:11px;color:var(--text-muted);margin-top:10px;line-height:1.7">※ 예상 수치는 임상 연구 평균값 기반입니다. 개인차가 있으며 의사 상담을 대체하지 않습니다.</div>`;
 }
 
+// 초기 실행 (LIFESTYLE 정의 이후)
+judgeBP();
+loadTrackerDisplay();
 initLifestyleChecks();
 </script>
 
