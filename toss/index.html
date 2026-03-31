@@ -190,8 +190,6 @@
     <button class="cat-tab" data-cat="labor" onclick="filterCat('labor')">👔 급여·노무</button>
     <button class="cat-tab" data-cat="biz" onclick="filterCat('biz')">💼 사업자·세금</button>
     <button class="cat-tab" data-cat="invest" onclick="filterCat('invest')">📈 투자·재테크</button>
-    <button class="cat-tab" data-cat="loan" onclick="filterCat('loan')">🏠 대출·부동산</button>
-    <button class="cat-tab" data-cat="car" onclick="filterCat('car')">🚗 자동차</button>
     <button class="cat-tab" data-cat="health" onclick="filterCat('health')">💪 건강</button>
     <button class="cat-tab" data-cat="daily" onclick="filterCat('daily')">📅 생활·날짜</button>
   </div>
@@ -448,89 +446,7 @@
     </div>
   </div>
 
-  <!-- 🏠 대출·부동산 -->
-  <div class="cat-section" data-section="loan">
-    <div class="section-title">🏠 대출·부동산</div>
-    <div class="calc-list">
-      <a href="/loan" class="calc-item" data-name="대출 이자 계산기" data-desc="원리금균등·원금균등 이자" data-cat="loan">
-        <div class="calc-item-emoji">🏦</div>
-        <div class="calc-item-text"><div class="calc-item-name">대출 이자 계산기</div><div class="calc-item-desc">원리금균등·원금균등 이자</div></div>
-        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
-      </a>
-      <a href="/loan_limit" class="calc-item" data-name="대출한도 계산기" data-desc="소득 기준 대출한도 계산" data-cat="loan">
-        <div class="calc-item-emoji">🏦</div>
-        <div class="calc-item-text"><div class="calc-item-name">대출한도 계산기</div><div class="calc-item-desc">소득 기준 대출한도 계산</div></div>
-        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
-      </a>
-      <a href="/mortgage" class="calc-item" data-name="모기지 계산기" data-desc="주택담보대출 상환 계산" data-cat="loan">
-        <div class="calc-item-emoji">🏠</div>
-        <div class="calc-item-text"><div class="calc-item-name">모기지 계산기</div><div class="calc-item-desc">주택담보대출 상환 계산</div></div>
-        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
-      </a>
-      <a href="/jeonse_loan" class="calc-item" data-name="전세자금대출 계산기" data-desc="전세대출 이자·월상환금" data-cat="loan">
-        <div class="calc-item-emoji">🏘</div>
-        <div class="calc-item-text"><div class="calc-item-name">전세자금대출 계산기</div><div class="calc-item-desc">전세대출 이자·월상환금</div></div>
-        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
-      </a>
-      <a href="/student_loan" class="calc-item" data-name="학자금 대출 계산기" data-desc="학자금 대출 이자 상환" data-cat="loan">
-        <div class="calc-item-emoji">🎓</div>
-        <div class="calc-item-text"><div class="calc-item-name">학자금 대출 계산기</div><div class="calc-item-desc">학자금 대출 이자 상환</div></div>
-        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
-      </a>
-      <a href="/rent_conversion" class="calc-item" data-name="전월세 전환율 계산기" data-desc="전세 ↔ 월세 상호 전환" data-cat="loan">
-        <div class="calc-item-emoji">🔄</div>
-        <div class="calc-item-text"><div class="calc-item-name">전월세 전환율 계산기</div><div class="calc-item-desc">전세 ↔ 월세 상호 전환</div></div>
-        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
-      </a>
-      <a href="/rent_yield" class="calc-item" data-name="임대수익률 계산기" data-desc="월세·연수익률 계산" data-cat="loan">
-        <div class="calc-item-emoji">🏡</div>
-        <div class="calc-item-text"><div class="calc-item-name">임대수익률 계산기</div><div class="calc-item-desc">월세·연수익률 계산</div></div>
-        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
-      </a>
-      <a href="/realestate" class="calc-item" data-name="중개수수료 계산기" data-desc="부동산 중개수수료 계산" data-cat="loan">
-        <div class="calc-item-emoji">🤝</div>
-        <div class="calc-item-text"><div class="calc-item-name">중개수수료 계산기</div><div class="calc-item-desc">부동산 중개수수료 계산</div></div>
-        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
-      </a>
-      <a href="/remodeling" class="calc-item" data-name="리모델링 비용 계산기" data-desc="인테리어 공사 비용 계산" data-cat="loan">
-        <div class="calc-item-emoji">🔨</div>
-        <div class="calc-item-text"><div class="calc-item-name">리모델링 비용 계산기</div><div class="calc-item-desc">인테리어 공사 비용 계산</div></div>
-        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
-      </a>
-      <a href="/insurance" class="calc-item" data-name="보험료 계산기" data-desc="보험료·해약환급금 계산" data-cat="loan">
-        <div class="calc-item-emoji">🛡</div>
-        <div class="calc-item-text"><div class="calc-item-name">보험료 계산기</div><div class="calc-item-desc">보험료·해약환급금 계산</div></div>
-        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
-      </a>
-    </div>
-  </div>
 
-  <!-- 🚗 자동차 -->
-  <div class="cat-section" data-section="car">
-    <div class="section-title">🚗 자동차</div>
-    <div class="calc-list">
-      <a href="/car_tax" class="calc-item" data-name="자동차세 계산기" data-desc="자동차세·연납 할인 계산" data-cat="car">
-        <div class="calc-item-emoji">🚗</div>
-        <div class="calc-item-text"><div class="calc-item-name">자동차세 계산기</div><div class="calc-item-desc">자동차세·연납 할인 계산</div></div>
-        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
-      </a>
-      <a href="/car_installment" class="calc-item" data-name="자동차 할부 계산기" data-desc="할부 이자·월납입금 계산" data-cat="car">
-        <div class="calc-item-emoji">🚙</div>
-        <div class="calc-item-text"><div class="calc-item-name">자동차 할부 계산기</div><div class="calc-item-desc">할부 이자·월납입금 계산</div></div>
-        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
-      </a>
-      <a href="/car_lease" class="calc-item" data-name="자동차 리스 계산기" data-desc="리스·장기렌트 비용 비교" data-cat="car">
-        <div class="calc-item-emoji">🔑</div>
-        <div class="calc-item-text"><div class="calc-item-name">자동차 리스 계산기</div><div class="calc-item-desc">리스·장기렌트 비용 비교</div></div>
-        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
-      </a>
-      <a href="/fuel_economy" class="calc-item" data-name="연비 계산기" data-desc="연료비·주유비 계산" data-cat="car">
-        <div class="calc-item-emoji">⛽</div>
-        <div class="calc-item-text"><div class="calc-item-name">연비 계산기</div><div class="calc-item-desc">연료비·주유비 계산</div></div>
-        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
-      </a>
-    </div>
-  </div>
 
   <!-- 💪 건강 -->
   <div class="cat-section" data-section="health">
