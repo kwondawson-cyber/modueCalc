@@ -1,23 +1,21 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>유튜브 수익 계산기</title>
-  <!-- TODO: 앱인토스 SDK 교체 -->
-  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>유튜브 수익 계산기 2026 | 모두의계산기</title>
+  <meta name="description" content="유튜브 수익 계산기 2026 — 월 조회수·CPM·광고 수익 분배율 입력 시 월 예상 수익·연 수익 자동 계산. 구독자 수·조회수별 예상 수익 비교표, RPM vs CPM 차이, 유튜브 수익화 조건 완전 가이드." />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
   <style>
-
     :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--radius:16px}
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-    
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
     .container{max-width:640px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
-    
-    
-    
-    
-    
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all .2s}
+    .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
     .header{text-align:center;margin-bottom:36px}
     .header h1{font-size:clamp(26px,6vw,40px);font-weight:900;line-height:1.15;margin-bottom:10px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
     .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
@@ -52,44 +50,17 @@
     .detail-item .d-value.accent{color:var(--accent)}
     .notice{margin-top:12px;padding:13px 16px;background:rgba(255,165,0,0.05);border:1px solid rgba(255,165,0,0.15);border-radius:10px;font-size:12px;color:var(--text-muted);line-height:1.7}
     @media(max-width:480px){.card{padding:20px 16px}.summary-grid{grid-template-columns:1fr}}
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    .sim-tab{flex:1;padding:9px 6px;border:1px solid var(--border);border-radius:9px;background:var(--surface2);color:var(--text-muted);font-size:12px;font-weight:700;font-family:'Noto Sans KR',sans-serif;cursor:pointer;transition:all .2s;line-height:1.4;text-align:center}
+    .sim-tab.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000;border-color:transparent}
+    .sim-input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:17px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none;transition:border-color .2s;-moz-appearance:textfield}
+    .sim-input::-webkit-outer-spin-button,.sim-input::-webkit-inner-spin-button{-webkit-appearance:none}
+    .sim-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,170,.1)}
+    .rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+    .rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+    .rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+    .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+    .rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
   
-
-
-    .home-btn-wrap{text-align:center;margin-bottom:8px}
-    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
-    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
-    .home-btn-emoji{font-size:20px;line-height:1}
-    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
-
     .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
     .toss-header>.emoji{font-size:28px;flex-shrink:0}
     .toss-header h1{font-size:20px;font-weight:800;color:var(--text);margin:0}
@@ -101,103 +72,173 @@
     .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
     .ni-emoji{font-size:20px}
     .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
-
-    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+    .calc-guide{margin-top:20px;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .calc-guide-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:12px}
+    .calc-guide-desc{font-size:13px;color:var(--text-muted);line-height:1.8;margin-bottom:12px}
+    .calc-guide-basis{font-size:12px;color:var(--text-muted);padding:10px 14px;background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;line-height:1.7}
+    .disclaimer{text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280}
+    @media(max-width:360px){.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
 
   </style>
+
 </head>
 <body>
 <div class="container">
-  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
-  <div class="toss-header">
+    <div class="toss-header">
     <span class="emoji">▶️</span>
-    <div><h1>유튜브 수익 계산기</h1><p>조회수 기반 예상 수익</p></div>
+    <div><h1>유튜브 수익 계산기</h1><p>조회수 · CPM · 광고 수익 예상 계산</p></div>
   </div>
 
+  <div class="card">
+    <div class="card-title">채널 정보 입력</div>
 
+    <div class="input-group">
+      <label>월 평균 조회수</label>
+      <div class="input-wrapper">
+        <input type="number" id="views" value="100000" min="0" />
+        <span class="input-unit">회</span>
+      </div>
+      <input type="range" id="views-slider" min="1000" max="10000000" step="1000" value="100000" />
+      <div class="input-hint">구독자 1만명 채널 기준 월 평균 약 5~20만 회</div>
+    </div>
 
-<div class="card">
-<div class="card-title">채널 정보 입력</div>
-<div class="input-group">
-<label>월 평균 조회수</label>
-<div class="input-wrapper">
-<input id="views" min="0" type="number" value="100000"/>
-<span class="input-unit">회</span>
-</div>
-<input id="views-slider" max="10000000" min="1000" step="1000" type="range" value="100000"/>
-<div class="input-hint">구독자 1만명 채널 기준 월 평균 약 5~20만 회</div>
-</div>
-<div class="input-group">
-<label>CPM (광고 1,000회 노출당 단가)</label>
-<div class="input-wrapper">
-<input id="cpm" max="50" min="0.1" step="0.1" type="number" value="3.0"/>
-<span class="input-unit">달러</span>
-</div>
-<input id="cpm-slider" max="20" min="0.5" step="0.1" type="range" value="3.0"/>
-<div class="input-hint">한국 평균 CPM: $2~$5 / 금융·재테크 채널: $5~$15</div>
-</div>
-<div class="input-group">
-<label>광고 노출률 (조회수 대비 광고 표시 비율)</label>
-<div class="input-wrapper">
-<input id="adrate" max="100" min="10" step="1" type="number" value="50"/>
-<span class="input-unit">%</span>
-</div>
-<input id="adrate-slider" max="100" min="10" step="1" type="range" value="50"/>
-<div class="input-hint">일반적으로 40~60%. 광고 친화적 콘텐츠일수록 높음</div>
-</div>
-<div class="input-group">
-<label>달러 환율</label>
-<div class="input-wrapper">
-<input id="rate" max="2000" min="1000" step="10" type="number" value="1380"/>
-<span class="input-unit">원</span>
-</div>
-</div>
-<button class="calc-btn" onclick="calculate()">▶️ 월 예상 수익 계산하기</button>
-</div>
-<div class="result-card" id="resultCard">
-<div class="card">
-<div class="summary-grid">
-<div class="s-box main">
-<div class="s-label">월 예상 수익</div>
-<div class="s-value" id="s-monthly">-</div>
-<div class="s-unit">원</div>
-</div>
-<div class="s-box">
-<div class="s-label">연 예상 수익</div>
-<div class="s-value" id="s-yearly" style="color:#ffd54f">-</div>
-<div class="s-unit">원</div>
-</div>
-<div class="s-box">
-<div class="s-label">월 수익 (달러)</div>
-<div class="s-value" id="s-usd">-</div>
-<div class="s-unit">USD</div>
-</div>
-</div>
-<div class="detail-item"><span class="d-label">광고 노출 횟수</span><span class="d-value" id="d-impressions">-</span></div>
-<div class="detail-item"><span class="d-label">RPM (조회수 1,000회당 수익)</span><span class="d-value" id="d-rpm">-</span></div>
-<div class="detail-item"><span class="d-label">유튜브 수수료 (45%)</span><span class="d-value" id="d-youtube-cut">-</span></div>
-<div class="detail-item"><span class="d-label">크리에이터 몫 (55%)</span><span class="d-value accent" id="d-creator">-</span></div>
-</div>
-<div class="notice">
+    <div class="input-group">
+      <label>CPM (광고 1,000회 노출당 단가)</label>
+      <div class="input-wrapper">
+        <input type="number" id="cpm" value="3.0" step="0.1" min="0.1" max="50" />
+        <span class="input-unit">달러</span>
+      </div>
+      <input type="range" id="cpm-slider" min="0.5" max="20" step="0.1" value="3.0" />
+      <div class="input-hint">한국 평균 CPM: $2~$5 / 금융·재테크 채널: $5~$15</div>
+    </div>
+
+    <div class="input-group">
+      <label>광고 노출률 (조회수 대비 광고 표시 비율)</label>
+      <div class="input-wrapper">
+        <input type="number" id="adrate" value="50" step="1" min="10" max="100" />
+        <span class="input-unit">%</span>
+      </div>
+      <input type="range" id="adrate-slider" min="10" max="100" step="1" value="50" />
+      <div class="input-hint">일반적으로 40~60%. 광고 친화적 콘텐츠일수록 높음</div>
+    </div>
+
+    <div class="input-group">
+      <label>달러 환율</label>
+      <div class="input-wrapper">
+        <input type="number" id="rate" value="1380" step="10" min="1000" max="2000" />
+        <span class="input-unit">원</span>
+      </div>
+    </div>
+
+    <button class="calc-btn" onclick="calculate()">▶️ 월 예상 수익 계산하기</button>
+  </div>
+
+  <div class="result-card" id="resultCard">
+    <div class="card">
+      <div class="summary-grid">
+        <div class="s-box main">
+          <div class="s-label">월 예상 수익</div>
+          <div class="s-value" id="s-monthly">-</div>
+          <div class="s-unit">원</div>
+        </div>
+        <div class="s-box">
+          <div class="s-label">연 예상 수익</div>
+          <div class="s-value" id="s-yearly" style="color:#ffd54f">-</div>
+          <div class="s-unit">원</div>
+        </div>
+        <div class="s-box">
+          <div class="s-label">월 수익 (달러)</div>
+          <div class="s-value" id="s-usd">-</div>
+          <div class="s-unit">USD</div>
+        </div>
+      </div>
+      <div class="detail-item"><span class="d-label">광고 노출 횟수</span><span class="d-value" id="d-impressions">-</span></div>
+      <div class="detail-item"><span class="d-label">RPM (조회수 1,000회당 수익)</span><span class="d-value" id="d-rpm">-</span></div>
+      <div class="detail-item"><span class="d-label">유튜브 수수료 (45%)</span><span class="d-value" id="d-youtube-cut">-</span></div>
+      <div class="detail-item"><span class="d-label">크리에이터 몫 (55%)</span><span class="d-value accent" id="d-creator">-</span></div>
+    </div>
+    <div class="notice">
       ⚠️ 광고 수익만 계산된 금액입니다. 실제 수익은 CPM 변동, 광고 스킵, 콘텐츠 정책, 시즌에 따라 크게 달라집니다. 슈퍼챗·멤버십·협찬은 별도입니다.
     </div>
-</div>
+  </div>
 
-    <div style="text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280;">
-    본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.
+  <!-- 3탭 인터랙티브 시뮬레이터 -->
+  <div class="card" id="simCard" style="background:rgba(0,212,170,.04);border-color:rgba(0,212,170,.2)">
+    <div style="display:flex;gap:6px;margin-bottom:18px">
+      <button class="sim-tab active" id="stab0" onclick="switchSimTab(0)">📈 성장 시나리오</button>
+      <button class="sim-tab" id="stab1" onclick="switchSimTab(1)">🎯 목표 역산</button>
+      <button class="sim-tab" id="stab2" onclick="switchSimTab(2)">💰 종합 수익</button>
+    </div>
+
+    <!-- 탭0: 성장 시나리오 -->
+    <div id="spanel0">
+      <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px;line-height:1.7">현재 CPM·노출률 기준, 조회수가 늘어날수록 수익이 얼마나 달라지는지 자동 계산합니다. 위 슬라이더를 바꾸면 실시간으로 업데이트됩니다.</p>
+      <div id="simTable" style="overflow-x:auto"></div>
+    </div>
+
+    <!-- 탭1: 목표 수익 역산 -->
+    <div id="spanel1" style="display:none">
+      <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">목표 월 수익을 설정하면 현재 CPM·노출률 기준으로 필요한 조회수와 성장 기간을 역산합니다.</p>
+      <div style="margin-bottom:16px">
+        <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:6px">🎯 목표 월 수익 (원)</label>
+        <input class="sim-input" type="number" id="target-income" value="1000000" step="100000" oninput="syncTargetSlider();calcReverse()">
+        <input type="range" id="target-slider" min="100000" max="10000000" step="100000" value="1000000" oninput="document.getElementById('target-income').value=this.value;calcReverse()" style="width:100%;margin-top:8px;accent-color:var(--accent)">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-top:3px"><span>10만원</span><span>1,000만원</span></div>
+      </div>
+      <div id="reverseResult"></div>
+    </div>
+
+    <!-- 탭2: 종합 수익 계산기 -->
+    <div id="spanel2" style="display:none">
+      <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">광고 수익에 슈퍼챗·멤버십·협찬을 더해 채널 실제 월 총 수익을 계산합니다. 멤버십은 유튜브 수수료 30% 차감 후 금액으로 표시됩니다.</p>
+      <div style="background:rgba(0,212,170,.08);border:1px solid rgba(0,212,170,.2);border-radius:10px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <span style="font-size:13px;color:var(--text-muted)">📺 광고 수익 (위 계산기 기준)</span>
+        <span style="font-size:17px;font-weight:700;color:var(--accent)" id="tc-ad">-</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+        <div>
+          <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:5px">💬 슈퍼챗 월 수입 (원)</label>
+          <input class="sim-input" type="number" id="tc-superchat" value="0" step="10000" oninput="calcTotal()" placeholder="0">
+        </div>
+        <div>
+          <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:5px">👥 멤버십 인원 (명)</label>
+          <input class="sim-input" type="number" id="tc-members" value="0" step="10" oninput="calcTotal()" placeholder="0">
+        </div>
+        <div>
+          <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:5px">멤버십 월 단가 (원)</label>
+          <input class="sim-input" type="number" id="tc-member-price" value="2900" step="100" oninput="calcTotal()">
+        </div>
+        <div>
+          <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:5px">🤝 협찬 건수 × 건당 단가</label>
+          <div style="display:flex;gap:6px">
+            <input class="sim-input" type="number" id="tc-sponsor-cnt" value="0" step="1" oninput="calcTotal()" placeholder="건" style="width:64px;flex-shrink:0">
+            <input class="sim-input" type="number" id="tc-sponsor-price" value="500000" step="100000" oninput="calcTotal()" placeholder="단가">
+          </div>
+        </div>
+      </div>
+      <div id="totalResult"></div>
+    </div>
+  </div>
+
+  <div class="disclaimer">본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.</div>
+  <div class="calc-guide">
+    <div class="calc-guide-title">📋 사용 방법</div>
+    <div class="calc-guide-desc">조회수·구독자·CPM을 입력하면 예상 유튜브 수익을 계산합니다. 구독자별 수익 시뮬레이터도 활용해보세요.</div>
+    <div class="calc-guide-basis">📌 계산 기준: YouTube 광고 수익 = 조회수 × CPM ÷ 1000 · 실제 수익은 국가·광고주·시즌에 따라 다름</div>
   </div>
   <div class="toss-nav">
     <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
     <div class="toss-nav-grid">
-      <a href="/income_tax" class="toss-nav-item"><span class="ni-emoji">🧮</span><span class="ni-label">소득세</span></a>
-      <a href="/freelancer_tax" class="toss-nav-item"><span class="ni-emoji">💼</span><span class="ni-label">프리랜서세금</span></a>
-      <a href="/salary" class="toss-nav-item"><span class="ni-emoji">💰</span><span class="ni-label">연봉</span></a>
       <a href="/compound" class="toss-nav-item"><span class="ni-emoji">📊</span><span class="ni-label">복리</span></a>
+      <a href="/stock_return" class="toss-nav-item"><span class="ni-emoji">📉</span><span class="ni-label">주식수익률</span></a>
+      <a href="/dividend" class="toss-nav-item"><span class="ni-emoji">💵</span><span class="ni-label">배당금</span></a>
+      <a href="/exchange" class="toss-nav-item"><span class="ni-emoji">💱</span><span class="ni-label">환율</span></a>
     </div>
   </div>
 </div>
+
 <script>
-// 슬라이더 연동
+  // 슬라이더 연동
   [['views','views-slider'],['cpm','cpm-slider'],['adrate','adrate-slider']].forEach(([inp,sl])=>{
     document.getElementById(sl).addEventListener('input',e=>document.getElementById(inp).value=e.target.value);
     document.getElementById(inp).addEventListener('input',e=>document.getElementById(sl).value=e.target.value);
@@ -206,33 +247,153 @@
   function fmt(n){return Math.round(n).toLocaleString('ko-KR')}
   function fmtUSD(n){return n.toFixed(2)}
 
+  // 시뮬레이터 공유 상태
+  let _cpm = 3, _adRate = 0.5, _exrate = 1380, _monthlyKRW = 0;
+
   function calculate(){
-    const views = parseFloat(document.getElementById('views').value)||0;
-    const cpm   = parseFloat(document.getElementById('cpm').value)||0;
-    const adrate= parseFloat(document.getElementById('adrate').value)||50;
-    const exrate= parseFloat(document.getElementById('rate').value)||1380;
+    const views  = parseFloat(document.getElementById('views').value)||0;
+    const cpm    = parseFloat(document.getElementById('cpm').value)||0;
+    const adrate = parseFloat(document.getElementById('adrate').value)||50;
+    const exrate = parseFloat(document.getElementById('rate').value)||1380;
 
     const impressions = views * (adrate / 100);
     const grossUSD    = impressions / 1000 * cpm;
-    const creatorUSD  = grossUSD * 0.55;  // 유튜브 45% 수수료 차감
+    const creatorUSD  = grossUSD * 0.55;
     const youtubeCut  = grossUSD * 0.45;
     const rpmUSD      = views > 0 ? (creatorUSD / views * 1000) : 0;
-
     const monthlyKRW  = creatorUSD * exrate;
     const yearlyKRW   = monthlyKRW * 12;
 
-    document.getElementById('s-monthly').textContent   = fmt(monthlyKRW);
-    document.getElementById('s-yearly').textContent    = fmt(yearlyKRW);
-    document.getElementById('s-usd').textContent       = fmtUSD(creatorUSD);
+    document.getElementById('s-monthly').textContent    = fmt(monthlyKRW);
+    document.getElementById('s-yearly').textContent     = fmt(yearlyKRW);
+    document.getElementById('s-usd').textContent        = fmtUSD(creatorUSD);
     document.getElementById('d-impressions').textContent = fmt(impressions) + '회';
-    document.getElementById('d-rpm').textContent       = `$${fmtUSD(rpmUSD)}`;
+    document.getElementById('d-rpm').textContent        = `$${fmtUSD(rpmUSD)}`;
     document.getElementById('d-youtube-cut').textContent = `$${fmtUSD(youtubeCut)} (${fmt(youtubeCut*exrate)}원)`;
-    document.getElementById('d-creator').textContent   = `$${fmtUSD(creatorUSD)} (${fmt(monthlyKRW)}원)`;
-
+    document.getElementById('d-creator').textContent    = `$${fmtUSD(creatorUSD)} (${fmt(monthlyKRW)}원)`;
     document.getElementById('resultCard').classList.add('visible');
+
+    // 시뮬레이터 상태 업데이트
+    _cpm = cpm; _adRate = adrate / 100; _exrate = exrate; _monthlyKRW = monthlyKRW;
+    const activeIdx = [...document.querySelectorAll('.sim-tab')].findIndex(t => t.classList.contains('active'));
+    if (activeIdx === 0) renderTab0();
+    else if (activeIdx === 1) calcReverse();
+    else calcTotal();
+  }
+
+  /* ── 탭 전환 ── */
+  function switchSimTab(idx) {
+    document.querySelectorAll('.sim-tab').forEach((t, i) => t.classList.toggle('active', i === idx));
+    [0,1,2].forEach(i => document.getElementById('spanel'+i).style.display = i===idx ? 'block' : 'none');
+    if (idx===0) renderTab0();
+    else if (idx===1) calcReverse();
+    else calcTotal();
+  }
+
+  /* ── 탭0: 성장 시나리오 ── */
+  function renderTab0() {
+    const scenarios = [
+      [10000,'1만 회'],[50000,'5만 회'],[100000,'10만 회'],
+      [500000,'50만 회'],[1000000,'100만 회'],[5000000,'500만 회'],
+    ];
+    const th = (align) => `style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--accent);border-bottom:1px solid var(--border);text-align:${align}"`;
+    let html = `<table style="width:100%;border-collapse:collapse">
+      <thead><tr><th ${th('left')}>월 조회수</th><th ${th('right')}>월 예상 수익</th><th ${th('right')}>연 예상 수익</th></tr></thead><tbody>`;
+    scenarios.forEach(([v, label]) => {
+      const monthly = Math.round(v * _adRate / 1000 * _cpm * 0.55 * _exrate);
+      const hi = v === 100000;
+      html += `<tr style="${hi?'background:rgba(0,212,170,.06)':''}">
+        <td style="padding:9px 12px;font-size:13px;color:var(--text-muted);border-bottom:1px solid var(--border)">${label}${hi?' <span style="font-size:10px;color:var(--accent)">(기본값)</span>':''}</td>
+        <td style="padding:9px 12px;font-size:13px;font-weight:700;color:var(--text);text-align:right;border-bottom:1px solid var(--border)">${monthly.toLocaleString()}원</td>
+        <td style="padding:9px 12px;font-size:13px;color:var(--text-muted);text-align:right;border-bottom:1px solid var(--border)">${(monthly*12).toLocaleString()}원</td>
+      </tr>`;
+    });
+    html += '</tbody></table>';
+    document.getElementById('simTable').innerHTML = html;
+  }
+
+  /* ── 탭1: 목표 수익 역산 ── */
+  function syncTargetSlider() {
+    const v = parseInt(document.getElementById('target-income').value)||0;
+    document.getElementById('target-slider').value = Math.min(v, 10000000);
+  }
+  function calcReverse() {
+    const target = parseInt(document.getElementById('target-income').value) || 1000000;
+    const perView = _adRate / 1000 * _cpm * 0.55 * _exrate;
+    if (perView <= 0) return;
+    const needed     = Math.ceil(target / perView);
+    const curViews   = parseFloat(document.getElementById('views').value) || 100000;
+    const ratio      = (needed / curViews).toFixed(1);
+    const daily      = Math.ceil(needed / 30);
+    let months = 0, v = curViews;
+    if (needed > curViews) {
+      while (v < needed && months < 120) { v = Math.floor(v * 1.1); months++; }
+    }
+    const period = months === 0 ? '현재 달성 가능' : months >= 120 ? '12년 이상' : `약 ${months}개월`;
+    const periodColor = months === 0 ? 'var(--accent)' : months >= 60 ? 'var(--danger)' : 'var(--text)';
+    document.getElementById('reverseResult').innerHTML = `
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center">
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:5px">필요 월 조회수</div>
+          <div style="font-size:19px;font-weight:900;color:var(--accent);font-family:'Montserrat',sans-serif">${needed.toLocaleString()}</div>
+          <div style="font-size:11px;color:var(--text-muted)">회</div>
+        </div>
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center">
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:5px">필요 일 평균</div>
+          <div style="font-size:19px;font-weight:900;color:var(--text);font-family:'Montserrat',sans-serif">${daily.toLocaleString()}</div>
+          <div style="font-size:11px;color:var(--text-muted)">회/일</div>
+        </div>
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center">
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:5px">현재 대비 성장</div>
+          <div style="font-size:19px;font-weight:900;color:var(--text);font-family:'Montserrat',sans-serif">${ratio}×</div>
+          <div style="font-size:11px;color:var(--text-muted)">배 필요</div>
+        </div>
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center">
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:5px">예상 달성 기간</div>
+          <div style="font-size:${months>99?'13':'17'}px;font-weight:900;color:${periodColor};font-family:'Montserrat',sans-serif;line-height:1.3">${period}</div>
+          <div style="font-size:11px;color:var(--text-muted)">월 10% 성장 가정</div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--text-muted);line-height:1.7">※ CPM $${_cpm} · 광고 노출률 ${(_adRate*100).toFixed(0)}% · 환율 ${_exrate.toLocaleString()}원 기준. 실제 성장은 콘텐츠 품질·알고리즘에 따라 크게 다릅니다.</div>`;
+  }
+
+  /* ── 탭2: 종합 수익 계산기 ── */
+  function calcTotal() {
+    const ad = _monthlyKRW;
+    const tc_ad = document.getElementById('tc-ad');
+    if (tc_ad) tc_ad.textContent = Math.round(ad).toLocaleString() + '원';
+    const superChat    = parseInt(document.getElementById('tc-superchat').value)||0;
+    const members      = parseInt(document.getElementById('tc-members').value)||0;
+    const mPrice       = parseInt(document.getElementById('tc-member-price').value)||2900;
+    const sCnt         = parseInt(document.getElementById('tc-sponsor-cnt').value)||0;
+    const sPrice       = parseInt(document.getElementById('tc-sponsor-price').value)||500000;
+    const memberIncome = members * mPrice * 0.7;
+    const sponsorIncome = sCnt * sPrice;
+    const total = ad + superChat + memberIncome + sponsorIncome;
+    const row = (icon, label, val) =>
+      `<div style="display:flex;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--border);font-size:13px">
+        <span style="color:var(--text-muted)">${icon} ${label}</span>
+        <span style="font-weight:700">${Math.round(val).toLocaleString()}원</span>
+      </div>`;
+    const el = document.getElementById('totalResult');
+    if (!el) return;
+    el.innerHTML = `
+      <div style="background:var(--surface2);border-radius:12px;overflow:hidden;margin-bottom:10px">
+        ${row('📺','광고 수익', ad)}
+        ${superChat>0 ? row('💬','슈퍼챗', superChat) : ''}
+        ${members>0  ? row('👥',`멤버십 ${members}명 (수수료 30% 차감)`, memberIncome) : ''}
+        ${sCnt>0     ? row('🤝',`협찬 ${sCnt}건`, sponsorIncome) : ''}
+        <div style="display:flex;justify-content:space-between;padding:14px;font-size:16px;font-weight:900;background:rgba(0,212,170,.1)">
+          <span style="color:var(--accent)">월 총 수익</span>
+          <span style="color:var(--accent)">${Math.round(total).toLocaleString()}원</span>
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--text-muted);line-height:1.7">※ 협찬 수익은 세전 금액으로 종합소득세 신고 필요. 멤버십은 유튜브 수수료 30% 차감 후 기준.</div>`;
   }
 
   window.onload = () => calculate();
 </script>
+
+
 </body>
 </html>

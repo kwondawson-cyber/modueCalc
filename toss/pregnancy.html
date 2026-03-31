@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>임신 계산기</title>
-  <!-- TODO: 앱인토스 SDK 교체 -->
-  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>임신 주수 계산기 | 모두의계산기</title>
+  <meta name="description" content="임신 주수 계산기 — 마지막 생리 시작일로 현재 주수·분만 예정일 자동 계산. 주수별 태아 발달 단계, 주요 산전 검사 일정, 국가 임신 지원 혜택 안내 포함." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" /></noscript>
   <style>
-
     :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--pink:#ff8fab;--radius:16px}
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-    
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
     .container{max-width:640px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
     .nav{text-align:center;margin-bottom:32px}.nav a{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:3px;color:var(--accent);text-decoration:none;text-transform:uppercase}
     .header{text-align:center;margin-bottom:40px}
@@ -56,66 +57,36 @@
     @media(max-width:480px){.card{padding:20px 16px}.trimester-grid{grid-template-columns:1fr}}
 
     /* ── 홈 버튼 ── */
-    
-    
-    
-    
-    
+    .home-btn-wrap { text-align: center; margin-bottom: 8px; }
+    .home-btn {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      width: 54px; height: 54px;
+      background: rgba(0,212,170,0.08);
+      border: 1.5px solid rgba(0,212,170,0.35);
+      border-radius: 50%;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .home-btn:hover { background: rgba(0,212,170,0.18); transform: translateY(-2px); }
+    .home-btn-emoji { font-size: 20px; line-height: 1; }
+    .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
+    .sim-tbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px}
+    .sim-tbl th{background:var(--surface2);color:var(--text);padding:8px 10px;border:1px solid var(--border);font-weight:600;text-align:left}
+    .sim-tbl td{padding:7px 10px;border:1px solid var(--border);color:var(--text-muted)}
+    .sim-tbl tr.hl td{color:var(--pink);font-weight:700}
+    .sim-tbl td.pink{color:var(--pink)}
+    .sim-tbl td.grn{color:var(--accent)}
   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    .home-btn-wrap{text-align:center;margin-bottom:8px}
-    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
-    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
-    .home-btn-emoji{font-size:20px;line-height:1}
-    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+.rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+.rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+.rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
 
     .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
     .toss-header>.emoji{font-size:28px;flex-shrink:0}
@@ -128,93 +99,115 @@
     .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
     .ni-emoji{font-size:20px}
     .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
-
-    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+    .calc-guide{margin-top:20px;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .calc-guide-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:12px}
+    .calc-guide-desc{font-size:13px;color:var(--text-muted);line-height:1.8;margin-bottom:12px}
+    .calc-guide-basis{font-size:12px;color:var(--text-muted);padding:10px 14px;background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;line-height:1.7}
+    .disclaimer{text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280}
+    @media(max-width:360px){.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
 
   </style>
+
 </head>
 <body>
 <div class="container">
-  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
-  <div class="toss-header">
+    <div class="toss-header">
     <span class="emoji">🤱</span>
-    <div><h1>임신 계산기</h1><p>출산예정일·임신주수 계산</p></div>
+    <div><h1>임신주수 계산기</h1><p>현재 주수 · 분만예정일 · 트라이메스터</p></div>
   </div>
 
-
-
-<div class="card">
-<div class="card-title">계산 기준</div>
-<div class="tab-group">
-<button class="tab-btn active" id="tab-lmp" onclick="setMode('lmp')">🩸 마지막 생리일 기준</button>
-<button class="tab-btn" id="tab-due" onclick="setMode('due')">📅 출산예정일 기준</button>
-</div>
-<div id="sec-lmp">
-<div class="input-group">
-<label>마지막 생리 시작일</label>
-<input id="lmpDate" type="date"/>
-</div>
-</div>
-<div id="sec-due" style="display:none">
-<div class="input-group">
-<label>출산 예정일</label>
-<input id="dueDate" type="date"/>
-</div>
-</div>
-<button class="calc-btn" onclick="calculate()">🤰 주수 계산하기</button>
-</div>
-<div class="result-card" id="resultCard">
-<div class="result-highlight">
-<div class="r-label">현재 임신 주수</div>
-<div class="r-weeks" id="r-weeks">-<span>주</span> <span id="r-days-extra" style="font-size:32px">-일</span></div>
-<div class="r-sub" id="r-sub">-</div>
-<div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-<div class="progress-labels"><span>1주</span><span>10주</span><span>20주</span><span>30주</span><span>40주</span></div>
-</div>
-<div class="card">
-<div class="card-title">주요 날짜</div>
-<div class="detail-item"><span class="d-label">마지막 생리일 (LMP)</span><span class="d-value" id="d-lmp">-</span></div>
-<div class="detail-item"><span class="d-label">분만 예정일 (EDC)</span><span class="d-value pink" id="d-due">-</span></div>
-<div class="detail-item"><span class="d-label">출산까지 남은 날</span><span class="d-value" id="d-remain">-</span></div>
-<div class="detail-item"><span class="d-label">임신 진행률</span><span class="d-value" id="d-pct">-</span></div>
-</div>
-<div class="card">
-<div class="card-title">임신 시기</div>
-<div class="trimester-grid">
-<div class="tri-box" id="tri1">
-<div class="tri-name">🌱 초기</div>
-<div class="tri-weeks">1~12주</div>
-</div>
-<div class="tri-box" id="tri2">
-<div class="tri-name">🌸 중기</div>
-<div class="tri-weeks">13~27주</div>
-</div>
-<div class="tri-box" id="tri3">
-<div class="tri-name">🌟 후기</div>
-<div class="tri-weeks">28~40주</div>
-</div>
-</div>
-</div>
-<div class="notice">
-<strong style="color:orange">ℹ️ 안내</strong> 임신 주수는 마지막 생리 첫날부터 계산하는 것이 의학적 기준입니다. 실제 분만 예정일은 초음파 검사 결과와 다를 수 있습니다.
+  <div class="card">
+    <div class="card-title">계산 기준</div>
+    <div class="tab-group">
+      <button class="tab-btn active" onclick="setMode('lmp')" id="tab-lmp">🩸 마지막 생리일 기준</button>
+      <button class="tab-btn" onclick="setMode('due')" id="tab-due">📅 출산예정일 기준</button>
     </div>
-</div>
+    <div id="sec-lmp">
+      <div class="input-group">
+        <label>마지막 생리 시작일</label>
+        <input type="date" id="lmpDate" />
+      </div>
+    </div>
+    <div id="sec-due" style="display:none">
+      <div class="input-group">
+        <label>출산 예정일</label>
+        <input type="date" id="dueDate" />
+      </div>
+    </div>
+    <button class="calc-btn" onclick="calculate()">🤰 주수 계산하기</button>
+  </div>
 
-    <div style="text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280;">
-    본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.
+  <div class="result-card" id="resultCard">
+    <div class="result-highlight">
+      <div class="r-label">현재 임신 주수</div>
+      <div class="r-weeks" id="r-weeks">-<span>주</span> <span id="r-days-extra" style="font-size:32px">-일</span></div>
+      <div class="r-sub" id="r-sub">-</div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <div class="progress-labels"><span>1주</span><span>10주</span><span>20주</span><span>30주</span><span>40주</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">주요 날짜</div>
+      <div class="detail-item"><span class="d-label">마지막 생리일 (LMP)</span><span class="d-value" id="d-lmp">-</span></div>
+      <div class="detail-item"><span class="d-label">분만 예정일 (EDC)</span><span class="d-value pink" id="d-due">-</span></div>
+      <div class="detail-item"><span class="d-label">출산까지 남은 날</span><span class="d-value" id="d-remain">-</span></div>
+      <div class="detail-item"><span class="d-label">임신 진행률</span><span class="d-value" id="d-pct">-</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">임신 시기</div>
+      <div class="trimester-grid">
+        <div class="tri-box" id="tri1">
+          <div class="tri-name">🌱 초기</div>
+          <div class="tri-weeks">1~12주</div>
+        </div>
+        <div class="tri-box" id="tri2">
+          <div class="tri-name">🌸 중기</div>
+          <div class="tri-weeks">13~27주</div>
+        </div>
+        <div class="tri-box" id="tri3">
+          <div class="tri-name">🌟 후기</div>
+          <div class="tri-weeks">28~40주</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="notice">
+      <strong style="color:orange">ℹ️ 안내</strong> 임신 주수는 마지막 생리 첫날부터 계산하는 것이 의학적 기준입니다. 실제 분만 예정일은 초음파 검사 결과와 다를 수 있습니다.
+    </div>
+  <div class="card" id="simCard" style="margin-top:8px">
+    <div class="card-title">👶 주수별 태아 발달 현황</div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+      <label style="font-size:13px;color:var(--text-muted);white-space:nowrap;font-weight:500;flex-shrink:0">현재 주수</label>
+      <div style="position:relative;flex:1">
+        <input type="number" id="sim-weeks" value="12" min="1" max="40" oninput="updatePregnancySim()"
+          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:9px 40px 9px 12px;font-size:14px;font-weight:600;font-family:'Noto Sans KR',sans-serif;color:var(--text);outline:none"/>
+        <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--text-muted)">주</span>
+      </div>
+    </div>
+    <div id="simPregnancyTable"></div>
+    <p style="font-size:11px;color:var(--text-muted);margin-top:8px">※ 평균 기준 · 개인차 있음 · 초음파 측정값이 더 정확합니다</p>
+  </div>
+  </div>
+
+  <div class="disclaimer">본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.</div>
+  <div class="calc-guide">
+    <div class="calc-guide-title">📋 사용 방법</div>
+    <div class="calc-guide-desc">마지막 생리일 또는 배란일을 입력하면 출산 예정일과 주수별 발달 현황을 계산합니다.</div>
+    <div class="calc-guide-basis">📌 계산 기준: 나겔레 공식 기준 · 마지막 생리일 + 280일 = 출산 예정일 · 의료적 진단 대체 불가</div>
   </div>
   <div class="toss-nav">
     <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
     <div class="toss-nav-grid">
-      <a href="/ovulation" class="toss-nav-item"><span class="ni-emoji">📆</span><span class="ni-label">배란일</span></a>
+      <a href="/ovulation" class="toss-nav-item"><span class="ni-emoji">🌸</span><span class="ni-label">배란일</span></a>
       <a href="/age" class="toss-nav-item"><span class="ni-emoji">🎂</span><span class="ni-label">나이</span></a>
-      <a href="/dday" class="toss-nav-item"><span class="ni-emoji">⏳</span><span class="ni-label">D-Day</span></a>
-      <a href="/parental_leave" class="toss-nav-item"><span class="ni-emoji">👶</span><span class="ni-label">육아휴직</span></a>
+      <a href="/sleep" class="toss-nav-item"><span class="ni-emoji">😴</span><span class="ni-label">수면</span></a>
+      <a href="/fasting" class="toss-nav-item"><span class="ni-emoji">⏱️</span><span class="ni-label">단식</span></a>
     </div>
   </div>
 </div>
 <script>
-let calcMode='lmp';
+  let calcMode='lmp';
   const today=new Date(); today.setHours(0,0,0,0);
   const pad=n=>String(n).padStart(2,'0');
   document.getElementById('lmpDate').value=`${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.getDate())}`;
@@ -268,7 +261,43 @@ let calcMode='lmp';
     const rc=document.getElementById('resultCard');
     rc.classList.add('visible');
   }
-  window.onload=()=>calculate();
+  window.onload=()=>{ calculate(); updatePregnancySim(); };
+
+var _fetusData = [
+  {w:4,  size:'양귀비씨', len:'0.1cm', dev:'착상 직후, 세포 분열 시작'},
+  {w:6,  size:'완두콩',  len:'0.6cm', dev:'심장 박동 시작'},
+  {w:8,  size:'블루베리', len:'1.6cm', dev:'뇌·주요 장기 형성 중'},
+  {w:10, size:'방울토마토', len:'3.1cm', dev:'손발가락 형성, 태아 움직임 시작'},
+  {w:12, size:'키위',    len:'5.4cm', dev:'12개 장기 모두 형성, 신장 기능 시작'},
+  {w:16, size:'아보카도', len:'11.6cm', dev:'성별 구분 가능, 얼굴 형태 완성'},
+  {w:20, size:'바나나',  len:'16.4cm', dev:'태동 느끼기 시작, 청각 발달'},
+  {w:24, size:'옥수수',  len:'30cm',  dev:'폐 발달 중, 눈썹·속눈썹 형성'},
+  {w:28, size:'가지',   len:'37cm',  dev:'눈 뜨기 시작, 뇌 급격히 발달'},
+  {w:32, size:'스쿼시',  len:'42cm',  dev:'피하지방 증가, 폐 거의 성숙'},
+  {w:36, size:'로메인',  len:'47cm',  dev:'태아 위치 결정, 분만 준비'},
+  {w:40, size:'수박',   len:'51cm',  dev:'출산 준비 완료, 체중 약 3~3.5kg'}
+];
+function updatePregnancySim() {
+  var weeks = parseInt(document.getElementById('sim-weeks').value) || 12;
+  weeks = Math.min(40, Math.max(1, weeks));
+  var data = _fetusData[0];
+  for (var i = 0; i < _fetusData.length; i++) {
+    if (weeks >= _fetusData[i].w) data = _fetusData[i];
+  }
+  var tri = weeks <= 13 ? '🌱 1분기 (초기)' : weeks <= 27 ? '🌸 2분기 (중기)' : '🌟 3분기 (후기)';
+  var remain = Math.max(0, 40 - weeks);
+  var html = '<table class="sim-tbl"><thead><tr><th>항목</th><th>현황</th></tr></thead><tbody>';
+  html += '<tr class="hl"><td>현재 주수</td><td class="pink">임신 '+weeks+'주</td></tr>';
+  html += '<tr><td>임신 시기</td><td>'+tri+'</td></tr>';
+  html += '<tr><td>태아 크기 비유</td><td>'+data.size+' (약 '+data.len+')</td></tr>';
+  html += '<tr><td>주요 발달</td><td>'+data.dev+'</td></tr>';
+  html += '<tr><td>출산까지 남은 주수</td><td class="grn">약 '+remain+'주</td></tr>';
+  html += '</tbody></table>';
+  document.getElementById('simPregnancyTable').innerHTML = html;
+}
+document.addEventListener('DOMContentLoaded', updatePregnancySim);
 </script>
+
+
 </body>
 </html>
