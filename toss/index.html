@@ -156,13 +156,16 @@
     }
     .star-btn {
       background:none; border:none;
-      font-size:18px; cursor:pointer;
-      padding:4px; flex-shrink:0;
-      color:var(--border);
-      transition:all .15s;
+      font-size:20px; cursor:pointer;
+      padding:4px 6px; flex-shrink:0;
+      color:#ffffff;
+      -webkit-text-stroke:0.5px #aaaaaa;
+      transition:all .2s;
       line-height:1;
+      opacity:.9;
     }
-    .star-btn.starred { color:#f5c518; }
+    .star-btn:hover { color:#f5c518; -webkit-text-stroke:0.5px #f5c518; transform:scale(1.2); opacity:1; }
+    .star-btn.starred { color:#f5c518; -webkit-text-stroke:0.5px #f5c518; opacity:1; filter:drop-shadow(0 0 5px rgba(245,197,24,.55)); }
     .toast {
       position:fixed; bottom:80px; left:50%;
       transform:translateX(-50%) translateY(20px);
@@ -189,13 +192,16 @@
     <button class="cat-tab" data-cat="fav" onclick="filterCat('fav')">⭐ 즐겨찾기</button>
     <button class="cat-tab" data-cat="labor" onclick="filterCat('labor')">👔 급여·노무</button>
     <button class="cat-tab" data-cat="biz" onclick="filterCat('biz')">💼 사업자·세금</button>
-    <button class="cat-tab" data-cat="invest" onclick="filterCat('invest')">📈 투자·재테크</button>    <button class="cat-tab" data-cat="health" onclick="filterCat('health')">💪 건강</button>
+    <button class="cat-tab" data-cat="invest" onclick="filterCat('invest')">📈 투자·재테크</button>
+    <button class="cat-tab" data-cat="loan" onclick="filterCat('loan')">🏠 대출·부동산</button>
+    <button class="cat-tab" data-cat="car" onclick="filterCat('car')">🚗 자동차</button>
+    <button class="cat-tab" data-cat="health" onclick="filterCat('health')">💪 건강</button>
     <button class="cat-tab" data-cat="daily" onclick="filterCat('daily')">📅 생활·날짜</button>
   </div>
 </div>
 
 <div class="fav-fixed">
-  <div class="section-title" id="favTitle" style="display:none">⭐ 즐겨찾기</div>
+  <div class="section-title" id="favTitle">⭐ 즐겨찾기</div>
   <div class="calc-list" id="favList" style="margin-bottom:8px"></div>
 </div>
 
@@ -204,7 +210,7 @@
   <!-- 즐겨찾기 탭용 -->
   <div class="cat-section fav-section" data-section="fav" id="favSection" style="display:none">
     <div class="calc-list" id="favListFull">
-      <div class="fav-empty" id="favEmpty">⭐ 계산기 오른쪽 별표를 눌러 추가하세요</div>
+      <div class="fav-empty" id="favEmpty">☆ 각 계산기 오른쪽 별표(☆)를 눌러 즐겨찾기에 추가하세요</div>
     </div>
   </div>
   <div id="toast" class="toast"></div>
@@ -281,6 +287,16 @@
       <a href="/pension" class="calc-item" data-name="국민연금 계산기" data-desc="납부액·예상 수령액 계산" data-cat="labor">
         <div class="calc-item-emoji">👴</div>
         <div class="calc-item-text"><div class="calc-item-name">국민연금 계산기</div><div class="calc-item-desc">납부액·예상 수령액 계산</div></div>
+        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
+      </a>
+      <a href="/median_income" class="calc-item" data-name="기준 중위소득 계산기" data-desc="복지급여·지원 기준 확인" data-cat="labor">
+        <div class="calc-item-emoji">📊</div>
+        <div class="calc-item-text"><div class="calc-item-name">기준 중위소득 계산기</div><div class="calc-item-desc">복지급여·지원 기준 확인</div></div>
+        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
+      </a>
+      <a href="/earned_credit" class="calc-item" data-name="근로장려금 계산기" data-desc="2026년 최신 기준 지급액 계산" data-cat="labor">
+        <div class="calc-item-emoji">💵</div>
+        <div class="calc-item-text"><div class="calc-item-name">근로장려금 계산기</div><div class="calc-item-desc">2026년 최신 기준 지급액 계산</div></div>
         <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
       </a>
     </div>
@@ -445,6 +461,89 @@
     </div>
   </div>
 
+  <!-- 🏠 대출·부동산 -->
+  <div class="cat-section" data-section="loan">
+    <div class="section-title">🏠 대출·부동산</div>
+    <div class="calc-list">
+      <a href="/loan" class="calc-item" data-name="대출 이자 계산기" data-desc="원리금균등·원금균등 이자" data-cat="loan">
+        <div class="calc-item-emoji">🏦</div>
+        <div class="calc-item-text"><div class="calc-item-name">대출 이자 계산기</div><div class="calc-item-desc">원리금균등·원금균등 이자</div></div>
+        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
+      </a>
+      <a href="/loan_limit" class="calc-item" data-name="대출한도 계산기" data-desc="소득 기준 대출한도 계산" data-cat="loan">
+        <div class="calc-item-emoji">🏦</div>
+        <div class="calc-item-text"><div class="calc-item-name">대출한도 계산기</div><div class="calc-item-desc">소득 기준 대출한도 계산</div></div>
+        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
+      </a>
+      <a href="/mortgage" class="calc-item" data-name="모기지 계산기" data-desc="주택담보대출 상환 계산" data-cat="loan">
+        <div class="calc-item-emoji">🏠</div>
+        <div class="calc-item-text"><div class="calc-item-name">모기지 계산기</div><div class="calc-item-desc">주택담보대출 상환 계산</div></div>
+        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
+      </a>
+      <a href="/jeonse_loan" class="calc-item" data-name="전세자금대출 계산기" data-desc="전세대출 이자·월상환금" data-cat="loan">
+        <div class="calc-item-emoji">🏘</div>
+        <div class="calc-item-text"><div class="calc-item-name">전세자금대출 계산기</div><div class="calc-item-desc">전세대출 이자·월상환금</div></div>
+        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
+      </a>
+      <a href="/student_loan" class="calc-item" data-name="학자금 대출 계산기" data-desc="학자금 대출 이자 상환" data-cat="loan">
+        <div class="calc-item-emoji">🎓</div>
+        <div class="calc-item-text"><div class="calc-item-name">학자금 대출 계산기</div><div class="calc-item-desc">학자금 대출 이자 상환</div></div>
+        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
+      </a>
+      <a href="/rent_conversion" class="calc-item" data-name="전월세 전환율 계산기" data-desc="전세 ↔ 월세 상호 전환" data-cat="loan">
+        <div class="calc-item-emoji">🔄</div>
+        <div class="calc-item-text"><div class="calc-item-name">전월세 전환율 계산기</div><div class="calc-item-desc">전세 ↔ 월세 상호 전환</div></div>
+        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
+      </a>
+      <a href="/rent_yield" class="calc-item" data-name="임대수익률 계산기" data-desc="월세·연수익률 계산" data-cat="loan">
+        <div class="calc-item-emoji">🏡</div>
+        <div class="calc-item-text"><div class="calc-item-name">임대수익률 계산기</div><div class="calc-item-desc">월세·연수익률 계산</div></div>
+        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
+      </a>
+      <a href="/realestate" class="calc-item" data-name="중개수수료 계산기" data-desc="부동산 중개수수료 계산" data-cat="loan">
+        <div class="calc-item-emoji">🤝</div>
+        <div class="calc-item-text"><div class="calc-item-name">중개수수료 계산기</div><div class="calc-item-desc">부동산 중개수수료 계산</div></div>
+        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
+      </a>
+      <a href="/remodeling" class="calc-item" data-name="리모델링 비용 계산기" data-desc="인테리어 공사 비용 계산" data-cat="loan">
+        <div class="calc-item-emoji">🔨</div>
+        <div class="calc-item-text"><div class="calc-item-name">리모델링 비용 계산기</div><div class="calc-item-desc">인테리어 공사 비용 계산</div></div>
+        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
+      </a>
+      <a href="/insurance" class="calc-item" data-name="보험료 계산기" data-desc="보험료·해약환급금 계산" data-cat="loan">
+        <div class="calc-item-emoji">🛡</div>
+        <div class="calc-item-text"><div class="calc-item-name">보험료 계산기</div><div class="calc-item-desc">보험료·해약환급금 계산</div></div>
+        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- 🚗 자동차 -->
+  <div class="cat-section" data-section="car">
+    <div class="section-title">🚗 자동차</div>
+    <div class="calc-list">
+      <a href="/car_tax" class="calc-item" data-name="자동차세 계산기" data-desc="자동차세·연납 할인 계산" data-cat="car">
+        <div class="calc-item-emoji">🚗</div>
+        <div class="calc-item-text"><div class="calc-item-name">자동차세 계산기</div><div class="calc-item-desc">자동차세·연납 할인 계산</div></div>
+        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
+      </a>
+      <a href="/car_installment" class="calc-item" data-name="자동차 할부 계산기" data-desc="할부 이자·월납입금 계산" data-cat="car">
+        <div class="calc-item-emoji">🚙</div>
+        <div class="calc-item-text"><div class="calc-item-name">자동차 할부 계산기</div><div class="calc-item-desc">할부 이자·월납입금 계산</div></div>
+        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
+      </a>
+      <a href="/car_lease" class="calc-item" data-name="자동차 리스 계산기" data-desc="리스·장기렌트 비용 비교" data-cat="car">
+        <div class="calc-item-emoji">🔑</div>
+        <div class="calc-item-text"><div class="calc-item-name">자동차 리스 계산기</div><div class="calc-item-desc">리스·장기렌트 비용 비교</div></div>
+        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
+      </a>
+      <a href="/fuel_economy" class="calc-item" data-name="연비 계산기" data-desc="연료비·주유비 계산" data-cat="car">
+        <div class="calc-item-emoji">⛽</div>
+        <div class="calc-item-text"><div class="calc-item-name">연비 계산기</div><div class="calc-item-desc">연료비·주유비 계산</div></div>
+        <button class="star-btn" onclick="toggleFav(event,this)">☆</button><span class="calc-item-arrow">›</span>
+      </a>
+    </div>
+  </div>
 
   <!-- 💪 건강 -->
   <div class="cat-section" data-section="health">
@@ -600,12 +699,12 @@ function renderFavFixed() {
   const favs = getFavs();
   const list = document.getElementById('favList');
   const title = document.getElementById('favTitle');
+  title.style.display = '';
   list.innerHTML = '';
   if (favs.length === 0) {
-    title.style.display = 'none';
+    list.innerHTML = '<div class="fav-empty" style="font-size:13px;color:var(--text-muted);padding:10px 4px 4px">☆ 별표를 눌러 자주 쓰는 계산기를 즐겨찾기에 추가하세요</div>';
     return;
   }
-  title.style.display = '';
   favs.forEach(f => {
     const a = document.createElement('a');
     a.href = f.href;
@@ -675,10 +774,16 @@ function filterCat(cat) {
   if (cat === 'fav') {
     document.querySelectorAll('.cat-section:not(#favSection)').forEach(s => s.classList.add('hidden'));
     favSec.style.display = '';
-  } else {
+  } else if (cat === 'all') {
     favSec.style.display = 'none';
     document.querySelectorAll('.cat-section:not(#favSection)').forEach(s => {
-      s.classList.toggle('hidden', cat !== 'all' && s.dataset.section !== cat);
+      s.classList.remove('hidden');
+    });
+  } else {
+    // 특정 카테고리: 즐겨찾기 섹션 숨기고, 해당 카테고리만 표시
+    favSec.style.display = 'none';
+    document.querySelectorAll('.cat-section:not(#favSection)').forEach(s => {
+      s.classList.toggle('hidden', s.dataset.section !== cat);
     });
   }
   document.getElementById('searchInput').value = '';
