@@ -2,18 +2,23 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>순자산 계산기</title>
-  <!-- TODO: 앱인토스 SDK 교체 -->
-  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>순자산 계산기 — 자산·부채 입력 재무 건강도 분석 | 모두의계산기</title>
+  <meta name="description" content="순자산 계산기 2026 — 부동산·금융자산·차량 등 자산과 주택담보대출·신용대출 등 부채를 입력해 순자산·부채비율·재무 건강도를 자동 분석합니다." />
+  <meta property="og:title" content="순자산 계산기 | 모두의계산기" />
+  <meta property="og:description" content="자산과 부채를 입력해 내 순자산과 재무 건강도를 확인하세요." />
+  <meta property="og:url" content="https://www.everycalc.kr/net_worth" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" /></noscript>
   <style>
-
     :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--danger:#ff6b6b;--radius:16px}
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-    
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
     .container{max-width:700px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
-    .header h1 .emoji{-webkit-text-fill-color:initial;background:none}
+    .home-btn-wrap{text-align:center;margin-bottom:28px}.home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all .2s}.home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}.home-btn-emoji{font-size:20px;line-height:1}.home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}.header h1 .emoji{-webkit-text-fill-color:initial;background:none}
     .header{text-align:center;margin-bottom:40px}
     .header h1{font-size:clamp(26px,6vw,42px);font-weight:900;line-height:1.1;margin-bottom:10px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
     .header p{color:var(--text-muted);font-size:14px}.input-comma{font-size:12px;color:var(--accent);margin-top:5px;font-weight:700;min-height:15px;letter-spacing:.3px}
@@ -45,48 +50,12 @@
     .grade-c{background:rgba(255,215,0,0.07);border:1px solid rgba(255,215,0,0.25)}
     .grade-d{background:rgba(255,107,107,0.07);border:1px solid rgba(255,107,107,0.25)}
     /* rel/aff */
-    
-
-
-
-
-
-
-    
-    
-    
-    
-    
+.rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+.rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+.rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    .home-btn-wrap{text-align:center;margin-bottom:8px}
-    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
-    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
-    .home-btn-emoji{font-size:20px;line-height:1}
-    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
-
     .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
     .toss-header>.emoji{font-size:28px;flex-shrink:0}
     .toss-header h1{font-size:20px;font-weight:800;color:var(--text);margin:0}
@@ -98,95 +67,121 @@
     .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
     .ni-emoji{font-size:20px}
     .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
-
-    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+    .calc-guide{margin-top:20px;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .calc-guide-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:12px}
+    .calc-guide-desc{font-size:13px;color:var(--text-muted);line-height:1.8;margin-bottom:12px}
+    .calc-guide-basis{font-size:12px;color:var(--text-muted);padding:10px 14px;background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;line-height:1.7}
+    .disclaimer{text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280}
+    @media(max-width:360px){.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
 
   </style>
 </head>
 <body>
 <div class="container">
-  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
-  <div class="toss-header">
-    <span class="emoji">💎</span>
-    <div><h1>순자산 계산기</h1><p>자산 부채 순자산 계산</p></div>
+    <div class="toss-header">
+    <span class="emoji">💰</span>
+    <div><h1>순자산계산기</h1><p>자산 — 부채 = 내 진짜 재산 · 재무 건강도 분석</p></div>
+  </div>
+
+  <!-- 자산 -->
+  <div class="card">
+    <div class="card-title">📈 자산 입력</div>
+    <div class="item-row"><label>🏠 부동산 (아파트·빌라·토지 등)</label><input type="number" id="a1" value="0" oninput="liveSum();showComma(this)" /></div>
+<div class="input-comma" id="a1_c"></div>
+    <div class="item-row"><label>💵 예금·적금·CMA</label><input type="number" id="a2" value="0" oninput="liveSum();showComma(this)" /></div>
+<div class="input-comma" id="a2_c"></div>
+    <div class="item-row"><label>📊 주식·ETF·펀드·연금</label><input type="number" id="a3" value="0" oninput="liveSum();showComma(this)" /></div>
+<div class="input-comma" id="a3_c"></div>
+    <div class="item-row"><label>🚗 자동차 (시세 기준)</label><input type="number" id="a4" value="0" oninput="liveSum();showComma(this)" /></div>
+<div class="input-comma" id="a4_c"></div>
+    <div class="item-row"><label>🏦 퇴직금 (예상액)</label><input type="number" id="a5" value="0" oninput="liveSum();showComma(this)" /></div>
+<div class="input-comma" id="a5_c"></div>
+    <div class="item-row"><label>📦 기타 자산</label><input type="number" id="a6" value="0" oninput="liveSum();showComma(this)" /></div>
+<div class="input-comma" id="a6_c"></div>
+    <div class="section-sum">자산 합계 <strong id="totalAsset">0원</strong></div>
+  </div>
+
+  <!-- 부채 -->
+  <div class="card">
+    <div class="card-title">📉 부채 입력</div>
+    <div class="item-row"><label>🏠 주택담보대출 잔액</label><input type="number" id="d1" value="0" oninput="liveSum();showComma(this)" /></div>
+<div class="input-comma" id="d1_c"></div>
+    <div class="item-row"><label>🏦 전세자금대출 잔액</label><input type="number" id="d2" value="0" oninput="liveSum();showComma(this)" /></div>
+<div class="input-comma" id="d2_c"></div>
+    <div class="item-row"><label>💳 신용대출·마이너스통장</label><input type="number" id="d3" value="0" oninput="liveSum();showComma(this)" /></div>
+<div class="input-comma" id="d3_c"></div>
+    <div class="item-row"><label>🚗 자동차 할부 잔액</label><input type="number" id="d4" value="0" oninput="liveSum();showComma(this)" /></div>
+<div class="input-comma" id="d4_c"></div>
+    <div class="item-row"><label>💸 학자금 대출 잔액</label><input type="number" id="d5" value="0" oninput="liveSum();showComma(this)" /></div>
+<div class="input-comma" id="d5_c"></div>
+    <div class="item-row"><label>📦 기타 부채</label><input type="number" id="d6" value="0" oninput="liveSum();showComma(this)" /></div>
+<div class="input-comma" id="d6_c"></div>
+    <div class="section-sum">부채 합계 <strong id="totalDebt">0원</strong></div>
+  </div>
+
+  <button class="calc-btn" onclick="calc()">💰 순자산 & 재무 건강도 분석</button>
+
+  <div class="result-card" id="resultCard">
+    <div class="result-title">분석 결과</div>
+    <div class="main-result" id="mainResult">
+      <div class="label">순자산 (자산 — 부채)</div>
+      <div class="big" id="r-net">—</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-top:4px">원</div>
+    </div>
+    <div class="result-grid">
+      <div class="result-item">
+        <div class="label">총 자산</div>
+        <div class="value" id="r-asset" style="color:var(--accent)">—</div>
+      </div>
+      <div class="result-item">
+        <div class="label">총 부채</div>
+        <div class="value" id="r-debt" style="color:var(--danger)">—</div>
+      </div>
+      <div class="result-item">
+        <div class="label">부채 비율</div>
+        <div class="value" id="r-ratio">—</div>
+      </div>
+    </div>
+    <div class="grade-bar" id="gradeBadge"></div>
+  </div>
+
+  <!-- 연령대별 순자산 비교 simCard -->
+  <div class="card" id="simCard" style="margin-top:0">
+    <div class="card-title">📍 또래 평균값 대비 내 순자산 위치</div>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:6px;line-height:1.7">연령대를 선택하면 2025년 가계금융복지조사 기준 <strong style="color:var(--accent)">연령대별 평균 순자산</strong>과 비교해 내 재무 위치를 확인할 수 있습니다.</p>
+    <p style="font-size:11px;color:var(--text-muted);margin-bottom:14px;line-height:1.7;background:rgba(0,149,255,0.05);border:1px solid rgba(0,149,255,0.15);border-radius:8px;padding:8px 12px">💡 <strong style="color:#0095ff">평균 vs 중위값:</strong> 평균은 고자산가가 끌어올려 실제보다 높게 보입니다. 예를 들어 50대 평균 순자산 5.5억이지만, 절반의 50대는 그 이하입니다. 본인이 평균보다 낮더라도 과반의 또래와 비슷한 수준일 수 있습니다.</p>
+    <div style="margin-bottom:12px">
+      <div style="font-size:11px;color:var(--text-muted);margin-bottom:6px">연령대 선택</div>
+      <select id="sim-age" onchange="simNetWorth()" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:15px;font-weight:600;color:var(--text);font-family:inherit;outline:none">
+        <option value="39세 이하,250,250">39세 이하 (평균 약 2억 5,000만)</option>
+        <option value="40대,430,430" selected>40대 (평균 약 4억 3,000만)</option>
+        <option value="50대,552,552">50대 (평균 약 5억 5,200만)</option>
+        <option value="60대 이상,519,519">60대 이상 (평균 약 5억 1,900만)</option>
+      </select>
+    </div>
+    <div id="sim-nw-result" style="background:var(--surface2);border-radius:10px;padding:16px"></div>
   </div>
 
 
-
-<!-- 자산 -->
-<div class="card">
-<div class="card-title">📈 자산 입력</div>
-<div class="item-row"><label>🏠 부동산 (아파트·빌라·토지 등)</label><input id="a1" oninput="liveSum();showComma(this)" type="number" value="0"/></div>
-<div class="input-comma" id="a1_c"></div>
-<div class="item-row"><label>💵 예금·적금·CMA</label><input id="a2" oninput="liveSum();showComma(this)" type="number" value="0"/></div>
-<div class="input-comma" id="a2_c"></div>
-<div class="item-row"><label>📊 주식·ETF·펀드·연금</label><input id="a3" oninput="liveSum();showComma(this)" type="number" value="0"/></div>
-<div class="input-comma" id="a3_c"></div>
-<div class="item-row"><label>🚗 자동차 (시세 기준)</label><input id="a4" oninput="liveSum();showComma(this)" type="number" value="0"/></div>
-<div class="input-comma" id="a4_c"></div>
-<div class="item-row"><label>🏦 퇴직금 (예상액)</label><input id="a5" oninput="liveSum();showComma(this)" type="number" value="0"/></div>
-<div class="input-comma" id="a5_c"></div>
-<div class="item-row"><label>📦 기타 자산</label><input id="a6" oninput="liveSum();showComma(this)" type="number" value="0"/></div>
-<div class="input-comma" id="a6_c"></div>
-<div class="section-sum">자산 합계 <strong id="totalAsset">0원</strong></div>
-</div>
-<!-- 부채 -->
-<div class="card">
-<div class="card-title">📉 부채 입력</div>
-<div class="item-row"><label>🏠 주택담보대출 잔액</label><input id="d1" oninput="liveSum();showComma(this)" type="number" value="0"/></div>
-<div class="input-comma" id="d1_c"></div>
-<div class="item-row"><label>🏦 전세자금대출 잔액</label><input id="d2" oninput="liveSum();showComma(this)" type="number" value="0"/></div>
-<div class="input-comma" id="d2_c"></div>
-<div class="item-row"><label>💳 신용대출·마이너스통장</label><input id="d3" oninput="liveSum();showComma(this)" type="number" value="0"/></div>
-<div class="input-comma" id="d3_c"></div>
-<div class="item-row"><label>🚗 자동차 할부 잔액</label><input id="d4" oninput="liveSum();showComma(this)" type="number" value="0"/></div>
-<div class="input-comma" id="d4_c"></div>
-<div class="item-row"><label>💸 학자금 대출 잔액</label><input id="d5" oninput="liveSum();showComma(this)" type="number" value="0"/></div>
-<div class="input-comma" id="d5_c"></div>
-<div class="item-row"><label>📦 기타 부채</label><input id="d6" oninput="liveSum();showComma(this)" type="number" value="0"/></div>
-<div class="input-comma" id="d6_c"></div>
-<div class="section-sum">부채 합계 <strong id="totalDebt">0원</strong></div>
-</div>
-<button class="calc-btn" onclick="calc()">💰 순자산 &amp; 재무 건강도 분석</button>
-<div class="result-card" id="resultCard">
-<div class="result-title">분석 결과</div>
-<div class="main-result" id="mainResult">
-<div class="label">순자산 (자산 — 부채)</div>
-<div class="big" id="r-net">—</div>
-<div style="font-size:13px;color:var(--text-muted);margin-top:4px">원</div>
-</div>
-<div class="result-grid">
-<div class="result-item">
-<div class="label">총 자산</div>
-<div class="value" id="r-asset" style="color:var(--accent)">—</div>
-</div>
-<div class="result-item">
-<div class="label">총 부채</div>
-<div class="value" id="r-debt" style="color:var(--danger)">—</div>
-</div>
-<div class="result-item">
-<div class="label">부채 비율</div>
-<div class="value" id="r-ratio">—</div>
-</div>
-</div>
-<div class="grade-bar" id="gradeBadge"></div>
-</div>
-
-    <div style="text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280;">
-    본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.
+  <div class="disclaimer">본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.</div>
+  <div class="calc-guide">
+    <div class="calc-guide-title">📋 사용 방법</div>
+    <div class="calc-guide-desc">자산과 부채 항목을 입력하면 순자산과 재무 건강도를 분석합니다. 또래 평균 대비 순자산 위치도 확인해보세요.</div>
+    <div class="calc-guide-basis">📌 계산 기준: 순자산 = 총자산 - 총부채 · 부채비율 30% 이하 우수 / 70% 이상 위험</div>
   </div>
   <div class="toss-nav">
     <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
     <div class="toss-nav-grid">
+      <a href="/retirement_plan" class="toss-nav-item"><span class="ni-emoji">🌅</span><span class="ni-label">은퇴설계</span></a>
       <a href="/compound" class="toss-nav-item"><span class="ni-emoji">📊</span><span class="ni-label">복리</span></a>
-      <a href="/savings" class="toss-nav-item"><span class="ni-emoji">💳</span><span class="ni-label">적금</span></a>
-      <a href="/loan" class="toss-nav-item"><span class="ni-emoji">🏦</span><span class="ni-label">대출이자</span></a>
-      <a href="/retirement_pension" class="toss-nav-item"><span class="ni-emoji">💎</span><span class="ni-label">퇴직연금</span></a>
+      <a href="/salary" class="toss-nav-item"><span class="ni-emoji">💰</span><span class="ni-label">연봉</span></a>
+      <a href="/inflation" class="toss-nav-item"><span class="ni-emoji">📈</span><span class="ni-label">물가상승률</span></a>
     </div>
   </div>
 </div>
+
 <script>
-function fmt(n) {
+  function fmt(n) {
     const abs = Math.abs(n);
     const eok = Math.floor(abs / 100000000);
     const man = Math.round((abs % 100000000) / 10000);
@@ -205,6 +200,7 @@ function fmt(n) {
     const d = getSum(['d1','d2','d3','d4','d5','d6']);
     document.getElementById('totalAsset').textContent = fmt(a) + '원';
     document.getElementById('totalDebt').textContent = fmt(d) + '원';
+    simNetWorth();
   }
 
 
@@ -269,7 +265,43 @@ function fmt(n) {
     document.getElementById('resultCard').classList.add('visible');
   }
 
-  window.onload = () => liveSum();
+  function simNetWorth() {
+    const sel = document.getElementById('sim-age');
+    if (!sel) return;
+    const parts = sel.value.split(',');
+    const label  = parts[0];
+    const avgWon = Number(parts[1]) * 10000;
+    const asset = ['a1','a2','a3','a4','a5','a6'].reduce((s,id) => s + (parseFloat((document.getElementById(id)||{}).value)||0), 0);
+    const debt  = ['d1','d2','d3','d4','d5','d6'].reduce((s,id) => s + (parseFloat((document.getElementById(id)||{}).value)||0), 0);
+    const net   = asset - debt;
+    const pct = avgWon > 0 ? Math.round(net / avgWon * 100) : 0;
+    const barW = Math.max(0, Math.min(pct, 100));
+    const color = pct >= 100 ? '#00d4aa' : pct >= 60 ? '#f5a623' : '#ff6b6b';
+    const msg   = pct >= 100 ? '✅ 또래 평균 이상' : pct >= 60 ? '⚠️ 평균에 근접 중' : '🔴 평균 미달';
+    document.getElementById('sim-nw-result').innerHTML = `
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+        <div style="text-align:center">
+          <div style="font-size:11px;color:#8b949e;margin-bottom:4px">내 순자산</div>
+          <div style="font-size:18px;font-weight:900;color:${color}">${fmt(net)}원</div>
+        </div>
+        <div style="text-align:center">
+          <div style="font-size:11px;color:#8b949e;margin-bottom:4px">${label} 평균</div>
+          <div style="font-size:18px;font-weight:900;color:#8b949e">${fmt(avgWon)}원</div>
+        </div>
+      </div>
+      <div style="margin-bottom:6px;font-size:12px;color:#8b949e;display:flex;justify-content:space-between">
+        <span>평균 대비</span><span style="color:${color};font-weight:700">${pct}% ${msg}</span>
+      </div>
+      <div style="background:#0d1117;border-radius:6px;height:8px;overflow:hidden">
+        <div style="width:${barW}%;height:100%;background:${color};border-radius:6px;transition:width .5s"></div>
+      </div>
+      <div style="margin-top:10px;font-size:11px;color:#8b949e;line-height:1.8">
+        ※ 출처: 2025년 가계금융복지조사 (국가데이터처·한국은행·금융감독원, 2025.3.31 기준)<br>
+        ※ 평균은 고자산가에 의해 높게 왜곡됩니다. 절반의 가구는 이 평균보다 낮습니다.
+      </div>`;
+  }
+
+  window.onload = () => { liveSum(); simNetWorth(); };
 </script>
 </body>
 </html>

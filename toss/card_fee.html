@@ -311,7 +311,7 @@ function selectTier(idx, el) {
 }
 
 function calc() {
-  const v = parseFloat(document.getElementById('customRate')?.value);
+  const v = parseFloat((document.getElementById('customRate')||{}).value);
   const ci = document.getElementById('custom-input');
   if (ci.style.display !== 'none' && !isNaN(v)) selectedRate = v;
 

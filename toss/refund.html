@@ -305,9 +305,9 @@
 
 <script>
 function simRefund() {
-  const paid  = parseFloat(document.getElementById('sim-paid')?.value) || 0;
-  const total = parseFloat(document.getElementById('sim-total')?.value) || 1;
-  const used  = Math.min(parseFloat(document.getElementById('sim-used')?.value) || 0, total);
+  const paid  = parseFloat((document.getElementById('sim-paid')||{}).value) || 0;
+  const total = parseFloat((document.getElementById('sim-total')||{}).value) || 1;
+  const used  = Math.min(parseFloat((document.getElementById('sim-used')||{}).value) || 0, total);
   const daily = total > 0 ? paid / total : 0;
   const usedCost = daily * used;
   const refund = Math.max(paid - usedCost, 0);
@@ -380,7 +380,7 @@ function calcTravel(){
   const days = +document.getElementById('t-days').value;
   if(!paid){alert('여행요금을 입력해주세요.');return;}
   const penaltyRates={30:0, 25:0.10, 15:0.15, 9:0.20, 5:0.30, 0:0.50};
-  const penaltyRate = penaltyRates[days]??0;
+  const penaltyRate = penaltyRates[days]||0;
   const penalty = Math.round(paid * penaltyRate);
   const refund  = paid - penalty;
   const labels  = {30:'출발 30일+ 전',25:'출발 20~29일 전',15:'출발 10~19일 전',9:'출발 8~9일 전',5:'출발 1~7일 전',0:'출발 당일'};

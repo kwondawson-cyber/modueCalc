@@ -281,7 +281,7 @@ const fw = n => Math.round(n).toLocaleString() + '원';
 let _rev=0, _cogs=0, _opex=0, _opProfit=0, _opRate=0;
 
 function simProfit() {
-  const rev = parseFloat(document.getElementById('sim-rev')?.value) || 30000000;
+  const rev = parseFloat((document.getElementById('sim-rev')||{}).value) || 30000000;
   const RATES = [
     { rate:3,  label:'3%', industry:'도소매·유통 하한' },
     { rate:5,  label:'5%', industry:'외식업·건설업 평균' },
