@@ -194,17 +194,6 @@
 .seo-section table tr:nth-child(even) td{background:#161b22}
 .seo-section table td strong{color:#00d4aa}
 </style>
-<div class="rel-section">
-  <h2>📌 함께 쓰면 유용한 계산기</h2>
-  <div class="rel-grid">
-  <a href="/gift_tax" class="rel-card"><span class="re">🎁</span><span class="rn">증여세</span></a>
-  <a href="/capital_gains" class="rel-card"><span class="re">💸</span><span class="rn">양도소득세</span></a>
-  <a href="/acquisition" class="rel-card"><span class="re">📋</span><span class="rn">취득세</span></a>
-  <a href="/income_tax" class="rel-card"><span class="re">📋</span><span class="rn">소득세</span></a>
-  <a href="/realestate" class="rel-card"><span class="re">🏡</span><span class="rn">중개수수료</span></a>
-  </div>
-</div>
-
 <!-- 연도별 분할 증여 플랜 타임라인 시뮬레이터 -->
 <div style="max-width:700px;margin:0 auto;padding:0 20px">
   <div class="card" id="simCard" style="display:none">
@@ -215,6 +204,17 @@
   </div>
 </div>
 
+
+<div class="rel-section">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+  <a href="/gift_tax" class="rel-card"><span class="re">🎁</span><span class="rn">증여세</span></a>
+  <a href="/capital_gains" class="rel-card"><span class="re">💸</span><span class="rn">양도소득세</span></a>
+  <a href="/acquisition" class="rel-card"><span class="re">📋</span><span class="rn">취득세</span></a>
+  <a href="/income_tax" class="rel-card"><span class="re">📋</span><span class="rn">소득세</span></a>
+  <a href="/realestate" class="rel-card"><span class="re">🏡</span><span class="rn">중개수수료</span></a>
+  </div>
+</div>
 <div class="seo-section">
   <h2>증여세 절세 시뮬레이터 — 일시 증여 vs 분할 증여 완벽 비교</h2>
   <p>이 계산기는 같은 금액을 한 번에 증여할 때와 여러 번에 나눠 증여할 때의 세금 차이를 즉시 비교하는 <strong>증여세 절세 시뮬레이터</strong>입니다. 증여세에서 가장 강력한 절세 수단은 <strong>10년 단위 공제 한도(직계존속 성인 자녀 5,000만원)를 반복 활용하는 분할 증여</strong>입니다. 한 번에 큰 금액을 증여하면 높은 세율 구간이 적용되지만, 10년 간격으로 나눠 증여하면 공제가 반복 적용되고 낮은 세율 구간을 활용할 수 있습니다.</p>
@@ -352,6 +352,8 @@ function calcGiftTax() {
     </div>`;
   }).join('');
 }
+window.onload = () => calcGiftTax();
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => { navigator.serviceWorker.register('/sw.js'); });
 }

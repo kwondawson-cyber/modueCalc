@@ -271,6 +271,41 @@
 .seo-section details[open]{background:#161b22}
 .seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
 </style>
+<div style="max-width:640px;margin:0 auto;padding:0 20px 16px">
+    <div class="card" id="simCard" style="margin-top:8px">
+      <div class="card-title">&#9997;&#65039; 영문 주소 직접 조합기</div>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">동&#183;호수 등 상세주소를 추가해 완전한 영문 주소를 완성하세요.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+        <div>
+          <label style="display:block;font-size:11px;color:var(--text-muted);margin-bottom:4px">건물번호 + 도로명 (영문)</label>
+          <input type="text" id="comp-road" placeholder="123 Teheran-ro"
+            style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:9px 10px;font-size:13px;color:var(--text);outline:none;font-family:inherit"
+            oninput="buildAddr()" />
+        </div>
+        <div>
+          <label style="display:block;font-size:11px;color:var(--text-muted);margin-bottom:4px">구 + 시 (영문)</label>
+          <input type="text" id="comp-city" placeholder="Gangnam-gu, Seoul"
+            style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:9px 10px;font-size:13px;color:var(--text);outline:none;font-family:inherit"
+            oninput="buildAddr()" />
+        </div>
+        <div>
+          <label style="display:block;font-size:11px;color:var(--text-muted);margin-bottom:4px">동&#183;호수 (선택)</label>
+          <input type="text" id="comp-apt" placeholder="101-dong, 502-ho"
+            style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:9px 10px;font-size:13px;color:var(--text);outline:none;font-family:inherit"
+            oninput="buildAddr()" />
+        </div>
+        <div>
+          <label style="display:block;font-size:11px;color:var(--text-muted);margin-bottom:4px">우편번호 5자리 (선택)</label>
+          <input type="text" id="comp-zip" placeholder="06130" maxlength="5"
+            style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:9px 10px;font-size:13px;color:var(--text);outline:none;font-family:inherit"
+            oninput="buildAddr()" />
+        </div>
+      </div>
+      <div id="addrBuildResult"><p style="font-size:12px;color:var(--text-muted);text-align:center;padding:8px">건물번호+도로명과 구&#183;시를 입력하면 영문 주소가 완성됩니다.</p></div>
+      <p style="font-size:11px;color:var(--text-muted);margin-top:8px">&#8251; 위 변환기 결과를 참고해 항목별로 입력하세요</p>
+    </div>
+</div>
+
 <div class="rel-section">
   <h2>📌 함께 쓰면 유용한 계산기</h2>
   <div class="rel-grid">
@@ -280,40 +315,8 @@
   <a href="/area_converter" class="rel-card"><span class="re">📐</span><span class="rn">평수 변환</span></a>
   <a href="/exchange" class="rel-card"><span class="re">💱</span><span class="rn">환율 계산기</span></a>
   </div>
-
-  <div class="card" id="simCard" style="margin-top:8px">
-    <div class="card-title">&#9997;&#65039; 영문 주소 직접 조합기</div>
-    <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">동&#183;호수 등 상세주소를 추가해 완전한 영문 주소를 완성하세요.</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
-      <div>
-        <label style="display:block;font-size:11px;color:var(--text-muted);margin-bottom:4px">건물번호 + 도로명 (영문)</label>
-        <input type="text" id="comp-road" placeholder="123 Teheran-ro"
-          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:9px 10px;font-size:13px;color:var(--text);outline:none;font-family:inherit"
-          oninput="buildAddr()" />
-      </div>
-      <div>
-        <label style="display:block;font-size:11px;color:var(--text-muted);margin-bottom:4px">구 + 시 (영문)</label>
-        <input type="text" id="comp-city" placeholder="Gangnam-gu, Seoul"
-          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:9px 10px;font-size:13px;color:var(--text);outline:none;font-family:inherit"
-          oninput="buildAddr()" />
-      </div>
-      <div>
-        <label style="display:block;font-size:11px;color:var(--text-muted);margin-bottom:4px">동&#183;호수 (선택)</label>
-        <input type="text" id="comp-apt" placeholder="101-dong, 502-ho"
-          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:9px 10px;font-size:13px;color:var(--text);outline:none;font-family:inherit"
-          oninput="buildAddr()" />
-      </div>
-      <div>
-        <label style="display:block;font-size:11px;color:var(--text-muted);margin-bottom:4px">우편번호 5자리 (선택)</label>
-        <input type="text" id="comp-zip" placeholder="06130" maxlength="5"
-          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:9px 10px;font-size:13px;color:var(--text);outline:none;font-family:inherit"
-          oninput="buildAddr()" />
-      </div>
-    </div>
-    <div id="addrBuildResult"><p style="font-size:12px;color:var(--text-muted);text-align:center;padding:8px">건물번호+도로명과 구&#183;시를 입력하면 영문 주소가 완성됩니다.</p></div>
-    <p style="font-size:11px;color:var(--text-muted);margin-top:8px">&#8251; 위 변환기 결과를 참고해 항목별로 입력하세요</p>
-  </div>
 </div>
+
 <div class="seo-section">
   <h2>한국 주소를 영문으로 변환해야 하는 상황들</h2>
   <p>해외 배송 신청, 비자·여권 서류 작성, 외국인 초청장, 영문 명함 제작, 해외 쇼핑몰 회원가입 등에서 정확한 영문 주소가 반드시 필요합니다. 특히 미국·유럽·일본으로 직구 배송 시 영문 주소가 잘못되면 배송 실패로 반송되거나 분실될 수 있습니다. 영문 표기의 기준은 2000년 문화관광부가 고시한 국어의 로마자 표기법이며, 2014년 도로명주소 전면 시행 이후 도로명주소 기반 영문 표기가 공식 표준으로 자리잡았습니다.</p>

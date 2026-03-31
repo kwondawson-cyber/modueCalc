@@ -185,17 +185,7 @@
   </div>
 
 </div>
-  <div class="rel-section">
-    <h2>📌 함께 쓰면 유용한 계산기</h2>
-    <div class="rel-grid">
-      <a href="/annual_leave" class="rel-card"><span class="re">📅</span><span class="rn">연차 발생 계산기</span></a>
-      <a href="/salary" class="rel-card"><span class="re">💰</span><span class="rn">월급 실수령액</span></a>
-      <a href="/weekly_holiday" class="rel-card"><span class="re">📆</span><span class="rn">주휴수당</span></a>
-      <a href="/parental_leave" class="rel-card"><span class="re">👶</span><span class="rn">육아휴직 급여</span></a>
-      <a href="/unemployment" class="rel-card"><span class="re">💼</span><span class="rn">실업급여</span></a>
-    </div>
-  </div>
-
+  
 <!-- 근속연수별 연차 비교 시뮬레이터 -->
 <div style="max-width:680px;margin:0 auto 0;padding:0 20px">
   <div class="card" id="simCard">
@@ -205,6 +195,17 @@
   </div>
 </div>
 
+
+<div class="rel-section">
+    <h2>📌 함께 쓰면 유용한 계산기</h2>
+    <div class="rel-grid">
+      <a href="/annual_leave" class="rel-card"><span class="re">📅</span><span class="rn">연차 발생 계산기</span></a>
+      <a href="/salary" class="rel-card"><span class="re">💰</span><span class="rn">월급 실수령액</span></a>
+      <a href="/weekly_holiday" class="rel-card"><span class="re">📆</span><span class="rn">주휴수당</span></a>
+      <a href="/parental_leave" class="rel-card"><span class="re">👶</span><span class="rn">육아휴직 급여</span></a>
+      <a href="/unemployment" class="rel-card"><span class="re">💼</span><span class="rn">실업급여</span></a>
+    </div>
+  </div>
 <div class="seo-card">
   <h2>연차일수 계산기 — 2026년 근로기준법 입사일 기준 완벽 정리</h2>
   <p>연차휴가는 <strong>근로기준법 제60조</strong>에 따라 입사일 기준으로 발생합니다. 1년 미만 근로자는 매월 개근 시 1일씩 발생해 최대 11일, 1년이 되는 날 15일이 한꺼번에 발생합니다. 이후 2년마다 1일씩 가산되어 최대 25일까지 늘어납니다. 5인 이상 사업장의 주 15시간 이상 근로자에게 적용되며, 고용 형태(정규직·계약직·파트타임)와 무관합니다.</p>
@@ -361,6 +362,8 @@ function delLog(i) {
   logs.splice(i, 1);
   calcAnnual();
 }
+
+window.onload = () => calcAnnual();
 </script>
 </body>
 </html>
