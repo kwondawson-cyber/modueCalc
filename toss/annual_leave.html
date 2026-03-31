@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>연차 계산기</title>
-  <!-- TODO: 앱인토스 SDK 교체 -->
-  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>연차수당 계산기 | 모두의계산기</title>
+  <meta name="description" content="연차수당 계산기 — 통상임금 기준 미사용 연차수당 자동 계산. 근로기준법 연차 발생 기준(1년/월별), 연차수당 계산 공식, 급여별 예시 포함." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" /></noscript>
   <style>
-
     :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--radius:16px}
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-    
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
     .container{max-width:640px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
     .nav{text-align:center;margin-bottom:32px}.nav a{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:3px;color:var(--accent);text-decoration:none;text-transform:uppercase}
     .header{text-align:center;margin-bottom:40px}
@@ -50,56 +51,32 @@
     @media(max-width:480px){.card{padding:20px 16px}.input-row{grid-template-columns:1fr}}
 
     /* ── 홈 버튼 ── */
-    
-    
-    
-    
-    
+    .home-btn-wrap { text-align: center; margin-bottom: 8px; }
+    .home-btn {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      width: 54px; height: 54px;
+      background: rgba(0,212,170,0.08);
+      border: 1.5px solid rgba(0,212,170,0.35);
+      border-radius: 50%;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .home-btn:hover { background: rgba(0,212,170,0.18); transform: translateY(-2px); }
+    .home-btn-emoji { font-size: 20px; line-height: 1; }
+    .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
   
 
+.rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
 
 
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    .home-btn-wrap{text-align:center;margin-bottom:8px}
-    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
-    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
-    .home-btn-emoji{font-size:20px;line-height:1}
-    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
 
     .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
     .toss-header>.emoji{font-size:28px;flex-shrink:0}
@@ -112,74 +89,97 @@
     .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
     .ni-emoji{font-size:20px}
     .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
-
-    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+    .calc-guide{margin-top:20px;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .calc-guide-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:12px}
+    .calc-guide-desc{font-size:13px;color:var(--text-muted);line-height:1.8;margin-bottom:12px}
+    .calc-guide-basis{font-size:12px;color:var(--text-muted);padding:10px 14px;background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;line-height:1.7}
+    .disclaimer{text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280}
+    @media(max-width:360px){.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
 
   </style>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
 </head>
 <body>
 <div class="container">
-  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
-  <div class="toss-header">
+    <div class="toss-header">
     <span class="emoji">🌴</span>
-    <div><h1>연차 계산기</h1><p>연차 발생일수 자동 계산</p></div>
+    <div><h1>연차수당 계산기</h1><p>미사용 연차 보상금 · 연차 발생일수 계산</p></div>
+  </div>
+  <div class="card">
+    <div class="card-title">급여 정보</div>
+    <div class="input-group">
+      <label>월 기본급</label>
+      <div class="input-wrapper"><input type="text" id="monthly" value="3,000,000" oninput="fmtInput(this)" /><span class="input-unit">원</span></div>
+    </div>
+    <div class="input-row">
+      <div class="input-group">
+        <label>미사용 연차 일수</label>
+        <div class="input-wrapper"><input type="number" id="unusedDays" value="5" min="1" max="25" /><span class="input-unit">일</span></div>
+      </div>
+      <div class="input-group">
+        <label>근속 연수</label>
+        <div class="select-wrapper">
+          <select id="years">
+            <option value="0">1년 미만</option>
+            <option value="1" selected>1년 이상</option>
+            <option value="3">3년 이상</option>
+            <option value="5">5년 이상</option>
+            <option value="7">7년 이상</option>
+            <option value="10">10년 이상</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="info-box">📌 1일 통상임금 = 월급 ÷ 209시간 × 8시간 (하루 소정근로시간 기준)</div>
+    <button class="calc-btn" onclick="calculate()">📋 연차수당 계산하기</button>
+  </div>
+  <div class="result-card" id="resultCard">
+    <div class="result-highlight">
+      <div class="r-label">미사용 연차수당</div>
+      <div class="r-amount" id="r-amount">-<span>원</span></div>
+      <div class="r-sub" id="r-sub">-</div>
+    </div>
+    <div class="card">
+      <div class="card-title">계산 상세</div>
+      <div class="detail-item"><span class="d-label">월 기본급</span><span class="d-value" id="d-monthly">-</span></div>
+      <div class="detail-item"><span class="d-label">시간당 통상임금</span><span class="d-value" id="d-hourly">-</span></div>
+      <div class="detail-item"><span class="d-label">1일 통상임금</span><span class="d-value" id="d-daily">-</span></div>
+      <div class="detail-item"><span class="d-label">미사용 연차</span><span class="d-value" id="d-unused">-</span></div>
+      <div class="detail-item"><span class="d-label">연차수당</span><span class="d-value accent" id="d-pay">-</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">연차 발생 기준표</div>
+      <table class="annual-table">
+        <thead><tr><th>근속연수</th><th>연차 일수</th></tr></thead>
+        <tbody id="annualBody"></tbody>
+      </table>
+    </div>
   </div>
 
+  <!-- 급여별 연차수당 빠른 조회 시뮬레이터 -->
+  <div class="card" id="simCard" style="background:rgba(0,212,170,.04);border-color:rgba(0,212,170,.2)">
+    <div class="card-title" style="color:var(--accent)">💰 급여별 연차수당 빠른 조회</div>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">슬라이더로 월 급여를 조정하면 미사용 연차 일수별 예상 수당을 즉시 확인합니다. 계산기 입력값에 해당하는 행이 강조됩니다.</p>
+    <div style="margin-bottom:16px">
+      <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:6px">월 기본급</label>
+      <input type="range" id="sim-salary" min="1500000" max="8000000" step="100000" value="3000000"
+        oninput="updateLeaveSimTable()" style="width:100%;accent-color:var(--accent)">
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-top:3px"><span>150만원</span><span>800만원</span></div>
+      <div id="sim-salary-label" style="text-align:center;font-size:16px;font-weight:700;color:var(--accent);margin-top:8px">월 300만원 기준</div>
+    </div>
+    <div id="leaveSimTable" style="overflow-x:auto"></div>
+  </div>
 
-
-<div class="card">
-<div class="card-title">급여 정보</div>
-<div class="input-group">
-<label>월 기본급</label>
-<div class="input-wrapper"><input id="monthly" type="number" value="3000000"/><span class="input-unit">원</span></div>
-</div>
-<div class="input-row">
-<div class="input-group">
-<label>미사용 연차 일수</label>
-<div class="input-wrapper"><input id="unusedDays" max="25" min="1" type="number" value="5"/><span class="input-unit">일</span></div>
-</div>
-<div class="input-group">
-<label>근속 연수</label>
-<div class="select-wrapper">
-<select id="years">
-<option value="0">1년 미만</option>
-<option selected="" value="1">1년 이상</option>
-<option value="3">3년 이상</option>
-<option value="5">5년 이상</option>
-<option value="7">7년 이상</option>
-<option value="10">10년 이상</option>
-</select>
-</div>
-</div>
-</div>
-<div class="info-box">📌 1일 통상임금 = 월급 ÷ 209시간 × 8시간 (하루 소정근로시간 기준)</div>
-<button class="calc-btn" onclick="calculate()">📋 연차수당 계산하기</button>
-</div>
-<div class="result-card" id="resultCard">
-<div class="result-highlight">
-<div class="r-label">미사용 연차수당</div>
-<div class="r-amount" id="r-amount">-<span>원</span></div>
-<div class="r-sub" id="r-sub">-</div>
-</div>
-<div class="card">
-<div class="card-title">계산 상세</div>
-<div class="detail-item"><span class="d-label">월 기본급</span><span class="d-value" id="d-monthly">-</span></div>
-<div class="detail-item"><span class="d-label">시간당 통상임금</span><span class="d-value" id="d-hourly">-</span></div>
-<div class="detail-item"><span class="d-label">1일 통상임금</span><span class="d-value" id="d-daily">-</span></div>
-<div class="detail-item"><span class="d-label">미사용 연차</span><span class="d-value" id="d-unused">-</span></div>
-<div class="detail-item"><span class="d-label">연차수당</span><span class="d-value accent" id="d-pay">-</span></div>
-</div>
-<div class="card">
-<div class="card-title">연차 발생 기준표</div>
-<table class="annual-table">
-<thead><tr><th>근속연수</th><th>연차 일수</th></tr></thead>
-<tbody id="annualBody"></tbody>
-</table>
-</div>
-</div>
-
-    <div style="text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280;">
-    본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.
+  <div class="disclaimer">본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.</div>
+  <div class="calc-guide">
+    <div class="calc-guide-title">📋 사용 방법</div>
+    <div class="calc-guide-desc">입사일을 입력하면 발생 연차 일수와 사용 가능 연차를 자동 계산합니다.</div>
+    <div class="calc-guide-basis">📌 계산 기준: 근로기준법 기준 (1년 미만: 월 1일, 1년 이상: 15일, 최대 25일)</div>
   </div>
   <div class="toss-nav">
     <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
@@ -192,7 +192,7 @@
   </div>
 </div>
 <script>
-const annualDays=[
+  const annualDays=[
     {label:'1년 미만',days:'월 1일 (최대 11일)',y:0},
     {label:'1~2년',days:'15일',y:1},
     {label:'3~4년',days:'16일',y:3},
@@ -201,9 +201,14 @@ const annualDays=[
     {label:'9~10년',days:'19일',y:9},
     {label:'10년 이상',days:'최대 25일',y:10},
   ];
+  function fmtInput(el){
+    const raw=el.value.replace(/[^0-9]/g,'');
+    el.value=raw?Number(raw).toLocaleString('ko-KR'):'';
+  }
+  function getNum(id){return parseFloat((document.getElementById(id).value||'').replace(/,/g,''))||0;}
   function fmt(n){return Math.round(n).toLocaleString('ko-KR')}
   function calculate(){
-    const monthly=parseFloat(document.getElementById('monthly').value)||0;
+    const monthly=getNum('monthly');
     const unused=parseFloat(document.getElementById('unusedDays').value)||0;
     const years=parseInt(document.getElementById('years').value);
     const hourly=monthly/209;
@@ -219,9 +224,95 @@ const annualDays=[
     const currentY=parseInt(document.getElementById('years').value);
     document.getElementById('annualBody').innerHTML=annualDays.map(r=>`
       <tr class="${r.y===currentY?'current':''}"><td>${r.label}</td><td>${r.days}</td></tr>`).join('');
-    const rc=document.getElementById('resultCard');rc.classList.add('visible');
+    document.getElementById('resultCard').classList.add('visible');
+    // 타임라인 업데이트
+    document.getElementById('timelineCard').style.display = 'block';
+    updateTimeline();
   }
-  window.onload=()=>calculate();
+  function updateTimeline() {
+    const joinMonth = parseInt(document.getElementById('tl-joinMonth').value) || 1;
+    const el = document.getElementById('timelineResult');
+    const months = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+    // 입사월 기준 연차 발생 일정
+    const events = [
+      {m:0, label:'입사일', note:'주 15시간+ 근무 시 다음달부터 월 1일 연차 발생 시작', color:'var(--accent)'},
+      {m:1, label:'1개월 만근 → 연차 1일 발생', note:'매월 만근 시 반복', color:'var(--text-muted)'},
+      {m:11, label:'11개월 만근 → 연차 11일 누적', note:'1년 미만 최대치', color:'#ffd54f'},
+      {m:12, label:'1주년 → 연차 15일 신규 발생', note:'이전 11일과 별도 (차감 안 함)', color:'var(--accent)'},
+      {m:18, label:'연차 사용 촉진 1차 통보 시점', note:'연차 소멸 6개월 전 서면 통보 필요', color:'#ff8a65'},
+      {m:22, label:'연차 사용 촉진 2차 통보 시점', note:'연차 소멸 2개월 전 서면 통보 필요', color:'#ff6b6b'},
+      {m:24, label:'2주년 → 입사 1년차 연차 15일 소멸', note:'미사용 연차 → 수당 지급 (촉진 없었을 시)', color:'#ff6b6b'},
+    ];
+    el.innerHTML = events.map(ev => {
+      const absMonth = (joinMonth - 1 + ev.m) % 12;
+      const year = Math.floor((joinMonth - 1 + ev.m) / 12) + 1;
+      return `<div style="display:flex;gap:12px;margin-bottom:12px;align-items:flex-start">
+        <div style="min-width:64px;text-align:center">
+          <div style="font-size:10px;color:var(--text-muted)">+${ev.m}개월</div>
+          <div style="font-size:12px;font-weight:700;color:${ev.color}">${months[absMonth]}</div>
+          <div style="font-size:10px;color:var(--text-muted)">${year}년차</div>
+        </div>
+        <div style="flex:1;border-left:2px solid ${ev.color};padding-left:10px">
+          <div style="font-size:13px;font-weight:700;color:${ev.color}">${ev.label}</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:2px">${ev.note}</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+  window.onload = () => { calculate(); updateLeaveSimTable(); };
+
+  function updateLeaveSimTable() {
+    const salary = parseInt(document.getElementById('sim-salary').value) || 3000000;
+    const wan = Math.round(salary / 10000);
+    document.getElementById('sim-salary-label').textContent = `월 ${wan.toLocaleString()}만원 기준`;
+    const daily = salary / 209 * 8;
+    const curMonthly = getNum('monthly');
+    const curUnused  = parseFloat(document.getElementById('unusedDays').value) || 0;
+    const daysList = [1, 3, 5, 7, 10, 15, 20, 25];
+    const th = (t, align) => `<th style="padding:9px 10px;font-size:11px;font-weight:700;color:var(--accent);border-bottom:1px solid var(--border);text-align:${align||'left'}">${t}</th>`;
+    let html = `<table style="width:100%;border-collapse:collapse">
+      <thead><tr>${th('미사용 연차')}${th('1일 통상임금','right')}${th('예상 수당','right')}</tr></thead><tbody>`;
+    daysList.forEach(d => {
+      const pay = daily * d;
+      const isCurSal = Math.abs(salary - curMonthly) < 300000;
+      const isCurDay = d === curUnused;
+      const hi = isCurSal && isCurDay;
+      const bg = hi ? 'background:rgba(0,212,170,.08)' : '';
+      const mark = hi ? ' <span style="font-size:10px;color:var(--accent);font-weight:700">◀ 현재</span>' : '';
+      html += `<tr style="${bg}">
+        <td style="padding:9px 10px;font-size:13px;color:var(--text-muted);border-bottom:1px solid var(--border)">${d}일${mark}</td>
+        <td style="padding:9px 10px;font-size:12px;color:var(--text-muted);text-align:right;border-bottom:1px solid var(--border)">${fmt(daily)}원</td>
+        <td style="padding:9px 10px;font-size:13px;font-weight:700;color:${hi?'var(--accent)':'var(--text)'};text-align:right;border-bottom:1px solid var(--border)">${fmt(pay)}원</td>
+      </tr>`;
+    });
+    html += '</tbody></table>';
+    document.getElementById('leaveSimTable').innerHTML = html;
+  }
 </script>
+
+<!-- 연차 소멸 타임라인 -->
+<div class="container" style="padding-top:0;padding-bottom:0">
+  <div class="card" id="timelineCard" style="display:none">
+    <div class="card-title">📅 연차 소멸·촉진 타임라인</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">입사 월을 선택하면 연차 발생·사용 촉진·소멸 일정을 자동으로 계산합니다.</p>
+    <div style="display:flex;gap:12px;align-items:center;margin-bottom:16px">
+      <div style="font-size:13px;color:var(--text-muted);font-weight:600;white-space:nowrap">입사 월</div>
+      <select id="tl-joinMonth" onchange="updateTimeline()"
+        style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:15px;color:var(--text);outline:none;flex:1;font-family:'Noto Sans KR',sans-serif">
+        <option value="1">1월</option><option value="2">2월</option><option value="3">3월</option>
+        <option value="4">4월</option><option value="5">5월</option><option value="6">6월</option>
+        <option value="7">7월</option><option value="8">8월</option><option value="9">9월</option>
+        <option value="10">10월</option><option value="11">11월</option><option value="12">12월</option>
+      </select>
+    </div>
+    <div id="timelineResult"></div>
+  </div>
+</div>
+
+
+</div>
+
+
+
 </body>
 </html>

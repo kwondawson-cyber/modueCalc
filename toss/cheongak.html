@@ -2,22 +2,25 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>청약 가점 계산기</title>
-  <!-- TODO: 앱인토스 SDK 교체 -->
-  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>청약 가점 계산기 | 모두의계산기</title>
+  <meta name="description" content="청약 가점 계산기 2026 — 무주택기간·부양가족·청약통장 가입기간 3항목 자동 합산 최대 84점. 서울·수도권·지방 당첨 가점 기준 비교 및 가점 올리는 법." />
+  <meta name="naver-site-verification" content="82ae9d4234997a93590385e408dc1119dfe6f61f" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" /></noscript>
   <style>
-
     :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--danger:#ff6b6b;--warn:#f5a623;--radius:16px}
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-    
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
     .container{max-width:680px;margin:0 auto;padding:40px 20px 100px;position:relative;z-index:1}
-    
-    
-    
-    
-    
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;gap:2px;width:48px;height:48px;justify-content:center;border-radius:50%;background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.2);text-decoration:none;transition:all .2s}
+    .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
     .header{text-align:center;margin-bottom:28px}
     .header h1{font-family:'Montserrat',sans-serif;font-size:clamp(22px,5vw,32px);font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
     .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
@@ -54,21 +57,20 @@
     .bar-bg{background:var(--surface2);border-radius:8px;height:10px;overflow:hidden;margin-bottom:10px}
     .bar-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .6s}
     .rating-box{text-align:center;margin-top:16px;padding:14px;border-radius:12px}
-    
-    .ad-slot{min-height:0;text-align:center;margin:16px 0}
+    .formula-box{background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:14px 16px;margin:16px 0;font-size:13px;color:var(--text-muted);line-height:1.8}
     details{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden}
     details summary{padding:12px 16px;cursor:pointer;font-size:14px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--surface)}
     details summary::after{content:'＋';color:var(--accent);font-size:16px}
     details[open] summary::after{content:'－'}
-    details 
+    details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
 
-    
-    
-    
-    
-    
-    
-    
+    .seo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px;max-width:680px;margin-left:auto;margin-right:auto;margin-top:0}
+    .seo-card h2{font-size:17px;font-weight:800;color:var(--text);margin-bottom:14px;line-height:1.4}
+    .seo-card h3{font-size:14px;font-weight:700;color:var(--accent);margin:16px 0 8px}
+    .seo-card p{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:10px}
+    .seo-card ul{padding-left:18px;margin-bottom:10px}
+    .seo-card li{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:4px}
+    .seo-card strong{color:var(--text)}
     .ex-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
     .ex-table th{background:rgba(0,212,170,0.1);padding:8px 12px;text-align:left;color:var(--accent);font-weight:700;border:1px solid var(--border)}
     .ex-table td{padding:8px 12px;border:1px solid var(--border);color:var(--text-muted);line-height:1.7}
@@ -76,21 +78,13 @@
     .hl-box{background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.25);border-radius:10px;padding:14px 16px;margin:14px 0;font-size:13px;color:var(--text);line-height:1.8}
     .hl-box strong{color:var(--accent)}
     
+    .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
     
     
-    
-    
+    .rel-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
     
     
   
-
-
-    .home-btn-wrap{text-align:center;margin-bottom:8px}
-    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
-    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
-    .home-btn-emoji{font-size:20px;line-height:1}
-    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
-
     .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
     .toss-header>.emoji{font-size:28px;flex-shrink:0}
     .toss-header h1{font-size:20px;font-weight:800;color:var(--text);margin:0}
@@ -102,134 +96,193 @@
     .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
     .ni-emoji{font-size:20px}
     .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
-
-    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+    .calc-guide{margin-top:20px;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .calc-guide-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:12px}
+    .calc-guide-desc{font-size:13px;color:var(--text-muted);line-height:1.8;margin-bottom:12px}
+    .calc-guide-basis{font-size:12px;color:var(--text-muted);padding:10px 14px;background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;line-height:1.7}
+    .disclaimer{text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280}
+    @media(max-width:360px){.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
 
   </style>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
 </head>
 <body>
 <div class="container">
-  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
-  <div class="toss-header">
-    <span class="emoji">🏆</span>
-    <div><h1>청약 가점 계산기</h1><p>아파트 청약 가점 자동 계산</p></div>
+    <div class="toss-header">
+    <span class="emoji">🏠</span>
+    <div><h1>청약 가점 계산기</h1><p>무주택기간 · 부양가족 · 청약통장 가입기간 자동 합산</p></div>
+  </div>
+  <div class="badges"><span class="badge">🏠 아파트 청약</span><span class="badge">2026년 기준</span><span class="badge">최대 84점</span></div>
+
+  <!-- 무주택기간 -->
+  <div class="card">
+    <h2>① 무주택기간 <span style="font-weight:400;color:var(--text-muted)">(최대 32점)</span></h2>
+    <div class="card-sub">세대주 및 세대원 전원 무주택 기준 · 만 30세 미만 미혼은 최초 독립일부터 산정</div>
+    <p style="font-size:12px;color:var(--text-muted);margin:8px 0 12px;line-height:1.7">1년마다 2점씩 올라가며 15년 이상이면 32점 만점입니다. 과거 주택 보유 이력이 있다면 처분일부터 다시 기산됩니다.</p>
+    <p style="font-size:12px;color:var(--text-muted);margin:0 0 12px;line-height:1.7">배우자 포함 세대원 전원이 무주택자여야 무주택기간이 인정됩니다. 배우자가 주택을 보유하고 있다면 해당 기간은 무주택 기간에서 제외됩니다.</p>
+    <div class="form-group">
+      <label>무주택 기간</label>
+      <select id="nohouse" onchange="calc()">
+        <option value="2">1년 미만 — 2점</option>
+        <option value="4">1년 이상 2년 미만 — 4점</option>
+        <option value="6">2년 이상 3년 미만 — 6점</option>
+        <option value="8">3년 이상 4년 미만 — 8점</option>
+        <option value="10">4년 이상 5년 미만 — 10점</option>
+        <option value="12">5년 이상 6년 미만 — 12점</option>
+        <option value="14">6년 이상 7년 미만 — 14점</option>
+        <option value="16">7년 이상 8년 미만 — 16점</option>
+        <option value="18">8년 이상 9년 미만 — 18점</option>
+        <option value="20">9년 이상 10년 미만 — 20점</option>
+        <option value="22">10년 이상 11년 미만 — 22점</option>
+        <option value="24">11년 이상 12년 미만 — 24점</option>
+        <option value="26">12년 이상 13년 미만 — 26점</option>
+        <option value="28">13년 이상 14년 미만 — 28점</option>
+        <option value="30">14년 이상 15년 미만 — 30점</option>
+        <option value="32">15년 이상 — 32점</option>
+      </select>
+    </div>
+    <div class="score-row"><span class="score-label">무주택기간 점수</span><span class="score-chip" id="s1">2</span></div>
+  </div>
+
+  <!-- 부양가족 -->
+  <div class="card">
+    <h2>② 부양가족 수 <span style="font-weight:400;color:var(--text-muted)">(최대 35점)</span></h2>
+    <div class="card-sub">주민등록표상 같이 사는 직계존속(부모·조부모 3년 이상)·직계비속·배우자 포함</div>
+    <p style="font-size:12px;color:var(--text-muted);margin:8px 0 12px;line-height:1.7">배우자·자녀는 기간 무관하게 인정되며, 부모·조부모는 3년 이상 동거가 필수입니다. 형제·자매는 부양가족에 포함되지 않습니다.</p>
+    <p style="font-size:12px;color:var(--text-muted);margin:0 0 12px;line-height:1.7">부모님을 세대원으로 등재하면 최대 10점까지 추가되지만, 부모님이 주택을 보유 중이라면 청약자의 무주택 세대원 요건에 영향을 줄 수 있으니 반드시 사전 확인이 필요합니다.</p>
+    <div class="form-group">
+      <label>부양가족 수 (본인 제외)</label>
+      <select id="family" onchange="calc()">
+        <option value="5">0명 — 5점</option>
+        <option value="10">1명 — 10점</option>
+        <option value="15">2명 — 15점</option>
+        <option value="20">3명 — 20점</option>
+        <option value="25">4명 — 25점</option>
+        <option value="30">5명 — 30점</option>
+        <option value="35">6명 이상 — 35점</option>
+      </select>
+    </div>
+    <div class="score-row"><span class="score-label">부양가족 점수</span><span class="score-chip" id="s2">5</span></div>
+  </div>
+
+  <!-- 청약통장 -->
+  <div class="card">
+    <h2>③ 청약통장 가입기간 <span style="font-weight:400;color:var(--text-muted)">(최대 17점)</span></h2>
+    <div class="card-sub">주택청약종합저축 · 청약저축 · 청약부금 · 청약예금 모두 해당</div>
+    <p style="font-size:12px;color:var(--text-muted);margin:8px 0 12px;line-height:1.7">6개월마다 1점씩 올라가며 15년 이상이면 17점 만점입니다. 미가입이라면 오늘 즉시 주택청약종합저축을 개설하는 것이 가장 확실한 가점 올리기 방법입니다.</p>
+    <div class="form-group">
+      <label>가입 기간</label>
+      <select id="savings" onchange="calc()">
+        <option value="1">6개월 미만 — 1점</option>
+        <option value="2">6개월 이상 1년 미만 — 2점</option>
+        <option value="3">1년 이상 2년 미만 — 3점</option>
+        <option value="4">2년 이상 3년 미만 — 4점</option>
+        <option value="5">3년 이상 4년 미만 — 5점</option>
+        <option value="6">4년 이상 5년 미만 — 6점</option>
+        <option value="7">5년 이상 6년 미만 — 7점</option>
+        <option value="8">6년 이상 7년 미만 — 8점</option>
+        <option value="9">7년 이상 8년 미만 — 9점</option>
+        <option value="10">8년 이상 9년 미만 — 10점</option>
+        <option value="11">9년 이상 10년 미만 — 11점</option>
+        <option value="12">10년 이상 11년 미만 — 12점</option>
+        <option value="13">11년 이상 12년 미만 — 13점</option>
+        <option value="14">12년 이상 13년 미만 — 14점</option>
+        <option value="15">13년 이상 14년 미만 — 15점</option>
+        <option value="16">14년 이상 15년 미만 — 16점</option>
+        <option value="17">15년 이상 — 17점</option>
+      </select>
+    </div>
+    <div class="score-row"><span class="score-label">청약통장 점수</span><span class="score-chip" id="s3">1</span></div>
+  </div>
+
+  <button class="btn" onclick="calc()">청약 가점 계산하기</button>
+
+  <div class="result-card" id="result">
+    <div class="result-main">
+      <div class="result-label">나의 청약 가점</div>
+      <div class="result-value" id="r-total">0<span class="result-max">/84</span></div>
+      <div class="result-sub" id="r-sub"></div>
+    </div>
+
+    <div class="score-breakdown">
+      <h3>📋 항목별 점수</h3>
+      <div class="sb-row"><span>① 무주택기간</span><span id="rb-1">-</span></div>
+      <div class="sb-row"><span>② 부양가족</span><span id="rb-2">-</span></div>
+      <div class="sb-row"><span>③ 청약통장 가입기간</span><span id="rb-3">-</span></div>
+      <div class="sb-row"><span>합계</span><span id="rb-total">-</span></div>
+    </div>
+
+    <div class="bar-section">
+      <div class="bar-label"><span>무주택기간 <span id="bp1"></span></span><span>최대 32점</span></div>
+      <div class="bar-bg"><div class="bar-fill" id="bar1" style="width:0%"></div></div>
+      <div class="bar-label"><span>부양가족 <span id="bp2"></span></span><span>최대 35점</span></div>
+      <div class="bar-bg"><div class="bar-fill" id="bar2" style="width:0%;background:linear-gradient(90deg,#0095ff,#00d4aa)"></div></div>
+      <div class="bar-label"><span>청약통장 <span id="bp3"></span></span><span>최대 17점</span></div>
+      <div class="bar-bg"><div class="bar-fill" id="bar3" style="width:0%;background:linear-gradient(90deg,#f5a623,#00d4aa)"></div></div>
+    </div>
+
+    <div class="rating-box" id="rating-box"></div>
+  </div>
+
+  <!-- 지역별 당첨 가능성 시뮬레이터 -->
+  <div class="card" id="simCard" style="margin-top:16px">
+    <div style="font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:10px">📍 지역별 당첨 가능성</div>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">위 항목을 바꾸면 지역별 당첨 가능성이 실시간으로 업데이트됩니다.</p>
+    <div id="region-result" style="display:grid;gap:8px"></div>
+    <div style="margin-top:12px;font-size:11px;color:var(--text-muted);line-height:1.7">※ 커트라인은 2023~2025년 실거래 평균 기준 추정치입니다. 단지·평형·시기에 따라 크게 달라질 수 있습니다.</div>
   </div>
 
 
-
-<div class="badges"><span class="badge">🏠 아파트 청약</span><span class="badge">2026년 기준</span><span class="badge">최대 84점</span></div>
-<!-- 무주택기간 -->
-<div class="card">
-<h2>① 무주택기간 <span style="font-weight:400;color:var(--text-muted)">(최대 32점)</span></h2>
-<div class="card-sub">세대주 및 세대원 전원 무주택 기준 · 만 30세 미만 미혼은 최초 독립일부터 산정</div>
-<div class="form-group">
-<label>무주택 기간</label>
-<select id="nohouse">
-<option value="2">1년 미만 — 2점</option>
-<option value="4">1년 이상 2년 미만 — 4점</option>
-<option value="6">2년 이상 3년 미만 — 6점</option>
-<option value="8">3년 이상 4년 미만 — 8점</option>
-<option value="10">4년 이상 5년 미만 — 10점</option>
-<option value="12">5년 이상 6년 미만 — 12점</option>
-<option value="14">6년 이상 7년 미만 — 14점</option>
-<option value="16">7년 이상 8년 미만 — 16점</option>
-<option value="18">8년 이상 9년 미만 — 18점</option>
-<option value="20">9년 이상 10년 미만 — 20점</option>
-<option value="22">10년 이상 11년 미만 — 22점</option>
-<option value="24">11년 이상 12년 미만 — 24점</option>
-<option value="26">12년 이상 13년 미만 — 26점</option>
-<option value="28">13년 이상 14년 미만 — 28점</option>
-<option value="30">14년 이상 15년 미만 — 30점</option>
-<option value="32">15년 이상 — 32점</option>
-</select>
-</div>
-<div class="score-row"><span class="score-label">무주택기간 점수</span><span class="score-chip" id="s1">2</span></div>
-</div>
-<!-- 부양가족 -->
-<div class="card">
-<h2>② 부양가족 수 <span style="font-weight:400;color:var(--text-muted)">(최대 35점)</span></h2>
-<div class="card-sub">주민등록표상 같이 사는 직계존속(부모·조부모 3년 이상)·직계비속·배우자 포함</div>
-<div class="form-group">
-<label>부양가족 수 (본인 제외)</label>
-<select id="family">
-<option value="5">0명 — 5점</option>
-<option value="10">1명 — 10점</option>
-<option value="15">2명 — 15점</option>
-<option value="20">3명 — 20점</option>
-<option value="25">4명 — 25점</option>
-<option value="30">5명 — 30점</option>
-<option value="35">6명 이상 — 35점</option>
-</select>
-</div>
-<div class="score-row"><span class="score-label">부양가족 점수</span><span class="score-chip" id="s2">5</span></div>
-</div>
-<!-- 청약통장 -->
-<div class="card">
-<h2>③ 청약통장 가입기간 <span style="font-weight:400;color:var(--text-muted)">(최대 17점)</span></h2>
-<div class="card-sub">주택청약종합저축 · 청약저축 · 청약부금 · 청약예금 모두 해당</div>
-<div class="form-group">
-<label>가입 기간</label>
-<select id="savings">
-<option value="1">6개월 미만 — 1점</option>
-<option value="2">6개월 이상 1년 미만 — 2점</option>
-<option value="3">1년 이상 2년 미만 — 3점</option>
-<option value="4">2년 이상 3년 미만 — 4점</option>
-<option value="5">3년 이상 4년 미만 — 5점</option>
-<option value="6">4년 이상 5년 미만 — 6점</option>
-<option value="7">5년 이상 6년 미만 — 7점</option>
-<option value="8">6년 이상 7년 미만 — 8점</option>
-<option value="9">7년 이상 8년 미만 — 9점</option>
-<option value="10">8년 이상 9년 미만 — 10점</option>
-<option value="11">9년 이상 10년 미만 — 11점</option>
-<option value="12">10년 이상 11년 미만 — 12점</option>
-<option value="13">11년 이상 12년 미만 — 13점</option>
-<option value="14">12년 이상 13년 미만 — 14점</option>
-<option value="15">13년 이상 14년 미만 — 15점</option>
-<option value="16">14년 이상 15년 미만 — 16점</option>
-<option value="17">15년 이상 — 17점</option>
-</select>
-</div>
-<div class="score-row"><span class="score-label">청약통장 점수</span><span class="score-chip" id="s3">1</span></div>
-</div>
-<button class="btn" onclick="calc()">청약 가점 계산하기</button>
-<div class="result-card" id="result">
-<div class="result-main">
-<div class="result-label">나의 청약 가점</div>
-<div class="result-value" id="r-total">0<span class="result-max">/84</span></div>
-<div class="result-sub" id="r-sub"></div>
-</div>
-<div class="score-breakdown">
-<h3>📋 항목별 점수</h3>
-<div class="sb-row"><span>① 무주택기간</span><span id="rb-1">-</span></div>
-<div class="sb-row"><span>② 부양가족</span><span id="rb-2">-</span></div>
-<div class="sb-row"><span>③ 청약통장 가입기간</span><span id="rb-3">-</span></div>
-<div class="sb-row"><span>합계</span><span id="rb-total">-</span></div>
-</div>
-<div class="bar-section">
-<div class="bar-label"><span>무주택기간 <span id="bp1"></span></span><span>최대 32점</span></div>
-<div class="bar-bg"><div class="bar-fill" id="bar1" style="width:0%"></div></div>
-<div class="bar-label"><span>부양가족 <span id="bp2"></span></span><span>최대 35점</span></div>
-<div class="bar-bg"><div class="bar-fill" id="bar2" style="width:0%;background:linear-gradient(90deg,#0095ff,#00d4aa)"></div></div>
-<div class="bar-label"><span>청약통장 <span id="bp3"></span></span><span>최대 17점</span></div>
-<div class="bar-bg"><div class="bar-fill" id="bar3" style="width:0%;background:linear-gradient(90deg,#f5a623,#00d4aa)"></div></div>
-</div>
-<div class="rating-box" id="rating-box"></div>
-</div>
-
-    <div style="text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280;">
-    본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.
+  <div class="disclaimer">본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.</div>
+  <div class="calc-guide">
+    <div class="calc-guide-title">📋 사용 방법</div>
+    <div class="calc-guide-desc">무주택 기간·부양가족 수·청약통장 가입 기간을 입력하면 청약 가점을 자동 계산합니다.</div>
+    <div class="calc-guide-basis">📌 계산 기준: 청약홈 청약가점제 기준 (만점 84점)</div>
   </div>
   <div class="toss-nav">
     <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
     <div class="toss-nav-grid">
       <a href="/acquisition" class="toss-nav-item"><span class="ni-emoji">🏠</span><span class="ni-label">취득세</span></a>
-      <a href="/rent_conversion" class="toss-nav-item"><span class="ni-emoji">🔄</span><span class="ni-label">전월세전환</span></a>
-      <a href="/loan" class="toss-nav-item"><span class="ni-emoji">🏦</span><span class="ni-label">대출이자</span></a>
-      <a href="/realestate" class="toss-nav-item"><span class="ni-emoji">🤝</span><span class="ni-label">중개수수료</span></a>
+      <a href="/savings" class="toss-nav-item"><span class="ni-emoji">💳</span><span class="ni-label">적금</span></a>
+      <a href="/compound" class="toss-nav-item"><span class="ni-emoji">📊</span><span class="ni-label">복리</span></a>
+      <a href="/income_tax" class="toss-nav-item"><span class="ni-emoji">🧮</span><span class="ni-label">소득세</span></a>
     </div>
   </div>
 </div>
+  </div>
 <script>
+function updateRegion(total) {
+  const regions = [
+    { name:'서울 강남권 인기 단지', cut:65, color:'#ff6b6b' },
+    { name:'서울 강북·비인기 지역', cut:55, color:'#f5a623' },
+    { name:'수도권 1기 신도시권', cut:50, color:'#f5a623' },
+    { name:'수도권 외곽·신도시', cut:42, color:'#00d4aa' },
+    { name:'지방 광역시 인기 단지', cut:42, color:'#00d4aa' },
+    { name:'지방 중소도시', cut:33, color:'#0095ff' },
+  ];
+  const el = document.getElementById('region-result');
+  if (!el) return;
+  el.innerHTML = regions.map(r => {
+    const ok = total >= r.cut;
+    const pct = Math.min(Math.round(total / r.cut * 100), 100);
+    return `<div style="background:var(--surface2);border-radius:10px;padding:12px 14px;display:flex;align-items:center;gap:12px">
+      <div style="font-size:18px">${ok ? '✅' : '❌'}</div>
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:700;color:${ok ? 'var(--accent)' : 'var(--text-muted)'};margin-bottom:4px">${r.name}</div>
+        <div style="background:var(--bg);border-radius:6px;height:6px;overflow:hidden">
+          <div style="width:${pct}%;height:100%;background:${ok ? r.color : '#30363d'};border-radius:6px;transition:width .4s"></div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:${ok ? 'var(--accent)' : 'var(--text-muted)'};white-space:nowrap;min-width:48px;text-align:right">${ok ? '가능' : r.cut+'점+\n필요'}</div>
+    </div>`;
+  }).join('');
+}
+
 document.querySelectorAll('select').forEach(sel => {
   sel.addEventListener('change', () => {
     const map = { nohouse:'s1', family:'s2', savings:'s3' };
@@ -270,7 +323,13 @@ function calc() {
   const pct = total/84*100;
   document.getElementById('r-sub').textContent = `전체 84점 중 ${pct.toFixed(1)}% 달성`;
   document.getElementById('result').classList.add('show');
+
+  updateRegion(total);
 }
+
+window.addEventListener('DOMContentLoaded', calc);
 </script>
+
+
 </body>
 </html>

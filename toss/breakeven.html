@@ -2,22 +2,25 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>손익분기점 계산기</title>
-  <!-- TODO: 앱인토스 SDK — 콘솔 발급 코드로 교체 -->
-  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>손익분기점 계산기 | 모두의계산기</title>
+  <meta name="description" content="손익분기점(BEP) 계산기 2026 (소상공인) — 고정비·변동비·판매단가 입력으로 BEP 수량·매출액·안전한계율 자동 계산. 카페·음식점 BEP 예시 포함." />
+  <meta name="naver-site-verification" content="82ae9d4234997a93590385e408dc1119dfe6f61f" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" /></noscript>
   <style>
-
     :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--danger:#ff6b6b;--warn:#f5a623;--radius:16px}
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-    
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
     .container{max-width:680px;margin:0 auto;padding:40px 20px 100px;position:relative;z-index:1}
-    
-    
-    
-    
-    
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;gap:2px;width:48px;height:48px;justify-content:center;border-radius:50%;background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.2);text-decoration:none;transition:all .2s}
+    .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
     .header{text-align:center;margin-bottom:28px}
     .header h1{font-family:'Montserrat',sans-serif;font-size:clamp(22px,5vw,32px);font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
     .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
@@ -65,22 +68,21 @@
     .scenario-table td:first-child{text-align:left;color:var(--text-muted)}
     .scenario-table tr.bep-row td{color:var(--warn);font-weight:700;background:rgba(245,166,35,0.06)}
     .scenario-table tr.profit-row td{color:var(--accent)}
-    
-    .ad-slot{min-height:0;text-align:center;margin:16px 0}
+    .formula-box{background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:14px 16px;margin:16px 0;font-size:13px;color:var(--text-muted);line-height:1.8}
     details{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden}
     details summary{padding:12px 16px;cursor:pointer;font-size:14px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--surface)}
     details summary::after{content:'＋';color:var(--accent);font-size:16px}
     details[open] summary::after{content:'－'}
-    details 
+    details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
     @media(max-width:480px){.result-grid{grid-template-columns:1fr}.row2{grid-template-columns:1fr}.cost-row{grid-template-columns:1fr 110px 36px}}
 
-    
-    
-    
-    
-    
-    
-    
+    .seo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px;max-width:680px;margin-left:auto;margin-right:auto;margin-top:0}
+    .seo-card h2{font-size:17px;font-weight:800;color:var(--text);margin-bottom:14px;line-height:1.4}
+    .seo-card h3{font-size:14px;font-weight:700;color:var(--accent);margin:16px 0 8px}
+    .seo-card p{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:10px}
+    .seo-card ul{padding-left:18px;margin-bottom:10px}
+    .seo-card li{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:4px}
+    .seo-card strong{color:var(--text)}
     .ex-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
     .ex-table th{background:rgba(0,212,170,0.1);padding:8px 12px;text-align:left;color:var(--accent);font-weight:700;border:1px solid var(--border)}
     .ex-table td{padding:8px 12px;border:1px solid var(--border);color:var(--text-muted);line-height:1.7}
@@ -88,38 +90,17 @@
     .hl-box{background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.25);border-radius:10px;padding:14px 16px;margin:14px 0;font-size:13px;color:var(--text);line-height:1.8}
     .hl-box strong{color:var(--accent)}
     
+    .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
     
     
+    .rel-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
     
     
-    
-    
-  
-
-
-
-
-
-
-
-
-
-
-
-
-    /* ── 토스 헤더 ── */
-
-    .home-btn-wrap{text-align:center;margin-bottom:8px}
-    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
-    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
-    .home-btn-emoji{font-size:20px;line-height:1}
-    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
 
     .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
     .toss-header>.emoji{font-size:28px;flex-shrink:0}
     .toss-header h1{font-size:20px;font-weight:800;color:var(--text);margin:0}
     .toss-header p{font-size:12px;color:var(--text-muted);margin-top:3px}
-    /* ── 토스 하단 네비 ── */
     .toss-nav{margin-top:24px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
     .toss-nav-title{font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:12px}
     .toss-nav-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
@@ -127,89 +108,133 @@
     .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
     .ni-emoji{font-size:20px}
     .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
-
-    /* ── max-scale 방지 ── */
-    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+    .calc-guide{margin-top:20px;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .calc-guide-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:12px}
+    .calc-guide-desc{font-size:13px;color:var(--text-muted);line-height:1.8;margin-bottom:12px}
+    .calc-guide-basis{font-size:12px;color:var(--text-muted);padding:10px 14px;background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;line-height:1.7}
+    .disclaimer{text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280}
+    @media(max-width:360px){.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
 
   </style>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
 </head>
 <body>
 <div class="container">
-
-  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
-  <div class="toss-header">
+    <div class="toss-header">
     <span class="emoji">⚖️</span>
-    <div>
-      <h1>손익분기점 계산기</h1>
-      <p>고정비·변동비·BEP 매출 계산</p>
+    <div><h1>손익분기점 계산기</h1><p>고정비·변동비·판매단가로 BEP 수량·매출액 계산</p></div>
+  </div>
+  <div class="badges">
+    <span class="badge">🏪 소상공인</span><span class="badge">📊 BEP 분석</span><span class="badge">🎯 시뮬레이션</span>
+  </div>
+
+  <div class="card">
+    <h2>💰 판매 단가</h2>
+    <div class="row2">
+      <div class="form-group">
+        <label>제품·메뉴 평균 판매단가 (원)</label>
+        <input type="number" id="price" placeholder="예: 5000" />
+      </div>
+      <div class="form-group">
+        <label>단위 변동비 (원가, 원)</label>
+        <input type="number" id="varUnit" placeholder="예: 1500" />
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--text-muted);margin-top:-8px">※ 단위 변동비 = 제품 1개당 재료비+포장비 등 직접비용</p>
+  </div>
+
+  <div class="card">
+    <h2>🏪 월 고정비</h2>
+    <div id="fixed-list">
+      <div class="cost-row"><input type="text" value="임차료" /><input type="number" placeholder="월 금액(원)" /><button class="btn-del" onclick="delRow(this)">✕</button></div>
+      <div class="cost-row"><input type="text" value="인건비 합계" /><input type="number" placeholder="월 금액(원)" /><button class="btn-del" onclick="delRow(this)">✕</button></div>
+      <div class="cost-row"><input type="text" value="전기·수도·가스" /><input type="number" placeholder="월 금액(원)" /><button class="btn-del" onclick="delRow(this)">✕</button></div>
+      <div class="cost-row"><input type="text" value="기타 고정비" /><input type="number" placeholder="월 금액(원)" /><button class="btn-del" onclick="delRow(this)">✕</button></div>
+    </div>
+    <button class="btn-add" onclick="addRow()">＋ 고정비 추가</button>
+    <div class="section-total">월 고정비 합계 <span class="v" id="fixed-ttl">0원</span></div>
+  </div>
+
+  <div class="card">
+    <h2>📅 현재 판매량 (선택 — 안전한계 분석용)</h2>
+    <div class="form-group">
+      <label>현재 월 판매 수량 (개/잔/건)</label>
+      <input type="number" id="curQty" placeholder="예: 800" />
     </div>
   </div>
 
+  <button class="btn" onclick="calc()">손익분기점 계산하기</button>
 
-<div class="badges">
-<span class="badge">🏪 소상공인</span><span class="badge">📊 BEP 분석</span><span class="badge">🎯 시뮬레이션</span>
-</div>
-<div class="card">
-<h2>💰 판매 단가</h2>
-<div class="row2">
-<div class="form-group">
-<label>제품·메뉴 평균 판매단가 (원)</label>
-<input id="price" placeholder="예: 5000" type="number"/>
-</div>
-<div class="form-group">
-<label>단위 변동비 (원가, 원)</label>
-<input id="varUnit" placeholder="예: 1500" type="number"/>
-</div>
-</div>
-<p style="font-size:12px;color:var(--text-muted);margin-top:-8px">※ 단위 변동비 = 제품 1개당 재료비+포장비 등 직접비용</p>
-</div>
-<div class="card">
-<h2>🏪 월 고정비</h2>
-<div id="fixed-list">
-<div class="cost-row"><input type="text" value="임차료"/><input placeholder="월 금액(원)" type="number"/><button class="btn-del" onclick="delRow(this)">✕</button></div>
-<div class="cost-row"><input type="text" value="인건비 합계"/><input placeholder="월 금액(원)" type="number"/><button class="btn-del" onclick="delRow(this)">✕</button></div>
-<div class="cost-row"><input type="text" value="전기·수도·가스"/><input placeholder="월 금액(원)" type="number"/><button class="btn-del" onclick="delRow(this)">✕</button></div>
-<div class="cost-row"><input type="text" value="기타 고정비"/><input placeholder="월 금액(원)" type="number"/><button class="btn-del" onclick="delRow(this)">✕</button></div>
-</div>
-<button class="btn-add" onclick="addRow()">＋ 고정비 추가</button>
-<div class="section-total">월 고정비 합계 <span class="v" id="fixed-ttl">0원</span></div>
-</div>
-<div class="card">
-<h2>📅 현재 판매량 (선택 — 안전한계 분석용)</h2>
-<div class="form-group">
-<label>현재 월 판매 수량 (개/잔/건)</label>
-<input id="curQty" placeholder="예: 800" type="number"/>
-</div>
-</div>
-<button class="btn" onclick="calc()">손익분기점 계산하기</button>
-<div class="result-card" id="result">
-<div class="result-main">
-<div class="result-label">손익분기 수량 (월)</div>
-<div class="result-value" id="r-bep-qty">0개</div>
-<div class="result-sub" id="r-sub"></div>
-</div>
-<div class="result-grid">
-<div class="result-item"><div class="result-item-label">BEP 매출액</div><div class="result-item-value good" id="r-bep-rev">-</div></div>
-<div class="result-item"><div class="result-item-label">공헌이익률</div><div class="result-item-value" id="r-cm-rate">-</div></div>
-<div class="result-item"><div class="result-item-label">안전한계 수량</div><div class="result-item-value" id="r-margin-qty">-</div></div>
-<div class="result-item"><div class="result-item-label">안전한계율</div><div class="result-item-value" id="r-margin-rate">-</div></div>
-</div>
-<div class="bep-chart">
-<h3>📊 판매량별 손익 시뮬레이션</h3>
-<div class="chart-wrap"><canvas id="bepChart"></canvas></div>
-</div>
-<table class="scenario-table" style="margin-top:16px">
-<thead><tr><th>판매량</th><th>매출액</th><th>총비용</th><th>손익</th></tr></thead>
-<tbody id="scenario-body"></tbody>
-</table>
-</div>
+  <!-- 빠른 시뮬레이터 -->
+  <div class="card" id="simCard" style="margin-top:16px">
+    <div style="font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:10px">⚡ 빠른 BEP 시뮬레이터</div>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">값을 바꾸면 손익분기점이 즉시 업데이트됩니다. (기본값: 카페 예시)</p>
+    <div class="row2">
+      <div class="form-group">
+        <label>월 고정비 합계 (원)</label>
+        <input type="number" id="sim-fixed" value="2500000" oninput="simCalc()" />
+      </div>
+      <div class="form-group">
+        <label>판매 단가 (원)</label>
+        <input type="number" id="sim-price" value="4000" oninput="simCalc()" />
+      </div>
+      <div class="form-group">
+        <label>단위 변동비 (원)</label>
+        <input type="number" id="sim-var" value="1500" oninput="simCalc()" />
+      </div>
+      <div class="form-group">
+        <label>현재 월 판매량 (개)</label>
+        <input type="number" id="sim-qty" value="1200" oninput="simCalc()" />
+      </div>
+    </div>
+    <div style="background:var(--surface2);border-radius:10px;padding:16px;margin-top:4px">
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;text-align:center">
+        <div><div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">BEP 수량</div><div id="sim-bep-qty" style="font-size:22px;font-weight:900;color:var(--accent)">-</div></div>
+        <div><div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">BEP 매출액</div><div id="sim-bep-rev" style="font-size:22px;font-weight:900;color:var(--accent)">-</div></div>
+        <div><div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">공헌이익률</div><div id="sim-cm" style="font-size:18px;font-weight:700;color:var(--text)">-</div></div>
+        <div><div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">현재 월 손익</div><div id="sim-profit" style="font-size:18px;font-weight:700">-</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="result-card" id="result">
+    <div class="result-main">
+      <div class="result-label">손익분기 수량 (월)</div>
+      <div class="result-value" id="r-bep-qty">0개</div>
+      <div class="result-sub" id="r-sub"></div>
+    </div>
+    <div class="result-grid">
+      <div class="result-item"><div class="result-item-label">BEP 매출액</div><div class="result-item-value good" id="r-bep-rev">-</div></div>
+      <div class="result-item"><div class="result-item-label">공헌이익률</div><div class="result-item-value" id="r-cm-rate">-</div></div>
+      <div class="result-item"><div class="result-item-label">안전한계 수량</div><div class="result-item-value" id="r-margin-qty">-</div></div>
+      <div class="result-item"><div class="result-item-label">안전한계율</div><div class="result-item-value" id="r-margin-rate">-</div></div>
+    </div>
+
+    <div class="bep-chart">
+      <h3>📊 판매량별 손익 시뮬레이션</h3>
+      <div class="chart-wrap"><canvas id="bepChart"></canvas></div>
+    </div>
+
+    <table class="scenario-table" style="margin-top:16px">
+      <thead><tr><th>판매량</th><th>매출액</th><th>총비용</th><th>손익</th></tr></thead>
+      <tbody id="scenario-body"></tbody>
+    </table>
+  </div>
 
 
-    <div style="text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280;">
-    본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.
+  <div class="disclaimer">본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.</div>
+  <div class="calc-guide">
+    <div class="calc-guide-title">📋 사용 방법</div>
+    <div class="calc-guide-desc">고정비·변동비율·판매가를 입력하면 손익분기점 매출과 판매 수량을 계산합니다. 목표 이익 시뮬레이터도 활용해보세요.</div>
+    <div class="calc-guide-basis">📌 계산 기준: 손익분기점 = 고정비 ÷ (1 − 변동비율)</div>
   </div>
   <div class="toss-nav">
-    <div class="toss-nav-title">📌 사업자 세금 계산기</div>
+    <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
     <div class="toss-nav-grid">
       <a href="/margin" class="toss-nav-item"><span class="ni-emoji">💹</span><span class="ni-label">마진율</span></a>
       <a href="/operating_profit" class="toss-nav-item"><span class="ni-emoji">📈</span><span class="ni-label">영업이익</span></a>
@@ -217,9 +242,29 @@
       <a href="/card_fee" class="toss-nav-item"><span class="ni-emoji">💳</span><span class="ni-label">카드수수료</span></a>
     </div>
   </div>
-
+</div>
 </div>
 <script>
+function simCalc() {
+  const fixed = +document.getElementById('sim-fixed').value || 0;
+  const price = +document.getElementById('sim-price').value || 0;
+  const varC = +document.getElementById('sim-var').value || 0;
+  const qty = +document.getElementById('sim-qty').value || 0;
+  if (!price || varC >= price) return;
+  const contrib = price - varC;
+  const cmRate = contrib / price;
+  const bepQty = fixed > 0 ? Math.ceil(fixed / contrib) : 0;
+  const bepRev = fixed > 0 ? Math.round(fixed / cmRate) : 0;
+  const profit = contrib * qty - fixed;
+  document.getElementById('sim-bep-qty').textContent = bepQty.toLocaleString() + '개';
+  document.getElementById('sim-bep-rev').textContent = bepRev.toLocaleString() + '원';
+  document.getElementById('sim-cm').textContent = (cmRate * 100).toFixed(1) + '%';
+  const pEl = document.getElementById('sim-profit');
+  pEl.textContent = (profit >= 0 ? '+' : '') + profit.toLocaleString() + '원';
+  pEl.style.color = profit >= 0 ? 'var(--accent)' : 'var(--danger)';
+}
+window.addEventListener('DOMContentLoaded', simCalc);
+
 const fw = n => Math.round(n).toLocaleString() + '원';
 
 function addRow(listId) {
@@ -280,6 +325,10 @@ function calc() {
 
   document.getElementById('result') && (document.getElementById('result').style.display = 'block');
 }
+
+window.onload = () => calc();
 </script>
+
+
 </body>
 </html>

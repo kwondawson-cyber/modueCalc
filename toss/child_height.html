@@ -1,23 +1,24 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>아이 키 예측 계산기</title>
-  <!-- TODO: 앱인토스 SDK 교체 -->
-  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>아이 예상키 계산기 | 모두의계산기</title>
+  <meta name="description" content="부모 키로 아이 예상 최종키를 계산하세요. 미드패런탈 공식 기반 남아·여아 예상키 계산기." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" /></noscript>
   <style>
-
     :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--radius:16px}
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-    
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
     .container{max-width:640px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
-    
-    
-    
-    
-    
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
+    .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
     .header{text-align:center;margin-bottom:40px}
     .header h1{font-size:clamp(28px,6vw,44px);font-weight:900;line-height:1.1;margin-bottom:10px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
     .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
@@ -53,44 +54,12 @@
     @media(max-width:480px){.card{padding:20px 16px}.input-row{grid-template-columns:1fr}}
   
 
+.rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
 
 
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    .home-btn-wrap{text-align:center;margin-bottom:8px}
-    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
-    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
-    .home-btn-emoji{font-size:20px;line-height:1}
-    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
 
     .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
     .toss-header>.emoji{font-size:28px;flex-shrink:0}
@@ -103,76 +72,120 @@
     .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
     .ni-emoji{font-size:20px}
     .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
-
-    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+    .calc-guide{margin-top:20px;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .calc-guide-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:12px}
+    .calc-guide-desc{font-size:13px;color:var(--text-muted);line-height:1.8;margin-bottom:12px}
+    .calc-guide-basis{font-size:12px;color:var(--text-muted);padding:10px 14px;background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;line-height:1.7}
+    .disclaimer{text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280}
+    @media(max-width:360px){.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
 
   </style>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
 </head>
 <body>
 <div class="container">
-  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
-  <div class="toss-header">
-    <span class="emoji">👶</span>
-    <div><h1>아이 키 예측 계산기</h1><p>부모 키 기반 자녀 예상 키</p></div>
+    <div class="toss-header">
+    <span class="emoji">📏</span>
+    <div><h1>아이 예상키 계산기</h1><p>부모 키로 예상 최종키 계산 (미드패런탈 공식)</p></div>
   </div>
 
-
-
-<div class="card">
-<div class="card-title">👶 아이 성별</div>
-<div class="gender-tabs">
-<div class="gender-tab active" id="tab-boy" onclick="setGender('boy')">👦 남아</div>
-<div class="gender-tab" id="tab-girl" onclick="setGender('girl')">👧 여아</div>
-</div>
-<div class="card-title">👨‍👩‍👧 부모 키 입력</div>
-<div class="input-row">
-<div class="input-group">
-<label>아버지 키</label>
-<div class="input-wrapper">
-<input id="fatherHeight" max="220" min="140" type="number" value="175"/>
-<span class="input-unit">cm</span>
-</div>
-</div>
-<div class="input-group">
-<label>어머니 키</label>
-<div class="input-wrapper">
-<input id="motherHeight" max="200" min="130" type="number" value="162"/>
-<span class="input-unit">cm</span>
-</div>
-</div>
-</div>
-<div class="info-box">
-      💡 <strong>미드패런탈(Mid-Parental) 공식</strong> 기반 계산입니다.<br/>
-      남아 = (아버지키 + 어머니키 + 13) ÷ 2<br/>
-      여아 = (아버지키 + 어머니키 − 13) ÷ 2<br/>
+  <div class="card">
+    <div class="card-title">👶 아이 성별</div>
+    <div class="gender-tabs">
+      <div class="gender-tab active" id="tab-boy" onclick="setGender('boy')">👦 남아</div>
+      <div class="gender-tab" id="tab-girl" onclick="setGender('girl')">👧 여아</div>
+    </div>
+    <div class="card-title">👨‍👩‍👧 부모 키 입력</div>
+    <div class="input-row">
+      <div class="input-group">
+        <label>아버지 키</label>
+        <div class="input-wrapper">
+          <input type="number" id="fatherHeight" value="175" min="140" max="220" />
+          <span class="input-unit">cm</span>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>어머니 키</label>
+        <div class="input-wrapper">
+          <input type="number" id="motherHeight" value="162" min="130" max="200" />
+          <span class="input-unit">cm</span>
+        </div>
+      </div>
+    </div>
+    <div class="info-box">
+      💡 <strong>미드패런탈(Mid-Parental) 공식</strong> 기반 계산입니다.<br>
+      남아 = (아버지키 + 어머니키 + 13) ÷ 2<br>
+      여아 = (아버지키 + 어머니키 − 13) ÷ 2<br>
       예측 범위: ±8.5cm (실제 키는 영양·운동·수면 등 환경에 따라 달라집니다)
     </div>
-<button class="calc-btn" onclick="calcHeight()">📏 예상키 계산하기</button>
-</div>
-<div class="card result-card" id="resultCard">
-<div class="card-title">📊 계산 결과</div>
-<div class="height-display">
-<div class="hd-label" id="genderLabel">남아 예상 최종키</div>
-<div><span class="hd-value" id="resultHeight">—</span><span class="hd-unit">cm</span></div>
-<div class="hd-range" id="resultRange">예측 범위: — ~ — cm</div>
-</div>
-<div class="detail-item"><span class="d-label">아버지 키</span><span class="d-value" id="r-father">—</span></div>
-<div class="detail-item"><span class="d-label">어머니 키</span><span class="d-value" id="r-mother">—</span></div>
-<div class="detail-item"><span class="d-label">중간 부모키 (MPH)</span><span class="d-value" id="r-mph">—</span></div>
-<div class="detail-item"><span class="d-label">예상키 (±8.5cm)</span><span class="d-value accent" id="r-result">—</span></div>
-<div class="notice">⚠️ 이 결과는 통계적 예측값입니다. 실제 키는 유전적 요인 외에도 영양 상태, 수면, 운동, 질환 여부 등 다양한 환경 요인의 영향을 받습니다. 성장 관련 의료적 상담은 소아청소년과 전문의를 방문하세요.</div>
-</div>
-<div class="card">
-<div class="card-title">📈 키 성장에 영향을 주는 요인</div>
-<div class="detail-item"><span class="d-label">🧬 유전적 요인</span><span class="d-value">약 60~80%</span></div>
-<div class="detail-item"><span class="d-label">🥦 영양 (단백질·칼슘·아연)</span><span class="d-value accent">매우 중요</span></div>
-<div class="detail-item"><span class="d-label">😴 수면 (성장호르몬)</span><span class="d-value accent">매우 중요</span></div>
-<div class="detail-item"><span class="d-label">🏃 운동 (줄넘기·농구·수영)</span><span class="d-value">효과적</span></div>
-<div class="detail-item"><span class="d-label">📅 성장판 닫히는 시기</span><span class="d-value">여 만 14~16세, 남 만 16~18세</span></div>
-</div>
+    <button class="calc-btn" onclick="calcHeight()">📏 예상키 계산하기</button>
+  </div>
 
-    <div style="text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280;">
-    본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.
+  <div class="card result-card" id="resultCard">
+    <div class="card-title">📊 계산 결과</div>
+    <div class="height-display">
+      <div class="hd-label" id="genderLabel">남아 예상 최종키</div>
+      <div><span class="hd-value" id="resultHeight">—</span><span class="hd-unit">cm</span></div>
+      <div class="hd-range" id="resultRange">예측 범위: — ~ — cm</div>
+    </div>
+    <div class="detail-item"><span class="d-label">아버지 키</span><span class="d-value" id="r-father">—</span></div>
+    <div class="detail-item"><span class="d-label">어머니 키</span><span class="d-value" id="r-mother">—</span></div>
+    <div class="detail-item"><span class="d-label">중간 부모키 (MPH)</span><span class="d-value" id="r-mph">—</span></div>
+    <div class="detail-item"><span class="d-label">예상키 (±8.5cm)</span><span class="d-value accent" id="r-result">—</span></div>
+    <div class="notice">⚠️ 이 결과는 통계적 예측값입니다. 실제 키는 유전적 요인 외에도 영양 상태, 수면, 운동, 질환 여부 등 다양한 환경 요인의 영향을 받습니다. 성장 관련 의료적 상담은 소아청소년과 전문의를 방문하세요.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📈 키 성장에 영향을 주는 요인</div>
+    <div class="detail-item"><span class="d-label">🧬 유전적 요인</span><span class="d-value">약 60~80%</span></div>
+    <div class="detail-item"><span class="d-label">🥦 영양 (단백질·칼슘·아연)</span><span class="d-value accent">매우 중요</span></div>
+    <div class="detail-item"><span class="d-label">😴 수면 (성장호르몬)</span><span class="d-value accent">매우 중요</span></div>
+    <div class="detail-item"><span class="d-label">🏃 운동 (줄넘기·농구·수영)</span><span class="d-value">효과적</span></div>
+    <div class="detail-item"><span class="d-label">📅 성장판 닫히는 시기</span><span class="d-value">여 만 14~16세, 남 만 16~18세</span></div>
+  </div>
+
+  <div class="card" id="simCard" style="margin-top:8px">
+    <div class="card-title">📏 우리 아이 또래 키 백분위 확인</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">아이의 현재 나이와 키를 입력하면, 질병관리청 소아 성장도표 기준으로 또래 중 어느 위치인지 확인할 수 있습니다.</p>
+    <div style="display:flex;gap:10px;margin-bottom:12px">
+      <div style="flex:1">
+        <label style="display:block;font-size:12px;color:var(--text-muted);margin-bottom:5px">성별</label>
+        <div style="display:flex;gap:6px">
+          <button id="pct-boy" onclick="setPctGender('boy')" style="flex:1;padding:8px 4px;font-size:12px;font-weight:700;font-family:'Noto Sans KR',sans-serif;border-radius:8px;border:1px solid var(--accent);background:rgba(0,212,170,0.15);color:var(--accent);cursor:pointer">👦 남아</button>
+          <button id="pct-girl" onclick="setPctGender('girl')" style="flex:1;padding:8px 4px;font-size:12px;font-weight:700;font-family:'Noto Sans KR',sans-serif;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text-muted);cursor:pointer">👧 여아</button>
+        </div>
+      </div>
+      <div style="flex:1">
+        <label style="display:block;font-size:12px;color:var(--text-muted);margin-bottom:5px">나이 (만)</label>
+        <div style="position:relative">
+          <input type="number" id="pct-age" value="10" min="2" max="18" oninput="updatePercentile()"
+            style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:9px 32px 9px 12px;font-size:14px;font-weight:600;font-family:'Noto Sans KR',sans-serif;color:var(--text);outline:none"/>
+          <span style="position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--text-muted)">세</span>
+        </div>
+      </div>
+      <div style="flex:1">
+        <label style="display:block;font-size:12px;color:var(--text-muted);margin-bottom:5px">현재 키</label>
+        <div style="position:relative">
+          <input type="number" id="pct-height" value="140" min="60" max="200" oninput="updatePercentile()"
+            style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:9px 32px 9px 12px;font-size:14px;font-weight:600;font-family:'Noto Sans KR',sans-serif;color:var(--text);outline:none"/>
+          <span style="position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--text-muted)">cm</span>
+        </div>
+      </div>
+    </div>
+    <div id="pctResult"></div>
+    <p style="font-size:11px;color:var(--text-muted);margin-top:8px">※ 질병관리청 2017 소아청소년 성장도표 기준 · 만 2~18세 적용 · 의료적 진단 대체 불가</p>
+  </div>
+
+  <div class="disclaimer">본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.</div>
+  <div class="calc-guide">
+    <div class="calc-guide-title">📋 사용 방법</div>
+    <div class="calc-guide-desc">부모 키를 입력하면 자녀의 예측 키를 계산합니다.</div>
+    <div class="calc-guide-basis">📌 계산 기준: 부모 키 유전 공식 기준 (Mid-Parental Height)</div>
   </div>
   <div class="toss-nav">
     <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
@@ -184,7 +197,108 @@
     </div>
   </div>
 </div>
+
+
+</div>
 <script>
+
+// ── 또래 키 백분위 (질병관리청 2017 성장도표 P3/P10/P25/P50/P75/P90/P97 기준) ──
+// [나이(세), P3, P10, P25, P50, P75, P90, P97]
+var _boyH = {
+  2:[82.5,84.5,86.5,88.5,90.7,92.7,94.7],3:[88.4,90.7,93.0,95.3,97.7,99.9,102.2],
+  4:[94.2,96.8,99.4,102.0,104.7,107.2,109.8],5:[99.7,102.6,105.5,108.5,111.5,114.2,117.0],
+  6:[104.8,108.1,111.4,114.7,118.2,121.3,124.5],7:[109.7,113.3,116.9,120.7,124.4,127.8,131.3],
+  8:[114.4,118.3,122.2,126.3,130.4,134.1,137.8],9:[119.0,123.2,127.4,131.8,136.3,140.2,144.2],
+  10:[123.5,128.0,132.5,137.2,142.1,146.4,150.7],11:[128.3,133.1,137.9,143.1,148.3,152.9,157.6],
+  12:[133.4,138.7,144.0,149.7,155.5,160.6,165.7],13:[139.2,144.9,150.7,156.8,163.0,168.3,173.7],
+  14:[145.2,151.1,156.9,163.0,169.2,174.4,179.7],15:[150.1,155.8,161.3,167.2,173.0,178.0,183.0],
+  16:[153.3,158.6,163.9,169.5,175.2,180.0,184.7],17:[154.9,160.0,165.2,170.6,176.1,180.7,185.4],
+  18:[155.6,160.6,165.6,170.9,176.3,181.0,185.6]
+};
+var _girlH = {
+  2:[81.5,83.5,85.5,87.5,89.6,91.5,93.5],3:[87.4,89.6,91.8,94.1,96.4,98.5,100.7],
+  4:[93.1,95.5,97.9,100.4,102.9,105.2,107.6],5:[98.5,101.2,103.9,106.7,109.5,112.0,114.6],
+  6:[103.6,106.6,109.6,112.7,115.9,118.6,121.4],7:[108.5,111.8,115.1,118.5,122.0,124.9,127.9],
+  8:[113.3,116.9,120.5,124.2,128.0,131.2,134.4],9:[118.1,122.0,125.9,129.9,134.0,137.4,140.8],
+  10:[123.2,127.3,131.4,135.7,140.1,143.8,147.5],11:[128.7,133.0,137.4,142.0,146.6,150.5,154.5],
+  12:[134.3,138.8,143.3,148.0,152.8,156.8,160.9],13:[138.8,143.2,147.7,152.3,157.0,160.9,164.9],
+  14:[141.4,145.6,149.9,154.4,159.0,162.8,166.7],15:[142.5,146.7,150.9,155.4,160.0,163.8,167.6],
+  16:[142.8,147.0,151.2,155.7,160.3,164.1,167.9],17:[143.0,147.2,151.4,155.9,160.5,164.3,168.1],
+  18:[143.2,147.4,151.6,156.1,160.7,164.5,168.3]
+};
+var _pctGender = 'boy';
+function setPctGender(g) {
+  _pctGender = g;
+  var ac = 'rgba(0,212,170,0.15)', bc = 'var(--surface2)', ab = 'var(--accent)', bb = 'var(--border)', at = 'var(--accent)', bt = 'var(--text-muted)';
+  document.getElementById('pct-boy').style.background  = g==='boy'?ac:bc;
+  document.getElementById('pct-boy').style.borderColor = g==='boy'?ab:bb;
+  document.getElementById('pct-boy').style.color       = g==='boy'?at:bt;
+  document.getElementById('pct-girl').style.background  = g==='girl'?ac:bc;
+  document.getElementById('pct-girl').style.borderColor = g==='girl'?ab:bb;
+  document.getElementById('pct-girl').style.color       = g==='girl'?at:bt;
+  updatePercentile();
+}
+function updatePercentile() {
+  var age = parseInt(document.getElementById('pct-age').value) || 10;
+  var h   = parseFloat(document.getElementById('pct-height').value) || 140;
+  age = Math.min(18, Math.max(2, age));
+  var table = _pctGender === 'boy' ? _boyH : _girlH;
+  var row = table[age];
+  if (!row) return;
+  var pcts = [3,10,25,50,75,90,97];
+  // 백분위 보간
+  var pctile = 0;
+  if (h <= row[0]) pctile = 3;
+  else if (h >= row[6]) pctile = 97;
+  else {
+    for (var i = 0; i < 6; i++) {
+      if (h >= row[i] && h <= row[i+1]) {
+        pctile = pcts[i] + (h - row[i]) / (row[i+1] - row[i]) * (pcts[i+1] - pcts[i]);
+        break;
+      }
+    }
+  }
+  var pctile_r = Math.round(pctile);
+  var grade, color;
+  if (pctile < 3)        { grade = '또래 하위 3% 미만 — 성장 전문의 상담 권장'; color = '#ff6b6b'; }
+  else if (pctile < 10)  { grade = '또래 하위 3~10% — 성장 모니터링 필요';      color = '#f5a623'; }
+  else if (pctile < 25)  { grade = '또래 하위 10~25% — 평균보다 작은 편';        color = '#8b949e'; }
+  else if (pctile < 75)  { grade = '또래 25~75% — 정상 평균 범위';              color = '#00d4aa'; }
+  else if (pctile < 90)  { grade = '또래 75~90% — 평균보다 큰 편';              color = '#00d4aa'; }
+  else if (pctile < 97)  { grade = '또래 90~97% — 또래 상위 10%';              color = '#0095ff'; }
+  else                   { grade = '또래 상위 3% 이상 — 매우 큰 편';            color = '#0095ff'; }
+
+  // 막대 시각화
+  var barPct = Math.min(97, Math.max(3, pctile));
+  var barW = ((barPct - 3) / 94 * 100).toFixed(1);
+
+  var html = '<div style="background:var(--surface2);border-radius:12px;padding:16px;margin-bottom:10px">';
+  html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">';
+  html += '<span style="font-size:13px;color:var(--text-muted)">또래 백분위</span>';
+  html += '<span style="font-family:Montserrat,sans-serif;font-size:28px;font-weight:900;color:'+color+'">P'+pctile_r+'</span>';
+  html += '</div>';
+  html += '<div style="background:var(--border);border-radius:4px;height:8px;position:relative;margin-bottom:8px">';
+  html += '<div style="position:absolute;left:0;top:0;height:100%;width:'+barW+'%;background:'+color+';border-radius:4px;transition:width .4s"></div>';
+  html += '</div>';
+  html += '<div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted);margin-bottom:12px"><span>P3</span><span>P25</span><span>P50</span><span>P75</span><span>P97</span></div>';
+  html += '<div style="font-size:13px;font-weight:700;color:'+color+'">'+grade+'</div>';
+  html += '</div>';
+
+  // 또래 비교표
+  html += '<table class="sim-tbl"><thead><tr><th>백분위</th><th>기준 키</th><th>내 아이</th></tr></thead><tbody>';
+  var labels = ['P3 (하위 3%)', 'P10', 'P25', 'P50 (평균)', 'P75', 'P90', 'P97 (상위 3%)'];
+  for (var j = 0; j < row.length; j++) {
+    var isMe = (j === 0 && h <= row[0]) || (j === 6 && h >= row[6]) ||
+               (j > 0 && j < 6 && h >= row[j] && h < row[j+1]) ||
+               (j === Math.min(6, Math.max(0, pcts.findIndex(function(p){return p >= pctile_r}))));
+    var diff = (h - row[j]).toFixed(1);
+    var sign = diff > 0 ? '+' : '';
+    html += '<tr'+(Math.abs(h-row[j]) < 2?' class="hl"':'')+'><td>'+labels[j]+'</td><td>'+row[j].toFixed(1)+'cm</td><td>'+(Math.abs(h-row[j]) < 2?'← 내 아이 ('+h+'cm)':sign+diff+'cm')+'</td></tr>';
+  }
+  html += '</tbody></table>';
+  document.getElementById('pctResult').innerHTML = html;
+}
+document.addEventListener('DOMContentLoaded', updatePercentile);
 let gender = 'boy';
 function setGender(g) {
   gender = g;
@@ -210,6 +324,11 @@ function calcHeight() {
 
   document.getElementById('resultCard').classList.add('visible');
 }
+
+window.onload = () => calcHeight();
 </script>
+
+
+
 </body>
 </html>

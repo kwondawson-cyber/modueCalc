@@ -2,12 +2,14 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>BMI 계산기</title>
-  <!-- TODO: 앱인토스 SDK 교체 -->
-  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BMI 계산기 | 모두의계산기</title>
+  <meta name="description" content="BMI(체질량지수) 계산기 — 키·체중 입력으로 비만도 자동 판정. 대한비만학회 한국인 기준(저체중·정상·과체중·비만), 키별 정상 체중 범위표, 복부비만 기준 포함." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" /></noscript>
   <style>
-
     :root {
       --bg: #0d1117;
       --surface: #161b22;
@@ -26,7 +28,17 @@
       color: var(--text);
       min-height: 100vh;
     }
-    
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,170,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,170,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
     .container {
       max-width: 600px;
       margin: 0 auto;
@@ -277,57 +289,33 @@
     }
 
     /* ── 홈 버튼 ── */
-    
-    
-    
-    
-    
+    .home-btn-wrap { text-align: center; margin-bottom: 8px; }
+    .home-btn {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      width: 54px; height: 54px;
+      background: rgba(0,212,170,0.08);
+      border: 1.5px solid rgba(0,212,170,0.35);
+      border-radius: 50%;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .home-btn:hover { background: rgba(0,212,170,0.18); transform: translateY(-2px); }
+    .home-btn-emoji { font-size: 20px; line-height: 1; }
+    .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
       .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
   
 
+.rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
 
 
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    .home-btn-wrap{text-align:center;margin-bottom:8px}
-    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
-    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
-    .home-btn-emoji{font-size:20px;line-height:1}
-    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
 
     .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
     .toss-header>.emoji{font-size:28px;flex-shrink:0}
@@ -340,127 +328,189 @@
     .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
     .ni-emoji{font-size:20px}
     .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
-
-    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+    .calc-guide{margin-top:20px;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .calc-guide-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:12px}
+    .calc-guide-desc{font-size:13px;color:var(--text-muted);line-height:1.8;margin-bottom:12px}
+    .calc-guide-basis{font-size:12px;color:var(--text-muted);padding:10px 14px;background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;line-height:1.7}
+    .disclaimer{text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280}
+    @media(max-width:360px){.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
 
   </style>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
 </head>
 <body>
-<div class="container">
-  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
-  <div class="toss-header">
+  <div class="container">
+      <div class="toss-header">
     <span class="emoji">⚖️</span>
-    <div><h1>BMI 계산기</h1><p>체질량지수·비만도 계산</p></div>
+    <div><h1>BMI 계산기</h1><p>체질량지수 · 비만도 · 적정 체중</p></div>
   </div>
 
-
-
-<div class="card">
-<div class="card-title">신체 정보 입력</div>
-<div class="input-row">
-<div class="input-group">
-<label>키</label>
-<div class="input-wrapper">
-<input id="height" max="250" min="100" type="number" value="170"/>
-<span class="input-unit">cm</span>
-</div>
-<div class="slider-wrapper">
-<input id="heightSlider" max="210" min="140" step="1" type="range" value="170"/>
-</div>
-</div>
-<div class="input-group">
-<label>몸무게</label>
-<div class="input-wrapper">
-<input id="weight" max="200" min="20" type="number" value="65"/>
-<span class="input-unit">kg</span>
-</div>
-<div class="slider-wrapper">
-<input id="weightSlider" max="150" min="30" step="0.5" type="range" value="65"/>
-</div>
-</div>
-</div>
-<button class="calc-btn" onclick="calculate()">⚖️ BMI 계산하기</button>
-</div>
-<div class="result-card" id="resultCard">
-<div class="card">
-<div class="bmi-gauge">
-<div class="bmi-value-row">
-<div class="bmi-number" id="bmiNumber">-</div>
-<div class="bmi-unit">kg/m²</div>
-</div>
-<div class="bmi-status" id="bmiStatus">-</div>
-<div class="gauge-bar">
-<div class="gauge-pointer" id="gaugePointer" style="left:50%"></div>
-</div>
-<div class="gauge-labels">
-<span>저체중</span>
-<span>정상</span>
-<span>과체중</span>
-<span>비만</span>
-<span>고도비만</span>
-</div>
-</div>
-<div class="detail-item">
-<span class="d-label">적정 체중 범위</span>
-<span class="d-value accent" id="d-normal">-</span>
-</div>
-<div class="detail-item">
-<span class="d-label">표준 체중 (BMI 22)</span>
-<span class="d-value" id="d-ideal">-</span>
-</div>
-<div class="detail-item">
-<span class="d-label">현재 체중과의 차이</span>
-<span class="d-value" id="d-diff">-</span>
-</div>
-<div class="detail-item">
-<span class="d-label">체표면적 (BSA)</span>
-<span class="d-value" id="d-bsa">-</span>
-</div>
-</div>
-<div class="card">
-<div class="card-title">BMI 기준표 (대한비만학회)</div>
-<table class="bmi-table">
-<thead>
-<tr>
-<th>분류</th>
-<th>BMI 범위</th>
-</tr>
-</thead>
-<tbody>
-<tr id="row-under">
-<td><span class="dot" style="background:#4fc3f7"></span>저체중</td>
-<td>18.5 미만</td>
-</tr>
-<tr id="row-normal">
-<td><span class="dot" style="background:#00d4aa"></span>정상</td>
-<td>18.5 ~ 22.9</td>
-</tr>
-<tr id="row-over">
-<td><span class="dot" style="background:#ffd54f"></span>과체중</td>
-<td>23.0 ~ 24.9</td>
-</tr>
-<tr id="row-obese1">
-<td><span class="dot" style="background:#ff8a65"></span>비만 1단계</td>
-<td>25.0 ~ 29.9</td>
-</tr>
-<tr id="row-obese2">
-<td><span class="dot" style="background:#ef5350"></span>비만 2단계</td>
-<td>30.0 ~ 34.9</td>
-</tr>
-<tr id="row-obese3">
-<td><span class="dot" style="background:#b71c1c"></span>고도비만</td>
-<td>35.0 이상</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="notice">
-<strong style="color:orange">ℹ️ 안내</strong> BMI는 체지방률을 직접 측정하지 않으므로 근육량이 많은 경우 과대 평가될 수 있습니다. 본 계산기는 대한비만학회 아시아-태평양 기준을 따릅니다.
+    <div class="card">
+      <div class="card-title">신체 정보 입력</div>
+      <div class="input-row">
+        <div class="input-group">
+          <label>키</label>
+          <div class="input-wrapper">
+            <input type="number" id="height" value="170" min="100" max="250" />
+            <span class="input-unit">cm</span>
+          </div>
+          <div class="slider-wrapper">
+            <input type="range" id="heightSlider" min="140" max="210" step="1" value="170" />
+          </div>
+        </div>
+        <div class="input-group">
+          <label>몸무게</label>
+          <div class="input-wrapper">
+            <input type="number" id="weight" value="65" min="20" max="200" />
+            <span class="input-unit">kg</span>
+          </div>
+          <div class="slider-wrapper">
+            <input type="range" id="weightSlider" min="30" max="150" step="0.5" value="65" />
+          </div>
+        </div>
       </div>
-</div>
+      <button class="calc-btn" onclick="calculate()">⚖️ BMI 계산하기</button>
+    </div>
 
-    <div style="text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280;">
-    본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.
+    <div class="result-card" id="resultCard">
+      <div class="card">
+        <div class="bmi-gauge">
+          <div class="bmi-value-row">
+            <div class="bmi-number" id="bmiNumber">-</div>
+            <div class="bmi-unit">kg/m²</div>
+          </div>
+          <div class="bmi-status" id="bmiStatus">-</div>
+          <div class="gauge-bar">
+            <div class="gauge-pointer" id="gaugePointer" style="left:50%"></div>
+          </div>
+          <div class="gauge-labels">
+            <span>저체중</span>
+            <span>정상</span>
+            <span>과체중</span>
+            <span>비만</span>
+            <span>고도비만</span>
+          </div>
+        </div>
+
+        <div class="detail-item">
+          <span class="d-label">적정 체중 범위</span>
+          <span class="d-value accent" id="d-normal">-</span>
+        </div>
+        <div class="detail-item">
+          <span class="d-label">표준 체중 (BMI 22)</span>
+          <span class="d-value" id="d-ideal">-</span>
+        </div>
+        <div class="detail-item">
+          <span class="d-label">현재 체중과의 차이</span>
+          <span class="d-value" id="d-diff">-</span>
+        </div>
+        <div class="detail-item">
+          <span class="d-label">체표면적 (BSA)</span>
+          <span class="d-value" id="d-bsa">-</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">BMI 기준표 (대한비만학회)</div>
+        <table class="bmi-table">
+          <thead>
+            <tr>
+              <th>분류</th>
+              <th>BMI 범위</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr id="row-under">
+              <td><span class="dot" style="background:#4fc3f7"></span>저체중</td>
+              <td>18.5 미만</td>
+            </tr>
+            <tr id="row-normal">
+              <td><span class="dot" style="background:#00d4aa"></span>정상</td>
+              <td>18.5 ~ 22.9</td>
+            </tr>
+            <tr id="row-over">
+              <td><span class="dot" style="background:#ffd54f"></span>과체중</td>
+              <td>23.0 ~ 24.9</td>
+            </tr>
+            <tr id="row-obese1">
+              <td><span class="dot" style="background:#ff8a65"></span>비만 1단계</td>
+              <td>25.0 ~ 29.9</td>
+            </tr>
+            <tr id="row-obese2">
+              <td><span class="dot" style="background:#ef5350"></span>비만 2단계</td>
+              <td>30.0 ~ 34.9</td>
+            </tr>
+            <tr id="row-obese3">
+              <td><span class="dot" style="background:#b71c1c"></span>고도비만</td>
+              <td>35.0 이상</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="notice">
+        <strong style="color:orange">ℹ️ 안내</strong> BMI는 체지방률을 직접 측정하지 않으므로 근육량이 많은 경우 과대 평가될 수 있습니다. 본 계산기는 대한비만학회 아시아-태평양 기준을 따릅니다.
+      </div>
+    </div>
+
+    <!-- ① 목표 체중 달성 플랜 -->
+    <div class="card" id="planCard" style="display:none">
+      <div class="card-title">🎯 목표 체중 달성 플랜</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+        <div>
+          <label style="font-size:13px;color:var(--text-muted);font-weight:600;display:block;margin-bottom:6px">목표 체중</label>
+          <div style="position:relative">
+            <input type="number" id="targetWeight" value="60" min="20" max="200" step="0.5"
+              oninput="updatePlan()"
+              style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:11px 36px 11px 14px;font-size:17px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none"
+              data-ec-comma="skip" />
+            <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--text-muted)">kg</span>
+          </div>
+        </div>
+        <div>
+          <label style="font-size:13px;color:var(--text-muted);font-weight:600;display:block;margin-bottom:6px">주당 감량/증량 목표</label>
+          <select id="lossPace" onchange="updatePlan()"
+            style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:11px 14px;font-size:14px;color:var(--text);font-family:'Noto Sans KR',sans-serif;outline:none">
+            <option value="0.25">주 0.25kg (매우 천천히)</option>
+            <option value="0.5" selected>주 0.5kg (권장)</option>
+            <option value="1">주 1kg (적극적)</option>
+            <option value="1.5">주 1.5kg (빠르게)</option>
+          </select>
+        </div>
+      </div>
+      <div id="planResult"></div>
+    </div>
+
+    <!-- ② 체중 변화 시뮬레이터 -->
+    <div class="card" id="whatIfCard" style="display:none">
+      <div class="card-title">⚖️ 체중 변화 시뮬레이터</div>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px">체중이 변하면 BMI와 판정이 어떻게 바뀌는지 확인해보세요.</p>
+      <div style="margin-bottom:14px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <label style="font-size:13px;color:var(--text-muted);font-weight:600">체중 변화</label>
+          <span id="deltaLabel" style="font-size:15px;font-weight:800;color:var(--accent)">-5kg</span>
+        </div>
+        <input type="range" id="weightDelta" min="-30" max="30" step="0.5" value="-5"
+          oninput="document.getElementById('deltaLabel').textContent=(this.value>0?'+':'')+this.value+'kg';updateWhatIf()"
+          style="width:100%;accent-color:var(--accent)" />
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-top:4px">
+          <span>-30kg</span><span>-15kg</span><span>현재</span><span>+15kg</span><span>+30kg</span>
+        </div>
+      </div>
+      <div id="whatIfResult"></div>
+    </div>
+
+  
+  <div class="disclaimer">본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.</div>
+  <div class="calc-guide">
+    <div class="calc-guide-title">📋 사용 방법</div>
+    <div class="calc-guide-desc">키와 체중을 입력하면 체질량지수(BMI)와 비만도를 자동 판정합니다. 목표 체중 달성 플랜과 체중 변화 시뮬레이터도 확인해보세요.</div>
+    <div class="calc-guide-basis">📌 계산 기준: 대한비만학회 아시아-태평양 기준 (정상 BMI: 18.5~22.9)</div>
   </div>
   <div class="toss-nav">
     <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
@@ -472,8 +522,9 @@
     </div>
   </div>
 </div>
-<script>
-// 슬라이더 연동
+
+  <script>
+    // 슬라이더 연동
     document.getElementById('heightSlider').addEventListener('input', e => {
       document.getElementById('height').value = e.target.value;
     });
@@ -538,9 +589,96 @@
 
       const resultCard = document.getElementById('resultCard');
       resultCard.classList.add('visible');
+
+      // 부가 카드
+      _bmiH = h; _bmiW = w; _bmiIdeal = parseFloat(idealWeight);
+      document.getElementById('targetWeight').value = idealWeight;
+      document.getElementById('planCard').style.display = 'block';
+      document.getElementById('whatIfCard').style.display = 'block';
+      updatePlan();
+      updateWhatIf();
     }
 
     window.onload = () => calculate();
-</script>
+
+    let _bmiH = 170, _bmiW = 65, _bmiIdeal = 65;
+
+    // ① 목표 체중 달성 플랜
+    function updatePlan() {
+      const target = parseFloat(document.getElementById('targetWeight').value) || _bmiIdeal;
+      const pace   = parseFloat(document.getElementById('lossPace').value) || 0.5;
+      const diff   = _bmiW - target;
+      const hm     = _bmiH / 100;
+      const targetBmi = (target / (hm*hm)).toFixed(1);
+      const months = Math.abs(diff) / (pace * 4.33);  // 주당 pace kg → 월 환산
+
+      const direction = diff > 0 ? '감량' : diff < 0 ? '증량' : '현재가 목표!';
+      const color     = diff > 0 ? '#ff6b6b' : diff < 0 ? '#4fc3f7' : 'var(--accent)';
+
+      if (Math.abs(diff) < 0.1) {
+        document.getElementById('planResult').innerHTML = `
+          <div style="text-align:center;padding:20px;color:var(--accent);font-size:16px;font-weight:700">
+            🎉 현재 체중이 이미 목표 체중입니다!
+          </div>`;
+        return;
+      }
+
+      const calPerDay = 7700 * pace / 7;  // 1kg = 7,700kcal
+      const weeks = Math.ceil(Math.abs(diff) / pace);
+
+      document.getElementById('planResult').innerHTML = `
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">
+          <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center">
+            <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">필요 ${direction}</div>
+            <div style="font-size:20px;font-weight:900;color:${color};font-family:'Montserrat',sans-serif">${Math.abs(diff).toFixed(1)}kg</div>
+          </div>
+          <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center">
+            <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">예상 기간</div>
+            <div style="font-size:20px;font-weight:900;color:var(--accent);font-family:'Montserrat',sans-serif">${weeks}주</div>
+            <div style="font-size:11px;color:var(--text-muted)">(약 ${Math.ceil(months)}개월)</div>
+          </div>
+          <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center">
+            <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">목표 BMI</div>
+            <div style="font-size:20px;font-weight:900;color:var(--accent);font-family:'Montserrat',sans-serif">${targetBmi}</div>
+          </div>
+        </div>
+        <div style="padding:14px;background:rgba(0,212,170,.05);border:1px solid rgba(0,212,170,.2);border-radius:10px;font-size:13px;color:var(--text-muted);line-height:1.9">
+          📋 <strong style="color:var(--accent)">주 ${pace}kg ${direction} 플랜</strong><br>
+          · 하루 약 <strong style="color:var(--accent)">${Math.round(calPerDay).toLocaleString()}kcal</strong> ${diff>0?'적게 먹거나 더 소모':'더 섭취'}해야 합니다<br>
+          · 달리기(체중 ${_bmiW}kg 기준) 기준 하루 약 <strong style="color:var(--accent)">${Math.round(calPerDay/8/3.5*200/_bmiW)}분</strong> 추가 운동 필요<br>
+          · 급격한 ${direction}은 건강에 해로울 수 있습니다. 주 0.5~1kg 이내를 권장합니다.
+        </div>`;
+    }
+
+    // ② 체중 변화 시뮬레이터
+    function updateWhatIf() {
+      const delta = parseFloat(document.getElementById('weightDelta').value) || 0;
+      const newW  = Math.max(20, _bmiW + delta);
+      const hm    = _bmiH / 100;
+      const newBmi = newW / (hm*hm);
+      const info   = getBmiInfo(newBmi);
+      const direction = delta > 0 ? `+${delta}kg 증가` : `${delta}kg 감소`;
+
+      document.getElementById('whatIfResult').innerHTML = `
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center">
+            <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">현재</div>
+            <div style="font-size:22px;font-weight:900;font-family:'Montserrat',sans-serif;color:var(--text)">${_bmiW}kg</div>
+            <div style="font-size:13px;color:var(--text-muted)">BMI ${(_bmiW/hm/hm).toFixed(1)}</div>
+          </div>
+          <div style="background:rgba(0,212,170,.06);border:1px solid rgba(0,212,170,.3);border-radius:12px;padding:14px;text-align:center">
+            <div style="font-size:11px;color:var(--accent);margin-bottom:4px">${direction} 시</div>
+            <div style="font-size:22px;font-weight:900;font-family:'Montserrat',sans-serif;color:${info.color}">${newW.toFixed(1)}kg</div>
+            <div style="font-size:13px;font-weight:700;color:${info.color}">BMI ${newBmi.toFixed(1)} · ${info.label}</div>
+          </div>
+        </div>`;
+    }
+  </script>
+
+
+</div>
+
+
+
 </body>
 </html>

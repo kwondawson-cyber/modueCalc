@@ -2,12 +2,14 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>연봉 실수령액 계산기</title>
-  <!-- TODO: 앱인토스 SDK 교체 -->
-  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>연봉 실수령액 계산기 | 모두의계산기</title>
+  <meta name="description" content="연봉 실수령액 계산기 — 4대보험·소득세 자동 공제. 연봉 3,000~1억원 구간별 월 실수령액 비교표. 비과세 식대·교통비 활용 절세 방법 포함." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" /></noscript>
   <style>
-
     :root {
       --bg: #0d1117;
       --surface: #161b22;
@@ -33,7 +35,17 @@
     }
 
     /* Background grid */
-    
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,170,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,170,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
 
     .container {
       max-width: 800px;
@@ -48,7 +60,7 @@
       text-align: center;
       margin-bottom: 48px;
     }
-    
+    /* .site-name: common.js에서 관리 */
 
     .header h1 {
       font-size: clamp(28px, 6vw, 48px);
@@ -449,57 +461,33 @@
     }
 
     /* ── 홈 버튼 ── */
-    
-    
-    
-    
-    
+    .home-btn-wrap { text-align: center; margin-bottom: 8px; }
+    .home-btn {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      width: 54px; height: 54px;
+      background: rgba(0,212,170,0.08);
+      border: 1.5px solid rgba(0,212,170,0.35);
+      border-radius: 50%;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .home-btn:hover { background: rgba(0,212,170,0.18); transform: translateY(-2px); }
+    .home-btn-emoji { font-size: 20px; line-height: 1; }
+    .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
       .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
   
 
+.rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    .home-btn-wrap{text-align:center;margin-bottom:8px}
-    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
-    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
-    .home-btn-emoji{font-size:20px;line-height:1}
-    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
 
     .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
     .toss-header>.emoji{font-size:28px;flex-shrink:0}
@@ -512,172 +500,278 @@
     .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
     .ni-emoji{font-size:20px}
     .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
-
-    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+    .calc-guide{margin-top:20px;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .calc-guide-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:12px}
+    .calc-guide-desc{font-size:13px;color:var(--text-muted);line-height:1.8;margin-bottom:12px}
+    .calc-guide-basis{font-size:12px;color:var(--text-muted);padding:10px 14px;background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;line-height:1.7}
+    .disclaimer{text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280}
+    @media(max-width:360px){.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
 
   </style>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
 </head>
 <body>
-<div class="container">
-  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
-  <div class="toss-header">
+  <div class="container">
+
+      <div class="toss-header">
     <span class="emoji">💰</span>
-    <div><h1>연봉 실수령액 계산기</h1><p>4대보험·소득세 공제 후 실수령액</p></div>
+    <div><h1>연봉 실수령액 계산기</h1><p>4대보험 + 소득세 자동 계산</p></div>
   </div>
 
+    <!-- 입력 카드 -->
+    <div class="card">
+      <div class="card-title">연봉 입력</div>
 
-<!-- 입력 카드 -->
-<div class="card">
-<div class="card-title">연봉 입력</div>
-<div class="input-group">
-<label>연봉 (세전)</label>
-<div class="input-wrapper">
-<input id="salary" max="500000000" min="10000000" step="1000000" type="number" value="40000000"/>
-<span class="input-unit">원</span>
-</div>
-<div class="slider-wrapper">
-<input id="salarySlider" max="200000000" min="10000000" step="1000000" type="range" value="40000000"/>
-<div class="slider-labels">
-<span>1,000만원</span>
-<span>5,000만원</span>
-<span>1억원</span>
-<span>2억원</span>
-</div>
-</div>
-</div>
-<div class="options-grid">
-<div class="option-group">
-<label>부양가족 수 (본인 포함)</label>
-<select id="dependents">
-<option value="1">1명 (본인만)</option>
-<option value="2">2명</option>
-<option value="3">3명</option>
-<option value="4">4명</option>
-<option value="5">5명 이상</option>
-</select>
-</div>
-<div class="option-group">
-<label>20세 이하 자녀 수</label>
-<select id="children">
-<option value="0">없음</option>
-<option value="1">1명</option>
-<option value="2">2명</option>
-<option value="3">3명 이상</option>
-</select>
-</div>
-</div>
-<button class="calc-btn" onclick="calculate()">💰 실수령액 계산하기</button>
-</div>
-<!-- 결과 카드 -->
-<div class="result-card" id="resultCard">
-<div class="monthly-highlight">
-<div>
-<div class="monthly-label">월 실수령액</div>
-<div class="monthly-amount" id="monthlyTake">—<span>원</span></div>
-</div>
-<div class="annual-summary">
-<div class="label">연 실수령액</div>
-<div class="value" id="annualTake">—<span>원</span></div>
-<div class="label" style="margin-top:12px">실수령 비율</div>
-<div class="value" id="takeRate">—<span>%</span></div>
-</div>
-</div>
-<div class="card">
-<div class="breakdown-title">월 공제 내역</div>
-<div class="chart-section">
-<div class="chart-bar-wrap">
-<div class="chart-bar-take" id="barTake" style="width:80%"></div>
-<div class="chart-bar-deduct" id="barDeduct"></div>
-</div>
-<div class="chart-legend">
-<span><span class="legend-dot" style="background:var(--accent)"></span>실수령액</span>
-<span><span class="legend-dot" style="background:rgba(255,107,107,0.7)"></span>공제액</span>
-</div>
-</div>
-<div style="margin-top:24px">
-<div class="deduction-item">
-<div class="deduction-left">
-<div class="deduction-dot" style="background:#4fc3f7"></div>
-<div>
-<div class="deduction-name">국민연금</div>
-<div class="deduction-rate">4.75% (월 상한: 302,575원)</div>
-</div>
-</div>
-<div class="deduction-amount" id="d-pension">-</div>
-</div>
-<div class="deduction-item">
-<div class="deduction-left">
-<div class="deduction-dot" style="background:#81c784"></div>
-<div>
-<div class="deduction-name">건강보험</div>
-<div class="deduction-rate">3.595%</div>
-</div>
-</div>
-<div class="deduction-amount" id="d-health">-</div>
-</div>
-<div class="deduction-item">
-<div class="deduction-left">
-<div class="deduction-dot" style="background:#a5d6a7"></div>
-<div>
-<div class="deduction-name">장기요양보험</div>
-<div class="deduction-rate">건강보험료 × 13.14%</div>
-</div>
-</div>
-<div class="deduction-amount" id="d-care">-</div>
-</div>
-<div class="deduction-item">
-<div class="deduction-left">
-<div class="deduction-dot" style="background:#ffb74d"></div>
-<div>
-<div class="deduction-name">고용보험</div>
-<div class="deduction-rate">0.9%</div>
-</div>
-</div>
-<div class="deduction-amount" id="d-employ">-</div>
-</div>
-<div class="deduction-item">
-<div class="deduction-left">
-<div class="deduction-dot" style="background:#ef9a9a"></div>
-<div>
-<div class="deduction-name">소득세</div>
-<div class="deduction-rate">간이세액표 기준</div>
-</div>
-</div>
-<div class="deduction-amount" id="d-income">-</div>
-</div>
-<div class="deduction-item">
-<div class="deduction-left">
-<div class="deduction-dot" style="background:#ce93d8"></div>
-<div>
-<div class="deduction-name">지방소득세</div>
-<div class="deduction-rate">소득세 × 10%</div>
-</div>
-</div>
-<div class="deduction-amount" id="d-local">-</div>
-</div>
-</div>
-<div class="total-deduction">
-<div class="label">월 총 공제액</div>
-<div class="value" id="totalDeduct">-</div>
-</div>
-</div>
-<div class="notice">
-<strong>⚠️ 안내</strong> 본 계산기는 참고용이며 실제 세금·공제액은 개인 상황에 따라 다를 수 있습니다. 정확한 금액은 국세청 홈택스 또는 세무 전문가에게 문의하세요.
+      <div class="input-group">
+        <label>연봉 (세전)</label>
+        <div class="input-wrapper">
+          <input type="number" id="salary" value="40000000" min="10000000" max="500000000" step="1000000" />
+          <span class="input-unit">원</span>
+        </div>
+        <div class="slider-wrapper">
+          <input type="range" id="salarySlider" min="10000000" max="200000000" step="1000000" value="40000000" />
+          <div class="slider-labels">
+            <span>1,000만원</span>
+            <span>5,000만원</span>
+            <span>1억원</span>
+            <span>2억원</span>
+          </div>
+        </div>
       </div>
-</div>
 
-  <div class="toss-nav">
-    <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
-    <div class="toss-nav-grid">
-      <a href="/salary_slip" class="toss-nav-item"><span class="ni-emoji">📄</span><span class="ni-label">급여명세서</span></a>
-      <a href="/hourly_salary" class="toss-nav-item"><span class="ni-emoji">⏰</span><span class="ni-label">시급</span></a>
-      <a href="/retirement" class="toss-nav-item"><span class="ni-emoji">🏦</span><span class="ni-label">퇴직금</span></a>
-      <a href="/health_insurance" class="toss-nav-item"><span class="ni-emoji">🏥</span><span class="ni-label">건강보험</span></a>
+      <div class="options-grid">
+        <div class="option-group">
+          <label>부양가족 수 (본인 포함)</label>
+          <select id="dependents">
+            <option value="1">1명 (본인만)</option>
+            <option value="2">2명</option>
+            <option value="3">3명</option>
+            <option value="4">4명</option>
+            <option value="5">5명 이상</option>
+          </select>
+        </div>
+        <div class="option-group">
+          <label>20세 이하 자녀 수</label>
+          <select id="children">
+            <option value="0">없음</option>
+            <option value="1">1명</option>
+            <option value="2">2명</option>
+            <option value="3">3명 이상</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="calc-btn" onclick="calculate()">💰 실수령액 계산하기</button>
     </div>
-  </div>
-</div>
-<script>
-const salaryInput = document.getElementById('salary');
+
+    <!-- 결과 카드 -->
+    <div class="result-card" id="resultCard">
+
+      <div class="monthly-highlight">
+        <div>
+          <div class="monthly-label">월 실수령액</div>
+          <div class="monthly-amount" id="monthlyTake">—<span>원</span></div>
+        </div>
+        <div class="annual-summary">
+          <div class="label">연 실수령액</div>
+          <div class="value" id="annualTake">—<span>원</span></div>
+          <div class="label" style="margin-top:12px">실수령 비율</div>
+          <div class="value" id="takeRate">—<span>%</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="breakdown-title">월 공제 내역</div>
+
+        <div class="chart-section">
+          <div class="chart-bar-wrap">
+            <div class="chart-bar-take" id="barTake" style="width:80%"></div>
+            <div class="chart-bar-deduct" id="barDeduct"></div>
+          </div>
+          <div class="chart-legend">
+            <span><span class="legend-dot" style="background:var(--accent)"></span>실수령액</span>
+            <span><span class="legend-dot" style="background:rgba(255,107,107,0.7)"></span>공제액</span>
+          </div>
+        </div>
+
+        <div style="margin-top:24px">
+          <div class="deduction-item">
+            <div class="deduction-left">
+              <div class="deduction-dot" style="background:#4fc3f7"></div>
+              <div>
+                <div class="deduction-name">국민연금</div>
+                <div class="deduction-rate">4.75% (월 상한: 302,575원)</div>
+              </div>
+            </div>
+            <div class="deduction-amount" id="d-pension">-</div>
+          </div>
+
+          <div class="deduction-item">
+            <div class="deduction-left">
+              <div class="deduction-dot" style="background:#81c784"></div>
+              <div>
+                <div class="deduction-name">건강보험</div>
+                <div class="deduction-rate">3.595%</div>
+              </div>
+            </div>
+            <div class="deduction-amount" id="d-health">-</div>
+          </div>
+
+          <div class="deduction-item">
+            <div class="deduction-left">
+              <div class="deduction-dot" style="background:#a5d6a7"></div>
+              <div>
+                <div class="deduction-name">장기요양보험</div>
+                <div class="deduction-rate">건강보험료 × 13.14%</div>
+              </div>
+            </div>
+            <div class="deduction-amount" id="d-care">-</div>
+          </div>
+
+          <div class="deduction-item">
+            <div class="deduction-left">
+              <div class="deduction-dot" style="background:#ffb74d"></div>
+              <div>
+                <div class="deduction-name">고용보험</div>
+                <div class="deduction-rate">0.9%</div>
+              </div>
+            </div>
+            <div class="deduction-amount" id="d-employ">-</div>
+          </div>
+
+          <div class="deduction-item">
+            <div class="deduction-left">
+              <div class="deduction-dot" style="background:#ef9a9a"></div>
+              <div>
+                <div class="deduction-name">소득세</div>
+                <div class="deduction-rate">간이세액표 기준</div>
+              </div>
+            </div>
+            <div class="deduction-amount" id="d-income">-</div>
+          </div>
+
+          <div class="deduction-item">
+            <div class="deduction-left">
+              <div class="deduction-dot" style="background:#ce93d8"></div>
+              <div>
+                <div class="deduction-name">지방소득세</div>
+                <div class="deduction-rate">소득세 × 10%</div>
+              </div>
+            </div>
+            <div class="deduction-amount" id="d-local">-</div>
+          </div>
+        </div>
+
+        <div class="total-deduction">
+          <div class="label">월 총 공제액</div>
+          <div class="value" id="totalDeduct">-</div>
+        </div>
+      </div>
+
+      <div class="notice">
+        <strong>⚠️ 안내</strong> 본 계산기는 참고용이며 실제 세금·공제액은 개인 상황에 따라 다를 수 있습니다. 정확한 금액은 국세청 홈택스 또는 세무 전문가에게 문의하세요.
+      </div>
+
+    </div>
+
+    <!-- ① 연봉 인상 시뮬레이터 -->
+    <div class="card" id="raiseCard" style="display:none">
+      <div class="card-title">📈 연봉 인상 시뮬레이터</div>
+      <div style="margin-bottom:16px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <label style="font-size:13px;color:var(--text-muted);font-weight:600">인상 금액</label>
+          <span id="raiseLabel" style="font-size:15px;font-weight:800;color:var(--accent)">+500만원</span>
+        </div>
+        <input type="range" id="raiseSlider" min="500000" max="30000000" step="500000" value="5000000"
+          oninput="updateRaise()" style="width:100%;accent-color:var(--accent)" />
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-top:4px">
+          <span>+50만원</span><span>+1,000만원</span><span>+2,000만원</span><span>+3,000만원</span>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center">
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:6px">현재 월 실수령</div>
+          <div id="raiseBefore" style="font-size:20px;font-weight:900;color:var(--text);font-family:'Montserrat',sans-serif">-</div>
+          <div id="raiseBeforeAnnual" style="font-size:11px;color:var(--text-muted);margin-top:4px"></div>
+        </div>
+        <div style="background:rgba(0,212,170,.08);border:1px solid rgba(0,212,170,.3);border-radius:12px;padding:16px;text-align:center">
+          <div style="font-size:11px;color:var(--accent);margin-bottom:6px">인상 후 월 실수령</div>
+          <div id="raiseAfter" style="font-size:20px;font-weight:900;color:var(--accent);font-family:'Montserrat',sans-serif">-</div>
+          <div id="raiseAfterAnnual" style="font-size:11px;color:var(--text-muted);margin-top:4px"></div>
+        </div>
+      </div>
+      <div id="raiseDiff" style="margin-top:12px;text-align:center;padding:12px;background:rgba(0,212,170,.05);border-radius:10px;font-size:14px;color:var(--text-muted)"></div>
+    </div>
+
+    <!-- ② 비과세 절세 계산기 -->
+    <div class="card" id="taxFreeCard" style="display:none">
+      <div class="card-title">🧾 비과세 절세 계산기</div>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;line-height:1.7">식대·교통비를 비과세로 처리하면 4대보험과 소득세 산정 기준이 낮아져 실수령액이 올라갑니다.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+        <div>
+          <label style="font-size:13px;color:var(--text-muted);font-weight:600;display:block;margin-bottom:6px">식대 비과세 (월)</label>
+          <div style="position:relative">
+            <input type="number" id="mealAllowance" value="200000" min="0" max="200000" step="10000"
+              oninput="updateTaxFree()"
+              style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 40px 10px 14px;font-size:15px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none"
+              data-ec-comma="skip" />
+            <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--text-muted)">원</span>
+          </div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:4px">최대 200,000원</div>
+        </div>
+        <div>
+          <label style="font-size:13px;color:var(--text-muted);font-weight:600;display:block;margin-bottom:6px">교통비 비과세 (월)</label>
+          <div style="position:relative">
+            <input type="number" id="transportAllowance" value="200000" min="0" max="200000" step="10000"
+              oninput="updateTaxFree()"
+              style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 40px 10px 14px;font-size:15px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none"
+              data-ec-comma="skip" />
+            <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--text-muted)">원</span>
+          </div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:4px">최대 200,000원</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center">
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">비과세 전 월 실수령</div>
+          <div id="tfBefore" style="font-size:18px;font-weight:900;color:var(--text);font-family:'Montserrat',sans-serif">-</div>
+        </div>
+        <div style="background:rgba(0,212,170,.08);border:1px solid rgba(0,212,170,.3);border-radius:12px;padding:14px;text-align:center">
+          <div style="font-size:11px;color:var(--accent);margin-bottom:4px">비과세 적용 후</div>
+          <div id="tfAfter" style="font-size:18px;font-weight:900;color:var(--accent);font-family:'Montserrat',sans-serif">-</div>
+        </div>
+      </div>
+      <div id="tfDiff" style="margin-top:12px;text-align:center;padding:12px;background:rgba(0,212,170,.05);border-radius:10px;font-size:14px;color:var(--text-muted)"></div>
+    </div>
+
+    <!-- ③ 연봉 구간 비교표 -->
+    <div class="card" id="compareCard" style="display:none">
+      <div class="card-title">📊 연봉 구간별 실수령 비교</div>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">현재 연봉 기준 ±구간별 월 실수령액 자동 계산 (부양가족 동일 적용)</p>
+      <div id="compareTable" style="overflow-x:auto"></div>
+    </div>
+
+    <!-- ④ 역산 시뮬레이터 -->
+    <div class="card" id="reverseCard" style="display:none">
+      <div class="card-title">🎯 목표 실수령액 → 필요 연봉 역산</div>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">원하는 월 실수령액을 입력하면 필요한 연봉(세전)을 자동으로 계산합니다.</p>
+      <div style="position:relative;margin-bottom:12px">
+        <input type="number" id="targetTake" placeholder="예: 3000000"
+          oninput="updateReverse()"
+          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px 50px 12px 16px;font-size:20px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none;transition:border-color .2s"
+          onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'" />
+        <span style="position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--text-muted)">원/월</span>
+      </div>
+      <div id="reverseResult" style="display:none;background:rgba(0,212,170,.06);border:1px solid rgba(0,212,170,.25);border-radius:12px;padding:16px;font-size:14px;line-height:2;color:var(--text-muted)"></div>
+    </div>
+
+  <script>
+    const salaryInput = document.getElementById('salary');
     const slider = document.getElementById('salarySlider');
 
     salaryInput.addEventListener('input', () => {
@@ -737,11 +831,11 @@ const salaryInput = document.getElementById('salary');
       const children = parseInt(document.getElementById('children').value);
       const monthly = annual / 12;
 
-      // 4대보험 계산
-      const pension = Math.min(Math.round(monthly * 0.0475), 302575);
-      const health = Math.round(monthly * 0.03595);
-      const care = Math.round(health * 0.1314);
-      const employ = Math.round(monthly * 0.009);
+      // 4대보험 계산 (2026년 기준 요율)
+      const pension = Math.min(monthly * 0.0475, 302575); // 국민연금 4.75%, 상한 637만원
+      const health = Math.round(monthly * 0.03545);      // 건강보험 3.545%
+      const care = Math.round(health * 0.1295);          // 장기요양 12.95%
+      const employ = Math.round(monthly * 0.009);        // 고용보험 0.9%
 
       // 소득세
       const incomeTax = calcIncomeTax(monthly, dependents, children);
@@ -771,10 +865,149 @@ const salaryInput = document.getElementById('salary');
 
       const resultCard = document.getElementById('resultCard');
       resultCard.classList.add('visible');
+
+      // 부가 카드 업데이트
+      if (typeof afterCalculate === 'function') afterCalculate();
     }
 
     // 페이지 로드 시 자동 계산
     window.onload = () => calculate();
-</script>
-</body>
-</html>
+  </script>
+
+  <script>
+  // ── 공통: 월 실수령 계산 ──
+  function calcMonthlyTake(annualSalary, deps, kids, mealEx, transEx) {
+    mealEx = mealEx || 0;
+    transEx = transEx || 0;
+    const monthly = annualSalary / 12;
+    const base = Math.max(0, monthly - mealEx - transEx);
+    const pension   = Math.min(base * 0.0475, 302575);
+    const health    = Math.round(base * 0.03545);
+    const care      = Math.round(health * 0.1295);
+    const employ    = Math.round(base * 0.009);
+    const incomeTax = calcIncomeTax(base, deps, kids);
+    const localTax  = Math.round(incomeTax * 0.1);
+    return Math.round(monthly - (pension + health + care + employ + incomeTax + localTax));
+  }
+
+  let _lastAnnual = 40000000;
+  let _lastDeps   = 1;
+  let _lastKids   = 0;
+  let _lastMonthlyTake = 0;
+
+  // 부가 카드 업데이트 — calculate() 내부 끝에서 호출
+  function afterCalculate() {
+    _lastAnnual = parseInt(document.getElementById('salary').value) || 40000000;
+    _lastDeps   = parseInt(document.getElementById('dependents').value);
+    _lastKids   = parseInt(document.getElementById('children').value);
+    _lastMonthlyTake = calcMonthlyTake(_lastAnnual, _lastDeps, _lastKids);
+    document.getElementById('raiseCard').style.display   = 'block';
+    document.getElementById('taxFreeCard').style.display = 'block';
+    document.getElementById('compareCard').style.display = 'block';
+    document.getElementById('reverseCard').style.display = 'block';
+    updateRaise();
+    updateTaxFree();
+    updateCompare();
+    updateReverse();
+  }
+
+  // ④ 역산 시뮬레이터
+  function updateReverse() {
+    const target = parseInt(document.getElementById('targetTake').value) || 0;
+    const el = document.getElementById('reverseResult');
+    if (!target) { el.style.display='none'; return; }
+    // 이진탐색으로 필요 연봉 역산
+    let lo = target * 12, hi = target * 30;
+    for (let i = 0; i < 60; i++) {
+      const mid = Math.round((lo + hi) / 2);
+      const take = calcMonthlyTake(mid, _lastDeps, _lastKids);
+      if (take < target) lo = mid + 1000;
+      else hi = mid - 1000;
+    }
+    const needed = Math.round(hi / 10000) * 10000;
+    const take   = calcMonthlyTake(needed, _lastDeps, _lastKids);
+    const deduct = needed / 12 - take;
+    el.style.display = 'block';
+    el.innerHTML =
+      `목표 월 실수령 <strong style="color:var(--accent)">${fmt(target)}원</strong> 달성을 위한 필요 연봉<br>` +
+      `→ <strong style="color:var(--accent);font-size:18px">${fmt(needed)}원</strong> (월 세전 ${fmt(needed/12)}원)<br>` +
+      `<span style="font-size:12px">월 공제 예상액: 약 ${fmt(deduct)}원 (4대보험 + 소득세)</span>`;
+  }
+
+  // ① 인상 시뮬레이터
+  function updateRaise() {
+    const raise = parseInt(document.getElementById('raiseSlider').value) || 5000000;
+    const after = calcMonthlyTake(_lastAnnual + raise, _lastDeps, _lastKids);
+    const diff  = after - _lastMonthlyTake;
+    document.getElementById('raiseLabel').textContent = '+' + fmt(raise) + '원';
+    document.getElementById('raiseBefore').textContent = fmt(_lastMonthlyTake) + '원';
+    document.getElementById('raiseBeforeAnnual').textContent = '연 ' + fmt(_lastMonthlyTake*12) + '원';
+    document.getElementById('raiseAfter').textContent  = fmt(after) + '원';
+    document.getElementById('raiseAfterAnnual').textContent = '연 ' + fmt(after*12) + '원';
+    document.getElementById('raiseDiff').innerHTML =
+      `연봉 <strong style="color:var(--accent)">${fmt(raise)}원</strong> 인상 시 월 실수령 ` +
+      `<strong style="color:var(--accent)">+${fmt(diff)}원</strong> 증가 · 연간 <strong style="color:var(--accent)">+${fmt(diff*12)}원</strong> 증가<br>` +
+      `<span style="font-size:12px;color:var(--text-muted)">(인상분 ${fmt(raise)}원 중 ${fmt(diff*12)}원 실수령 ↑, 나머지 ${fmt(raise-diff*12)}원은 세금·보험료)</span>`;
+  }
+
+  // ② 비과세 절세
+  function updateTaxFree() {
+    const meal  = Math.min(parseInt(document.getElementById('mealAllowance').value)||0, 200000);
+    const trans = Math.min(parseInt(document.getElementById('transportAllowance').value)||0, 200000);
+    const after = calcMonthlyTake(_lastAnnual, _lastDeps, _lastKids, meal, trans);
+    const diff  = after - _lastMonthlyTake;
+    document.getElementById('tfBefore').textContent = fmt(_lastMonthlyTake) + '원';
+    document.getElementById('tfAfter').textContent  = fmt(after) + '원';
+    document.getElementById('tfDiff').innerHTML = diff > 0
+      ? `비과세 적용 시 월 <strong style="color:var(--accent)">+${fmt(diff)}원</strong> · 연간 <strong style="color:var(--accent)">+${fmt(diff*12)}원</strong> 절세`
+      : `비과세 금액을 입력하면 절세액이 계산됩니다`;
+  }
+
+  // ③ 구간 비교표
+  function updateCompare() {
+    const steps = [-20000000,-10000000,-5000000,0,5000000,10000000,20000000,30000000];
+    const rows = steps.map(d => {
+      const ann = _lastAnnual + d;
+      if(ann < 10000000) return null;
+      return { ann, take: calcMonthlyTake(ann, _lastDeps, _lastKids), isCurrent: d===0 };
+    }).filter(Boolean);
+    document.getElementById('compareTable').innerHTML = `
+      <table style="width:100%;border-collapse:collapse;font-size:13px">
+        <thead><tr style="background:var(--surface2)">
+          <th style="padding:10px 12px;text-align:left;border:1px solid var(--border);color:var(--text-muted);font-weight:700">연봉</th>
+          <th style="padding:10px 12px;text-align:right;border:1px solid var(--border);color:var(--text-muted);font-weight:700">세전 월급</th>
+          <th style="padding:10px 12px;text-align:right;border:1px solid var(--border);color:var(--text-muted);font-weight:700">월 실수령</th>
+          <th style="padding:10px 12px;text-align:right;border:1px solid var(--border);color:var(--text-muted);font-weight:700">실수령률</th>
+        </tr></thead>
+        <tbody>${rows.map(r=>`
+          <tr style="${r.isCurrent?'background:rgba(0,212,170,.08);':''}">
+            <td style="padding:10px 12px;border:1px solid var(--border);font-weight:${r.isCurrent?900:400};color:${r.isCurrent?'var(--accent)':'var(--text)'}">
+              ${fmt(r.ann)}원${r.isCurrent?' ◀ 현재':''}
+            </td>
+            <td style="padding:10px 12px;border:1px solid var(--border);text-align:right;font-family:'Montserrat',sans-serif;color:var(--text-muted)">${fmt(r.ann/12)}원</td>
+            <td style="padding:10px 12px;border:1px solid var(--border);text-align:right;font-family:'Montserrat',sans-serif;font-weight:700;color:${r.isCurrent?'var(--accent)':'var(--text)'}">${fmt(r.take)}원</td>
+            <td style="padding:10px 12px;border:1px solid var(--border);text-align:right;color:var(--text-muted)">${((r.take/(r.ann/12))*100).toFixed(1)}%</td>
+          </tr>`).join('')}
+        </tbody>
+      </table>`;
+  }
+  </script>
+
+  
+  <div class="disclaimer">본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.</div>
+  <div class="calc-guide">
+    <div class="calc-guide-title">📋 사용 방법</div>
+    <div class="calc-guide-desc">세전 연봉·부양가족 수를 입력하면 4대보험과 소득세를 자동 공제한 월 실수령액을 계산합니다. 인상 시뮬레이터와 역산 기능도 활용해보세요.</div>
+    <div class="calc-guide-basis">📌 계산 기준: 2026년 4대보험 요율 기준 (국민연금 4.75%, 건강보험 3.595%, 장기요양 13.14%, 고용보험 0.9%)</div>
+  </div>
+  <div class="toss-nav">
+    <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
+    <div class="toss-nav-grid">
+      <a href="/salary_slip" class="toss-nav-item"><span class="ni-emoji">📄</span><span class="ni-label">급여명세서</span></a>
+      <a href="/hourly_salary" class="toss-nav-item"><span class="ni-emoji">⏰</span><span class="ni-label">시급</span></a>
+      <a href="/retirement" class="toss-nav-item"><span class="ni-emoji">🏦</span><span class="ni-label">퇴직금</span></a>
+      <a href="/health_insurance" class="toss-nav-item"><span class="ni-emoji">🏥</span><span class="ni-label">건강보험</span></a>
+    </div>
+  </div>
+</div>
+</div>

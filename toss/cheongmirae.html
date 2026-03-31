@@ -1,23 +1,24 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>청년미래적금 계산기</title>
-  <!-- TODO: 앱인토스 SDK 교체 -->
-  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>청년미래적금 계산기 2026 | 모두의계산기</title>
+  <meta name="description" content="청년미래적금 계산기 2026 — 월 납입액·일반형(기여금 6%)·우대형(기여금 12%) 선택 시 3년 만기 수령액·정부 기여금·실질 수익률 자동 계산. 청년도약계좌·ISA 비교, 가입 조건·중도해지 불이익 완전 해설." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" /></noscript>
   <style>
-
     :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--radius:16px}
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-    
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
     .container{max-width:640px;margin:0 auto;padding:40px 20px 20px;position:relative;z-index:1}
-    
-    
-    
-    
-    
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all .2s}
+    .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
     .header{text-align:center;margin-bottom:40px}
     .header h1{font-size:clamp(26px,6vw,40px);font-weight:900;line-height:1.15;margin-bottom:10px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
     .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
@@ -57,49 +58,39 @@
     .detail-item .d-value.accent{color:var(--accent)}
     .detail-item .d-value.green{color:#4caf50}
     .notice{margin-top:16px;padding:13px 16px;background:rgba(255,165,0,0.05);border:1px solid rgba(255,165,0,0.15);border-radius:10px;font-size:12px;color:var(--text-muted);line-height:1.7}
-    .ad-slot{margin:8px 0;text-align:center;min-height:0}
-    
     @media(max-width:480px){.card{padding:20px 16px}.summary-grid{grid-template-columns:1fr}}
     
+    .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
     
     
+    .rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    .seo-section{max-width:680px;margin:32px auto 0;padding:0 20px 60px;font-family:'Noto Sans KR',sans-serif}
+    .seo-section h2{font-size:22px;font-weight:900;color:#e6edf3;margin:40px 0 14px;padding-bottom:10px;border-bottom:1px solid #30363d}
+    .seo-section h3{font-size:16px;font-weight:700;color:#00d4aa;margin:22px 0 8px}
+    .seo-section p{font-size:14px;color:#8b949e;line-height:1.9;margin-bottom:12px}
+    .seo-section ul{padding-left:20px;margin-bottom:12px}
+    .seo-section ul li{font-size:14px;color:#8b949e;line-height:1.9}
+    .seo-section ol{padding-left:20px;margin-bottom:12px}
+    .seo-section ol li{font-size:14px;color:#8b949e;line-height:1.9}
+    .seo-section .formula-box{background:#161b22;border:1px solid #30363d;border-left:3px solid #00d4aa;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:14px;color:#e6edf3;font-family:monospace;line-height:1.8}
+    .seo-section table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+    .seo-section table th{background:#21262d;color:#e6edf3;padding:10px 12px;text-align:left;border:1px solid #30363d;font-weight:700}
+    .seo-section table td{padding:9px 12px;border:1px solid #30363d;color:#8b949e}
+    .seo-section table tr:nth-child(even) td{background:#161b22}
+    .seo-section table td strong{color:#00d4aa}
+    .seo-section .tip-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+    .seo-section .tip-box strong{color:#00d4aa}
+    .seo-section .warn-box{background:rgba(255,107,107,0.05);border:1px solid rgba(255,107,107,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:#8b949e;line-height:1.9}
+    .seo-section .warn-box strong{color:#ff6b6b}
+    .seo-section details{border:1px solid #30363d;border-radius:10px;margin-bottom:10px;overflow:hidden}
+    .seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:#e6edf3;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+    .seo-section summary::after{content:'＋';color:#00d4aa;font-size:16px}
+    .seo-section details[open] summary::after{content:'－'}
+    .seo-section details[open]{background:#161b22}
+    .seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
   
-
-
-    .home-btn-wrap{text-align:center;margin-bottom:8px}
-    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
-    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
-    .home-btn-emoji{font-size:20px;line-height:1}
-    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
-
     .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
     .toss-header>.emoji{font-size:28px;flex-shrink:0}
     .toss-header h1{font-size:20px;font-weight:800;color:var(--text);margin:0}
@@ -111,93 +102,123 @@
     .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
     .ni-emoji{font-size:20px}
     .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
-
-    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+    .calc-guide{margin-top:20px;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .calc-guide-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:12px}
+    .calc-guide-desc{font-size:13px;color:var(--text-muted);line-height:1.8;margin-bottom:12px}
+    .calc-guide-basis{font-size:12px;color:var(--text-muted);padding:10px 14px;background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;line-height:1.7}
+    .disclaimer{text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280}
+    @media(max-width:360px){.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
 
   </style>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
 </head>
 <body>
 <div class="container">
-  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
-  <div class="toss-header">
+    <div class="toss-header">
     <span class="emoji">🌱</span>
-    <div><h1>청년미래적금 계산기</h1><p>기여금·비과세 만기수령액 계산</p></div>
+    <div><h1>청년미래적금 계산기</h1><p>정부 기여금 + 은행 이자 · 3년 만기 수령액</p></div>
+  </div>
+  <div class="badge-row">
+    <span class="badge">2026년 6월 출시 예정</span>
+    <span class="badge">만 19~34세</span>
+    <span class="badge">비과세</span>
+    <span class="badge">최대 월 50만원</span>
+  </div>
+
+  <div class="card">
+    <div class="card-title">청년미래적금 정보 입력</div>
+
+    <div class="input-group">
+      <label>가입 유형</label>
+      <div class="tab-group">
+        <button class="tab-btn active" onclick="setYouthType('general')" id="tab-general">일반형 (기여금 6%)</button>
+        <button class="tab-btn" onclick="setYouthType('premium')" id="tab-premium">우대형 (기여금 12%)</button>
+      </div>
+      <div class="type-desc" id="type-desc">
+        ✅ 일반형: 개인소득 6,000만원 이하 + 가구 중위소득 200% 이하
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>월 납입금 (최대 50만원)</label>
+      <div class="input-wrapper">
+        <input type="number" id="monthly" value="500000" min="10000" max="500000" />
+        <span class="input-unit">원</span>
+      </div>
+      <input type="range" id="monthly-slider" min="10000" max="500000" step="10000" value="500000" />
+    </div>
+
+    <div class="input-group">
+      <label>은행 기본 금리 (연)</label>
+      <div class="input-wrapper">
+        <input type="number" id="rate" value="4.5" step="0.1" min="0.1" max="15" />
+        <span class="input-unit">%</span>
+      </div>
+      <input type="range" id="rate-slider" min="1" max="10" step="0.1" value="4.5" />
+    </div>
+
+    <button class="calc-btn" onclick="calculate()">🌱 만기 수령액 계산하기</button>
+  </div>
+
+  <div class="result-card" id="resultCard">
+    <div class="card">
+      <div class="summary-grid">
+        <div class="s-box main">
+          <div class="s-label">만기 수령액</div>
+          <div class="s-value" id="s-net">-</div>
+          <div class="s-unit">원</div>
+        </div>
+        <div class="s-box">
+          <div class="s-label">총 원금</div>
+          <div class="s-value" id="s-principal">-</div>
+          <div class="s-unit">원</div>
+        </div>
+        <div class="s-box">
+          <div class="s-label">총 혜택</div>
+          <div class="s-value" id="s-benefit" style="color:#ffd54f">-</div>
+          <div class="s-unit">원</div>
+        </div>
+      </div>
+      <div class="detail-item"><span class="d-label">은행 이자 (비과세)</span><span class="d-value" id="d-interest">-</span></div>
+      <div class="detail-item"><span class="d-label">정부 기여금</span><span class="d-value green" id="d-contrib">-</span></div>
+      <div class="detail-item"><span class="d-label">세금</span><span class="d-value" id="d-tax">0원 (비과세 혜택)</span></div>
+      <div class="detail-item"><span class="d-label">이자+기여금 합계</span><span class="d-value accent" id="d-total-benefit">-</span></div>
+      <div class="detail-item"><span class="d-label">실질 수익률 (세전 환산 · 연)</span><span class="d-value accent" id="d-yield">-</span></div>
+    </div>
+    <div class="notice">
+      ⚠️ 은행 금리는 2026년 6월 출시 시점에 확정됩니다. 실제 수령액과 다를 수 있으며, 만기 전 해지 시 정부 기여금 미지급 및 이자에 15.4% 세금이 부과됩니다.
+    </div>
+  </div>
+
+  <!-- 납입액별 비교 시뮬레이터 -->
+  <div class="card" id="simCard" style="margin-top:16px">
+    <div class="card-title">📊 납입액별 만기 수령액 비교</div>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">현재 설정 금리 기준, 월 납입액별 일반형·우대형 예상 수령액을 비교합니다. (슬라이더 조정 시 자동 업데이트)</p>
+    <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:13px" id="simTable">
+        <thead><tr>
+          <th style="padding:8px 10px;text-align:left;background:#21262d;color:#8b949e;border:1px solid #30363d;font-weight:600">월 납입액</th>
+          <th style="padding:8px 10px;text-align:right;background:#21262d;color:#8b949e;border:1px solid #30363d;font-weight:600">원금 (3년)</th>
+          <th style="padding:8px 10px;text-align:right;background:rgba(0,212,170,0.06);color:#00d4aa;border:1px solid #30363d;font-weight:600">일반형 (기여금 6%)</th>
+          <th style="padding:8px 10px;text-align:right;background:rgba(0,149,255,0.06);color:#0095ff;border:1px solid #30363d;font-weight:600">우대형 (기여금 12%)</th>
+        </tr></thead>
+        <tbody id="simBody"></tbody>
+      </table>
+    </div>
+    <div style="margin-top:8px;font-size:11px;color:var(--text-muted);line-height:1.7">※ 단리 계산 기준. 이자·기여금 전액 비과세 가정. 실제 은행 금리는 2026년 6월 출시 시점에 확정됩니다.</div>
   </div>
 
 
-
-<div class="badge-row">
-<span class="badge">2026년 6월 출시 예정</span>
-<span class="badge">만 19~34세</span>
-<span class="badge">비과세</span>
-<span class="badge">최대 월 50만원</span>
-</div>
-<div class="card">
-<div class="card-title">청년미래적금 정보 입력</div>
-<div class="input-group">
-<label>가입 유형</label>
-<div class="tab-group">
-<button class="tab-btn active" id="tab-general" onclick="setYouthType('general')">일반형 (기여금 6%)</button>
-<button class="tab-btn" id="tab-premium" onclick="setYouthType('premium')">우대형 (기여금 12%)</button>
-</div>
-<div class="type-desc" id="type-desc">
-        ✅ 일반형: 개인소득 6,000만원 이하 + 가구 중위소득 200% 이하
-      </div>
-</div>
-<div class="input-group">
-<label>월 납입금 (최대 50만원)</label>
-<div class="input-wrapper">
-<input id="monthly" max="500000" min="10000" type="number" value="500000"/>
-<span class="input-unit">원</span>
-</div>
-<input id="monthly-slider" max="500000" min="10000" step="10000" type="range" value="500000"/>
-</div>
-<div class="input-group">
-<label>은행 기본 금리 (연)</label>
-<div class="input-wrapper">
-<input id="rate" max="15" min="0.1" step="0.1" type="number" value="4.5"/>
-<span class="input-unit">%</span>
-</div>
-<input id="rate-slider" max="10" min="1" step="0.1" type="range" value="4.5"/>
-</div>
-<button class="calc-btn" onclick="calculate()">🌱 만기 수령액 계산하기</button>
-</div>
-<div class="result-card" id="resultCard">
-<div class="card">
-<div class="summary-grid">
-<div class="s-box main">
-<div class="s-label">만기 수령액</div>
-<div class="s-value" id="s-net">-</div>
-<div class="s-unit">원</div>
-</div>
-<div class="s-box">
-<div class="s-label">총 원금</div>
-<div class="s-value" id="s-principal">-</div>
-<div class="s-unit">원</div>
-</div>
-<div class="s-box">
-<div class="s-label">총 혜택</div>
-<div class="s-value" id="s-benefit" style="color:#ffd54f">-</div>
-<div class="s-unit">원</div>
-</div>
-</div>
-<div class="detail-item"><span class="d-label">은행 이자 (비과세)</span><span class="d-value" id="d-interest">-</span></div>
-<div class="detail-item"><span class="d-label">정부 기여금</span><span class="d-value green" id="d-contrib">-</span></div>
-<div class="detail-item"><span class="d-label">세금</span><span class="d-value" id="d-tax">0원 (비과세 혜택)</span></div>
-<div class="detail-item"><span class="d-label">이자+기여금 합계</span><span class="d-value accent" id="d-total-benefit">-</span></div>
-<div class="detail-item"><span class="d-label">실질 수익률 (세전 환산 · 연)</span><span class="d-value accent" id="d-yield">-</span></div>
-</div>
-<div class="notice">
-      ⚠️ 은행 금리는 2026년 6월 출시 시점에 확정됩니다. 실제 수령액과 다를 수 있으며, 만기 전 해지 시 정부 기여금 미지급 및 이자에 15.4% 세금이 부과됩니다.
-    </div>
-</div>
-<div class="ad-slot">
-
-
-</div>
-
-    <div style="text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280;">
-    본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.
+  <div class="disclaimer">본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.</div>
+  <div class="calc-guide">
+    <div class="calc-guide-title">📋 사용 방법</div>
+    <div class="calc-guide-desc">월 납입액과 기간을 입력하면 청년미래적금 만기 수령액과 정부 지원금을 계산합니다.</div>
+    <div class="calc-guide-basis">📌 계산 기준: 청년미래적금 정책 기준 (금리·지원금은 변동될 수 있음)</div>
   </div>
   <div class="toss-nav">
     <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
@@ -209,10 +230,9 @@
     </div>
   </div>
 </div>
+
 <script>
-
-
-let youthType = 'general';
+  let youthType = 'general';
 
   document.getElementById('monthly-slider').addEventListener('input', e => {
     document.getElementById('monthly').value = e.target.value;
@@ -222,9 +242,11 @@ let youthType = 'general';
   });
   document.getElementById('rate-slider').addEventListener('input', e => {
     document.getElementById('rate').value = e.target.value;
+    updateSim();
   });
   document.getElementById('rate').addEventListener('input', e => {
     document.getElementById('rate-slider').value = e.target.value;
+    updateSim();
   });
 
   function setYouthType(t) {
@@ -265,9 +287,157 @@ let youthType = 'general';
     document.getElementById('d-total-benefit').textContent = `${fmt(totalBenefit)}원`;
     document.getElementById('d-yield').textContent = `연 ${effectiveRate}% 효과`;
     document.getElementById('resultCard').classList.add('visible');
+    updateSim();
   }
 
-  window.onload = () => calculate();
+  function updateSim() {
+    const annualRate = parseFloat(document.getElementById('rate').value) / 100;
+    const months = 36;
+    const AMOUNTS = [100000, 200000, 300000, 400000, 500000];
+    const tbody = document.getElementById('simBody');
+    if (!tbody) return;
+    tbody.innerHTML = AMOUNTS.map(m => {
+      const principal = m * months;
+      let interest = 0;
+      for (let i = 1; i <= months; i++) interest += m * annualRate * ((months - i + 1) / 12);
+      const gen = Math.round(principal + interest + m * 0.06 * months);
+      const pre = Math.round(principal + interest + m * 0.12 * months);
+      const f = n => n.toLocaleString('ko-KR') + '원';
+      return `<tr>
+        <td style="padding:8px 10px;border:1px solid #30363d;color:#e6edf3;font-weight:700">${(m/10000).toFixed(0)}만원</td>
+        <td style="padding:8px 10px;border:1px solid #30363d;color:#8b949e;text-align:right">${f(principal)}</td>
+        <td style="padding:8px 10px;border:1px solid #30363d;color:#00d4aa;text-align:right;font-weight:700">${f(gen)}</td>
+        <td style="padding:8px 10px;border:1px solid #30363d;color:#0095ff;text-align:right;font-weight:700">${f(pre)}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  window.onload = () => { calculate(); updateSim(); };
 </script>
+
+</div>
+
+<div style="font-size:11px;color:#8b949e">gatheringmoney.com · 자세히 보기 →</div>
+    </div>
+  </a>
+
+  <h2>🌱 청년미래적금이란? — 2026년 핵심 가이드</h2>
+  <p><strong>청년미래적금</strong>은 만 19~34세 청년이 월 최대 50만원을 저축하면 정부가 기여금을 지원해 3년 만기 시 최대 <strong>약 2,200만원</strong>을 수령할 수 있는 정책형 적금입니다. 2026년 6월 출시 예정으로, 청년도약계좌(5년)보다 만기가 짧고 기여금 비율이 더 높습니다. 은행 이자는 비과세 혜택까지 적용되어 실질 수익률이 일반 적금 대비 현저히 높습니다.</p>
+  <p>정부 기여금은 별도 신청 없이 매달 자동으로 지급되며, 만기까지 유지하면 이자+기여금 전액이 비과세로 수령됩니다. 청년도약계좌와 중복 가입은 불가능하므로 두 상품을 비교한 뒤 본인에게 유리한 상품을 선택하는 것이 중요합니다. 아래 납입액별 비교 시뮬레이터에서 내 납입 계획에 맞는 예상 수령액을 확인하세요.</p>
+
+  <h3>📋 청년미래적금 핵심 스펙</h3>
+  <table>
+    <thead><tr><th>항목</th><th>내용</th></tr></thead>
+    <tbody>
+      <tr><td>출시 시기</td><td><strong>2026년 6월 예정</strong></td></tr>
+      <tr><td>가입 대상</td><td>만 19~34세, 개인소득 6,000만원 이하, 가구 중위소득 200% 이하</td></tr>
+      <tr><td>만기</td><td>3년 (36개월)</td></tr>
+      <tr><td>월 납입 한도</td><td>최대 50만원 (자유적립식)</td></tr>
+      <tr><td>정부 기여금</td><td>일반형 6% / 우대형 12%</td></tr>
+      <tr><td>이자 과세</td><td>만기 유지 시 비과세</td></tr>
+      <tr><td>최대 수령액</td><td>약 2,200만원 (월 50만원 × 36개월, 우대형, 금리 4.5% 가정)</td></tr>
+      <tr><td>가입 채널</td><td>협약 은행 모바일 앱 또는 영업점 (KB국민·신한·우리·하나·농협 예정)</td></tr>
+    </tbody>
+  </table>
+
+  <h2>📐 수령액 계산 공식 — 단리 + 기여금 구조</h2>
+  <p>청년미래적금은 단리 방식으로 이자를 계산하며, 여기에 정부 기여금이 추가됩니다. 이자는 비과세이므로 세금 차감 없이 전액 수령합니다.</p>
+  <p>일반 정기적금과 달리 첫 달 납입액은 36개월 치, 마지막 달 납입액은 1개월 치 이자가 붙는 방식입니다. 위 계산기의 금리 슬라이더를 조정하면 금리 변화에 따른 수령액을 즉시 확인할 수 있으며, 아래 납입액별 비교표도 자동으로 업데이트됩니다.</p>
+
+  <div class="formula-box">
+만기 수령액 = 원금 + 은행 이자(비과세) + 정부 기여금
+
+원금 = 월납입액 × 36개월
+은행 이자 = Σ(월납입액 × 연금리 × 잔여개월/12)  ← 매월 복리 아닌 단리
+정부 기여금 = 월납입액 × 기여금비율 × 36개월
+
+일반형 기여금비율: 6%  /  우대형 기여금비율: 12%
+  </div>
+
+  <div class="tip-box">💡 <strong>계산 예시 (월 50만원, 우대형, 금리 4.5%)</strong><br>
+  원금: 500,000 × 36 = 18,000,000원<br>
+  은행 이자(비과세): 500,000 × 0.045 × (36×37/2)/12 ≈ 1,518,750원<br>
+  정부 기여금(12%): 500,000 × 0.12 × 36 = 2,160,000원<br>
+  <strong>만기 수령액: 약 21,678,750원 → 실질 연 수익률 약 10.6%</strong>
+  </div>
+
+  <h2>🔍 일반형 vs 우대형 — 조건과 혜택 완전 비교</h2>
+  <p>두 유형의 차이는 정부 기여금 비율입니다. 일반형은 납입액의 6%, 우대형은 납입액의 12%를 지원받습니다. 월 50만원 납입 기준으로 3년간 기여금 차이가 108만원에 달하므로, 우대형 조건(중소기업 신규취업 6개월 이내·소상공인)을 충족한다면 반드시 우대형으로 신청해야 합니다.</p>
+  <p>우대형 소득 조건은 개인소득 3,600만원 이하로, 일반형 조건(6,000만원 이하)보다 엄격합니다. 소득 기준은 직전 연도 종합소득세 신고 또는 근로소득 원천징수 자료를 기준으로 하며, 가입 신청 시 은행에서 확인합니다.</p>
+
+  <h3>가입 조건 비교</h3>
+  <table>
+    <thead><tr><th>구분</th><th>일반형</th><th>우대형</th></tr></thead>
+    <tbody>
+      <tr><td>기여금 비율</td><td>납입액의 6%</td><td>납입액의 12%</td></tr>
+      <tr><td>소득 조건</td><td>개인소득 6,000만원 이하</td><td>개인소득 3,600만원 이하</td></tr>
+      <tr><td>추가 조건</td><td>가구 중위소득 200% 이하</td><td>중소기업 신규취업(입사 6개월 이내) 또는 소상공인</td></tr>
+      <tr><td>월 50만원 3년 기여금</td><td><strong>108만원</strong></td><td><strong>216만원</strong></td></tr>
+      <tr><td>실질 연 수익률(금리 4.5%)</td><td>약 8.4%</td><td>약 10.6%</td></tr>
+    </tbody>
+  </table>
+
+  <h3>📊 월 납입액별 예상 수령액 (은행 금리 4.5% 가정)</h3>
+  <table>
+    <thead><tr><th>월 납입액</th><th>원금</th><th>일반형 수령액</th><th>우대형 수령액</th><th>우대형 기여금 혜택</th></tr></thead>
+    <tbody>
+      <tr><td>10만원</td><td>360만원</td><td>약 400만원</td><td>약 439만원</td><td>약 43만원</td></tr>
+      <tr><td>20만원</td><td>720만원</td><td>약 800만원</td><td>약 878만원</td><td>약 86만원</td></tr>
+      <tr><td>30만원</td><td>1,080만원</td><td>약 1,200만원</td><td>약 1,318만원</td><td>약 130만원</td></tr>
+      <tr><td>50만원</td><td>1,800만원</td><td>약 2,001만원</td><td>약 2,168만원</td><td>약 216만원</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:12px;color:var(--text-muted);margin-top:-8px">※ 은행 금리는 출시 시점에 확정됩니다. 실제 수령액과 다를 수 있습니다.</p>
+
+  <h2>📊 청년미래적금 vs 청년도약계좌 vs ISA 비교</h2>
+  <p>청년 대상 주요 저축 상품 3가지를 한눈에 비교합니다. 중복 가입 제한이 있으므로 본인 상황에 맞는 상품을 선택하는 것이 중요합니다.</p>
+  <p>우대형 조건(중소기업 신규취업자·소상공인)에 해당한다면 기여금 12%를 지급하는 청년미래적금이 단연 유리합니다. 5년 장기 저축이 가능하고 소득이 낮은 경우에는 청년도약계좌의 누적 기여금이 더 클 수 있으며, 소득 조건을 충족하지 못하거나 투자 다변화가 필요한 경우에는 ISA가 현실적인 대안입니다.</p>
+  <table>
+    <thead><tr><th>구분</th><th>청년미래적금</th><th>청년도약계좌</th><th>ISA (서민형)</th></tr></thead>
+    <tbody>
+      <tr><td>만기</td><td><strong>3년</strong></td><td>5년</td><td>3년 이상 (자유)</td></tr>
+      <tr><td>정부 지원</td><td>기여금 6~12%</td><td>기여금 3~6%</td><td>없음</td></tr>
+      <tr><td>비과세 혜택</td><td>이자+기여금 전액</td><td>이자+기여금 전액</td><td>400만원 한도 비과세</td></tr>
+      <tr><td>월 한도</td><td>50만원</td><td>70만원</td><td>제한 없음 (연 2,000만원)</td></tr>
+      <tr><td>투자 수단</td><td>적금만</td><td>적금만</td><td>예금·펀드·ETF·채권 등</td></tr>
+      <tr><td>중복 가입</td><td>도약계좌와 불가</td><td>미래적금과 불가</td><td>가능</td></tr>
+      <tr><td>나이 제한</td><td>만 19~34세</td><td>만 19~34세</td><td>만 15세 이상(서민형 34세 이하)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="tip-box">💡 <strong>어떤 상품이 유리할까?</strong><br>
+  · 우대형 조건(중소기업 신규취업자) 해당 → <strong>청년미래적금 우대형</strong>이 가장 유리 (기여금 12% + 비과세)<br>
+  · 5년간 장기 저축 가능하고 소득이 낮을수록 → <strong>청년도약계좌</strong>가 누적 기여금 측면 유리<br>
+  · 투자 다양화 원하거나 소득 조건 미충족 → <strong>ISA</strong>로 ETF·펀드 운용</div>
+
+  <h2>📋 청년미래적금 가입 전 체크리스트</h2>
+  <p>청년미래적금은 3년 만기를 유지해야 모든 혜택을 받을 수 있습니다. 가입 전 아래 다섯 가지 사항을 반드시 확인하고, 3년간 납입을 지속할 수 있는지 자금 계획을 먼저 세우세요.</p>
+  <p>특히 현재 청년도약계좌를 유지 중이라면 환승 시 기존 도약계좌의 남은 기간과 누적 기여금을 꼼꼼히 비교해야 합니다. 무조건 갈아타는 것이 유리하지 않을 수 있으므로 본인 상황에 맞게 판단하세요.</p>
+  <ol>
+    <li><strong>나이 확인</strong>: 가입 시점 기준 만 19세 이상 ~ 34세 이하인지 확인</li>
+    <li><strong>소득 조건</strong>: 직전 연도 개인소득 6,000만원(우대형 3,600만원) 이하인지 확인 — 국세청 홈택스에서 소득 확인 가능</li>
+    <li><strong>청년도약계좌 가입 여부</strong>: 현재 도약계좌 유지 중이라면 환승 여부 결정 필요</li>
+    <li><strong>우대형 해당 여부</strong>: 입사 6개월 이내 중소기업 재직자라면 우대형 신청 — 기여금 2배</li>
+    <li><strong>3년 유지 가능 여부</strong>: 중도 해지 시 기여금 전액 미지급, 이자 비과세 취소 → 장기 유지 계획 수립 필수</li>
+  </ol>
+
+  <div class="warn-box">⚠️ <strong>중도해지 시 손실 예시</strong>: 월 50만원씩 18개월 납입 후 해지하면 정부 기여금 0원 + 이자에 15.4% 세금 부과. 원금 900만원에 세후 이자 약 19만원만 수령하게 됩니다. 납입 원금 대비 실질 손실은 없지만 기대했던 기여금 혜택을 모두 잃게 됩니다. 3년 만기를 반드시 유지하세요.</div>
+
+  <h2>자주 묻는 질문 (FAQ)</h2>
+  <p>청년미래적금에 대해 가장 많이 묻는 8가지 질문을 정리했습니다. 가입 시기·우대형 조건·중도해지 불이익·ISA 병행 가능 여부 등을 꼼꼼히 확인하세요.</p>
+  <p>※ 이 계산기는 2026년 3월 기준 발표된 내용을 바탕으로 제작되었습니다. 은행 금리·세부 규정은 2026년 6월 출시 시점에 최종 확정되므로, 실제 가입 전 금융위원회 공식 발표 및 가입 은행 안내를 반드시 확인하시기 바랍니다.</p>
+  <details><summary>청년미래적금은 언제, 어디서 가입하나요?</summary><div class="faq-answer">2026년 6월 출시 예정입니다. KB국민, 신한, 우리, 하나, 농협 등 협약 은행의 모바일 앱 또는 영업점에서 신청할 수 있습니다. 출시 초기에는 접속이 몰릴 수 있으므로 출시 당일 오전 일찍 앱으로 신청하는 것을 권장합니다. 가입 전 앱 업데이트와 공인인증서(또는 공동인증서)를 미리 준비해 두세요.</div></details>
+  <details><summary>청년도약계좌를 유지하면서 청년미래적금에 가입할 수 있나요?</summary><div class="faq-answer">아닙니다. 두 상품은 중복 가입이 불가능합니다. 청년도약계좌 가입자는 갈아타기(환승)가 허용될 예정이나, 기존 도약계좌의 남은 기간과 누적 기여금 수령액을 꼼꼼히 비교한 후 결정하세요. 우대형 조건을 충족한다면 미래적금이 기여금 측면에서 유리할 수 있습니다.</div></details>
+  <details><summary>우대형 조건인 '중소기업 신규취업자'는 어떻게 확인하나요?</summary><div class="faq-answer">건강보험 직장가입자 자격 취득일 기준 6개월 이내인 중소기업 재직자가 해당됩니다. 중소기업 여부는 중소기업확인서(중소벤처기업부 발급) 또는 사업자등록 업종·매출 기준으로 판단하며, 신청 시 은행에서 서류를 안내합니다. 취업 직후 바로 신청하는 것이 유리합니다.</div></details>
+  <details><summary>만기 전 해지하면 정부 기여금은 어떻게 되나요?</summary><div class="faq-answer">중도 해지 시 정부 기여금은 전액 지급되지 않습니다. 또한 이자에 15.4%(소득세 14% + 지방소득세 1.4%)가 부과되며 비과세 혜택도 사라집니다. 사망·해외이주·폐업·천재지변 등 불가피한 사유에 한해 불이익 없는 특별 해지가 허용될 수 있으니 해당 상황이라면 은행에 먼저 문의하세요.</div></details>
+  <details><summary>자유적립식이라 매달 금액을 다르게 넣어도 되나요?</summary><div class="faq-answer">네, 청년미래적금은 자유적립식이므로 매달 납입액을 다르게 설정할 수 있습니다. 다만 월 최대 50만원이 한도이며, 정부 기여금은 실제 납입액 기준으로 지급됩니다. 소득이 불규칙한 프리랜서나 소상공인도 여건에 따라 유연하게 납입 가능합니다. 납입을 건너뛰는 달이 있어도 중도 해지가 아닌 이상 불이익은 없습니다.</div></details>
+  <details><summary>ISA 계좌와 청년미래적금을 동시에 이용할 수 있나요?</summary><div class="faq-answer">네, ISA 계좌와 청년미래적금은 중복 가입이 가능합니다. ISA는 연 2,000만원 한도 내에서 예금·펀드·ETF 등을 운용할 수 있고, 청년미래적금은 월 최대 50만원의 적금 상품입니다. 두 상품을 병행하면 비과세 혜택과 투자 다변화를 동시에 누릴 수 있습니다.</div></details>
+  <details><summary>청년미래적금 계산기 결과와 실제 수령액이 다를 수 있나요?</summary><div class="faq-answer">네, 차이가 날 수 있습니다. 이 계산기는 단리 방식과 일정 금리를 가정해 추정하며, 실제 은행 금리는 2026년 6월 출시 시점에 확정됩니다. 또한 납입일·이자 계산 기준일 등 은행별 세부 정책에 따라 실제 수령액이 달라질 수 있습니다. 참고용으로 활용하시고 최종 금액은 가입 은행에서 확인하세요.</div></details>
+  <details><summary>만기 후 재예치하면 기여금을 또 받을 수 있나요?</summary><div class="faq-answer">현재 발표된 내용 기준으로는 청년미래적금은 1인 1계좌 원칙이며, 만기 후 재가입 허용 여부는 2026년 6월 출시 공고에서 확정될 예정입니다. 청년도약계좌도 만기 후 재가입은 불가했으므로, 만기 후에는 ISA 등 다른 절세 계좌로 자금을 운용하는 것을 미리 계획하는 것이 좋습니다.</div></details>
+</div>
+
+
+
+
 </body>
 </html>
