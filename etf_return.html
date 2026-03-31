@@ -105,11 +105,11 @@
       <div class="row2">
         <div class="input-group">
           <label>매수 금액</label>
-          <div class="input-wrapper"><input type="number" id="d-buy" placeholder="1000000" /><span class="input-unit">원</span></div>
+          <div class="input-wrapper"><input type="number" id="d-buy" placeholder="1000000" value="1000000" /><span class="input-unit">원</span></div>
         </div>
         <div class="input-group">
           <label>매도 금액</label>
-          <div class="input-wrapper"><input type="number" id="d-sell" placeholder="1200000" /><span class="input-unit">원</span></div>
+          <div class="input-wrapper"><input type="number" id="d-sell" placeholder="1200000" value="1200000" /><span class="input-unit">원</span></div>
         </div>
       </div>
       <div class="row2">
@@ -269,6 +269,7 @@ function calcAccountSim(){
     `<div style="font-size:12px;color:var(--text-muted);padding:8px 4px">※ IRP는 55세 이후 연금 수령 시 3.3~5.5% 적용. 일시 수령·중도 해지 시 16.5% 기타소득세.</div>`;
 }
 calcAccountSim();
+window.onload = () => calcDomestic();
 </script>
 
 <style>

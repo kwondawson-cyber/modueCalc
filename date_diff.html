@@ -381,10 +381,13 @@ function updateJoinSim() {
 document.addEventListener('DOMContentLoaded', function() {
   var today = new Date();
   var y = today.getFullYear(), m = String(today.getMonth()+1).padStart(2,'0'), d = String(today.getDate()).padStart(2,'0');
-  document.getElementById('sim-join-date').value = y+'-'+m+'-'+d;
-  // 기본값: 오늘 기준 1년 전
+  // 메인 날짜 계산기: 시작=1년 전, 종료=오늘
   var oneYearAgo = new Date(today); oneYearAgo.setFullYear(oneYearAgo.getFullYear()-1);
   var y2=oneYearAgo.getFullYear(), m2=String(oneYearAgo.getMonth()+1).padStart(2,'0'), d2=String(oneYearAgo.getDate()).padStart(2,'0');
+  document.getElementById('startDate').value = y2+'-'+m2+'-'+d2;
+  document.getElementById('endDate').value   = y+'-'+m+'-'+d;
+  calcDiff();
+  // 입사일 시뮬레이터 기본값
   document.getElementById('sim-join-date').value = y2+'-'+m2+'-'+d2;
   updateJoinSim();
 });

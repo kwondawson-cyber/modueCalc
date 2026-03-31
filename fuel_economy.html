@@ -96,10 +96,10 @@
     <div class="tab-panel active" id="tab-real">
       <div class="card-title">⛽ 실제 연비 계산</div>
       <div class="info-box">💡 주유 후 주행 거리와 주유량을 입력하면 실제 연비를 계산합니다. 만탱크 → 주행 → 만탱크 방식이 가장 정확합니다.</div>
-      <div class="input-group"><label>주행 거리</label><div class="input-wrapper"><input type="number" id="r1-distance" placeholder="450" /><span class="input-unit">km</span></div></div>
-      <div class="input-group"><label>주유량</label><div class="input-wrapper"><input type="number" id="r1-fuel" placeholder="40" /><span class="input-unit">리터 (L)</span></div></div>
+      <div class="input-group"><label>주행 거리</label><div class="input-wrapper"><input type="number" id="r1-distance" placeholder="450" value="450" /><span class="input-unit">km</span></div></div>
+      <div class="input-group"><label>주유량</label><div class="input-wrapper"><input type="number" id="r1-fuel" placeholder="40" value="40" /><span class="input-unit">리터 (L)</span></div></div>
       <div class="input-group"><label>연료 종류</label><div class="seg-group" id="r1-fuelType"><button class="seg-btn active" data-fuel="휘발유" onclick="selectFuel(this,'r1-fuelType')">휘발유</button><button class="seg-btn" data-fuel="경유" onclick="selectFuel(this,'r1-fuelType')">경유</button><button class="seg-btn" data-fuel="LPG" onclick="selectFuel(this,'r1-fuelType')">LPG</button></div></div>
-      <div class="input-group"><label>리터당 유가 (선택)</label><div class="input-wrapper"><input type="number" id="r1-price" placeholder="1650" /><span class="input-unit">원/L</span></div></div>
+      <div class="input-group"><label>리터당 유가 (선택)</label><div class="input-wrapper"><input type="number" id="r1-price" placeholder="1650" value="1650" /><span class="input-unit">원/L</span></div></div>
       <button class="calc-btn" onclick="calcReal()">⛽ 연비 계산하기</button>
     </div>
     <div class="tab-panel" id="tab-trip">
@@ -417,6 +417,8 @@ function calcCompare() {
 fuelTypes['r1-fuelType'] = '휘발유';
 fuelTypes['r2-fuelType'] = '휘발유';
 fuelTypes['r3-fuelType'] = '휘발유';
+
+window.onload = () => calcReal();
 </script><script src="/common.js" defer></script><script src="/share.js" defer></script><script src="/calculator.js" defer></script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{});});}</script>
 </body>

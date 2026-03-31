@@ -134,7 +134,7 @@
   <div class="card">
     <h2>🥩 재료비 (변동비)</h2>
     <div id="material-list">
-      <div class="cost-row"><input class="name" type="text" placeholder="항목명 (예: 원두)" value="재료 1" /><input class="amt" type="number" placeholder="금액(원)" /><button class="btn-del" onclick="delRow(this)">✕</button></div>
+      <div class="cost-row"><input class="name" type="text" placeholder="항목명 (예: 원두)" value="재료 1" /><input class="amt" type="number" placeholder="금액(원)" value="3000" /><button class="btn-del" onclick="delRow(this)">✕</button></div>
     </div>
     <button class="btn-add" onclick="addRow('material-list')">＋ 재료 항목 추가</button>
     <div class="section-total">재료비 소계: <span id="material-total">0원</span></div>
@@ -150,7 +150,7 @@
     <div class="row2">
       <div class="form-group">
         <label>제품 1개당 제조 시간 (분)</label>
-        <input type="number" id="mfgMin" placeholder="예: 5" />
+        <input type="number" id="mfgMin" placeholder="예: 5" value="5" />
       </div>
       <div class="form-group">
         <label>1회 생산 수량 (개)</label>
@@ -163,7 +163,7 @@
   <div class="card">
     <h2>📦 포장비·기타 변동비</h2>
     <div id="pack-list">
-      <div class="cost-row"><input class="name" type="text" placeholder="항목명 (예: 봉투·박스)" value="포장재" /><input class="amt" type="number" placeholder="금액(원)" /><button class="btn-del" onclick="delRow(this)">✕</button></div>
+      <div class="cost-row"><input class="name" type="text" placeholder="항목명 (예: 봉투·박스)" value="포장재" /><input class="amt" type="number" placeholder="금액(원)" value="300" /><button class="btn-del" onclick="delRow(this)">✕</button></div>
     </div>
     <button class="btn-add" onclick="addRow('pack-list')">＋ 항목 추가</button>
     <div class="section-total">포장비 소계: <span id="pack-total">0원</span></div>
@@ -173,14 +173,14 @@
   <div class="card">
     <h2>🏪 월 고정비 (제품당 배분)</h2>
     <div id="fixed-list">
-      <div class="cost-row"><input class="name" type="text" value="임차료" /><input class="amt" type="number" placeholder="월 금액(원)" /></div>
-      <div class="cost-row"><input class="name" type="text" value="전기·수도·가스" /><input class="amt" type="number" placeholder="월 금액(원)" /></div>
+      <div class="cost-row"><input class="name" type="text" value="임차료" /><input class="amt" type="number" placeholder="월 금액(원)" value="1000000" /></div>
+      <div class="cost-row"><input class="name" type="text" value="전기·수도·가스" /><input class="amt" type="number" placeholder="월 금액(원)" value="200000" /></div>
     </div>
     <button class="btn-add" onclick="addRow('fixed-list', false)">＋ 고정비 추가</button>
     <div class="section-total">월 고정비 합계: <span id="fixed-total">0원</span></div>
     <div class="form-group" style="margin-top:14px">
       <label>월 판매 예상 수량 (개) — 고정비 배분 기준</label>
-      <input type="number" id="monthlyQty" placeholder="예: 500" />
+      <input type="number" id="monthlyQty" placeholder="예: 500" value="300" />
     </div>
   </div>
 
@@ -434,6 +434,8 @@ function runSimulation(){
       ${bep>0?`손익분기점: <strong style="color:var(--accent)">${bep.toLocaleString()}개</strong>/월 판매 필요 ${qty>=bep?'<span style="color:#00d4aa">✅ 달성!</span>':`(${bep-qty}개 더 필요)`}`:'고정비를 입력하면 BEP가 계산됩니다.'}
     </div>`;
 }
+
+window.onload = () => calcCost();
 </script>
 </body>
 </html>

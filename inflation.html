@@ -318,7 +318,39 @@
   window.onload=()=>{
     document.getElementById('endYear').value = new Date().getFullYear();
     calculate();
+    updateInflationSim();
   };
+
+  function updateInflationSim() {
+    const amount = parseInt(document.getElementById('sim-amount').value) || 1000000;
+    const years  = parseInt(document.getElementById('sim-years').value)  || 10;
+    const amtW   = amount >= 10000 ? (amount/10000).toLocaleString() + '만원' : amount.toLocaleString() + '원';
+    document.getElementById('sim-amount-label').textContent = amtW;
+    document.getElementById('sim-years-label').textContent  = years + '년 후';
+
+    const rates  = [1, 2, 2.5, 3, 4, 5];
+    const colors = ['#00d4aa','#4caf50','#f0c040','#ffa500','#ff8a65','#ff6b6b'];
+    const fmt    = n => Math.round(n).toLocaleString('ko-KR') + '원';
+    const maxPV  = amount; // 100%
+
+    const el = document.getElementById('inflationSimResult');
+    el.innerHTML = rates.map((r, i) => {
+      const pv   = amount / Math.pow(1 + r/100, years);  // 현재가치 기준 구매력
+      const pct  = (pv / amount * 100).toFixed(1);
+      const need = Math.round(amount * Math.pow(1 + r/100, years)); // 동일 구매력 유지에 필요한 금액
+      const barW = Math.round(pv / amount * 100);
+      return `<div style="margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+          <span style="font-size:12px;font-weight:700;color:${colors[i]}">물가 상승률 ${r}%</span>
+          <span style="font-size:12px;color:#8b949e">${years}년 후 구매력 <strong style="color:${colors[i]}">${pct}%</strong> (${fmt(Math.round(pv))})</span>
+        </div>
+        <div style="height:8px;background:#21262d;border-radius:4px;overflow:hidden;margin-bottom:3px">
+          <div style="height:100%;width:${barW}%;background:${colors[i]};border-radius:4px;transition:width .3s"></div>
+        </div>
+        <div style="font-size:11px;color:#8b949e">동일 생활수준 유지에 ${years}년 후 <strong style="color:${colors[i]}">${fmt(need)}</strong> 필요</div>
+      </div>`;
+    }).join('');
+  }
 </script>
 
 <style>
@@ -350,6 +382,34 @@
 .seo-section details[open]{background:#161b22}
 .seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
 </style>
+
+<!-- 물가 상승률 시나리오 시뮬레이터 -->
+<div style="max-width:680px;margin:0 auto;padding:0 20px 16px">
+  <div style="background:#161b22;border:1px solid rgba(0,212,170,.2);border-radius:16px;padding:24px" id="simCard">
+    <div style="font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:14px">📉 구매력 시나리오 비교 — 물가 상승률별 돈의 가치</div>
+    <p style="font-size:12px;color:#8b949e;margin-bottom:16px;line-height:1.7">지금의 100만원이 물가 상승률에 따라 몇 년 후에는 얼마의 구매력을 갖는지 비교합니다. 슬라이더로 기간을 조정하세요.</p>
+    <div style="margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <label style="font-size:12px;color:#8b949e;font-weight:600">기준 금액</label>
+        <span id="sim-amount-label" style="font-size:13px;font-weight:700;color:var(--accent)">100만원</span>
+      </div>
+      <input type="range" id="sim-amount" min="100000" max="10000000" step="100000" value="1000000"
+        oninput="updateInflationSim()" style="width:100%;accent-color:var(--accent)">
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:#8b949e;margin-top:3px"><span>10만원</span><span>1,000만원</span></div>
+    </div>
+    <div style="margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <label style="font-size:12px;color:#8b949e;font-weight:600">기간</label>
+        <span id="sim-years-label" style="font-size:13px;font-weight:700;color:var(--accent)">10년 후</span>
+      </div>
+      <input type="range" id="sim-years" min="1" max="40" step="1" value="10"
+        oninput="updateInflationSim()" style="width:100%;accent-color:var(--accent)">
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:#8b949e;margin-top:3px"><span>1년</span><span>40년</span></div>
+    </div>
+    <div id="inflationSimResult"></div>
+  </div>
+</div>
+
 <div class="rel-section">
   <h2>📌 함께 쓰면 유용한 계산기</h2>
   <div class="rel-grid">
