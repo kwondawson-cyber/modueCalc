@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>환율 계산기</title>
-  <!-- TODO: 앱인토스 SDK 교체 -->
-  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>환율 계산기 | 모두의계산기</title>
+  <meta name="description" content="환율 계산기 — 실시간 환율 기반 원화↔외화 자동 변환. 주요 통화 환율 정보, 고시 환율과 실거래 환율 차이, 환전 수수료 절감 방법, 엔화 100단위 표기 이유 포함." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" /></noscript>
   <style>
-
     :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--radius:16px}
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-    
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
     .container{max-width:640px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
     .nav{text-align:center;margin-bottom:32px}.nav a{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:3px;color:var(--accent);text-decoration:none;text-transform:uppercase}
     .header{text-align:center;margin-bottom:40px}
@@ -56,56 +57,30 @@
     @media(max-width:480px){.card{padding:20px 16px}.rate-grid{grid-template-columns:1fr}.exchange-row input{font-size:30px}.currency-select-wrap{min-width:110px}}
 
     /* ── 홈 버튼 ── */
-    
-    
-    
-    
-    
+    .home-btn-wrap { text-align: center; margin-bottom: 8px; }
+    .home-btn {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      width: 54px; height: 54px;
+      background: rgba(0,212,170,0.08);
+      border: 1.5px solid rgba(0,212,170,0.35);
+      border-radius: 50%;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .home-btn:hover { background: rgba(0,212,170,0.18); transform: translateY(-2px); }
+    .home-btn-emoji { font-size: 20px; line-height: 1; }
+    .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    .home-btn-wrap{text-align:center;margin-bottom:8px}
-    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
-    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
-    .home-btn-emoji{font-size:20px;line-height:1}
-    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+.rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+.rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+.rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
 
     .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
     .toss-header>.emoji{font-size:28px;flex-shrink:0}
@@ -118,84 +93,118 @@
     .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
     .ni-emoji{font-size:20px}
     .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
-
-    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+    .calc-guide{margin-top:20px;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .calc-guide-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:12px}
+    .calc-guide-desc{font-size:13px;color:var(--text-muted);line-height:1.8;margin-bottom:12px}
+    .calc-guide-basis{font-size:12px;color:var(--text-muted);padding:10px 14px;background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;line-height:1.7}
+    .disclaimer{text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280}
+    @media(max-width:360px){.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
 
   </style>
+
 </head>
 <body>
 <div class="container">
-  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
-  <div class="toss-header">
+    <div class="toss-header">
     <span class="emoji">💱</span>
-    <div><h1>환율 계산기</h1><p>달러·엔·유로 원화 환산</p></div>
+    <div><h1>환율 계산기</h1><p>실시간 환율 기준 주요 통화 환산</p></div>
+  </div>
+  <div class="card">
+    <div class="live-badge"><span class="live-dot"></span> 실시간 환율</div>
+    <div class="exchange-box">
+      <label>변환할 금액</label>
+      <div class="exchange-row">
+        <input type="number" id="fromAmount" value="100" placeholder="0" oninput="convert()" data-ec-comma="skip" />
+        <div class="currency-select-wrap">
+          <span class="currency-name" id="fromName">달러</span>
+          <span class="currency-code" id="fromCode">USD</span>
+          <select id="fromCurrency" onchange="onCurrencyChange()">
+            <option value="USD" selected>달러 USD</option>
+            <option value="KRW">원 KRW</option>
+            <option value="JPY">엔화 JPY</option>
+            <option value="EUR">유로 EUR</option>
+            <option value="CNY">위안 CNY</option>
+            <option value="GBP">파운드 GBP</option>
+            <option value="HKD">홍콩달러 HKD</option>
+            <option value="SGD">싱가포르달러 SGD</option>
+            <option value="AUD">호주달러 AUD</option>
+            <option value="CAD">캐나다달러 CAD</option>
+            <option value="CHF">스위스프랑 CHF</option>
+            <option value="THB">바트 THB</option>
+            <option value="VND">동 VND</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="swap-area">
+      <button class="swap-btn" onclick="swapCurrencies()">⇅</button>
+    </div>
+    <div class="exchange-box">
+      <label>환산 결과</label>
+      <div class="exchange-row">
+        <input type="text" id="toAmount" placeholder="0" readonly style="color:var(--accent);background:transparent;border:none;font-size:40px;font-weight:700;font-family:'Montserrat',sans-serif;outline:none;min-width:0;flex:1" data-ec-comma="skip" />
+        <div class="currency-select-wrap">
+          <span class="currency-name" id="toName">원</span>
+          <span class="currency-code" id="toCode">KRW</span>
+          <select id="toCurrency" onchange="onCurrencyChange()">
+            <option value="KRW" selected>원 KRW</option>
+            <option value="USD">달러 USD</option>
+            <option value="JPY">엔화 JPY</option>
+            <option value="EUR">유로 EUR</option>
+            <option value="CNY">위안 CNY</option>
+            <option value="GBP">파운드 GBP</option>
+            <option value="HKD">홍콩달러 HKD</option>
+            <option value="SGD">싱가포르달러 SGD</option>
+            <option value="AUD">호주달러 AUD</option>
+            <option value="CAD">캐나다달러 CAD</option>
+            <option value="CHF">스위스프랑 CHF</option>
+            <option value="THB">바트 THB</option>
+            <option value="VND">동 VND</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="rate-display" id="rateDisplay"><div>⏳ 환율 불러오는 중...</div></div>
+  </div>
+  <div class="card">
+    <div class="card-title">주요 통화 (원화 환산)</div>
+    <div id="rateGrid"><div class="loading">⏳ 실시간 환율 불러오는 중...</div></div>
+    <div class="notice">📌 환율 출처: ExchangeRate-API · 매일 1회 업데이트 · 실제 거래 환율과 다를 수 있습니다.</div>
   </div>
 
+  <!-- 환전 비용 비교 시뮬레이터 -->
+  <div class="card">
+    <div class="card-title">💰 환전 방법별 비용 비교</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;line-height:1.7">환전 금액과 통화를 입력하면 방법별 수수료 차이와 실수령액을 비교합니다.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+      <div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px;font-weight:600">환전할 원화 금액</div>
+        <input type="number" id="sim-krw" placeholder="예: 1000000" value="1000000"
+          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:16px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none"
+          oninput="calcExchangeSim()" />
+      </div>
+      <div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px;font-weight:600">통화</div>
+        <select id="sim-currency" onchange="calcExchangeSim()"
+          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:15px;color:var(--text);outline:none;font-family:'Noto Sans KR',sans-serif">
+          <option value="USD">🇺🇸 달러 USD</option>
+          <option value="JPY">🇯🇵 엔화 JPY</option>
+          <option value="EUR">🇪🇺 유로 EUR</option>
+          <option value="CNY">🇨🇳 위안 CNY</option>
+          <option value="THB">🇹🇭 바트 THB</option>
+          <option value="VND">🇻🇳 동 VND</option>
+        </select>
+      </div>
+    </div>
+    <div id="simResult" style="display:none"></div>
+  </div>
 
-
-<div class="card">
-<div class="live-badge"><span class="live-dot"></span> 실시간 환율</div>
-<div class="exchange-box">
-<label>변환할 금액</label>
-<div class="exchange-row">
-<input id="fromAmount" oninput="convert()" placeholder="0" type="number" value="100"/>
-<div class="currency-select-wrap">
-<span class="currency-name" id="fromName">달러</span>
-<span class="currency-code" id="fromCode">USD</span>
-<select id="fromCurrency" onchange="onCurrencyChange()">
-<option selected="" value="USD">달러 USD</option>
-<option value="KRW">원 KRW</option>
-<option value="JPY">엔화 JPY</option>
-<option value="EUR">유로 EUR</option>
-<option value="CNY">위안 CNY</option>
-<option value="GBP">파운드 GBP</option>
-<option value="HKD">홍콩달러 HKD</option>
-<option value="SGD">싱가포르달러 SGD</option>
-<option value="AUD">호주달러 AUD</option>
-<option value="CAD">캐나다달러 CAD</option>
-<option value="CHF">스위스프랑 CHF</option>
-<option value="THB">바트 THB</option>
-<option value="VND">동 VND</option>
-</select>
-</div>
-</div>
-</div>
-<div class="swap-area">
-<button class="swap-btn" onclick="swapCurrencies()">⇅</button>
-</div>
-<div class="exchange-box">
-<label>환산 결과</label>
-<div class="exchange-row">
-<input id="toAmount" placeholder="0" readonly="" style="color:var(--accent)" type="number"/>
-<div class="currency-select-wrap">
-<span class="currency-name" id="toName">원</span>
-<span class="currency-code" id="toCode">KRW</span>
-<select id="toCurrency" onchange="onCurrencyChange()">
-<option selected="" value="KRW">원 KRW</option>
-<option value="USD">달러 USD</option>
-<option value="JPY">엔화 JPY</option>
-<option value="EUR">유로 EUR</option>
-<option value="CNY">위안 CNY</option>
-<option value="GBP">파운드 GBP</option>
-<option value="HKD">홍콩달러 HKD</option>
-<option value="SGD">싱가포르달러 SGD</option>
-<option value="AUD">호주달러 AUD</option>
-<option value="CAD">캐나다달러 CAD</option>
-<option value="CHF">스위스프랑 CHF</option>
-<option value="THB">바트 THB</option>
-<option value="VND">동 VND</option>
-</select>
-</div>
-</div>
-</div>
-<div class="rate-display" id="rateDisplay"><div>⏳ 환율 불러오는 중...</div></div>
-</div>
-<div class="card">
-<div class="card-title">주요 통화 (원화 환산)</div>
-<div id="rateGrid"><div class="loading">⏳ 실시간 환율 불러오는 중...</div></div>
-<div class="notice">📌 환율 출처: ExchangeRate-API · 매일 1회 업데이트 · 실제 거래 환율과 다를 수 있습니다.</div>
-</div>
-
+  <div class="disclaimer">본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.</div>
+  <div class="calc-guide">
+    <div class="calc-guide-title">📋 사용 방법</div>
+    <div class="calc-guide-desc">금액과 통화를 선택하면 실시간 환율 기반으로 자동 환산합니다. 주요 통화 환율표도 함께 확인할 수 있습니다.</div>
+    <div class="calc-guide-basis">📌 계산 기준: ExchangeRate-API 실시간 환율 기준 · 매일 1회 업데이트 · 실제 거래 환율과 다를 수 있음</div>
+  </div>
   <div class="toss-nav">
     <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
     <div class="toss-nav-grid">
@@ -207,7 +216,7 @@
   </div>
 </div>
 <script>
-const API_KEY='9eff9fb23e303328b51b2cce';
+  const API_KEY='9eff9fb23e303328b51b2cce';
   const flags={KRW:'🇰🇷',USD:'🇺🇸',JPY:'🇯🇵',EUR:'🇪🇺',CNY:'🇨🇳',GBP:'🇬🇧',HKD:'🇭🇰',SGD:'🇸🇬',AUD:'🇦🇺',CAD:'🇨🇦',CHF:'🇨🇭',THB:'🇹🇭',VND:'🇻🇳'};
   const shortNames={KRW:'원',USD:'달러',JPY:'엔화',EUR:'유로',CNY:'위안',GBP:'파운드',HKD:'홍콩달러',SGD:'싱가포르달러',AUD:'호주달러',CAD:'캐나다달러',CHF:'스위스프랑',THB:'바트',VND:'동'};
   const fullNames={KRW:'한국 원',USD:'미국 달러',JPY:'일본 엔',EUR:'유로',CNY:'중국 위안',GBP:'영국 파운드',HKD:'홍콩 달러',SGD:'싱가포르 달러',AUD:'호주 달러',CAD:'캐나다 달러',CHF:'스위스 프랑',THB:'태국 바트',VND:'베트남 동'};
@@ -261,8 +270,17 @@ const API_KEY='9eff9fb23e303328b51b2cce';
   }
 
   function swapCurrencies(){
-    const f=document.getElementById('fromCurrency'),t=document.getElementById('toCurrency'),tmp=f.value;
-    f.value=t.value;t.value=tmp;onCurrencyChange();
+    const f=document.getElementById('fromCurrency'),t=document.getElementById('toCurrency');
+    const fromAmt=document.getElementById('fromAmount');
+    const toAmt=document.getElementById('toAmount');
+    // 현재 결과값(콤마 제거한 숫자)을 fromAmount로 이동
+    const currentResult = toAmt.value.replace(/,/g,'');
+    const tmp=f.value;
+    f.value=t.value; t.value=tmp;
+    if(currentResult && parseFloat(currentResult)){
+      fromAmt.value=parseFloat(currentResult);
+    }
+    onCurrencyChange();
   }
 
   function renderRateGrid(){
@@ -275,8 +293,58 @@ const API_KEY='9eff9fb23e303328b51b2cce';
       </div>`;
     }).join('');
     document.getElementById('rateGrid').className='rate-grid';
+    calcExchangeSim();
+  }
+
+  // 통화별 스프레드율
+  const SPREADS = {
+    USD:{bank:1.75,travel:0.3,airport:4.0},
+    JPY:{bank:1.75,travel:0.3,airport:4.5},
+    EUR:{bank:1.75,travel:0.5,airport:4.5},
+    CNY:{bank:2.5,travel:1.0,airport:5.0},
+    THB:{bank:3.5,travel:1.5,airport:6.0},
+    VND:{bank:4.0,travel:2.0,airport:7.0},
+  };
+
+  function calcExchangeSim(){
+    const krw = parseFloat(document.getElementById('sim-krw').value)||0;
+    const cur = document.getElementById('sim-currency').value;
+    const el  = document.getElementById('simResult');
+    if(!krw||!rates.KRW){el.style.display='none';return;}
+    const base = fromKRW(krw, cur); // 기준율로 환산
+    const sp   = SPREADS[cur]||{bank:2,travel:0.5,airport:5};
+    const bankAmt   = base * (1 - sp.bank/100);
+    const travelAmt = base * (1 - sp.travel/100);
+    const airportAmt= base * (1 - sp.airport/100);
+    const iJpy = cur==='JPY'||cur==='VND';
+    const f2 = n => iJpy ? Math.round(n).toLocaleString() : n.toFixed(2);
+    const diff1 = Math.round((travelAmt - bankAmt) / base * krw);
+    const diff2 = Math.round((travelAmt - airportAmt) / base * krw);
+    el.style.display='block';
+    el.innerHTML=`
+      <div style="display:grid;grid-template-columns:1fr;gap:8px">
+        ${[
+          {label:'🏦 시중 은행 창구',val:bankAmt,fee:sp.bank,color:'var(--text-muted)',note:'일반 창구'},
+          {label:'📱 트래블카드·앱',val:travelAmt,fee:sp.travel,color:'var(--accent)',note:'최저 수수료'},
+          {label:'✈️ 공항 환전소',val:airportAmt,fee:sp.airport,color:'#ff6b6b',note:'가장 불리'},
+        ].map(r=>`
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px">
+            <div>
+              <div style="font-size:13px;font-weight:700;color:${r.color}">${r.label}</div>
+              <div style="font-size:11px;color:var(--text-muted)">수수료율 약 ${r.fee}% · ${r.note}</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-size:17px;font-weight:900;font-family:Montserrat,sans-serif;color:${r.color}">${f2(r.val)} ${cur}</div>
+            </div>
+          </div>`).join('')}
+        <div style="padding:10px 14px;background:rgba(0,212,170,.05);border:1px solid rgba(0,212,170,.2);border-radius:10px;font-size:13px;color:var(--text-muted)">
+          💡 트래블카드 vs 은행 창구: <strong style="color:var(--accent)">약 ${diff1.toLocaleString()}원</strong> 절약 &nbsp;|&nbsp;
+          트래블카드 vs 공항: <strong style="color:var(--accent)">약 ${diff2.toLocaleString()}원</strong> 절약
+        </div>
+      </div>`;
   }
   window.onload=fetchRates;
 </script>
+
 </body>
 </html>

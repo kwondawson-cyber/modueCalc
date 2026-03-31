@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>물가상승률 계산기</title>
-  <!-- TODO: 앱인토스 SDK 교체 -->
-  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>물가상승률 계산기 | 모두의계산기</title>
+  <meta name="description" content="물가상승률 계산기 — 연도별 소비자물가지수(CPI) 기반 실질 구매력 변화 계산. 한국 연도별 물가상승률(통계청), 실질금리, 연금 물가 연동, 자산 가치 변화 포함." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" /></noscript>
   <style>
-
     :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--radius:16px}
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-    
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
     .container{max-width:640px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
     .nav{text-align:center;margin-bottom:32px}.nav a{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:3px;color:var(--accent);text-decoration:none;text-transform:uppercase}
     .header{text-align:center;margin-bottom:40px}
@@ -56,56 +57,30 @@
     @media(max-width:480px){.card{padding:20px 16px}.input-row{grid-template-columns:1fr}}
 
     /* ── 홈 버튼 ── */
-    
-    
-    
-    
-    
+    .home-btn-wrap { text-align: center; margin-bottom: 8px; }
+    .home-btn {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      width: 54px; height: 54px;
+      background: rgba(0,212,170,0.08);
+      border: 1.5px solid rgba(0,212,170,0.35);
+      border-radius: 50%;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .home-btn:hover { background: rgba(0,212,170,0.18); transform: translateY(-2px); }
+    .home-btn-emoji { font-size: 20px; line-height: 1; }
+    .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    .home-btn-wrap{text-align:center;margin-bottom:8px}
-    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
-    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
-    .home-btn-emoji{font-size:20px;line-height:1}
-    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+.rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+.rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+.rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
 
     .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
     .toss-header>.emoji{font-size:28px;flex-shrink:0}
@@ -118,102 +93,199 @@
     .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
     .ni-emoji{font-size:20px}
     .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
-
-    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+    .calc-guide{margin-top:20px;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .calc-guide-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:12px}
+    .calc-guide-desc{font-size:13px;color:var(--text-muted);line-height:1.8;margin-bottom:12px}
+    .calc-guide-basis{font-size:12px;color:var(--text-muted);padding:10px 14px;background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;line-height:1.7}
+    .disclaimer{text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280}
+    @media(max-width:360px){.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
 
   </style>
+
 </head>
 <body>
 <div class="container">
-  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
-  <div class="toss-header">
+    <div class="toss-header">
     <span class="emoji">📈</span>
-    <div><h1>물가상승률 계산기</h1><p>현재가치·미래가치 계산</p></div>
+    <div><h1>물가상승률 계산기</h1><p>과거 금액의 현재 가치 · 미래 가치 계산</p></div>
   </div>
 
-
-
-<div class="card">
-<div class="card-title">계산 방향</div>
-<div class="tab-group">
-<button class="tab-btn active" id="tab-past" onclick="setMode('past')">📈 과거 → 현재</button>
-<button class="tab-btn" id="tab-future" onclick="setMode('future')">🔮 현재 → 미래</button>
-</div>
-<div class="input-group">
-<label id="amountLabel">과거 금액</label>
-<div class="input-wrapper"><input id="amount" type="number" value="1000000"/><span class="input-unit">원</span></div>
-</div>
-<div class="input-row">
-<div class="input-group">
-<label id="yearLabel">기준 연도</label>
-<div class="input-wrapper"><input id="startYear" max="2030" min="1970" type="number" value="2010"/><span class="input-unit">년</span></div>
-</div>
-<div class="input-group">
-<label id="year2Label">현재/목표 연도</label>
-<div class="input-wrapper"><input id="endYear" max="2100" min="1970" type="number"/><span class="input-unit">년</span></div>
-</div>
-</div>
-<div class="input-group">
-<label>연 물가상승률 (인플레이션)</label>
-<div class="input-wrapper"><input id="inflation" step="0.1" type="number" value="2.5"/><span class="input-unit">%</span></div>
-<input id="inflationSlider" max="15" min="0" step="0.1" type="range" value="2.5"/>
-<div class="slider-labels"><span>0%</span><span>3%</span><span>7%</span><span>15%</span></div>
-</div>
-<div>
-<div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;font-weight:600">빠른 설정</div>
-<div class="preset-tags">
-<button class="preset-tag" onclick="setPreset(2.5)">🇰🇷 한국 평균 (2.5%)</button>
-<button class="preset-tag" onclick="setPreset(2.0)">📊 목표 인플레 (2%)</button>
-<button class="preset-tag" onclick="setPreset(5.0)">📈 고물가 (5%)</button>
-<button class="preset-tag" onclick="setPreset(1.0)">📉 저물가 (1%)</button>
-</div>
-</div>
-<button class="calc-btn" onclick="calculate()">📊 가치 계산하기</button>
-</div>
-<div class="result-card" id="resultCard">
-<div class="result-highlight">
-<div class="r-label" id="r-label">현재 가치</div>
-<div class="r-amount" id="r-amount">-<span>원</span></div>
-<div class="r-sub" id="r-sub">-</div>
-</div>
-<div class="card">
-<div class="card-title">분석</div>
-<div class="compare-row"><span class="c-label" id="c-l1">과거 금액</span><span class="c-value" id="c-v1">-</span></div>
-<div class="compare-row"><span class="c-label" id="c-l2">현재 환산 가치</span><span class="c-value accent" id="c-v2">-</span></div>
-<div class="compare-row"><span class="c-label">변화 기간</span><span class="c-value" id="c-years">-</span></div>
-<div class="compare-row"><span class="c-label">누적 물가 상승</span><span class="c-value danger" id="c-pct">-</span></div>
-<div class="compare-row"><span class="c-label">구매력 변화</span><span class="c-value" id="c-power">-</span></div>
-</div>
-<div class="notice">
-<strong style="color:orange">ℹ️ 안내</strong> 한국의 연평균 소비자물가 상승률은 약 2~3%입니다. 실제 물가 지수는 통계청 국가통계포털(KOSIS)에서 확인하세요.
+  <div class="card">
+    <div class="card-title">계산 방향</div>
+    <div class="tab-group" style="grid-template-columns:1fr 1fr 1fr">
+      <button class="tab-btn active" onclick="setMode('past')" id="tab-past">📈 과거 → 현재</button>
+      <button class="tab-btn" onclick="setMode('future')" id="tab-future">🔮 현재 → 미래</button>
+      <button class="tab-btn" onclick="setMode('retire')" id="tab-retire">🏠 노후 생활비</button>
     </div>
-</div>
 
-    <div style="text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280;">
-    본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.
+    <div class="input-group">
+      <label id="amountLabel">과거 금액</label>
+      <div class="input-wrapper"><input type="number" id="amount" value="1000000" /><span class="input-unit">원</span></div>
+    </div>
+
+    <div class="input-row">
+      <div class="input-group">
+        <label id="yearLabel">기준 연도</label>
+        <div class="input-wrapper"><input type="number" id="startYear" value="2010" min="1970" max="2030" /><span class="input-unit">년</span></div>
+      </div>
+      <div class="input-group">
+        <label id="year2Label">현재/목표 연도</label>
+        <div class="input-wrapper"><input type="number" id="endYear" min="1970" max="2100" /><span class="input-unit">년</span></div>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>연 물가상승률 (인플레이션)</label>
+      <div class="input-wrapper"><input type="number" id="inflation" value="2.5" step="0.1" /><span class="input-unit">%</span></div>
+      <input type="range" id="inflationSlider" min="0" max="15" step="0.1" value="2.5" />
+      <div class="slider-labels"><span>0%</span><span>3%</span><span>7%</span><span>15%</span></div>
+    </div>
+
+    <div>
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;font-weight:600">빠른 설정</div>
+      <div class="preset-tags">
+        <button class="preset-tag" onclick="setPreset(2.5)">🇰🇷 한국 평균 (2.5%)</button>
+        <button class="preset-tag" onclick="setPreset(2.0)">📊 목표 인플레 (2%)</button>
+        <button class="preset-tag" onclick="setPreset(5.0)">📈 고물가 (5%)</button>
+        <button class="preset-tag" onclick="setPreset(1.0)">📉 저물가 (1%)</button>
+      </div>
+    </div>
+
+    <button class="calc-btn" onclick="calculate()">📊 가치 계산하기</button>
+  </div>
+
+  <!-- 노후 생활비 탭 -->
+  <div id="retireCard" style="display:none">
+    <div class="card">
+      <div class="card-title">🏠 노후 생활비 시뮬레이터</div>
+      <div class="input-group">
+        <label>현재 월 생활비</label>
+        <div class="input-wrapper"><input type="number" id="r-monthly" value="3000000" /><span class="input-unit">원</span></div>
+      </div>
+      <div class="input-row">
+        <div class="input-group">
+          <label>현재 나이</label>
+          <div class="input-wrapper"><input type="number" id="r-age" value="40" min="20" max="80" /><span class="input-unit">세</span></div>
+        </div>
+        <div class="input-group">
+          <label>은퇴 나이</label>
+          <div class="input-wrapper"><input type="number" id="r-retire" value="65" min="40" max="80" /><span class="input-unit">세</span></div>
+        </div>
+      </div>
+      <div class="input-row">
+        <div class="input-group">
+          <label>기대 수명</label>
+          <div class="input-wrapper"><input type="number" id="r-life" value="85" min="60" max="100" /><span class="input-unit">세</span></div>
+        </div>
+        <div class="input-group">
+          <label>연 물가상승률</label>
+          <div class="input-wrapper"><input type="number" id="r-rate" value="2.5" step="0.1" /><span class="input-unit">%</span></div>
+        </div>
+      </div>
+      <button class="calc-btn" onclick="calcRetire()">📊 노후 자금 계산하기</button>
+    </div>
+    <div class="result-card" id="retireResult" style="display:none">
+      <div class="result-highlight">
+        <div class="r-label">은퇴 시점 월 생활비 (물가 반영)</div>
+        <div class="r-amount" id="rr-monthly">-<span>원/월</span></div>
+        <div class="r-sub" id="rr-sub">-</div>
+      </div>
+      <div class="card">
+        <div class="card-title">은퇴 자금 분석</div>
+        <div class="compare-row"><span class="c-label">현재 월 생활비</span><span class="c-value" id="rr-now">-</span></div>
+        <div class="compare-row"><span class="c-label">은퇴 시점 월 생활비</span><span class="c-value accent" id="rr-atRetire">-</span></div>
+        <div class="compare-row"><span class="c-label">노후 기간</span><span class="c-value" id="rr-period">-</span></div>
+        <div class="compare-row"><span class="c-label">필요 총 노후 자금 (단순 합산)</span><span class="c-value danger" id="rr-total">-</span></div>
+        <div class="compare-row"><span class="c-label">현재가치 기준 노후 자금</span><span class="c-value danger" id="rr-pv">-</span></div>
+      </div>
+      <div class="notice"><strong style="color:orange">ℹ️ 안내</strong> 단순 합산 기준이며 투자 수익률·국민연금·퇴직금은 미반영입니다. 실제 필요 자금은 이보다 적을 수 있습니다.</div>
+    </div>
+  </div>
+
+  <div class="result-card" id="resultCard">
+    <div class="result-highlight">
+      <div class="r-label" id="r-label">현재 가치</div>
+      <div class="r-amount" id="r-amount">-<span>원</span></div>
+      <div class="r-sub" id="r-sub">-</div>
+    </div>
+    <div class="card">
+      <div class="card-title">분석</div>
+      <div class="compare-row"><span class="c-label" id="c-l1">과거 금액</span><span class="c-value" id="c-v1">-</span></div>
+      <div class="compare-row"><span class="c-label" id="c-l2">현재 환산 가치</span><span class="c-value accent" id="c-v2">-</span></div>
+      <div class="compare-row"><span class="c-label">변화 기간</span><span class="c-value" id="c-years">-</span></div>
+      <div class="compare-row"><span class="c-label">누적 물가 상승</span><span class="c-value danger" id="c-pct">-</span></div>
+      <div class="compare-row"><span class="c-label">구매력 변화</span><span class="c-value" id="c-power">-</span></div>
+    </div>
+    <div class="notice">
+      <strong style="color:orange">ℹ️ 안내</strong> 한국의 연평균 소비자물가 상승률은 약 2~3%입니다. 실제 물가 지수는 통계청 국가통계포털(KOSIS)에서 확인하세요.
+    </div>
+  </div>
+
+<div style="background:#161b22;border:1px solid rgba(0,212,170,.2);border-radius:16px;padding:24px" id="simCard">
+    <div style="font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:14px">📉 구매력 시나리오 비교 — 물가 상승률별 돈의 가치</div>
+    <p style="font-size:12px;color:#8b949e;margin-bottom:16px;line-height:1.7">지금의 100만원이 물가 상승률에 따라 몇 년 후에는 얼마의 구매력을 갖는지 비교합니다. 슬라이더로 기간을 조정하세요.</p>
+    <div style="margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <label style="font-size:12px;color:#8b949e;font-weight:600">기준 금액</label>
+        <span id="sim-amount-label" style="font-size:13px;font-weight:700;color:var(--accent)">100만원</span>
+      </div>
+      <input type="range" id="sim-amount" min="100000" max="10000000" step="100000" value="1000000"
+        oninput="updateInflationSim()" style="width:100%;accent-color:var(--accent)">
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:#8b949e;margin-top:3px"><span>10만원</span><span>1,000만원</span></div>
+    </div>
+    <div style="margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <label style="font-size:12px;color:#8b949e;font-weight:600">기간</label>
+        <span id="sim-years-label" style="font-size:13px;font-weight:700;color:var(--accent)">10년 후</span>
+      </div>
+      <input type="range" id="sim-years" min="1" max="40" step="1" value="10"
+        oninput="updateInflationSim()" style="width:100%;accent-color:var(--accent)">
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:#8b949e;margin-top:3px"><span>1년</span><span>40년</span></div>
+    </div>
+    <div id="inflationSimResult"></div>
+  </div>
+
+  <div class="disclaimer">본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.</div>
+  <div class="calc-guide">
+    <div class="calc-guide-title">📋 사용 방법</div>
+    <div class="calc-guide-desc">과거 또는 현재 금액과 연도를 입력하면 물가상승률을 반영한 현재·미래 가치를 계산합니다. 노후 생활비·은퇴자금 시뮬레이터도 활용해보세요.</div>
+    <div class="calc-guide-basis">📌 계산 기준: 연 물가상승률 복리 계산 적용 · 한국 평균 2~3% 기준 · 실제 지수는 통계청(KOSIS) 기준</div>
   </div>
   <div class="toss-nav">
     <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
     <div class="toss-nav-grid">
       <a href="/compound" class="toss-nav-item"><span class="ni-emoji">📊</span><span class="ni-label">복리</span></a>
       <a href="/savings" class="toss-nav-item"><span class="ni-emoji">💳</span><span class="ni-label">적금</span></a>
-      <a href="/exchange" class="toss-nav-item"><span class="ni-emoji">💱</span><span class="ni-label">환율</span></a>
-      <a href="/loan" class="toss-nav-item"><span class="ni-emoji">🏦</span><span class="ni-label">대출이자</span></a>
+      <a href="/stock_return" class="toss-nav-item"><span class="ni-emoji">📉</span><span class="ni-label">주식수익률</span></a>
+      <a href="/retirement_plan" class="toss-nav-item"><span class="ni-emoji">🌅</span><span class="ni-label">은퇴설계</span></a>
     </div>
   </div>
 </div>
 <script>
-let mode='past';
+  let mode='past';
   document.getElementById('inflationSlider').addEventListener('input',e=>{document.getElementById('inflation').value=e.target.value});
   document.getElementById('inflation').addEventListener('input',e=>{document.getElementById('inflationSlider').value=e.target.value});
 
   function setMode(m){
     mode=m;
-    document.getElementById('tab-past').classList.toggle('active',m==='past');
-    document.getElementById('tab-future').classList.toggle('active',m==='future');
-    document.getElementById('amountLabel').textContent=m==='past'?'과거 금액':'현재 금액';
-    document.getElementById('yearLabel').textContent=m==='past'?'기준 연도':'현재 연도';
-    document.getElementById('year2Label').textContent=m==='past'?'현재 연도':'목표 연도';
+    ['past','future','retire'].forEach(t=>{
+      const el=document.getElementById('tab-'+t);
+      if(el) el.classList.toggle('active',m===t);
+    });
+    const mainCard=document.querySelector('.card:has(#amount)');
+    const retireCard=document.getElementById('retireCard');
+    const resultCard=document.getElementById('resultCard');
+    if(m==='retire'){
+      if(mainCard) mainCard.style.display='none';
+      if(retireCard) retireCard.style.display='block';
+      if(resultCard) resultCard.style.display='none';
+    } else {
+      if(mainCard) mainCard.style.display='block';
+      if(retireCard) retireCard.style.display='none';
+      document.getElementById('amountLabel').textContent=m==='past'?'과거 금액':'현재 금액';
+      document.getElementById('yearLabel').textContent=m==='past'?'기준 연도':'현재 연도';
+      document.getElementById('year2Label').textContent=m==='past'?'현재 연도':'목표 연도';
+    }
   }
   function setPreset(r){
     document.getElementById('inflation').value=r;
@@ -228,10 +300,8 @@ let mode='past';
     const inflation=parseFloat(document.getElementById('inflation').value)/100;
     const years=endYear-startYear;
     if(years===0){alert('두 연도가 같습니다.');return;}
-
     const factor=Math.pow(1+inflation,Math.abs(years));
     let result, totalChange;
-
     if(mode==='past'){
       result=amount*factor;
       totalChange=((factor-1)*100).toFixed(1);
@@ -245,7 +315,6 @@ let mode='past';
       document.getElementById('c-l1').textContent=`${startYear}년 현재 금액`;
       document.getElementById('c-l2').textContent=`${endYear}년 필요 금액`;
     }
-
     const powerChange=(1/factor*100).toFixed(1);
     document.getElementById('r-amount').innerHTML=`${fmt(result)}<span>원</span>`;
     document.getElementById('r-sub').textContent=`${Math.abs(years)}년간 ${(inflation*100).toFixed(1)}% 물가상승률 적용`;
@@ -254,14 +323,74 @@ let mode='past';
     document.getElementById('c-years').textContent=`${Math.abs(years)}년`;
     document.getElementById('c-pct').textContent=`+${totalChange}%`;
     document.getElementById('c-power').textContent=`100원 → ${powerChange}원 가치`;
-
-    const rc=document.getElementById('resultCard');
-    rc.classList.add('visible');
+    document.getElementById('resultCard').classList.add('visible');
   }
+
+  function calcRetire(){
+    const monthly=parseFloat(document.getElementById('r-monthly').value)||0;
+    const age=parseInt(document.getElementById('r-age').value)||40;
+    const retireAge=parseInt(document.getElementById('r-retire').value)||65;
+    const lifeAge=parseInt(document.getElementById('r-life').value)||85;
+    const rate=parseFloat(document.getElementById('r-rate').value)/100||0.025;
+    if(retireAge<=age){alert('은퇴 나이가 현재 나이보다 커야 합니다.');return;}
+    if(lifeAge<=retireAge){alert('기대 수명이 은퇴 나이보다 커야 합니다.');return;}
+    const yearsToRetire=retireAge-age;
+    const retirePeriod=lifeAge-retireAge;
+    const monthlyAtRetire=monthly*Math.pow(1+rate,yearsToRetire);
+    // 노후 총 필요 자금: 은퇴 시점부터 매년 물가상승 반영 합산
+    let totalNeeded=0;
+    for(let y=0;y<retirePeriod;y++){
+      totalNeeded+=monthlyAtRetire*Math.pow(1+rate,y)*12;
+    }
+    // 현재가치 기준 (은퇴 시점까지 할인)
+    const pvTotal=totalNeeded/Math.pow(1+rate,yearsToRetire);
+    document.getElementById('rr-monthly').innerHTML=`${fmt(monthlyAtRetire)}<span>원/월</span>`;
+    document.getElementById('rr-sub').textContent=`지금부터 ${yearsToRetire}년 후 (연 ${(rate*100).toFixed(1)}% 물가상승 적용)`;
+    document.getElementById('rr-now').textContent=`월 ${fmt(monthly)}원`;
+    document.getElementById('rr-atRetire').textContent=`월 ${fmt(monthlyAtRetire)}원`;
+    document.getElementById('rr-period').textContent=`${retirePeriod}년 (${retireAge}~${lifeAge}세)`;
+    document.getElementById('rr-total').textContent=`${fmt(totalNeeded)}원`;
+    document.getElementById('rr-pv').textContent=`${fmt(pvTotal)}원`;
+    document.getElementById('retireResult').style.display='block';
+  }
+
   window.onload=()=>{
     document.getElementById('endYear').value = new Date().getFullYear();
     calculate();
+    updateInflationSim();
   };
+
+  function updateInflationSim() {
+    const amount = parseInt(document.getElementById('sim-amount').value) || 1000000;
+    const years  = parseInt(document.getElementById('sim-years').value)  || 10;
+    const amtW   = amount >= 10000 ? (amount/10000).toLocaleString() + '만원' : amount.toLocaleString() + '원';
+    document.getElementById('sim-amount-label').textContent = amtW;
+    document.getElementById('sim-years-label').textContent  = years + '년 후';
+
+    const rates  = [1, 2, 2.5, 3, 4, 5];
+    const colors = ['#00d4aa','#4caf50','#f0c040','#ffa500','#ff8a65','#ff6b6b'];
+    const fmt    = n => Math.round(n).toLocaleString('ko-KR') + '원';
+    const maxPV  = amount; // 100%
+
+    const el = document.getElementById('inflationSimResult');
+    el.innerHTML = rates.map((r, i) => {
+      const pv   = amount / Math.pow(1 + r/100, years);  // 현재가치 기준 구매력
+      const pct  = (pv / amount * 100).toFixed(1);
+      const need = Math.round(amount * Math.pow(1 + r/100, years)); // 동일 구매력 유지에 필요한 금액
+      const barW = Math.round(pv / amount * 100);
+      return `<div style="margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+          <span style="font-size:12px;font-weight:700;color:${colors[i]}">물가 상승률 ${r}%</span>
+          <span style="font-size:12px;color:#8b949e">${years}년 후 구매력 <strong style="color:${colors[i]}">${pct}%</strong> (${fmt(Math.round(pv))})</span>
+        </div>
+        <div style="height:8px;background:#21262d;border-radius:4px;overflow:hidden;margin-bottom:3px">
+          <div style="height:100%;width:${barW}%;background:${colors[i]};border-radius:4px;transition:width .3s"></div>
+        </div>
+        <div style="font-size:11px;color:#8b949e">동일 생활수준 유지에 ${years}년 후 <strong style="color:${colors[i]}">${fmt(need)}</strong> 필요</div>
+      </div>`;
+    }).join('');
+  }
 </script>
+
 </body>
 </html>
