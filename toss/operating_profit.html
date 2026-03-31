@@ -2,22 +2,24 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>영업이익 계산기</title>
-  <!-- TODO: 앱인토스 SDK — 콘솔 발급 코드로 교체 -->
-  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>영업이익 계산기 | 모두의계산기</title>
+  <meta name="description" content="영업이익 계산기 2026 (소상공인) — 매출·매출원가·판관비 입력으로 매출총이익·영업이익·순이익·이익률 자동 계산. 음식점·카페 손익계산서 예시 포함." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" /></noscript>
   <style>
-
     :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--danger:#ff6b6b;--radius:16px}
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-    
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
     .container{max-width:680px;margin:0 auto;padding:40px 20px 100px;position:relative;z-index:1}
-    
-    
-    
-    
-    
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;gap:2px;width:48px;height:48px;justify-content:center;border-radius:50%;background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.2);text-decoration:none;transition:all .2s}
+    .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
     .header{text-align:center;margin-bottom:28px}
     .header h1{font-family:'Montserrat',sans-serif;font-size:clamp(22px,5vw,32px);font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
     .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
@@ -61,22 +63,21 @@
     .bar-label{display:flex;justify-content:space-between;font-size:12px;color:var(--text-muted);margin-bottom:4px}
     .bar-bg{background:var(--surface2);border-radius:8px;height:10px;overflow:hidden;margin-bottom:8px}
     .bar-fill{height:100%;border-radius:8px;transition:width .5s}
-    
-    .ad-slot{min-height:0;text-align:center;margin:16px 0}
+    .formula-box{background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:14px 16px;margin:16px 0;font-size:13px;color:var(--text-muted);line-height:1.8}
     details{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden}
     details summary{padding:12px 16px;cursor:pointer;font-size:14px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--surface)}
     details summary::after{content:'＋';color:var(--accent);font-size:16px}
     details[open] summary::after{content:'－'}
-    details 
+    details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
     @media(max-width:480px){.result-grid{grid-template-columns:1fr}.cost-row{grid-template-columns:1fr 110px 36px}}
 
     
-    
-    
-    
-    
-    
-    
+    .seo-card h2{font-size:17px;font-weight:800;color:var(--text);margin-bottom:14px;line-height:1.4}
+    .seo-card h3{font-size:14px;font-weight:700;color:var(--accent);margin:16px 0 8px}
+    .seo-card p{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:10px}
+    .seo-card ul{padding-left:18px;margin-bottom:10px}
+    .seo-card li{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:4px}
+    .seo-card strong{color:var(--text)}
     .ex-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
     .ex-table th{background:rgba(0,212,170,0.1);padding:8px 12px;text-align:left;color:var(--accent);font-weight:700;border:1px solid var(--border)}
     .ex-table td{padding:8px 12px;border:1px solid var(--border);color:var(--text-muted);line-height:1.7}
@@ -86,36 +87,14 @@
     
     
     
+    .rel-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
     
     
-    
-    
-  
-
-
-
-
-
-
-
-
-
-
-
-
-    /* ── 토스 헤더 ── */
-
-    .home-btn-wrap{text-align:center;margin-bottom:8px}
-    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
-    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
-    .home-btn-emoji{font-size:20px;line-height:1}
-    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
 
     .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
     .toss-header>.emoji{font-size:28px;flex-shrink:0}
     .toss-header h1{font-size:20px;font-weight:800;color:var(--text);margin:0}
     .toss-header p{font-size:12px;color:var(--text-muted);margin-top:3px}
-    /* ── 토스 하단 네비 ── */
     .toss-nav{margin-top:24px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
     .toss-nav-title{font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:12px}
     .toss-nav-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
@@ -123,111 +102,209 @@
     .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
     .ni-emoji{font-size:20px}
     .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
-
-    /* ── max-scale 방지 ── */
-    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+    .calc-guide{margin-top:20px;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .calc-guide-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:12px}
+    .calc-guide-desc{font-size:13px;color:var(--text-muted);line-height:1.8;margin-bottom:12px}
+    .calc-guide-basis{font-size:12px;color:var(--text-muted);padding:10px 14px;background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;line-height:1.7}
+    .disclaimer{text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280}
+    @media(max-width:360px){.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
 
   </style>
+
 </head>
 <body>
 <div class="container">
-
-  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
-  <div class="toss-header">
+    <div class="toss-header">
     <span class="emoji">📈</span>
-    <div>
-      <h1>영업이익 계산기</h1>
-      <p>매출·원가·영업이익률 계산</p>
+    <div><h1>영업이익 계산기</h1><p>매출·원가·판관비로 손익계산서 자동 작성</p></div>
+  </div>
+  <div class="badges">
+    <span class="badge">🏪 소상공인</span><span class="badge">📊 손익 분석</span><span class="badge">💡 월·연간</span>
+  </div>
+
+  <div class="card">
+    <h2>💰 매출액</h2>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px;line-height:1.7">배달앱·온라인 등 채널별 월 매출을 항목별로 구분해 입력하세요. 채널별로 분리하면 수익성 분석이 더 정확해집니다.</p>
+    <div id="rev-list">
+      <div class="cost-row"><input type="text" value="매장 매출" /><input type="number" placeholder="월 금액(원)" /><button class="btn-del" onclick="delRow(this)">✕</button></div>
+    </div>
+    <button class="btn-add" onclick="addRow('rev-list')">＋ 매출 항목 추가 (배달·온라인 등)</button>
+    <div class="section-total">합계 <span class="v" id="rev-ttl">0원</span></div>
+  </div>
+
+  <div class="card">
+    <h2>🥩 매출원가 (재료비·상품구입비)</h2>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px;line-height:1.7">재료비·식재료비·상품구입비 등 매출과 직접 연결된 원가 항목을 입력합니다. 원가율(원가÷매출)은 업종마다 다르며, 외식업 기준 30~40%가 일반적입니다.</p>
+    <div id="cogs-list">
+      <div class="cost-row"><input type="text" value="재료비·식재료" /><input type="number" placeholder="월 금액(원)" /><button class="btn-del" onclick="delRow(this)">✕</button></div>
+    </div>
+    <button class="btn-add" onclick="addRow('cogs-list')">＋ 원가 항목 추가</button>
+    <div class="section-total">합계 <span class="v" id="cogs-ttl" style="color:var(--danger)">0원</span></div>
+  </div>
+
+  <div class="card">
+    <h2>🏪 판매관리비 (고정비·운영비)</h2>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px;line-height:1.7">임차료·인건비 등 고정비와 광고비·배달앱 수수료·카드수수료 등 운영비를 모두 입력합니다. 판관비율이 낮을수록 영업이익률이 높아집니다.</p>
+    <div id="opex-list">
+      <div class="cost-row"><input type="text" value="임차료" /><input type="number" placeholder="월 금액(원)" /><button class="btn-del" onclick="delRow(this)">✕</button></div>
+      <div class="cost-row"><input type="text" value="인건비 합계" /><input type="number" placeholder="월 금액(원)" /><button class="btn-del" onclick="delRow(this)">✕</button></div>
+      <div class="cost-row"><input type="text" value="전기·수도·가스" /><input type="number" placeholder="월 금액(원)" /><button class="btn-del" onclick="delRow(this)">✕</button></div>
+      <div class="cost-row"><input type="text" value="카드수수료·PG" /><input type="number" placeholder="월 금액(원)" /><button class="btn-del" onclick="delRow(this)">✕</button></div>
+    </div>
+    <button class="btn-add" onclick="addRow('opex-list')">＋ 비용 추가 (광고·보험·배달앱 등)</button>
+    <div class="section-total">합계 <span class="v" id="opex-ttl" style="color:var(--danger)">0원</span></div>
+  </div>
+
+  <div class="card">
+    <h2>🏦 영업외 비용 (이자 등, 선택)</h2>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px;line-height:1.7">대출이자·투자손실 등 본업 외에서 발생하는 비용입니다. 없으면 비워두세요. 이 항목은 순이익 계산에만 영향을 주며 영업이익에는 포함되지 않습니다.</p>
+    <div id="nonop-list">
+      <div class="cost-row"><input type="text" value="대출이자" /><input type="number" placeholder="월 금액(원)" /><div></div></div>
+    </div>
+    <button class="btn-add" onclick="addRow('nonop-list', false)">＋ 항목 추가</button>
+  </div>
+
+  <button class="btn" onclick="calc()">영업이익 계산하기</button>
+
+  <div class="result-card" id="result">
+    <div class="result-main">
+      <div class="result-label">월 영업이익</div>
+      <div class="result-value" id="r-op">0원</div>
+      <div class="result-sub" id="r-sub"></div>
+    </div>
+    <div class="result-grid">
+      <div class="result-item"><div class="result-item-label">매출총이익률</div><div class="result-item-value good" id="r-gross-rate">-</div></div>
+      <div class="result-item"><div class="result-item-label">영업이익률</div><div class="result-item-value good" id="r-op-rate">-</div></div>
+      <div class="result-item"><div class="result-item-label">월 순이익 (세전)</div><div class="result-item-value" id="r-net">-</div></div>
+      <div class="result-item"><div class="result-item-label">연간 예상 순이익</div><div class="result-item-value" id="r-annual">-</div></div>
+    </div>
+
+    <div class="pnl">
+      <div class="pnl-row"><span>매출액</span><span id="pl-rev">-</span></div>
+      <div class="pnl-row"><span class="neg">(−) 매출원가</span><span class="neg" id="pl-cogs">-</span></div>
+      <div class="pnl-row sub"><span>= 매출총이익</span><span id="pl-gross">-</span></div>
+      <div class="pnl-row"><span class="neg">(−) 판매관리비</span><span class="neg" id="pl-opex">-</span></div>
+      <div class="pnl-row sub"><span>= 영업이익</span><span id="pl-op">-</span></div>
+      <div class="pnl-row"><span class="neg">(−) 영업외비용</span><span class="neg" id="pl-nonop">-</span></div>
+      <div class="pnl-row total" id="pl-net-row"><span>= 순이익 (세전)</span><span id="pl-net">-</span></div>
+    </div>
+
+    <div class="bar-wrap">
+      <div class="bar-label"><span>원가율 (원가÷매출)</span><span id="bar-cost-pct">-</span></div>
+      <div class="bar-bg"><div class="bar-fill" id="bar-cost" style="width:0%;background:var(--danger);opacity:.7"></div></div>
+      <div class="bar-label"><span>판관비율</span><span id="bar-opex-pct">-</span></div>
+      <div class="bar-bg"><div class="bar-fill" id="bar-opex" style="width:0%;background:var(--warn,#f5a623);opacity:.8"></div></div>
+      <div class="bar-label"><span>영업이익률</span><span id="bar-op-pct">-</span></div>
+      <div class="bar-bg"><div class="bar-fill" id="bar-op" style="width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2))"></div></div>
+    </div>
+
+    <!-- 업종 벤치마크 -->
+    <div style="margin-top:16px">
+      <div style="font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:10px">📊 업종 벤치마크 비교</div>
+      <div style="margin-bottom:10px">
+        <select id="industrySelect" onchange="updateBenchmark()" style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:9px 12px;color:var(--text);font-size:13px;font-family:inherit;width:100%;outline:none">
+          <option value="">-- 업종 선택 --</option>
+          <option value="7,20">외식업 (3~10%)</option>
+          <option value="5,12">식음료 제조 (5~12%)</option>
+          <option value="15,35">소프트웨어·IT (15~35%)</option>
+          <option value="1,5">도소매·유통 (1~5%)</option>
+          <option value="10,25">제약·바이오 (10~25%)</option>
+          <option value="3,8">건설업 (3~8%)</option>
+          <option value="5,15">제조업 일반 (5~15%)</option>
+        </select>
+      </div>
+      <div id="benchmark-content" style="display:none;background:var(--surface2);border-radius:12px;padding:14px;font-size:13px"></div>
+    </div>
+
+    <!-- 목표이익 역산 -->
+    <div style="margin-top:16px">
+      <div style="font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:10px">🎯 목표 영업이익률 달성 시뮬레이션</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+        <div>
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">목표 영업이익률 (%)</div>
+          <input type="number" id="targetRate" placeholder="예: 10" style="padding:8px 10px;font-size:14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:inherit;width:100%;outline:none" oninput="calcTarget()" />
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">개선 방법</div>
+          <select id="targetMethod" onchange="calcTarget()" style="padding:8px 10px;font-size:13px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:inherit;width:100%;outline:none">
+            <option value="cogs">원가 절감</option>
+            <option value="opex">판관비 절감</option>
+            <option value="rev">매출 증대</option>
+          </select>
+        </div>
+      </div>
+      <div id="target-content" style="background:var(--surface2);border-radius:12px;padding:12px;font-size:13px;color:var(--text-muted);display:none"></div>
     </div>
   </div>
 
 
-<div class="badges">
-<span class="badge">🏪 소상공인</span><span class="badge">📊 손익 분석</span><span class="badge">💡 월·연간</span>
-</div>
-<div class="card">
-<h2>💰 매출액</h2>
-<div id="rev-list">
-<div class="cost-row"><input type="text" value="매장 매출"/><input placeholder="월 금액(원)" type="number"/><button class="btn-del" onclick="delRow(this)">✕</button></div>
-</div>
-<button class="btn-add" onclick="addRow('rev-list')">＋ 매출 항목 추가 (배달·온라인 등)</button>
-<div class="section-total">합계 <span class="v" id="rev-ttl">0원</span></div>
-</div>
-<div class="card">
-<h2>🥩 매출원가 (재료비·상품구입비)</h2>
-<div id="cogs-list">
-<div class="cost-row"><input type="text" value="재료비·식재료"/><input placeholder="월 금액(원)" type="number"/><button class="btn-del" onclick="delRow(this)">✕</button></div>
-</div>
-<button class="btn-add" onclick="addRow('cogs-list')">＋ 원가 항목 추가</button>
-<div class="section-total">합계 <span class="v" id="cogs-ttl" style="color:var(--danger)">0원</span></div>
-</div>
-<div class="card">
-<h2>🏪 판매관리비 (고정비·운영비)</h2>
-<div id="opex-list">
-<div class="cost-row"><input type="text" value="임차료"/><input placeholder="월 금액(원)" type="number"/><button class="btn-del" onclick="delRow(this)">✕</button></div>
-<div class="cost-row"><input type="text" value="인건비 합계"/><input placeholder="월 금액(원)" type="number"/><button class="btn-del" onclick="delRow(this)">✕</button></div>
-<div class="cost-row"><input type="text" value="전기·수도·가스"/><input placeholder="월 금액(원)" type="number"/><button class="btn-del" onclick="delRow(this)">✕</button></div>
-<div class="cost-row"><input type="text" value="카드수수료·PG"/><input placeholder="월 금액(원)" type="number"/><button class="btn-del" onclick="delRow(this)">✕</button></div>
-</div>
-<button class="btn-add" onclick="addRow('opex-list')">＋ 비용 추가 (광고·보험·배달앱 등)</button>
-<div class="section-total">합계 <span class="v" id="opex-ttl" style="color:var(--danger)">0원</span></div>
-</div>
-<div class="card">
-<h2>🏦 영업외 비용 (이자 등, 선택)</h2>
-<div id="nonop-list">
-<div class="cost-row"><input type="text" value="대출이자"/><input placeholder="월 금액(원)" type="number"/><div></div></div>
-</div>
-<button class="btn-add" onclick="addRow('nonop-list', false)">＋ 항목 추가</button>
-</div>
-<button class="btn" onclick="calc()">영업이익 계산하기</button>
-<div class="result-card" id="result">
-<div class="result-main">
-<div class="result-label">월 영업이익</div>
-<div class="result-value" id="r-op">0원</div>
-<div class="result-sub" id="r-sub"></div>
-</div>
-<div class="result-grid">
-<div class="result-item"><div class="result-item-label">매출총이익률</div><div class="result-item-value good" id="r-gross-rate">-</div></div>
-<div class="result-item"><div class="result-item-label">영업이익률</div><div class="result-item-value good" id="r-op-rate">-</div></div>
-<div class="result-item"><div class="result-item-label">월 순이익 (세전)</div><div class="result-item-value" id="r-net">-</div></div>
-<div class="result-item"><div class="result-item-label">연간 예상 순이익</div><div class="result-item-value" id="r-annual">-</div></div>
-</div>
-<div class="pnl">
-<div class="pnl-row"><span>매출액</span><span id="pl-rev">-</span></div>
-<div class="pnl-row"><span class="neg">(−) 매출원가</span><span class="neg" id="pl-cogs">-</span></div>
-<div class="pnl-row sub"><span>= 매출총이익</span><span id="pl-gross">-</span></div>
-<div class="pnl-row"><span class="neg">(−) 판매관리비</span><span class="neg" id="pl-opex">-</span></div>
-<div class="pnl-row sub"><span>= 영업이익</span><span id="pl-op">-</span></div>
-<div class="pnl-row"><span class="neg">(−) 영업외비용</span><span class="neg" id="pl-nonop">-</span></div>
-<div class="pnl-row total" id="pl-net-row"><span>= 순이익 (세전)</span><span id="pl-net">-</span></div>
-</div>
-<div class="bar-wrap">
-<div class="bar-label"><span>원가율 (원가÷매출)</span><span id="bar-cost-pct">-</span></div>
-<div class="bar-bg"><div class="bar-fill" id="bar-cost" style="width:0%;background:var(--danger);opacity:.7"></div></div>
-<div class="bar-label"><span>판관비율</span><span id="bar-opex-pct">-</span></div>
-<div class="bar-bg"><div class="bar-fill" id="bar-opex" style="width:0%;background:var(--warn,#f5a623);opacity:.8"></div></div>
-<div class="bar-label"><span>영업이익률</span><span id="bar-op-pct">-</span></div>
-<div class="bar-bg"><div class="bar-fill" id="bar-op" style="width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2))"></div></div>
-</div>
-</div>
+<div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px" id="simCard">
+    <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:10px">⚡ 매출·이익률별 영업이익 즉시 비교</div>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">월 매출을 입력하면 다양한 영업이익률에서 실제 영업이익이 얼마인지 한눈에 비교합니다.</p>
+    <div style="margin-bottom:14px">
+      <div style="font-size:11px;color:var(--text-muted);margin-bottom:6px">월 매출액 (원)</div>
+      <input type="number" id="sim-rev" value="30000000" oninput="simProfit()"
+        style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:17px;font-weight:700;color:var(--text);font-family:inherit;outline:none" />
+    </div>
+    <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:13px">
+        <thead><tr>
+          <th style="padding:8px 12px;text-align:left;background:var(--surface2);color:var(--text-muted);border:1px solid var(--border)">영업이익률</th>
+          <th style="padding:8px 10px;text-align:right;background:var(--surface2);color:var(--accent);border:1px solid var(--border)">월 영업이익</th>
+          <th style="padding:8px 10px;text-align:right;background:var(--surface2);color:var(--text-muted);border:1px solid var(--border)">연간 영업이익</th>
+          <th style="padding:8px 10px;text-align:left;background:var(--surface2);color:var(--text-muted);border:1px solid var(--border)">해당 업종</th>
+        </tr></thead>
+        <tbody id="sim-profit-body"></tbody>
+      </table>
+    </div>
+  </div>
 
-
-    <div style="text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280;">
-    본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.
+  <div class="disclaimer">본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.</div>
+  <div class="calc-guide">
+    <div class="calc-guide-title">📋 사용 방법</div>
+    <div class="calc-guide-desc">매출액·원가·판관비를 입력하면 영업이익과 영업이익률을 계산합니다. 이익률별 즉시 비교 시뮬레이터도 확인해보세요.</div>
+    <div class="calc-guide-basis">📌 계산 기준: 영업이익 = 매출액 - 매출원가 - 판매관리비 · 영업이익률 = 영업이익 ÷ 매출액 × 100</div>
   </div>
   <div class="toss-nav">
-    <div class="toss-nav-title">📌 사업자 세금 계산기</div>
+    <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
     <div class="toss-nav-grid">
       <a href="/margin" class="toss-nav-item"><span class="ni-emoji">💹</span><span class="ni-label">마진율</span></a>
       <a href="/breakeven" class="toss-nav-item"><span class="ni-emoji">⚖️</span><span class="ni-label">손익분기점</span></a>
-      <a href="/product_cost" class="toss-nav-item"><span class="ni-emoji">🏷️</span><span class="ni-label">원가계산</span></a>
-      <a href="/corporate_tax" class="toss-nav-item"><span class="ni-emoji">🏢</span><span class="ni-label">법인세</span></a>
+      <a href="/product_cost" class="toss-nav-item"><span class="ni-emoji">🏷️</span><span class="ni-label">원가</span></a>
+      <a href="/vat_biz" class="toss-nav-item"><span class="ni-emoji">🧾</span><span class="ni-label">사업자부가세</span></a>
     </div>
   </div>
-
 </div>
+
 <script>
 const fw = n => Math.round(n).toLocaleString() + '원';
+let _rev=0, _cogs=0, _opex=0, _opProfit=0, _opRate=0;
+
+function simProfit() {
+  const rev = parseFloat(document.getElementById('sim-rev')?.value) || 30000000;
+  const RATES = [
+    { rate:3,  label:'3%', industry:'도소매·유통 하한' },
+    { rate:5,  label:'5%', industry:'외식업·건설업 평균' },
+    { rate:10, label:'10%', industry:'외식업 상한·제조업' },
+    { rate:15, label:'15%', industry:'소프트웨어·IT 하한' },
+    { rate:20, label:'20%', industry:'IT 서비스 평균' },
+    { rate:30, label:'30%', industry:'플랫폼·SaaS 수준' },
+  ];
+  const tbody = document.getElementById('sim-profit-body');
+  if (!tbody) return;
+  tbody.innerHTML = RATES.map(r => {
+    const monthly  = Math.round(rev * r.rate / 100);
+    const annually = monthly * 12;
+    return `<tr>
+      <td style="padding:8px 12px;border:1px solid var(--border);color:var(--text);font-weight:700">${r.label}</td>
+      <td style="padding:8px 10px;border:1px solid var(--border);text-align:right;color:#00d4aa;font-weight:900">${fw(monthly)}</td>
+      <td style="padding:8px 10px;border:1px solid var(--border);text-align:right;color:var(--text-muted)">${fw(annually)}</td>
+      <td style="padding:8px 10px;border:1px solid var(--border);color:var(--text-muted);font-size:12px">${r.industry}</td>
+    </tr>`;
+  }).join('');
+}
+
+window.addEventListener('DOMContentLoaded', simProfit);
 
 function addRow(listId, canDel=true) {
   const list = document.getElementById(listId);
@@ -246,48 +323,92 @@ function getListTotal(listId) {
 }
 
 function calc() {
-  const rev = getListTotal('rev-list');
-  const cogs = getListTotal('cogs-list');
-  const opex = getListTotal('opex-list');
+  _rev = getListTotal('rev-list');
+  _cogs = getListTotal('cogs-list');
+  _opex = getListTotal('opex-list');
   const nonop = getListTotal('nonop-list');
 
-  const gross = rev - cogs;
-  const grossRate = rev > 0 ? (gross / rev * 100) : 0;
-  const opProfit = gross - opex;
-  const opRate = rev > 0 ? (opProfit / rev * 100) : 0;
-  const netProfit = opProfit + nonop;
-  const netRate = rev > 0 ? (netProfit / rev * 100) : 0;
+  const gross = _rev - _cogs;
+  const grossRate = _rev > 0 ? (gross / _rev * 100) : 0;
+  _opProfit = gross - _opex;
+  _opRate = _rev > 0 ? (_opProfit / _rev * 100) : 0;
+  const netProfit = _opProfit + nonop;
+  const netRate = _rev > 0 ? (netProfit / _rev * 100) : 0;
 
-  // P&L 표 업데이트
-  document.getElementById('pl-rev') && (document.getElementById('pl-rev').textContent = fw(rev));
-  document.getElementById('pl-cogs') && (document.getElementById('pl-cogs').textContent = fw(cogs));
+  document.getElementById('pl-rev') && (document.getElementById('pl-rev').textContent = fw(_rev));
+  document.getElementById('pl-cogs') && (document.getElementById('pl-cogs').textContent = fw(_cogs));
   document.getElementById('pl-gross') && (document.getElementById('pl-gross').textContent = fw(gross) + ' (' + grossRate.toFixed(1) + '%)');
-  document.getElementById('pl-opex') && (document.getElementById('pl-opex').textContent = fw(opex));
-  document.getElementById('pl-op') && (document.getElementById('pl-op').textContent = fw(opProfit) + ' (' + opRate.toFixed(1) + '%)');
+  document.getElementById('pl-opex') && (document.getElementById('pl-opex').textContent = fw(_opex));
+  document.getElementById('pl-op') && (document.getElementById('pl-op').textContent = fw(_opProfit) + ' (' + _opRate.toFixed(1) + '%)');
   document.getElementById('pl-nonop') && (document.getElementById('pl-nonop').textContent = fw(nonop));
   document.getElementById('pl-net') && (document.getElementById('pl-net').textContent = fw(netProfit) + ' (' + netRate.toFixed(1) + '%)');
 
-  // 결과 카드
-  document.getElementById('r-op') && (document.getElementById('r-op').textContent = fw(opProfit));
-  document.getElementById('r-op-rate') && (document.getElementById('r-op-rate').textContent = opRate.toFixed(1) + '%');
+  document.getElementById('r-op') && (document.getElementById('r-op').textContent = fw(_opProfit));
+  document.getElementById('r-op').classList.toggle('danger', _opProfit < 0);
+  document.getElementById('r-op-rate') && (document.getElementById('r-op-rate').textContent = _opRate.toFixed(1) + '%');
   document.getElementById('r-gross-rate') && (document.getElementById('r-gross-rate').textContent = grossRate.toFixed(1) + '%');
   document.getElementById('r-net') && (document.getElementById('r-net').textContent = fw(netProfit));
-  document.getElementById('r-sub') && (document.getElementById('r-sub').textContent = `매출 ${fw(rev)} 기준`);
+  document.getElementById('r-annual') && (document.getElementById('r-annual').textContent = fw(netProfit * 12));
+  document.getElementById('r-sub') && (document.getElementById('r-sub').textContent = `매출 ${fw(_rev)} 기준`);
 
-  // 수익성 등급
-  const rating = opRate >= 15 ? '우수' : opRate >= 8 ? '양호' : opRate >= 3 ? '보통' : '개선필요';
+  const rating = _opRate >= 15 ? '우수 🏆' : _opRate >= 8 ? '양호 ✅' : _opRate >= 3 ? '보통 ⚠️' : '개선필요 🔴';
   document.getElementById('r-rating') && (document.getElementById('r-rating').textContent = rating);
+
+  if(_rev > 0){
+    const costRate = (_cogs / _rev * 100);
+    const opexRate = (_opex / _rev * 100);
+    document.getElementById('bar-cost-pct').textContent = costRate.toFixed(1)+'%';
+    document.getElementById('bar-opex-pct').textContent = opexRate.toFixed(1)+'%';
+    document.getElementById('bar-op-pct').textContent = _opRate.toFixed(1)+'%';
+    document.getElementById('bar-cost').style.width = Math.min(costRate,100)+'%';
+    document.getElementById('bar-opex').style.width = Math.min(opexRate,100)+'%';
+    document.getElementById('bar-op').style.width = Math.max(0,Math.min(_opRate,100))+'%';
+  }
 
   document.getElementById('result') && (document.getElementById('result').style.display = 'block');
 
-  // 소계 업데이트
   const revTtl = document.getElementById('rev-ttl');
   const cogsTtl = document.getElementById('cogs-ttl');
   const opexTtl = document.getElementById('opex-ttl');
-  if (revTtl) revTtl.textContent = fw(rev);
-  if (cogsTtl) cogsTtl.textContent = fw(cogs);
-  if (opexTtl) opexTtl.textContent = fw(opex);
+  if (revTtl) revTtl.textContent = fw(_rev);
+  if (cogsTtl) cogsTtl.textContent = fw(_cogs);
+  if (opexTtl) opexTtl.textContent = fw(_opex);
+
+  // 목표이익 역산 초기화
+  const tc = document.getElementById('target-content');
+  if(tc) tc.style.display='none';
+  updateBenchmark();
 }
+
+function updateBenchmark(){
+  const sel = document.getElementById('industrySelect');
+  const bc = document.getElementById('benchmark-content');
+  if(!sel || !bc || !sel.value) { bc.style.display='none'; return; }
+  const [lo, hi] = sel.value.split(',').map(Number);
+  const avg = (lo+hi)/2;
+  const diff = _opRate - avg;
+  const diffText = diff >= 0 ? `<span style="color:#00d4aa">+${diff.toFixed(1)}%p 업종 평균 상회 👍</span>` : `<span style="color:#ff6b6b">${diff.toFixed(1)}%p 업종 평균 미달 ⚠️</span>`;
+  bc.style.display='block';
+  bc.innerHTML = `업종 평균 영업이익률: <strong style="color:var(--accent)">${lo}~${hi}%</strong> (중앙값 ${avg}%)<br>내 영업이익률: <strong style="color:var(--accent)">${_opRate.toFixed(1)}%</strong> → ${diffText}`;
+}
+
+function calcTarget(){
+  const tc = document.getElementById('target-content');
+  const targetRate = parseFloat(document.getElementById('targetRate').value);
+  const method = document.getElementById('targetMethod').value;
+  if(!targetRate || !_rev){ tc.style.display='none'; return; }
+  const targetOp = _rev * targetRate / 100;
+  const gap = targetOp - _opProfit;
+  let msg='';
+  if(gap <= 0){ msg=`현재 영업이익률(${_opRate.toFixed(1)}%)이 이미 목표(${targetRate}%)를 달성했습니다! 🎉`; }
+  else if(method==='cogs'){ msg=`원가를 월 <strong style="color:#00d4aa">${fw(gap)}</strong> 절감해야 합니다. (현재 원가 ${fw(_cogs)} → ${fw(_cogs-gap)} 으로 ${(gap/_cogs*100).toFixed(1)}% 감축)`; }
+  else if(method==='opex'){ msg=`판관비를 월 <strong style="color:#00d4aa">${fw(gap)}</strong> 절감해야 합니다. (현재 판관비 ${fw(_opex)} → ${fw(_opex-gap)} 으로 ${(gap/_opex*100).toFixed(1)}% 감축)`; }
+  else { const neededRev=(_cogs+_opex)/(1-targetRate/100); msg=`매출을 <strong style="color:#00d4aa">${fw(neededRev)}</strong>/월 이상으로 늘려야 합니다. (현재 ${fw(_rev)} 대비 ${fw(neededRev-_rev)} 증가 필요)`; }
+  tc.innerHTML = msg;
+  tc.style.display='block';
+}
+
+window.onload = () => calc();
 </script>
 </body>
 </html>

@@ -2,22 +2,24 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>제품 원가 계산기</title>
-  <!-- TODO: 앱인토스 SDK — 콘솔 발급 코드로 교체 -->
-  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>제품 원가 계산기 | 모두의계산기</title>
+  <meta name="description" content="제품 원가 계산기 2026 (소상공인·카페·음식점) — 재료비·인건비·포장비·고정비 배분으로 단위 원가·마진율·적정 판매가 자동 계산. 카페·음식점 원가 예시 포함." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" /></noscript>
   <style>
-
     :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--danger:#ff6b6b;--radius:16px}
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-    
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
     .container{max-width:680px;margin:0 auto;padding:40px 20px 100px;position:relative;z-index:1}
-    
-    
-    
-    
-    
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;gap:2px;width:48px;height:48px;justify-content:center;border-radius:50%;background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.2);text-decoration:none;transition:all .2s}
+    .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
     .header{text-align:center;margin-bottom:32px}
     .header h1{font-family:'Montserrat',sans-serif;font-size:clamp(22px,5vw,32px);font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
     .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
@@ -65,23 +67,22 @@
     .cost-breakdown h3{font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:10px}
     .cb-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px}
     .cb-row:last-child{border-bottom:none;font-weight:700;padding-top:10px;color:var(--accent)}
-    
-    .ad-slot{min-height:0;text-align:center;margin:16px 0}
+    .formula-box{background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:14px 16px;margin:16px 0;font-size:13px;color:var(--text-muted);line-height:1.8}
     .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
     details{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden}
     details summary{padding:12px 16px;cursor:pointer;font-size:14px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--surface)}
     details summary::after{content:'＋';color:var(--accent);font-size:16px}
     details[open] summary::after{content:'－'}
-    details 
+    details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
     @media(max-width:480px){.result-grid{grid-template-columns:1fr}.row2{grid-template-columns:1fr}.cost-row{grid-template-columns:1fr 100px 36px}}
 
     
-    
-    
-    
-    
-    
-    
+    .seo-card h2{font-size:17px;font-weight:800;color:var(--text);margin-bottom:14px;line-height:1.4}
+    .seo-card h3{font-size:14px;font-weight:700;color:var(--accent);margin:16px 0 8px}
+    .seo-card p{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:10px}
+    .seo-card ul{padding-left:18px;margin-bottom:10px}
+    .seo-card li{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:4px}
+    .seo-card strong{color:var(--text)}
     .ex-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
     .ex-table th{background:rgba(0,212,170,0.1);padding:8px 12px;text-align:left;color:var(--accent);font-weight:700;border:1px solid var(--border)}
     .ex-table td{padding:8px 12px;border:1px solid var(--border);color:var(--text-muted);line-height:1.7}
@@ -91,36 +92,14 @@
     
     
     
+    .rel-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
     
     
-    
-    
-  
-
-
-
-
-
-
-
-
-
-
-
-
-    /* ── 토스 헤더 ── */
-
-    .home-btn-wrap{text-align:center;margin-bottom:8px}
-    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
-    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
-    .home-btn-emoji{font-size:20px;line-height:1}
-    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
 
     .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
     .toss-header>.emoji{font-size:28px;flex-shrink:0}
     .toss-header h1{font-size:20px;font-weight:800;color:var(--text);margin:0}
     .toss-header p{font-size:12px;color:var(--text-muted);margin-top:3px}
-    /* ── 토스 하단 네비 ── */
     .toss-nav{margin-top:24px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
     .toss-nav-title{font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:12px}
     .toss-nav-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
@@ -128,222 +107,280 @@
     .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
     .ni-emoji{font-size:20px}
     .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
-
-    /* ── max-scale 방지 ── */
-    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+    .calc-guide{margin-top:20px;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .calc-guide-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:12px}
+    .calc-guide-desc{font-size:13px;color:var(--text-muted);line-height:1.8;margin-bottom:12px}
+    .calc-guide-basis{font-size:12px;color:var(--text-muted);padding:10px 14px;background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;line-height:1.7}
+    .disclaimer{text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280}
+    @media(max-width:360px){.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
 
   </style>
+
 </head>
 <body>
 <div class="container">
-
-  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
-  <div class="toss-header">
+    <div class="toss-header">
     <span class="emoji">🏷️</span>
-    <div>
-      <h1>제품 원가 계산기</h1>
-      <p>재료비·인건비·원가율 계산</p>
+    <div><h1>제품 원가 계산기</h1><p>재료비·인건비·포장비·임차료 → 원가·마진·적정 판매가</p></div>
+  </div>
+  <div class="badge-wrap">
+    <span class="badge">🏪 소상공인</span>
+    <span class="badge">☕ 카페·음식점</span>
+    <span class="badge">🛍️ 쇼핑몰</span>
+  </div>
+
+  <!-- 재료비 -->
+  <div class="card">
+    <h2>🥩 재료비 (변동비)</h2>
+    <div id="material-list">
+      <div class="cost-row"><input class="name" type="text" placeholder="항목명 (예: 원두)" value="재료 1" /><input class="amt" type="number" placeholder="금액(원)" value="3000" /><button class="btn-del" onclick="delRow(this)">✕</button></div>
+    </div>
+    <button class="btn-add" onclick="addRow('material-list')">＋ 재료 항목 추가</button>
+    <div class="section-total">재료비 소계: <span id="material-total">0원</span></div>
+  </div>
+
+  <!-- 직접 인건비 -->
+  <div class="card">
+    <h2>👤 직접 인건비 (제품당)</h2>
+    <div class="form-group">
+      <label>시급 (원)</label>
+      <input type="number" id="hourly" placeholder="예: 10320" value="10320" />
+    </div>
+    <div class="row2">
+      <div class="form-group">
+        <label>제품 1개당 제조 시간 (분)</label>
+        <input type="number" id="mfgMin" placeholder="예: 5" value="5" />
+      </div>
+      <div class="form-group">
+        <label>1회 생산 수량 (개)</label>
+        <input type="number" id="batch" placeholder="예: 10" value="1" />
+      </div>
+    </div>
+  </div>
+
+  <!-- 포장비·기타 -->
+  <div class="card">
+    <h2>📦 포장비·기타 변동비</h2>
+    <div id="pack-list">
+      <div class="cost-row"><input class="name" type="text" placeholder="항목명 (예: 봉투·박스)" value="포장재" /><input class="amt" type="number" placeholder="금액(원)" value="300" /><button class="btn-del" onclick="delRow(this)">✕</button></div>
+    </div>
+    <button class="btn-add" onclick="addRow('pack-list')">＋ 항목 추가</button>
+    <div class="section-total">포장비 소계: <span id="pack-total">0원</span></div>
+  </div>
+
+  <!-- 고정비 배분 -->
+  <div class="card">
+    <h2>🏪 월 고정비 (제품당 배분)</h2>
+    <div id="fixed-list">
+      <div class="cost-row"><input class="name" type="text" value="임차료" /><input class="amt" type="number" placeholder="월 금액(원)" value="1000000" /></div>
+      <div class="cost-row"><input class="name" type="text" value="전기·수도·가스" /><input class="amt" type="number" placeholder="월 금액(원)" value="200000" /></div>
+    </div>
+    <button class="btn-add" onclick="addRow('fixed-list', false)">＋ 고정비 추가</button>
+    <div class="section-total">월 고정비 합계: <span id="fixed-total">0원</span></div>
+    <div class="form-group" style="margin-top:14px">
+      <label>월 판매 예상 수량 (개) — 고정비 배분 기준</label>
+      <input type="number" id="monthlyQty" placeholder="예: 500" value="300" />
+    </div>
+  </div>
+
+  <!-- 마진 설정 -->
+  <div class="card">
+    <h2>📊 목표 마진 설정</h2>
+    <div class="row2">
+      <div class="form-group">
+        <label>목표 마진율 (%)</label>
+        <input type="number" id="targetMargin" placeholder="예: 60" value="60" />
+      </div>
+      <div class="form-group">
+        <label>부가세 포함 여부</label>
+        <select id="vatInclude"><option value="no">별도 (B2B·면세)</option><option value="yes">포함 (소비자가)</option></select>
+      </div>
+    </div>
+    <button class="btn" onclick="calcCost()">원가 계산하기</button>
+  </div>
+
+  <div class="result-card" id="result">
+    <div class="result-main">
+      <div class="result-label">제품 1개 총 원가</div>
+      <div class="result-value" id="rCost">0원</div>
+      <div class="result-sub" id="rSub"></div>
+    </div>
+    <div class="result-grid">
+      <div class="result-item"><div class="result-item-label">변동비 (재료+포장+인건)</div><div class="result-item-value" id="rVar">-</div></div>
+      <div class="result-item"><div class="result-item-label">고정비 배분</div><div class="result-item-value" id="rFixed">-</div></div>
+      <div class="result-item"><div class="result-item-label">목표 마진율 적용 판매가</div><div class="result-item-value accent" id="rSellPrice">-</div></div>
+      <div class="result-item"><div class="result-item-label">VAT 포함 판매가</div><div class="result-item-value" id="rVatPrice">-</div></div>
+    </div>
+
+    <div class="cost-breakdown">
+      <h3>💡 원가 구성</h3>
+      <div class="cb-row"><span>재료비</span><span id="cb-mat">-</span></div>
+      <div class="cb-row"><span>직접 인건비</span><span id="cb-labor">-</span></div>
+      <div class="cb-row"><span>포장비·기타</span><span id="cb-pack">-</span></div>
+      <div class="cb-row"><span>고정비 배분</span><span id="cb-fixed">-</span></div>
+      <div class="cb-row"><span>총 원가</span><span id="cb-total">-</span></div>
+    </div>
+
+    <div class="price-reco">
+      <h3>💰 마진율별 권장 판매가</h3>
+      <div id="priceRows"></div>
+    </div>
+
+    <!-- 판매량 시나리오 시뮬레이터 -->
+    <div style="margin-top:16px">
+      <div style="font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:8px">📊 판매량별 손익 시뮬레이션</div>
+      <div style="margin-bottom:8px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div>
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">판매 단가 (원)</div>
+          <input type="number" id="simPrice" placeholder="예: 5000" style="padding:8px 10px;font-size:14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:inherit;width:100%;outline:none" oninput="runSimulation()" />
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">월 판매 수량 (개)</div>
+          <input type="number" id="simQty" placeholder="예: 300" style="padding:8px 10px;font-size:14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:inherit;width:100%;outline:none" oninput="runSimulation()" />
+        </div>
+      </div>
+      <div id="sim-content" style="background:var(--surface2);border-radius:12px;padding:12px;font-size:13px;color:var(--text-muted);display:none"></div>
     </div>
   </div>
 
 
-<div class="badge-wrap">
-<span class="badge">🏪 소상공인</span>
-<span class="badge">☕ 카페·음식점</span>
-<span class="badge">🛍️ 쇼핑몰</span>
-</div>
-<!-- 재료비 -->
-<div class="card">
-<h2>🥩 재료비 (변동비)</h2>
-<div id="material-list">
-<div class="cost-row"><input class="name" placeholder="항목명 (예: 원두)" type="text" value="재료 1"/><input class="amt" placeholder="금액(원)" type="number"/><button class="btn-del" onclick="delRow(this)">✕</button></div>
-</div>
-<button class="btn-add" onclick="addRow('material-list')">＋ 재료 항목 추가</button>
-<div class="section-total">재료비 소계: <span id="material-total">0원</span></div>
-</div>
-<!-- 직접 인건비 -->
-<div class="card">
-<h2>👤 직접 인건비 (제품당)</h2>
-<div class="form-group">
-<label>시급 (원)</label>
-<input id="hourly" placeholder="예: 10320" type="number" value="10320"/>
-</div>
-<div class="row2">
-<div class="form-group">
-<label>제품 1개당 제조 시간 (분)</label>
-<input id="mfgMin" placeholder="예: 5" type="number"/>
-</div>
-<div class="form-group">
-<label>1회 생산 수량 (개)</label>
-<input id="batch" placeholder="예: 10" type="number" value="1"/>
-</div>
-</div>
-</div>
-<!-- 포장비·기타 -->
-<div class="card">
-<h2>📦 포장비·기타 변동비</h2>
-<div id="pack-list">
-<div class="cost-row"><input class="name" placeholder="항목명 (예: 봉투·박스)" type="text" value="포장재"/><input class="amt" placeholder="금액(원)" type="number"/><button class="btn-del" onclick="delRow(this)">✕</button></div>
-</div>
-<button class="btn-add" onclick="addRow('pack-list')">＋ 항목 추가</button>
-<div class="section-total">포장비 소계: <span id="pack-total">0원</span></div>
-</div>
-<!-- 고정비 배분 -->
-<div class="card">
-<h2>🏪 월 고정비 (제품당 배분)</h2>
-<div id="fixed-list">
-<div class="cost-row"><input class="name" type="text" value="임차료"/><input class="amt" placeholder="월 금액(원)" type="number"/></div>
-<div class="cost-row"><input class="name" type="text" value="전기·수도·가스"/><input class="amt" placeholder="월 금액(원)" type="number"/></div>
-</div>
-<button class="btn-add" onclick="addRow('fixed-list', false)">＋ 고정비 추가</button>
-<div class="section-total">월 고정비 합계: <span id="fixed-total">0원</span></div>
-<div class="form-group" style="margin-top:14px">
-<label>월 판매 예상 수량 (개) — 고정비 배분 기준</label>
-<input id="monthlyQty" placeholder="예: 500" type="number"/>
-</div>
-</div>
-<!-- 마진 설정 -->
-<div class="card">
-<h2>📊 목표 마진 설정</h2>
-<div class="row2">
-<div class="form-group">
-<label>목표 마진율 (%)</label>
-<input id="targetMargin" placeholder="예: 60" type="number" value="60"/>
-</div>
-<div class="form-group">
-<label>부가세 포함 여부</label>
-<select id="vatInclude"><option value="no">별도 (B2B·면세)</option><option value="yes">포함 (소비자가)</option></select>
-</div>
-</div>
-<button class="btn" onclick="calcCost()">원가 계산하기</button>
-</div>
-<div class="result-card" id="result">
-<div class="result-main">
-<div class="result-label">제품 1개 총 원가</div>
-<div class="result-value" id="rCost">0원</div>
-<div class="result-sub" id="rSub"></div>
-</div>
-<div class="result-grid">
-<div class="result-item"><div class="result-item-label">변동비 (재료+포장+인건)</div><div class="result-item-value" id="rVar">-</div></div>
-<div class="result-item"><div class="result-item-label">고정비 배분</div><div class="result-item-value" id="rFixed">-</div></div>
-<div class="result-item"><div class="result-item-label">목표 마진율 적용 판매가</div><div class="result-item-value accent" id="rSellPrice">-</div></div>
-<div class="result-item"><div class="result-item-label">VAT 포함 판매가</div><div class="result-item-value" id="rVatPrice">-</div></div>
-</div>
-<div class="cost-breakdown">
-<h3>💡 원가 구성</h3>
-<div class="cb-row"><span>재료비</span><span id="cb-mat">-</span></div>
-<div class="cb-row"><span>직접 인건비</span><span id="cb-labor">-</span></div>
-<div class="cb-row"><span>포장비·기타</span><span id="cb-pack">-</span></div>
-<div class="cb-row"><span>고정비 배분</span><span id="cb-fixed">-</span></div>
-<div class="cb-row"><span>총 원가</span><span id="cb-total">-</span></div>
-</div>
-<div class="price-reco">
-<h3>💰 마진율별 권장 판매가</h3>
-<div id="priceRows"></div>
-</div>
-</div>
-
-
-    <div style="text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280;">
-    본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.
+  <div class="disclaimer">본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.</div>
+  <div class="calc-guide">
+    <div class="calc-guide-title">📋 사용 방법</div>
+    <div class="calc-guide-desc">재료비·인건비·포장비·고정비를 입력하면 제품 단위당 원가와 적정 판매가를 계산합니다.</div>
+    <div class="calc-guide-basis">📌 계산 기준: 단위원가 = (변동비 합계 + 고정비 배분) ÷ 목표 생산량 · 판매가 = 단위원가 ÷ (1 - 목표마진율)</div>
   </div>
   <div class="toss-nav">
-    <div class="toss-nav-title">📌 사업자 세금 계산기</div>
+    <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
     <div class="toss-nav-grid">
       <a href="/margin" class="toss-nav-item"><span class="ni-emoji">💹</span><span class="ni-label">마진율</span></a>
-      <a href="/breakeven" class="toss-nav-item"><span class="ni-emoji">⚖️</span><span class="ni-label">손익분기점</span></a>
       <a href="/operating_profit" class="toss-nav-item"><span class="ni-emoji">📈</span><span class="ni-label">영업이익</span></a>
-      <a href="/delivery_fee" class="toss-nav-item"><span class="ni-emoji">🛵</span><span class="ni-label">배달수수료</span></a>
+      <a href="/breakeven" class="toss-nav-item"><span class="ni-emoji">⚖️</span><span class="ni-label">손익분기점</span></a>
+      <a href="/vat_biz" class="toss-nav-item"><span class="ni-emoji">🧾</span><span class="ni-label">사업자부가세</span></a>
     </div>
   </div>
-
 </div>
+
 <script>
-const fmt = n => Math.round(n).toLocaleString();
-const fmtD = (n, d=1) => n.toFixed(d);
+let _unitVarCost = 0, _fixedCostTotal = 0;
 
-// 재료비 행 추가
-let matId = 1;
-function addMaterial() {
-  const div = document.createElement('div');
-  div.className = 'cost-row';
-  div.id = 'mat-' + matId;
-  div.innerHTML = `<input type="text" placeholder="재료명" style="flex:2" />
-    <input type="number" placeholder="금액(원)" class="amt" />
-    <button onclick="this.parentElement.remove()" class="btn-del">✕</button>`;
-  document.getElementById('material-list').appendChild(div);
-  matId++;
+/* ── 행 추가/삭제 ── */
+function addRow(listId, canDel=true){
+  const list=document.getElementById(listId);if(!list)return;
+  const row=document.createElement('div');row.className='cost-row';
+  row.innerHTML=`<input class="name" type="text" placeholder="항목명"/><input class="amt" type="number" placeholder="금액(원)"/>${canDel?'<button class="btn-del" onclick="delRow(this)">✕</button>':''}`;
+  list.appendChild(row);
 }
-function addPack() {
-  const div = document.createElement('div');
-  div.className = 'cost-row';
-  div.innerHTML = `<input type="text" placeholder="포장재명" style="flex:2" />
-    <input type="number" placeholder="금액(원)" class="amt" />
-    <button onclick="this.parentElement.remove()" class="btn-del">✕</button>`;
-  document.getElementById('pack-list').appendChild(div);
-}
-function addFixed() {
-  const div = document.createElement('div');
-  div.className = 'cost-row';
-  div.innerHTML = `<input type="text" placeholder="고정비명" style="flex:2" />
-    <input type="number" placeholder="월금액(원)" class="amt" />
-    <button onclick="this.parentElement.remove()" class="btn-del">✕</button>`;
-  document.getElementById('fixed-list').appendChild(div);
+function delRow(btn){btn.closest('.cost-row').remove();}
+
+/* ── 리스트 합계 ── */
+function listSum(id){
+  return Array.from(document.querySelectorAll(`#${id} input.amt`)).reduce((s,i)=>s+(+i.value||0),0);
 }
 
-function sumAmts(containerId) {
-  return Array.from(document.querySelectorAll('#' + containerId + ' .amt'))
-    .reduce((s, el) => s + (parseFloat(el.value) || 0), 0);
+/* ── 소계 표시 ── */
+function updateTotals(){
+  const fw=n=>Math.round(n).toLocaleString()+'원';
+  document.getElementById('material-total').textContent=fw(listSum('material-list'));
+  document.getElementById('pack-total').textContent=fw(listSum('pack-list'));
+  document.getElementById('fixed-total').textContent=fw(listSum('fixed-list'));
 }
+/* 입력 시 소계 실시간 갱신 */
+document.addEventListener('input',updateTotals);
 
-function calculate() {
-  const hourly    = parseFloat(document.getElementById('hourly').value) || 10320;
-  const mfgMin    = parseFloat(document.getElementById('mfgMin').value) || 0;
-  const batch     = parseFloat(document.getElementById('batch').value)  || 1;
-  const monthlyQty= parseFloat(document.getElementById('monthlyQty').value) || 1;
-  const targetMargin = parseFloat(document.getElementById('targetMargin').value) || 60;
-  const vatInclude   = document.getElementById('vatInclude').value;
+/* ── 메인 계산 ── */
+function calcCost(){
+  const fw=n=>Math.round(n).toLocaleString()+'원';
 
-  const matTotal  = sumAmts('material-list');
-  const packTotal = sumAmts('pack-list');
-  const fixedTotal= sumAmts('fixed-list');
+  /* 변동비 */
+  const matCost  = listSum('material-list');
+  const packCost = listSum('pack-list');
+  const hourly   = +document.getElementById('hourly').value||0;
+  const mfgMin   = +document.getElementById('mfgMin').value||0;
+  const batch    = +document.getElementById('batch').value||1;
+  const laborCost= batch>0 ? (hourly/60*mfgMin)/batch : 0;
+  const varCost  = matCost + packCost + laborCost;
 
-  // 단위당 인건비
-  const laborPerUnit = (hourly / 60) * mfgMin / batch;
-  // 변동비 합계
-  const varCost = matTotal + packTotal + laborPerUnit;
-  // 고정비 배분
-  const fixedPerUnit = monthlyQty > 0 ? fixedTotal / monthlyQty : 0;
-  // 총 원가
+  /* 고정비 배분 */
+  const fixedTotal = listSum('fixed-list');
+  const monthlyQty = +document.getElementById('monthlyQty').value||0;
+  const fixedPerUnit= monthlyQty>0 ? fixedTotal/monthlyQty : 0;
+
+  /* 총원가 */
   const totalCost = varCost + fixedPerUnit;
-  // 목표 판매가
-  const sellPrice = targetMargin > 0 ? totalCost / (1 - targetMargin / 100) : totalCost;
-  const vatPrice  = vatInclude === 'yes' ? sellPrice * 1.1 : sellPrice;
 
-  document.getElementById('rCost').textContent      = fmt(Math.round(totalCost)) + '원';
-  document.getElementById('rSub').textContent       = `변동비 ${fmt(Math.round(varCost))}원 + 고정비배분 ${fmt(Math.round(fixedPerUnit))}원`;
-  document.getElementById('rVar').textContent       = fmt(Math.round(varCost)) + '원';
-  document.getElementById('rFixed').textContent     = fmt(Math.round(fixedPerUnit)) + '원';
-  document.getElementById('rSellPrice').textContent = fmt(Math.round(sellPrice)) + '원';
-  document.getElementById('rVatPrice').textContent  = vatInclude === 'yes' ? fmt(Math.round(vatPrice)) + '원' : '별도';
+  /* 판매가 계산 */
+  const targetMargin = +document.getElementById('targetMargin').value||60;
+  const vatInclude   = document.getElementById('vatInclude').value;
+  const sellPrice    = targetMargin<100 ? totalCost/(1-targetMargin/100) : 0;
+  const vatPrice     = vatInclude==='yes' ? sellPrice*1.1 : sellPrice;
 
-  // 가격표 생성
-  const rows = document.getElementById('priceRows');
-  rows.innerHTML = '';
-  [30,40,50,60,70].forEach(m => {
-    const sp = totalCost / (1 - m/100);
-    const vp = vatInclude === 'yes' ? sp * 1.1 : sp;
-    const tr = document.createElement('div');
-    tr.className = 'result-item';
-    tr.innerHTML = `<div class="result-item-label">마진율 ${m}%</div>
-      <div class="result-item-value ${m === targetMargin ? 'accent' : ''}">
-        ${fmt(Math.round(sp))}원 ${vatInclude==='yes' ? '(VAT '+fmt(Math.round(vp))+'원)' : ''}
-      </div>`;
-    rows.appendChild(tr);
-  });
+  /* 결과 표시 */
+  document.getElementById('rCost').textContent     = fw(totalCost);
+  document.getElementById('rSub').textContent      = monthlyQty>0?`월 ${monthlyQty.toLocaleString()}개 판매 기준 고정비 배분`:'고정비 배분 미포함';
+  document.getElementById('rVar').textContent      = fw(varCost);
+  document.getElementById('rFixed').textContent    = fw(fixedPerUnit);
+  document.getElementById('rSellPrice').textContent= fw(sellPrice);
+  document.getElementById('rVatPrice').textContent = fw(vatPrice);
+  document.getElementById('cb-mat').textContent    = fw(matCost);
+  document.getElementById('cb-labor').textContent  = fw(laborCost);
+  document.getElementById('cb-pack').textContent   = fw(packCost);
+  document.getElementById('cb-fixed').textContent  = fw(fixedPerUnit);
+  document.getElementById('cb-total').textContent  = fw(totalCost);
 
-  document.getElementById('result').classList.add('show');
+  /* 마진율별 권장 판매가 */
+  const margins=[30,40,50,60,70,80];
+  document.getElementById('priceRows').innerHTML=margins.map(m=>{
+    const p=m<100?totalCost/(1-m/100):0;
+    const vp=vatInclude==='yes'?p*1.1:p;
+    return `<div class="price-row"><span>${m}% 마진 <span class="margin-pct">(원가율 ${100-m}%)</span></span><span class="price-val">${fw(p)}${vatInclude==='yes'?` / VAT포함 ${fw(vp)}`:''}</span></div>`;
+  }).join('');
+
+  /* 시뮬레이터 연동 */
+  _unitVarCost   = varCost;
+  _fixedCostTotal= fixedTotal;
+  document.getElementById('result').style.display='block';
+
+  /* 판매가 자동 입력 */
+  if(!document.getElementById('simPrice').value){
+    document.getElementById('simPrice').value=Math.round(sellPrice);
+  }
+  runSimulation();
 }
+
+/* ── 판매량 시뮬레이션 ── */
+function runSimulation(){
+  const price=parseFloat(document.getElementById('simPrice').value)||0;
+  const qty  =parseFloat(document.getElementById('simQty').value)||0;
+  const sc   =document.getElementById('sim-content');
+  if(!price||!qty){sc.style.display='none';return;}
+  const monthlyFixed=_fixedCostTotal;
+  const totalRev=price*qty;
+  const totalVar=_unitVarCost*qty;
+  const profit=totalRev-totalVar-monthlyFixed;
+  const marginRate=totalRev>0?(profit/totalRev*100).toFixed(1):0;
+  const contrib=price-_unitVarCost;
+  const bep=contrib>0&&monthlyFixed>0?Math.ceil(monthlyFixed/contrib):0;
+  const fmt=n=>Math.round(n).toLocaleString();
+  sc.style.display='block';
+  sc.innerHTML=`
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+      <div style="background:var(--bg);border-radius:8px;padding:10px;text-align:center">
+        <div style="font-size:10px;color:var(--text-muted);margin-bottom:3px">월 매출</div>
+        <div style="font-size:16px;font-weight:700;color:var(--accent)">${fmt(totalRev)}원</div>
+      </div>
+      <div style="background:var(--bg);border-radius:8px;padding:10px;text-align:center">
+        <div style="font-size:10px;color:var(--text-muted);margin-bottom:3px">월 손익</div>
+        <div style="font-size:16px;font-weight:700;color:${profit>=0?'#00d4aa':'#ff6b6b'}">${profit>=0?'+':''}${fmt(profit)}원 <span style="font-size:11px">(${marginRate}%)</span></div>
+      </div>
+    </div>
+    <div style="font-size:12px;line-height:1.9;color:var(--text-muted)">
+      변동비 합계: ${fmt(totalVar)}원 &nbsp;·&nbsp; 고정비: ${fmt(monthlyFixed)}원<br>
+      ${bep>0?`손익분기점: <strong style="color:var(--accent)">${bep.toLocaleString()}개</strong>/월 판매 필요 ${qty>=bep?'<span style="color:#00d4aa">✅ 달성!</span>':`(${bep-qty}개 더 필요)`}`:'고정비를 입력하면 BEP가 계산됩니다.'}
+    </div>`;
+}
+
+window.onload = () => calcCost();
 </script>
 </body>
 </html>
