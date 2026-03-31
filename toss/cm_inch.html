@@ -2,12 +2,14 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>cm · 인치 변환기</title>
-  <!-- TODO: 앱인토스 SDK 교체 -->
-  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cm inch 변환 계산기 | 모두의계산기</title>
+  <meta name="description" content="cm↔인치 변환 계산기 — 수치 입력 즉시 양방향 자동 변환. 한국인 평균 키 변환 참고표, TV·모니터 화면 크기 인치 환산, 피트·인치 표기법, 신발 사이즈 변환 포함." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" /></noscript>
   <style>
-
     :root {
       --bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;
       --accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;
@@ -15,7 +17,7 @@
     }
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
-    
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
     .container{max-width:800px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
     .header{text-align:center;margin-bottom:48px}
     .site-name{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:4px;color:var(--accent);text-transform:uppercase;margin-bottom:16px;opacity:.8;display:inline-block}
@@ -53,52 +55,30 @@
     @media(max-width:600px){.detail-grid{grid-template-columns:1fr}.two-btn{grid-template-columns:1fr}}
 
     /* ── 홈 버튼 ── */
-    
-    
-    
-    
-    
+    .home-btn-wrap { text-align: center; margin-bottom: 8px; }
+    .home-btn {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      width: 54px; height: 54px;
+      background: rgba(0,212,170,0.08);
+      border: 1.5px solid rgba(0,212,170,0.35);
+      border-radius: 50%;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .home-btn:hover { background: rgba(0,212,170,0.18); transform: translateY(-2px); }
+    .home-btn-emoji { font-size: 20px; line-height: 1; }
+    .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    .home-btn-wrap{text-align:center;margin-bottom:8px}
-    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
-    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
-    .home-btn-emoji{font-size:20px;line-height:1}
-    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+.rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+.rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+.rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
 
     .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
     .toss-header>.emoji{font-size:28px;flex-shrink:0}
@@ -111,71 +91,72 @@
     .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
     .ni-emoji{font-size:20px}
     .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
+    .calc-guide{margin-top:20px;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .calc-guide-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:12px}
+    .calc-guide-desc{font-size:13px;color:var(--text-muted);line-height:1.8;margin-bottom:12px}
+    .calc-guide-basis{font-size:12px;color:var(--text-muted);padding:10px 14px;background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;line-height:1.7}
+    .disclaimer{text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280}
+    @media(max-width:360px){.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
 
-    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+  
+    .sim-tbl{width:100%;border-collapse:collapse;margin-top:14px;font-size:13px}
+    .sim-tbl thead tr{background:var(--surface2)}
+    .sim-tbl th{padding:10px 8px;border:1px solid var(--border);color:var(--text-muted);font-weight:700;text-align:center;font-size:12px;letter-spacing:.3px}
+    .sim-tbl th:first-child{text-align:left}
+    .sim-tbl td{padding:10px 8px;border:1px solid var(--border);color:var(--text-muted);text-align:center;font-family:'Montserrat',sans-serif;font-size:13px}
+    .sim-tbl td:first-child{text-align:left;font-family:'Noto Sans KR',sans-serif;font-weight:700;color:var(--text)}
+    .sim-tbl tr.hl td{background:rgba(0,212,170,0.1);color:var(--accent);font-weight:700}
+    .sim-tbl tr.hl td:first-child{color:var(--accent)}
 
   </style>
+
 </head>
 <body>
 <div class="container">
-  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
-  <div class="toss-header">
+    <div class="toss-header">
     <span class="emoji">📏</span>
-    <div><h1>cm · 인치 변환기</h1><p>센티미터·인치·피트 변환</p></div>
+    <div><h1>cm ↔ inch 변환기</h1><p>센티미터 · 인치 · 피트 즉시 변환</p></div>
   </div>
 
-
-<div class="card">
-<div class="card-title">📏 단위 입력</div>
-<div class="input-group">
-<label>센티미터 (cm)</label>
-<div class="input-wrapper">
-<input id="cmVal" oninput="syncCm(this)" placeholder="예: 175" type="text"/>
-<span class="input-unit">cm</span>
-</div>
-</div>
-<div class="input-group">
-<label>인치 (inch)</label>
-<div class="input-wrapper">
-<input id="inchVal" oninput="syncInch(this)" placeholder="예: 68.9" type="text"/>
-<span class="input-unit">inch</span>
-</div>
-</div>
-<div class="input-group">
-<label>피트+인치 (ft″)</label>
-<div class="input-wrapper">
-<input id="ftVal" placeholder="예: 5′9″" readonly="" style="background:#0d1117;color:#8b949e;font-size:15px" type="text"/>
-<span class="input-unit">ft</span>
-</div>
-</div>
-</div>
-<div class="result-card" id="cmResult" style="display:none">
-<div class="result-label">변환 결과</div>
-<div class="result-value" id="cmResultVal"></div>
-<div class="result-sub" id="cmResultSub"></div>
-</div>
-<div class="card">
-<div class="card-title">📊 키 변환 참고표</div>
-<table style="width:100%;border-collapse:collapse;font-size:13px">
-<thead><tr style="background:#21262d"><th style="padding:10px;border:1px solid #30363d;color:#e6edf3">cm</th><th style="padding:10px;border:1px solid #30363d;color:#e6edf3">inch</th><th style="padding:10px;border:1px solid #30363d;color:#e6edf3">피트+인치</th></tr></thead>
-<tbody id="cmTable"></tbody>
-</table>
-</div>
-
-
-    <div style="text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280;">
-    본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.
-  </div>
-  <div class="toss-nav">
-    <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
-    <div class="toss-nav-grid">
-      <a href="/area_converter" class="toss-nav-item"><span class="ni-emoji">📐</span><span class="ni-label">넓이변환</span></a>
-      <a href="/bmi" class="toss-nav-item"><span class="ni-emoji">⚖️</span><span class="ni-label">BMI</span></a>
-      <a href="/age" class="toss-nav-item"><span class="ni-emoji">🎂</span><span class="ni-label">나이</span></a>
-      <a href="/dday" class="toss-nav-item"><span class="ni-emoji">⏳</span><span class="ni-label">D-Day</span></a>
+  <div class="card">
+    <div class="card-title">📏 단위 입력</div>
+    <div class="input-group">
+      <label>센티미터 (cm)</label>
+      <div class="input-wrapper">
+        <input type="text" id="cmVal" placeholder="예: 175" value="175" oninput="syncCm(this)" />
+        <span class="input-unit">cm</span>
+      </div>
+    </div>
+    <div class="input-group">
+      <label>인치 (inch)</label>
+      <div class="input-wrapper">
+        <input type="text" id="inchVal" placeholder="예: 68.9" oninput="syncInch(this)" />
+        <span class="input-unit">inch</span>
+      </div>
+    </div>
+    <div class="input-group">
+      <label>피트+인치 (ft″)</label>
+      <div class="input-wrapper">
+        <input type="text" id="ftVal" placeholder="예: 5′9″" readonly style="background:#0d1117;color:#8b949e;font-size:15px" />
+        <span class="input-unit">ft</span>
+      </div>
     </div>
   </div>
-</div>
+
+  <div id="cmResult" style="display:none" class="result-card">
+    <div class="result-label">변환 결과</div>
+    <div id="cmResultVal" class="result-value"></div>
+    <div id="cmResultSub" class="result-sub"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 키 변환 참고표</div>
+    <table style="width:100%;border-collapse:collapse;font-size:13px">
+      <thead><tr style="background:#21262d"><th style="padding:10px;border:1px solid #30363d;color:#e6edf3">cm</th><th style="padding:10px;border:1px solid #30363d;color:#e6edf3">inch</th><th style="padding:10px;border:1px solid #30363d;color:#e6edf3">피트+인치</th></tr></thead>
+      <tbody id="cmTable"></tbody>
+    </table>
+  </div>
+
 <script>
 const heights=[155,160,163,165,168,170,173,175,178,180,183,185,188,190];
 const tb=document.getElementById('cmTable');
@@ -214,5 +195,152 @@ function syncInch(el){
   showResult(cm,v);
 }
 </script>
+
+
+  <div class="card" id="simCard" style="margin-top:8px">
+    <div class="card-title">&#128248; 체형 사이즈 변환기</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">가슴&#183;허리&#183;엉덩이 둘레(cm)를 입력하면 한국&#183;미국&#183;유럽 의류 사이즈를 알려드립니다. 해외 직구 시 활용하세요.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">
+      <div>
+        <label style="display:block;font-size:12px;color:var(--text-muted);margin-bottom:5px">가슴 둘레</label>
+        <div style="position:relative">
+          <input type="number" id="sz-chest" value="88" min="60" max="140" oninput="updateSizeSim()"
+            style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:9px 30px 9px 10px;font-size:14px;font-weight:700;color:var(--text);outline:none"/>
+          <span style="position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--text-muted);pointer-events:none">cm</span>
+        </div>
+      </div>
+      <div>
+        <label style="display:block;font-size:12px;color:var(--text-muted);margin-bottom:5px">허리 둘레</label>
+        <div style="position:relative">
+          <input type="number" id="sz-waist" value="74" min="50" max="130" oninput="updateSizeSim()"
+            style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:9px 30px 9px 10px;font-size:14px;font-weight:700;color:var(--text);outline:none"/>
+          <span style="position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--text-muted);pointer-events:none">cm</span>
+        </div>
+      </div>
+      <div>
+        <label style="display:block;font-size:12px;color:var(--text-muted);margin-bottom:5px">엉덩이 둘레</label>
+        <div style="position:relative">
+          <input type="number" id="sz-hip" value="94" min="60" max="140" oninput="updateSizeSim()"
+            style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:9px 30px 9px 10px;font-size:14px;font-weight:700;color:var(--text);outline:none"/>
+          <span style="position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--text-muted);pointer-events:none">cm</span>
+        </div>
+      </div>
+    </div>
+    <div id="sizeSimResult" style="overflow-x:auto"></div>
+    <p style="font-size:11px;color:var(--text-muted);margin-top:8px">&#8251; 브랜드&#183;국가마다 기준이 다를 수 있으니 구매 전 해당 브랜드 사이즈 차트를 반드시 확인하세요</p>
+  </div>
+  <div class="disclaimer">본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.</div>
+  <div class="calc-guide">
+    <div class="calc-guide-title">📋 사용 방법</div>
+    <div class="calc-guide-desc">cm·인치·피트 단위를 상호 변환합니다. 키 참고표와 체형 사이즈 변환기도 확인해보세요.</div>
+    <div class="calc-guide-basis">📌 계산 기준: 1인치 = 2.54cm · 1피트 = 30.48cm · 1피트 = 12인치</div>
+  </div>
+  <div class="toss-nav">
+    <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
+    <div class="toss-nav-grid">
+      <a href="/area_converter" class="toss-nav-item"><span class="ni-emoji">📐</span><span class="ni-label">평수변환</span></a>
+      <a href="/bmi" class="toss-nav-item"><span class="ni-emoji">⚖️</span><span class="ni-label">BMI</span></a>
+      <a href="/blood_pressure" class="toss-nav-item"><span class="ni-emoji">❤️</span><span class="ni-label">혈압</span></a>
+      <a href="/age" class="toss-nav-item"><span class="ni-emoji">🎂</span><span class="ni-label">나이</span></a>
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+</style>
+
+<script>
+var _szData = {
+  // [라벨, 가슴min, 가슴max, 허리min, 허리max]
+  KR: [
+    {label:'XS (44)',  chest:[79,83],  waist:[62,66],  hip:[87,91]},
+    {label:'S (55)',   chest:[83,87],  waist:[66,70],  hip:[91,95]},
+    {label:'M (66)',   chest:[87,91],  waist:[70,74],  hip:[95,99]},
+    {label:'L (77)',   chest:[91,96],  waist:[74,79],  hip:[99,104]},
+    {label:'XL (88)', chest:[96,101], waist:[79,84],  hip:[104,109]},
+    {label:'XXL',     chest:[101,108],waist:[84,91],  hip:[109,116]},
+  ],
+  US: [
+    {label:'XS (0-2)',  chest:[79,83],  waist:[62,66],  hip:[87,91]},
+    {label:'S (4-6)',   chest:[83,87],  waist:[66,70],  hip:[91,95]},
+    {label:'M (8-10)',  chest:[87,92],  waist:[70,75],  hip:[95,100]},
+    {label:'L (12-14)', chest:[92,97],  waist:[75,80],  hip:[100,105]},
+    {label:'XL (16)',   chest:[97,103], waist:[80,86],  hip:[105,111]},
+    {label:'XXL (18)', chest:[103,110],waist:[86,93],  hip:[111,118]},
+  ],
+  EU: [
+    {label:'EU 34', chest:[79,83],  waist:[62,66],  hip:[87,91]},
+    {label:'EU 36', chest:[83,87],  waist:[66,70],  hip:[91,95]},
+    {label:'EU 38', chest:[87,91],  waist:[70,74],  hip:[95,99]},
+    {label:'EU 40', chest:[91,96],  waist:[74,79],  hip:[99,104]},
+    {label:'EU 42', chest:[96,101], waist:[79,84],  hip:[104,109]},
+    {label:'EU 44', chest:[101,108],waist:[84,91],  hip:[109,116]},
+  ],
+};
+function _findSize(data, chest, waist, hip) {
+  // 가슴 우선 매칭
+  for (var i = 0; i < data.length; i++) {
+    var d = data[i];
+    if (chest >= d.chest[0] && chest < d.chest[1]) return {label: d.label, match: 'chest'};
+  }
+  // 허리 매칭
+  for (var i = 0; i < data.length; i++) {
+    var d = data[i];
+    if (waist >= d.waist[0] && waist < d.waist[1]) return {label: d.label, match: 'waist'};
+  }
+  // 엉덩이 매칭
+  for (var i = 0; i < data.length; i++) {
+    var d = data[i];
+    if (hip >= d.hip[0] && hip < d.hip[1]) return {label: d.label, match: 'hip'};
+  }
+  // 범위 초과 처리
+  if (chest < _szData.KR[0].chest[0]) return {label: data[0].label + ' 이하', match: 'under'};
+  return {label: data[data.length-1].label + ' 이상', match: 'over'};
+}
+function updateSizeSim() {
+  var chest = parseFloat(document.getElementById('sz-chest').value) || 88;
+  var waist = parseFloat(document.getElementById('sz-waist').value) || 74;
+  var hip   = parseFloat(document.getElementById('sz-hip').value)   || 94;
+
+  var kr = _findSize(_szData.KR, chest, waist, hip);
+  var us = _findSize(_szData.US, chest, waist, hip);
+  var eu = _findSize(_szData.EU, chest, waist, hip);
+
+  var matchLabel = {'chest':'가슴 기준', 'waist':'허리 기준', 'hip':'엉덩이 기준', 'under':'최소 이하', 'over':'최대 초과'};
+
+  // 상단 결과 카드
+  var topHTML = '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px">';
+  var regions = [{name:'한국', r:kr, flag:'&#127472;&#127479;'}, {name:'미국', r:us, flag:'&#127482;&#127480;'}, {name:'유럽', r:eu, flag:'&#127466;&#127482;'}];
+  regions.forEach(function(reg) {
+    topHTML += '<div style="background:linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,149,255,0.04));border:1px solid rgba(0,212,170,0.25);border-radius:12px;padding:12px;text-align:center">'
+      + '<div style="font-size:18px;margin-bottom:4px">' + reg.flag + '</div>'
+      + '<div style="font-size:11px;color:var(--text-muted);margin-bottom:6px">' + reg.name + '</div>'
+      + '<div style="font-size:17px;font-weight:900;color:var(--accent)">' + reg.r.label + '</div>'
+      + '<div style="font-size:10px;color:var(--text-muted);margin-top:3px">' + matchLabel[reg.r.match] + '</div>'
+      + '</div>';
+  });
+  topHTML += '</div>';
+
+  // 상세 사이즈 참고표 (한국 기준)
+  var rows = '';
+  _szData.KR.forEach(function(d, i) {
+    var isMatch = (chest >= d.chest[0] && chest < d.chest[1]);
+    rows += '<tr' + (isMatch ? ' class="hl"' : '') + '>'
+      + '<td>' + d.label + '</td>'
+      + '<td>' + d.chest[0] + '~' + d.chest[1] + '</td>'
+      + '<td>' + d.waist[0] + '~' + d.waist[1] + '</td>'
+      + '<td>' + d.hip[0]   + '~' + d.hip[1]   + '</td>'
+      + '</tr>';
+  });
+  var tbl = '<table class="sim-tbl"><thead><tr><th>한국 사이즈</th><th>가슴(cm)</th><th>허리(cm)</th><th>엉덩이(cm)</th></tr></thead><tbody>'
+    + rows + '</tbody></table>';
+
+  document.getElementById('sizeSimResult').innerHTML = topHTML + tbl;
+}
+document.addEventListener('DOMContentLoaded', () => { updateSizeSim(); const el=document.getElementById('cmVal'); syncCm(el); });
+</script>
+
 </body>
 </html>
