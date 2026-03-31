@@ -39,8 +39,9 @@
     .base-name{font-size:18px;font-weight:700;color:var(--accent)}
     .input-group{margin-bottom:18px}
     .input-group label{display:block;font-size:14px;font-weight:500;color:var(--text-muted);margin-bottom:7px}
-    input[type="datetime-local"]{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:13px 16px;font-size:17px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none;transition:border-color .2s}
+    input[type="datetime-local"]{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:13px 16px;font-size:17px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none;transition:border-color .2s;cursor:pointer}
     input[type="datetime-local"]:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,170,0.1)}
+    input[type="datetime-local"]::-webkit-calendar-picker-indicator{filter:invert(1) brightness(1.8);cursor:pointer;opacity:.9;padding:2px}
     .calc-btn{width:100%;padding:17px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;font-size:16px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:#000;cursor:pointer;margin-top:6px;transition:transform .15s,box-shadow .15s}
     .calc-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,212,170,0.3)}
     .now-btn{width:100%;padding:11px;background:transparent;border:1px solid var(--border);border-radius:10px;font-size:14px;font-weight:600;font-family:'Noto Sans KR',sans-serif;color:var(--text-muted);cursor:pointer;margin-bottom:10px;transition:all .2s}
@@ -95,6 +96,19 @@
   <div id="resultSection" style="display:none">
     <div class="result-grid" id="cityGrid"></div>
   </div>
+
+  <!-- 글로벌 미팅 시간 찾기 시뮬레이터 -->
+  <div class="card" id="simCard" style="background:rgba(0,212,170,.04);border-color:rgba(0,212,170,.2);margin-top:0">
+    <div class="card-title" style="color:var(--accent)">🌐 글로벌 미팅 시간 찾기</div>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:16px;line-height:1.7">슬라이더로 서울 기준 시각을 조정하면 9개 도시의 현재 시각과 업무/취침 여부를 실시간으로 확인합니다. 글로벌 팀 미팅 일정 조율 시 활용하세요.</p>
+    <div style="margin-bottom:16px">
+      <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:6px">서울 기준 시각</label>
+      <input type="range" id="hourSlider" min="0" max="23" step="1" value="9" oninput="updateMeetingFinder()" style="width:100%;accent-color:var(--accent)">
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-top:3px"><span>자정 0시</span><span>정오 12시</span><span>밤 23시</span></div>
+      <div id="hourLabel" style="text-align:center;font-size:16px;font-weight:700;color:var(--accent);margin-top:10px">서울 오전 9시 기준</div>
+    </div>
+    <div id="meetingGrid"></div>
+  </div>
 </div>
 
 <div class="rel-section">
@@ -137,6 +151,7 @@
 
   <h2>주요 도시 시차 기준표 (서울 KST UTC+9 기준)</h2>
   <p>아래 시차는 표준시 기준입니다. 서머타임(DST) 적용 기간에는 ±1시간이 달라집니다. 미국·유럽은 3월~10/11월에, 호주는 10월~4월(남반구 여름)에 서머타임이 적용됩니다.</p>
+  <p>한국·일본·중국·싱가포르·두바이는 연중 서머타임을 적용하지 않아 시차가 항상 고정됩니다. 반면 미국·유럽과는 계절에 따라 시차가 1시간씩 달라지므로, 위 계산기에서 정확한 날짜를 입력해 확인하는 것이 가장 정확합니다.</p>
   <table>
     <thead><tr><th>도시</th><th>표준 시간대</th><th>서울과 시차</th><th>서머타임 적용</th></tr></thead>
     <tbody>
@@ -155,6 +170,7 @@
 
   <h2>서머타임(DST)이란? 국가별 적용 시기 정리</h2>
   <p>서머타임(Daylight Saving Time, DST)은 여름철 일조 시간을 활용하기 위해 시계를 1시간 앞당기는 제도입니다. 미국과 유럽이 대표적으로 시행하며, 한국·일본·중국은 서머타임을 적용하지 않습니다.</p>
+  <p>서머타임이 시작되면 해당 국가의 시계가 1시간 앞으로 당겨지므로, 한국과의 시차는 반대로 1시간 줄어듭니다. 예를 들어 평상시 뉴욕(EST)과 서울의 시차는 14시간이지만, 서머타임(EDT) 기간에는 13시간이 됩니다. 화상회의·해외 거래 시 서머타임 적용 여부를 반드시 확인하세요.</p>
   <table>
     <thead><tr><th>국가/지역</th><th>서머타임 시작</th><th>서머타임 종료</th><th>비고</th></tr></thead>
     <tbody>
@@ -171,6 +187,8 @@
   </div>
 
   <h2>시차 계산이 필요한 실생활 상황</h2>
+  <p>글로벌 업무 환경이 일반화되면서 시차 계산이 필요한 상황이 점점 많아지고 있습니다. 위 "글로벌 미팅 시간 찾기" 시뮬레이터를 활용하면 슬라이더 조정만으로 모든 주요 도시의 업무 가능 여부를 즉시 확인할 수 있습니다.</p>
+  <p>특히 해외 주식·선물 거래 시에는 시장 개장 시간을 한국 시간으로 정확히 알아두는 것이 중요합니다. 미국 나스닥·NYSE 정규장은 ET 기준 오전 9:30~오후 4:00로, 서머타임 적용 시 한국 기준 오후 10:30~익일 오전 4:00, 미적용 시 오후 11:30~익일 오전 5:00입니다.</p>
   <ul>
     <li><strong>화상회의 일정 조율</strong> — 글로벌 팀과 미팅 시 참여자 위치를 고려해 모두가 업무 시간 내에 있는 공통 시간대를 찾아야 합니다.</li>
     <li><strong>해외 항공편 예약</strong> — 출발지와 목적지의 현지 시간이 다를 때 이 계산기로 도착 현지 시간을 바로 파악할 수 있습니다.</li>
@@ -179,6 +197,7 @@
   </ul>
 
   <h2>자주 묻는 질문 — 시간대 변환기</h2>
+  <p>시차와 서머타임에 대해 자주 혼동하는 내용을 Q&A로 정리했습니다. 더 궁금한 점은 위 계산기에서 직접 날짜와 시간을 입력해 확인하세요.</p>
   <details><summary>한국과 일본의 시차가 0시간인 이유는 무엇인가요?</summary><div class="faq-answer">한국(KST)과 일본(JST) 모두 UTC+9를 사용합니다. 한국은 1954년 UTC+8:30으로 바꿨다가 1961년 다시 UTC+9로 환원했습니다. 현재는 두 나라 모두 UTC+9로 시차가 없지만, 공식적으로는 별도의 시간대 명칭을 사용합니다.</div></details>
   <details><summary>서머타임이 없는 나라와 비교할 때 시차가 왜 변하나요?</summary><div class="faq-answer">한국은 서머타임을 적용하지 않아 연중 UTC+9로 고정입니다. 반면 미국이나 유럽은 서머타임 기간에 시계를 1시간 앞당기므로 상대적으로 한국과의 시차가 1시간 줄어듭니다. 예를 들어 서머타임 미적용 시 뉴욕과 서울의 시차는 14시간이지만, 서머타임 적용 시 13시간이 됩니다.</div></details>
   <details><summary>뉴욕과 화상회의를 하기 좋은 시간은 언제인가요?</summary><div class="faq-answer">서머타임 적용 기간(3~11월): 서울 오후 10시 = 뉴욕 오전 9시로, 양측 모두 가능한 시간대입니다. 서머타임 미적용 기간(11~3월): 서울 오후 11시 = 뉴욕 오전 9시로, 서울 쪽이 늦은 시간이라 다소 불편합니다. 위 계산기에 원하는 날짜와 시간을 입력해 정확히 확인하세요.</div></details>
@@ -188,17 +207,20 @@
 </div>
 
 <script>
-  const CITIES = [
-    { name: '서울', flag: '🇰🇷', tz: 'Asia/Seoul', base: true },
-    { name: '도쿄', flag: '🇯🇵', tz: 'Asia/Tokyo' },
-    { name: '베이징', flag: '🇨🇳', tz: 'Asia/Shanghai' },
-    { name: '싱가포르', flag: '🇸🇬', tz: 'Asia/Singapore' },
-    { name: '두바이', flag: '🇦🇪', tz: 'Asia/Dubai' },
-    { name: '런던', flag: '🇬🇧', tz: 'Europe/London' },
-    { name: '파리', flag: '🇫🇷', tz: 'Europe/Paris' },
-    { name: '뉴욕', flag: '🇺🇸', tz: 'America/New_York' },
-    { name: 'LA', flag: '🇺🇸', tz: 'America/Los_Angeles' },
-    { name: '시드니', flag: '🇦🇺', tz: 'Australia/Sydney' },
+  // 같은 시간대 도시는 묶어서 표기
+  const CITY_GROUPS = [
+    { label: '서울 · 도쿄',       flags: '🇰🇷🇯🇵', tz: 'Asia/Seoul',            base: true },
+    { label: '베이징 · 싱가포르',  flags: '🇨🇳🇸🇬', tz: 'Asia/Shanghai' },
+    { label: '방콕',              flags: '🇹🇭',     tz: 'Asia/Bangkok' },
+    { label: '뭄바이',            flags: '🇮🇳',     tz: 'Asia/Kolkata' },
+    { label: '두바이',            flags: '🇦🇪',     tz: 'Asia/Dubai' },
+    { label: '테헤란',            flags: '🇮🇷',     tz: 'Asia/Tehran' },
+    { label: '모스크바',          flags: '🇷🇺',     tz: 'Europe/Moscow' },
+    { label: '런던',              flags: '🇬🇧',     tz: 'Europe/London' },
+    { label: '파리 · 베를린',     flags: '🇫🇷🇩🇪', tz: 'Europe/Paris' },
+    { label: '뉴욕',              flags: '🇺🇸',     tz: 'America/New_York' },
+    { label: 'LA',                flags: '🇺🇸',     tz: 'America/Los_Angeles' },
+    { label: '시드니',            flags: '🇦🇺',     tz: 'Australia/Sydney' },
   ];
 
   function setNow() {
@@ -223,14 +245,13 @@
     const input = document.getElementById('seoulTime').value;
     if (!input) { alert('날짜와 시간을 입력해주세요.'); return; }
 
-    // 서울 시간을 UTC로 변환 (KST = UTC+9)
     const seoulDate = new Date(input + ':00');
     const utcMs = seoulDate.getTime() - (9 * 60 * 60000);
 
     const grid = document.getElementById('cityGrid');
     grid.innerHTML = '';
 
-    CITIES.forEach(city => {
+    CITY_GROUPS.forEach(city => {
       const cityDate = new Date(utcMs);
       const opts = { timeZone: city.tz, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false };
       const parts = new Intl.DateTimeFormat('ko-KR', opts).formatToParts(cityDate);
@@ -240,18 +261,16 @@
       const timeStr = mp.hour + ':' + mp.minute;
       const dateStr = mp.year + '.' + mp.month + '.' + mp.day;
       const hourNum = parseInt(mp.hour);
-      const status = getStatus(hourNum);
-
-      // UTC 오프셋 계산
+      const status  = getStatus(hourNum);
       const utcOffset = (new Date(utcMs).toLocaleString('en', { timeZone: city.tz, timeZoneName: 'short' })).split(' ').pop();
 
       const card = document.createElement('div');
       card.className = 'city-card' + (city.base ? ' base' : '');
       card.innerHTML = `
         <div class="city-top">
-          <span class="city-flag">${city.flag}</span>
-          <span class="city-name">${city.name}</span>
-          <span class="city-tz">${city.tz.split('/').pop()}</span>
+          <span class="city-flag">${city.flags}</span>
+          <span class="city-name">${city.label}</span>
+          <span class="city-tz">${utcOffset}</span>
         </div>
         <div class="city-time">${timeStr}</div>
         <div class="city-date">${dateStr}</div>
@@ -263,7 +282,66 @@
     document.getElementById('resultSection').style.display = 'block';
   }
 
-  window.onload = () => setNow();
+  window.onload = () => {
+    setNow();
+    calc();
+    // 날짜 입력창 전체 클릭 시 달력 열기
+    const dtInput = document.getElementById('seoulTime');
+    if (dtInput) {
+      dtInput.addEventListener('click', () => {
+        try { dtInput.showPicker(); } catch(e) {}
+      });
+    }
+    // 슬라이더를 현재 서울 시각으로 초기화
+    const seoulNow = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
+    const el = document.getElementById('hourSlider');
+    if (el) el.value = seoulNow.getHours();
+    updateMeetingFinder();
+  };
+
+  function updateMeetingFinder() {
+    const hour = parseInt(document.getElementById('hourSlider').value);
+    const ampm = hour < 12 ? '오전' : '오후';
+    const h12  = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
+    document.getElementById('hourLabel').textContent = `서울 ${ampm} ${h12}시 (${String(hour).padStart(2,'0')}:00) 기준`;
+
+    const seoulNow = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
+    const utcMs = Date.UTC(seoulNow.getFullYear(), seoulNow.getMonth(), seoulNow.getDate(), hour, 0, 0)
+                  - 9 * 3600000;
+    const target = new Date(utcMs);
+
+    const available = [];
+    let html = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">';
+    CITY_GROUPS.filter(c => !c.base).forEach(city => {
+      const parts = new Intl.DateTimeFormat('ko-KR', {
+        timeZone: city.tz, hour: '2-digit', minute: '2-digit', hour12: false
+      }).formatToParts(target);
+      const mp = {};
+      parts.forEach(p => mp[p.type] = p.value);
+      const cityHour = parseInt(mp.hour);
+      const status   = getStatus(cityHour);
+      if (status.cls === 'status-work') available.push(city.label);
+      html += `<div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:10px">
+        <span style="font-size:16px;line-height:1">${city.flags}</span>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:11px;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${city.label}</div>
+          <div style="font-size:17px;font-weight:900;color:var(--text);font-family:'Montserrat',sans-serif">${mp.hour}:${mp.minute}</div>
+        </div>
+        <span class="city-status ${status.cls}" style="white-space:nowrap">${status.label}</span>
+      </div>`;
+    });
+    html += '</div>';
+
+    const tip    = available.length > 0
+      ? `✅ 업무 시간 중: ${available.join(' · ')}`
+      : '⚠️ 이 시간대에 업무 중인 도시가 없습니다';
+    const tipBg  = available.length > 0 ? 'rgba(0,212,170,.05)' : 'rgba(255,107,107,.05)';
+    const tipBd  = available.length > 0 ? 'rgba(0,212,170,.2)'  : 'rgba(255,107,107,.2)';
+    const tipClr = available.length > 0 ? 'var(--accent)' : 'var(--danger)';
+    html += `<div style="margin-top:12px;padding:12px 16px;background:${tipBg};border:1px solid ${tipBd};border-radius:10px;font-size:13px;color:${tipClr};font-weight:600;line-height:1.7">${tip}</div>`;
+
+    document.getElementById('meetingGrid').innerHTML = html;
+  }
 </script>
 <script src="/common.js" defer></script><script src="/share.js" defer></script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));}</script>

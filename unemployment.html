@@ -455,6 +455,35 @@
     </div>
   </div>
 
+  <!-- 급여 구간별 실업급여 비교 시뮬레이터 -->
+  <div style="max-width:700px;margin:0 auto;padding:0 20px;box-sizing:border-box">
+  <div class="card" id="simCard" style="background:rgba(0,212,170,.04);border:1px solid rgba(0,212,170,.2);border-radius:var(--radius);padding:28px;margin-bottom:20px">
+    <div class="card-title" style="color:var(--accent)">📊 급여 구간별 실업급여 비교</div>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">가입기간과 나이 조건을 선택하면 월 급여 구간별 1일 수급액과 총 예상 수령액을 자동 비교합니다. 내 급여에 해당하는 행이 강조됩니다.</p>
+    <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap">
+      <div style="flex:1;min-width:140px">
+        <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:5px">고용보험 가입기간</label>
+        <select id="sim-period" onchange="updateSimTable()" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:13px;outline:none">
+          <option value="6">6개월~1년 미만</option>
+          <option value="12" selected>1년~3년 미만</option>
+          <option value="36">3년~5년 미만</option>
+          <option value="60">5년~10년 미만</option>
+          <option value="120">10년 이상</option>
+        </select>
+      </div>
+      <div style="flex:1;min-width:140px">
+        <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:5px">나이</label>
+        <select id="sim-age" onchange="updateSimTable()" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:13px;outline:none">
+          <option value="young">만 50세 미만</option>
+          <option value="old">만 50세 이상 / 장애인</option>
+        </select>
+      </div>
+    </div>
+    <div id="simTableWrap" style="overflow-x:auto"></div>
+    <p style="font-size:11px;color:var(--text-muted);margin-top:10px;line-height:1.7">※ 2026년 기준. 상한 68,100원/일, 하한 66,048원/일(최저임금 10,320원 × 8시간 × 80%). 실제 지급액은 고용센터 심사 결과에 따라 다를 수 있습니다.</p>
+  </div>
+  </div>
+
   <script>
     function fmt(n) { return Math.round(n).toLocaleString('ko-KR'); }
 
@@ -518,6 +547,8 @@
 
       document.getElementById('resultCard').classList.add('visible');
 
+      updateSimTable();
+
       // 월별 수급 타임라인 렌더링
       const tc = document.getElementById('timelineCard');
       const tb = document.getElementById('timelineBody');
@@ -539,7 +570,45 @@
       tb.innerHTML = html;
     }
 
-    window.onload = () => calculate();
+    window.onload = () => { calculate(); updateSimTable(); };
+
+    function updateSimTable() {
+      const months  = parseInt(document.getElementById('sim-period').value) || 12;
+      const isOld   = document.getElementById('sim-age').value === 'old';
+      const days    = getBenefitDays(months, isOld);
+      const upper   = 68100;
+      const lower   = Math.round(10320 * 8 * 0.8); // 66,048원
+      const curSalary = parseFloat(document.getElementById('avgSalary').value) || 3000000;
+
+      const salaries = [1500000, 2000000, 3000000, 4000000, 5000000, 7000000];
+      const labels   = ['150만원', '200만원', '300만원', '400만원', '500만원', '700만원'];
+
+      const th = (t) => `<th style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--accent);border-bottom:1px solid var(--border);white-space:nowrap">${t}</th>`;
+      let html = `<table style="width:100%;border-collapse:collapse;min-width:360px">
+        <thead><tr>${th('월 평균급여')}${th('1일 수급액')}${th('수급일수')}${th('총 수령액')}</tr></thead><tbody>`;
+
+      salaries.forEach((sal, i) => {
+        const dailyAvg    = (sal * 3) / 91;
+        const dailyRaw    = dailyAvg * 0.6;
+        const daily       = Math.min(Math.max(dailyRaw, lower), upper);
+        const total       = daily * days;
+        const isCurrent   = Math.abs(sal - curSalary) < 750000;
+        const bg          = isCurrent ? 'background:rgba(0,212,170,.08)' : '';
+        const tdS         = `style="padding:9px 12px;font-size:13px;border-bottom:1px solid var(--border);${bg}"`;
+        const mark        = isCurrent ? ' <span style="font-size:10px;color:var(--accent);font-weight:700">◀ 내 급여</span>' : '';
+        const capNote     = daily === upper ? '<br><span style="font-size:10px;color:var(--text-muted)">상한 적용</span>'
+                          : daily === lower ? '<br><span style="font-size:10px;color:var(--text-muted)">하한 적용</span>' : '';
+
+        html += `<tr style="${bg}">
+          <td ${tdS}>${labels[i]}${mark}</td>
+          <td ${tdS}><strong style="color:${isCurrent?'var(--accent)':'var(--text)'}">${fmt(daily)}원</strong>${capNote}</td>
+          <td ${tdS} style="text-align:center">${days}일</td>
+          <td ${tdS}><strong>${fmt(total)}원</strong></td>
+        </tr>`;
+      });
+      html += '</tbody></table>';
+      document.getElementById('simTableWrap').innerHTML = html;
+    }
   </script>
 
 <style>
