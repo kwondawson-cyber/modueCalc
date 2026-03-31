@@ -2,12 +2,14 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>실업급여 계산기</title>
-  <!-- TODO: 앱인토스 SDK 교체 -->
-  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>실업급여 계산기 | 모두의계산기</title>
+  <meta name="description" content="실업급여(구직급여) 계산기 — 고용보험 가입기간·연령·평균임금으로 1일 수급액·총 수령액 자동 계산. 수급일수표, 자격 요건, 신청 절차 포함." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" /></noscript>
   <style>
-
     :root {
       --bg: #0d1117;
       --surface: #161b22;
@@ -28,7 +30,17 @@
       color: var(--text);
       min-height: 100vh;
     }
-    
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,170,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,170,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
     .container {
       max-width: 700px;
       margin: 0 auto;
@@ -244,58 +256,33 @@
     }
 
     /* ── 홈 버튼 ── */
-    
-    
-    
-    
-    
+    .home-btn-wrap { text-align: center; margin-bottom: 8px; }
+    .home-btn {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      width: 54px; height: 54px;
+      background: rgba(0,212,170,0.08);
+      border: 1.5px solid rgba(0,212,170,0.35);
+      border-radius: 50%;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .home-btn:hover { background: rgba(0,212,170,0.18); transform: translateY(-2px); }
+    .home-btn-emoji { font-size: 20px; line-height: 1; }
+    .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
       .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
   
 
 
 
 
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    .home-btn-wrap{text-align:center;margin-bottom:8px}
-    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
-    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
-    .home-btn-emoji{font-size:20px;line-height:1}
-    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
 
     .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
     .toss-header>.emoji{font-size:28px;flex-shrink:0}
@@ -308,164 +295,222 @@
     .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
     .ni-emoji{font-size:20px}
     .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
-
-    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+    .calc-guide{margin-top:20px;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .calc-guide-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:12px}
+    .calc-guide-desc{font-size:13px;color:var(--text-muted);line-height:1.8;margin-bottom:12px}
+    .calc-guide-basis{font-size:12px;color:var(--text-muted);padding:10px 14px;background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;line-height:1.7}
+    .disclaimer{text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280}
+    @media(max-width:360px){.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
 
   </style>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
 </head>
 <body>
-<div class="container">
-  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
-  <div class="toss-header">
+  <div class="container">
+      <div class="toss-header">
     <span class="emoji">📋</span>
-    <div><h1>실업급여 계산기</h1><p>실업급여 수급액·기간 계산</p></div>
+    <div><h1>실업급여 계산기</h1><p>고용보험법 기준 · 구직급여 예상액</p></div>
   </div>
 
+    <div class="card">
+      <div class="card-title">근무 정보</div>
 
-
-<div class="card">
-<div class="card-title">근무 정보</div>
-<div class="input-group">
-<label>퇴직 전 3개월 월 평균 급여 (세전)</label>
-<div class="input-wrapper">
-<input id="avgSalary" type="number" value="3000000"/>
-<span class="input-unit">원</span>
-</div>
-</div>
-<div class="input-row">
-<div class="input-group">
-<label>고용보험 가입 기간</label>
-<div class="select-wrapper">
-<select id="insuredPeriod">
-<option value="6">6개월 이상 ~ 1년 미만</option>
-<option selected="" value="12">1년 이상 ~ 3년 미만</option>
-<option value="36">3년 이상 ~ 5년 미만</option>
-<option value="60">5년 이상 ~ 10년 미만</option>
-<option value="120">10년 이상</option>
-</select>
-</div>
-</div>
-<div class="input-group">
-<label>나이</label>
-<div class="select-wrapper">
-<select id="age">
-<option value="young">만 50세 미만</option>
-<option value="old">만 50세 이상 / 장애인</option>
-</select>
-</div>
-</div>
-</div>
-<div class="input-group">
-<label>퇴직 사유</label>
-<div class="select-wrapper">
-<select id="reason">
-<option value="qualified">비자발적 퇴직 (권고사직, 계약만료 등)</option>
-<option value="unqualified">자발적 퇴직 (개인 사정)</option>
-</select>
-</div>
-</div>
-<button class="calc-btn" onclick="calculate()">📋 실업급여 계산하기</button>
-</div>
-<div class="result-card" id="resultCard">
-<div id="notQualified" style="display:none">
-<div class="card" style="border-color:rgba(255,107,107,0.3); background:rgba(255,107,107,0.05)">
-<div style="text-align:center; padding: 20px 0;">
-<div style="font-size:48px; margin-bottom:16px">😢</div>
-<div style="font-size:18px; font-weight:700; color:var(--danger); margin-bottom:8px">실업급여 수급 불가</div>
-<div style="font-size:14px; color:var(--text-muted)">자발적 퇴직의 경우 원칙적으로 실업급여를 받을 수 없습니다.<br/>단, 직장 내 괴롭힘, 임금 미지급 등 정당한 사유가 있는 경우<br/>고용센터에 문의하세요.</div>
-</div>
-</div>
-</div>
-<div id="qualified">
-<div class="result-highlight">
-<div class="result-row">
-<div class="result-main">
-<div class="r-label">1일 실업급여</div>
-<div class="r-amount" id="r-daily">—<span>원</span></div>
-</div>
-<div class="result-sub">
-<div class="rs-label">총 예상 수령액</div>
-<div class="rs-value" id="r-total">—원</div>
-<div class="rs-label" style="margin-top:8px">수급 기간</div>
-<div class="rs-value" id="r-period">—일</div>
-</div>
-</div>
-</div>
-<div class="card">
-<div class="card-title">계산 상세</div>
-<div class="detail-item">
-<span class="d-label">1일 평균임금</span>
-<span class="d-value" id="d-avgDaily">-</span>
-</div>
-<div class="detail-item">
-<span class="d-label">1일 실업급여 (평균임금 60%)</span>
-<span class="d-value accent" id="d-benefit">-</span>
-</div>
-<div class="detail-item">
-<span class="d-label">상한액 적용</span>
-<span class="d-value" id="d-upper">-</span>
-</div>
-<div class="detail-item">
-<span class="d-label">하한액 적용</span>
-<span class="d-value" id="d-lower">-</span>
-</div>
-<div class="detail-item">
-<span class="d-label">소정급여일수</span>
-<span class="d-value accent" id="d-days">-</span>
-</div>
-<div class="detail-item">
-<span class="d-label">월 예상 수령액</span>
-<span class="d-value" id="d-monthly">-</span>
-</div>
-</div>
-<div class="condition-box">
-<div class="condition-title">✅ 실업급여 수급 조건</div>
-<div class="condition-item">
-<span class="cond-icon">✅</span>
-<span>고용보험 피보험 단위기간 합산 180일 이상</span>
-</div>
-<div class="condition-item">
-<span class="cond-icon">✅</span>
-<span>비자발적 이직 (권고사직, 계약만료, 폐업 등)</span>
-</div>
-<div class="condition-item">
-<span class="cond-icon">✅</span>
-<span>근로 의사 및 능력이 있음에도 취업하지 못한 상태</span>
-</div>
-<div class="condition-item">
-<span class="cond-icon">✅</span>
-<span>재취업 활동을 적극적으로 할 것</span>
-</div>
-</div>
-</div>
-<div class="notice">
-<strong style="color:orange">⚠️ 안내</strong> 본 계산기는 2026년 고용보험법 기준으로 계산됩니다. 1일 상한액 <strong style="color:var(--text)">68,100원</strong>, 하한액은 최저임금의 80% 기준입니다. 실제 수급액은 고용센터 심사 결과에 따라 다를 수 있습니다.
+      <div class="input-group">
+        <label>퇴직 전 3개월 월 평균 급여 (세전)</label>
+        <div class="input-wrapper">
+          <input type="number" id="avgSalary" value="3000000" />
+          <span class="input-unit">원</span>
+        </div>
       </div>
-</div>
 
-    <div style="text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280;">
-    본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.
+      <div class="input-row">
+        <div class="input-group">
+          <label>고용보험 가입 기간</label>
+          <div class="select-wrapper">
+            <select id="insuredPeriod">
+              <option value="6">6개월 이상 ~ 1년 미만</option>
+              <option value="12" selected>1년 이상 ~ 3년 미만</option>
+              <option value="36">3년 이상 ~ 5년 미만</option>
+              <option value="60">5년 이상 ~ 10년 미만</option>
+              <option value="120">10년 이상</option>
+            </select>
+          </div>
+        </div>
+        <div class="input-group">
+          <label>나이</label>
+          <div class="select-wrapper">
+            <select id="age">
+              <option value="young">만 50세 미만</option>
+              <option value="old">만 50세 이상 / 장애인</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label>퇴직 사유</label>
+        <div class="select-wrapper">
+          <select id="reason">
+            <option value="qualified">비자발적 퇴직 (권고사직, 계약만료 등)</option>
+            <option value="unqualified">자발적 퇴직 (개인 사정)</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="calc-btn" onclick="calculate()">📋 실업급여 계산하기</button>
+    </div>
+
+    <div class="result-card" id="resultCard">
+
+      <div id="notQualified" style="display:none">
+        <div class="card" style="border-color:rgba(255,107,107,0.3); background:rgba(255,107,107,0.05)">
+          <div style="text-align:center; padding: 20px 0;">
+            <div style="font-size:48px; margin-bottom:16px">😢</div>
+            <div style="font-size:18px; font-weight:700; color:var(--danger); margin-bottom:8px">실업급여 수급 불가</div>
+            <div style="font-size:14px; color:var(--text-muted)">자발적 퇴직의 경우 원칙적으로 실업급여를 받을 수 없습니다.<br>단, 직장 내 괴롭힘, 임금 미지급 등 정당한 사유가 있는 경우<br>고용센터에 문의하세요.</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="qualified">
+        <div class="result-highlight">
+          <div class="result-row">
+            <div class="result-main">
+              <div class="r-label">1일 실업급여</div>
+              <div class="r-amount" id="r-daily">—<span>원</span></div>
+            </div>
+            <div class="result-sub">
+              <div class="rs-label">총 예상 수령액</div>
+              <div class="rs-value" id="r-total">—원</div>
+              <div class="rs-label" style="margin-top:8px">수급 기간</div>
+              <div class="rs-value" id="r-period">—일</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">계산 상세</div>
+          <div class="detail-item">
+            <span class="d-label">1일 평균임금</span>
+            <span class="d-value" id="d-avgDaily">-</span>
+          </div>
+          <div class="detail-item">
+            <span class="d-label">1일 실업급여 (평균임금 60%)</span>
+            <span class="d-value accent" id="d-benefit">-</span>
+          </div>
+          <div class="detail-item">
+            <span class="d-label">상한액 적용</span>
+            <span class="d-value" id="d-upper">-</span>
+          </div>
+          <div class="detail-item">
+            <span class="d-label">하한액 적용</span>
+            <span class="d-value" id="d-lower">-</span>
+          </div>
+          <div class="detail-item">
+            <span class="d-label">소정급여일수</span>
+            <span class="d-value accent" id="d-days">-</span>
+          </div>
+          <div class="detail-item">
+            <span class="d-label">월 예상 수령액</span>
+            <span class="d-value" id="d-monthly">-</span>
+          </div>
+        </div>
+
+        <div class="condition-box">
+          <div class="condition-title">✅ 실업급여 수급 조건</div>
+          <div class="condition-item">
+            <span class="cond-icon">✅</span>
+            <span>고용보험 피보험 단위기간 합산 180일 이상</span>
+          </div>
+          <div class="condition-item">
+            <span class="cond-icon">✅</span>
+            <span>비자발적 이직 (권고사직, 계약만료, 폐업 등)</span>
+          </div>
+          <div class="condition-item">
+            <span class="cond-icon">✅</span>
+            <span>근로 의사 및 능력이 있음에도 취업하지 못한 상태</span>
+          </div>
+          <div class="condition-item">
+            <span class="cond-icon">✅</span>
+            <span>재취업 활동을 적극적으로 할 것</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="notice">
+        <strong style="color:orange">⚠️ 안내</strong> 본 계산기는 2026년 고용보험법 기준으로 계산됩니다. 1일 상한액 <strong style="color:var(--text)">68,100원</strong>, 하한액은 최저임금의 80% 기준입니다. 실제 수급액은 고용센터 심사 결과에 따라 다를 수 있습니다.
+      </div>
+
+      <!-- 월별 수급 타임라인 -->
+      <div id="timelineCard" style="display:none;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-top:20px">
+        <div style="font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);margin-bottom:16px">📅 월별 수급 타임라인</div>
+        <div id="timelineBody"></div>
+        <div style="margin-top:16px;padding:12px 16px;background:rgba(0,212,170,.05);border-radius:10px;font-size:13px;color:var(--text-muted);line-height:1.9">
+          <strong style="color:var(--accent)">재취업 활동 기준 (실업 인정)</strong><br>
+          1~3차: 워크넷 구직등록, 취업지원서비스 참여<br>
+          4차~: 매 1~4주마다 구직활동 2회 이상 (이력서 제출·면접 등)
+        </div>
+      </div>
+    </div>
+  
+<div class="card" id="simCard" style="background:rgba(0,212,170,.04);border:1px solid rgba(0,212,170,.2);border-radius:var(--radius);padding:28px;margin-bottom:20px">
+    <div class="card-title" style="color:var(--accent)">📊 급여 구간별 실업급여 비교</div>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">가입기간과 나이 조건을 선택하면 월 급여 구간별 1일 수급액과 총 예상 수령액을 자동 비교합니다. 내 급여에 해당하는 행이 강조됩니다.</p>
+    <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap">
+      <div style="flex:1;min-width:140px">
+        <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:5px">고용보험 가입기간</label>
+        <select id="sim-period" onchange="updateSimTable()" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:13px;outline:none">
+          <option value="6">6개월~1년 미만</option>
+          <option value="12" selected>1년~3년 미만</option>
+          <option value="36">3년~5년 미만</option>
+          <option value="60">5년~10년 미만</option>
+          <option value="120">10년 이상</option>
+        </select>
+      </div>
+      <div style="flex:1;min-width:140px">
+        <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:5px">나이</label>
+        <select id="sim-age" onchange="updateSimTable()" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:13px;outline:none">
+          <option value="young">만 50세 미만</option>
+          <option value="old">만 50세 이상 / 장애인</option>
+        </select>
+      </div>
+    </div>
+    <div id="simTableWrap" style="overflow-x:auto"></div>
+    <p style="font-size:11px;color:var(--text-muted);margin-top:10px;line-height:1.7">※ 2026년 기준. 상한 68,100원/일, 하한 66,048원/일(최저임금 10,320원 × 8시간 × 80%). 실제 지급액은 고용센터 심사 결과에 따라 다를 수 있습니다.</p>
+  </div>
+
+  <div class="disclaimer">본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.</div>
+  <div class="calc-guide">
+    <div class="calc-guide-title">📋 사용 방법</div>
+    <div class="calc-guide-desc">평균 임금과 고용보험 가입기간을 입력하면 실업급여 수급 가능 여부와 예상 수령액을 계산합니다.</div>
+    <div class="calc-guide-basis">📌 계산 기준: 2026년 기준 · 상한 68,100원/일 · 하한 66,048원/일 (최저시급 × 8시간 × 80%)</div>
   </div>
   <div class="toss-nav">
     <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
     <div class="toss-nav-grid">
       <a href="/salary" class="toss-nav-item"><span class="ni-emoji">💰</span><span class="ni-label">연봉</span></a>
-      <a href="/retirement" class="toss-nav-item"><span class="ni-emoji">🏦</span><span class="ni-label">퇴직금</span></a>
-      <a href="/health_insurance" class="toss-nav-item"><span class="ni-emoji">🏥</span><span class="ni-label">건강보험</span></a>
       <a href="/hourly_salary" class="toss-nav-item"><span class="ni-emoji">⏰</span><span class="ni-label">시급</span></a>
+      <a href="/retirement" class="toss-nav-item"><span class="ni-emoji">🏦</span><span class="ni-label">퇴직금</span></a>
+      <a href="/parental_leave" class="toss-nav-item"><span class="ni-emoji">👶</span><span class="ni-label">육아휴직</span></a>
     </div>
   </div>
 </div>
-<script>
-function fmt(n) { return Math.round(n).toLocaleString('ko-KR'); }
 
-    // 소정급여일수 테이블 (가입기간 × 나이)
+<script>
+    function fmt(n) { return Math.round(n).toLocaleString('ko-KR'); }
+
+    // 소정급여일수 테이블 (고용보험법 기준, 가입기간 × 나이)
     function getBenefitDays(months, isOld) {
-      if (months < 12) return isOld ? 180 : 120;
-      if (months < 36) return isOld ? 210 : 150;
-      if (months < 60) return isOld ? 240 : 180;
-      if (months < 120) return isOld ? 270 : 210;
-      return isOld ? 330 : 240;
+      if (months < 12) return 120;                         // 1년 미만: 연령 무관 120일
+      if (months < 36) return isOld ? 180 : 150;          // 1~3년: 50세미만 150, 50세이상 180
+      if (months < 60) return isOld ? 210 : 180;          // 3~5년: 50세미만 180, 50세이상 210
+      if (months < 120) return isOld ? 240 : 210;         // 5~10년: 50세미만 210, 50세이상 240
+      return isOld ? 270 : 240;                           // 10년이상: 50세미만 240, 50세이상 270
     }
 
     function calculate() {
@@ -518,9 +563,69 @@ function fmt(n) { return Math.round(n).toLocaleString('ko-KR'); }
       document.getElementById('d-monthly').textContent = `약 ${fmt(monthlyBenefit)}원`;
 
       document.getElementById('resultCard').classList.add('visible');
+
+      updateSimTable();
+
+      // 월별 수급 타임라인 렌더링
+      const tc = document.getElementById('timelineCard');
+      const tb = document.getElementById('timelineBody');
+      tc.style.display = 'block';
+      const months = Math.ceil(benefitDays / 30);
+      let html = '';
+      for (let m = 1; m <= months; m++) {
+        const days = m < months ? 30 : benefitDays - 30*(months-1);
+        const amt = dailyBenefit * days;
+        const isLast = m === months;
+        html += `<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px${isLast?';border-bottom:none':''}">
+          <div style="min-width:40px;height:40px;border-radius:50%;background:${m===1?'linear-gradient(135deg,var(--accent),var(--accent2))':'var(--surface2)'};border:2px solid ${m===1?'var(--accent)':'var(--border)'};display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;color:${m===1?'#000':'var(--text-muted)'}">${m}</div>
+          <div style="flex:1">
+            <div style="color:var(--text);font-weight:600">${m}개월차 (${days}일)</div>
+            <div style="color:var(--text-muted);font-size:12px">예상 수령: <span style="color:var(--accent);font-weight:700">${fmt(amt)}원</span> · 실업 인정 신청 필요</div>
+          </div>
+        </div>`;
+      }
+      tb.innerHTML = html;
     }
 
-    window.onload = () => calculate();
-</script>
+    window.onload = () => { calculate(); updateSimTable(); };
+
+    function updateSimTable() {
+      const months  = parseInt(document.getElementById('sim-period').value) || 12;
+      const isOld   = document.getElementById('sim-age').value === 'old';
+      const days    = getBenefitDays(months, isOld);
+      const upper   = 68100;
+      const lower   = Math.round(10320 * 8 * 0.8); // 66,048원
+      const curSalary = parseFloat(document.getElementById('avgSalary').value) || 3000000;
+
+      const salaries = [1500000, 2000000, 3000000, 4000000, 5000000, 7000000];
+      const labels   = ['150만원', '200만원', '300만원', '400만원', '500만원', '700만원'];
+
+      const th = (t) => `<th style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--accent);border-bottom:1px solid var(--border);white-space:nowrap">${t}</th>`;
+      let html = `<table style="width:100%;border-collapse:collapse;min-width:360px">
+        <thead><tr>${th('월 평균급여')}${th('1일 수급액')}${th('수급일수')}${th('총 수령액')}</tr></thead><tbody>`;
+
+      salaries.forEach((sal, i) => {
+        const dailyAvg    = (sal * 3) / 91;
+        const dailyRaw    = dailyAvg * 0.6;
+        const daily       = Math.min(Math.max(dailyRaw, lower), upper);
+        const total       = daily * days;
+        const isCurrent   = Math.abs(sal - curSalary) < 750000;
+        const bg          = isCurrent ? 'background:rgba(0,212,170,.08)' : '';
+        const tdS         = `style="padding:9px 12px;font-size:13px;border-bottom:1px solid var(--border);${bg}"`;
+        const mark        = isCurrent ? ' <span style="font-size:10px;color:var(--accent);font-weight:700">◀ 내 급여</span>' : '';
+        const capNote     = daily === upper ? '<br><span style="font-size:10px;color:var(--text-muted)">상한 적용</span>'
+                          : daily === lower ? '<br><span style="font-size:10px;color:var(--text-muted)">하한 적용</span>' : '';
+
+        html += `<tr style="${bg}">
+          <td ${tdS}>${labels[i]}${mark}</td>
+          <td ${tdS}><strong style="color:${isCurrent?'var(--accent)':'var(--text)'}">${fmt(daily)}원</strong>${capNote}</td>
+          <td ${tdS} style="text-align:center">${days}일</td>
+          <td ${tdS}><strong>${fmt(total)}원</strong></td>
+        </tr>`;
+      });
+      html += '</tbody></table>';
+      document.getElementById('simTableWrap').innerHTML = html;
+    }
+  </script>
 </body>
 </html>
