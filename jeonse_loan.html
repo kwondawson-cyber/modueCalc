@@ -216,6 +216,13 @@
 function fmtInput(el){const raw=el.value.replace(/[^0-9]/g,'');el.value=raw?Number(raw).toLocaleString('ko-KR'):'';}
 function getNum(id){return parseFloat((document.getElementById(id).value||'').replace(/,/g,''))||0;}
 
+window.onload = () => {
+  document.getElementById('deposit').value  = '30,000';
+  document.getElementById('myAsset').value  = '5,000';
+  document.getElementById('income').value   = '4,000';
+  calcJeonse();
+};
+
 // 2026년 기준 전세자금대출 상품 정보
 const LOANS = {
   huf_young:   { name: '버팀목 청년',    rate: 0.024, limitWon: 200000000, desc: '만19~34세, 연소득 5천만원↓' },
