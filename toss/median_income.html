@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>기준 중위소득 계산기 2026 | 모두의계산기</title>
+  <meta name="description" content="2026년 기준 중위소득 계산기 — 가구원 수·월 소득 입력으로 중위소득 몇 % 해당하는지 즉시 확인. 생계·의료·주거·교육급여 수급 자격 자동 판별. 복지급여별 선정기준 포함." />
+  <meta property="og:title" content="기준 중위소득 계산기 2026 | 모두의계산기" />
+  <meta property="og:description" content="내 소득이 기준 중위소득 몇 %인지 즉시 확인. 생계·의료·주거·교육급여 수급 자격 자동 판별." />
+  <meta property="og:url" content="https://everycalc.kr/median_income" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" /></noscript>
+  <style>
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--danger:#ff6b6b;--warn:#f5a623;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+    .container{max-width:700px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;gap:2px;width:48px;height:48px;justify-content:center;border-radius:50%;background:rgba(0,212,170,.08);border:1px solid rgba(0,212,170,.2);text-decoration:none;transition:all .2s}
+    .home-btn:hover{background:rgba(0,212,170,.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+    .header{text-align:center;margin-bottom:28px}
+    .header h1{font-family:'Montserrat',sans-serif;font-size:clamp(22px,5vw,32px);font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+    .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
+    .header p{color:var(--text-muted);font-size:14px}
+    .badges{text-align:center;margin-bottom:16px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+    .badge{padding:3px 12px;background:rgba(0,212,170,.1);border:1px solid rgba(0,212,170,.25);border-radius:20px;font-size:11px;color:var(--accent);font-weight:700}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
+    .card h2{font-size:15px;font-weight:700;margin-bottom:16px;color:var(--accent)}
+    .form-group{margin-bottom:14px}
+    label{display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px;font-weight:500}
+    input,select{width:100%;padding:11px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:15px;font-family:'Noto Sans KR',sans-serif;outline:none;transition:border-color .2s}
+    input:focus,select:focus{border-color:var(--accent)}
+    select option{background:var(--surface2)}
+    .btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#000;font-size:16px;font-weight:800;font-family:'Noto Sans KR',sans-serif;cursor:pointer;margin-top:4px;transition:opacity .2s}
+    .btn:hover{opacity:.9}
+    .result-card{background:linear-gradient(135deg,rgba(0,212,170,.08),rgba(0,149,255,.05));border:1px solid rgba(0,212,170,.25);border-radius:var(--radius);padding:24px;margin-bottom:16px;display:none}
+    .result-card.show{display:block}
+    .result-main{text-align:center;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+    .result-pct{font-family:'Montserrat',sans-serif;font-size:52px;font-weight:900;color:var(--accent);line-height:1}
+    .result-pct-unit{font-size:18px;color:var(--text-muted)}
+    .result-label{font-size:13px;color:var(--text-muted);margin-top:6px}
+    .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+    .result-item{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center}
+    .result-item-label{font-size:11px;color:var(--text-muted);margin-bottom:4px}
+    .result-item-value{font-family:'Montserrat',sans-serif;font-size:17px;font-weight:900;color:var(--text)}
+    .benefit-list{display:flex;flex-direction:column;gap:8px}
+    .benefit-row{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;font-size:13px}
+    .benefit-name{font-weight:600;color:var(--text)}
+    .benefit-criteria{font-size:11px;color:var(--text-muted);margin-top:2px}
+    .benefit-status{font-size:12px;font-weight:700;padding:3px 10px;border-radius:20px}
+    .ok{background:rgba(0,212,170,.1);color:var(--accent);border:1px solid rgba(0,212,170,.3)}
+    .ng{background:rgba(255,107,107,.08);color:var(--danger);border:1px solid rgba(255,107,107,.2)}
+    .tip-box{background:rgba(0,212,170,.05);border:1px solid rgba(0,212,170,.2);border-radius:10px;padding:12px 16px;margin-top:14px;font-size:13px;color:var(--text-muted);line-height:1.8}
+    .tip-box strong{color:var(--accent)}
+    .rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px}
+    .rel-card{display:flex;flex-direction:column;align-items:center;padding:12px 8px;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+    .rel-card:hover{border-color:var(--accent);background:rgba(0,212,170,.06);transform:translateY(-2px)}
+    .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+    .rel-card .rn{font-size:12px;font-weight:700;color:var(--text)}
+  
+    .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
+    .toss-header>.emoji{font-size:28px;flex-shrink:0}
+    .toss-header h1{font-size:20px;font-weight:800;color:var(--text);margin:0}
+    .toss-header p{font-size:12px;color:var(--text-muted);margin-top:3px}
+    .toss-nav{margin-top:24px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .toss-nav-title{font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:12px}
+    .toss-nav-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+    .toss-nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;text-decoration:none;transition:all .2s}
+    .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
+    .ni-emoji{font-size:20px}
+    .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
+    .calc-guide{margin-top:20px;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .calc-guide-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:12px}
+    .calc-guide-desc{font-size:13px;color:var(--text-muted);line-height:1.8;margin-bottom:12px}
+    .calc-guide-basis{font-size:12px;color:var(--text-muted);padding:10px 14px;background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;line-height:1.7}
+    .disclaimer{text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280}
+    @media(max-width:360px){.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+
+  </style>
+</head>
+<body>
+<div class="container">
+    <div class="toss-header">
+    <span class="emoji">📊</span>
+    <div><h1>기준 중위소득 계산기</h1><p>복지급여·지원 기준 확인</p></div>
+  </div>
+  <div class="badges">
+    <span class="badge">✅ 2026년 최신</span>
+    <span class="badge">🏠 생계·의료·주거·교육급여</span>
+    <span class="badge">💰 80개 이상 복지사업 기준</span>
+  </div>
+
+  <div class="card">
+    <h2>📋 가구 정보 입력</h2>
+    <div class="form-group">
+      <label>가구원 수</label>
+      <select id="members">
+        <option value="1">1인 가구</option>
+        <option value="2">2인 가구</option>
+        <option value="3">3인 가구</option>
+        <option value="4" selected>4인 가구</option>
+        <option value="5">5인 가구</option>
+        <option value="6">6인 가구</option>
+        <option value="7">7인 가구</option>
+        <option value="8">8인 가구 이상</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>월 소득인정액 (원)</label>
+      <input type="text" inputmode="numeric" id="income" placeholder="예: 3,000,000" value="3,000,000" oninput="numFmt(this)" />
+    </div>
+    <button class="btn" onclick="calc()">📊 중위소득 확인하기</button>
+  </div>
+
+  <div class="result-card" id="result">
+    <div class="result-main">
+      <div class="result-pct"><span id="r-pct">--</span><span class="result-pct-unit">%</span></div>
+      <div class="result-label" id="r-label">기준 중위소득 대비 내 소득 비율</div>
+    </div>
+    <div class="result-grid">
+      <div class="result-item">
+        <div class="result-item-label">내 월 소득</div>
+        <div class="result-item-value" id="r-income">-</div>
+      </div>
+      <div class="result-item">
+        <div class="result-item-label" id="r-median-label">4인 가구 중위소득 100%</div>
+        <div class="result-item-value" id="r-median">-</div>
+      </div>
+    </div>
+
+    <!-- 기초생활수급자·차상위계층 판별 -->
+    <div style="margin-bottom:16px">
+      <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px">🏛️ 기초생활 수급자 / 차상위계층 판별</div>
+      <div style="display:flex;flex-direction:column;gap:8px" id="welfare-status"></div>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:8px;line-height:1.7">※ 소득인정액(재산 환산액 포함) 기준 — 실제 수급은 재산·부양의무자 등 추가 요건 검토 필요</div>
+    </div>
+
+    <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px">📋 급여 종류별 수급 자격 판별</div>
+    <div class="benefit-list" id="benefit-list"></div>
+    <div class="tip-box" id="r-tip"></div>
+  </div>
+
+  <!-- 가구원수별 비교 시뮬레이터 -->
+  <div style="background:#161b22;border:1px solid rgba(0,212,170,.2);border-radius:16px;padding:24px;margin-bottom:16px" id="simCard">
+    <div style="font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:14px">📋 가구원수별 중위소득 기준액 비교</div>
+    <p style="font-size:12px;color:#8b949e;margin-bottom:16px;line-height:1.7">2026년 기준 중위소득 100% 기준으로 각 급여의 선정기준 금액을 한눈에 확인하세요.</p>
+    <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:12px">
+        <thead>
+          <tr>
+            <th style="background:#21262d;color:#e6edf3;padding:8px 10px;border:1px solid #30363d;white-space:nowrap">가구원</th>
+            <th style="background:#21262d;color:#00d4aa;padding:8px 10px;border:1px solid #30363d;text-align:right">100%</th>
+            <th style="background:#21262d;color:#e6edf3;padding:8px 10px;border:1px solid #30363d;text-align:right">생계 32%</th>
+            <th style="background:#21262d;color:#e6edf3;padding:8px 10px;border:1px solid #30363d;text-align:right">의료 40%</th>
+            <th style="background:#21262d;color:#e6edf3;padding:8px 10px;border:1px solid #30363d;text-align:right">주거 48%</th>
+            <th style="background:#21262d;color:#e6edf3;padding:8px 10px;border:1px solid #30363d;text-align:right">교육 50%</th>
+          </tr>
+        </thead>
+        <tbody id="simTableBody"></tbody>
+      </table>
+    </div>
+    <div style="font-size:11px;color:#8b949e;margin-top:10px;line-height:1.7">※ 금액은 월 소득인정액 기준 / 출처: 보건복지부고시 제2025-135호</div>
+  </div>
+
+  <div class="disclaimer">본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.</div>
+  <div class="calc-guide">
+    <div class="calc-guide-title">📋 사용 방법</div>
+    <div class="calc-guide-desc">가구원 수와 소득을 입력하면 기준 중위소득 대비 비율을 계산하고 각종 복지급여 수급 가능 여부를 확인합니다.</div>
+    <div class="calc-guide-basis">📌 계산 기준: 2026년 기준 중위소득 적용 · 기초생활수급(30%/40%/50%) · 차상위(50%) · 건강보험료 기준 연동</div>
+  </div>
+  <div class="toss-nav">
+    <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
+    <div class="toss-nav-grid">
+      <a href="/earned_credit" class="toss-nav-item"><span class="ni-emoji">💵</span><span class="ni-label">근로장려금</span></a>
+      <a href="/unemployment" class="toss-nav-item"><span class="ni-emoji">📋</span><span class="ni-label">실업급여</span></a>
+      <a href="/health_insurance" class="toss-nav-item"><span class="ni-emoji">🏥</span><span class="ni-label">건강보험</span></a>
+      <a href="/salary" class="toss-nav-item"><span class="ni-emoji">💰</span><span class="ni-label">연봉</span></a>
+    </div>
+  </div>
+</div>
+
+<script>
+function numFmt(el){const raw=el.value.replace(/[^0-9]/g,'');el.value=raw?parseInt(raw,10).toLocaleString('ko-KR'):'';}
+function numVal(id){return parseFloat((document.getElementById(id).value||'').replace(/,/g,''))||0;}
+
+const MEDIAN = [0, 2564238, 4199292, 5359036, 6494738, 7556719, 8555952, 9515150, 10474348];
+
+const BENEFITS = [
+  { name: '생계급여', ratio: 0.32, desc: '중위소득 32% 이하', color: '#00d4aa' },
+  { name: '의료급여', ratio: 0.40, desc: '중위소득 40% 이하', color: '#4caf50' },
+  { name: '주거급여', ratio: 0.48, desc: '중위소득 48% 이하', color: '#0095ff' },
+  { name: '교육급여', ratio: 0.50, desc: '중위소득 50% 이하', color: '#f5a623' },
+];
+
+const fw = n => Math.round(n).toLocaleString('ko-KR') + '원';
+const fp = n => n.toFixed(1);
+
+function calc() {
+  const members = parseInt(document.getElementById('members').value) || 4;
+  const income  = numVal('income');
+  const median  = MEDIAN[Math.min(members, 8)];
+
+  const pct = income / median * 100;
+
+  document.getElementById('r-pct').textContent = fp(pct);
+  document.getElementById('r-income').textContent = fw(income);
+  document.getElementById('r-median-label').textContent = members + '인 가구 중위소득 100%';
+  document.getElementById('r-median').textContent = fw(median);
+
+  // 기초생활수급자 / 차상위계층 판별
+  const welfareItems = [
+    { label: '기초생활 수급자', check: pct <= 50,
+      ok_text: pct <= 32 ? '✅ 생계급여 수급 가능 (소득인정액 기준)' :
+               pct <= 40 ? '✅ 의료급여 수급 가능 (생계급여 기준 초과)' :
+               pct <= 48 ? '✅ 주거급여 수급 가능 (의료급여 기준 초과)' :
+               '✅ 교육급여 수급 가능 (주거급여 기준 초과)',
+      ng_text: '❌ 소득 기준 초과 (중위소득 50% 초과)',
+      ok_color: '#00d4aa', ng_color: '#ff6b6b',
+      desc: pct <= 50 ? '소득인정액이 중위소득 ' + fp(pct) + '%로 기초생활보장 급여 대상 가능성 있음' :
+                        '소득인정액이 중위소득 50%를 초과하여 기초생활수급자 해당 없음'
+    },
+    { label: '차상위계층', check: pct <= 50,
+      ok_text: '✅ 해당 가능 (소득인정액 50% 이하)',
+      ng_text: '❌ 해당 없음 (중위소득 50% 초과)',
+      ok_color: '#0095ff', ng_color: '#ff6b6b',
+      desc: pct <= 50 ? '소득인정액 50% 이하이나 기초생활수급 요건(근로능력·부양의무자 등) 미충족 시 차상위계층으로 인정' :
+                        '소득인정액이 중위소득 50%를 초과하여 차상위계층 해당 없음'
+    },
+  ];
+
+  document.getElementById('welfare-status').innerHTML = welfareItems.map(w => `
+    <div style="padding:12px 14px;background:var(--surface2);border:1px solid ${w.check ? 'rgba(0,212,170,.25)' : 'var(--border)'};border-radius:10px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <span style="font-size:13px;font-weight:700;color:var(--text)">${w.label}</span>
+        <span style="font-size:12px;font-weight:700;color:${w.check ? w.ok_color : w.ng_color}">${w.check ? w.ok_text : w.ng_text}</span>
+      </div>
+      <div style="font-size:11px;color:var(--text-muted);line-height:1.6">${w.desc}</div>
+    </div>
+  `).join('');
+
+  // 급여별 판별
+  const benefitHtml = BENEFITS.map(b => {
+    const threshold = median * b.ratio;
+    const ok = income <= threshold;
+    return `<div class="benefit-row">
+      <div>
+        <div class="benefit-name">${b.name}</div>
+        <div class="benefit-criteria">${b.desc} · 기준: ${fw(threshold)}</div>
+      </div>
+      <span class="benefit-status ${ok ? 'ok' : 'ng'}">${ok ? '✅ 해당 가능' : '❌ 기준 초과'}</span>
+    </div>`;
+  }).join('');
+  document.getElementById('benefit-list').innerHTML = benefitHtml;
+
+  // 팁 메시지
+  let tip = '';
+  if (pct <= 32) tip = '⚠️ <strong>생계급여 수급 가능</strong> 구간입니다. 주소지 읍면동 주민센터에 신청하세요.';
+  else if (pct <= 50) tip = '💡 <strong>기초생활보장 급여</strong> 일부에 해당할 수 있습니다. 소득인정액(재산 포함)으로 최종 판단됩니다.';
+  else if (pct <= 100) tip = '📌 기준 중위소득 <strong>100% 이하</strong>입니다. 지자체 복지사업·청년 지원 등 다양한 혜택을 확인해보세요.';
+  else if (pct <= 150) tip = '📌 기준 중위소득 <strong>150% 이하</strong>입니다. 국가장학금, 일부 청년 지원 프로그램 대상이 될 수 있습니다.';
+  else tip = '✅ 기준 중위소득 <strong>150% 초과</strong>입니다. 대부분의 복지급여 기준 소득을 상회합니다.';
+  document.getElementById('r-tip').innerHTML = tip;
+
+  document.getElementById('result').classList.add('show');
+}
+
+// 시뮬레이터 테이블
+function buildSimTable() {
+  const rows = [1,2,3,4,5,6,7].map(n => {
+    const m = MEDIAN[n];
+    return `<tr>
+      <td style="padding:7px 10px;border:1px solid #30363d;color:#e6edf3;font-weight:700">${n}인</td>
+      <td style="padding:7px 10px;border:1px solid #30363d;color:#00d4aa;text-align:right;font-family:'Montserrat',sans-serif;font-weight:700">${Math.round(m/10000).toLocaleString()}만원</td>
+      <td style="padding:7px 10px;border:1px solid #30363d;color:#8b949e;text-align:right">${Math.round(m*0.32/10000).toLocaleString()}만원</td>
+      <td style="padding:7px 10px;border:1px solid #30363d;color:#8b949e;text-align:right">${Math.round(m*0.40/10000).toLocaleString()}만원</td>
+      <td style="padding:7px 10px;border:1px solid #30363d;color:#8b949e;text-align:right">${Math.round(m*0.48/10000).toLocaleString()}만원</td>
+      <td style="padding:7px 10px;border:1px solid #30363d;color:#8b949e;text-align:right">${Math.round(m*0.50/10000).toLocaleString()}만원</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('simTableBody').innerHTML = rows;
+}
+
+window.onload = () => { buildSimTable(); calc(); };
+</script>
+</body>
+</html>
