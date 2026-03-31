@@ -2,12 +2,14 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>국민연금 계산기</title>
-  <!-- TODO: 앱인토스 SDK 교체 -->
-  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>국민연금 예상 수령액 계산기 | 모두의계산기</title>
+  <meta name="description" content="국민연금 예상 수령액 계산기 — 월 소득·가입기간·수령 시작 나이별 자동 계산. 조기수령 감액, 연기수령 증액, 출생연도별 수급개시 나이표 포함." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" /></noscript>
   <style>
-
     :root {
       --bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;
       --accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;
@@ -15,7 +17,7 @@
     }
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
-    
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
     .container{max-width:800px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
     .header{text-align:center;margin-bottom:48px}
     .site-name{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:4px;color:var(--accent);text-transform:uppercase;margin-bottom:16px;opacity:.8;display:inline-block}
@@ -53,52 +55,31 @@
     @media(max-width:600px){.detail-grid{grid-template-columns:1fr}.two-btn{grid-template-columns:1fr}}
 
     /* ── 홈 버튼 ── */
-    
-    
-    
-    
-    
+    .home-btn-wrap { text-align: center; margin-bottom: 8px; }
+    .home-btn {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      width: 54px; height: 54px;
+      background: rgba(0,212,170,0.08);
+      border: 1.5px solid rgba(0,212,170,0.35);
+      border-radius: 50%;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .home-btn:hover { background: rgba(0,212,170,0.18); transform: translateY(-2px); }
+    .home-btn-emoji { font-size: 20px; line-height: 1; }
+    .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
   
 
 
 
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    .home-btn-wrap{text-align:center;margin-bottom:8px}
-    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
-    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
-    .home-btn-emoji{font-size:20px;line-height:1}
-    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
 
     .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
     .toss-header>.emoji{font-size:28px;flex-shrink:0}
@@ -111,81 +92,91 @@
     .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
     .ni-emoji{font-size:20px}
     .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
-
-    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+    .calc-guide{margin-top:20px;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .calc-guide-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:12px}
+    .calc-guide-desc{font-size:13px;color:var(--text-muted);line-height:1.8;margin-bottom:12px}
+    .calc-guide-basis{font-size:12px;color:var(--text-muted);padding:10px 14px;background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;line-height:1.7}
+    .disclaimer{text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280}
+    @media(max-width:360px){.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
 
   </style>
+
 </head>
 <body>
 <div class="container">
-  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
-  <div class="toss-header">
+    <div class="toss-header">
     <span class="emoji">👴</span>
-    <div><h1>국민연금 계산기</h1><p>납부액·예상 수령액 계산</p></div>
+    <div><h1>국민연금 계산기</h1><p>납입기간 · 소득 기준 노령연금 예상액</p></div>
   </div>
 
-
-<div class="card">
-<div class="card-title">👴 기본 정보 입력</div>
-<div class="input-group">
-<label>현재 나이</label>
-<div class="input-wrapper">
-<input id="currentAge" max="59" min="18" type="number" value="35"/>
-<span class="input-unit">세</span>
-</div>
-</div>
-<div class="input-group">
-<label>국민연금 가입 시작 나이</label>
-<div class="input-wrapper">
-<input id="startAge" max="59" min="18" type="number" value="25"/>
-<span class="input-unit">세</span>
-</div>
-</div>
-<div class="input-group">
-<label>월 소득 (세전)</label>
-<div class="input-wrapper">
-<input id="monthlyIncome" oninput="fmtInput(this)" type="text" value="3,000,000"/>
-<span class="input-unit">원</span>
-</div>
-</div>
-<div class="input-group">
-<label>수령 시작 나이</label>
-<select id="receiveAge">
-<option value="63">63세 (1969년생 이후)</option>
-<option value="62">62세 (1965~1968년생)</option>
-<option value="61">61세 (1961~1964년생)</option>
-<option value="60">60세 (1952~1960년생)</option>
-</select>
-</div>
-<div class="info-box">💡 국민연금 보험료율: 월 소득의 <strong>9.5%</strong> (직장인은 사용자 4.75% + 본인 4.75%)</div>
-<button class="btn" onclick="calcPension()">🏦 국민연금 계산하기</button>
-</div>
-<div class="result-section" id="pensionResult">
-<div class="result-card">
-<div class="result-label">예상 월 수령액</div>
-<div class="result-value" id="pensionMonthly">-</div>
-<div class="result-sub" id="pensionSub"></div>
-</div>
-<div class="card">
-<div class="card-title">📊 상세 내역</div>
-<div class="detail-grid" id="pensionDetail"></div>
-</div>
-</div>
-
-
-    <div style="text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280;">
-    본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.
+  <div class="card">
+    <div class="card-title">👴 기본 정보 입력</div>
+    <div class="input-group">
+      <label>현재 나이</label>
+      <div class="input-wrapper">
+        <input type="number" id="currentAge" value="35" min="18" max="59" />
+        <span class="input-unit">세</span>
+      </div>
+    </div>
+    <div class="input-group">
+      <label>국민연금 가입 시작 나이</label>
+      <div class="input-wrapper">
+        <input type="number" id="startAge" value="25" min="18" max="59" />
+        <span class="input-unit">세</span>
+      </div>
+    </div>
+    <div class="input-group">
+      <label>월 소득 (세전)</label>
+      <div class="input-wrapper">
+        <input type="text" id="monthlyIncome" value="3,000,000" oninput="fmtInput(this)" />
+        <span class="input-unit">원</span>
+      </div>
+    </div>
+    <div class="input-group">
+      <label>수령 시작 나이 (출생연도 기준 법정 개시연령)</label>
+      <select id="receiveAge">
+        <option value="65">65세 (1969년생 이후)</option>
+        <option value="64">64세 (1965~1968년생)</option>
+        <option value="63">63세 (1961~1964년생)</option>
+        <option value="62">62세 (1957~1960년생)</option>
+        <option value="61">61세 (1953~1956년생)</option>
+        <option value="60">60세 (1952년생 이전)</option>
+      </select>
+    </div>
+    <div class="info-box">💡 국민연금 보험료율: 월 소득의 <strong>9.5%</strong> (직장인은 사용자 4.75% + 본인 4.75%, 2026년 기준)</div>
+    <button class="btn" onclick="calcPension()">🏦 국민연금 계산하기</button>
   </div>
-  <div class="toss-nav">
-    <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
-    <div class="toss-nav-grid">
-      <a href="/health_insurance" class="toss-nav-item"><span class="ni-emoji">🏥</span><span class="ni-label">건강보험</span></a>
-      <a href="/salary" class="toss-nav-item"><span class="ni-emoji">💰</span><span class="ni-label">연봉</span></a>
-      <a href="/retirement_pension" class="toss-nav-item"><span class="ni-emoji">💎</span><span class="ni-label">퇴직연금</span></a>
-      <a href="/income_tax" class="toss-nav-item"><span class="ni-emoji">🧮</span><span class="ni-label">소득세</span></a>
+
+  <div class="result-section" id="pensionResult">
+    <div class="result-card">
+      <div class="result-label">예상 월 수령액</div>
+      <div class="result-value" id="pensionMonthly">-</div>
+      <div class="result-sub" id="pensionSub"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">📊 상세 내역</div>
+      <div class="detail-grid" id="pensionDetail"></div>
+    </div>
+
+    <!-- 연기/조기수령 시뮬레이터 -->
+    <div class="card" id="simCard" style="display:none">
+      <div class="card-title">⏱ 수령 시기 조정 시뮬레이터</div>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;line-height:1.7">수령 시기를 앞당기거나 늦출 때 월 수령액이 어떻게 달라지는지 확인하세요.<br>
+      조기수령: <strong style="color:#ff6b6b">1개월당 0.5% 감액</strong> (최대 5년 앞당김) · 연기수령: <strong style="color:#00d4aa">1개월당 0.6% 가산</strong> (최대 5년 연장)</p>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <span style="font-size:12px;color:var(--text-muted)">← 조기수령 (최대 -5년)</span>
+        <span style="font-size:12px;color:var(--text-muted)">연기수령 (최대 +5년) →</span>
+      </div>
+      <input type="range" id="simSlider" min="-5" max="5" step="1" value="0" oninput="updateSim()"
+        style="width:100%;accent-color:var(--accent)" />
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-bottom:12px">
+        <span>-5년 (30% 감)</span><span>기준</span><span>+5년 (36% 증)</span>
+      </div>
+      <div id="simLabel" style="text-align:center;font-size:14px;font-weight:700;margin-bottom:8px"></div>
+      <div id="simResult"></div>
     </div>
   </div>
-</div>
+
 <script>
 function fmtInput(el){
   const raw=el.value.replace(/[^0-9]/g,'');
@@ -205,33 +196,115 @@ function calcPension(){
   const yearsRemaining = Math.max(0, receiveAge - curAge);
   const totalYears = yearsSoFar + yearsRemaining;
   const totalMonths = totalYears * 12;
-  
-  // 간이 산식: 기본연금액 = 1.2 × (A + B) × (1 + 0.05n/12)
-  // A = 전체 가입자 평균 소득월액(2024년 약 298만원), B = 본인 평균 소득
-  const A = 2980000;
-  const B = income;
+
+  // ─── 2026년 기준 국민연금 기본연금액 공식 (국민연금공단 공식) ───
+  // A = 2025.12~2026.11 전체 가입자 평균소득월액 (국민연금공단 고시)
+  // Y = 2026.1.1 이후 수급권 취득자 소득대체율 상수
+  // 기준소득월액 상한: 6,370,000원
+  const A = 3193511;   // 2025.12~2026.11 A값
+  const Y = 1.29;      // 2026년 이후 수급권 취득자
+  const B = Math.min(income, 6370000);  // 상한 637만원 적용
   const n = totalMonths;
-  // 기본연금액 (20년 기준)
-  const base = 1.2 * (A + B) / 2 * (n / 240);
-  const monthly = Math.round(base / 10000) * 10000;
-  
-  const monthlyPremium = Math.round(income * 0.0475 / 10000) * 10000;
+
+  // 연간 기본연금액 산식
+  // · 가입 20년(240개월) 이하: Y×(A+B)×(n/240)
+  // · 가입 20년 초과: Y×(A+B)×(1 + 0.05×초과월수/12)
+  let annualBase;
+  if (n <= 0) {
+    annualBase = 0;
+  } else if (n <= 240) {
+    annualBase = Y * (A + B) * (n / 240);
+  } else {
+    const excess = n - 240; // 20년 초과 월수
+    annualBase = Y * (A + B) * (1 + 0.05 * excess / 12);
+  }
+  const monthly = Math.round(annualBase / 12 / 10000) * 10000;
+
+  // 2026년 보험료율: 9.5%, 직장가입자 본인 4.75%
+  const monthlyPremium = Math.round(Math.min(income, 6370000) * 0.0475 / 10000) * 10000;
   const totalPremium = monthlyPremium * totalMonths;
   const yearlyReceive = monthly * 12;
-  const breakEven = totalPremium > 0 ? Math.ceil(totalPremium / monthly) : 0;
-  
+  const breakEven = (monthly > 0 && totalPremium > 0) ? Math.ceil(totalPremium / monthly) : 0;
+
   document.getElementById('pensionMonthly').textContent = monthly.toLocaleString('ko-KR') + '원';
   document.getElementById('pensionSub').textContent = `총 가입기간 약 ${totalYears}년 · ${receiveAge}세부터 수령`;
   document.getElementById('pensionDetail').innerHTML = `
     <div class="detail-item"><div class="di-label">총 가입기간</div><div class="di-value">약 ${totalYears}년 (${totalMonths}개월)</div></div>
-    <div class="detail-item"><div class="di-label">월 납입 보험료 (본인)</div><div class="di-value">${monthlyPremium.toLocaleString()}원</div></div>
-    <div class="detail-item"><div class="di-label">총 납입 보험료</div><div class="di-value">${Math.round(totalPremium/10000).toLocaleString()}만원</div></div>
+    <div class="detail-item"><div class="di-label">월 납입 보험료 (본인 4.75%)</div><div class="di-value">${monthlyPremium.toLocaleString()}원</div></div>
+    <div class="detail-item"><div class="di-label">총 납입 보험료 (추정)</div><div class="di-value">${Math.round(totalPremium/10000).toLocaleString()}만원</div></div>
     <div class="detail-item"><div class="di-label">연 수령액</div><div class="di-value">${yearlyReceive.toLocaleString()}원</div></div>
     <div class="detail-item"><div class="di-label">수령 시작 나이</div><div class="di-value">${receiveAge}세</div></div>
-    <div class="detail-item"><div class="di-label">원금 회수 기간</div><div class="di-value">약 ${Math.ceil(breakEven/12)}년</div></div>
+    <div class="detail-item"><div class="di-label">원금 회수 기간</div><div class="di-value">${breakEven>0?`약 ${Math.ceil(breakEven/12)}년`:'—'}</div></div>
   `;
   document.getElementById('pensionResult').className = 'result-section show';
+
+  // 연기/조기수령 시뮬레이터 업데이트
+  _baseMonthly = monthly;
+  _baseAge = receiveAge;
+  document.getElementById('simCard').style.display = 'block';
+  updateSim();
+}
+
+let _baseMonthly = 0, _baseAge = 65;
+
+window.onload = () => calcPension();
+
+function updateSim() {
+  const delta = parseInt(document.getElementById('simSlider').value) || 0;
+  const label = document.getElementById('simLabel');
+  const resultEl = document.getElementById('simResult');
+  if (!_baseMonthly) return;
+
+  let adj, adjMonthly, tag;
+  if (delta < 0) {
+    // 조기수령: 1개월당 0.5% 감액
+    adj = delta * 12 * 0.5;
+    adjMonthly = Math.round(_baseMonthly * (1 + adj/100));
+    tag = `<span style="color:#ff6b6b">조기수령 ${Math.abs(delta)}년 앞당김 → ${adj.toFixed(1)}% 감액</span>`;
+  } else if (delta > 0) {
+    // 연기수령: 1개월당 0.6% 가산
+    adj = delta * 12 * 0.6;
+    adjMonthly = Math.round(_baseMonthly * (1 + adj/100));
+    tag = `<span style="color:#00d4aa">연기수령 ${delta}년 연장 → +${adj.toFixed(1)}% 가산</span>`;
+  } else {
+    adjMonthly = _baseMonthly;
+    tag = `<span style="color:#8b949e">법정 개시연령 수령 (기준)</span>`;
+  }
+
+  const newAge = _baseAge + delta;
+  label.innerHTML = `${newAge}세 수령 ${tag}`;
+  resultEl.innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px">
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center">
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">법정 개시 수령액</div>
+        <div style="font-size:18px;font-weight:900;color:var(--text);font-family:'Montserrat',sans-serif">${_baseMonthly.toLocaleString()}원</div>
+        <div style="font-size:11px;color:var(--text-muted)">${_baseAge}세부터</div>
+      </div>
+      <div style="background:rgba(0,212,170,.06);border:1px solid rgba(0,212,170,.3);border-radius:12px;padding:14px;text-align:center">
+        <div style="font-size:11px;color:var(--accent);margin-bottom:4px">조정 후 수령액</div>
+        <div style="font-size:18px;font-weight:900;font-family:'Montserrat',sans-serif;color:${delta>=0?'#00d4aa':'#ff6b6b'}">${adjMonthly.toLocaleString()}원</div>
+        <div style="font-size:11px;color:var(--text-muted)">${newAge}세부터 / 월 ${delta>=0?'+':''}${(adjMonthly-_baseMonthly).toLocaleString()}원</div>
+      </div>
+    </div>`;
 }
 </script>
+
+
+  <div class="disclaimer">본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.</div>
+  <div class="calc-guide">
+    <div class="calc-guide-title">📋 사용 방법</div>
+    <div class="calc-guide-desc">나이·월 소득·가입 시작 나이를 입력하면 예상 국민연금 수령액과 납입 보험료를 계산합니다. 수령 시기 조정 시뮬레이터도 활용해보세요.</div>
+    <div class="calc-guide-basis">📌 계산 기준: 2026년 기준 · 보험료율 9.5% (직장인 본인 4.75%) · 간이 산식 적용 (실제와 다를 수 있음)</div>
+  </div>
+  <div class="toss-nav">
+    <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
+    <div class="toss-nav-grid">
+      <a href="/health_insurance" class="toss-nav-item"><span class="ni-emoji">🏥</span><span class="ni-label">건강보험</span></a>
+      <a href="/salary" class="toss-nav-item"><span class="ni-emoji">💰</span><span class="ni-label">연봉</span></a>
+      <a href="/retirement_pension" class="toss-nav-item"><span class="ni-emoji">💎</span><span class="ni-label">퇴직연금</span></a>
+      <a href="/income_tax" class="toss-nav-item"><span class="ni-emoji">🧮</span><span class="ni-label">소득세</span></a>
+    </div>
+  </div>
+</div>
 </body>
 </html>

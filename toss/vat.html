@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>부가가치세 계산기</title>
-  <!-- TODO: 앱인토스 SDK — 콘솔 발급 코드로 교체 -->
-  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>부가가치세 계산기 | 모두의계산기</title>
+  <meta name="description" content="부가세(VAT) 계산기 — 공급가액·VAT포함가 상호 변환, 역산 지원. 과세·면세·영세율 구분, 세금계산서 작성 시 공급가액·세액 즉시 계산." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" /></noscript>
   <style>
-
     :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--radius:16px}
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-    
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
     .container{max-width:640px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
-    
+    .nav{text-align:center;margin-bottom:32px}.nav a{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:3px;color:var(--accent);text-decoration:none;text-transform:uppercase}
     .header{text-align:center;margin-bottom:40px}
     .header h1{font-size:clamp(28px,6vw,44px);font-weight:900;line-height:1.1;margin-bottom:10px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
     .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
@@ -45,74 +46,36 @@
     @media(max-width:480px){.card{padding:20px 16px}}
 
     /* ── 홈 버튼 ── */
-    
-    
-    
-    
-    
+    .home-btn-wrap { text-align: center; margin-bottom: 8px; }
+    .home-btn {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      width: 54px; height: 54px;
+      background: rgba(0,212,170,0.08);
+      border: 1.5px solid rgba(0,212,170,0.35);
+      border-radius: 50%;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .home-btn:hover { background: rgba(0,212,170,0.18); transform: translateY(-2px); }
+    .home-btn-emoji { font-size: 20px; line-height: 1; }
+    .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
   
 
 
 
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /* ── 토스 헤더 ── */
-
-    .home-btn-wrap{text-align:center;margin-bottom:8px}
-    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
-    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
-    .home-btn-emoji{font-size:20px;line-height:1}
-    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
 
     .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
     .toss-header>.emoji{font-size:28px;flex-shrink:0}
     .toss-header h1{font-size:20px;font-weight:800;color:var(--text);margin:0}
     .toss-header p{font-size:12px;color:var(--text-muted);margin-top:3px}
-    /* ── 토스 하단 네비 ── */
     .toss-nav{margin-top:24px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
     .toss-nav-title{font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:12px}
     .toss-nav-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
@@ -120,57 +83,61 @@
     .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
     .ni-emoji{font-size:20px}
     .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
-
-    /* ── max-scale 방지 ── */
-    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+    .calc-guide{margin-top:20px;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .calc-guide-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:12px}
+    .calc-guide-desc{font-size:13px;color:var(--text-muted);line-height:1.8;margin-bottom:12px}
+    .calc-guide-basis{font-size:12px;color:var(--text-muted);padding:10px 14px;background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;line-height:1.7}
+    .disclaimer{text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280}
+    @media(max-width:360px){.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
 
   </style>
+
 </head>
 <body>
 <div class="container">
-
-  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
-  <div class="toss-header">
+    <div class="toss-header">
     <span class="emoji">🧾</span>
-    <div>
-      <h1>부가가치세 계산기</h1>
-      <p>공급가액 ↔ VAT 포함가 계산</p>
+    <div><h1>부가가치세 계산기</h1><p>공급가액 ↔ VAT 포함가 계산</p></div>
+  </div>
+  <div class="card">
+    <div class="card-title">계산 방향</div>
+    <div class="tab-group">
+      <button class="tab-btn active" onclick="setMode('add')" id="tab-add">➕ 공급가 → VAT 포함가</button>
+      <button class="tab-btn" onclick="setMode('extract')" id="tab-extract">➖ VAT 포함가 → 공급가</button>
+    </div>
+    <div class="input-group">
+      <label id="amountLabel">공급가액 (VAT 제외)</label>
+      <div class="input-wrapper"><input type="text" id="amount" value="1,000,000" oninput="fmtInput(this)" /><span class="input-unit">원</span></div>
+    </div>
+    <button class="calc-btn" onclick="calculate()">🧮 부가세 계산하기</button>
+  </div>
+  <div class="result-card" id="resultCard">
+    <div class="result-highlight">
+      <div class="r-label" id="r-label">VAT (부가가치세)</div>
+      <div class="r-amount" id="r-vat">-<span>원</span></div>
+      <div class="r-sub" id="r-sub">-</div>
+    </div>
+    <div class="card">
+      <div class="card-title">계산 내역</div>
+      <div class="detail-item"><span class="d-label">공급가액</span><span class="d-value" id="d-supply">-</span></div>
+      <div class="detail-item"><span class="d-label">부가가치세 (10%)</span><span class="d-value accent" id="d-vat">-</span></div>
+      <div class="detail-item"><span class="d-label">합계금액 (VAT 포함)</span><span class="d-value" id="d-total">-</span></div>
     </div>
   </div>
 
+<div class="card" id="simCard" style="display:none">
+    <div class="card-title">📊 주요 거래금액별 VAT 비교</div>
+    <div id="simResult"></div>
+  </div>
 
-<div class="card">
-<div class="card-title">계산 방향</div>
-<div class="tab-group">
-<button class="tab-btn active" id="tab-add" onclick="setMode('add')">➕ 공급가 → VAT 포함가</button>
-<button class="tab-btn" id="tab-extract" onclick="setMode('extract')">➖ VAT 포함가 → 공급가</button>
-</div>
-<div class="input-group">
-<label id="amountLabel">공급가액 (VAT 제외)</label>
-<div class="input-wrapper"><input id="amount" type="number" value="1000000"/><span class="input-unit">원</span></div>
-</div>
-<button class="calc-btn" onclick="calculate()">🧮 부가세 계산하기</button>
-</div>
-<div class="result-card" id="resultCard">
-<div class="result-highlight">
-<div class="r-label" id="r-label">VAT (부가가치세)</div>
-<div class="r-amount" id="r-vat">-<span>원</span></div>
-<div class="r-sub" id="r-sub">-</div>
-</div>
-<div class="card">
-<div class="card-title">계산 내역</div>
-<div class="detail-item"><span class="d-label">공급가액</span><span class="d-value" id="d-supply">-</span></div>
-<div class="detail-item"><span class="d-label">부가가치세 (10%)</span><span class="d-value accent" id="d-vat">-</span></div>
-<div class="detail-item"><span class="d-label">합계금액 (VAT 포함)</span><span class="d-value" id="d-total">-</span></div>
-</div>
-</div>
-
-
-    <div style="text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280;">
-    본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.
+  <div class="disclaimer">본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.</div>
+  <div class="calc-guide">
+    <div class="calc-guide-title">📋 사용 방법</div>
+    <div class="calc-guide-desc">공급가액 또는 VAT 포함가를 입력하면 부가가치세(10%)를 자동 계산합니다. 주요 금액별 VAT 비교표도 확인해보세요.</div>
+    <div class="calc-guide-basis">📌 계산 기준: 부가가치세율 10% 기준 · 공급가→포함가: ×1.1 / 포함가→공급가: ÷1.1</div>
   </div>
   <div class="toss-nav">
-    <div class="toss-nav-title">📌 사업자 세금 계산기</div>
+    <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
     <div class="toss-nav-grid">
       <a href="/vat_biz" class="toss-nav-item"><span class="ni-emoji">🧾</span><span class="ni-label">사업자부가세</span></a>
       <a href="/income_tax" class="toss-nav-item"><span class="ni-emoji">📋</span><span class="ni-label">소득세</span></a>
@@ -178,10 +145,12 @@
       <a href="/margin" class="toss-nav-item"><span class="ni-emoji">💹</span><span class="ni-label">마진율</span></a>
     </div>
   </div>
-
 </div>
+
 <script>
-let mode='add';
+  function fmtInput(el){const raw=el.value.replace(/[^0-9]/g,'');el.value=raw?Number(raw).toLocaleString('ko-KR'):'';}
+  function getNum(id){return parseFloat((document.getElementById(id).value||'').replace(/,/g,''))||0;}
+  let mode='add';
   function setMode(m){
     mode=m;
     document.getElementById('tab-add').classList.toggle('active',m==='add');
@@ -190,7 +159,7 @@ let mode='add';
   }
   function fmt(n){return Math.round(n).toLocaleString('ko-KR')}
   function calculate(){
-    const amount=parseFloat(document.getElementById('amount').value)||0;
+    const amount=getNum('amount');
     let supply,vat,total;
     if(mode==='add'){supply=amount;vat=supply*0.1;total=supply+vat;}
     else{total=amount;supply=total/1.1;vat=total-supply;}
@@ -200,7 +169,23 @@ let mode='add';
     document.getElementById('d-supply').textContent=`${fmt(supply)}원`;
     document.getElementById('d-vat').textContent=`${fmt(vat)}원`;
     document.getElementById('d-total').textContent=`${fmt(total)}원`;
-    const rc=document.getElementById('resultCard');rc.classList.add('visible');
+    document.getElementById('resultCard').classList.add('visible');
+    // 시뮬레이터
+    document.getElementById('simCard').style.display='block';
+    const curSupply = mode==='add'?amount:amount/1.1;
+    const amounts=[100000,500000,1000000,3000000,5000000,10000000,50000000];
+    document.getElementById('simResult').innerHTML=amounts.map(a=>{
+      const v=a*0.1, t=a+v;
+      const isCur=Math.abs(a-curSupply)<1000;
+      return `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:${isCur?'rgba(0,212,170,.08)':'var(--surface2)'};border:1px solid ${isCur?'rgba(0,212,170,.3)':'var(--border)'};border-radius:8px;margin-bottom:6px">
+        <div><span style="font-size:13px;font-weight:600;color:${isCur?'var(--accent)':'var(--text-muted)'}">${fmt(a)}원${isCur?' ← 현재':''}</span></div>
+        <div style="text-align:right">
+          <span style="font-size:11px;color:var(--text-muted)">VAT </span>
+          <span style="font-size:14px;font-weight:700;color:${isCur?'var(--accent)':'var(--text)'}">${fmt(v)}원</span>
+          <span style="font-size:11px;color:var(--text-muted)"> → 합계 ${fmt(t)}원</span>
+        </div>
+      </div>`;
+    }).join('');
   }
   window.onload=()=>calculate();
 </script>
