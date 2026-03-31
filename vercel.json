@@ -370,6 +370,14 @@
     {
       "source": "/about",
       "destination": "/about.html"
+    },
+    {
+      "source": "/earned_credit",
+      "destination": "/earned_credit.html"
+    },
+    {
+      "source": "/median_income",
+      "destination": "/median_income.html"
     }
   ]
 }
