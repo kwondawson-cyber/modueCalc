@@ -2,22 +2,25 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>퇴직연금 계산기</title>
-  <!-- TODO: 앱인토스 SDK 교체 -->
-  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>퇴직연금 수령액 계산기 | 모두의계산기</title>
+  <meta name="description" content="퇴직연금 계산기 2026 — DB형·DC형·IRP 유형별 예상 수령액 계산. 연금 vs 일시금 세금 비교, 연봉 5,000만원 10년 근속 기준 수령액 예시 포함." />
+  <meta name="naver-site-verification" content="82ae9d4234997a93590385e408dc1119dfe6f61f" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" /></noscript>
   <style>
-
     :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--danger:#ff6b6b;--radius:16px}
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-    
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
     .container{max-width:680px;margin:0 auto;padding:40px 20px 100px;position:relative;z-index:1}
-    
-    
-    
-    
-    
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;gap:2px;width:48px;height:48px;justify-content:center;border-radius:50%;background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.2);text-decoration:none;transition:all .2s}
+    .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
     .header{text-align:center;margin-bottom:32px}
     .header h1{font-family:'Montserrat',sans-serif;font-size:clamp(22px,5vw,32px);font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
     .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
@@ -54,29 +57,28 @@
     .affiliate-btn{display:inline-block;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:800;text-decoration:none;font-family:'Noto Sans KR',sans-serif}
     .affiliate-btn-primary{background:linear-gradient(135deg,var(--accent2),var(--accent));color:#000}
     .affiliate-btn-secondary{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
-    
-    .ad-slot{min-height:0;text-align:center;margin:16px 0}
+    .formula-box{background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:14px 16px;margin:16px 0;font-size:13px;color:var(--text-muted);line-height:1.8}
     .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
     details{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden}
     details summary{padding:12px 16px;cursor:pointer;font-size:14px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--surface)}
     details summary::after{content:'＋';color:var(--accent);font-size:16px}
     details[open] summary::after{content:'－'}
-    details 
+    details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
     @media(max-width:480px){.result-grid{grid-template-columns:1fr}.row2{grid-template-columns:1fr}}
 
     .related-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
     .related-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
     .related-card .rc-emoji{font-size:22px;display:block;margin-bottom:4px}
     .related-card .rc-name{font-size:12px;font-weight:700;color:var(--text)}
-    
+    .example-box h3{font-size:14px;font-weight:700;color:var(--accent);margin-bottom:10px}
     .example-step .num{background:var(--accent);color:#000;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;flex-shrink:0;margin-top:1px}
   
-    
-    
-    
-    
-    
-    
+    .seo-card h2{font-size:17px;font-weight:800;color:var(--text);margin-bottom:14px;line-height:1.4}
+    .seo-card h3{font-size:14px;font-weight:700;color:var(--accent);margin:16px 0 8px}
+    .seo-card p{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:10px}
+    .seo-card ul{padding-left:18px;margin-bottom:10px}
+    .seo-card ul li{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:4px}
+    .seo-card strong{color:var(--text)}
     .example-table th{background:rgba(0,212,170,0.1);padding:8px 12px;text-align:left;color:var(--accent);font-weight:700;border:1px solid var(--border)}
     .example-table td{padding:8px 12px;border:1px solid var(--border);color:var(--text-muted);line-height:1.7}
     .example-table tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
@@ -87,12 +89,12 @@
     .related-card .rc-name{font-size:12px;font-weight:700;color:var(--text)}
 
     
-    
-    
-    
-    
-    
-    
+    .seo-card h2{font-size:17px;font-weight:800;color:var(--text);margin-bottom:14px;line-height:1.4}
+    .seo-card h3{font-size:14px;font-weight:700;color:var(--accent);margin:16px 0 8px}
+    .seo-card p{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:10px}
+    .seo-card ul{padding-left:18px;margin-bottom:10px}
+    .seo-card li{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:4px}
+    .seo-card strong{color:var(--text)}
     .ex-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
     .ex-table th{background:rgba(0,212,170,0.1);padding:8px 12px;text-align:left;color:var(--accent);font-weight:700;border:1px solid var(--border)}
     .ex-table td{padding:8px 12px;border:1px solid var(--border);color:var(--text-muted);line-height:1.7}
@@ -102,19 +104,10 @@
     
     
     
-    
-    
+    .rel-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
     
     
   
-
-
-    .home-btn-wrap{text-align:center;margin-bottom:8px}
-    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
-    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
-    .home-btn-emoji{font-size:20px;line-height:1}
-    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
-
     .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
     .toss-header>.emoji{font-size:28px;flex-shrink:0}
     .toss-header h1{font-size:20px;font-weight:800;color:var(--text);margin:0}
@@ -126,152 +119,226 @@
     .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
     .ni-emoji{font-size:20px}
     .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
-
-    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+    .calc-guide{margin-top:20px;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .calc-guide-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:12px}
+    .calc-guide-desc{font-size:13px;color:var(--text-muted);line-height:1.8;margin-bottom:12px}
+    .calc-guide-basis{font-size:12px;color:var(--text-muted);padding:10px 14px;background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;line-height:1.7}
+    .disclaimer{text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280}
+    @media(max-width:360px){.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
 
   </style>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
 </head>
 <body>
 <div class="container">
-  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
-  <div class="toss-header">
-    <span class="emoji">💎</span>
-    <div><h1>퇴직연금 계산기</h1><p>DB·DC·IRP 수령액 계산</p></div>
+    <div class="toss-header">
+    <span class="emoji">💼</span>
+    <div><h1>퇴직연금 수령액 계산기</h1><p>DB·DC·IRP 수령액 · 연금 vs 일시금 세금 비교</p></div>
+  </div>
+
+  <div class="card">
+    <h2>📋 퇴직연금 정보</h2>
+    <div class="row2">
+      <div class="form-group">
+        <label>퇴직연금 유형</label>
+        <select id="type">
+          <option value="db">DB형 (확정급여)</option>
+          <option value="dc">DC형 (확정기여)</option>
+          <option value="irp">IRP (개인형)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>재직 기간 (년)</label>
+        <input type="number" id="workYears" placeholder="예: 15" value="10" />
+      </div>
+    </div>
+    <div class="row2">
+      <div class="form-group">
+        <label>최종 3개월 평균 월급 (만원)</label>
+        <input type="number" id="salary" placeholder="예: 450" value="400" />
+      </div>
+      <div class="form-group">
+        <label>연평균 수익률 (%)</label>
+        <input type="number" id="returnRate" placeholder="DC·IRP용" step="0.1" value="4.0" />
+      </div>
+    </div>
+    <div class="row2">
+      <div class="form-group">
+        <label>연금 수령 기간 (년)</label>
+        <select id="annuityPeriod">
+          <option value="10">10년</option>
+          <option value="15" selected>15년</option>
+          <option value="20">20년</option>
+          <option value="25">25년</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>추가 납입액 (만원, DC·IRP)</label>
+        <input type="number" id="extra" placeholder="연간 추가 납입" value="0" />
+      </div>
+    </div>
+    <button class="btn" onclick="calcPension()">계산하기</button>
+  </div>
+
+  <div class="result-card" id="result">
+    <div class="result-main">
+      <div class="result-label">예상 퇴직연금 총액</div>
+      <div class="result-value" id="rTotal">0만원</div>
+      <div class="result-sub" id="rSub"></div>
+    </div>
+    <div class="result-grid">
+      <div class="result-item"><div class="result-item-label">월 연금액</div><div class="result-item-value" id="rMonthly">-</div></div>
+      <div class="result-item"><div class="result-item-label">연간 연금액</div><div class="result-item-value" id="rYearly">-</div></div>
+      <div class="result-item"><div class="result-item-label">세후 일시금</div><div class="result-item-value" id="rLumpNet">-</div></div>
+      <div class="result-item"><div class="result-item-label">세후 연금 총액</div><div class="result-item-value" id="rAnnuityNet">-</div></div>
+    </div>
+    <div class="compare-box">
+      <h3>💰 연금 vs 일시금 세금 비교</h3>
+      <div class="compare-row"><span class="label">수령 방식</span><span class="val-annuity">연금 수령</span><span class="val-lump">일시금</span></div>
+      <div class="compare-row"><span class="label">세율</span><span class="val-annuity" id="cAnnuityRate">-</span><span class="val-lump" id="cLumpRate">-</span></div>
+      <div class="compare-row"><span class="label">세금</span><span class="val-annuity" id="cAnnuityTax">-</span><span class="val-lump" id="cLumpTax">-</span></div>
+      <div class="compare-row"><span class="label">실수령액</span><span class="val-annuity" id="cAnnuityNet">-</span><span class="val-lump" id="cLumpNet">-</span></div>
+    </div>
+    <div class="affiliate-box">
+      <p>💡 퇴직연금 수익률, 운용 전략이 중요합니다. 전문가 상담으로 더 많이 받으세요.</p>
+    </div>
   </div>
 
 
+<div class="card" id="simCard">
+    <div class="card-title">📊 연금 수령기간별 절세 비교 — 몇 년으로 나눠 받는 게 유리할까</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;line-height:1.7">연금 수령 기간이 길수록 퇴직소득세 감면이 크고 월 연금액은 작아집니다. 슬라이더는 메인 계산기의 수령 기간과 연동됩니다.</p>
+    <div id="simResult"></div>
+  </div>
 
-<div class="card">
-<h2>📋 퇴직연금 정보</h2>
-<div class="row2">
-<div class="form-group">
-<label>퇴직연금 유형</label>
-<select id="type">
-<option value="db">DB형 (확정급여)</option>
-<option value="dc">DC형 (확정기여)</option>
-<option value="irp">IRP (개인형)</option>
-</select>
-</div>
-<div class="form-group">
-<label>재직 기간 (년)</label>
-<input id="workYears" placeholder="예: 15" type="number"/>
-</div>
-</div>
-<div class="row2">
-<div class="form-group">
-<label>최종 3개월 평균 월급 (만원)</label>
-<input id="salary" placeholder="예: 450" type="number"/>
-</div>
-<div class="form-group">
-<label>연평균 수익률 (%)</label>
-<input id="returnRate" placeholder="DC·IRP용" step="0.1" type="number" value="4.0"/>
-</div>
-</div>
-<div class="row2">
-<div class="form-group">
-<label>연금 수령 기간 (년)</label>
-<select id="annuityPeriod">
-<option value="10">10년</option>
-<option selected="" value="15">15년</option>
-<option value="20">20년</option>
-<option value="25">25년</option>
-</select>
-</div>
-<div class="form-group">
-<label>추가 납입액 (만원, DC·IRP)</label>
-<input id="extra" placeholder="연간 추가 납입" type="number" value="0"/>
-</div>
-</div>
-<button class="btn" onclick="calcPension()">계산하기</button>
-</div>
-<div class="result-card" id="result">
-<div class="result-main">
-<div class="result-label">예상 퇴직연금 총액</div>
-<div class="result-value" id="rTotal">0만원</div>
-<div class="result-sub" id="rSub"></div>
-</div>
-<div class="result-grid">
-<div class="result-item"><div class="result-item-label">월 연금액</div><div class="result-item-value" id="rMonthly">-</div></div>
-<div class="result-item"><div class="result-item-label">연간 연금액</div><div class="result-item-value" id="rYearly">-</div></div>
-<div class="result-item"><div class="result-item-label">세후 일시금</div><div class="result-item-value" id="rLumpNet">-</div></div>
-<div class="result-item"><div class="result-item-label">세후 연금 총액</div><div class="result-item-value" id="rAnnuityNet">-</div></div>
-</div>
-<div class="compare-box">
-<h3>💰 연금 vs 일시금 세금 비교</h3>
-<div class="compare-row"><span class="label">수령 방식</span><span class="val-annuity">연금 수령</span><span class="val-lump">일시금</span></div>
-<div class="compare-row"><span class="label">세율</span><span class="val-annuity" id="cAnnuityRate">-</span><span class="val-lump" id="cLumpRate">-</span></div>
-<div class="compare-row"><span class="label">세금</span><span class="val-annuity" id="cAnnuityTax">-</span><span class="val-lump" id="cLumpTax">-</span></div>
-<div class="compare-row"><span class="label">실수령액</span><span class="val-annuity" id="cAnnuityNet">-</span><span class="val-lump" id="cLumpNet">-</span></div>
-</div>
-<div class="affiliate-box">
-<p>💡 퇴직연금 수익률, 운용 전략이 중요합니다. 전문가 상담으로 더 많이 받으세요.</p>
-</div>
-</div>
 
-    <div style="text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280;">
-    본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.
+  <div class="disclaimer">본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.</div>
+  <div class="calc-guide">
+    <div class="calc-guide-title">📋 사용 방법</div>
+    <div class="calc-guide-desc">퇴직연금 수령액과 수령 기간을 입력하면 세후 실수령액을 계산합니다. 수령기간별 절세 비교 시뮬레이터도 확인해보세요.</div>
+    <div class="calc-guide-basis">📌 계산 기준: 퇴직소득세 환산급여·공제 기준 · 연금수령 시 70% 감면 적용</div>
   </div>
   <div class="toss-nav">
     <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
     <div class="toss-nav-grid">
       <a href="/retirement" class="toss-nav-item"><span class="ni-emoji">🏦</span><span class="ni-label">퇴직금</span></a>
+      <a href="/income_tax" class="toss-nav-item"><span class="ni-emoji">🧮</span><span class="ni-label">소득세</span></a>
       <a href="/salary" class="toss-nav-item"><span class="ni-emoji">💰</span><span class="ni-label">연봉</span></a>
-      <a href="/pension" class="toss-nav-item"><span class="ni-emoji">👴</span><span class="ni-label">국민연금</span></a>
-      <a href="/savings" class="toss-nav-item"><span class="ni-emoji">💳</span><span class="ni-label">적금</span></a>
+      <a href="/pension" class="toss-nav-item"><span class="ni-emoji">🏛️</span><span class="ni-label">국민연금</span></a>
     </div>
   </div>
 </div>
+
 <script>
-const fmt = n => Math.round(n).toLocaleString();
+function fmtInput(el){const raw=el.value.replace(/[^0-9.]/g,'');el.value=raw?Number(raw.replace(/\./g,'')).toLocaleString('ko-KR'):'';}
+function getNum(id){return parseFloat((document.getElementById(id).value||'').replace(/,/g,''))||0;}
+function fw(n){return Math.round(n).toLocaleString('ko-KR')+'원';}
+function fm(n){return Math.round(n).toLocaleString('ko-KR')+'만원';}
 
-function calculate() {
-  const type       = document.getElementById('type').value;
-  const workYears  = parseFloat(document.getElementById('workYears').value) || 0;
-  const salary     = (parseFloat(document.getElementById('salary').value) || 0) * 10000;
+function calcPension() {
+  const type = document.getElementById('type').value;
+  const workYears = getNum('workYears') || parseFloat(document.getElementById('workYears').value) || 0;
+  const salary = parseFloat(document.getElementById('salary').value) || 0; // 만원 단위
   const returnRate = parseFloat(document.getElementById('returnRate').value) / 100 || 0.04;
-  const annuityYrs = parseInt(document.getElementById('annuityPeriod').value);
-  const extraAnnual= (parseFloat(document.getElementById('extra').value) || 0) * 10000;
+  const annuityPeriod = parseInt(document.getElementById('annuityPeriod').value) || 15;
+  const extra = parseFloat(document.getElementById('extra').value) || 0; // 만원/년
 
-  if (!workYears || !salary) { alert('근속연수와 월 급여를 입력해주세요'); return; }
+  if (!workYears || !salary) { alert('재직 기간과 월급을 입력해주세요.'); return; }
 
-  let totalFund = 0;
+  const salaryWon = salary * 10000; // 원 단위
+  let totalWon = 0; // 퇴직연금 총액 (원)
 
   if (type === 'db') {
-    // DB: 퇴직 직전 3개월 평균임금 × 근속연수
-    totalFund = salary * workYears;
+    // DB형: 퇴직금 = 평균임금 × 30일 × 근속연수
+    const avgDaily = (salaryWon * 3) / 91;
+    totalWon = avgDaily * 30 * workYears;
   } else if (type === 'dc') {
-    // DC: 매년 연봉의 1/12 적립 → 복리 운용
-    const annual = salary * 12 + extraAnnual;
-    for (let i = 1; i <= workYears; i++) {
-      totalFund = (totalFund + annual / workYears) * (1 + returnRate);
+    // DC형: 매년 연봉의 1/12 적립 + 운용 수익
+    const annualContrib = salaryWon * 12 / 12; // 연 적립액 = 연봉/12 × 12 = 연봉
+    const annualExtra = extra * 10000;
+    totalWon = 0;
+    for (let y = 0; y < workYears; y++) {
+      totalWon = (totalWon + annualContrib + annualExtra) * (1 + returnRate);
     }
   } else {
-    // IRP: 매년 납입 → 복리 운용
-    const annualContrib = salary * 12 * 0.0833 + extraAnnual; // 연봉의 8.33%
-    for (let i = 1; i <= workYears; i++) {
-      totalFund = (totalFund + annualContrib) * (1 + returnRate);
+    // IRP: 연 납입액(연봉 1/12 + 추가) + 운용 수익
+    const annualContrib = salaryWon;
+    const annualExtra = extra * 10000;
+    totalWon = 0;
+    for (let y = 0; y < workYears; y++) {
+      totalWon = (totalWon + annualContrib + annualExtra) * (1 + returnRate);
     }
   }
 
-  // 세금 (퇴직소득세 간이 계산: 근속연수 공제 후 11~16%)
-  const taxRate = workYears >= 20 ? 0.11 : workYears >= 10 ? 0.13 : 0.16;
-  const lumpNetFund = totalFund * (1 - taxRate);
+  // 연금 vs 일시금 세금
+  // 퇴직소득세 간이 추정 (실효세율 약 6~10%)
+  const roughTaxRate = Math.min(0.06 + (totalWon / 1e9) * 0.02, 0.15);
+  const lumpTax = totalWon * roughTaxRate;
+  const lumpNet = totalWon - lumpTax;
 
-  // 연금 수령 (연금소득세 3.3~5.5% 적용)
-  const annuityTaxRate = 0.044;
-  const monthlyAnnuity = totalFund / (annuityYrs * 12);
-  const monthlyAnnuityNet = monthlyAnnuity * (1 - annuityTaxRate);
-  const totalAnnuityNet = monthlyAnnuityNet * annuityYrs * 12;
+  // 연금 수령: 10년 이상이면 40% 감면, 미만 30% 감면
+  const discount = annuityPeriod >= 10 ? 0.40 : 0.30;
+  const annuityTax = lumpTax * (1 - discount);
+  const annuityNet = totalWon - annuityTax;
 
-  document.getElementById('rTotal').textContent     = fmt(totalFund / 10000) + '만원';
-  document.getElementById('rSub').textContent       = '세전 총 적립금 (운용 수익 포함)';
-  document.getElementById('rMonthly').textContent   = fmt(monthlyAnnuityNet) + '원';
-  document.getElementById('rYearly').textContent    = fmt(monthlyAnnuityNet * 12) + '원';
-  document.getElementById('rLumpNet').textContent   = fmt(lumpNetFund / 10000) + '만원';
-  document.getElementById('rAnnuityNet').textContent= fmt(totalAnnuityNet / 10000) + '만원';
+  // 월 연금액 (연금소득세 3.3~5.5% 별도 — 단순화하여 미적용)
+  const monthlyAnnuity = annuityNet / (annuityPeriod * 12);
+
+  const totalM = Math.round(totalWon / 10000);
+  document.getElementById('rTotal').textContent = `${totalM.toLocaleString()}만원`;
+  document.getElementById('rSub').textContent = `${type.toUpperCase()}형 · ${workYears}년 근속 기준 예상액`;
+  document.getElementById('rMonthly').textContent = `${Math.round(monthlyAnnuity/10000).toLocaleString()}만원`;
+  document.getElementById('rYearly').textContent = `${Math.round(monthlyAnnuity*12/10000).toLocaleString()}만원`;
+  document.getElementById('rLumpNet').textContent = `${Math.round(lumpNet/10000).toLocaleString()}만원`;
+  document.getElementById('rAnnuityNet').textContent = `${Math.round(annuityNet/10000).toLocaleString()}만원`;
+  document.getElementById('cAnnuityRate').textContent = `${(roughTaxRate*(1-discount)*100).toFixed(1)}%`;
+  document.getElementById('cLumpRate').textContent = `${(roughTaxRate*100).toFixed(1)}%`;
+  document.getElementById('cAnnuityTax').textContent = `${Math.round(annuityTax/10000).toLocaleString()}만원`;
+  document.getElementById('cLumpTax').textContent = `${Math.round(lumpTax/10000).toLocaleString()}만원`;
+  document.getElementById('cAnnuityNet').textContent = `${Math.round(annuityNet/10000).toLocaleString()}만원`;
+  document.getElementById('cLumpNet').textContent = `${Math.round(lumpNet/10000).toLocaleString()}만원`;
 
   document.getElementById('result').classList.add('show');
+
+  // 수령기간별 시뮬레이터
+  document.getElementById('simCard').style.display = 'block';
+  _pension = { totalWon, lumpTax, roughTaxRate };
+  updatePeriodSim();
 }
+
+  _pension = null;
+function updatePeriodSim() {
+  // _pension 없으면 기본값(DB형 10년, 월 400만원)으로 시뮬
+  const totalWon = _pension ? _pension.totalWon : (400*10000/91)*30*10;
+  const roughTaxRate = _pension ? _pension.roughTaxRate : 0.065;
+  const lumpTax = _pension ? _pension.lumpTax : totalWon * roughTaxRate;
+  const periods = [5, 10, 15, 20, 25];
+  const el = document.getElementById('simResult');
+  el.innerHTML = periods.map(y => {
+    const discount = y >= 10 ? 0.40 : 0.30;
+    const tax = lumpTax * (1 - discount);
+    const net = totalWon - tax;
+    const monthly = net / (y * 12);
+    const isCur = y === parseInt(document.getElementById('annuityPeriod').value);
+    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:${isCur?'rgba(0,212,170,.08)':'var(--surface2)'};border:1px solid ${isCur?'rgba(0,212,170,.3)':'var(--border)'};border-radius:10px;margin-bottom:8px">
+      <div>
+        <span style="font-size:14px;font-weight:700;color:${isCur?'var(--accent)':'var(--text)'}">${y}년 수령${isCur?' ← 현재':''}</span>
+        <div style="font-size:11px;color:var(--text-muted)">퇴직소득세 ${(discount*100).toFixed(0)}% 감면 · 월 ${Math.round(monthly/10000).toLocaleString()}만원</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:16px;font-weight:900;font-family:Montserrat,sans-serif;color:${isCur?'var(--accent)':'var(--text)'}">${Math.round(net/10000).toLocaleString()}만원</div>
+        <div style="font-size:11px;color:var(--text-muted)">세후 총액</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+window.onload = () => calcPension();
 </script>
 </body>
 </html>

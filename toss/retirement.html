@@ -2,12 +2,14 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>퇴직금 계산기</title>
-  <!-- TODO: 앱인토스 SDK 교체 -->
-  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>퇴직금 계산기 | 모두의계산기</title>
+  <meta name="description" content="퇴직금 계산기 — 재직기간·평균임금으로 법정 퇴직금 자동 계산. 근로기준법 기준 평균임금 포함 항목, 재직기간·급여별 예시, IRP 절세 효과 포함." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" /></noscript>
   <style>
-
     :root {
       --bg: #0d1117;
       --surface: #161b22;
@@ -28,7 +30,17 @@
       color: var(--text);
       min-height: 100vh;
     }
-    
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,170,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,170,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
     .container {
       max-width: 700px;
       margin: 0 auto;
@@ -210,57 +222,32 @@
     }
 
     /* ── 홈 버튼 ── */
-    
-    
-    
-    
-    
+    .home-btn-wrap { text-align: center; margin-bottom: 8px; }
+    .home-btn {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      width: 54px; height: 54px;
+      background: rgba(0,212,170,0.08);
+      border: 1.5px solid rgba(0,212,170,0.35);
+      border-radius: 50%;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .home-btn:hover { background: rgba(0,212,170,0.18); transform: translateY(-2px); }
+    .home-btn-emoji { font-size: 20px; line-height: 1; }
+    .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
       .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
   
 
 
 
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    .home-btn-wrap{text-align:center;margin-bottom:8px}
-    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
-    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
-    .home-btn-emoji{font-size:20px;line-height:1}
-    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
 
     .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
     .toss-header>.emoji{font-size:28px;flex-shrink:0}
@@ -273,135 +260,174 @@
     .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
     .ni-emoji{font-size:20px}
     .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
-
-    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+    .calc-guide{margin-top:20px;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .calc-guide-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:12px}
+    .calc-guide-desc{font-size:13px;color:var(--text-muted);line-height:1.8;margin-bottom:12px}
+    .calc-guide-basis{font-size:12px;color:var(--text-muted);padding:10px 14px;background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;line-height:1.7}
+    .disclaimer{text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280}
+    @media(max-width:360px){.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
 
   </style>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E7GYSXR7WJ');
+</script>
 </head>
 <body>
-<div class="container">
-  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
-  <div class="toss-header">
+  <div class="container">
+      <div class="toss-header">
     <span class="emoji">🏦</span>
-    <div><h1>퇴직금 계산기</h1><p>퇴직금 법정 산정 계산</p></div>
+    <div><h1>퇴직금 계산기</h1><p>근로기준법 기준 · 퇴직급여 보장법</p></div>
   </div>
 
-
-
-<div class="card">
-<div class="card-title">재직 기간</div>
-<div class="input-row">
-<div class="input-group">
-<label>입사일</label>
-<div class="input-wrapper">
-<input id="startDate" type="date"/>
-</div>
-</div>
-<div class="input-group">
-<label>퇴사일</label>
-<div class="input-wrapper">
-<input id="endDate" type="date"/>
-</div>
-</div>
-</div>
-<hr class="divider"/>
-<div class="card-title">최근 3개월 급여</div>
-<div class="section-label">퇴직 전 3개월간 받은 급여의 합을 입력하세요</div>
-<div class="input-group">
-<label>월 기본급 (세전)</label>
-<div class="input-wrapper">
-<input id="baseSalary" placeholder="0" type="number"/>
-<span class="input-unit">원</span>
-</div>
-</div>
-<div class="input-row">
-<div class="input-group">
-<label>월 고정 수당 합계</label>
-<div class="input-wrapper">
-<input id="allowance" placeholder="0" type="number"/>
-<span class="input-unit">원</span>
-</div>
-</div>
-<div class="input-group">
-<label>연간 상여금 합계</label>
-<div class="input-wrapper">
-<input id="bonus" placeholder="0" type="number"/>
-<span class="input-unit">원</span>
-</div>
-</div>
-</div>
-<div class="input-group">
-<label>연간 연차수당 합계</label>
-<div class="input-wrapper">
-<input id="vacation" placeholder="0" type="number"/>
-<span class="input-unit">원</span>
-</div>
-</div>
-<button class="calc-btn" onclick="calculate()">💰 퇴직금 계산하기</button>
-</div>
-<div class="result-card" id="resultCard">
-<div class="result-highlight">
-<div class="result-label">예상 퇴직금</div>
-<div class="result-amount" id="retirementPay">—<span>원</span></div>
-</div>
-<div class="card">
-<div class="card-title">계산 상세</div>
-<div class="detail-item">
-<span class="d-label">재직 기간</span>
-<span class="d-value accent" id="d-period">-</span>
-</div>
-<div class="detail-item">
-<span class="d-label">1일 평균임금</span>
-<span class="d-value" id="d-daily">-</span>
-</div>
-<div class="detail-item">
-<span class="d-label">30일분 평균임금</span>
-<span class="d-value" id="d-monthly">-</span>
-</div>
-<div class="detail-item">
-<span class="d-label">근속연수</span>
-<span class="d-value" id="d-years">-</span>
-</div>
-<div class="detail-item">
-<span class="d-label">계산식</span>
-<span class="d-value" id="d-formula">-</span>
-</div>
-</div>
-<div class="notice">
-<strong style="color:orange">⚠️ 안내</strong> 본 계산기는 <strong style="color:var(--text)">근로기준법 제34조</strong> 기준으로 계산됩니다. 1년 미만 근무 시 퇴직금이 발생하지 않으며, 실제 퇴직금은 회사 규정 및 개인 상황에 따라 다를 수 있습니다. 정확한 금액은 고용노동부 또는 노무사에게 문의하세요.
+    <div class="card">
+      <div class="card-title">재직 기간</div>
+      <div class="input-row">
+        <div class="input-group">
+          <label>입사일</label>
+          <div class="input-wrapper">
+            <input type="date" id="startDate" />
+          </div>
+        </div>
+        <div class="input-group">
+          <label>퇴사일</label>
+          <div class="input-wrapper">
+            <input type="date" id="endDate" />
+          </div>
+        </div>
       </div>
-</div>
 
-    <div style="text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280;">
-    본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.
+      <hr class="divider" />
+
+      <div class="card-title">최근 3개월 급여</div>
+      <div class="section-label">퇴직 전 3개월간 받은 급여의 합을 입력하세요</div>
+
+      <div class="input-group">
+        <label>월 기본급 (세전)</label>
+        <div class="input-wrapper">
+          <input type="text" id="baseSalary" placeholder="3,000,000" oninput="fmtInput(this)" />
+          <span class="input-unit">원</span>
+        </div>
+      </div>
+
+      <div class="input-row">
+        <div class="input-group">
+          <label>월 고정 수당 합계</label>
+          <div class="input-wrapper">
+            <input type="text" id="allowance" placeholder="0" oninput="fmtInput(this)" />
+            <span class="input-unit">원</span>
+          </div>
+        </div>
+        <div class="input-group">
+          <label>연간 상여금 합계</label>
+          <div class="input-wrapper">
+            <input type="text" id="bonus" placeholder="0" oninput="fmtInput(this)" />
+            <span class="input-unit">원</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label>연간 연차수당 합계</label>
+        <div class="input-wrapper">
+          <input type="text" id="vacation" placeholder="0" oninput="fmtInput(this)" />
+          <span class="input-unit">원</span>
+        </div>
+      </div>
+
+      <button class="calc-btn" onclick="calculate()">💰 퇴직금 계산하기</button>
+    </div>
+
+    <div class="result-card" id="resultCard">
+      <div class="result-highlight">
+        <div class="result-label">예상 퇴직금</div>
+        <div class="result-amount" id="retirementPay">—<span>원</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">계산 상세</div>
+        <div class="detail-item">
+          <span class="d-label">재직 기간</span>
+          <span class="d-value accent" id="d-period">-</span>
+        </div>
+        <div class="detail-item">
+          <span class="d-label">1일 평균임금</span>
+          <span class="d-value" id="d-daily">-</span>
+        </div>
+        <div class="detail-item">
+          <span class="d-label">30일분 평균임금</span>
+          <span class="d-value" id="d-monthly">-</span>
+        </div>
+        <div class="detail-item">
+          <span class="d-label">근속연수</span>
+          <span class="d-value" id="d-years">-</span>
+        </div>
+        <div class="detail-item">
+          <span class="d-label">계산식</span>
+          <span class="d-value" id="d-formula">-</span>
+        </div>
+      </div>
+
+      <div class="notice">
+        <strong style="color:orange">⚠️ 안내</strong> 본 계산기는 <strong style="color:var(--text)">근로기준법 제34조</strong> 기준으로 계산됩니다. 1년 미만 근무 시 퇴직금이 발생하지 않으며, 실제 퇴직금은 회사 규정 및 개인 상황에 따라 다를 수 있습니다. 정확한 금액은 고용노동부 또는 노무사에게 문의하세요.
+      </div>
+    </div>
+  
+<div class="card" id="irpCard" style="display:none">
+    <div class="card-title">💡 IRP 절세 시뮬레이터 — 일시금 vs 연금 수령 비교</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">퇴직금을 IRP 계좌로 이전 후 연금으로 분할 수령하면 퇴직소득세를 감면받습니다. 연금 수령 기간을 선택해 절세 효과를 확인하세요.</p>
+    <div style="display:flex;gap:12px;align-items:center;margin-bottom:14px">
+      <div style="font-size:13px;color:var(--text-muted);font-weight:600;white-space:nowrap">연금 수령 기간</div>
+      <input type="range" id="irp-years" min="5" max="20" step="1" value="10" oninput="document.getElementById('irp-years-label').textContent=this.value+'년';updateIrp()"
+        style="flex:1;accent-color:var(--accent)" />
+      <div id="irp-years-label" style="font-size:16px;font-weight:900;color:var(--accent);min-width:40px">10년</div>
+    </div>
+    <div id="irpResult"></div>
+  </div>
+<style>
+</style>
+
+  <div class="disclaimer">본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.</div>
+  <div class="calc-guide">
+    <div class="calc-guide-title">📋 사용 방법</div>
+    <div class="calc-guide-desc">재직기간과 최근 3개월 급여를 입력하면 퇴직금을 계산합니다. IRP 일시금 vs 연금 절세 시뮬레이터도 활용해보세요.</div>
+    <div class="calc-guide-basis">📌 계산 기준: 근로자퇴직급여보장법 기준 · 1일 평균임금 × 30일 × 근속연수</div>
   </div>
   <div class="toss-nav">
     <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
     <div class="toss-nav-grid">
       <a href="/salary" class="toss-nav-item"><span class="ni-emoji">💰</span><span class="ni-label">연봉</span></a>
-      <a href="/retirement_pension" class="toss-nav-item"><span class="ni-emoji">💎</span><span class="ni-label">퇴직연금</span></a>
+      <a href="/retirement_pension" class="toss-nav-item"><span class="ni-emoji">🏦</span><span class="ni-label">퇴직연금</span></a>
       <a href="/income_tax" class="toss-nav-item"><span class="ni-emoji">🧮</span><span class="ni-label">소득세</span></a>
       <a href="/unemployment" class="toss-nav-item"><span class="ni-emoji">📋</span><span class="ni-label">실업급여</span></a>
     </div>
   </div>
 </div>
-<script>
-// 기본값 설정
+
+  <script>
+    // 기본값 설정
     const today = new Date();
     const threeYearsAgo = new Date(today.getFullYear() - 3, today.getMonth(), today.getDate());
     document.getElementById('endDate').value = today.toISOString().split('T')[0];
     document.getElementById('startDate').value = threeYearsAgo.toISOString().split('T')[0];
     document.getElementById('baseSalary').value = 3000000;
 
+    function fmtInput(el){
+      const raw=el.value.replace(/[^0-9]/g,'');
+      el.value=raw?Number(raw).toLocaleString('ko-KR'):'';
+    }
+    function getNum(id){return parseFloat((document.getElementById(id).value||'').replace(/,/g,''))||0;}
     function fmt(n) { return Math.round(n).toLocaleString('ko-KR'); }
 
     function calculate() {
       const start = new Date(document.getElementById('startDate').value);
       const end = new Date(document.getElementById('endDate').value);
-      const baseSalary = parseFloat(document.getElementById('baseSalary').value) || 0;
-      const allowance = parseFloat(document.getElementById('allowance').value) || 0;
-      const bonus = parseFloat(document.getElementById('bonus').value) || 0;
-      const vacation = parseFloat(document.getElementById('vacation').value) || 0;
+      const baseSalary = getNum('baseSalary');
+      const allowance  = getNum('allowance');
+      const bonus      = getNum('bonus');
+      const vacation   = getNum('vacation');
 
       if (!document.getElementById('startDate').value || !document.getElementById('endDate').value) {
         alert('날짜를 입력해주세요.'); return;
@@ -448,9 +474,44 @@
 
       const resultCard = document.getElementById('resultCard');
       resultCard.classList.add('visible');
+
+      // IRP 시뮬레이터 활성화
+      _retirePay = retirementPay;
+      document.getElementById('irpCard').style.display = 'block';
+      updateIrp();
+    }
+
+    let _retirePay = 0;
+    function updateIrp() {
+      if (!_retirePay) return;
+      const years = parseInt(document.getElementById('irp-years').value) || 10;
+      document.getElementById('irp-years-label').textContent = years + '년';
+      // 퇴직소득세 추정 (간이 계산: 실효세율 약 5~15% 수준 간이 적용)
+      // 실제 퇴직소득세는 근속연수공제 등 복잡하지만, 시뮬용 간이 계산
+      const pay = _retirePay;
+      // 퇴직소득 과세표준 간이 추정 (근속연수공제 무시, 참고용)
+      const roughTax = pay * 0.08; // 약 8% 간이 실효세율
+      const discount = years >= 10 ? 0.40 : 0.30; // 10년이상 40%, 미만 30% 감면
+      const saved = roughTax * discount;
+      const el = document.getElementById('irpResult');
+      el.innerHTML = `
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+          <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center">
+            <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">일시금 수령 (예상 퇴직소득세)</div>
+            <div style="font-size:17px;font-weight:900;font-family:Montserrat,sans-serif;color:#ff6b6b">약 ${fmt(roughTax)}원</div>
+          </div>
+          <div style="background:rgba(0,212,170,.08);border:1px solid rgba(0,212,170,.3);border-radius:12px;padding:14px;text-align:center">
+            <div style="font-size:11px;color:var(--accent);margin-bottom:4px">IRP 연금 수령 (${years}년 분할, 절세 후)</div>
+            <div style="font-size:17px;font-weight:900;font-family:Montserrat,sans-serif;color:var(--accent)">약 ${fmt(roughTax - saved)}원</div>
+          </div>
+        </div>
+        <div style="text-align:center;padding:10px;background:rgba(0,212,170,.05);border-radius:10px;font-size:13px;color:var(--text-muted)">
+          IRP 연금 수령 시 퇴직소득세 <strong style="color:var(--accent)">${(discount*100).toFixed(0)}% 감면</strong> → 약 <strong style="color:var(--accent)">${fmt(saved)}원</strong> 절세 예상<br>
+          <span style="font-size:11px">※ 간이 추정치(실효세율 약 8% 가정). 정확한 세액은 세무사 상담 권장</span>
+        </div>`;
     }
 
     window.onload = () => calculate();
-</script>
+  </script>
 </body>
 </html>
