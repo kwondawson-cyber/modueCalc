@@ -37,8 +37,9 @@
     .tab-btn.active{background:rgba(0,212,170,0.1);border-color:rgba(0,212,170,0.4);color:var(--accent)}
     .input-group{margin-bottom:20px}
     .input-group label{display:block;font-size:13px;font-weight:500;color:var(--text-muted);margin-bottom:8px}
-    .time-input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-size:28px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none;transition:border-color .2s;text-align:center}
+    .time-input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-size:28px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none;transition:border-color .2s;text-align:center;cursor:pointer}
     .time-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,170,0.1)}
+    .time-input::-webkit-calendar-picker-indicator{filter:invert(1) brightness(1.8);cursor:pointer;opacity:.9;padding:4px;width:28px;height:28px}
     .calc-btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;font-size:16px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:#000;cursor:pointer;transition:transform .15s,box-shadow .15s}
     .calc-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,212,170,0.3)}
     .result-card{display:none;animation:fadeUp .4s ease}
@@ -138,7 +139,7 @@
     document.getElementById('time-label').textContent = m === 'wake'
       ? '몇 시에 일어나야 하나요?'
       : '몇 시에 잠자리에 드나요?';
-    document.getElementById('resultCard').classList.remove('visible');
+    calculate();
   }
 
   function fmtTime(totalMins) {
@@ -198,33 +199,151 @@
     document.getElementById('resultCard').classList.add('visible');
   }
 
-  window.onload = () => { calculate(); };
+  window.onload = () => {
+    calculate();
+    updateSleepTable();
+    calcSleepDebt();
+    const ti = document.getElementById('timeInput');
+    if(ti) ti.addEventListener('click', () => { try { ti.showPicker(); } catch(e) {} });
+  };
+
+  function switchSimTab(idx) {
+    [0,1].forEach(i => {
+      document.getElementById('stab'+i).classList.toggle('active', i===idx);
+      document.getElementById('spanel'+i).style.display = i===idx ? 'block' : 'none';
+    });
+    if(idx===0) updateSleepTable();
+    else calcSleepDebt();
+  }
+
+  function updateSleepTable() {
+    const slEl = document.getElementById('wake-slider');
+    const hour = slEl ? parseInt(slEl.value) : 7;
+    const baseMin = hour * 60;
+    const ampm = hour < 12 ? '오전' : '오후';
+    const h12 = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
+    const lbl = document.getElementById('wake-label');
+    if(lbl) lbl.textContent = `기상 시간: ${ampm} ${h12}시`;
+
+    const cycles = [6, 5, 4, 3, 2];
+    const th = (t, c, align) =>
+      `<th style="padding:8px 10px;font-size:11px;font-weight:700;color:${c||'#8b949e'};border-bottom:1px solid #30363d;text-align:${align||'left'}">${t}</th>`;
+
+    let html = `<table style="width:100%;border-collapse:collapse;font-size:13px">
+      <thead><tr>${th('사이클')}${th('수면 시간')}${th('취침 시간','#00d4aa','center')}${th('권장','#8b949e','center')}</tr></thead><tbody>`;
+
+    cycles.forEach(cyc => {
+      const sleepMin = cyc * 90;
+      const bedMin   = ((baseMin - sleepMin - 15) % 1440 + 1440) % 1440;
+      const bh = Math.floor(bedMin/60), bm = bedMin%60;
+      const bampm = bh < 12 ? '오전' : '오후';
+      const bh12  = bh === 0 ? 12 : bh > 12 ? bh - 12 : bh;
+      const timeStr = `${bampm} ${bh12}:${String(bm).padStart(2,'0')}`;
+      const sh = Math.floor(sleepMin/60), sm = sleepMin%60;
+      const sleepLabel = sm===0 ? `${sh}시간` : `${sh}시간 ${sm}분`;
+      const isBest = cyc >= 5;
+      const bg = isBest ? 'background:rgba(0,212,170,.07)' : '';
+      const tdS = `style="padding:8px 10px;font-size:13px;border-bottom:1px solid #30363d;color:#8b949e"`;
+      html += `<tr style="${bg}">
+        <td ${tdS}>${cyc}사이클</td>
+        <td ${tdS}>${sleepLabel}</td>
+        <td style="padding:8px 10px;font-size:13px;border-bottom:1px solid #30363d;color:${isBest?'#00d4aa':'#8b949e'};font-weight:${isBest?700:400};text-align:center">${timeStr}</td>
+        <td style="padding:8px 10px;font-size:12px;border-bottom:1px solid #30363d;color:#00d4aa;text-align:center">${isBest?'✅ 추천':''}</td>
+      </tr>`;
+    });
+    html += '</tbody></table><div style="margin-top:8px;font-size:11px;color:#8b949e">※ 잠드는 데 15분 소요 가정. 수면 사이클 개인차(80~110분) 있음.</div>';
+    const wrap = document.getElementById('sleepTableWrap');
+    if(wrap) wrap.innerHTML = html;
+  }
+
+  function calcSleepDebt() {
+    const target = parseFloat(document.getElementById('debt-target')?.value) || 7.5;
+    const actual = parseFloat(document.getElementById('debt-actual')?.value) || 6;
+    const days   = parseInt(document.getElementById('debt-days')?.value)   || 7;
+    const el     = document.getElementById('debtResult');
+    if(!el) return;
+
+    if(actual >= target) {
+      el.innerHTML = `<div style="padding:14px;background:rgba(0,212,170,.06);border:1px solid rgba(0,212,170,.2);border-radius:10px;font-size:13px;color:#00d4aa;text-align:center;font-weight:700">✅ 수면 부채 없음 — 충분한 수면을 취하고 있습니다!</div>`;
+      return;
+    }
+    const dailyDebt = target - actual;
+    const totalDebt = dailyDebt * days;
+    const recoverWeeks = Math.ceil(totalDebt / 2);
+    const sev = totalDebt < 7  ? {label:'경미', r:'240,192,64',  c:'#f0c040'}
+              : totalDebt < 21 ? {label:'주의', r:'255,165,0',   c:'#ffa500'}
+              :                  {label:'심각', r:'255,107,107',  c:'#ff6b6b'};
+
+    el.innerHTML = `
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+        <div style="background:#21262d;border:1px solid #30363d;border-radius:10px;padding:14px;text-align:center">
+          <div style="font-size:11px;color:#8b949e;margin-bottom:4px">하루 수면 부채</div>
+          <div style="font-size:22px;font-weight:900;color:${sev.c};font-family:'Montserrat',sans-serif">${dailyDebt.toFixed(1)}h</div>
+        </div>
+        <div style="background:#21262d;border:1px solid #30363d;border-radius:10px;padding:14px;text-align:center">
+          <div style="font-size:11px;color:#8b949e;margin-bottom:4px">누적 수면 부채</div>
+          <div style="font-size:22px;font-weight:900;color:${sev.c};font-family:'Montserrat',sans-serif">${totalDebt.toFixed(1)}h</div>
+        </div>
+      </div>
+      <div style="padding:12px 16px;background:rgba(${sev.r},.06);border:1px solid rgba(${sev.r},.25);border-radius:10px;font-size:13px;color:${sev.c};font-weight:600;text-align:center;margin-bottom:10px">
+        부채 단계: ${sev.label} · 회복까지 약 ${recoverWeeks}주 소요 예상
+      </div>
+      <div style="font-size:11px;color:#8b949e;line-height:1.7">※ 주말에 약 2시간 추가 수면 시 주당 2h 회복 기준. 수면 부채는 완전 회복이 어렵고 장기적으로 인지 기능·면역력에 영향을 줍니다.</div>`;
+  }
 </script>
 
-<!-- 기상시간별 취침시간 simCard -->
+<!-- 수면 인터랙티브 시뮬레이터 -->
 <div style="max-width:640px;margin:0 auto;padding:0 20px 8px">
-  <div style="background:#161b22;border:1px solid #30363d;border-radius:16px;padding:24px" id="simCard">
-    <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:#00d4aa;text-transform:uppercase;margin-bottom:10px">⚡ 기상 시간별 최적 취침 시간 (5사이클 기준)</div>
-    <p style="font-size:12px;color:#8b949e;margin-bottom:14px;line-height:1.7">5사이클(7시간 30분) 기준 잠드는 데 15분 소요 가정. 위 계산기에서 더 다양한 사이클을 확인하세요.</p>
-    <div style="overflow-x:auto">
-      <table style="width:100%;border-collapse:collapse;font-size:13px">
-        <thead><tr>
-          <th style="padding:8px 12px;text-align:left;background:#21262d;color:#8b949e;border:1px solid #30363d">기상 시간</th>
-          <th style="padding:8px 10px;text-align:center;background:#21262d;color:#00d4aa;border:1px solid #30363d">권장 취침 (5사이클)</th>
-          <th style="padding:8px 10px;text-align:center;background:#21262d;color:#8b949e;border:1px solid #30363d">차선 취침 (4사이클)</th>
-          <th style="padding:8px 10px;text-align:center;background:#21262d;color:#8b949e;border:1px solid #30363d">총 수면</th>
-        </tr></thead>
-        <tbody>
-          <tr><td style="padding:8px 12px;border:1px solid #30363d;color:#e6edf3">오전 5:00</td><td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#00d4aa;font-weight:700">오후 9:15</td><td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#8b949e">오후 10:45</td><td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#8b949e">7h 30m / 6h</td></tr>
-          <tr style="background:rgba(255,255,255,0.01)"><td style="padding:8px 12px;border:1px solid #30363d;color:#e6edf3">오전 6:00</td><td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#00d4aa;font-weight:700">오후 10:15</td><td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#8b949e">오후 11:45</td><td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#8b949e">7h 30m / 6h</td></tr>
-          <tr><td style="padding:8px 12px;border:1px solid #30363d;color:#e6edf3">오전 7:00</td><td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#00d4aa;font-weight:700">오후 11:15</td><td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#8b949e">오전 12:45</td><td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#8b949e">7h 30m / 6h</td></tr>
-          <tr style="background:rgba(255,255,255,0.01)"><td style="padding:8px 12px;border:1px solid #30363d;color:#e6edf3">오전 7:30</td><td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#00d4aa;font-weight:700">오전 12:00 (자정)</td><td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#8b949e">오전 1:30</td><td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#8b949e">7h 30m / 6h</td></tr>
-          <tr><td style="padding:8px 12px;border:1px solid #30363d;color:#e6edf3">오전 8:00</td><td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#00d4aa;font-weight:700">오전 12:15</td><td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#8b949e">오전 2:15</td><td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#8b949e">7h 30m / 6h</td></tr>
-          <tr style="background:rgba(255,255,255,0.01)"><td style="padding:8px 12px;border:1px solid #30363d;color:#e6edf3">오전 9:00</td><td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#00d4aa;font-weight:700">오전 1:15</td><td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#8b949e">오전 2:45</td><td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#8b949e">7h 30m / 6h</td></tr>
-        </tbody>
-      </table>
+  <div style="background:#161b22;border:1px solid rgba(0,212,170,.2);border-radius:16px;padding:24px" id="simCard">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px">
+      <button class="tab-btn active" id="stab0" onclick="switchSimTab(0)">⏰ 기상 시간별<br>취침 시간 표</button>
+      <button class="tab-btn" id="stab1" onclick="switchSimTab(1)">💤 수면 부채<br>계산기</button>
     </div>
-    <div style="margin-top:8px;font-size:11px;color:#8b949e">※ 잠드는 데 15분 가정. 수면 사이클 개인차(80~110분) 있음. 위 계산기에서 본인 기상 시간으로 정확히 확인하세요.</div>
+
+    <!-- 탭0: 슬라이더 기반 취침 시간 표 -->
+    <div id="spanel0">
+      <p style="font-size:12px;color:#8b949e;margin-bottom:14px;line-height:1.7">슬라이더로 기상 시간을 조정하면 각 사이클별 최적 취침 시간이 실시간으로 업데이트됩니다.</p>
+      <input type="range" id="wake-slider" min="4" max="12" step="1" value="7" oninput="updateSleepTable()" style="width:100%;accent-color:var(--accent)">
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:#8b949e;margin:3px 0 14px"><span>오전 4시</span><span>정오 12시</span></div>
+      <div id="wake-label" style="text-align:center;font-size:15px;font-weight:700;color:var(--accent);margin-bottom:14px">기상 시간: 오전 7시</div>
+      <div id="sleepTableWrap" style="overflow-x:auto"></div>
+    </div>
+
+    <!-- 탭1: 수면 부채 계산기 -->
+    <div id="spanel1" style="display:none">
+      <p style="font-size:12px;color:#8b949e;margin-bottom:14px;line-height:1.7">목표 수면과 실제 수면의 차이로 누적된 수면 부채와 회복에 필요한 기간을 계산합니다.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+        <div>
+          <label style="font-size:12px;color:#8b949e;display:block;margin-bottom:5px">목표 수면 시간</label>
+          <select id="debt-target" onchange="calcSleepDebt()" style="width:100%;background:#21262d;border:1px solid #30363d;border-radius:8px;padding:9px 12px;color:#e6edf3;font-size:13px;outline:none;font-family:'Noto Sans KR',sans-serif">
+            <option value="9">9시간 (6사이클)</option>
+            <option value="7.5" selected>7시간 30분 (5사이클)</option>
+            <option value="6">6시간 (4사이클)</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:12px;color:#8b949e;display:block;margin-bottom:5px">실제 수면 시간</label>
+          <select id="debt-actual" onchange="calcSleepDebt()" style="width:100%;background:#21262d;border:1px solid #30363d;border-radius:8px;padding:9px 12px;color:#e6edf3;font-size:13px;outline:none;font-family:'Noto Sans KR',sans-serif">
+            <option value="8">8시간</option>
+            <option value="7">7시간</option>
+            <option value="6" selected>6시간</option>
+            <option value="5">5시간</option>
+            <option value="4.5">4시간 30분</option>
+            <option value="4">4시간</option>
+          </select>
+        </div>
+      </div>
+      <div style="margin-bottom:14px">
+        <label style="font-size:12px;color:#8b949e;display:block;margin-bottom:5px">지속 기간</label>
+        <select id="debt-days" onchange="calcSleepDebt()" style="width:100%;background:#21262d;border:1px solid #30363d;border-radius:8px;padding:9px 12px;color:#e6edf3;font-size:13px;outline:none;font-family:'Noto Sans KR',sans-serif">
+          <option value="7" selected>1주일 (7일)</option>
+          <option value="14">2주일 (14일)</option>
+          <option value="30">1개월 (30일)</option>
+          <option value="90">3개월 (90일)</option>
+        </select>
+      </div>
+      <div id="debtResult"></div>
+    </div>
   </div>
 </div>
 
