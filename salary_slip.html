@@ -297,11 +297,112 @@
 </div>
 
 <script src="/common.js" defer></script><script src="/share.js" defer></script><script src="/calculator.js" defer></script>
-<script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}
+<script>
+function calcPayslip() {
+  const empName   = document.getElementById('empName').value || '홍길동';
+  const payMonth  = document.getElementById('payMonth').value || '';
+  const dependents= parseInt(document.getElementById('dependents').value) || 1;
+  const children  = parseInt(document.getElementById('children').value) || 0;
+  const npOpt     = document.getElementById('npOpt').value;
+  const hiOpt     = document.getElementById('hiOpt').value;
+  const eiOpt     = document.getElementById('eiOpt').value;
+  const taxOpt    = document.getElementById('taxOpt').value;
+
+  // 급여 항목 수집
+  let taxable = 0, nonTaxable = 0;
+  const payItems = [];
+  document.querySelectorAll('#allowanceList .allowance-row').forEach(row => {
+    const name = row.querySelector('.name-inp')?.value || '';
+    const amt  = parseFloat(row.querySelector('.amt-inp')?.value) || 0;
+    const type = row.querySelector('select')?.value || '과세';
+    if (amt > 0) {
+      payItems.push({name, amt, type});
+      if (type === '비과세') nonTaxable += amt;
+      else taxable += amt;
+    }
+  });
+  const totalPay = taxable + nonTaxable;
+
+  // 4대보험 계산 (과세소득 기준)
+  const np = npOpt === 'skip' ? 0 : Math.min(Math.round(taxable * 0.0475), 302575);
+  const hi = hiOpt === 'skip' ? 0 : Math.round(taxable * 0.03595);
+  const lc = hiOpt === 'skip' ? 0 : Math.round(hi * 0.1314);
+  const ei = eiOpt === 'skip' ? 0 : Math.round(taxable * 0.009);
+
+  // 소득세 (간이세액표 근사)
+  let incomeTax = 0;
+  if (taxOpt !== 'skip' && taxable > 0) {
+    const basicDed  = 150000 * dependents;        // 기본공제 (연간)
+    const stdDed    = 70000;                       // 표준세액공제 (연간)
+    const childDed  = children >= 1 ? (children === 1 ? 150000 : 150000 + (children - 1) * 200000) : 0;
+    const annual    = taxable * 12;
+    let annualBase  = Math.max(0, annual - basicDed - stdDed);
+    let tax = 0;
+    if      (annualBase <= 14000000)  tax = annualBase * 0.06;
+    else if (annualBase <= 50000000)  tax = 840000   + (annualBase - 14000000) * 0.15;
+    else if (annualBase <= 88000000)  tax = 6240000  + (annualBase - 50000000) * 0.24;
+    else if (annualBase <= 150000000) tax = 15360000 + (annualBase - 88000000) * 0.35;
+    else if (annualBase <= 300000000) tax = 37060000 + (annualBase - 150000000) * 0.38;
+    else                              tax = 94060000 + (annualBase - 300000000) * 0.45;
+    incomeTax = Math.max(0, Math.round((tax - childDed) / 12));
+  }
+  const localTax = Math.round(incomeTax * 0.1);
+
+  const totalDed = np + hi + lc + ei + incomeTax + localTax;
+  const netPay   = totalPay - totalDed;
+  const fmt      = n => Math.round(n).toLocaleString('ko-KR');
+
+  // 결과 요약
+  document.getElementById('rNet').textContent = fmt(netPay) + '원';
+  document.getElementById('rSub').textContent = `총 지급 ${fmt(totalPay)}원 - 공제 ${fmt(totalDed)}원`;
+
+  // 명세서 헤더
+  const mo = payMonth ? payMonth.replace('-', '년 ') + '월' : '';
+  document.getElementById('ps-header').innerHTML = `<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:12px;color:#555">
+    <div>성명: <strong>${empName}</strong></div><div>지급월: <strong>${mo}</strong></div>
+    <div>부양가족: <strong>${dependents}명</strong></div><div>20세이하자녀: <strong>${children}명</strong></div></div>`;
+
+  // 지급 항목
+  document.getElementById('ps-pay-rows').innerHTML = payItems.length
+    ? payItems.map(i => `<div class="ps-row"><span>${i.name}${i.type==='비과세'?' <small style="color:#0095ff">[비과세]</small>':''}</span><span>${fmt(i.amt)}원</span></div>`).join('')
+    : '<div class="ps-row"><span>기본급</span><span>0원</span></div>';
+  document.getElementById('ps-pay-total').textContent = fmt(totalPay) + '원';
+
+  // 공제 항목
+  const deds = [];
+  if (np > 0) deds.push(['국민연금 (4.75%)', np]);
+  if (hi > 0) deds.push(['건강보험 (3.595%)', hi]);
+  if (lc > 0) deds.push(['장기요양보험 (13.14%)', lc]);
+  if (ei > 0) deds.push(['고용보험 (0.9%)', ei]);
+  if (incomeTax > 0) deds.push(['소득세', incomeTax]);
+  if (localTax > 0)  deds.push(['지방소득세', localTax]);
+  document.getElementById('ps-ded-rows').innerHTML = deds.length
+    ? deds.map(([n, a]) => `<div class="ps-row"><span>${n}</span><span>${fmt(a)}원</span></div>`).join('')
+    : '<div class="ps-row"><span>(공제 없음)</span><span>0원</span></div>';
+  document.getElementById('ps-ded-total').textContent = fmt(totalDed) + '원';
+  document.getElementById('ps-net-value').textContent  = fmt(netPay) + '원';
+}
+
+function addAllowance() {
+  const list = document.getElementById('allowanceList');
+  const row  = document.createElement('div');
+  row.className = 'allowance-row';
+  row.innerHTML = `
+    <input class="name-inp" type="text" placeholder="수당명 (예: 식대)" />
+    <input class="amt-inp" type="number" placeholder="금액 (원)" />
+    <select style="flex:0.8">
+      <option value="과세">과세</option>
+      <option value="비과세">비과세</option>
+    </select>
+    <button class="btn-del" onclick="this.closest('.allowance-row').remove()">✕</button>`;
+  list.appendChild(row);
+}
+
+if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}
 window.onload = () => {
   const now = new Date();
   document.getElementById('payMonth').value = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
-  if(typeof calcPayslip === 'function') calcPayslip();
+  calcPayslip();
 };
 </script>
 </body>

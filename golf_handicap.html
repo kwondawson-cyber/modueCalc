@@ -125,7 +125,7 @@
       <button class="btn btn-sub" onclick="addRound()">+ 라운드 추가</button>
       <button class="btn btn-sub" onclick="removeRound()">− 라운드 삭제</button>
     </div>
-    <button class="btn" onclick="calcHandicap()">⛳ 핸디캡 계산하기</button>
+    <button class="btn" onclick="calcHandicapIndex()">⛳ 핸디캡 계산하기</button>
   </div>
 
   <div class="result-section" id="golfResult">
@@ -182,7 +182,7 @@ function removeRound(){
   rows[rows.length-1].remove();
   roundCount--;
 }
-function calcHandicap(){
+function calcHandicapIndex(){
   const scores=[...document.querySelectorAll('.score')].map(el=>parseFloat(el.value));
   const ratings=[...document.querySelectorAll('.rating')].map(el=>parseFloat(el.value));
   const slopes=[...document.querySelectorAll('.slope')].map(el=>parseFloat(el.value));
@@ -257,6 +257,7 @@ function simDiff() {
   }).join('');
 }
 window.addEventListener('DOMContentLoaded', simDiff);
+window.onload = () => calcHandicapIndex();
 </script>
 
 <!-- simCard: 타수별 스코어 차등 즉시 비교 -->

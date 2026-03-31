@@ -400,6 +400,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const m = String(today.getMonth()+1).padStart(2,'0');
   const d = String(today.getDate()).padStart(2,'0');
   document.getElementById('lastPeriod').value = `${y}-${m}-01`;
+  calc();
 });
 </script>
 <script src="/common.js" defer></script><script src="/share.js" defer></script><script src="/calculator.js" defer></script>

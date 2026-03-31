@@ -340,29 +340,51 @@ function updateTotal() {
 }
 
 function calc() {
+  const fw = n => Math.round(Math.abs(n)).toLocaleString('ko-KR') + '원';
   if (vatType === 'general') {
-    const sales = getTotal('sales-list');
-    const input = getTotal('input-list');
-    const nonded = getTotal('nonded-list');
+    const sales   = getTotal('sales-list');
+    const input   = getTotal('input-list');
+    const nonded  = getTotal('nonded-list');
     const salesVat = sales * 0.1;
     const inputVat = input * 0.1;
-    const nondedVat = nonded * 0.1;
-    const payable = salesVat - inputVat + nondedVat;
+    const nondedVat = nonded;           // 불공제는 VAT 금액 직접 입력
+    const payable  = salesVat - inputVat + nondedVat;
+    const isPay    = payable >= 0;
 
-    document.getElementById('r-sales-vat') && (document.getElementById('r-sales-vat').textContent = fw(salesVat));
-    document.getElementById('r-input-vat') && (document.getElementById('r-input-vat').textContent = '-' + fw(inputVat));
-    document.getElementById('r-nonded-vat') && (document.getElementById('r-nonded-vat').textContent = fw(nondedVat));
-    document.getElementById('r-payable') && (document.getElementById('r-payable').textContent = fw(Math.abs(payable)));
-    document.getElementById('r-type') && (document.getElementById('r-type').textContent = payable >= 0 ? '납부세액' : '환급세액');
+    const lbl = document.getElementById('r-label');
+    const amt = document.getElementById('r-amount');
+    const sub = document.getElementById('r-sub');
+    const pnl = document.getElementById('r-pnl');
+
+    if (lbl) lbl.textContent = isPay ? '납부세액' : '환급세액';
+    if (amt) { amt.textContent = fw(payable); amt.style.color = isPay ? 'var(--danger,#ff6b6b)' : 'var(--accent)'; }
+    if (sub) sub.textContent  = `매출세액 ${fw(salesVat)} - 매입세액 ${fw(inputVat)}${nondedVat > 0 ? ' + 불공제 ' + fw(nondedVat) : ''}`;
+    if (pnl) pnl.innerHTML = `
+      <div style="display:grid;gap:6px;margin-top:12px;font-size:13px">
+        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)"><span style="color:var(--text-muted)">매출세액</span><span style="font-weight:700">${fw(salesVat)}</span></div>
+        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)"><span style="color:var(--text-muted)">매입세액 공제</span><span style="font-weight:700;color:var(--accent)">-${fw(inputVat)}</span></div>
+        ${nondedVat > 0 ? `<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)"><span style="color:var(--text-muted)">불공제 매입세액</span><span style="font-weight:700;color:var(--danger,#ff6b6b)">+${fw(nondedVat)}</span></div>` : ''}
+        <div style="display:flex;justify-content:space-between;padding:10px 0;font-weight:800;font-size:15px"><span>${isPay ? '납부세액' : '환급세액'}</span><span style="color:${isPay ? 'var(--danger,#ff6b6b)' : 'var(--accent)'}">${fw(payable)}</span></div>
+      </div>`;
   } else {
     const sales = +document.getElementById('simple-sales').value * 10000 || 0;
-    const type = document.getElementById('simple-type').value;
+    const type  = document.getElementById('simple-type').value;
     const rates = { retail: 0.15, mfg: 0.20, construct: 0.30, service: 0.40 };
-    const rate = rates[type] || 0.15;
-    const vat = sales * 0.1 * rate;
-    document.getElementById('simple-result') && (document.getElementById('simple-result').textContent = fw(vat));
+    const rate  = rates[type] || 0.15;
+    const vat   = sales * 0.1 * rate;
+
+    const lbl = document.getElementById('r-label');
+    const amt = document.getElementById('r-amount');
+    const sub = document.getElementById('r-sub');
+    const pnl = document.getElementById('r-pnl');
+
+    if (lbl) lbl.textContent = '납부할 부가세 (간이과세)';
+    if (amt) { amt.textContent = fw(vat); amt.style.color = 'var(--accent)'; }
+    if (sub) sub.textContent  = `매출 ${fw(sales)} × 부가가치율 ${(rate * 100).toFixed(0)}% × 10%`;
+    if (pnl) pnl.innerHTML    = '';
   }
-  document.getElementById('result') && (document.getElementById('result').style.display = 'block');
+  const res = document.getElementById('result');
+  if (res) res.style.display = 'block';
 }
 
 function updateSim() {
@@ -405,6 +427,7 @@ function updateSim() {
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('#sales-list input, #input-list input').forEach(i => i.addEventListener('input', updateTotal));
   updateSim();
+  calc();
 });
 </script>
 <script src="/common.js" defer></script><script src="/share.js" defer></script><script src="/calculator.js" defer></script>

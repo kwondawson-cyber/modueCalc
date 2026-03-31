@@ -299,7 +299,7 @@ function updateSimInstall() {
   html += '</tbody></table>';
   document.getElementById('simTableInstall').innerHTML = html;
 }
-document.addEventListener('DOMContentLoaded', updateSimInstall);
+document.addEventListener('DOMContentLoaded', () => { updateSimInstall(); calcHalbu(); });
 </script>
 <script src="/common.js" defer></script><script src="/share.js" defer></script><script src="/calculator.js" defer></script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{});});}</script>

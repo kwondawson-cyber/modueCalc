@@ -114,7 +114,7 @@
     <div class="input-group">
       <label>센티미터 (cm)</label>
       <div class="input-wrapper">
-        <input type="text" id="cmVal" placeholder="예: 175" oninput="syncCm(this)" />
+        <input type="text" id="cmVal" placeholder="예: 175" value="175" oninput="syncCm(this)" />
         <span class="input-unit">cm</span>
       </div>
     </div>
@@ -431,7 +431,7 @@ function updateSizeSim() {
 
   document.getElementById('sizeSimResult').innerHTML = topHTML + tbl;
 }
-document.addEventListener('DOMContentLoaded', updateSizeSim);
+document.addEventListener('DOMContentLoaded', () => { updateSizeSim(); const el=document.getElementById('cmVal'); syncCm(el); });
 </script>
 <script>
 if ('serviceWorker' in navigator) {
