@@ -220,6 +220,36 @@
 .seo-section details[open]{background:#161b22}
 .seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:#8b949e;line-height:1.9}
 </style>
+
+<!-- 당첨금 슬라이더 시뮬레이터 -->
+<div style="max-width:640px;margin:0 auto;padding:0 20px 16px">
+  <div style="background:#161b22;border:1px solid rgba(0,212,170,.2);border-radius:16px;padding:24px" id="simCard">
+    <div style="font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:14px">💰 당첨금 슬라이더 — 얼마 받을 수 있을까?</div>
+    <p style="font-size:12px;color:#8b949e;margin-bottom:16px;line-height:1.7">슬라이더를 조정하면 세금 공제 후 실수령액을 즉시 계산합니다. 분할 수령 시 인원당 당첨금이 줄어 세율이 낮아지는 효과도 함께 확인하세요.</p>
+    <input type="range" id="sim-prize" min="300000000" max="5000000000" step="100000000" value="2000000000"
+      oninput="updateLottoSim()" style="width:100%;accent-color:var(--accent)">
+    <div style="display:flex;justify-content:space-between;font-size:11px;color:#8b949e;margin:4px 0 12px"><span>3억</span><span>50억</span></div>
+    <div id="sim-prize-label" style="text-align:center;font-size:15px;font-weight:700;color:var(--accent);margin-bottom:16px">세전 당첨금: 20억원</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px">
+      <div style="background:#21262d;border:1px solid #30363d;border-radius:10px;padding:12px;text-align:center">
+        <div style="font-size:11px;color:#8b949e;margin-bottom:4px">세후 실수령액</div>
+        <div id="sim-net" style="font-size:16px;font-weight:900;color:#00d4aa;font-family:'Montserrat',sans-serif">-</div>
+      </div>
+      <div style="background:#21262d;border:1px solid #30363d;border-radius:10px;padding:12px;text-align:center">
+        <div style="font-size:11px;color:#8b949e;margin-bottom:4px">세금 합계</div>
+        <div id="sim-tax" style="font-size:16px;font-weight:900;color:#ff6b6b;font-family:'Montserrat',sans-serif">-</div>
+      </div>
+      <div style="background:#21262d;border:1px solid #30363d;border-radius:10px;padding:12px;text-align:center">
+        <div style="font-size:11px;color:#8b949e;margin-bottom:4px">실효세율</div>
+        <div id="sim-rate" style="font-size:16px;font-weight:900;color:#f5a623;font-family:'Montserrat',sans-serif">-</div>
+      </div>
+    </div>
+    <div style="font-size:12px;font-weight:700;color:#8b949e;margin-bottom:8px">👥 분할 수령 절세 비교</div>
+    <div id="sim-split"></div>
+    <div style="font-size:11px;color:#8b949e;margin-top:10px;line-height:1.7">※ 3억 이하 22%, 초과분 33% 세율 적용. 분할 수령은 각자 수령 기준.</div>
+  </div>
+</div>
+
 <div class="rel-section">
   <h2>📌 함께 쓰면 유용한 계산기</h2>
   <div class="rel-grid">
@@ -456,6 +486,42 @@ function updateShare() {
       총 절세 <strong style="color:var(--accent)">${fmtL(saved)}</strong> · 
       실효세율 ${(_lottoGross > 0 ? (totalTax/_lottoGross*100).toFixed(1) : 0)}%
     </div>`;
+}
+
+window.onload = () => { calcLotto(); updateLottoSim(); };
+
+function updateLottoSim() {
+  const won = parseInt(document.getElementById('sim-prize').value) || 2000000000;
+  const manStr = won >= 100000000
+    ? Math.round(won/100000000).toLocaleString() + '억원'
+    : Math.round(won/10000).toLocaleString() + '만원';
+  document.getElementById('sim-prize-label').textContent = `세전 당첨금: ${manStr}`;
+
+  const { total } = calcLottoTax(won);
+  const net = won - total;
+  const rate = (total / won * 100).toFixed(1);
+
+  const fmt = v => Math.round(v).toLocaleString('ko-KR') + '원';
+  document.getElementById('sim-net').textContent    = fmt(net);
+  document.getElementById('sim-tax').textContent    = fmt(total);
+  document.getElementById('sim-rate').textContent   = rate + '%';
+
+  // 분할 수령 시나리오
+  const persons = [1, 2, 3, 5];
+  document.getElementById('sim-split').innerHTML = persons.map(n => {
+    const eachGross = won / n;
+    const { total: eachTax } = calcLottoTax(eachGross);
+    const eachNet = eachGross - eachTax;
+    const totalNet = eachNet * n;
+    const saving = net - totalNet;
+    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px">
+      <span style="color:var(--text-muted)">${n === 1 ? '혼자 수령' : n + '명 분할 수령'}</span>
+      <div style="text-align:right">
+        <span style="font-weight:700;color:${n===1?'var(--text)':'var(--accent)'}">${fmt(eachNet)}<small style="font-size:10px;font-weight:400;color:var(--text-muted)">/인</small></span>
+        ${n > 1 ? `<div style="font-size:11px;color:var(--accent)">합계 ${fmt(totalNet)} (+${fmt(Math.max(0,saving))} 절세)</div>` : ''}
+      </div>
+    </div>`;
+  }).join('');
 }
 </script>
 <script src="/common.js" defer></script><script src="/share.js" defer></script>

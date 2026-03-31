@@ -123,17 +123,17 @@
     <div class="row2">
       <div class="form-group">
         <label>초기 원금 (원)</label>
-        <input type="number" id="principal" placeholder="예: 10000000" />
+        <input type="number" id="principal" placeholder="예: 10000000" value="10000000" />
       </div>
       <div class="form-group">
         <label>연 수익률 (%)</label>
-        <input type="number" id="rate" step="0.1" placeholder="예: 7" />
+        <input type="number" id="rate" step="0.1" placeholder="예: 7" value="7" />
       </div>
     </div>
     <div class="row2">
       <div class="form-group">
         <label>투자 기간 (년)</label>
-        <input type="number" id="years" placeholder="예: 20" min="1" max="50" />
+        <input type="number" id="years" placeholder="예: 20" value="20" min="1" max="50" />
       </div>
       <div class="form-group">
         <label>복리 계산 주기</label>
@@ -566,6 +566,8 @@ function drawChart(rows, P) {
   ctx.beginPath(); ctx.moveTo(L+60,T+ph+16); ctx.lineTo(L+80,T+ph+16); ctx.stroke();
   ctx.setLineDash([]); ctx.fillStyle='#f5a623'; ctx.fillText('단리', L+82, T+ph+20);
 }
+
+window.onload = () => calc();
 </script>
 <script src="/common.js" defer></script><script src="/share.js" defer></script><script src="/calculator.js" defer></script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}</script>

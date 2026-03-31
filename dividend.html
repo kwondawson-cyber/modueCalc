@@ -97,17 +97,17 @@
       <div class="row2">
         <div class="input-group">
           <label>주가 (현재가)</label>
-          <div class="input-wrapper"><input type="number" id="c-price" placeholder="50000" /><span class="input-unit">원</span></div>
+          <div class="input-wrapper"><input type="number" id="c-price" placeholder="50000" value="50000" /><span class="input-unit">원</span></div>
         </div>
         <div class="input-group">
           <label>연간 배당금 (1주당)</label>
-          <div class="input-wrapper"><input type="number" id="c-dividend" placeholder="2000" /><span class="input-unit">원</span></div>
+          <div class="input-wrapper"><input type="number" id="c-dividend" placeholder="2000" value="2000" /><span class="input-unit">원</span></div>
         </div>
       </div>
       <div class="row2">
         <div class="input-group">
           <label>보유 주수</label>
-          <div class="input-wrapper"><input type="number" id="c-shares" placeholder="100" /><span class="input-unit">주</span></div>
+          <div class="input-wrapper"><input type="number" id="c-shares" placeholder="100" value="100" /><span class="input-unit">주</span></div>
         </div>
         <div class="input-group">
           <label>배당 지급 주기</label>
@@ -474,6 +474,8 @@ function calcCompound(){
   document.getElementById('cp-table').innerHTML=html;
   document.getElementById('compoundResult').style.display='block';
 }
+
+window.onload = () => calcDividend();
 </script>
 <script src="/common.js" defer></script><script src="/share.js" defer></script><script src="/calculator.js" defer></script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{});});}</script>
