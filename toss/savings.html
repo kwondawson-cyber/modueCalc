@@ -76,7 +76,7 @@
 .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:#e6edf3;border-bottom:none;margin-top:0;padding-bottom:0}
 
 
-
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
 
 
 
@@ -215,6 +215,72 @@
     </div>
   </div>
 
+<div class="card">
+    <div class="card-title">📊 금리 비교 시뮬레이터 — 금리별 만기 수령액 한눈에 비교</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;line-height:1.7">월 납입액과 기간을 입력하면 다양한 금리 시나리오의 세후 수령액을 자동으로 비교합니다.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+      <div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px;font-weight:600">월 납입액 (원)</div>
+        <input type="number" id="cmp-monthly" value="500000"
+          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:15px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none"
+          oninput="calcRateSim()" />
+      </div>
+      <div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px;font-weight:600">기간 (개월)</div>
+        <input type="number" id="cmp-months" value="12" min="1" max="120"
+          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:15px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none"
+          oninput="calcRateSim()" />
+      </div>
+    </div>
+    <div id="rateSimResult"></div>
+  </div>
+<script>
+const RATE_SCENARIOS = [
+  {label:'🏦 시중은행 보통예금 (0.1%)', r:0.001, color:'#484f58'},
+  {label:'📱 인터넷은행 (2.5%)', r:0.025, color:'#8b949e'},
+  {label:'💳 시중은행 적금 (3.5%)', r:0.035, color:'#4fc3f7'},
+  {label:'🌿 인터넷은행 고금리 (4.5%)', r:0.045, color:'#00d4aa'},
+  {label:'🎯 특판 적금 (6%)', r:0.06, color:'#ffd54f'},
+  {label:'🌱 청년미래적금 (4.5%+기여금)', r:0.045, contrib:0.06, color:'#ff8a65', youth:true},
+];
+
+function calcRateSim() {
+  const m = parseFloat(document.getElementById('cmp-monthly').value)||500000;
+  const months = parseFloat(document.getElementById('cmp-months').value)||12;
+  const TAX = 0.154;
+  const el = document.getElementById('rateSimResult');
+
+  const results = RATE_SCENARIOS.map(s => {
+    const principal = m * months;
+    let grossInt = 0;
+    for(let i=1;i<=months;i++) grossInt += m*s.r*((months-i+1)/12);
+    const taxAmt = s.youth ? 0 : grossInt * TAX;
+    const govContrib = s.youth ? m * (s.contrib||0) * months : 0;
+    const net = principal + grossInt - taxAmt + govContrib;
+    return {...s, principal, net, grossInt, taxAmt, govContrib};
+  }).sort((a,b)=>b.net-a.net);
+
+  const maxNet = results[0].net;
+  const fmt = v => Math.round(v).toLocaleString()+'원';
+
+  el.innerHTML = results.map((r,i) => {
+    const pct = Math.round(r.net/maxNet*100);
+    const extra = r.govContrib>0 ? ` (+기여금 ${fmt(r.govContrib)})` : '';
+    return `<div style="margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <span style="font-size:13px;font-weight:600;color:${r.color}">${i===0?'🥇 ':''}${r.label}</span>
+        <span style="font-size:14px;font-weight:900;font-family:'Montserrat',sans-serif;color:${r.color}">${fmt(r.net)}</span>
+      </div>
+      <div style="height:7px;background:var(--border);border-radius:4px;overflow:hidden;margin-bottom:3px">
+        <div style="height:100%;width:${pct}%;background:${r.color};border-radius:4px"></div>
+      </div>
+      <div style="font-size:11px;color:var(--text-muted)">이자 ${fmt(r.grossInt - r.taxAmt)}${extra} / 원금 대비 수익 ${((r.net-r.principal)/r.principal*100).toFixed(2)}%</div>
+    </div>`;
+  }).join('');
+}
+calcRateSim();
+</script>
+
   <div class="disclaimer">본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.</div>
   <div class="calc-guide">
     <div class="calc-guide-title">📋 사용 방법</div>
@@ -345,74 +411,5 @@
 </script>
 
 <!-- 금리 비교 시뮬레이터 -->
-<div class="container" style="padding-top:0;padding-bottom:0">
-  <div class="card">
-    <div class="card-title">📊 금리 비교 시뮬레이터 — 금리별 만기 수령액 한눈에 비교</div>
-    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;line-height:1.7">월 납입액과 기간을 입력하면 다양한 금리 시나리오의 세후 수령액을 자동으로 비교합니다.</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
-      <div>
-        <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px;font-weight:600">월 납입액 (원)</div>
-        <input type="number" id="cmp-monthly" value="500000"
-          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:15px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none"
-          oninput="calcRateSim()" />
-      </div>
-      <div>
-        <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px;font-weight:600">기간 (개월)</div>
-        <input type="number" id="cmp-months" value="12" min="1" max="120"
-          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:15px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none"
-          oninput="calcRateSim()" />
-      </div>
-    </div>
-    <div id="rateSimResult"></div>
-  </div>
-</div>
-
-<script>
-const RATE_SCENARIOS = [
-  {label:'🏦 시중은행 보통예금 (0.1%)', r:0.001, color:'#484f58'},
-  {label:'📱 인터넷은행 (2.5%)', r:0.025, color:'#8b949e'},
-  {label:'💳 시중은행 적금 (3.5%)', r:0.035, color:'#4fc3f7'},
-  {label:'🌿 인터넷은행 고금리 (4.5%)', r:0.045, color:'#00d4aa'},
-  {label:'🎯 특판 적금 (6%)', r:0.06, color:'#ffd54f'},
-  {label:'🌱 청년미래적금 (4.5%+기여금)', r:0.045, contrib:0.06, color:'#ff8a65', youth:true},
-];
-
-function calcRateSim() {
-  const m = parseFloat(document.getElementById('cmp-monthly').value)||500000;
-  const months = parseFloat(document.getElementById('cmp-months').value)||12;
-  const TAX = 0.154;
-  const el = document.getElementById('rateSimResult');
-
-  const results = RATE_SCENARIOS.map(s => {
-    const principal = m * months;
-    let grossInt = 0;
-    for(let i=1;i<=months;i++) grossInt += m*s.r*((months-i+1)/12);
-    const taxAmt = s.youth ? 0 : grossInt * TAX;
-    const govContrib = s.youth ? m * (s.contrib||0) * months : 0;
-    const net = principal + grossInt - taxAmt + govContrib;
-    return {...s, principal, net, grossInt, taxAmt, govContrib};
-  }).sort((a,b)=>b.net-a.net);
-
-  const maxNet = results[0].net;
-  const fmt = v => Math.round(v).toLocaleString()+'원';
-
-  el.innerHTML = results.map((r,i) => {
-    const pct = Math.round(r.net/maxNet*100);
-    const extra = r.govContrib>0 ? ` (+기여금 ${fmt(r.govContrib)})` : '';
-    return `<div style="margin-bottom:10px">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-        <span style="font-size:13px;font-weight:600;color:${r.color}">${i===0?'🥇 ':''}${r.label}</span>
-        <span style="font-size:14px;font-weight:900;font-family:'Montserrat',sans-serif;color:${r.color}">${fmt(r.net)}</span>
-      </div>
-      <div style="height:7px;background:var(--border);border-radius:4px;overflow:hidden;margin-bottom:3px">
-        <div style="height:100%;width:${pct}%;background:${r.color};border-radius:4px"></div>
-      </div>
-      <div style="font-size:11px;color:var(--text-muted)">이자 ${fmt(r.grossInt - r.taxAmt)}${extra} / 원금 대비 수익 ${((r.net-r.principal)/r.principal*100).toFixed(2)}%</div>
-    </div>`;
-  }).join('');
-}
-calcRateSim();
-</script>
-
-
-</div>
+</body>
+</html>
