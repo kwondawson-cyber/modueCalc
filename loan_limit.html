@@ -353,6 +353,7 @@ function updateSim() {
   document.getElementById('simTable').innerHTML = html;
 }
 document.addEventListener('DOMContentLoaded', updateSim);
+window.onload = () => calcLoanLimit();
 </script>
 <script src="/common.js" defer></script><script src="/share.js" defer></script>
 <script src="/calculator.js" defer></script>
