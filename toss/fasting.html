@@ -2,18 +2,23 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>단식 계산기</title>
-  <!-- TODO: 앱인토스 SDK 교체 -->
-  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>간헐적 단식 계산기 — 16:8·18:6·20:4 식사 시간대 계산 | 모두의계산기</title>
+  <meta name="description" content="간헐적 단식 계산기 2026 — 마지막 식사 시간을 입력하면 16:8·18:6·20:4 방식별 단식 종료 시간과 다음 식사 가능 시간대를 자동 계산합니다." />
+  <meta property="og:title" content="간헐적 단식 계산기 | 모두의계산기" />
+  <meta property="og:description" content="16:8·18:6·20:4 단식 방법별 식사 가능 시간대를 자동 계산" />
+  <meta property="og:url" content="https://www.everycalc.kr/fasting" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" /></noscript>
   <style>
-
     :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--danger:#ff6b6b;--radius:16px}
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-    
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
     .container{max-width:700px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
-    .header h1 .emoji{-webkit-text-fill-color:initial;background:none}
+    .home-btn-wrap{text-align:center;margin-bottom:28px}.home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all .2s}.home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}.home-btn-emoji{font-size:20px;line-height:1}.home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}.header h1 .emoji{-webkit-text-fill-color:initial;background:none}
     .header{text-align:center;margin-bottom:40px}
     .header h1{font-size:clamp(26px,6vw,42px);font-weight:900;line-height:1.1;margin-bottom:10px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
     .header p{color:var(--text-muted);font-size:14px}.input-comma{font-size:12px;color:var(--accent);margin-top:5px;font-weight:700;min-height:15px;letter-spacing:.3px}
@@ -49,50 +54,12 @@
     .window-box .wl{font-size:12px;color:var(--text-muted);margin-bottom:4px}
     .window-box .wv{font-size:20px;font-weight:900;color:var(--accent);font-family:'Montserrat',sans-serif}
     /* rel/aff */
-    
-
-
-
-
-
-
-    
-    
-    
-    
-    
+.rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+.rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+.rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    .home-btn-wrap{text-align:center;margin-bottom:8px}
-    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
-    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
-    .home-btn-emoji{font-size:20px;line-height:1}
-    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
-
     .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
     .toss-header>.emoji{font-size:28px;flex-shrink:0}
     .toss-header h1{font-size:20px;font-weight:800;color:var(--text);margin:0}
@@ -104,87 +71,122 @@
     .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
     .ni-emoji{font-size:20px}
     .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
+    .calc-guide{margin-top:20px;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .calc-guide-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:12px}
+    .calc-guide-desc{font-size:13px;color:var(--text-muted);line-height:1.8;margin-bottom:12px}
+    .calc-guide-basis{font-size:12px;color:var(--text-muted);padding:10px 14px;background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;line-height:1.7}
+    .disclaimer{text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280}
+    @media(max-width:360px){.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
 
-    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+  
+    input[type="time"]{cursor:pointer}
+    input[type="time"]::-webkit-calendar-picker-indicator{
+      background:transparent;cursor:pointer;
+      position:absolute;inset:0;width:100%;height:100%;opacity:0
+    }
+    .time-input-wrap{position:relative;cursor:pointer}
 
   </style>
 </head>
 <body>
 <div class="container">
-  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
-  <div class="toss-header">
-    <span class="emoji">🍽️</span>
-    <div><h1>단식 계산기</h1><p>간헐적 단식 시간 계산</p></div>
+    <div class="toss-header">
+    <span class="emoji">⏱</span>
+    <div><h1>간헐적 단식계산기</h1><p>마지막 식사 시간 → 단식 종료·식사 가능 시간 자동 계산</p></div>
   </div>
 
+  <div class="card">
+    <div class="card-title">단식 방법 선택</div>
+    <div class="method-grid">
+      <div class="method-btn active" id="m16" onclick="selectMethod(16,8)">
+        <div class="method-name">16 : 8</div>
+        <div class="method-desc">단식 16시간 / 식사 8시간</div>
+      </div>
+      <div class="method-btn" id="m18" onclick="selectMethod(18,6)">
+        <div class="method-name">18 : 6</div>
+        <div class="method-desc">단식 18시간 / 식사 6시간</div>
+      </div>
+      <div class="method-btn" id="m20" onclick="selectMethod(20,4)">
+        <div class="method-name">20 : 4</div>
+        <div class="method-desc">단식 20시간 / 식사 4시간</div>
+      </div>
+      <div class="method-btn" id="m14" onclick="selectMethod(14,10)">
+        <div class="method-name">14 : 10</div>
+        <div class="method-desc">단식 14시간 / 식사 10시간 (입문)</div>
+      </div>
+    </div>
 
+    <div class="input-group">
+      <label>마지막 식사를 마친 시간 (또는 지금 시작할 시간)</label>
+      <input type="time" id="lastMeal" value="20:00"
+        onclick="try{this.showPicker()}catch(e){}"
+        oninput="calc()" />
+    </div>
 
-<div class="card">
-<div class="card-title">단식 방법 선택</div>
-<div class="method-grid">
-<div class="method-btn active" id="m16" onclick="selectMethod(16,8)">
-<div class="method-name">16 : 8</div>
-<div class="method-desc">단식 16시간 / 식사 8시간</div>
-</div>
-<div class="method-btn" id="m18" onclick="selectMethod(18,6)">
-<div class="method-name">18 : 6</div>
-<div class="method-desc">단식 18시간 / 식사 6시간</div>
-</div>
-<div class="method-btn" id="m20" onclick="selectMethod(20,4)">
-<div class="method-name">20 : 4</div>
-<div class="method-desc">단식 20시간 / 식사 4시간</div>
-</div>
-<div class="method-btn" id="m14" onclick="selectMethod(14,10)">
-<div class="method-name">14 : 10</div>
-<div class="method-desc">단식 14시간 / 식사 10시간 (입문)</div>
-</div>
-</div>
-<div class="input-group">
-<label>마지막 식사를 마친 시간 (또는 지금 시작할 시간)</label>
-<input id="lastMeal" type="time" value="20:00"/>
-</div>
-<button class="calc-btn" onclick="calc()">⏱ 단식 시간 계산하기</button>
-</div>
-<div class="result-card" id="resultCard">
-<div class="result-title">단식 스케줄</div>
-<div class="timeline">
-<div class="tl-item danger">
-<div class="tl-label">🍽 마지막 식사 종료 (단식 시작)</div>
-<div class="tl-time" id="r-start">—</div>
-<div class="tl-sub">이후 물·블랙커피·무가당 차는 허용</div>
-</div>
-<div class="tl-item">
-<div class="tl-label" id="r-label-mid">⚡ 지방 연소 시작 예상 (약 12~14시간 후)</div>
-<div class="tl-time" id="r-fat">—</div>
-<div class="tl-sub">케토시스 진입, 지방을 에너지원으로 사용</div>
-</div>
-<div class="tl-item">
-<div class="tl-label" id="r-label-end">✅ 단식 종료 · 첫 식사 가능</div>
-<div class="tl-time" id="r-end">—</div>
-<div class="tl-sub" id="r-end-sub">—</div>
-</div>
-</div>
-<div class="window-box">
-<div class="wl">🕐 식사 가능 시간대</div>
-<div class="wv" id="r-window">—</div>
-</div>
-</div>
+    <button class="calc-btn" onclick="calc()">⏱ 단식 시간 계산하기</button>
+  </div>
 
-    <div style="text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280;">
-    본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.
+  <div class="result-card" id="resultCard">
+    <div class="result-title">단식 스케줄</div>
+    <div class="timeline">
+      <div class="tl-item danger">
+        <div class="tl-label">🍽 마지막 식사 종료 (단식 시작)</div>
+        <div class="tl-time" id="r-start">—</div>
+        <div class="tl-sub">이후 물·블랙커피·무가당 차는 허용</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-label" id="r-label-mid">⚡ 지방 연소 시작 예상 (약 12~14시간 후)</div>
+        <div class="tl-time" id="r-fat">—</div>
+        <div class="tl-sub">케토시스 진입, 지방을 에너지원으로 사용</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-label" id="r-label-end">✅ 단식 종료 · 첫 식사 가능</div>
+        <div class="tl-time" id="r-end">—</div>
+        <div class="tl-sub" id="r-end-sub">—</div>
+      </div>
+    </div>
+    <div class="window-box">
+      <div class="wl">🕐 식사 가능 시간대</div>
+      <div class="wv" id="r-window">—</div>
+    </div>
+  </div>
+
+<div style="background:#161b22;border:1px solid #30363d;border-radius:16px;padding:24px;margin-bottom:8px" id="simCard">
+    <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:#00d4aa;text-transform:uppercase;margin-bottom:10px">⚡ 단식 방법별 시간 비교</div>
+    <p style="font-size:12px;color:#8b949e;margin-bottom:14px;line-height:1.7">현재 입력한 시간 기준으로 4가지 방법의 단식 종료·식사 종료 시간을 한눈에 비교합니다.</p>
+    <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:13px" id="simTable">
+        <thead><tr>
+          <th style="padding:8px 12px;text-align:left;background:#21262d;color:#8b949e;border:1px solid #30363d">방법</th>
+          <th style="padding:8px 10px;text-align:center;background:#21262d;color:#8b949e;border:1px solid #30363d">단식 시간</th>
+          <th style="padding:8px 10px;text-align:center;background:#21262d;color:#00d4aa;border:1px solid #30363d">단식 종료</th>
+          <th style="padding:8px 10px;text-align:center;background:#21262d;color:#8b949e;border:1px solid #30363d">식사 마감</th>
+        </tr></thead>
+        <tbody id="simBody"></tbody>
+      </table>
+    </div>
+    <div style="margin-top:8px;font-size:11px;color:#8b949e">※ 마지막 식사 시간 입력 후 "단식 시간 계산하기" 버튼을 누르면 업데이트됩니다.</div>
+  </div>
+
+  <div class="disclaimer">본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.</div>
+  <div class="calc-guide">
+    <div class="calc-guide-title">📋 사용 방법</div>
+    <div class="calc-guide-desc">단식 방법을 선택하고 시작 시간을 입력하면 단식 종료 시간과 진행 상태를 계산합니다.</div>
+    <div class="calc-guide-basis">📌 계산 기준: 16:8 / 18:6 / 20:4 / OMAD 기반 · 단식 시간 경과에 따른 신체 변화 단계 표시 · 의료적 진단 대체 불가</div>
   </div>
   <div class="toss-nav">
     <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
     <div class="toss-nav-grid">
+      <a href="/sleep" class="toss-nav-item"><span class="ni-emoji">😴</span><span class="ni-label">수면</span></a>
       <a href="/bmi" class="toss-nav-item"><span class="ni-emoji">⚖️</span><span class="ni-label">BMI</span></a>
       <a href="/bmr" class="toss-nav-item"><span class="ni-emoji">🔥</span><span class="ni-label">기초대사량</span></a>
       <a href="/calorie" class="toss-nav-item"><span class="ni-emoji">🥗</span><span class="ni-label">칼로리</span></a>
-      <a href="/sleep" class="toss-nav-item"><span class="ni-emoji">😴</span><span class="ni-label">수면</span></a>
     </div>
   </div>
 </div>
+
 <script>
-let fastHours = 16, eatHours = 8;
+  let fastHours = 16, eatHours = 8;
 
   function selectMethod(fh, eh) {
     fastHours = fh; eatHours = eh;
@@ -221,6 +223,29 @@ let fastHours = 16, eatHours = 8;
     document.getElementById('r-end-sub').textContent = fastHours + '시간 단식 완료 — 첫 식사 가능';
     document.getElementById('r-window').textContent = fmtTime(endTime) + ' ~ ' + fmtTime(windowEnd);
     document.getElementById('resultCard').classList.add('visible');
+
+    // simCard 업데이트
+    const METHODS = [
+      { id:'m14', label:'14:10 (입문)', fh:14, eh:10 },
+      { id:'m16', label:'16:8 (표준)',  fh:16, eh:8  },
+      { id:'m18', label:'18:6 (심화)',  fh:18, eh:6  },
+      { id:'m20', label:'20:4 (고급)',  fh:20, eh:4  },
+    ];
+    const tbody = document.getElementById('simBody');
+    if (tbody) {
+      tbody.innerHTML = METHODS.map(mt => {
+        const end = addHours(lastMeal, mt.fh);
+        const close = addHours(end, mt.eh);
+        const isCur = mt.fh === fastHours;
+        const bg = isCur ? 'background:rgba(0,212,170,0.06)' : '';
+        return `<tr style="${bg}">
+          <td style="padding:8px 12px;border:1px solid #30363d;color:${isCur?'#00d4aa':'#e6edf3'};font-weight:${isCur?'700':'400'}">${mt.label}</td>
+          <td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#8b949e">${mt.fh}h</td>
+          <td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#00d4aa;font-weight:700">${fmtTime(end)}</td>
+          <td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#8b949e">${fmtTime(close)}</td>
+        </tr>`;
+      }).join('');
+    }
   }
 
   window.onload = () => {
@@ -228,6 +253,7 @@ let fastHours = 16, eatHours = 8;
     const h = String(now.getHours()).padStart(2,'0');
     const m = String(now.getMinutes()).padStart(2,'0');
     document.getElementById('lastMeal').value = h + ':' + m;
+    calc();
   };
 </script>
 </body>
