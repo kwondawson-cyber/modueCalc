@@ -212,6 +212,36 @@
     <div class="deadline-box" id="r-deadline"></div>
   </div>
 
+  <!-- 간이/일반과세 비교 시뮬레이터 -->
+  <div class="card" id="simCard" style="margin-top:0">
+    <h2 style="font-size:15px;color:var(--accent);margin-bottom:6px">📊 매출 규모별 간이·일반과세 부가세 비교</h2>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">업종과 매입 비율을 선택하면 연 매출 구간별 간이과세자·일반과세자 예상 부가세를 자동 비교합니다. 어느 과세 유형이 유리한지 바로 확인하세요.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+      <div>
+        <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">업종 (간이과세 부가가치율)</label>
+        <select id="sim-type" onchange="updateSim()" style="font-size:13px;padding:9px 12px">
+          <option value="0.15">소매업·음식점 (15%)</option>
+          <option value="0.20">제조·농업·운송 (20%)</option>
+          <option value="0.25">숙박업 (25%)</option>
+          <option value="0.30">건설·IT·서비스업 (30%)</option>
+          <option value="0.40">금융·전문직·부동산 (40%)</option>
+        </select>
+      </div>
+      <div>
+        <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">매입 비율 (연 매출 대비)</label>
+        <select id="sim-input-rate" onchange="updateSim()" style="font-size:13px;padding:9px 12px">
+          <option value="0.1">10%</option>
+          <option value="0.2" selected>20%</option>
+          <option value="0.3">30%</option>
+          <option value="0.4">40%</option>
+          <option value="0.5">50%</option>
+        </select>
+      </div>
+    </div>
+    <div id="sim-wrap" style="overflow-x:auto"></div>
+    <p style="font-size:11px;color:var(--text-muted);margin-top:10px;line-height:1.7">※ 간이과세는 업종별 부가가치율 적용. 일반과세는 매입세액(매출×매입비율×10%) 공제 후 납부액 기준. 실제 세액은 적격증빙 수취 여부에 따라 다릅니다.</p>
+  </div>
+
 </div>
 <div class="rel-section">
     <h2>📌 함께 쓰면 유용한 계산기</h2>
@@ -225,19 +255,26 @@
   </div>
 <div class="seo-card">
   <h2>사업자 부가세 신고 계산기 — 2026년 매출·매입세액 공제 완벽 가이드</h2>
-  <h3>사업자 부가세 신고 구조 이해하기</h3>
   <p>사업자는 매출에서 받은 부가세(매출세액)에서 사업 관련 구매 시 납부한 부가세(매입세액)를 공제한 차액만 국세청에 납부합니다. 매출세액이 매입세액보다 크면 납부, 반대면 환급을 받습니다. 이 구조를 이해하면 세금계산서 수취의 중요성과 적격증빙 관리의 필요성을 알 수 있습니다.</p>
   <p>일반과세자는 연 2회(1기: 1월, 2기: 7월) 확정신고를 하고, 각 신고 전 예정신고(4월, 10월)를 하거나 고지된 예정납부세액을 냅니다. 간이과세자는 연 1회(1월) 신고합니다. 신규 사업자나 세금 환급이 예상되는 경우 조기 환급 신청이 가능합니다.</p>
-  <h3>📐 부가세 납부세액 계산 공식</h3>
+
+  <h2>간이과세자 vs 일반과세자 — 어느 유형이 유리한가</h2>
+  <p>2026년 기준 연 매출 1억 400만원 미만이면 간이과세자로 등록할 수 있습니다. 간이과세자는 업종별 부가가치율(15~40%)을 적용해 일반과세자보다 세 부담이 낮은 경우가 많습니다. 특히 소매업·음식점업(부가가치율 15%)은 일반과세자 대비 부가세가 크게 줄어들 수 있습니다.</p>
+  <p>단, 간이과세자는 매입세액 공제 혜택이 제한적이고 세금계산서 발행이 불가(연 매출 4,800만원 미만)하므로, B2B 거래가 많거나 초기 투자 비용이 큰 사업이라면 일반과세자 등록이 유리할 수 있습니다. 위 시뮬레이터에서 업종과 매입 비율을 선택해 직접 비교해보세요.</p>
+
+  <h2>📐 부가세 납부세액 계산 공식</h2>
   <p>납부세액 계산에서 가장 중요한 것은 매입세액 공제 요건입니다. 세금계산서·신용카드 매출전표·현금영수증이 있어야 공제받을 수 있습니다. 간이영수증이나 현금 거래는 원칙적으로 공제 불가이므로 사업 관련 지출은 반드시 적격 증빙을 수취해야 합니다.</p>
+  <p>카드 매출이 많은 소매업·음식점업은 신용카드 매출세액공제(카드 결제액×1.3%, 연 한도 500만원)를 추가로 받을 수 있습니다. 수출 매출이 있는 사업자는 영세율(0%) 적용으로 매입세액 전액 환급이 가능합니다.</p>
   <div class="formula-box">납부세액 = 매출세액 − 매입세액 − 기타 공제세액
 매출세액 = 과세 매출액 × 10%
 매입세액 = 적격 매입액 × 10%
 
 환급세액 = 매입세액 > 매출세액인 경우
 신용카드 매출세액공제: 카드 결제액 × 1.3% (한도 연 500만원)</div>
-  <h3>📊 부가세 신고 일정 및 주요 공제 항목</h3>
+
+  <h2>📊 부가세 신고 일정 및 주요 공제 항목</h2>
   <p>부가세 신고 일정을 미리 파악하고 매입 증빙을 꼼꼼히 수취하면 납부세액을 최소화할 수 있습니다. 특히 수출 사업자는 0% 영세율로 매입세액 전액 환급이 가능합니다. 설비 투자 시에도 매입세액이 크면 조기 환급을 신청하세요.</p>
+  <p>예정신고 기간에는 직전 과세기간 납부세액의 50%를 예정납부 고지받습니다. 예정신고를 직접 하면 고지 납부 대신 실제 발생 세액만 납부할 수 있어 자금 운용에 유리합니다. 매출이 전기 대비 3분의 1 미만으로 줄었다면 예정신고로 세금을 줄일 수 있습니다.</p>
   <table class="ex-table">
     <thead><tr><th>신고 유형</th><th>신고 기간</th><th>대상 과세기간</th></tr></thead>
     <tbody>
@@ -252,6 +289,7 @@
   <div class="hl-box">🔑 <strong>핵심 팁</strong><br>💡 <strong>부가세 절감 핵심 전략:</strong> ① 세금계산서·영수증을 빠짐없이 수취하면 매입세액공제로 납부세액을 줄일 수 있습니다, ② 카드·현금영수증 매입분도 공제 대상이므로 사업용 카드를 별도 관리하세요, ③ 수출 매출이 있으면 영세율(0%) 적용으로 환급 가능, ④ 간이과세자는 업종별 부가가치율(15~40%)로 계산해 일반과세보다 세 부담이 낮을 수 있습니다.</div>
 
 <h2>자주 묻는 질문 (FAQ)</h2>
+  <p>부가세 신고·공제·환급과 관련해 사업자들이 자주 묻는 질문을 정리했습니다. 개별 상황에 따라 세액이 달라질 수 있으므로 복잡한 경우 세무사 상담을 권장합니다.</p>
   <details><summary>간이과세자도 세금계산서를 발행할 수 있나요?</summary><div class="faq-answer">2021년 7월부터 연 매출 4,800만원 이상 간이과세자는 세금계산서 발행이 의무화됐습니다. 4,800만원 미만 간이과세자는 세금계산서 발행이 불가하고 영수증만 발행합니다. B2B 거래가 많다면 일반과세자 전환을 고려하세요.</div></details>
   <details><summary>부가세 환급은 얼마나 걸리나요?</summary><div class="faq-answer">일반적인 부가세 환급은 신고 후 30일 이내에 처리됩니다. 조기환급(수출·설비투자)은 신고 후 15일 이내입니다. 홈택스에서 환급 신청 후 진행 상황을 조회할 수 있습니다. 이상 거래로 검증이 필요한 경우 지연될 수 있습니다.</div></details>
   <details><summary>전자세금계산서 발행을 안 하면 어떻게 되나요?</summary><div class="faq-answer">법인사업자와 연 매출 8,000만원 이상 개인사업자는 전자세금계산서 발행이 의무입니다. 미발행 시 공급가액의 2% 가산세가 부과됩니다. 홈택스 또는 세금계산서 발행 프로그램(더존·영림원 등)을 통해 발행해야 합니다.</div></details>
@@ -327,9 +365,46 @@ function calc() {
   document.getElementById('result') && (document.getElementById('result').style.display = 'block');
 }
 
+function updateSim() {
+  const rate = parseFloat(document.getElementById('sim-type').value) || 0.15;
+  const inputRate = parseFloat(document.getElementById('sim-input-rate').value) || 0.2;
+  const milRows = [3000, 5000, 7000, 9000, 10400]; // 단위: 만원
+  const fw = n => Math.round(n).toLocaleString() + '원';
+  let html = `<table class="ex-table" style="min-width:360px">
+    <thead><tr>
+      <th>연 매출</th>
+      <th>간이과세 부가세</th>
+      <th>일반과세 부가세</th>
+      <th>절세액 비교</th>
+    </tr></thead><tbody>`;
+  milRows.forEach(m => {
+    const s = m * 10000;
+    const simple  = s * 0.1 * rate;
+    const general = Math.max(0, s * 0.1 - s * inputRate * 0.1);
+    const diff    = general - simple;
+    const isLimit = m >= 10400;
+    const diffCell = isLimit
+      ? '<span style="color:var(--warn);font-size:11px">⚠️ 일반과세 전환 기준</span>'
+      : diff > 0
+        ? `<strong style="color:var(--accent)">간이 유리 +${fw(diff)}</strong>`
+        : diff < 0
+          ? `<span style="color:var(--danger)">일반 유리 +${fw(-diff)}</span>`
+          : '동일';
+    html += `<tr>
+      <td>${fw(s)}</td>
+      <td>${fw(simple)}</td>
+      <td>${fw(general)}</td>
+      <td>${diffCell}</td>
+    </tr>`;
+  });
+  html += '</tbody></table>';
+  document.getElementById('sim-wrap').innerHTML = html;
+}
+
 // 입력 이벤트
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('#sales-list input, #input-list input').forEach(i => i.addEventListener('input', updateTotal));
+  updateSim();
 });
 </script>
 <script src="/common.js" defer></script><script src="/share.js" defer></script><script src="/calculator.js" defer></script>
