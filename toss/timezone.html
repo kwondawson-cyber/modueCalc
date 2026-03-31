@@ -2,18 +2,23 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>시간대 계산기</title>
-  <!-- TODO: 앱인토스 SDK 교체 -->
-  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>시간대 변환기 — 세계 도시 시간 동시 비교 | 모두의계산기</title>
+  <meta name="description" content="시간대 변환기 — 서울 기준 시간을 뉴욕·런던·도쿄·시드니·베이징·파리·두바이 등 세계 주요 도시 시간으로 자동 변환. 서머타임 자동 반영. 미팅 스케줄·해외 업무에 유용." />
+  <meta property="og:title" content="시간대 변환기 — 세계 도시 시간 비교 | 모두의계산기" />
+  <meta property="og:description" content="서울 기준 시간을 세계 주요 도시 시간으로 자동 변환, 서머타임 반영" />
+  <meta property="og:url" content="https://www.everycalc.kr/timezone" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" /></noscript>
   <style>
-
     :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--danger:#ff6b6b;--radius:16px}
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-    
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
     .container{max-width:700px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
-    .header h1 .emoji{-webkit-text-fill-color:initial;background:none}
+    .home-btn-wrap{text-align:center;margin-bottom:28px}.home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all .2s}.home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}.home-btn-emoji{font-size:20px;line-height:1}.home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}.header h1 .emoji{-webkit-text-fill-color:initial;background:none}
     .header{text-align:center;margin-bottom:40px}
     .header h1{font-size:clamp(26px,6vw,42px);font-weight:900;line-height:1.1;margin-bottom:10px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
     .header p{color:var(--text-muted);font-size:14px}.input-comma{font-size:12px;color:var(--accent);margin-top:5px;font-weight:700;min-height:15px;letter-spacing:.3px}
@@ -24,8 +29,9 @@
     .base-name{font-size:18px;font-weight:700;color:var(--accent)}
     .input-group{margin-bottom:18px}
     .input-group label{display:block;font-size:14px;font-weight:500;color:var(--text-muted);margin-bottom:7px}
-    input[type="datetime-local"]{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:13px 16px;font-size:17px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none;transition:border-color .2s}
+    input[type="datetime-local"]{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:13px 16px;font-size:17px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none;transition:border-color .2s;cursor:pointer}
     input[type="datetime-local"]:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,170,0.1)}
+    input[type="datetime-local"]::-webkit-calendar-picker-indicator{filter:invert(1) brightness(1.8);cursor:pointer;opacity:.9;padding:2px}
     .calc-btn{width:100%;padding:17px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;font-size:16px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:#000;cursor:pointer;margin-top:6px;transition:transform .15s,box-shadow .15s}
     .calc-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,212,170,0.3)}
     .now-btn{width:100%;padding:11px;background:transparent;border:1px solid var(--border);border-radius:10px;font-size:14px;font-weight:600;font-family:'Noto Sans KR',sans-serif;color:var(--text-muted);cursor:pointer;margin-bottom:10px;transition:all .2s}
@@ -46,48 +52,12 @@
     .status-sleep{background:rgba(100,100,100,0.2);color:var(--text-muted)}
     .status-eve{background:rgba(0,149,255,0.15);color:var(--accent2)}
     /* rel/aff */
-    
-
-
-
-
-
-
-    
-    
-    
-    
-    
+.rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+.rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+.rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    .home-btn-wrap{text-align:center;margin-bottom:8px}
-    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
-    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
-    .home-btn-emoji{font-size:20px;line-height:1}
-    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
-
     .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
     .toss-header>.emoji{font-size:28px;flex-shrink:0}
     .toss-header h1{font-size:20px;font-weight:800;color:var(--text);margin:0}
@@ -99,63 +69,92 @@
     .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
     .ni-emoji{font-size:20px}
     .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
+    .calc-guide{margin-top:20px;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .calc-guide-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:12px}
+    .calc-guide-desc{font-size:13px;color:var(--text-muted);line-height:1.8;margin-bottom:12px}
+    .calc-guide-basis{font-size:12px;color:var(--text-muted);padding:10px 14px;background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;line-height:1.7}
+    .disclaimer{text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280}
+    @media(max-width:360px){.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
 
-    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+  
+    input[type="datetime-local"]{cursor:pointer;position:relative}
+    input[type="datetime-local"]::-webkit-calendar-picker-indicator{
+      opacity:0;position:absolute;inset:0;width:100%;height:100%;cursor:pointer
+    }
 
   </style>
 </head>
 <body>
 <div class="container">
-  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
-  <div class="toss-header">
+    <div class="toss-header">
     <span class="emoji">🌍</span>
-    <div><h1>시간대 계산기</h1><p>세계 시간대 변환</p></div>
+    <div><h1>시간대변환기</h1><p>서울 시간 → 세계 주요 도시 시간 자동 변환 · 서머타임 반영</p></div>
   </div>
 
+  <div class="card">
+    <div class="card-title">기준 시간 (서울 / KST)</div>
+    <div class="base-city">
+      <span class="base-flag">🇰🇷</span>
+      <span class="base-name">서울 — KST (UTC+9)</span>
+    </div>
+    <button class="now-btn" onclick="setNow()">🕐 현재 시간으로 설정</button>
+    <div class="input-group">
+      <label>날짜 및 시간 입력</label>
+      <input type="datetime-local" id="seoulTime"
+        onclick="try{this.showPicker()}catch(e){}" />
+    </div>
+    <button class="calc-btn" onclick="calc()">🌍 전 세계 시간 변환하기</button>
+  </div>
 
+  <div id="resultSection" style="display:none">
+    <div class="result-grid" id="cityGrid"></div>
+  </div>
 
-<div class="card">
-<div class="card-title">기준 시간 (서울 / KST)</div>
-<div class="base-city">
-<span class="base-flag">🇰🇷</span>
-<span class="base-name">서울 — KST (UTC+9)</span>
-</div>
-<button class="now-btn" onclick="setNow()">🕐 현재 시간으로 설정</button>
-<div class="input-group">
-<label>날짜 및 시간 입력</label>
-<input id="seoulTime" type="datetime-local"/>
-</div>
-<button class="calc-btn" onclick="calc()">🌍 전 세계 시간 변환하기</button>
-</div>
-<div id="resultSection" style="display:none">
-<div class="result-grid" id="cityGrid"></div>
-</div>
+  <!-- 글로벌 미팅 시간 찾기 시뮬레이터 -->
+  <div class="card" id="simCard" style="background:rgba(0,212,170,.04);border-color:rgba(0,212,170,.2);margin-top:0">
+    <div class="card-title" style="color:var(--accent)">🌐 글로벌 미팅 시간 찾기</div>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:16px;line-height:1.7">슬라이더로 서울 기준 시각을 조정하면 9개 도시의 현재 시각과 업무/취침 여부를 실시간으로 확인합니다. 글로벌 팀 미팅 일정 조율 시 활용하세요.</p>
+    <div style="margin-bottom:16px">
+      <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:6px">서울 기준 시각</label>
+      <input type="range" id="hourSlider" min="0" max="23" step="1" value="9" oninput="updateMeetingFinder()" style="width:100%;accent-color:var(--accent)">
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-top:3px"><span>자정 0시</span><span>정오 12시</span><span>밤 23시</span></div>
+      <div id="hourLabel" style="text-align:center;font-size:16px;font-weight:700;color:var(--accent);margin-top:10px">서울 오전 9시 기준</div>
+    </div>
+    <div id="meetingGrid"></div>
+  </div>
 
-    <div style="text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280;">
-    본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.
+  <div class="disclaimer">본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.</div>
+  <div class="calc-guide">
+    <div class="calc-guide-title">📋 사용 방법</div>
+    <div class="calc-guide-desc">서울 시간을 입력하면 세계 주요 도시의 현재 시간을 자동으로 변환합니다.</div>
+    <div class="calc-guide-basis">📌 계산 기준: 서울 KST(UTC+9) 기준 · 실시간 시차 계산 · 서머타임 적용 국가 반영</div>
   </div>
   <div class="toss-nav">
     <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
     <div class="toss-nav-grid">
-      <a href="/dday" class="toss-nav-item"><span class="ni-emoji">⏳</span><span class="ni-label">D-Day</span></a>
-      <a href="/date_diff" class="toss-nav-item"><span class="ni-emoji">📅</span><span class="ni-label">날짜차이</span></a>
-      <a href="/age" class="toss-nav-item"><span class="ni-emoji">🎂</span><span class="ni-label">나이</span></a>
-      <a href="/sleep" class="toss-nav-item"><span class="ni-emoji">😴</span><span class="ni-label">수면</span></a>
+      <a href="/exchange" class="toss-nav-item"><span class="ni-emoji">💱</span><span class="ni-label">환율</span></a>
+      <a href="/address_converter" class="toss-nav-item"><span class="ni-emoji">📬</span><span class="ni-label">주소변환</span></a>
+      <a href="/customs" class="toss-nav-item"><span class="ni-emoji">✈️</span><span class="ni-label">관세</span></a>
+      <a href="/dday" class="toss-nav-item"><span class="ni-emoji">📅</span><span class="ni-label">D-Day</span></a>
     </div>
   </div>
 </div>
+
 <script>
-const CITIES = [
-    { name: '서울', flag: '🇰🇷', tz: 'Asia/Seoul', base: true },
-    { name: '도쿄', flag: '🇯🇵', tz: 'Asia/Tokyo' },
-    { name: '베이징', flag: '🇨🇳', tz: 'Asia/Shanghai' },
-    { name: '싱가포르', flag: '🇸🇬', tz: 'Asia/Singapore' },
-    { name: '두바이', flag: '🇦🇪', tz: 'Asia/Dubai' },
-    { name: '런던', flag: '🇬🇧', tz: 'Europe/London' },
-    { name: '파리', flag: '🇫🇷', tz: 'Europe/Paris' },
-    { name: '뉴욕', flag: '🇺🇸', tz: 'America/New_York' },
-    { name: 'LA', flag: '🇺🇸', tz: 'America/Los_Angeles' },
-    { name: '시드니', flag: '🇦🇺', tz: 'Australia/Sydney' },
+  // 같은 시간대 도시는 묶어서 표기
+  const CITY_GROUPS = [
+    { label: '서울 · 도쿄',       flags: '🇰🇷🇯🇵', tz: 'Asia/Seoul',            base: true },
+    { label: '베이징 · 싱가포르',  flags: '🇨🇳🇸🇬', tz: 'Asia/Shanghai' },
+    { label: '방콕',              flags: '🇹🇭',     tz: 'Asia/Bangkok' },
+    { label: '뭄바이',            flags: '🇮🇳',     tz: 'Asia/Kolkata' },
+    { label: '두바이',            flags: '🇦🇪',     tz: 'Asia/Dubai' },
+    { label: '테헤란',            flags: '🇮🇷',     tz: 'Asia/Tehran' },
+    { label: '모스크바',          flags: '🇷🇺',     tz: 'Europe/Moscow' },
+    { label: '런던',              flags: '🇬🇧',     tz: 'Europe/London' },
+    { label: '파리 · 베를린',     flags: '🇫🇷🇩🇪', tz: 'Europe/Paris' },
+    { label: '뉴욕',              flags: '🇺🇸',     tz: 'America/New_York' },
+    { label: 'LA',                flags: '🇺🇸',     tz: 'America/Los_Angeles' },
+    { label: '시드니',            flags: '🇦🇺',     tz: 'Australia/Sydney' },
   ];
 
   function setNow() {
@@ -180,14 +179,13 @@ const CITIES = [
     const input = document.getElementById('seoulTime').value;
     if (!input) { alert('날짜와 시간을 입력해주세요.'); return; }
 
-    // 서울 시간을 UTC로 변환 (KST = UTC+9)
     const seoulDate = new Date(input + ':00');
     const utcMs = seoulDate.getTime() - (9 * 60 * 60000);
 
     const grid = document.getElementById('cityGrid');
     grid.innerHTML = '';
 
-    CITIES.forEach(city => {
+    CITY_GROUPS.forEach(city => {
       const cityDate = new Date(utcMs);
       const opts = { timeZone: city.tz, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false };
       const parts = new Intl.DateTimeFormat('ko-KR', opts).formatToParts(cityDate);
@@ -197,18 +195,16 @@ const CITIES = [
       const timeStr = mp.hour + ':' + mp.minute;
       const dateStr = mp.year + '.' + mp.month + '.' + mp.day;
       const hourNum = parseInt(mp.hour);
-      const status = getStatus(hourNum);
-
-      // UTC 오프셋 계산
+      const status  = getStatus(hourNum);
       const utcOffset = (new Date(utcMs).toLocaleString('en', { timeZone: city.tz, timeZoneName: 'short' })).split(' ').pop();
 
       const card = document.createElement('div');
       card.className = 'city-card' + (city.base ? ' base' : '');
       card.innerHTML = `
         <div class="city-top">
-          <span class="city-flag">${city.flag}</span>
-          <span class="city-name">${city.name}</span>
-          <span class="city-tz">${city.tz.split('/').pop()}</span>
+          <span class="city-flag">${city.flags}</span>
+          <span class="city-name">${city.label}</span>
+          <span class="city-tz">${utcOffset}</span>
         </div>
         <div class="city-time">${timeStr}</div>
         <div class="city-date">${dateStr}</div>
@@ -220,7 +216,66 @@ const CITIES = [
     document.getElementById('resultSection').style.display = 'block';
   }
 
-  window.onload = () => setNow();
+  window.onload = () => {
+    setNow();
+    calc();
+    // 날짜 입력창 전체 클릭 시 달력 열기
+    const dtInput = document.getElementById('seoulTime');
+    if (dtInput) {
+      dtInput.addEventListener('click', () => {
+        try { dtInput.showPicker(); } catch(e) {}
+      });
+    }
+    // 슬라이더를 현재 서울 시각으로 초기화
+    const seoulNow = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
+    const el = document.getElementById('hourSlider');
+    if (el) el.value = seoulNow.getHours();
+    updateMeetingFinder();
+  };
+
+  function updateMeetingFinder() {
+    const hour = parseInt(document.getElementById('hourSlider').value);
+    const ampm = hour < 12 ? '오전' : '오후';
+    const h12  = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
+    document.getElementById('hourLabel').textContent = `서울 ${ampm} ${h12}시 (${String(hour).padStart(2,'0')}:00) 기준`;
+
+    const seoulNow = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
+    const utcMs = Date.UTC(seoulNow.getFullYear(), seoulNow.getMonth(), seoulNow.getDate(), hour, 0, 0)
+                  - 9 * 3600000;
+    const target = new Date(utcMs);
+
+    const available = [];
+    let html = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">';
+    CITY_GROUPS.filter(c => !c.base).forEach(city => {
+      const parts = new Intl.DateTimeFormat('ko-KR', {
+        timeZone: city.tz, hour: '2-digit', minute: '2-digit', hour12: false
+      }).formatToParts(target);
+      const mp = {};
+      parts.forEach(p => mp[p.type] = p.value);
+      const cityHour = parseInt(mp.hour);
+      const status   = getStatus(cityHour);
+      if (status.cls === 'status-work') available.push(city.label);
+      html += `<div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:10px">
+        <span style="font-size:16px;line-height:1">${city.flags}</span>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:11px;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${city.label}</div>
+          <div style="font-size:17px;font-weight:900;color:var(--text);font-family:'Montserrat',sans-serif">${mp.hour}:${mp.minute}</div>
+        </div>
+        <span class="city-status ${status.cls}" style="white-space:nowrap">${status.label}</span>
+      </div>`;
+    });
+    html += '</div>';
+
+    const tip    = available.length > 0
+      ? `✅ 업무 시간 중: ${available.join(' · ')}`
+      : '⚠️ 이 시간대에 업무 중인 도시가 없습니다';
+    const tipBg  = available.length > 0 ? 'rgba(0,212,170,.05)' : 'rgba(255,107,107,.05)';
+    const tipBd  = available.length > 0 ? 'rgba(0,212,170,.2)'  : 'rgba(255,107,107,.2)';
+    const tipClr = available.length > 0 ? 'var(--accent)' : 'var(--danger)';
+    html += `<div style="margin-top:12px;padding:12px 16px;background:${tipBg};border:1px solid ${tipBd};border-radius:10px;font-size:13px;color:${tipClr};font-weight:600;line-height:1.7">${tip}</div>`;
+
+    document.getElementById('meetingGrid').innerHTML = html;
+  }
 </script>
 </body>
 </html>

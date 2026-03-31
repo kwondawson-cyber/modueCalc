@@ -2,12 +2,14 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>골프 핸디캡 계산기</title>
-  <!-- TODO: 앱인토스 SDK 교체 -->
-  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>골프 핸디캡 계산기 | 모두의계산기</title>
+  <meta name="description" content="골프 핸디캡 계산기 — WHS(세계핸디캡시스템) 기준 핸디캡 지수 자동 계산. 코스 레이팅·슬로프 레이팅 입력, 라운드 수별 적용 차등 개수, 코스 핸디캡 환산, KGA 공식 인증 방법 포함." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" /></noscript>
   <style>
-
     :root {
       --bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;
       --accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;
@@ -15,7 +17,7 @@
     }
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
-    
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
     .container{max-width:800px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
     .header{text-align:center;margin-bottom:48px}
     .site-name{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:4px;color:var(--accent);text-transform:uppercase;margin-bottom:16px;opacity:.8;display:inline-block}
@@ -53,52 +55,30 @@
     @media(max-width:600px){.detail-grid{grid-template-columns:1fr}.two-btn{grid-template-columns:1fr}}
 
     /* ── 홈 버튼 ── */
-    
-    
-    
-    
-    
+    .home-btn-wrap { text-align: center; margin-bottom: 8px; }
+    .home-btn {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      width: 54px; height: 54px;
+      background: rgba(0,212,170,0.08);
+      border: 1.5px solid rgba(0,212,170,0.35);
+      border-radius: 50%;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .home-btn:hover { background: rgba(0,212,170,0.18); transform: translateY(-2px); }
+    .home-btn-emoji { font-size: 20px; line-height: 1; }
+    .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    .home-btn-wrap{text-align:center;margin-bottom:8px}
-    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
-    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
-    .home-btn-emoji{font-size:20px;line-height:1}
-    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+.rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+.rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+.rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
 
     .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
     .toss-header>.emoji{font-size:28px;flex-shrink:0}
@@ -111,64 +91,79 @@
     .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
     .ni-emoji{font-size:20px}
     .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
-
-    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+    .calc-guide{margin-top:20px;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .calc-guide-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:12px}
+    .calc-guide-desc{font-size:13px;color:var(--text-muted);line-height:1.8;margin-bottom:12px}
+    .calc-guide-basis{font-size:12px;color:var(--text-muted);padding:10px 14px;background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;line-height:1.7}
+    .disclaimer{text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280}
+    @media(max-width:360px){.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
 
   </style>
+
 </head>
 <body>
 <div class="container">
-  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
-  <div class="toss-header">
+    <div class="toss-header">
     <span class="emoji">⛳</span>
-    <div><h1>골프 핸디캡 계산기</h1><p>USGA 방식 핸디캡 계산</p></div>
+    <div><h1>골프 핸디캡</h1><p>세계 핸디캡 시스템(WHS) 기준 · 스코어 차등 계산</p></div>
   </div>
 
-
-<div class="card">
-<div class="card-title">⛳ 라운드 정보 입력</div>
-<div id="rounds">
-<div class="round-row" style="background:#21262d;border-radius:12px;padding:16px;margin-bottom:12px">
-<div style="font-size:12px;color:#8b949e;margin-bottom:10px;font-weight:700">라운드 1</div>
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
-<div><label style="font-size:11px;color:#8b949e;display:block;margin-bottom:4px">타수</label><input class="score" max="150" min="50" style="width:100%;background:#161b22;border:1px solid #30363d;border-radius:8px;padding:10px;font-size:15px;font-weight:700;color:#e6edf3;font-family:inherit;outline:none" type="number" value="90"/></div>
-<div><label style="font-size:11px;color:#8b949e;display:block;margin-bottom:4px">코스 레이팅</label><input class="rating" max="80" min="60" step="0.1" style="width:100%;background:#161b22;border:1px solid #30363d;border-radius:8px;padding:10px;font-size:15px;font-weight:700;color:#e6edf3;font-family:inherit;outline:none" type="number" value="72.0"/></div>
-<div><label style="font-size:11px;color:#8b949e;display:block;margin-bottom:4px">슬로프 레이팅</label><input class="slope" max="155" min="55" style="width:100%;background:#161b22;border:1px solid #30363d;border-radius:8px;padding:10px;font-size:15px;font-weight:700;color:#e6edf3;font-family:inherit;outline:none" type="number" value="113"/></div>
-</div>
-</div>
-</div>
-<div class="two-btn" style="margin-bottom:16px">
-<button class="btn btn-sub" onclick="addRound()">+ 라운드 추가</button>
-<button class="btn btn-sub" onclick="removeRound()">− 라운드 삭제</button>
-</div>
-<button class="btn" onclick="calcHandicap()">⛳ 핸디캡 계산하기</button>
-</div>
-<div class="result-section" id="golfResult">
-<div class="result-card">
-<div class="result-label">핸디캡 지수 (Handicap Index)</div>
-<div class="result-value" id="hcpValue">-</div>
-<div class="result-sub" id="hcpSub"></div>
-</div>
-<div class="card">
-<div class="card-title">📊 스코어 차등 내역</div>
-<div id="diffDetail"></div>
-</div>
-</div>
-
-
-    <div style="text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280;">
-    본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.
+  <div class="card">
+    <div class="card-title">⛳ 라운드 정보 입력</div>
+    <div id="rounds">
+      <div class="round-row" style="background:#21262d;border-radius:12px;padding:16px;margin-bottom:12px">
+        <div style="font-size:12px;color:#8b949e;margin-bottom:10px;font-weight:700">라운드 1</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+          <div><label style="font-size:11px;color:#8b949e;display:block;margin-bottom:4px">타수</label><input type="number" class="score" value="90" min="50" max="150" style="width:100%;background:#161b22;border:1px solid #30363d;border-radius:8px;padding:10px;font-size:15px;font-weight:700;color:#e6edf3;font-family:inherit;outline:none" /></div>
+          <div><label style="font-size:11px;color:#8b949e;display:block;margin-bottom:4px">코스 레이팅</label><input type="number" class="rating" value="72.0" step="0.1" min="60" max="80" style="width:100%;background:#161b22;border:1px solid #30363d;border-radius:8px;padding:10px;font-size:15px;font-weight:700;color:#e6edf3;font-family:inherit;outline:none" /></div>
+          <div><label style="font-size:11px;color:#8b949e;display:block;margin-bottom:4px">슬로프 레이팅</label><input type="number" class="slope" value="113" min="55" max="155" style="width:100%;background:#161b22;border:1px solid #30363d;border-radius:8px;padding:10px;font-size:15px;font-weight:700;color:#e6edf3;font-family:inherit;outline:none" /></div>
+        </div>
+      </div>
+    </div>
+    <div class="two-btn" style="margin-bottom:16px">
+      <button class="btn btn-sub" onclick="addRound()">+ 라운드 추가</button>
+      <button class="btn btn-sub" onclick="removeRound()">− 라운드 삭제</button>
+    </div>
+    <button class="btn" onclick="calcHandicapIndex()">⛳ 핸디캡 계산하기</button>
   </div>
-  <div class="toss-nav">
-    <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
-    <div class="toss-nav-grid">
-      <a href="/bmi" class="toss-nav-item"><span class="ni-emoji">⚖️</span><span class="ni-label">BMI</span></a>
-      <a href="/age" class="toss-nav-item"><span class="ni-emoji">🎂</span><span class="ni-label">나이</span></a>
-      <a href="/dday" class="toss-nav-item"><span class="ni-emoji">⏳</span><span class="ni-label">D-Day</span></a>
-      <a href="/sleep" class="toss-nav-item"><span class="ni-emoji">😴</span><span class="ni-label">수면</span></a>
+
+  <div class="result-section" id="golfResult">
+    <div class="result-card">
+      <div class="result-label">핸디캡 지수 (Handicap Index)</div>
+      <div class="result-value" id="hcpValue">-</div>
+      <div class="result-sub" id="hcpSub"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">📊 스코어 차등 내역</div>
+      <div id="diffDetail"></div>
+    </div>
+
+    <!-- 코스 핸디캡 역산 -->
+    <div class="card">
+      <div class="card-title">🏌️ 코스 핸디캡 · 네트 스코어 계산</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">핸디캡 인덱스를 특정 코스에서 사용할 <strong style="color:var(--accent)">코스 핸디캡</strong>으로 환산하고, 네트 스코어를 계산합니다.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px">
+        <div>
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">슬로프 레이팅</div>
+          <input type="number" id="ch-slope" value="113" min="55" max="155" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px;font-size:15px;font-weight:700;color:var(--text);font-family:inherit;outline:none" oninput="calcCourseHcp()" />
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">코스 레이팅</div>
+          <input type="number" id="ch-rating" value="72.0" step="0.1" min="60" max="80" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px;font-size:15px;font-weight:700;color:var(--text);font-family:inherit;outline:none" oninput="calcCourseHcp()" />
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">코스 파(Par)</div>
+          <input type="number" id="ch-par" value="72" min="60" max="75" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px;font-size:15px;font-weight:700;color:var(--text);font-family:inherit;outline:none" oninput="calcCourseHcp()" />
+        </div>
+      </div>
+      <div style="margin-bottom:10px">
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">오늘 그로스 스코어 (선택)</div>
+        <input type="number" id="ch-gross" placeholder="예: 92" min="50" max="150" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px;font-size:15px;font-weight:700;color:var(--text);font-family:inherit;outline:none" oninput="calcCourseHcp()" />
+      </div>
+      <div id="courseHcpResult" style="background:var(--surface2);border-radius:12px;padding:14px;font-size:13px;color:var(--text-muted);display:none;line-height:2"></div>
     </div>
   </div>
-</div>
+
 <script>
 let roundCount=1;
 function addRound(){
@@ -186,7 +181,7 @@ function removeRound(){
   rows[rows.length-1].remove();
   roundCount--;
 }
-function calcHandicap(){
+function calcHandicapIndex(){
   const scores=[...document.querySelectorAll('.score')].map(el=>parseFloat(el.value));
   const ratings=[...document.querySelectorAll('.rating')].map(el=>parseFloat(el.value));
   const slopes=[...document.querySelectorAll('.slope')].map(el=>parseFloat(el.value));
@@ -218,7 +213,122 @@ function calcHandicap(){
   });
   document.getElementById('diffDetail').innerHTML=detail;
   document.getElementById('golfResult').className='result-section show';
+  calcCourseHcp();
+}
+
+function calcHandicap(){
+  const hcp = parseFloat(document.getElementById('hcpValue').textContent);
+  if(isNaN(hcp)) return;
+  const slope  = parseFloat(document.getElementById('ch-slope').value) || 113;
+  const rating = parseFloat(document.getElementById('ch-rating').value) || 72;
+  const par    = parseFloat(document.getElementById('ch-par').value) || 72;
+  const gross  = parseFloat(document.getElementById('ch-gross').value) || 0;
+  const courseHcp = Math.round(hcp * (slope / 113) + (rating - par));
+  const el = document.getElementById('courseHcpResult');
+  let html = `코스 핸디캡: <strong style="color:var(--accent);font-size:16px">${courseHcp}</strong><br>`;
+  if(gross > 0){
+    const net = gross - courseHcp;
+    html += `그로스 스코어: ${gross}타 → 네트 스코어: <strong style="color:var(--accent);font-size:15px">${net}타</strong>`;
+  }
+  el.innerHTML = html;
+  el.style.display = 'block';
+}
+
+function simDiff() {
+  const score  = parseFloat(document.getElementById('sim-score').value) || 90;
+  const rating = parseFloat(document.getElementById('sim-rating').value) || 72.0;
+  const tbody  = document.getElementById('sim-tbody');
+  if (!tbody) return;
+  const slopes = [
+    { label:'쉬운 코스 (슬로프 95)',      slope:95  },
+    { label:'보통 코스 (슬로프 113)',      slope:113 },
+    { label:'어려운 코스 (슬로프 125)',    slope:125 },
+    { label:'매우 어려운 코스 (슬로프 140)',slope:140 },
+  ];
+  tbody.innerHTML = slopes.map(s => {
+    const diff   = ((score - rating) * 113 / s.slope).toFixed(1);
+    const hcpEst = (parseFloat(diff) * 0.96).toFixed(1);
+    return `<tr>
+      <td style="padding:8px 12px;border:1px solid #30363d;color:#e6edf3">${s.label}</td>
+      <td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#00d4aa;font-weight:700">${diff}</td>
+      <td style="padding:8px 10px;border:1px solid #30363d;text-align:center;color:#8b949e">${hcpEst}</td>
+    </tr>`;
+  }).join('');
+}
+window.addEventListener('DOMContentLoaded', simDiff);
+window.onload = () => calcHandicapIndex();
+
+function calcCourseHcp() {
+  var hcp = parseFloat(document.getElementById('hcpValue').textContent);
+  var slope  = parseFloat(document.getElementById('ch-slope').value)  || 113;
+  var rating = parseFloat(document.getElementById('ch-rating').value) || 72;
+  var par    = parseFloat(document.getElementById('ch-par').value)    || 72;
+  var gross  = parseFloat(document.getElementById('ch-gross').value)  || 0;
+  if (isNaN(hcp)) {
+    document.getElementById('courseHcpResult').style.display = 'none';
+    return;
+  }
+  var courseHcp = Math.round(hcp * (slope / 113) + (rating - par));
+  var el = document.getElementById('courseHcpResult');
+  var html = '코스 핸디캡: <strong style="color:var(--accent);font-size:16px">' + courseHcp + '</strong>';
+  if (gross > 0) {
+    var net = gross - courseHcp;
+    html += '<br>그로스 스코어: ' + gross + '타 &rarr; 네트 스코어: <strong style="color:var(--accent)">' + net + '</strong>타';
+  }
+  el.innerHTML = html;
+  el.style.display = 'block';
 }
 </script>
+
+<!-- simCard: 타수별 스코어 차등 즉시 비교 -->
+<div style="max-width:800px;margin:0 auto;padding:0 20px 16px">
+  <div style="background:#161b22;border:1px solid #30363d;border-radius:16px;padding:24px" id="simCard">
+    <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:#00d4aa;text-transform:uppercase;margin-bottom:10px">⚡ 타수 입력 → 코스 난이도별 차등 즉시 비교</div>
+    <p style="font-size:12px;color:#8b949e;margin-bottom:14px;line-height:1.7">한 라운드 타수와 코스 레이팅을 입력하면 슬로프 레이팅(코스 난이도)별 스코어 차등을 즉시 계산합니다.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+      <div>
+        <div style="font-size:11px;color:#8b949e;margin-bottom:6px">타수</div>
+        <input type="number" id="sim-score" value="90" min="50" max="150"
+          oninput="simDiff()"
+          style="width:100%;background:#21262d;border:1px solid #30363d;border-radius:8px;padding:10px 12px;font-size:17px;font-weight:700;color:#e6edf3;font-family:inherit;outline:none" />
+      </div>
+      <div>
+        <div style="font-size:11px;color:#8b949e;margin-bottom:6px">코스 레이팅</div>
+        <input type="number" id="sim-rating" value="72.0" step="0.1" min="60" max="80"
+          oninput="simDiff()"
+          style="width:100%;background:#21262d;border:1px solid #30363d;border-radius:8px;padding:10px 12px;font-size:17px;font-weight:700;color:#e6edf3;font-family:inherit;outline:none" />
+      </div>
+    </div>
+    <table style="width:100%;border-collapse:collapse;font-size:13px">
+      <thead><tr>
+        <th style="padding:8px 12px;text-align:left;background:#21262d;color:#8b949e;border:1px solid #30363d">코스 유형</th>
+        <th style="padding:8px 10px;text-align:center;background:#21262d;color:#00d4aa;border:1px solid #30363d">스코어 차등</th>
+        <th style="padding:8px 10px;text-align:center;background:#21262d;color:#8b949e;border:1px solid #30363d">단일 라운드 핸디캡 추정</th>
+      </tr></thead>
+      <tbody id="sim-tbody"></tbody>
+    </table>
+    <div style="margin-top:8px;font-size:11px;color:#8b949e;line-height:1.7">※ 공식 핸디캡 지수는 최근 20라운드 중 상위 차등의 평균 × 0.96으로 결정됩니다. 단일 라운드 추정치는 참고용입니다.</div>
+  </div>
+</div>
+
+
+  <div class="disclaimer">본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.</div>
+  <div class="calc-guide">
+    <div class="calc-guide-title">📋 사용 방법</div>
+    <div class="calc-guide-desc">라운드 스코어와 코스 정보를 입력하면 WHS 기준 핸디캡 인덱스와 코스 핸디캡을 계산합니다.</div>
+    <div class="calc-guide-basis">📌 계산 기준: 세계핸디캡시스템(WHS) 기준 · 코스레이팅·슬로프레이팅 적용 · 최대 20라운드 입력 가능</div>
+  </div>
+  <div class="toss-nav">
+    <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
+    <div class="toss-nav-grid">
+      <a href="/age" class="toss-nav-item"><span class="ni-emoji">🎂</span><span class="ni-label">나이</span></a>
+      <a href="/bmi" class="toss-nav-item"><span class="ni-emoji">⚖️</span><span class="ni-label">BMI</span></a>
+      <a href="/bmr" class="toss-nav-item"><span class="ni-emoji">🔥</span><span class="ni-label">기초대사량</span></a>
+      <a href="/breakeven" class="toss-nav-item"><span class="ni-emoji">⚖️</span><span class="ni-label">손익분기점</span></a>
+    </div>
+  </div>
+</div>
+
+
 </body>
 </html>

@@ -1,23 +1,24 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>로또 당첨금 계산기</title>
-  <!-- TODO: 앱인토스 SDK 교체 -->
-  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>로또 당첨금 계산기 | 모두의계산기</title>
+  <meta name="description" content="로또 당첨금 실수령액 계산기. 3억 이하 22%, 3억 초과 33% 구간 세율 자동 적용. 등수별 세후 실수령액을 정확하게 계산하세요." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" /></noscript>
   <style>
-
     :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--radius:16px}
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-    
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
     .container{max-width:640px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
-    
-    
-    
-    
-    
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
+    .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
     .header{text-align:center;margin-bottom:40px}
     .header h1{font-size:clamp(28px,6vw,44px);font-weight:900;line-height:1.1;margin-bottom:10px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
     .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
@@ -54,35 +55,11 @@
     .notice{margin-top:16px;padding:13px 16px;background:rgba(255,165,0,0.05);border:1px solid rgba(255,165,0,0.15);border-radius:10px;font-size:12px;color:var(--text-muted);line-height:1.7}
     @media(max-width:480px){.card{padding:20px 16px}}
   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    .home-btn-wrap{text-align:center;margin-bottom:8px}
-    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
-    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
-    .home-btn-emoji{font-size:20px;line-height:1}
-    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+.rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.rel-card{display:block;padding:14px 12px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+.rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+.rel-card .rn{font-size:12px;font-weight:700;color:#e6edf3}
 
     .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
     .toss-header>.emoji{font-size:28px;flex-shrink:0}
@@ -95,88 +72,174 @@
     .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
     .ni-emoji{font-size:20px}
     .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
-
-    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+    .calc-guide{margin-top:20px;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .calc-guide-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:12px}
+    .calc-guide-desc{font-size:13px;color:var(--text-muted);line-height:1.8;margin-bottom:12px}
+    .calc-guide-basis{font-size:12px;color:var(--text-muted);padding:10px 14px;background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;line-height:1.7}
+    .disclaimer{text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280}
+    @media(max-width:360px){.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
 
   </style>
+
 </head>
 <body>
 <div class="container">
-  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
-  <div class="toss-header">
-    <span class="emoji">🎰</span>
-    <div><h1>로또 당첨금 계산기</h1><p>세후 실수령 당첨금 계산</p></div>
+    <div class="toss-header">
+    <span class="emoji">🎱</span>
+    <div><h1>로또 당첨금 계산기</h1><p>등수별 세금 공제 후 실수령액 계산</p></div>
   </div>
 
-
-
-<div class="card">
-<div class="card-title">🎰 당첨 정보 입력</div>
-<div class="input-group">
-<label>당첨 등수</label>
-<select id="grade">
-<option value="1">1등 (6개 일치)</option>
-<option value="2">2등 (5개+보너스 일치)</option>
-<option value="3">3등 (5개 일치)</option>
-<option value="4">4등 (4개 일치) — 고정 5만원</option>
-<option value="5">5등 (3개 일치) — 고정 5천원</option>
-</select>
-</div>
-<div class="input-group" id="amountGroup">
-<label>당첨금액 (세전)</label>
-<div class="input-wrapper">
-<input id="amount" min="0" type="number" value="2000000000"/>
-<span class="input-unit">원</span>
-</div>
-</div>
-<div class="info-box">
-      💡 <strong>200만원 이하</strong>: 비과세<br/>
-<strong>200만원 초과 ~ 3억원</strong>: 소득세 20% + 지방소득세 2% = <strong>22%</strong><br/>
-<strong>3억원 초과분</strong>: 소득세 30% + 지방소득세 3% = <strong>33%</strong><br/>
+  <div class="card">
+    <div class="card-title">🎰 당첨 정보 입력</div>
+    <div class="input-group">
+      <label>당첨 등수</label>
+      <select id="grade">
+        <option value="1">1등 (6개 일치)</option>
+        <option value="2">2등 (5개+보너스 일치)</option>
+        <option value="3">3등 (5개 일치)</option>
+        <option value="4">4등 (4개 일치) — 고정 5만원</option>
+        <option value="5">5등 (3개 일치) — 고정 5천원</option>
+      </select>
+    </div>
+    <div class="input-group" id="amountGroup">
+      <label>당첨금액 (세전)</label>
+      <div class="input-wrapper">
+        <input type="number" id="amount" value="2000000000" min="0" />
+        <span class="input-unit">원</span>
+      </div>
+    </div>
+    <div class="info-box">
+      💡 <strong>200만원 이하</strong>: 비과세<br>
+      <strong>200만원 초과 ~ 3억원</strong>: 소득세 20% + 지방소득세 2% = <strong>22%</strong><br>
+      <strong>3억원 초과분</strong>: 소득세 30% + 지방소득세 3% = <strong>33%</strong><br>
       4등(5만원)·5등(5천원)은 비과세입니다.
     </div>
-<button class="calc-btn" onclick="calcLotto()">🎱 실수령액 계산하기</button>
-</div>
-<div class="card result-card" id="resultCard">
-<div class="card-title">💰 계산 결과</div>
-<div class="big-result">
-<div class="br-label">세후 실수령액</div>
-<div class="br-value" id="netAmount">—</div>
-<div class="br-unit">원</div>
-</div>
-<div class="detail-item"><span class="d-label">세전 당첨금</span><span class="d-value" id="r-gross">—</span></div>
-<div class="detail-item"><span class="d-label">3억 이하 구간 세금 (22%)</span><span class="d-value red" id="r-tax22">—</span></div>
-<div class="detail-item"><span class="d-label">3억 초과 구간 세금 (33%)</span><span class="d-value red" id="r-tax33">—</span></div>
-<div class="detail-item"><span class="d-label">세금 합계</span><span class="d-value red" id="r-tax">—</span></div>
-<div class="detail-item"><span class="d-label">실효세율</span><span class="d-value" id="r-effective">—</span></div>
-<div class="detail-item"><span class="d-label" style="font-weight:700;color:var(--text)">실수령액</span><span class="d-value accent" id="r-net">—</span></div>
-</div>
-<div class="card">
-<div class="card-title">📊 등수별 고정 당첨금 안내</div>
-<table class="prize-table">
-<tr><th>등수</th><th>조건</th><th>당첨금</th><th>세금</th></tr>
-<tr><td>1등</td><td>6개 일치</td><td>변동 (수십억)</td><td>22% (3억↑ 초과분 33%)</td></tr>
-<tr><td>2등</td><td>5개+보너스</td><td>변동 (수억)</td><td>22% (통상 3억 이하)</td></tr>
-<tr><td>3등</td><td>5개 일치</td><td>변동 (수백만)</td><td>22% (200만원 초과 시)</td></tr>
-<tr><td>4등</td><td>4개 일치</td><td>50,000원</td><td>없음 (비과세)</td></tr>
-<tr><td>5등</td><td>3개 일치</td><td>5,000원</td><td>없음 (비과세)</td></tr>
-</table>
-<div class="notice">⚠️ 당첨금은 매주 판매금액에 따라 변동됩니다. 위 계산기는 실제 당첨금 입력 시 세후 금액을 계산합니다. 로또 당첨금 확인은 동행복권 공식 사이트를 이용하세요.</div>
-</div>
+    <button class="calc-btn" onclick="calcLotto()">🎱 실수령액 계산하기</button>
+  </div>
 
-    <div style="text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280;">
-    본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.
+  <div class="card result-card" id="resultCard">
+    <div class="card-title">💰 계산 결과</div>
+    <div class="big-result">
+      <div class="br-label">세후 실수령액</div>
+      <div class="br-value" id="netAmount">—</div>
+      <div class="br-unit">원</div>
+    </div>
+    <div class="detail-item"><span class="d-label">세전 당첨금</span><span class="d-value" id="r-gross">—</span></div>
+    <div class="detail-item"><span class="d-label">3억 이하 구간 세금 (22%)</span><span class="d-value red" id="r-tax22">—</span></div>
+    <div class="detail-item"><span class="d-label">3억 초과 구간 세금 (33%)</span><span class="d-value red" id="r-tax33">—</span></div>
+    <div class="detail-item"><span class="d-label">세금 합계</span><span class="d-value red" id="r-tax">—</span></div>
+    <div class="detail-item"><span class="d-label">실효세율</span><span class="d-value" id="r-effective">—</span></div>
+    <div class="detail-item"><span class="d-label" style="font-weight:700;color:var(--text)">실수령액</span><span class="d-value accent" id="r-net">—</span></div>
+  </div>
+
+  <!-- ① 당첨금 사용처 시뮬레이터 -->
+  <div class="card" id="spendCard" style="display:none">
+    <div class="card-title">🏖️ 당첨금 사용처 시뮬레이터</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;line-height:1.7">세후 실수령액을 어떻게 쓸지 배분해보세요. 투자 비율 입력 시 10년 후 예상 금액도 보여드립니다.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+      <div>
+        <label style="font-size:12px;color:var(--text-muted);font-weight:600;display:block;margin-bottom:5px">🏠 부동산/전세 (%)</label>
+        <input type="number" id="spHouse" value="40" min="0" max="100" oninput="updateSpend()"
+          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:16px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none" data-ec-comma="skip" />
+      </div>
+      <div>
+        <label style="font-size:12px;color:var(--text-muted);font-weight:600;display:block;margin-bottom:5px">📈 투자/재테크 (%)</label>
+        <input type="number" id="spInvest" value="30" min="0" max="100" oninput="updateSpend()"
+          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:16px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none" data-ec-comma="skip" />
+      </div>
+      <div>
+        <label style="font-size:12px;color:var(--text-muted);font-weight:600;display:block;margin-bottom:5px">🛍️ 생활/소비 (%)</label>
+        <input type="number" id="spLiving" value="20" min="0" max="100" oninput="updateSpend()"
+          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:16px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none" data-ec-comma="skip" />
+      </div>
+      <div>
+        <label style="font-size:12px;color:var(--text-muted);font-weight:600;display:block;margin-bottom:5px">🎁 가족/지인 (%)</label>
+        <input type="number" id="spGift" value="10" min="0" max="100" oninput="updateSpend()"
+          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:16px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none" data-ec-comma="skip" />
+      </div>
+    </div>
+    <!-- 비율 바 -->
+    <div id="spendBar" style="display:flex;height:12px;border-radius:6px;overflow:hidden;gap:2px;margin-bottom:12px;background:var(--border)"></div>
+    <div id="spendBreakdown"></div>
+    <div id="spendRemain" style="margin-top:10px;text-align:center;padding:12px;background:rgba(0,212,170,.05);border-radius:10px;font-size:13px;color:var(--text-muted)"></div>
+    <div id="spInvestSim" style="display:none;margin-top:10px;padding:12px;background:rgba(0,149,255,.05);border:1px solid rgba(0,149,255,.2);border-radius:10px;font-size:12px;color:var(--text-muted)"></div>
+  </div>
+
+  <!-- ② 공동구매 절세 계산기 -->
+  <div class="card" id="shareCard" style="display:none">
+    <div class="card-title">👥 공동구매 절세 계산기</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;line-height:1.7">같은 금액을 여러 명이 나눠 받으면 각자의 세율이 낮아져 총 세금이 줄어듭니다.</p>
+    <div style="margin-bottom:14px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <label style="font-size:13px;color:var(--text-muted);font-weight:600">공동 구매 인원</label>
+        <span id="shareCountLabel" style="font-size:15px;font-weight:800;color:var(--accent)">2명</span>
+      </div>
+      <input type="range" id="shareCount" min="2" max="10" step="1" value="2"
+        oninput="document.getElementById('shareCountLabel').textContent=this.value+'명';updateShare()"
+        style="width:100%;accent-color:var(--accent)" />
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-top:4px">
+        <span>2명</span><span>4명</span><span>6명</span><span>8명</span><span>10명</span>
+      </div>
+    </div>
+    <div id="shareResult"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 등수별 고정 당첨금 안내</div>
+    <table class="prize-table">
+      <tr><th>등수</th><th>조건</th><th>당첨금</th><th>세금</th></tr>
+      <tr><td>1등</td><td>6개 일치</td><td>변동 (수십억)</td><td>22% (3억↑ 초과분 33%)</td></tr>
+      <tr><td>2등</td><td>5개+보너스</td><td>변동 (수억)</td><td>22% (통상 3억 이하)</td></tr>
+      <tr><td>3등</td><td>5개 일치</td><td>변동 (수백만)</td><td>22% (200만원 초과 시)</td></tr>
+      <tr><td>4등</td><td>4개 일치</td><td>50,000원</td><td>없음 (비과세)</td></tr>
+      <tr><td>5등</td><td>3개 일치</td><td>5,000원</td><td>없음 (비과세)</td></tr>
+    </table>
+    <div class="notice">⚠️ 당첨금은 매주 판매금액에 따라 변동됩니다. 위 계산기는 실제 당첨금 입력 시 세후 금액을 계산합니다. 로또 당첨금 확인은 동행복권 공식 사이트를 이용하세요.</div>
+  </div>
+
+<div style="background:#161b22;border:1px solid rgba(0,212,170,.2);border-radius:16px;padding:24px" id="simCard">
+    <div style="font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:14px">💰 당첨금 슬라이더 — 얼마 받을 수 있을까?</div>
+    <p style="font-size:12px;color:#8b949e;margin-bottom:16px;line-height:1.7">슬라이더를 조정하면 세금 공제 후 실수령액을 즉시 계산합니다. 분할 수령 시 인원당 당첨금이 줄어 세율이 낮아지는 효과도 함께 확인하세요.</p>
+    <input type="range" id="sim-prize" min="300000000" max="5000000000" step="100000000" value="2000000000"
+      oninput="updateLottoSim()" style="width:100%;accent-color:var(--accent)">
+    <div style="display:flex;justify-content:space-between;font-size:11px;color:#8b949e;margin:4px 0 12px"><span>3억</span><span>50억</span></div>
+    <div id="sim-prize-label" style="text-align:center;font-size:15px;font-weight:700;color:var(--accent);margin-bottom:16px">세전 당첨금: 20억원</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px">
+      <div style="background:#21262d;border:1px solid #30363d;border-radius:10px;padding:12px;text-align:center">
+        <div style="font-size:11px;color:#8b949e;margin-bottom:4px">세후 실수령액</div>
+        <div id="sim-net" style="font-size:16px;font-weight:900;color:#00d4aa;font-family:'Montserrat',sans-serif">-</div>
+      </div>
+      <div style="background:#21262d;border:1px solid #30363d;border-radius:10px;padding:12px;text-align:center">
+        <div style="font-size:11px;color:#8b949e;margin-bottom:4px">세금 합계</div>
+        <div id="sim-tax" style="font-size:16px;font-weight:900;color:#ff6b6b;font-family:'Montserrat',sans-serif">-</div>
+      </div>
+      <div style="background:#21262d;border:1px solid #30363d;border-radius:10px;padding:12px;text-align:center">
+        <div style="font-size:11px;color:#8b949e;margin-bottom:4px">실효세율</div>
+        <div id="sim-rate" style="font-size:16px;font-weight:900;color:#f5a623;font-family:'Montserrat',sans-serif">-</div>
+      </div>
+    </div>
+    <div style="font-size:12px;font-weight:700;color:#8b949e;margin-bottom:8px">👥 분할 수령 절세 비교</div>
+    <div id="sim-split"></div>
+    <div style="font-size:11px;color:#8b949e;margin-top:10px;line-height:1.7">※ 3억 이하 22%, 초과분 33% 세율 적용. 분할 수령은 각자 수령 기준.</div>
+  </div>
+
+  <div class="disclaimer">본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.</div>
+  <div class="calc-guide">
+    <div class="calc-guide-title">📋 사용 방법</div>
+    <div class="calc-guide-desc">로또 당첨 등수와 당첨금을 입력하면 세금 공제 후 실수령액을 계산합니다. 공동구매 절세와 사용처 시뮬레이터도 활용해보세요.</div>
+    <div class="calc-guide-basis">📌 계산 기준: 2026년 기준 · 200만원 이하 비과세 · 200만~3억 22% · 3억 초과 33% 세율 적용</div>
   </div>
   <div class="toss-nav">
     <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
     <div class="toss-nav-grid">
-      <a href="/income_tax" class="toss-nav-item"><span class="ni-emoji">🧮</span><span class="ni-label">소득세</span></a>
-      <a href="/compound" class="toss-nav-item"><span class="ni-emoji">📊</span><span class="ni-label">복리</span></a>
+      <a href="/income_tax" class="toss-nav-item"><span class="ni-emoji">📋</span><span class="ni-label">소득세</span></a>
+      <a href="/capital_gains" class="toss-nav-item"><span class="ni-emoji">📈</span><span class="ni-label">양도소득세</span></a>
+      <a href="/dividend" class="toss-nav-item"><span class="ni-emoji">💵</span><span class="ni-label">배당금</span></a>
       <a href="/savings" class="toss-nav-item"><span class="ni-emoji">💳</span><span class="ni-label">적금</span></a>
-      <a href="/age" class="toss-nav-item"><span class="ni-emoji">🎂</span><span class="ni-label">나이</span></a>
     </div>
   </div>
 </div>
+
 <script>
 function calcLottoTax(gross) {
   // 200만원 이하 비과세
@@ -231,12 +294,154 @@ function calcLotto() {
   document.getElementById('r-net').textContent    = fmt(net);
 
   document.getElementById('resultCard').classList.add('visible');
+
+  // 부가 카드
+  _lottoGross = gross;
+  _lottoNet   = net;
+  document.getElementById('spendCard').style.display  = 'block';
+  document.getElementById('shareCard').style.display  = 'block';
+  updateSpend();
+  updateShare();
 }
 
 document.getElementById('grade').addEventListener('change', function() {
   const ag = document.getElementById('amountGroup');
   ag.style.display = (this.value >= 4) ? 'none' : 'block';
 });
+
+// ── 부가 기능 ──
+let _lottoGross = 0, _lottoNet = 0;
+const fmtL = v => {
+  if (v >= 1e8) return (v/1e8).toFixed(1) + '억원';
+  if (v >= 1e4) return Math.round(v/1e4).toLocaleString() + '만원';
+  return Math.round(v).toLocaleString() + '원';
+};
+
+// ① 당첨금 사용처 시뮬레이터
+function updateSpend() {
+  if (!_lottoNet) return;
+  const net = _lottoNet;
+  const house  = parseInt(document.getElementById('spHouse').value)  || 0;
+  const invest = parseInt(document.getElementById('spInvest').value) || 0;
+  const living = parseInt(document.getElementById('spLiving').value) || 0;
+  const gift   = parseInt(document.getElementById('spGift').value)   || 0;
+  const total  = (house + invest + living + gift) / 100;
+  const remain = net * (1 - total);
+  const pct    = Math.min(Math.round(total * 100), 100);
+  const over   = total > 1;
+
+  const items = [
+    ['🏠 부동산/전세', house, '#4fc3f7'],
+    ['📈 투자/재테크', invest, '#00d4aa'],
+    ['🛍️ 생활/소비', living, '#ffd54f'],
+    ['🎁 가족/지인', gift, '#ff8a65'],
+  ];
+
+  document.getElementById('spendBar').innerHTML = items
+    .filter(([,p])=>p>0)
+    .map(([,p,c])=>`<div style="flex:${p};background:${c};min-width:${p>0?'4px':'0'}"></div>`)
+    .join('');
+  document.getElementById('spendBreakdown').innerHTML = items.map(([name, p, c])=>
+    `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)">
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="width:8px;height:8px;border-radius:50%;background:${c}"></div>
+        <span style="font-size:14px">${name}</span>
+      </div>
+      <div style="text-align:right">
+        <span style="font-size:14px;font-weight:700;font-family:'Montserrat',sans-serif;color:${c}">${fmtL(net*p/100)}</span>
+        <span style="font-size:11px;color:var(--text-muted);margin-left:4px">(${p}%)</span>
+      </div>
+    </div>`
+  ).join('');
+  document.getElementById('spendRemain').innerHTML = over
+    ? `<span style="color:#ff6b6b">⚠️ 배분 합계가 100%를 초과했습니다</span>`
+    : `남은 금액: <strong style="color:var(--accent)">${fmtL(remain)}</strong> (${100-pct}%)`;
+
+  // 투자 비율 복리 시뮬
+  if (invest > 0) {
+    const investAmt = net * invest / 100;
+    const after10 = investAmt * Math.pow(1.07, 10);
+    document.getElementById('spInvestSim').textContent =
+      `💡 투자금 ${fmtL(investAmt)}을 연 7% 복리로 10년 운용 시 → ${fmtL(after10)}`;
+    document.getElementById('spInvestSim').style.display = 'block';
+  } else {
+    document.getElementById('spInvestSim').style.display = 'none';
+  }
+}
+
+// ② 공동구매 절세 계산기
+function updateShare() {
+  if (!_lottoGross) return;
+  const n    = parseInt(document.getElementById('shareCount').value) || 2;
+  const each = _lottoGross / n;
+  const fmt  = v => Math.round(v).toLocaleString() + '원';
+
+  // 단독 수령 세금
+  const solo = calcLottoTax(_lottoGross);
+  const soloNet = _lottoGross - solo.total;
+
+  // 공동 수령 세금 (각자)
+  const eachTax = calcLottoTax(each);
+  const totalTax = eachTax.total * n;
+  const sharedTotalNet = _lottoGross - totalTax;
+  const saved = solo.total - totalTax;
+
+  document.getElementById('shareResult').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center">
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">단독 수령 세후</div>
+        <div style="font-size:16px;font-weight:900;color:var(--text);font-family:'Montserrat',sans-serif">${fmtL(soloNet)}</div>
+        <div style="font-size:11px;color:#ff6b6b;margin-top:2px">세금 ${fmtL(solo.total)}</div>
+      </div>
+      <div style="background:rgba(0,212,170,.08);border:1px solid rgba(0,212,170,.3);border-radius:12px;padding:14px;text-align:center">
+        <div style="font-size:11px;color:var(--accent);margin-bottom:4px">${n}명 공동 수령 합산</div>
+        <div style="font-size:16px;font-weight:900;color:var(--accent);font-family:'Montserrat',sans-serif">${fmtL(sharedTotalNet)}</div>
+        <div style="font-size:11px;color:var(--accent);margin-top:2px">절세 ${fmtL(saved)}</div>
+      </div>
+    </div>
+    <div style="text-align:center;padding:12px;background:rgba(0,212,170,.05);border-radius:10px;font-size:13px;color:var(--text-muted)">
+      1인당 수령액 <strong style="color:var(--accent)">${fmtL(each - eachTax.total)}</strong> · 
+      총 절세 <strong style="color:var(--accent)">${fmtL(saved)}</strong> · 
+      실효세율 ${(_lottoGross > 0 ? (totalTax/_lottoGross*100).toFixed(1) : 0)}%
+    </div>`;
+}
+
+window.onload = () => { calcLotto(); updateLottoSim(); };
+
+function updateLottoSim() {
+  const won = parseInt(document.getElementById('sim-prize').value) || 2000000000;
+  const manStr = won >= 100000000
+    ? Math.round(won/100000000).toLocaleString() + '억원'
+    : Math.round(won/10000).toLocaleString() + '만원';
+  document.getElementById('sim-prize-label').textContent = `세전 당첨금: ${manStr}`;
+
+  const { total } = calcLottoTax(won);
+  const net = won - total;
+  const rate = (total / won * 100).toFixed(1);
+
+  const fmt = v => Math.round(v).toLocaleString('ko-KR') + '원';
+  document.getElementById('sim-net').textContent    = fmt(net);
+  document.getElementById('sim-tax').textContent    = fmt(total);
+  document.getElementById('sim-rate').textContent   = rate + '%';
+
+  // 분할 수령 시나리오
+  const persons = [1, 2, 3, 5];
+  document.getElementById('sim-split').innerHTML = persons.map(n => {
+    const eachGross = won / n;
+    const { total: eachTax } = calcLottoTax(eachGross);
+    const eachNet = eachGross - eachTax;
+    const totalNet = eachNet * n;
+    const saving = net - totalNet;
+    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px">
+      <span style="color:var(--text-muted)">${n === 1 ? '혼자 수령' : n + '명 분할 수령'}</span>
+      <div style="text-align:right">
+        <span style="font-weight:700;color:${n===1?'var(--text)':'var(--accent)'}">${fmt(eachNet)}<small style="font-size:10px;font-weight:400;color:var(--text-muted)">/인</small></span>
+        ${n > 1 ? `<div style="font-size:11px;color:var(--accent)">합계 ${fmt(totalNet)} (+${fmt(Math.max(0,saving))} 절세)</div>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
 </script>
+
 </body>
 </html>
