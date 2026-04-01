@@ -23,10 +23,10 @@
     sideLeft:       'calc(50% + 390px)',
     sideTop:        360,
     panelWidth:     300,
-    memoColor:      'linear-gradient(135deg,#667eea,#764ba2)',
-    memoShadow:     '0 4px 20px rgba(102,126,234,0.5)',
-    memoOpenColor:  'linear-gradient(135deg,#ff6b6b,#ee0979)',
-    memoOpenShadow: '0 4px 20px rgba(238,9,121,0.4)',
+    dialColor:      'linear-gradient(135deg,#667eea,#764ba2)',
+    dialShadow:     '0 4px 20px rgba(102,126,234,0.5)',
+    dialOpenColor:  'linear-gradient(135deg,#ff6b6b,#ee0979)',
+    dialOpenShadow: '0 4px 20px rgba(238,9,121,0.4)',
     favAdd:     '☆ 자주 쓰는 계산기 추가',
     favAdded:   '★ 자주 쓰는 계산기',
     favToastAdd:'📌 자주 쓰는 계산기에 추가됨',
@@ -113,6 +113,15 @@
   {path:'/freelancer_rate',  title:'프리랜서 요금',         emoji:'💻'},
   ];
 
+  // 최근 업데이트 내역 — 새 업데이트 시 맨 앞에 추가, 5개 유지 권장
+  var UPDATES = [
+    { date:'2026.03', title:'실업급여 계산기',  desc:'2026년 상·하한액 반영',          path:'/unemployment'     },
+    { date:'2026.03', title:'연봉 실수령액',    desc:'최저임금 10,320원 기준 업데이트', path:'/salary'           },
+    { date:'2026.03', title:'건강보험료',        desc:'2026년 요율 3.595% 반영',        path:'/health_insurance' },
+    { date:'2026.03', title:'급여명세서',        desc:'4대보험 2026년 기준 반영',        path:'/salary_slip'      },
+    { date:'2026.02', title:'청약가점',          desc:'청약홈 기준 최신화',              path:'/cheongak'         },
+  ];
+
   var POPULAR = ['/salary','/age','/weekly_holiday','/bmi','/exchange',
                  '/unemployment','/area_converter','/pension','/calorie','/blood_pressure'];
 
@@ -142,11 +151,31 @@
       '#ec-fav{display:inline-flex;align-items:center;gap:5px;border:1px solid #30363d;border-radius:30px;padding:7px 14px;font-size:13px;font-weight:600;color:#8b949e;cursor:pointer;background:transparent;margin-top:10px;font-family:\'Noto Sans KR\',sans-serif;transition:all 0.2s}' +
       '#ec-fav:hover{border-color:#ffd700;color:#ffd700}' +
       '#ec-fav.active{border-color:#ffd700;color:#ffd700;background:rgba(255,215,0,0.08)}' +
-      '#ec-side{position:fixed;left:' + CFG.sideLeft + ';top:' + CFG.sideTop + 'px;z-index:9990;display:flex;flex-direction:column;gap:8px}' +
-      '#ec-memo-box{display:none;position:fixed;left:' + CFG.sideLeft + ';bottom:calc(100vh - ' + CFG.sideTop + 'px);width:' + CFG.panelWidth + 'px;background:#161b22;border:1px solid #30363d;border-radius:14px;padding:14px;z-index:9989;box-shadow:0 8px 32px rgba(0,0,0,0.5)}' +
-      '#ec-memo-box.open{display:block}' +
-      '#ec-memo-ta{width:100%;height:240px;background:#0d1117;border:1px solid #30363d;border-radius:8px;padding:10px;color:#e6edf3;font-size:12px;font-family:\'Noto Sans KR\',sans-serif;line-height:1.7;resize:none;outline:none;box-sizing:border-box}' +
+      /* ── Speed Dial ── */
+      '#ec-side{position:fixed;left:' + CFG.sideLeft + ';top:' + CFG.sideTop + 'px;z-index:9990;width:52px}' +
+      '#ec-fab-main{width:52px;height:52px;border-radius:50%;border:none;cursor:pointer;background:' + CFG.dialColor + ';box-shadow:' + CFG.dialShadow + ';font-size:24px;display:flex;align-items:center;justify-content:center;transition:background 0.25s,transform 0.25s,box-shadow 0.25s;position:relative;z-index:2}' +
+      '#ec-fab-main.open{background:' + CFG.dialOpenColor + ';transform:rotate(90deg);box-shadow:' + CFG.dialOpenShadow + '}' +
+      '#ec-fab-sub{position:absolute;bottom:60px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px}' +
+      '.ec-sub-btn{width:44px;height:44px;border-radius:50%;border:1px solid #30363d;cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center;background:#21262d;box-shadow:0 2px 8px rgba(0,0,0,0.3);opacity:0;transform:scale(0.5) translateY(6px);transition:opacity 0.2s,transform 0.2s;pointer-events:none}' +
+      '#ec-fab-sub.open .ec-sub-btn{opacity:1;transform:scale(1) translateY(0);pointer-events:auto}' +
+      '#ec-fab-sub.open .ec-sub-btn:nth-child(3){transition-delay:0.03s}' +
+      '#ec-fab-sub.open .ec-sub-btn:nth-child(2){transition-delay:0.07s}' +
+      '#ec-fab-sub.open .ec-sub-btn:nth-child(1){transition-delay:0.11s}' +
+      '.ec-sub-btn:hover{background:#30363d}' +
+      '.ec-sub-btn.active{background:rgba(0,212,170,0.15)!important;border-color:rgba(0,212,170,0.4)}' +
+      /* ── 공통 패널 ── */
+      '#ec-memo-box,#ec-update-box{display:none;position:fixed;left:' + CFG.sideLeft + ';top:' + (CFG.sideTop + 70) + 'px;width:' + CFG.panelWidth + 'px;background:#161b22;border:1px solid #30363d;border-radius:14px;padding:14px;z-index:9989;box-shadow:0 8px 32px rgba(0,0,0,0.5);max-height:calc(100vh - ' + (CFG.sideTop + 90) + 'px);overflow-y:auto}' +
+      '#ec-memo-box.open,#ec-update-box.open{display:block}' +
+      '#ec-memo-ta{width:100%;height:200px;background:#0d1117;border:1px solid #30363d;border-radius:8px;padding:10px;color:#e6edf3;font-size:12px;font-family:\'Noto Sans KR\',sans-serif;line-height:1.7;resize:none;outline:none;box-sizing:border-box}' +
       '#ec-memo-ta:focus{border-color:rgba(0,212,170,0.35)}' +
+      /* ── 업데이트 패널 ── */
+      '.ec-update-item{display:flex;align-items:flex-start;justify-content:space-between;padding:8px 0;border-bottom:1px solid #21262d;text-decoration:none}' +
+      '.ec-update-item:last-child{border-bottom:none}' +
+      '.ec-update-title{font-size:13px;font-weight:700;color:#e6edf3;line-height:1.3;transition:color 0.15s}' +
+      '.ec-update-item:hover .ec-update-title{color:#00d4aa}' +
+      '.ec-update-date{font-size:10px;color:#484f58;margin-bottom:2px}' +
+      '.ec-update-desc{font-size:11px;color:#8b949e;margin-top:2px}' +
+      '.ec-update-arrow{color:#484f58;font-size:14px;padding-top:4px;flex-shrink:0}' +
       '#ec-related{max-width:640px;margin:32px auto 0;padding:0 20px}' +
       '.ec-rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}' +
       '.ec-rel-card{display:flex;flex-direction:column;align-items:center;gap:4px;padding:11px 6px;background:#161b22;border:1px solid #30363d;border-radius:11px;text-decoration:none;color:#8b949e;font-size:11px;font-weight:600;font-family:\'Noto Sans KR\',sans-serif;text-align:center;line-height:1.3;transition:all 0.2s}' +
@@ -157,7 +186,7 @@
       '.rel-grid{grid-template-columns:repeat(5,1fr)!important}' +
       '@media(max-width:1100px){' +
         '#ec-side{left:auto!important;right:20px;top:' + CFG.sideTop + 'px}' +
-        '#ec-memo-box{left:auto!important;right:20px;bottom:calc(100vh - ' + CFG.sideTop + 'px);width:calc(min(100vw - 40px,' + CFG.panelWidth + 'px))}' +
+        '#ec-memo-box,#ec-update-box{left:auto!important;right:20px;top:' + (CFG.sideTop + 70) + 'px;width:calc(min(100vw - 40px,' + CFG.panelWidth + 'px))}' +
         '#ec-fav{font-size:12px;padding:6px 12px}' +
         '.ec-rel-grid{grid-template-columns:repeat(3,1fr)}' +
         '.rel-grid{grid-template-columns:repeat(5,1fr)!important}' +
@@ -205,42 +234,148 @@
     showToast(has ? CFG.favToastDel : CFG.favToastAdd);
   }
 
-  // ⑦ 사이드 패널
+  // ⑦ Speed Dial 사이드 패널
   function injectSidePanel() {
     if (IS_HOME || document.getElementById('ec-side')) return;
+
     var side = document.createElement('div');
     side.id = 'ec-side';
+
+    // 서브 버튼 컨테이너 (절대 위치로 메인 버튼 위에 표시)
+    var sub = document.createElement('div');
+    sub.id = 'ec-fab-sub';
+
+    var updateBtn = document.createElement('button');
+    updateBtn.id = 'ec-fab-update'; updateBtn.className = 'ec-sub-btn';
+    updateBtn.innerHTML = '❓'; updateBtn.title = '업데이트 내역';
+    updateBtn.onclick = function(e) { e.stopPropagation(); toggleUpdate(); };
+
+    var calcBtn = document.createElement('button');
+    calcBtn.id = 'ec-fab-calc'; calcBtn.className = 'ec-sub-btn';
+    calcBtn.innerHTML = '🔢'; calcBtn.title = '계산기';
+    calcBtn.onclick = function(e) { e.stopPropagation(); if (window.__calc) window.__calc.togglePanel(); };
+
     var memoBtn = document.createElement('button');
-    memoBtn.id = 'ec-memo-btn';
-    memoBtn.style.cssText = 'display:inline-flex;align-items:center;gap:8px;height:52px;padding:0 20px;border-radius:30px;font-size:14px;font-weight:700;font-family:\'Noto Sans KR\',sans-serif;cursor:pointer;white-space:nowrap;border:none;color:#fff;transition:all 0.2s;background:' + CFG.memoColor + ';box-shadow:' + CFG.memoShadow;
-    memoBtn.innerHTML = '📝 <span>메모</span>';
-    memoBtn.onclick = toggleMemo;
-    side.appendChild(memoBtn);
+    memoBtn.id = 'ec-fab-memo'; memoBtn.className = 'ec-sub-btn';
+    memoBtn.innerHTML = '📝'; memoBtn.title = '메모';
+    memoBtn.onclick = function(e) { e.stopPropagation(); toggleMemo(); };
+
+    sub.appendChild(updateBtn);
+    sub.appendChild(calcBtn);
+    sub.appendChild(memoBtn);
+
+    // 메인 🛠️ 버튼
+    var main = document.createElement('button');
+    main.id = 'ec-fab-main'; main.innerHTML = '🛠️'; main.title = '도구함';
+    main.onclick = function(e) { e.stopPropagation(); toggleDial(); };
+
+    side.appendChild(sub);
+    side.appendChild(main);
+    side.addEventListener('click', function(e) { e.stopPropagation(); });
     document.body.appendChild(side);
 
-    var box = document.createElement('div');
-    box.id = 'ec-memo-box';
-    box.innerHTML =
+    // 메모 패널
+    var memoBox = document.createElement('div');
+    memoBox.id = 'ec-memo-box';
+    memoBox.innerHTML =
       '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">' +
         '<span style="font-size:11px;font-weight:700;color:#8b949e">📝 메모 (이동해도 유지)</span>' +
         '<button id="ec-memo-clr" style="font-size:11px;color:#484f58;cursor:pointer;background:none;border:none;font-family:inherit">지우기</button>' +
       '</div>' +
       '<textarea id="ec-memo-ta" placeholder="여기에 메모하세요"></textarea>' +
       '<div style="font-size:10px;color:#484f58;margin-top:5px;text-align:right">브라우저 종료해도 유지됩니다</div>';
-    document.body.appendChild(box);
+    memoBox.addEventListener('click', function(e) { e.stopPropagation(); });
+    document.body.appendChild(memoBox);
 
-    try { var v = localStorage.getItem('ec_memo'); if(v) document.getElementById('ec-memo-ta').value = v; } catch(e) {}
-    document.getElementById('ec-memo-ta').addEventListener('input', function(){ try{ localStorage.setItem('ec_memo', this.value); }catch(e){} });
-    document.getElementById('ec-memo-clr').addEventListener('click', function(){ document.getElementById('ec-memo-ta').value=''; try{ localStorage.removeItem('ec_memo'); }catch(e){} });
+    // 업데이트 패널
+    var updBox = document.createElement('div');
+    updBox.id = 'ec-update-box';
+    updBox.innerHTML = buildUpdatePanel();
+    updBox.addEventListener('click', function(e) { e.stopPropagation(); });
+    document.body.appendChild(updBox);
+
+    try { var v = localStorage.getItem('ec_memo'); if (v) document.getElementById('ec-memo-ta').value = v; } catch(e) {}
+    document.getElementById('ec-memo-ta').addEventListener('input', function() { try { localStorage.setItem('ec_memo', this.value); } catch(e) {} });
+    document.getElementById('ec-memo-clr').addEventListener('click', function() { document.getElementById('ec-memo-ta').value = ''; try { localStorage.removeItem('ec_memo'); } catch(e) {} });
+
+    // 바깥 클릭 시 전체 닫기
+    document.addEventListener('click', closeDial);
   }
+
+  function buildUpdatePanel() {
+    var html = '<div style="font-size:11px;font-weight:700;color:#8b949e;margin-bottom:10px">🔔 최근 업데이트</div>';
+    UPDATES.forEach(function(u) {
+      html +=
+        '<a href="' + u.path + '" class="ec-update-item">' +
+          '<div>' +
+            '<div class="ec-update-date">' + u.date + '</div>' +
+            '<div class="ec-update-title">' + u.title + '</div>' +
+            '<div class="ec-update-desc">' + u.desc + '</div>' +
+          '</div>' +
+          '<span class="ec-update-arrow">›</span>' +
+        '</a>';
+    });
+    return html;
+  }
+
+  function toggleDial() {
+    var sub = document.getElementById('ec-fab-sub');
+    var main = document.getElementById('ec-fab-main');
+    if (!sub) return;
+    var isOpen = sub.classList.toggle('open');
+    main.classList.toggle('open', isOpen);
+    if (!isOpen) closeAllPanels();
+  }
+
+  function closeDial() {
+    var sub = document.getElementById('ec-fab-sub');
+    var main = document.getElementById('ec-fab-main');
+    if (!sub || !sub.classList.contains('open')) return;
+    sub.classList.remove('open');
+    main.classList.remove('open');
+    closeAllPanels();
+  }
+
+  function closeAllPanels() {
+    var memo = document.getElementById('ec-memo-box');
+    var upd  = document.getElementById('ec-update-box');
+    if (memo) memo.classList.remove('open');
+    if (upd)  upd.classList.remove('open');
+    if (window.__calc && window.__calc.closePanel) window.__calc.closePanel();
+    ['ec-fab-memo','ec-fab-calc','ec-fab-update'].forEach(function(id) {
+      var b = document.getElementById(id); if (b) b.classList.remove('active');
+    });
+  }
+
   function toggleMemo() {
     var box = document.getElementById('ec-memo-box');
-    var btn = document.getElementById('ec-memo-btn');
-    var open = box.classList.toggle('open');
-    btn.style.background  = open ? CFG.memoOpenColor  : CFG.memoColor;
-    btn.style.boxShadow   = open ? CFG.memoOpenShadow : CFG.memoShadow;
-    btn.querySelector('span').textContent = open ? '닫기' : '메모';
-    if (open) document.getElementById('ec-memo-ta').focus();
+    var btn = document.getElementById('ec-fab-memo');
+    if (!box) return;
+    var isOpen = box.classList.toggle('open');
+    if (isOpen) {
+      var upd = document.getElementById('ec-update-box');
+      if (upd) upd.classList.remove('open');
+      if (window.__calc && window.__calc.closePanel) window.__calc.closePanel();
+      document.getElementById('ec-fab-update').classList.remove('active');
+      document.getElementById('ec-fab-calc').classList.remove('active');
+      document.getElementById('ec-memo-ta').focus();
+    }
+    if (btn) btn.classList.toggle('active', isOpen);
+  }
+
+  function toggleUpdate() {
+    var box = document.getElementById('ec-update-box');
+    var btn = document.getElementById('ec-fab-update');
+    if (!box) return;
+    var isOpen = box.classList.toggle('open');
+    if (isOpen) {
+      var memo = document.getElementById('ec-memo-box');
+      if (memo) memo.classList.remove('open');
+      if (window.__calc && window.__calc.closePanel) window.__calc.closePanel();
+      document.getElementById('ec-fab-memo').classList.remove('active');
+      document.getElementById('ec-fab-calc').classList.remove('active');
+    }
+    if (btn) btn.classList.toggle('active', isOpen);
   }
 
   // ⑧ 관련 계산기 (카드 5개 제한만 담당 — 위치 이동은 share.js에서 처리)
