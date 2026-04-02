@@ -115,11 +115,11 @@
 
   // 최근 업데이트 내역 — 새 업데이트 시 맨 앞에 추가, 5개 유지 권장
   var UPDATES = [
-    { date:'2026.03', title:'실업급여 계산기',  desc:'2026년 상·하한액 반영',          path:'/unemployment'     },
-    { date:'2026.03', title:'연봉 실수령액',    desc:'최저임금 10,320원 기준 업데이트', path:'/salary'           },
-    { date:'2026.03', title:'건강보험료',        desc:'2026년 요율 3.595% 반영',        path:'/health_insurance' },
-    { date:'2026.03', title:'급여명세서',        desc:'4대보험 2026년 기준 반영',        path:'/salary_slip'      },
-    { date:'2026.02', title:'청약가점',          desc:'청약홈 기준 최신화',              path:'/cheongak'         },
+    { date:'2026.04', title:'근로장려금 계산기',   desc:'신규 계산기 오픈',                path:'/earned_credit'    },
+    { date:'2026.04', title:'기준중위소득 계산기', desc:'신규 계산기 오픈',                path:'/median_income'    },
+    { date:'2026.03', title:'실업급여 계산기',     desc:'2026년 상·하한액 반영',           path:'/unemployment'     },
+    { date:'2026.03', title:'연봉 실수령액',       desc:'최저임금 10,320원 기준 업데이트', path:'/salary'           },
+    { date:'2026.03', title:'건강보험료',          desc:'2026년 요율 3.595% 반영',         path:'/health_insurance' },
   ];
 
   var POPULAR = ['/salary','/age','/weekly_holiday','/bmi','/exchange',
