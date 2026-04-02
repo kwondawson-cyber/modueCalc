@@ -166,7 +166,7 @@
       /* ── 공통 패널 ── */
       '#ec-memo-box,#ec-update-box{display:none;position:fixed;left:' + CFG.sideLeft + ';top:' + (CFG.sideTop + 70) + 'px;width:' + CFG.panelWidth + 'px;background:#161b22;border:1px solid #30363d;border-radius:14px;padding:14px;z-index:9989;box-shadow:0 8px 32px rgba(0,0,0,0.5);max-height:calc(100vh - ' + (CFG.sideTop + 90) + 'px);overflow-y:auto}' +
       '#ec-memo-box.open,#ec-update-box.open{display:block}' +
-      '#ec-memo-ta{width:100%;height:200px;background:#0d1117;border:1px solid #30363d;border-radius:8px;padding:10px;color:#e6edf3;font-size:12px;font-family:\'Noto Sans KR\',sans-serif;line-height:1.7;resize:none;outline:none;box-sizing:border-box}' +
+      '#ec-memo-ta{width:100%;height:160px;background:#0d1117;border:1px solid #30363d;border-radius:8px;padding:10px;color:#e6edf3;font-size:12px;font-family:\'Noto Sans KR\',sans-serif;line-height:1.7;resize:none;outline:none;box-sizing:border-box}' +
       '#ec-memo-ta:focus{border-color:rgba(0,212,170,0.35)}' +
       /* ── 업데이트 패널 ── */
       '.ec-update-item{display:flex;align-items:flex-start;justify-content:space-between;padding:8px 0;border-bottom:1px solid #21262d;text-decoration:none}' +
