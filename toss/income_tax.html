@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>소득세 계산기</title>
-  <!-- TODO: 앱인토스 SDK — 콘솔 발급 코드로 교체 -->
-  <!-- <script src="https://static.toss.im/ait/sdk.js"></script> -->
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>소득세 계산기 | 모두의계산기</title>
+  <meta name="description" content="소득세 계산기 — 종합소득세·기타소득세 납부세액 자동 계산. 누진세율 8구간, 프리랜서 단순경비율 적용 예시, IRP·연금저축 세액공제 절세 방법 포함." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" /></noscript>
   <style>
-
     :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--radius:16px}
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-    
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
     .container{max-width:640px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
-    
+    .nav{text-align:center;margin-bottom:32px}.nav a{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:3px;color:var(--accent);text-decoration:none;text-transform:uppercase}
     .header{text-align:center;margin-bottom:40px}
     .header h1{font-size:clamp(28px,6vw,44px);font-weight:900;line-height:1.1;margin-bottom:10px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
     .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
@@ -54,64 +55,36 @@
     @media(max-width:480px){.card{padding:20px 16px}}
 
     /* ── 홈 버튼 ── */
-    
-    
-    
-    
-    
+    .home-btn-wrap { text-align: center; margin-bottom: 8px; }
+    .home-btn {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      width: 54px; height: 54px;
+      background: rgba(0,212,170,0.08);
+      border: 1.5px solid rgba(0,212,170,0.35);
+      border-radius: 50%;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .home-btn:hover { background: rgba(0,212,170,0.18); transform: translateY(-2px); }
+    .home-btn-emoji { font-size: 20px; line-height: 1; }
+    .home-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 1.5px; color: #00d4aa; }
   
 
 
 
+.rel-card:hover{border-color:#00d4aa;background:rgba(0,212,170,0.06);transform:translateY(-2px)}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /* ── 토스 헤더 ── */
-
-    .home-btn-wrap{text-align:center;margin-bottom:8px}
-    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;cursor:pointer;text-decoration:none;transition:all 0.2s}
-    .home-btn:active{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
-    .home-btn-emoji{font-size:20px;line-height:1}
-    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
 
     .toss-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
     .toss-header>.emoji{font-size:28px;flex-shrink:0}
     .toss-header h1{font-size:20px;font-weight:800;color:var(--text);margin:0}
     .toss-header p{font-size:12px;color:var(--text-muted);margin-top:3px}
-    /* ── 토스 하단 네비 ── */
     .toss-nav{margin-top:24px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
     .toss-nav-title{font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:12px}
     .toss-nav-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
@@ -119,121 +92,215 @@
     .toss-nav-item:active{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3)}
     .ni-emoji{font-size:20px}
     .ni-label{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.3}
-
-    /* ── max-scale 방지 ── */
-    @media(max-width:360px){.card{padding:18px 14px}.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
+    .calc-guide{margin-top:20px;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .calc-guide-title{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:12px}
+    .calc-guide-desc{font-size:13px;color:var(--text-muted);line-height:1.8;margin-bottom:12px}
+    .calc-guide-basis{font-size:12px;color:var(--text-muted);padding:10px 14px;background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;line-height:1.7}
+    .disclaimer{text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280}
+    @media(max-width:360px){.toss-nav-grid{grid-template-columns:repeat(2,1fr)}}
 
   </style>
+<script>
+  window.dataLayer = window.dataLayer || [];
+</script>
 </head>
 <body>
 <div class="container">
-
-  <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
-  <div class="toss-header">
+      <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
+<div class="toss-header">
     <span class="emoji">🧮</span>
-    <div>
-      <h1>소득세 계산기</h1>
-      <p>종합소득세·근로소득세 계산</p>
+    <div><h1>소득세 계산기</h1><p>종합소득세 · 기타소득세 (2026년 기준)</p></div>
+  </div>
+
+  <div class="card">
+    <div class="tab-group">
+      <button class="tab-btn active" onclick="switchTab('income')" id="tab-income">📊 종합소득세</button>
+      <button class="tab-btn" onclick="switchTab('other')" id="tab-other">💸 기타소득세</button>
+    </div>
+
+    <!-- 종합소득세 -->
+    <div class="panel active" id="panel-income">
+      <div class="input-group">
+        <label>연간 종합소득금액</label>
+        <div class="input-wrapper"><input type="number" id="totalIncome" value="50000000" /><span class="input-unit">원</span></div>
+      </div>
+      <div class="input-group">
+        <label>인적공제 인원 (본인 포함)</label>
+        <div class="select-wrapper">
+          <select id="deductPeople">
+            <option value="1" selected>1명 (본인만)</option>
+            <option value="2">2명</option>
+            <option value="3">3명</option>
+            <option value="4">4명</option>
+            <option value="5">5명 이상</option>
+          </select>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>기타 공제 금액 (보험료·의료비·교육비 등)</label>
+        <div class="input-wrapper"><input type="number" id="extraDeduct" value="0" /><span class="input-unit">원</span></div>
+      </div>
+      <div class="info-box">📌 기본공제 1인당 150만원 · 표준세액공제 7만원 별도 적용</div>
+      <button class="calc-btn" onclick="calcIncome()">📊 종합소득세 계산</button>
+    </div>
+
+    <!-- 기타소득세 -->
+    <div class="panel" id="panel-other">
+      <div class="input-group">
+        <label>기타소득 수입금액</label>
+        <div class="input-wrapper"><input type="number" id="otherIncome" value="5000000" /><span class="input-unit">원</span></div>
+      </div>
+      <div class="input-group">
+        <label>소득 종류</label>
+        <div class="select-wrapper">
+          <select id="otherType" onchange="updateOtherHint()">
+            <optgroup label="── 필요경비 60% ──">
+              <option value="0.6">강연료·원고료·번역료·모델료 (60%)</option>
+              <option value="0.6">작가·화가·음악가 창작소득 (60%)</option>
+              <option value="0.6">영업권·상표권·특허권 양도·대여 (60%)</option>
+              <option value="0.6">공익사업 지상권·지역권 소득 (60%)</option>
+              <option value="0.6">자문료·심사료·고문료 (60%)</option>
+            </optgroup>
+            <optgroup label="── 필요경비 80% ──">
+              <option value="0.8">공익법인 시상 상금·부상 (80%)</option>
+              <option value="0.8">다수 순위경쟁 대회 입상 상금 (80%)</option>
+            </optgroup>
+            <optgroup label="── 필요경비 없음 ──">
+              <option value="0.0">복권·경품 당첨금 (경비 없음, 3억 초과 30%)</option>
+              <option value="0.0">위약금·배상금 (경비 없음)</option>
+              <option value="0.0">슬롯머신·승마투표권 등 당첨금 (경비 없음)</option>
+            </optgroup>
+            <optgroup label="── 별도 세율 ──">
+              <option value="pension">연금계좌 연금외수령 (세율 15%)</option>
+            </optgroup>
+          </select>
+        </div>
+      </div>
+      <div class="info-box" id="otherHint">📌 기타소득세율 20% (지방소득세 포함 22%) · 연 300만원 이하 분리과세 선택 가능</div>
+      <button class="calc-btn" onclick="calcOther()">💸 기타소득세 계산</button>
     </div>
   </div>
 
+  <div class="result-card" id="resultCard">
+    <div class="result-highlight">
+      <div class="r-label" id="r-label">납부세액</div>
+      <div class="r-amount" id="r-amount">-<span>원</span></div>
+      <div class="r-sub" id="r-sub">-</div>
+    </div>
+    <div class="card" id="detailCard">
+      <div class="card-title">계산 내역</div>
+      <div id="detailBody"></div>
+    </div>
+    <div class="card" id="taxTableCard">
+      <div class="card-title">종합소득세 세율표</div>
+      <table class="tax-table">
+        <thead><tr><th>과세표준</th><th>세율</th><th>누진공제</th></tr></thead>
+        <tbody>
+          <tr data-max="14000000"><td>1,400만원 이하</td><td>6%</td><td>-</td></tr>
+          <tr data-max="50000000"><td>1,400 ~ 5,000만원</td><td>15%</td><td>126만원</td></tr>
+          <tr data-max="88000000"><td>5,000 ~ 8,800만원</td><td>24%</td><td>576만원</td></tr>
+          <tr data-max="150000000"><td>8,800 ~ 1.5억</td><td>35%</td><td>1,544만원</td></tr>
+          <tr data-max="300000000"><td>1.5억 ~ 3억</td><td>38%</td><td>1,994만원</td></tr>
+          <tr data-max="500000000"><td>3억 ~ 5억</td><td>40%</td><td>2,594만원</td></tr>
+          <tr data-max="1000000000"><td>5억 ~ 10억</td><td>42%</td><td>3,594만원</td></tr>
+          <tr data-max="Infinity"><td>10억 초과</td><td>45%</td><td>6,594만원</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="notice">⚠️ 본 계산기는 간편 계산용입니다. 세무사 상담을 권장합니다.</div>
+  </div>
 
-<div class="card">
-<div class="tab-group">
-<button class="tab-btn active" id="tab-income" onclick="switchTab('income')">📊 종합소득세</button>
-<button class="tab-btn" id="tab-other" onclick="switchTab('other')">💸 기타소득세</button>
-</div>
-<!-- 종합소득세 -->
-<div class="panel active" id="panel-income">
-<div class="input-group">
-<label>연간 종합소득금액</label>
-<div class="input-wrapper"><input id="totalIncome" type="number" value="50000000"/><span class="input-unit">원</span></div>
-</div>
-<div class="input-group">
-<label>인적공제 인원 (본인 포함)</label>
-<div class="select-wrapper">
-<select id="deductPeople">
-<option selected="" value="1">1명 (본인만)</option>
-<option value="2">2명</option>
-<option value="3">3명</option>
-<option value="4">4명</option>
-<option value="5">5명 이상</option>
-</select>
-</div>
-</div>
-<div class="input-group">
-<label>기타 공제 금액 (보험료·의료비·교육비 등)</label>
-<div class="input-wrapper"><input id="extraDeduct" type="number" value="0"/><span class="input-unit">원</span></div>
-</div>
-<div class="info-box">📌 기본공제 1인당 150만원 · 표준세액공제 7만원 별도 적용</div>
-<button class="calc-btn" onclick="calcIncome()">📊 종합소득세 계산</button>
-</div>
-<!-- 기타소득세 -->
-<div class="panel" id="panel-other">
-<div class="input-group">
-<label>기타소득 수입금액</label>
-<div class="input-wrapper"><input id="otherIncome" type="number" value="5000000"/><span class="input-unit">원</span></div>
-</div>
-<div class="input-group">
-<label>소득 종류</label>
-<div class="select-wrapper">
-<select id="otherType" onchange="updateOtherHint()">
-<option value="0.6">강연료·원고료·사례금 (필요경비 60%)</option>
-<option value="0.8">인적용역 (필요경비 80%)</option>
-<option value="0.0">복권당첨·상금·포상금 (경비 없음)</option>
-</select>
-</div>
-</div>
-<div class="info-box" id="otherHint">📌 기타소득세율 20% (지방소득세 포함 22%) · 연 300만원 이하 분리과세 선택 가능</div>
-<button class="calc-btn" onclick="calcOther()">💸 기타소득세 계산</button>
-</div>
-</div>
-<div class="result-card" id="resultCard">
-<div class="result-highlight">
-<div class="r-label" id="r-label">납부세액</div>
-<div class="r-amount" id="r-amount">-<span>원</span></div>
-<div class="r-sub" id="r-sub">-</div>
-</div>
-<div class="card" id="detailCard">
-<div class="card-title">계산 내역</div>
-<div id="detailBody"></div>
-</div>
-<div class="card" id="taxTableCard">
-<div class="card-title">종합소득세 세율표</div>
-<table class="tax-table">
-<thead><tr><th>과세표준</th><th>세율</th><th>누진공제</th></tr></thead>
-<tbody>
-<tr data-max="14000000"><td>1,400만원 이하</td><td>6%</td><td>-</td></tr>
-<tr data-max="50000000"><td>1,400 ~ 5,000만원</td><td>15%</td><td>126만원</td></tr>
-<tr data-max="88000000"><td>5,000 ~ 8,800만원</td><td>24%</td><td>576만원</td></tr>
-<tr data-max="150000000"><td>8,800 ~ 1.5억</td><td>35%</td><td>1,544만원</td></tr>
-<tr data-max="300000000"><td>1.5억 ~ 3억</td><td>38%</td><td>1,994만원</td></tr>
-<tr data-max="500000000"><td>3억 ~ 5억</td><td>40%</td><td>2,594만원</td></tr>
-<tr data-max="1000000000"><td>5억 ~ 10억</td><td>42%</td><td>3,594만원</td></tr>
-<tr data-max="Infinity"><td>10억 초과</td><td>45%</td><td>6,594만원</td></tr>
-</tbody>
-</table>
-</div>
-<div class="notice">⚠️ 본 계산기는 간편 계산용입니다. 세무사 상담을 권장합니다.</div>
+<div id="deductSimCard" style="display:none;max-width:800px;margin:0 auto 20px;padding:0 20px">
+  <div class="card">
+    <div class="card-title">🧾 절세 시뮬레이터 — 공제 항목 추가 시 세금이 얼마나 줄어드나?</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;line-height:1.7">아직 적용 안 한 공제 항목을 입력하면 절세액을 즉시 계산합니다.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+      <div>
+        <label style="font-size:12px;color:var(--text-muted);font-weight:600;display:block;margin-bottom:5px">💰 IRP·연금저축 납입액 (연)</label>
+        <div style="position:relative">
+          <input type="number" id="dsIRP" value="0" min="0" max="9000000" step="100000"
+            oninput="updateDeductSim()"
+            style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 36px 10px 14px;font-size:15px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none"
+            data-ec-comma="skip"/>
+          <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--text-muted)">원</span>
+        </div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:3px">최대 900만원 세액공제</div>
+      </div>
+      <div>
+        <label style="font-size:12px;color:var(--text-muted);font-weight:600;display:block;margin-bottom:5px">🏥 의료비 지출액 (연)</label>
+        <div style="position:relative">
+          <input type="number" id="dsMedical" value="0" min="0" step="100000"
+            oninput="updateDeductSim()"
+            style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 36px 10px 14px;font-size:15px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none"
+            data-ec-comma="skip"/>
+          <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--text-muted)">원</span>
+        </div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:3px">총급여 3% 초과분 15% 공제</div>
+      </div>
+      <div>
+        <label style="font-size:12px;color:var(--text-muted);font-weight:600;display:block;margin-bottom:5px">🏠 월세 납부액 (연)</label>
+        <div style="position:relative">
+          <input type="number" id="dsHousing" value="0" min="0" step="100000"
+            oninput="updateDeductSim()"
+            style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 36px 10px 14px;font-size:15px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none"
+            data-ec-comma="skip"/>
+          <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--text-muted)">원</span>
+        </div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:3px">총급여 7천만원 이하 15% 공제</div>
+      </div>
+      <div>
+        <label style="font-size:12px;color:var(--text-muted);font-weight:600;display:block;margin-bottom:5px">❤️ 기부금 (연)</label>
+        <div style="position:relative">
+          <input type="number" id="dsDonate" value="0" min="0" step="100000"
+            oninput="updateDeductSim()"
+            style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 36px 10px 14px;font-size:15px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none"
+            data-ec-comma="skip"/>
+          <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--text-muted)">원</span>
+        </div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:3px">1천만원 이하 15%, 초과 30%</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center">
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">현재 납부세액</div>
+        <div id="dsBefore" style="font-size:18px;font-weight:900;color:#ff6b6b;font-family:'Montserrat',sans-serif">-</div>
+      </div>
+      <div style="background:rgba(0,212,170,.08);border:1px solid rgba(0,212,170,.3);border-radius:12px;padding:14px;text-align:center">
+        <div style="font-size:11px;color:var(--accent);margin-bottom:4px">공제 적용 후</div>
+        <div id="dsAfter" style="font-size:18px;font-weight:900;color:var(--accent);font-family:'Montserrat',sans-serif">-</div>
+      </div>
+    </div>
+    <div id="dsBreakdown" style="margin-bottom:10px"></div>
+    <div id="dsSaved" style="text-align:center;padding:12px;background:rgba(0,212,170,.05);border-radius:10px;font-size:14px;color:var(--text-muted)"></div>
+  </div>
 </div>
 
-
-    <div style="text-align:center;padding:12px 16px 4px;font-size:12px;color:#6b7280;">
-    본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.
+<div id="bracketCard" style="display:none;max-width:800px;margin:0 auto 20px;padding:0 20px">
+  <div class="card">
+    <div class="card-title">📊 소득 구간별 세부담 비교</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px">현재 소득 기준 ±구간별 납부세액 및 실효세율을 비교합니다.</p>
+    <div id="bracketTable" style="overflow-x:auto"></div>
+  </div>
+</div>
+  <div class="disclaimer">본 계산기는 <strong>참고용</strong>이며, 실제 결과와 다를 수 있습니다.</div>
+  <div class="calc-guide">
+    <div class="calc-guide-title">📋 사용 방법</div>
+    <div class="calc-guide-desc">소득 유형과 금액을 입력하면 소득세를 계산합니다. 절세 시뮬레이터와 소득구간별 세부담 비교도 확인해보세요.</div>
+    <div class="calc-guide-basis">📌 계산 기준: 2026년 소득세 누진세율 기준 (6%~45%) · 근로소득공제 적용</div>
   </div>
   <div class="toss-nav">
-    <div class="toss-nav-title">📌 사업자 세금 계산기</div>
+    <div class="toss-nav-title">함께 쓰면 유용한 계산기</div>
     <div class="toss-nav-grid">
-      <a href="/freelancer_tax" class="toss-nav-item"><span class="ni-emoji">💼</span><span class="ni-label">프리랜서세금</span></a>
-      <a href="/vat_biz" class="toss-nav-item"><span class="ni-emoji">🧾</span><span class="ni-label">사업자부가세</span></a>
+      <a href="/vat" class="toss-nav-item"><span class="ni-emoji">🧾</span><span class="ni-label">부가세</span></a>
       <a href="/corporate_tax" class="toss-nav-item"><span class="ni-emoji">🏢</span><span class="ni-label">법인세</span></a>
-      <a href="/gift_tax" class="toss-nav-item"><span class="ni-emoji">🎁</span><span class="ni-label">증여세</span></a>
+      <a href="/freelancer_tax" class="toss-nav-item"><span class="ni-emoji">💼</span><span class="ni-label">프리랜서세금</span></a>
+      <a href="/salary" class="toss-nav-item"><span class="ni-emoji">💰</span><span class="ni-label">연봉</span></a>
     </div>
   </div>
-
 </div>
+
 <script>
-let currentTab = 'income';
+  let currentTab = 'income';
   function switchTab(tab) {
     currentTab = tab;
     ['income','other'].forEach(t => {
@@ -246,8 +313,9 @@ let currentTab = 'income';
   function updateOtherHint() {
     const v = document.getElementById('otherType').value;
     const h = document.getElementById('otherHint');
-    if (v === '0.6') h.innerHTML = '📌 필요경비 <strong>60%</strong> 인정 → 과세표준 = 수입 × 40% · 세율 20%';
-    else if (v === '0.8') h.innerHTML = '📌 필요경비 <strong>80%</strong> 인정 → 과세표준 = 수입 × 20% · 세율 20%';
+    if (v === '0.6') h.innerHTML = '📌 필요경비 <strong>60%</strong> 인정 → 과세표준 = 수입 × 40% · 원천징수 8.8% (세율 22%)';
+    else if (v === '0.8') h.innerHTML = '📌 필요경비 <strong>80%</strong> 인정 → 과세표준 = 수입 × 20% · 원천징수 4.4% (세율 22%)';
+    else if (v === 'pension') h.innerHTML = '📌 연금계좌 연금외수령 · 세율 <strong>15%</strong> (지방소득세 포함 16.5%) · 분리과세';
     else h.innerHTML = '📌 필요경비 <strong>없음</strong> → 과세표준 = 전액 · 3억 이하 20%, 초과 30%';
   }
 
@@ -312,22 +380,54 @@ let currentTab = 'income';
     document.getElementById('taxTableCard').style.display = 'block';
     const rc = document.getElementById('resultCard');
     rc.classList.add('visible');
+
+    // 부가 카드
+    _itIncome=income; _itTaxable=taxable; _itTotal=total; _itPeople=people; _itExtra=extra;
+    document.getElementById('deductSimCard').style.display = 'block';
+    document.getElementById('bracketCard').style.display   = 'block';
+    updateDeductSim();
+    updateBracket();
   }
 
   function calcOther() {
     const income = parseFloat(document.getElementById('otherIncome').value) || 0;
-    const expenseRate = parseFloat(document.getElementById('otherType').value);
+    const typeVal = document.getElementById('otherType').value;
+
+    // 연금계좌 연금외수령: 세율 15%, 필요경비 없음
+    if (typeVal === 'pension') {
+      const tax = Math.round(income * 0.15);
+      const localTax = Math.round(tax * 0.1);
+      const total = tax + localTax;
+      document.getElementById('r-label').textContent = '연금외수령 소득세 + 지방소득세';
+      document.getElementById('r-amount').innerHTML = `${fmt(total)}<span>원</span>`;
+      document.getElementById('r-sub').textContent = '세율 15% · 지방소득세 포함 16.5% · 분리과세';
+      document.getElementById('detailBody').innerHTML = `
+        <div class="detail-item"><span class="d-label">연금외수령액</span><span class="d-value">${fmt(income)}원</span></div>
+        <div class="detail-item"><span class="d-label">소득세 (15%)</span><span class="d-value accent">${fmt(tax)}원</span></div>
+        <div class="detail-item"><span class="d-label">지방소득세 (10%)</span><span class="d-value">${fmt(localTax)}원</span></div>
+        <div class="detail-item"><span class="d-label">총 납부세액</span><span class="d-value accent">${fmt(total)}원</span></div>
+      `;
+      document.getElementById('taxTableCard').style.display = 'none';
+      document.getElementById('resultCard').classList.add('visible');
+      return;
+    }
+
+    const expenseRate = parseFloat(typeVal);
     const expense = income * expenseRate;
     const taxable = income - expense;
-    const rate = income > 300000000 && expenseRate === 0 ? 0.3 : 0.2;
+    // 복권·경품 등(경비 없음) 3억 초과 시 30%, 나머지 20%
+    const rate = (expenseRate === 0 && income > 300000000) ? 0.3 : 0.2;
     const tax = Math.round(taxable * rate);
     const localTax = Math.round(tax * 0.1);
     const total = tax + localTax;
-    const withhold = Math.round(tax * 1.1); // 원천징수 포함
+    const withhold = Math.round(income * expenseRate === 0 ? total : (income - expense) * rate * 1.1);
+    const withholdRate = income > 0 ? ((total / income) * 100).toFixed(1) : 0;
 
     document.getElementById('r-label').textContent = '기타소득세 + 지방소득세';
     document.getElementById('r-amount').innerHTML = `${fmt(total)}<span>원</span>`;
-    document.getElementById('r-sub').textContent = income <= 3000000 ? '※ 연 300만원 이하 — 분리과세 또는 종합과세 선택 가능' : '※ 연 300만원 초과 — 종합소득 합산 필수';
+    document.getElementById('r-sub').textContent = income <= 3000000
+      ? '※ 연 300만원 이하 — 분리과세 또는 종합과세 선택 가능'
+      : '※ 연 300만원 초과 — 종합소득 합산 필수';
 
     document.getElementById('detailBody').innerHTML = `
       <div class="detail-item"><span class="d-label">수입금액</span><span class="d-value">${fmt(income)}원</span></div>
@@ -336,13 +436,93 @@ let currentTab = 'income';
       <div class="detail-item"><span class="d-label">기타소득세 (${(rate*100).toFixed(0)}%)</span><span class="d-value accent">${fmt(tax)}원</span></div>
       <div class="detail-item"><span class="d-label">지방소득세 (10%)</span><span class="d-value">${fmt(localTax)}원</span></div>
       <div class="detail-item"><span class="d-label">총 납부세액</span><span class="d-value accent">${fmt(total)}원</span></div>
-      <div class="detail-item"><span class="d-label">원천징수 예상액</span><span class="d-value">${fmt(withhold)}원</span></div>
+      <div class="detail-item"><span class="d-label">실효 원천징수율</span><span class="d-value">${withholdRate}% (수입 대비)</span></div>
     `;
 
     document.getElementById('taxTableCard').style.display = 'none';
     const rc = document.getElementById('resultCard');
     rc.classList.add('visible');
   }
+  let _itIncome=0, _itTaxable=0, _itTotal=0, _itPeople=1, _itExtra=0;
+
+  // ① 절세 시뮬레이터
+  function updateDeductSim() {
+    if (!_itIncome) return;
+    const irp    = parseInt(document.getElementById('dsIRP').value)||0;
+    const medical= parseInt(document.getElementById('dsMedical').value)||0;
+    const housing= parseInt(document.getElementById('dsHousing').value)||0;
+    const donate = parseInt(document.getElementById('dsDonate').value)||0;
+
+    // IRP·연금저축: 세액공제 (과세표준 × 16.5% or 13.2%)
+    const irpCredit = Math.min(irp, 9000000) * (_itIncome <= 55000000 ? 0.165 : 0.132);
+    // 의료비: 총급여 3% 초과분 × 15% 세액공제
+    const medicalBase = Math.max(0, medical - _itIncome * 0.03);
+    const medicalCredit = medicalBase * 0.15;
+    // 월세: 총급여 7천만 이하 15%, 초과 17% (연간 한도 750만원)
+    const housingCredit = _itIncome <= 70000000 ? Math.min(housing, 7500000) * 0.15 : 0;
+    // 기부금: 1천만원 이하 15%, 초과 30%
+    const donateCredit = donate <= 10000000
+      ? donate * 0.15
+      : 1500000 + (donate - 10000000) * 0.3;
+
+    const totalCredit = Math.round(irpCredit + medicalCredit + housingCredit + donateCredit);
+    const newTotal = Math.max(0, _itTotal - totalCredit);
+    const saved = _itTotal - newTotal;
+
+    document.getElementById('dsBefore').textContent = fmt(_itTotal) + '원';
+    document.getElementById('dsAfter').textContent  = fmt(newTotal) + '원';
+    document.getElementById('dsSaved').innerHTML = saved > 0
+      ? `공제 적용 시 세금 <strong style="color:var(--accent)">-${fmt(saved)}원</strong> 절감 · 연간 실효 절세율 <strong style="color:var(--accent)">${(_itIncome>0?(saved/_itIncome*100).toFixed(2):0)}%</strong>`
+      : `공제 항목을 입력하면 절세액이 계산됩니다`;
+
+    // 항목별 내역
+    document.getElementById('dsBreakdown').innerHTML = [
+      ['IRP·연금저축 세액공제', Math.round(irpCredit)],
+      ['의료비 세액공제', Math.round(medicalCredit)],
+      ['월세 세액공제', Math.round(housingCredit)],
+      ['기부금 세액공제', Math.round(donateCredit)],
+    ].filter(([,v])=>v>0).map(([name,v])=>
+      `<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px">
+        <span style="color:var(--text-muted)">${name}</span>
+        <strong style="color:var(--accent)">-${fmt(v)}원</strong>
+      </div>`
+    ).join('') || '<div style="font-size:13px;color:var(--text-muted);padding:8px 0">입력한 공제 항목이 없습니다</div>';
+  }
+
+  // ② 소득 구간별 세부담 비교표
+  function updateBracket() {
+    if (!_itIncome) return;
+    const steps = [-20000000,-10000000,-5000000,0,5000000,10000000,20000000,30000000];
+    const rows = steps.map(d => {
+      const inc = _itIncome + d;
+      if(inc < 0) return null;
+      const pd = _itPeople * 1500000;
+      const tb = Math.max(0, inc - pd - _itExtra);
+      const tx = calcIncomeTax(tb);
+      const total = Math.round(tx * 1.1);
+      return { inc, total, rate: inc>0?(total/inc*100).toFixed(1):0, isCurrent:d===0 };
+    }).filter(Boolean);
+
+    document.getElementById('bracketTable').innerHTML = `
+      <table style="width:100%;border-collapse:collapse;font-size:13px">
+        <thead><tr style="background:var(--surface2)">
+          <th style="padding:9px 12px;border:1px solid var(--border);color:var(--text-muted);font-weight:700">종합소득금액</th>
+          <th style="padding:9px 12px;border:1px solid var(--border);color:var(--text-muted);font-weight:700;text-align:right">총 납부세액</th>
+          <th style="padding:9px 12px;border:1px solid var(--border);color:var(--text-muted);font-weight:700;text-align:right">실효세율</th>
+        </tr></thead>
+        <tbody>${rows.map(r=>`
+          <tr style="${r.isCurrent?'background:rgba(0,212,170,.08);':''}">
+            <td style="padding:9px 12px;border:1px solid var(--border);font-weight:${r.isCurrent?900:400};color:${r.isCurrent?'var(--accent)':'var(--text)'}">
+              ${fmt(r.inc)}원${r.isCurrent?' ◀ 현재':''}
+            </td>
+            <td style="padding:9px 12px;border:1px solid var(--border);text-align:right;font-family:'Montserrat',sans-serif;font-weight:700;color:${r.isCurrent?'var(--accent)':'var(--text)'}">${fmt(r.total)}원</td>
+            <td style="padding:9px 12px;border:1px solid var(--border);text-align:right;color:var(--text-muted)">${r.rate}%</td>
+          </tr>`).join('')}
+        </tbody>
+      </table>`;
+  }
+
+  window.onload = () => calcIncome();
 </script>
 </body>
 </html>
