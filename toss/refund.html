@@ -339,7 +339,7 @@ function calcBasic(){
   const pType   = document.getElementById('b-penalty-type').value;
   const penalty0= +document.getElementById('b-penalty').value||0;
   const penPct  = +document.getElementById('b-penalty-pct').value||0;
-  if(!paid||!total||used===null){alert('값을 모두 입력해주세요.');return;}
+  if(!paid||!total||used===null){return;}
   const dailyCost = paid/total;
   const usedCost  = dailyCost*Math.min(used,total);
   const remaining = paid-usedCost;
@@ -358,7 +358,7 @@ function calcAcademy(){
   const paid  = +document.getElementById('a-paid').value;
   const total = +document.getElementById('a-total').value;
   const used  = +document.getElementById('a-used').value;
-  if(!paid||!total){alert('값을 입력해주세요.');return;}
+  if(!paid||!total){return;}
   const ratio = used / total;
   let refund, rateDesc;
   // 학원법 시행령 별표4 기준 (수강 횟수 비율)
@@ -379,7 +379,7 @@ function calcAcademy(){
 function calcTravel(){
   const paid = +document.getElementById('t-paid').value;
   const days = +document.getElementById('t-days').value;
-  if(!paid){alert('여행요금을 입력해주세요.');return;}
+  if(!paid){return;}
   const penaltyRates={30:0, 25:0.10, 15:0.15, 9:0.20, 5:0.30, 0:0.50};
   const penaltyRate = penaltyRates[days]||0;
   const penalty = Math.round(paid * penaltyRate);
@@ -398,7 +398,7 @@ function calcSubscription(){
   const period = +document.getElementById('s-period').value;
   const used   = +document.getElementById('s-used').value;
   const policy = document.getElementById('s-policy').value;
-  if(!paid||used===null){alert('값을 입력해주세요.');return;}
+  if(!paid||used===null){return;}
   let refund=0, usedCost=0;
   if(policy==='none'){ refund=0; usedCost=paid; }
   else if(policy==='full'){ refund=paid; usedCost=0; }

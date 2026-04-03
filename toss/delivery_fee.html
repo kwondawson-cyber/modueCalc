@@ -284,7 +284,7 @@ function calc() {
   const delivFee = +document.getElementById('delivFee').value || 0;
   const adFee = +document.getElementById('adFee').value || 0;
 
-  if (!orderAmt || !orderCnt) { alert('주문금액과 건수를 입력해주세요.'); return; }
+  if (!orderAmt || !orderCnt) { return; }
 
   const monthSales = orderAmt * orderCnt;
   const platformFee = monthSales * platformRate / 100;

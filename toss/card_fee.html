@@ -319,7 +319,7 @@ function calc() {
   const cardSales = +document.getElementById('cardSales').value || 0;
   const cashSales = +document.getElementById('cashSales').value || 0;
   const totalSales = cardSales + cashSales;
-  if (!cardSales) { alert('월 카드 매출을 입력해주세요.'); return; }
+  if (!cardSales) { return; }
 
   const fee = cardSales * selectedRate / 100;
   const net = totalSales - fee;

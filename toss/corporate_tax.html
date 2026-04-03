@@ -234,7 +234,7 @@ function fp(n){return n.toFixed(2)+'%';}
 
 function calcCorporateTax(){
   const baseMan = getNum('taxBase');
-  if(!baseMan){alert('과세표준을 입력해주세요.');return;}
+  if(!baseMan){return;}
   const baseWon = baseMan*10000;
   const prepaidWon = getNum('prepaid')*10000;
   const localOpt = document.getElementById('localTaxOpt').value;

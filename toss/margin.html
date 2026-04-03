@@ -186,7 +186,7 @@
   function calculate(){
     const cost=parseFloat(document.getElementById('cost').value)||0;
     const price=parseFloat(document.getElementById('price').value)||0;
-    if(price<=0){alert('판매가를 입력해주세요.');return;}
+    if(price<=0){return;}
     const profit=price-cost;
     const margin=(profit/price*100).toFixed(2);
     const markup=(profit/cost*100).toFixed(2);

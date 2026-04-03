@@ -288,8 +288,8 @@ function calc() {
   const fixedTotal = getListTotal('fixed-list') || +(document.getElementById('fixed-ttl')||{}).value || 0;
   const curQty = +document.getElementById('curQty').value || 0;
 
-  if (!price) { alert('판매가를 입력해주세요.'); return; }
-  if (varUnit >= price) { alert('변동비가 판매가 이상입니다. 수익이 발생하지 않습니다.'); return; }
+  if (!price) { return; }
+  if (varUnit >= price) { return; }
 
   const contrib = price - varUnit; // 단위 공헌이익
   const contribRate = contrib / price;
