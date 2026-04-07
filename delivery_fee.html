@@ -81,6 +81,14 @@
     details summary::after{content:'＋';color:var(--accent);font-size:16px}
     details[open] summary::after{content:'－'}
     details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
+    input[type="range"]{width:100%;height:6px;background:var(--border);border-radius:3px;outline:none;cursor:pointer;accent-color:var(--accent);border:none;padding:8px 0;-webkit-appearance:none}
+    input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--accent);cursor:pointer;box-shadow:0 0 6px rgba(0,212,170,.4)}
+    .app-rate-card{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px;transition:border-color .2s}
+    .app-rate-card:hover{border-color:rgba(0,212,170,.3)}
+    .app-rate-input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-size:15px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--accent);outline:none;text-align:center}
+    .app-rate-input:focus{border-color:var(--accent)}
+    .pg-rate-input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:6px 10px;font-size:13px;font-family:'Montserrat',sans-serif;color:var(--text-muted);outline:none;text-align:center}
+    .result-app-card{border-radius:14px;padding:16px;text-align:center;position:relative;transition:all .2s}
     @media(max-width:480px){.result-grid{grid-template-columns:1fr}.row2{grid-template-columns:1fr}}
 
     .sim-tbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px}
@@ -123,110 +131,98 @@
   <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
   <div class="header">
     <h1><span class="emoji">🛵</span> 배달앱 수수료 계산기</h1>
-    <p>배민·쿠팡이츠·요기요 수수료 공제 후 실수익 계산</p>
+    <p>배달앱별 매출 입력 → 수수료·실수익 한눈에</p>
   </div>
   <div class="badges">
-    <span class="badge">🍔 음식점</span><span class="badge">🛵 배달앱 비교</span><span class="badge">💰 실수익 계산</span>
+    <span class="badge">🍔 음식점</span><span class="badge">🛵 앱별 매출 입력</span><span class="badge">💰 전체 수익 합산</span><span class="badge">2026년 기준</span>
   </div>
 
-  <div class="notice">⚠️ 수수료율은 계약 유형·지역·프로모션에 따라 다릅니다. 정확한 수수료는 각 플랫폼 계약서를 확인하세요.</div>
+  <div class="notice">⚠️ 배민·쿠팡이츠 차등 수수료 (2025~): 하위 20%→2%, 중간→6.8%, 상위 35%→7.8%. 수수료율은 정산서 확인 후 수정하세요.</div>
 
+  <!-- ① 앱별 매출 + 수수료율 입력 -->
   <div class="card">
-    <h2>🛵 배달앱 선택</h2>
-    <div class="app-tabs">
-      <button class="app-tab active" onclick="selectApp('baemin',this)">배달의민족</button>
-      <button class="app-tab" onclick="selectApp('coupang',this)">쿠팡이츠</button>
-      <button class="app-tab" onclick="selectApp('yogiyo',this)">요기요</button>
-      <button class="app-tab" onclick="selectApp('custom',this)">직접입력</button>
-    </div>
-
-    <div id="preset-info" style="background:var(--surface2);border-radius:10px;padding:12px 14px;font-size:12px;color:var(--text-muted);margin-bottom:14px;line-height:1.8"></div>
-
-    <div class="row2">
-      <div class="form-group">
-        <label>플랫폼 수수료율 (%)</label>
-        <input type="number" id="platformRate" step="0.1" />
-      </div>
-      <div class="form-group">
-        <label>PG·결제 수수료율 (%)</label>
-        <input type="number" id="pgRate" step="0.1" value="1.0" />
-      </div>
-    </div>
+    <h2>🛵 배달앱별 이번 달 매출</h2>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:16px;line-height:1.7">사용하는 앱에만 매출을 입력하세요. 사용하지 않는 앱은 비워두면 됩니다.</p>
+    <div id="appInputCards" style="display:grid;grid-template-columns:1fr 1fr;gap:12px"></div>
   </div>
 
+  <!-- ② 공통 비용 -->
   <div class="card">
-    <h2>💰 주문 정보</h2>
+    <h2>💸 공통 비용 설정</h2>
+    <div class="form-group">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <label style="margin:0">음식 원가율 <span style="font-size:11px;color:var(--text-muted)">(재료비·포장재)</span></label>
+        <strong id="costDisplay" style="color:var(--warn);font-size:20px;font-family:'Montserrat',sans-serif">35%</strong>
+      </div>
+      <input type="range" id="costSlider" min="10" max="80" step="5" value="35"
+        oninput="document.getElementById('costDisplay').textContent=this.value+'%'" />
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted);margin-top:5px">
+        <span>10%</span><span>35% (일반)</span><span>50%</span><span>80%</span>
+      </div>
+    </div>
     <div class="row2">
-      <div class="form-group">
-        <label>1건 평균 주문금액 (원)</label>
-        <input type="number" id="orderAmt" placeholder="예: 25000" />
+      <div class="form-group" style="margin:0">
+        <label>건당 배달비 점주 부담 (원)</label>
+        <input type="text" inputmode="numeric" id="delivFee" placeholder="0" value="0" oninput="numFmt(this)" />
+        <div style="font-size:11px;color:var(--text-muted);margin-top:3px">건수 입력 시 자동 반영</div>
       </div>
-      <div class="form-group">
-        <label>월 배달 주문 건수</label>
-        <input type="number" id="orderCnt" placeholder="예: 300" />
+      <div class="form-group" style="margin:0">
+        <label>월 광고비 전체 (원)</label>
+        <input type="text" inputmode="numeric" id="adFee" placeholder="0" value="0" oninput="numFmt(this)" />
       </div>
-    </div>
-    <div class="row2">
-      <div class="form-group">
-        <label>건당 배달비 (점주 부담, 원)</label>
-        <input type="number" id="delivFee" placeholder="예: 0" value="0" />
-      </div>
-      <div class="form-group">
-        <label>광고비 (월, 원)</label>
-        <input type="number" id="adFee" placeholder="예: 88000" value="0" />
-      </div>
-    </div>
-    <button class="btn" onclick="calc()">실수익 계산하기</button>
-  </div>
-
-  <div class="result-card" id="result">
-    <div class="result-main">
-      <div class="result-label">월 배달 실수익</div>
-      <div class="result-value" id="r-net">0원</div>
-      <div class="result-sub" id="r-sub"></div>
-    </div>
-    <div class="result-grid">
-      <div class="result-item"><div class="result-item-label">건당 실수익</div><div class="result-item-value" id="r-per-order">-</div></div>
-      <div class="result-item"><div class="result-item-label">총 수수료율</div><div class="result-item-value danger" id="r-total-rate">-</div></div>
-      <div class="result-item"><div class="result-item-label">월 수수료 합계</div><div class="result-item-value danger" id="r-fee-total">-</div></div>
-      <div class="result-item"><div class="result-item-label">순수익률</div><div class="result-item-value" id="r-net-rate">-</div></div>
-    </div>
-
-    <div class="breakdown">
-      <div class="bd-row"><span>월 배달 매출</span><span id="bd-rev">-</span></div>
-      <div class="bd-row deduct"><span>(−) 플랫폼 수수료</span><span id="bd-platform">-</span></div>
-      <div class="bd-row deduct"><span>(−) PG·결제 수수료</span><span id="bd-pg">-</span></div>
-      <div class="bd-row deduct"><span>(−) 배달비 (점주 부담)</span><span id="bd-deliv">-</span></div>
-      <div class="bd-row deduct"><span>(−) 광고비</span><span id="bd-ad">-</span></div>
-      <div class="bd-row total"><span>= 월 실수익</span><span id="bd-net">-</span></div>
-    </div>
-
-    <div class="compare-section">
-      <h3>📊 앱별 실수익 비교 (동일 조건)</h3>
-      <table class="compare-table">
-        <thead><tr><th>플랫폼</th><th>수수료율</th><th>월 수수료</th><th>월 실수익</th></tr></thead>
-        <tbody id="compare-body"></tbody>
-      </table>
     </div>
   </div>
 
-  <div class="card" id="simCard" style="margin-top:8px">
-    <div style="font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:14px">&#128202; 월매출별 배달앱 수수료 비교</div>
-    <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;line-height:1.7">월 매출과 원가율을 입력하면 각 배달앱 기준 예상 수수료와 실수익을 비교합니다.</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+  <button class="btn" onclick="calc()">🛵 수수료·실수익 계산하기</button>
+
+  <!-- ③ 결과 -->
+  <div id="result" style="margin-top:16px">
+    <!-- 전체 합산 요약 -->
+    <div class="result-card" id="totalSummary" style="display:none">
+      <div class="result-main">
+        <div class="result-label">전체 배달 실수익 (원가·수수료 차감)</div>
+        <div class="result-value" id="r-total-net" style="color:var(--accent)">-</div>
+        <div class="result-sub" id="r-total-sub"></div>
+      </div>
+      <div class="result-grid">
+        <div class="result-item"><div class="result-item-label">전체 배달 매출</div><div class="result-item-value" id="r-total-sales">-</div></div>
+        <div class="result-item"><div class="result-item-label">총 수수료 합계</div><div class="result-item-value danger" id="r-total-fee">-</div></div>
+        <div class="result-item"><div class="result-item-label">실효 수수료율</div><div class="result-item-value danger" id="r-eff-rate">-</div></div>
+        <div class="result-item"><div class="result-item-label">원가 차감 전 수익</div><div class="result-item-value" id="r-before-cost">-</div></div>
+      </div>
+    </div>
+
+    <!-- 앱별 결과 카드 -->
+    <div id="appResultCards" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px"></div>
+
+    <!-- 상세 내역 표 -->
+    <div class="card" id="detailTable" style="margin-top:14px;padding:18px;display:none">
+      <div style="font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:12px">📋 앱별 수수료 상세 내역</div>
+      <div id="detailTableBody" style="overflow-x:auto"></div>
+    </div>
+  </div>
+
+  <!-- ④ 시뮬레이터 -->
+  <div class="card" style="margin-top:16px">
+    <div style="font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:10px">📊 매출 구간별 앱 수수료 시뮬레이터</div>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">월 배달 매출과 원가율을 설정하면 각 앱별 수수료·실수익을 매출 구간별로 한눈에 비교합니다.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
       <div>
-        <label style="display:block;font-size:11px;color:var(--text-muted);margin-bottom:4px">월 배달 매출 (만원)</label>
-        <input type="number" id="sim-monthly-rev" value="1000" min="100" oninput="updateDelivSim()"
-          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;color:var(--text);outline:none;font-family:inherit"/>
+        <label style="display:block;font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:5px">기준 월 매출 (만원)</label>
+        <input type="number" id="sim-base" value="1000" min="100" step="100" oninput="updateSim()"
+          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-size:15px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none" />
       </div>
       <div>
-        <label style="display:block;font-size:11px;color:var(--text-muted);margin-bottom:4px">음식 원가율 (%)</label>
-        <input type="number" id="sim-cost-rate" value="35" min="10" max="80" oninput="updateDelivSim()"
-          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;color:var(--text);outline:none;font-family:inherit"/>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
+          <label style="font-size:12px;font-weight:600;color:var(--text-muted);margin:0">음식 원가율</label>
+          <strong id="sim-cost-display" style="color:var(--warn);font-family:'Montserrat',sans-serif">35%</strong>
+        </div>
+        <input type="range" id="sim-cost" min="10" max="70" step="5" value="35"
+          oninput="document.getElementById('sim-cost-display').textContent=this.value+'%';updateSim()" />
       </div>
     </div>
-    <div id="delivSimResult"></div>
-    <p style="font-size:11px;color:var(--text-muted);margin-top:8px">&#8251; 배민 오픈서비스 9.8%+PG 2.5%, 쿠팡이츠 9.8%+PG 2.5%, 요기요 12.5%+PG 2.5% 기준 &#183; 실제 요금제에 따라 다름</p>
+    <div id="simResult" style="overflow-x:auto"></div>
+    <p style="font-size:11px;color:var(--text-muted);margin-top:10px;line-height:1.7">※ 중개+PG 수수료 기준 (배민·쿠팡 7.8%, 요기요 10.7%, 땡겨요 3.0%). 배달비·광고비 미포함. 실제 정산서 기준으로 위 계산기에서 직접 입력하세요.</p>
   </div>
 
 </div>
@@ -241,166 +237,298 @@
     </div>
   </div>
 <div class="seo-card">
-  <h2>배달앱 수수료 완벽 정리 — 2026년 배민·쿠팡이츠·요기요 최신 요율</h2>
-  <p>배달앱 수수료는 단순한 플랫폼 이용료가 아닙니다. 중개수수료에 더해 결제대행(PG) 수수료, 배달대행비, 광고비까지 모두 합산하면 실제 비용은 매출의 20~35%에 달하는 경우도 있습니다. 수수료 구조를 정확히 알아야 실수익을 제대로 계산하고 메뉴 가격 전략을 최적화할 수 있습니다.</p>
-  <p>위 시뮬레이터에서 월 매출과 원가율을 입력하면 플랫폼별 예상 수수료와 실수익을 한눈에 비교할 수 있습니다. 2025년부터 배달의민족은 울트라콜을 폐지하고 오픈서비스로 통합했으며, 쿠팡이츠도 유사한 수수료 체계를 운영합니다. 어느 앱에 집중할지 전략을 세우는 데 활용하세요.</p>
+
+  <h2>배달앱 수수료란? — 사장님이 진짜 내는 돈의 구조</h2>
+  <p>배달앱을 통해 주문이 들어오면 사장님은 단순히 음식 원가와 인건비만 부담하는 게 아닙니다. 플랫폼 중개수수료, 결제대행(PG) 수수료, 배달대행비, 광고비가 모두 빠져나간 뒤 남은 금액이 실수익입니다. 이 중 하나만 봐서는 전체 비용을 알 수 없고, 실제로 많은 사장님들이 "내 배달앱 수수료가 얼마인지 정확히 모른다"는 경우가 많습니다.</p>
+  <p>각 항목의 역할을 정리하면 이렇습니다. 중개수수료는 배달앱 플랫폼에 내는 이용료, PG수수료는 카드·간편결제 결제 처리 비용, 배달대행비는 배달 기사에게 지급하는 건당 배송 비용, 광고비는 앱 내 노출 순위를 높이기 위한 비용입니다. 이 네 가지를 합산한 실효 수수료율이 매출의 20~30%를 넘는 경우도 흔합니다.</p>
+  <p>예를 들어 배달의민족 중간 구간(중개 6.8%)을 기준으로 PG 1%, 건당 배달비 3,500원(평균 주문 2만원 기준 17.5%), 광고비 3%를 더하면 실효 수수료율은 약 28%에 달합니다. 여기에 음식 원가율 35%를 더하면 매출의 63%가 이미 나가는 셈입니다. 이 계산기를 통해 각 항목을 직접 입력해 내 가게의 실제 수익률을 파악하세요.</p>
   <div class="formula-box">배달앱 실수익 계산:
-  중개수수료  = 주문금액 × 플랫폼 수수료율
-  PG수수료    = 주문금액 × 결제대행 수수료율 (약 2.5%)
-  배달대행비  = 건당 3,000~4,500원 (자체배달 시 별도)
+중개수수료  = 매출 × 플랫폼 수수료율
+PG수수료    = 매출 × 결제대행 수수료율 (약 1%)
+배달대행비  = 건당 3,000~5,000원 × 월 주문 건수
+광고비      = 월 고정 또는 CPC 방식
 
-  실수익 = 매출 - 중개수수료 - PG수수료 - 배달대행비 - 광고비 - 원가</div>
+실수익 = 매출 − 중개수수료 − PG수수료 − 배달대행비 − 광고비 − 음식원가</div>
 
-  <h2>플랫폼별 수수료 체계 비교 — 2026년 기준</h2>
-  <p>각 플랫폼의 수수료 체계는 매년 변경되므로 최신 정보를 정기적으로 확인해야 합니다. 2026년 기준 배달의민족 오픈서비스와 쿠팡이츠는 중개 9.8%+PG 2.5%로 동일합니다. 실효 수수료율은 배달대행비·광고비를 포함하면 훨씬 높아집니다.</p>
+  <h2>2026년 배달앱 차등 수수료 — 내 가게는 몇 %를 내나?</h2>
+  <p>2025년 하반기부터 배달의민족과 쿠팡이츠는 기존 일괄 9.8%에서 매출 구간별 차등 수수료로 전환했습니다. 플랫폼 내 거래액 기준으로 하위 20%는 2%, 중간 35~80%는 6.8%, 상위 35%는 7.8%가 적용됩니다. 겉으로는 수수료 인하처럼 보이지만, 실제로 상위 매출 가게는 기존보다 오히려 낮아지는 반면 중간 가게들은 큰 변화가 없고, 배달비 부담이 동시에 올라 체감 효과는 가게마다 다릅니다.</p>
+  <p>내 가게가 어느 구간에 해당하는지 알려면 배달의민족 사장님 앱 또는 쿠팡이츠 파트너 센터에서 정산 내역을 확인하면 됩니다. 분기마다 구간이 재평가되므로 매출이 늘거나 줄면 적용 수수료율이 달라질 수 있습니다. 특히 신규 오픈 가게는 처음에는 중간 구간에서 시작하는 경우가 많고, 배달 매출이 자리를 잡으면서 구간이 바뀝니다.</p>
+  <p>요기요는 라이트 요금제 기준 4.7~9.7%의 차등 구조를 유지합니다. 네이버 플러스 멤버십과의 연동으로 무료 배달 혜택을 제공해 충성 고객층을 유지하는 전략을 쓰고 있으며, 구독형 요기요 플러스 가입 여부에 따라 실제 부담이 달라집니다. 공공배달앱 땡겨요는 2% 고정으로 수수료가 가장 낮지만 주문수가 민간 앱에 비해 적다는 현실적 한계가 있습니다.</p>
   <table class="ex-table">
-    <thead><tr><th>플랫폼</th><th>중개수수료</th><th>PG수수료</th><th>배달비</th><th>광고 방식</th></tr></thead>
+    <thead><tr><th>플랫폼</th><th>중개수수료 (2026)</th><th>PG수수료</th><th>배달비 지원</th><th>광고</th></tr></thead>
     <tbody>
-      <tr><td>배달의민족 (오픈서비스)</td><td>9.8%</td><td>2.5%</td><td>일부 지원</td><td>오픈리스트·CPR</td></tr>
-      <tr><td>쿠팡이츠</td><td>9.8%</td><td>2.5%</td><td>쿠팡 자체 배달</td><td>CPC 광고</td></tr>
-      <tr><td>요기요 (플러스)</td><td>12.5%</td><td>2.5%</td><td>별도</td><td>요기요 광고</td></tr>
+      <tr><td><strong>배달의민족</strong></td><td>하위 20%→2% / 중간→6.8% / 상위→7.8%</td><td>약 1%</td><td>배민라이더스 일부 지원</td><td>오픈리스트·CPR</td></tr>
+      <tr><td><strong>쿠팡이츠</strong></td><td>하위 20%→2% / 중간→6.8% / 상위→7.8%</td><td>약 1%</td><td>쿠팡 자체 배달 지원</td><td>CPC 광고</td></tr>
+      <tr><td><strong>요기요</strong></td><td>라이트 기준 4.7~9.7% (차등)</td><td>약 1%</td><td>별도</td><td>요기요 광고</td></tr>
+      <tr><td><strong>땡겨요</strong></td><td>2% 고정</td><td>약 1%</td><td>별도</td><td>광고 없음</td></tr>
       <tr><td>직접 주문 (자사)</td><td>0%</td><td>1~2%</td><td>직접 부담</td><td>SNS·검색</td></tr>
     </tbody>
   </table>
-  <div class="hl-box"><strong>&#128161; 실효 수수료율이 핵심.</strong> 중개수수료만 보지 말고 PG수수료·배달비·광고비를 모두 합한 실효 수수료율을 계산해야 합니다. 배민 9.8%에 PG 2.5%, 배달대행 건당 4,000원(평균 주문 2만원 기준 20%)을 더하면 실제 부담은 매출의 30% 이상이 될 수 있습니다.</div>
 
-  <h2>배달앱 수수료 절감 전략 — 실전 방법</h2>
-  <p>배달앱 의존도를 줄이고 수수료 부담을 낮추기 위한 다양한 전략이 있습니다. 단골 고객 직접 주문 유도, 고마진 메뉴 중심 구성, 배달 최소 주문금액 설정, 광고비 ROI 분석 등이 대표적입니다. 배달 1건에 평균 주문금액을 높이면 배달대행비 고정 부담 비율이 낮아져 실질 수익률이 개선됩니다.</p>
+  <h2>2026년 포장 수수료 유료화 — 사장님이 꼭 알아야 할 변화</h2>
+  <p>2026년 3월부터 배달의민족은 포장 주문(앱에서 주문 후 직접 픽업)에도 중개수수료 6.8%를 부과하기 시작했습니다. 기존에는 포장 주문이 수수료 면제여서 배달 기사 없이도 앱을 통해 주문을 받을 수 있는 '무료 채널'이었지만, 이제는 배달 주문과 동일한 수수료가 붙습니다. 포장 손님이 많은 분식집·치킨집·카페 등은 이 변화로 수익 구조가 크게 달라질 수 있습니다.</p>
+  <p>쿠팡이츠도 2026년 4월부터 포장 주문에 6.8%를 부과할 예정입니다. 단, 전통시장 입점 매장이나 상생요금제 기준 매출 하위 20% 영세 가맹점은 포장 수수료 무료 정책을 1년 연장하는 방식으로 부담을 일부 완화합니다. 포장 매출 비중이 높은 가게라면 해당 면제 조건에 해당하는지 반드시 확인하세요.</p>
+  <p>포장 수수료 유료화에 대응하는 방법으로는 카카오톡 채널 주문, 네이버 스마트플레이스 예약·주문 기능, 자체 전화 주문 유도 등이 있습니다. 단골 고객에게 "앱 대신 전화로 주문하면 서비스 드립니다"라는 안내를 하면 수수료를 아낄 수 있습니다. 법적으로 배달앱 결제 고객에게 불이익을 주는 것은 금지지만 현금·직접 주문 고객에게 혜택을 주는 것은 가능합니다.</p>
+  <div class="hl-box">⚠️ <strong>포장 수수료 체크리스트:</strong> 내 매장이 포장 수수료 면제 대상인지 확인 → 배민 사장님 앱에서 '요금제' 탭 확인. 포장 비중이 높다면 카카오 채널 또는 전화 주문 유도를 적극 검토하세요.</div>
+
+  <h2>배달앱별 실효 수수료율 — 직접 계산해보면 이렇다</h2>
+  <p>사장님들이 가장 혼란스러워하는 부분이 "중개수수료가 6.8%라고 했는데 왜 정산금이 그것보다 훨씬 적지?"입니다. 이유는 PG수수료와 배달비가 별도로 빠지기 때문입니다. 평균 주문금액 25,000원을 기준으로 계산하면, 중개수수료 1,700원 + PG수수료 250원 + 배달대행비 3,500원 = 건당 5,450원이 빠져나갑니다. 이것만 해도 매출의 21.8%입니다.</p>
+  <p>여기에 광고비가 더해집니다. 배달의민족 오픈리스트 광고를 월 10만원 쓰고 월 300건 주문을 받는다면 건당 광고비 333원이 추가됩니다. 결국 건당 실제 수수료 합계는 약 5,783원 = 23.1%입니다. 원가 35%를 더하면 매출의 58%가 비용이고 남는 이익은 42%에 불과합니다. 배달만으로는 이익이 나지 않는 구조라는 말이 여기서 나옵니다.</p>
+  <p>쿠팡이츠는 자체 배달을 포함해 배달비 부담이 상대적으로 낮을 수 있지만, 와우 멤버십 무료배달로 인해 주문 단가가 낮아지는 경향이 있습니다. 요기요는 네이버 멤버십 제휴로 충성 고객을 유지하지만 수수료는 배민·쿠팡보다 높습니다. 땡겨요는 수수료가 가장 낮지만 주문수가 1/5 이하인 경우가 많아 단독 운영은 현실적으로 어렵습니다.</p>
   <table class="ex-table">
-    <thead><tr><th>전략</th><th>효과</th><th>실행 방법</th></tr></thead>
+    <thead><tr><th>항목</th><th>배달의민족</th><th>쿠팡이츠</th><th>요기요</th><th>땡겨요</th></tr></thead>
     <tbody>
-      <tr><td>자사 주문 채널 구축</td><td>수수료 0%</td><td>네이버 스마트플레이스 주문</td></tr>
-      <tr><td>최소 주문금액 설정</td><td>건당 수익률 향상</td><td>1만5천원 이상 주문만 배달</td></tr>
-      <tr><td>고마진 메뉴 집중</td><td>원가율 30% 이하</td><td>수수료 차감 후 수익 개선</td></tr>
-      <tr><td>광고비 최적화</td><td>ROI 분석 후 효율 광고만</td><td>비효율 광고 즉시 중단</td></tr>
+      <tr><td>중개수수료 (중간 구간)</td><td>6.8%</td><td>6.8%</td><td>9.7%</td><td>2.0%</td></tr>
+      <tr><td>PG수수료</td><td>약 1.0%</td><td>약 1.0%</td><td>약 1.0%</td><td>약 1.0%</td></tr>
+      <tr><td>수수료 소계</td><td>7.8%</td><td>7.8%</td><td>10.7%</td><td>3.0%</td></tr>
+      <tr><td>건당 배달비 (점주)</td><td>0~6,000원</td><td>자체 배달 지원</td><td>별도 계약</td><td>별도 계약</td></tr>
+      <tr><td>광고비 (월 평균)</td><td>5~15만원</td><td>CPC 방식</td><td>별도</td><td>없음</td></tr>
+      <tr><td><strong>실효 수수료 (배달비 포함 추정)</strong></td><td><strong>20~28%</strong></td><td><strong>18~25%</strong></td><td><strong>22~30%</strong></td><td><strong>5~10%</strong></td></tr>
     </tbody>
   </table>
 
-  <h2>메뉴 가격 전략 — 배달가와 홀 가격 차등 설정</h2>
-  <p>배달앱 수수료가 높아지면서 많은 외식업주들이 배달 전용 가격을 홀 가격보다 높게 설정하는 전략을 사용합니다. 배달가를 10% 인상하면 같은 배민 기준으로 건당 실수익이 크게 늘어납니다. 단, 소비자 가격 비교 앱과 리뷰 반응을 고려해 전략적으로 접근해야 합니다.</p>
+  <h2>배달앱 광고비 전략 — 얼마나 써야 남는 장사인가</h2>
+  <p>배달앱 광고비는 대부분 오픈리스트(배민), CPC 광고(쿠팡이츠) 방식입니다. 오픈리스트는 클릭당 과금이 아닌 고정 광고비를 내고 일정 시간 상위 노출을 받는 방식이고, 쿠팡이츠는 클릭 1건당 과금되는 CPC 방식입니다. 신규 오픈 초기에는 노출이 없어 광고비를 써야 주문이 들어오지만, 리뷰가 쌓이고 재주문율이 올라가면 광고 의존도를 낮출 수 있습니다.</p>
+  <p>광고비 ROI를 계산하는 방법은 간단합니다. (광고를 통해 늘어난 주문 건수 × 건당 수익) ÷ 광고비 = ROI입니다. ROI가 1보다 낮으면 광고를 쓸수록 손해인 구조입니다. 월 광고비 10만원에 추가 주문이 20건 늘고 건당 수익이 4,000원이라면 ROI = 0.8로 광고를 끊는 게 낫습니다. 많은 사장님이 광고 효과를 체감하지 못하면서도 관성적으로 광고를 유지하는 경우가 많습니다.</p>
+  <p>광고비를 아끼는 현실적인 방법은 피크타임(점심 11~13시, 저녁 17~21시)에만 광고를 켜고 비피크 시간대에는 끄는 것입니다. 또한 기존 고객의 재주문율을 높이는 것이 신규 광고보다 비용 대비 효율이 훨씬 좋습니다. 단골 고객 쿠폰, 리뷰 답변 관리, 음식 품질 유지가 장기적으로 광고비를 줄이는 핵심입니다.</p>
+
+  <h2>배달가 vs 홀 가격 차등 전략 — 합법인가?</h2>
+  <p>배달앱 수수료 부담이 커지면서 배달가를 홀 가격보다 높게 책정하는 가게가 늘고 있습니다. 한국소비자원 조사에 따르면 서울 34개 음식점 중 58.8%가 배달 가격을 홀 가격보다 평균 10.2% 높게 설정했습니다. 이는 불법이 아닙니다. 배달과 홀은 서비스 제공 방식이 다르기 때문에 가격을 다르게 책정하는 것은 합법입니다. 단, 배달앱 내에서 기존 홀 메뉴와 동일한 메뉴 이름을 쓰면서 가격만 높이는 방식은 소비자 혼란을 일으킬 수 있어 리뷰 반응에 주의해야 합니다.</p>
+  <p>배달 전용 메뉴를 구성하는 것도 좋은 방법입니다. 배달에 특화된 세트 구성, 배달 용기에 맞는 메뉴, 혼밥용 1인 세트 등을 별도로 만들면 홀 가격과 직접 비교가 어려워지고 객단가도 높일 수 있습니다. 배달 최소 주문금액을 15,000~20,000원으로 높게 설정하면 건당 배달대행비 고정비용의 비율이 낮아져 실효 수수료율이 개선됩니다.</p>
   <table class="ex-table">
-    <thead><tr><th>시나리오</th><th>메뉴 가격</th><th>수수료 합계 (배민 기준)</th><th>원가(35%)</th><th>건당 실수익</th></tr></thead>
+    <thead><tr><th>시나리오</th><th>주문금액</th><th>수수료 합계 (배민 7.8%)</th><th>배달비 (3,500원)</th><th>원가 (35%)</th><th>건당 실수익</th></tr></thead>
     <tbody>
-      <tr><td>기본</td><td>15,000원</td><td>1,845원 (12.3%)</td><td>5,250원</td><td><strong>약 7,905원</strong></td></tr>
-      <tr><td>배달가 10% 인상</td><td>16,500원</td><td>2,030원 (12.3%)</td><td>5,250원</td><td><strong>약 9,220원</strong></td></tr>
+      <tr><td>기본 (1만5천원)</td><td>15,000원</td><td>1,170원</td><td>3,500원</td><td>5,250원</td><td><strong>5,080원 (33.9%)</strong></td></tr>
+      <tr><td>배달가 10% 인상</td><td>16,500원</td><td>1,287원</td><td>3,500원</td><td>5,250원</td><td><strong>6,463원 (39.2%)</strong></td></tr>
+      <tr><td>최소주문 상향 (2만5천)</td><td>25,000원</td><td>1,950원</td><td>3,500원</td><td>8,750원</td><td><strong>10,800원 (43.2%)</strong></td></tr>
     </tbody>
   </table>
-  <div class="hl-box"><strong>&#128161; 배달앱 다중 등록 vs 집중 전략.</strong> 여러 앱에 동시 등록하면 노출은 늘지만 운영 부담도 커집니다. 월별 앱별 매출과 수수료를 비교 분석해 가장 효율이 좋은 채널에 광고비를 집중하세요. 배달 인력·재고 관리 여력이 없다면 2개 앱 집중 전략이 효율적입니다.</div>
+  <div class="hl-box">💡 <strong>객단가가 핵심.</strong> 같은 배달대행비가 나가더라도 주문금액이 클수록 고정비 비율이 낮아집니다. 최소주문금액 설정과 세트 구성으로 건당 평균 주문금액을 높이는 것이 수수료율보다 중요한 경우가 많습니다.</div>
+
+  <h2>여러 배달앱 동시 운영 전략 — 다 쓰는 게 유리한가?</h2>
+  <p>배달의민족, 쿠팡이츠, 요기요를 모두 운영하면 노출 채널이 늘어나지만 운영 부담도 커집니다. 주문이 여러 앱에서 동시에 들어오면 조리 속도와 배달 품질이 떨어질 수 있고, 앱마다 메뉴 관리와 리뷰 응대를 따로 해야 합니다. 실제로 3개 앱을 모두 운영하는 가게의 경우 총 매출은 늘지만 건당 수익은 줄어드는 역설이 발생하는 경우도 있습니다.</p>
+  <p>2026년 현재 배달앱 시장 점유율은 배달의민족 약 58~60%, 쿠팡이츠 약 25~27%, 요기요 약 12~14%입니다. 주문수 확보 측면에서는 배민이 압도적으로 유리하지만, 서울 주요 지역에서는 쿠팡이츠 주문이 배민에 근접한 곳도 있습니다. 가게 위치와 업종에 따라 어느 앱이 효율적인지 다르므로 처음에는 2개 앱으로 시작해 데이터를 보면서 전략을 수립하는 것이 좋습니다.</p>
+  <p>앱별로 집중하는 전략도 있습니다. 주문 단가가 높은 메뉴 위주의 가게는 객단가가 높은 쿠팡이츠가 유리하고, 배달 반경이 넓거나 브랜드 인지도가 있는 가게는 배민 집중이 효율적일 수 있습니다. 땡겨요는 수수료가 낮아 단골 고객을 유도하는 보조 채널로 활용하기 좋습니다. 위 계산기에서 앱별 매출을 입력하면 어느 앱이 실수익에 가장 기여하는지 직접 비교할 수 있습니다.</p>
+
+  <h2>배달 수익성이 나지 않을 때 점검할 체크리스트</h2>
+  <p>배달 매출이 늘어도 수익이 나지 않는다는 사장님이 많습니다. 이 경우 먼저 실효 수수료율을 정확히 계산해야 합니다. 중개수수료만 보지 말고 PG·배달비·광고비를 모두 합산한 실제 수수료율이 얼마인지, 거기에 원가율을 더하면 손익분기점을 넘는지를 파악하는 게 첫걸음입니다. 이 계산기에서 각 앱의 매출과 수수료율을 입력하면 자동으로 계산됩니다.</p>
+  <p>손익이 나지 않는 가장 흔한 원인 세 가지는 ① 배달비 부담이 너무 커서 건당 수익이 거의 없는 경우, ② 최소 주문금액이 낮아 소액 주문이 많은 경우, ③ 광고비를 ROI 없이 관성적으로 쓰는 경우입니다. 이 세 가지를 개선하는 것만으로도 수익이 크게 개선되는 사례가 많습니다. 구체적으로는 최소 주문금액 인상, 배달 가능 구역 축소(배달비 절감), 광고 효율 분석이 필요합니다.</p>
+  <table class="ex-table">
+    <thead><tr><th>점검 항목</th><th>확인 방법</th><th>개선 방향</th></tr></thead>
+    <tbody>
+      <tr><td>실효 수수료율</td><td>정산서에서 중개+PG+배달비 합산</td><td>25% 초과 시 가격 전략 재검토</td></tr>
+      <tr><td>평균 주문금액</td><td>앱 통계 → 평균 객단가 확인</td><td>최소 20,000원 이상 유도</td></tr>
+      <tr><td>광고비 ROI</td><td>광고 전후 주문수 비교</td><td>ROI 1 미만이면 광고 축소</td></tr>
+      <tr><td>재주문율</td><td>앱 사장님 통계 → 단골 비율</td><td>단골 쿠폰, 리뷰 관리로 개선</td></tr>
+      <tr><td>배달 구역</td><td>배달비 수령액 vs 지급액 비교</td><td>원거리 배달 제한으로 비용 절감</td></tr>
+    </tbody>
+  </table>
 
   <h2>자주 묻는 질문 (FAQ)</h2>
-  <details><summary>배민과 쿠팡이츠 중 어디가 수수료가 더 저렴한가요?</summary><div class="faq-answer">2026년 기준 배달의민족 오픈서비스와 쿠팡이츠 모두 중개수수료 9.8%+PG 2.5%로 동일합니다. 차이는 배달비 지원 방식, 광고 효율, 주문 단가에서 발생합니다. 가게 위치·업종·단가에 따라 실효 수익이 다르므로 직접 테스트해 비교하는 것이 가장 정확합니다.</div></details>
-  <details><summary>PG 수수료란 무엇인가요?</summary><div class="faq-answer">PG(Payment Gateway)는 카드·계좌이체·간편결제 등 결제를 처리하는 결제대행 서비스입니다. 배달앱 결제는 PG사를 통해 처리되며 보통 결제금액의 2~3%가 수수료로 부과됩니다. 중개수수료와 별도로 발생하므로 총 수수료 계산 시 반드시 포함해야 합니다.</div></details>
-  <details><summary>배달앱 광고비는 얼마나 써야 하나요?</summary><div class="faq-answer">광고비는 매출 대비 3~8% 수준이 일반적입니다. 신규 오픈 초기에는 노출 확보를 위해 광고비를 늘리고, 안정화 후에는 ROI(광고 1원당 매출)를 분석해 효율이 낮은 광고를 줄이는 전략이 효과적입니다. 월별 광고 효율을 꼭 점검하세요.</div></details>
-  <details><summary>자체 주문앱을 만드는 것이 더 저렴한가요?</summary><div class="faq-answer">자체 앱 개발 비용은 단순 기능 기준 300~500만원, 유지 비용이 월 수십만원 발생합니다. 月 주문 건수가 500건 이상이면 수수료 절감 효과가 개발·유지 비용을 상회할 수 있습니다. 초기에는 네이버 스마트플레이스 주문 기능(수수료 2% 수준)을 활용하는 것이 비용 대비 효율이 높습니다. 배달앱 의존도를 점진적으로 낮추고 직접 주문 채널 비율을 높이는 장기 전략을 병행하세요.</div></details>
-  <details><summary>배달앱 수수료 인하를 요구할 수 있나요?</summary><div class="faq-answer">개별 협상은 어렵지만, 정부와 플랫폼 간 상생 협약에 따라 수수료율이 조정되는 경우가 있습니다. 소상공인 단체나 업종별 협회를 통한 집단 협상이 효과적입니다. 또한 월 매출이 일정 수준 이상이면 플랫폼 측에서 광고 지원이나 수수료 조정 혜택을 제공하기도 합니다.</div></details>
+  <details><summary>배민과 쿠팡이츠 수수료 차이가 있나요?</summary><div class="faq-answer">2026년 기준 배달의민족과 쿠팡이츠는 동일한 차등 수수료 구조를 적용합니다. 거래액 하위 20%는 2%, 중간 구간은 6.8%, 상위 35%는 7.8%입니다. 중개수수료 자체는 동일하지만 쿠팡이츠는 자체 배달(쿠팡이츠 배달)을 지원해 배달비 부담이 상대적으로 낮을 수 있습니다. 실효 수수료는 배달비 포함 시 가게마다 달라지므로 직접 정산서를 비교하세요.</div></details>
+  <details><summary>땡겨요가 수수료가 가장 낮다는데 왜 다들 배민을 쓰나요?</summary><div class="faq-answer">땡겨요는 수수료 2%로 가장 낮지만 주문수가 배민·쿠팡에 비해 크게 적습니다. 앱 이용자 수 자체가 다르기 때문에 땡겨요만 운영하면 매출 자체가 줄어들 수 있습니다. 현실적으로는 배민·쿠팡이츠로 주문을 받으면서 단골 고객에게 땡겨요 이용을 유도해 수수료를 아끼는 보조 채널로 쓰는 것이 가장 효과적입니다.</div></details>
+  <details><summary>PG 수수료는 누가 부담하나요?</summary><div class="faq-answer">PG(결제대행) 수수료는 가맹점(사장님)이 부담합니다. 소비자가 카드나 간편결제로 결제하면 PG사가 처리 수수료를 가져가는 구조입니다. 배달앱 정산 시 중개수수료와 PG수수료가 합산 차감되어 정산되므로 실제로는 잘 체감하지 못하는 경우가 많습니다. 약 1% 내외이지만 매출이 클수록 무시할 수 없는 금액입니다.</div></details>
+  <details><summary>포장 주문에도 이제 수수료를 내나요?</summary><div class="faq-answer">네. 배달의민족은 2026년 3월부터, 쿠팡이츠는 2026년 4월부터 포장 주문에 중개수수료(약 6.8%)를 부과합니다. 단, 전통시장 가맹점과 매출 하위 20% 영세 사업자는 1년 연장 면제 혜택을 받을 수 있습니다. 포장 비중이 높은 가게라면 카카오 채널 주문, 전화 주문 유도 등 대안 채널을 적극 검토하세요.</div></details>
+  <details><summary>배달앱 광고비를 아끼는 방법이 있나요?</summary><div class="faq-answer">피크타임(점심·저녁)에만 광고를 켜고 비피크 시간에는 끄는 것이 기본입니다. 리뷰 관리와 재주문율을 높이면 광고 없이도 노출이 유지됩니다. 광고비 ROI를 주기적으로 체크해 1 미만이면 과감히 광고를 줄이고 그 비용을 단골 고객 쿠폰 발행에 쓰는 것이 더 효율적인 경우가 많습니다.</div></details>
+  <details><summary>배달 수익이 계속 줄어드는데 어떻게 해야 하나요?</summary><div class="faq-answer">먼저 이 계산기로 실효 수수료율을 정확히 파악하세요. 그 다음 최소 주문금액 상향, 배달 구역 축소, 고마진 메뉴 구성을 순서대로 검토하세요. 배달 매출 증가가 수익 증가로 이어지지 않는다면 배달 채널 의존도를 줄이고 홀 매출·포장 직접 주문 비중을 높이는 방향으로 전략을 전환하는 것이 필요합니다.</div></details>
+  <details><summary>배달앱 정산은 얼마나 걸리나요?</summary><div class="faq-answer">배달의민족과 쿠팡이츠는 주문 후 보통 3~5 영업일 후 정산됩니다. 땡겨요는 카드 결제 기준 다음 영업일 입금으로 가장 빠릅니다. 정산 주기가 길면 현금 흐름이 부족해지는 경우가 있으므로, 정산일을 파악해 자금 계획을 세우는 것이 중요합니다. 주 단위 정산으로 변경 신청이 가능한 플랫폼도 있으니 확인해보세요.</div></details>
+
 </div>
 <script>
 const fw = n => Math.round(n).toLocaleString() + '원';
-const APPS = {
-  baemin:  { name:'배달의민족(배민1플러스)', rate:6.8,  pg:1.0, info:'배민1플러스 기준. 배달비 별도. 요금제에 따라 상이합니다.' },
-  coupang: { name:'쿠팡이츠', rate:9.8,  pg:0.3, info:'쿠팡이츠 정률제 수수료. 배달비 포함 기준.' },
-  yogiyo:  { name:'요기요', rate:12.5, pg:1.0, info:'요기요 기본 수수료. 배달비 별도.' },
-  custom:  { name:'직접입력', rate:null, pg:null, info:'수수료율을 직접 입력하세요.' }
-};
-let selectedApp = 'baemin';
+function numFmt(el){const r=el.value.replace(/[^0-9]/g,'');el.value=r?parseInt(r,10).toLocaleString('ko-KR'):'';}
+function numVal(id){return parseFloat((document.getElementById(id)?.value||'').replace(/,/g,''))||0;}
 
-function selectApp(app, el) {
-  selectedApp = app;
-  document.querySelectorAll('.app-tab').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-  const d = APPS[app];
-  document.getElementById('preset-info').textContent = d.info;
-  if (app !== 'custom') {
-    document.getElementById('platformRate').value = d.rate;
-    document.getElementById('pgRate').value = d.pg;
-  }
+const APPS = [
+  { id:'baemin',   emoji:'🟡', name:'배달의민족', rate:6.8, pg:1.0, note:'차등: 하위20%→2% / 중간→6.8% / 상위→7.8%' },
+  { id:'coupang',  emoji:'🔴', name:'쿠팡이츠',  rate:6.8, pg:1.0, note:'차등: 하위20%→2% / 중간→6.8% / 상위→7.8%' },
+  { id:'yogiyo',   emoji:'🔵', name:'요기요',    rate:9.7, pg:1.0, note:'라이트 요금제 기준. 구간별 4.7~9.7%' },
+  { id:'ddanggye', emoji:'🟢', name:'땡겨요',    rate:2.0, pg:1.0, note:'신한은행 운영 공공배달앱. 2% 고정' },
+];
+
+function renderInputCards() {
+  document.getElementById('appInputCards').innerHTML = APPS.map(app => `
+    <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px">
+      <div style="font-size:14px;font-weight:800;color:var(--text);margin-bottom:12px">${app.emoji} ${app.name}</div>
+      <div style="margin-bottom:10px">
+        <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:5px;font-weight:600">이번 달 매출 (원)</label>
+        <input type="text" inputmode="numeric" id="sales-${app.id}" placeholder="미사용 시 비워두세요"
+          oninput="numFmt(this)"
+          style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:16px;font-weight:700;font-family:Montserrat,sans-serif;color:var(--text);outline:none"
+          onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'" />
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+        <div>
+          <label style="font-size:10px;color:var(--text-muted);display:block;margin-bottom:4px;font-weight:600">중개수수료 (%)</label>
+          <input type="number" id="rate-${app.id}" step="0.1" value="${app.rate}"
+            style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:7px 8px;font-size:14px;font-weight:700;font-family:Montserrat,sans-serif;color:var(--accent);outline:none;text-align:center" />
+        </div>
+        <div>
+          <label style="font-size:10px;color:var(--text-muted);display:block;margin-bottom:4px;font-weight:600">PG수수료 (%)</label>
+          <input type="number" id="pg-${app.id}" step="0.1" value="${app.pg}"
+            style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:7px 8px;font-size:13px;font-family:Montserrat,sans-serif;color:var(--text-muted);outline:none;text-align:center" />
+        </div>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted);line-height:1.5;border-top:1px solid var(--border);padding-top:8px">${app.note}</div>
+    </div>`).join('');
 }
-
-// 초기화
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('preset-info').textContent = APPS.baemin.info;
-  document.getElementById('platformRate').value = APPS.baemin.rate;
-  if (document.getElementById('orderAmt').value) calc();
-});
 
 function calc() {
-  const orderAmt = +document.getElementById('orderAmt').value || 0;
-  const orderCnt = +document.getElementById('orderCnt').value || 0;
-  const platformRate = +document.getElementById('platformRate').value || 0;
-  const pgRate = +document.getElementById('pgRate').value || 0;
-  const delivFee = +document.getElementById('delivFee').value || 0;
-  const adFee = +document.getElementById('adFee').value || 0;
+  const costRate   = +document.getElementById('costSlider').value || 35;
+  const delivPer   = numVal('delivFee');
+  const adFeeTotal = numVal('adFee');
 
-  if (!orderAmt || !orderCnt) { alert('주문금액과 건수를 입력해주세요.'); return; }
+  const appData = APPS.map(app => {
+    const sales = numVal(`sales-${app.id}`);
+    const rate  = parseFloat(document.getElementById(`rate-${app.id}`)?.value) || 0;
+    const pg    = parseFloat(document.getElementById(`pg-${app.id}`)?.value)   || 0;
+    return { ...app, sales, rate, pg };
+  }).filter(a => a.sales > 0);
 
-  const monthSales = orderAmt * orderCnt;
-  const platformFee = monthSales * platformRate / 100;
-  const pgFee = monthSales * pgRate / 100;
-  const totalDelivFee = delivFee * orderCnt;
-  const totalFee = platformFee + pgFee + totalDelivFee + adFee;
-  const netIncome = monthSales - totalFee;
-  const perOrder = netIncome / orderCnt;
-  const totalRate = (totalFee / monthSales * 100).toFixed(1);
-  const netRate = (netIncome / monthSales * 100).toFixed(1);
+  if (appData.length === 0) { alert('하나 이상의 배달앱에 이번 달 매출을 입력해주세요.'); return; }
 
-  document.getElementById('r-net').textContent = fw(netIncome);
-  document.getElementById('r-sub').textContent = `월 ${orderCnt}건 × 건당 ${fw(orderAmt)}`;
-  document.getElementById('r-per-order').textContent = fw(perOrder);
-  document.getElementById('r-total-rate').textContent = totalRate + '%';
-  document.getElementById('r-fee-total').textContent = fw(totalFee);
-  document.getElementById('r-net-rate').textContent = netRate + '%';
+  const totalSalesAll = appData.reduce((s,a) => s + a.sales, 0);
 
-  // 상세 내역
-  const bd = document.getElementById('r-breakdown');
-  if (bd) {
-    document.getElementById('bd-sales').textContent = fw(monthSales);
-    document.getElementById('bd-platform-fee').textContent = '-' + fw(platformFee);
-    document.getElementById('bd-pg-fee').textContent = '-' + fw(pgFee);
-    document.getElementById('bd-deliv-fee').textContent = '-' + fw(totalDelivFee);
-    document.getElementById('bd-ad-fee').textContent = '-' + fw(adFee);
-    document.getElementById('bd-net').textContent = fw(netIncome);
-  }
-
-  document.getElementById('result').style.display = 'block';
-}
-</script>
-<script>
-function updateDelivSim() {
-  var rev      = parseFloat(document.getElementById('sim-monthly-rev').value) || 1000;
-  var costRate = parseFloat(document.getElementById('sim-cost-rate').value)   || 35;
-  var platforms = [
-    {name:'배달의민족 (오픈서비스)', fee:0.098, pg:0.025},
-    {name:'쿠팡이츠',               fee:0.098, pg:0.025},
-    {name:'요기요 (플러스)',         fee:0.125, pg:0.025},
-    {name:'직접 주문 (PG만)',        fee:0.000, pg:0.015},
-  ];
-  var gross = rev * 10000;
-  var cost  = gross * (costRate / 100);
-  var el = document.getElementById('delivSimResult');
-  el.innerHTML = '';
-  var tbl = document.createElement('table');
-  tbl.className = 'sim-tbl';
-  var thead = document.createElement('thead');
-  thead.innerHTML = '<tr><th>플랫폼</th><th>수수료 합계</th><th>실효율</th><th>실수익 (원가 차감)</th></tr>';
-  tbl.appendChild(thead);
-  var tbody = document.createElement('tbody');
-  platforms.forEach(function(p) {
-    var fee  = Math.round(gross * (p.fee + p.pg));
-    var net  = gross - fee - cost;
-    var rate = ((p.fee + p.pg) * 100).toFixed(1);
-    var tr   = document.createElement('tr');
-    if (p.fee === 0) tr.className = 'hl';
-    var color = net >= 0 ? 'var(--accent)' : 'var(--danger)';
-    tr.innerHTML = '<td>' + p.name + '</td>'
-      + '<td>' + fee.toLocaleString() + '원</td>'
-      + '<td>' + rate + '%</td>'
-      + '<td style="color:' + color + ';font-weight:700">' + net.toLocaleString() + '원</td>';
-    tbody.appendChild(tr);
+  const results = appData.map(a => {
+    const platformFee = Math.round(a.sales * a.rate / 100);
+    const pgFee       = Math.round(a.sales * a.pg   / 100);
+    const adShare     = appData.length > 1 ? Math.round(adFeeTotal * a.sales / totalSalesAll) : adFeeTotal;
+    const cost        = Math.round(a.sales * costRate / 100);
+    const totalFee    = platformFee + pgFee + adShare;
+    const netIncome   = a.sales - totalFee - cost;
+    const effRate     = (totalFee / a.sales * 100).toFixed(1);
+    return { ...a, platformFee, pgFee, adShare, cost, totalFee, netIncome, effRate };
   });
-  tbl.appendChild(tbody);
-  el.appendChild(tbl);
+
+  const totalSales  = results.reduce((s,r) => s + r.sales,    0);
+  const totalFeeAll = results.reduce((s,r) => s + r.totalFee, 0);
+  const totalCost   = results.reduce((s,r) => s + r.cost,     0);
+  const totalNet    = results.reduce((s,r) => s + r.netIncome, 0);
+  const effTotal    = (totalFeeAll / totalSales * 100).toFixed(1);
+
+  document.getElementById('r-total-net').textContent   = fw(totalNet);
+  document.getElementById('r-total-net').style.color   = totalNet >= 0 ? 'var(--accent)' : 'var(--danger)';
+  document.getElementById('r-total-sales').textContent = fw(totalSales);
+  document.getElementById('r-total-fee').textContent   = fw(totalFeeAll);
+  document.getElementById('r-eff-rate').textContent    = effTotal + '%';
+  document.getElementById('r-before-cost').textContent = fw(totalSales - totalFeeAll);
+  document.getElementById('r-total-sub').textContent   = `총 배달 매출 ${fw(totalSales)} · 원가 ${costRate}% · ${results.length}개 앱 합산`;
+  document.getElementById('totalSummary').style.display = 'block';
+
+  const bestNet = Math.max(...results.map(r => r.netIncome));
+  document.getElementById('appResultCards').innerHTML = results.map(r => {
+    const isBest = r.netIncome === bestNet && results.length > 1;
+    return `<div style="background:${isBest?'rgba(0,212,170,0.08)':'var(--surface)'};border:${isBest?'2px solid rgba(0,212,170,.5)':'1px solid var(--border)'};border-radius:14px;padding:16px;position:relative">
+      ${isBest?'<div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--accent);color:#000;font-size:10px;font-weight:800;padding:2px 12px;border-radius:20px;white-space:nowrap">✅ 수익 최고</div>':''}
+      <div style="font-size:14px;font-weight:800;color:var(--text);margin-bottom:10px">${r.emoji} ${r.name}</div>
+      <div style="margin-bottom:6px"><div style="font-size:10px;color:var(--text-muted);margin-bottom:2px">이번 달 매출</div><div style="font-size:15px;font-weight:700;color:var(--text)">${fw(r.sales)}</div></div>
+      <div style="margin-bottom:6px"><div style="font-size:10px;color:var(--text-muted);margin-bottom:2px">수수료 합계 (${r.effRate}%)</div><div style="font-size:15px;font-weight:700;color:var(--danger)">${fw(r.totalFee)}</div></div>
+      <div style="border-top:1px solid var(--border);padding-top:8px;margin-top:4px"><div style="font-size:10px;color:var(--text-muted);margin-bottom:2px">실수익 (원가 포함)</div>
+      <div style="font-family:Montserrat,sans-serif;font-size:20px;font-weight:900;color:${r.netIncome>=0?'var(--accent)':'var(--danger)'}">${fw(r.netIncome)}</div></div>
+    </div>`;
+  }).join('');
+
+  const hasAd = adFeeTotal > 0;
+  const tableRows = results.map(r =>
+    `<tr>
+      <td style="padding:9px 12px;border:1px solid var(--border);font-weight:700">${r.emoji} ${r.name}</td>
+      <td style="padding:9px 12px;border:1px solid var(--border);text-align:right">${fw(r.sales)}</td>
+      <td style="padding:9px 12px;border:1px solid var(--border);text-align:right;color:var(--danger)">-${fw(r.platformFee)}<br><span style="font-size:10px;color:var(--text-muted)">(${r.rate}%)</span></td>
+      <td style="padding:9px 12px;border:1px solid var(--border);text-align:right;color:var(--danger)">-${fw(r.pgFee)}<br><span style="font-size:10px;color:var(--text-muted)">(${r.pg}%)</span></td>
+      ${hasAd?`<td style="padding:9px 12px;border:1px solid var(--border);text-align:right;color:var(--danger)">-${fw(r.adShare)}</td>`:''}
+      <td style="padding:9px 12px;border:1px solid var(--border);text-align:right;color:var(--text-muted)">-${fw(r.cost)}<br><span style="font-size:10px">(${costRate}%)</span></td>
+      <td style="padding:9px 12px;border:1px solid var(--border);text-align:right;font-weight:900;color:${r.netIncome>=0?'var(--accent)':'var(--danger)'}">${fw(r.netIncome)}</td>
+    </tr>`
+  ).join('');
+
+  const totalRow = `<tr style="background:rgba(0,212,170,0.06)">
+    <td style="padding:9px 12px;border:1px solid var(--border);font-weight:800">전체 합산</td>
+    <td style="padding:9px 12px;border:1px solid var(--border);text-align:right;font-weight:700">${fw(totalSales)}</td>
+    <td style="padding:9px 12px;border:1px solid var(--border);text-align:right;color:var(--danger);font-weight:700">-${fw(results.reduce((s,r)=>s+r.platformFee,0))}</td>
+    <td style="padding:9px 12px;border:1px solid var(--border);text-align:right;color:var(--danger);font-weight:700">-${fw(results.reduce((s,r)=>s+r.pgFee,0))}</td>
+    ${hasAd?`<td style="padding:9px 12px;border:1px solid var(--border);text-align:right;color:var(--danger);font-weight:700">-${fw(adFeeTotal)}</td>`:''}
+    <td style="padding:9px 12px;border:1px solid var(--border);text-align:right;color:var(--text-muted);font-weight:700">-${fw(totalCost)}</td>
+    <td style="padding:9px 12px;border:1px solid var(--border);text-align:right;font-weight:900;font-size:15px;color:${totalNet>=0?'var(--accent)':'var(--danger)'}">${fw(totalNet)}</td>
+  </tr>`;
+
+  const adTh = hasAd ? '<th style="padding:8px 12px;border:1px solid var(--border);text-align:right;color:var(--text-muted)">광고비</th>' : '';
+  document.getElementById('detailTableBody').innerHTML = `<table style="width:100%;border-collapse:collapse;font-size:12px;min-width:480px">
+    <thead><tr style="background:var(--surface2)">
+      <th style="padding:8px 12px;border:1px solid var(--border);text-align:left;color:var(--text-muted)">배달앱</th>
+      <th style="padding:8px 12px;border:1px solid var(--border);text-align:right;color:var(--text-muted)">매출</th>
+      <th style="padding:8px 12px;border:1px solid var(--border);text-align:right;color:var(--text-muted)">중개수수료</th>
+      <th style="padding:8px 12px;border:1px solid var(--border);text-align:right;color:var(--text-muted)">PG수수료</th>
+      ${adTh}
+      <th style="padding:8px 12px;border:1px solid var(--border);text-align:right;color:var(--text-muted)">원가</th>
+      <th style="padding:8px 12px;border:1px solid var(--border);text-align:right;color:var(--text-muted)">실수익</th>
+    </tr></thead>
+    <tbody>${tableRows}${totalRow}</tbody></table>`;
+
+  document.getElementById('detailTable').style.display = 'block';
+  document.getElementById('result').scrollIntoView({ behavior:'smooth', block:'nearest' });
 }
-document.addEventListener('DOMContentLoaded', updateDelivSim);
+
+// ── 시뮬레이터 ────────────────────────────────────
+function updateSim() {
+  const base     = parseFloat(document.getElementById('sim-base').value) || 1000;
+  const costRate = +document.getElementById('sim-cost').value || 35;
+  // 기준값 중심 ±구간 생성
+  const steps = [-0.5, -0.25, 0, 0.25, 0.5, 0.75, 1.0].map(d => Math.round(base * (1 + d) / 100) * 100);
+  const unique = [...new Set(steps)].filter(v => v > 0).sort((a,b) => a-b);
+
+  // 앱별 총 수수료율 (중개+PG, 2026 기준)
+  const simApps = [
+    { name:'🟡 배달의민족', totalRate:7.8 },
+    { name:'🔴 쿠팡이츠',   totalRate:7.8 },
+    { name:'🔵 요기요',     totalRate:10.7 },
+    { name:'🟢 땡겨요',     totalRate:3.0 },
+  ];
+
+  const thCols = simApps.map(a =>
+    `<th style="padding:8px 10px;border:1px solid var(--border);text-align:right;color:var(--text-muted);min-width:90px">${a.name}<br><span style="font-size:10px;font-weight:400">${a.totalRate}%</span></th>`
+  ).join('');
+
+  const rows = unique.map(rev => {
+    const gross = rev * 10000;
+    const cost  = Math.round(gross * costRate / 100);
+    const isCur = rev === Math.round(base / 100) * 100;
+    const cells = simApps.map(a => {
+      const fee = Math.round(gross * a.totalRate / 100);
+      const net = gross - fee - cost;
+      const color = net > 0 ? 'var(--accent)' : 'var(--danger)';
+      return `<td style="padding:8px 10px;border:1px solid var(--border);text-align:right${isCur?';background:rgba(0,212,170,0.06)':''}">
+        <span style="color:var(--danger);font-size:11px">-${fee.toLocaleString()}</span><br>
+        <strong style="color:${color}">${net.toLocaleString()}원</strong>
+      </td>`;
+    }).join('');
+    return `<tr${isCur?' style="background:rgba(0,212,170,0.04)"':''}>
+      <td style="padding:8px 10px;border:1px solid var(--border);font-weight:${isCur?800:400};color:${isCur?'var(--accent)':'var(--text)'}">
+        ${(rev).toLocaleString()}만원${isCur?' ◀ 기준':''}
+      </td>${cells}</tr>`;
+  }).join('');
+
+  document.getElementById('simResult').innerHTML = `
+    <table style="width:100%;border-collapse:collapse;font-size:12px;min-width:420px">
+      <thead><tr style="background:var(--surface2)">
+        <th style="padding:8px 10px;border:1px solid var(--border);text-align:left;color:var(--text-muted)">월 배달 매출</th>
+        ${thCols}
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <div style="font-size:11px;color:var(--text-muted);margin-top:8px">위: 수수료 / 아래: 실수익 (원가 ${costRate}% 차감 후)</div>`;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderInputCards();
+  // 기본값 입력 (배민 500만, 쿠팡 300만, 요기요 200만, 땡겨요 0)
+  const defaults = { baemin:'5,000,000', coupang:'3,000,000', yogiyo:'2,000,000', ddanggye:'' };
+  Object.entries(defaults).forEach(([id, val]) => {
+    const el = document.getElementById(`sales-${id}`);
+    if (el) el.value = val;
+  });
+  calc();
+  updateSim();
+});
 </script>
 <script src="/common.js" defer></script><script src="/share.js" defer></script><script src="/calculator.js" defer></script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}</script>
