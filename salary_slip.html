@@ -312,9 +312,9 @@ function calcPayslip() {
   let taxable = 0, nonTaxable = 0;
   const payItems = [];
   document.querySelectorAll('#allowanceList .allowance-row').forEach(row => {
-    const name = row.querySelector('.name-inp')?.value || '';
-    const amt  = parseFloat(row.querySelector('.amt-inp')?.value) || 0;
-    const type = row.querySelector('select')?.value || '과세';
+    const name = (row.querySelector('.name-inp')||{}).value || '';
+    const amt  = parseFloat((row.querySelector('.amt-inp')||{}).value) || 0;
+    const type = (row.querySelector('select')||{}).value || '과세';
     if (amt > 0) {
       payItems.push({name, amt, type});
       if (type === '비과세') nonTaxable += amt;

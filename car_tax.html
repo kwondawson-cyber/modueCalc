@@ -277,7 +277,7 @@ function calcCarTax() {
   if (carType === '경차') acqTax = Math.max(0, acqTax - 1000000);
   if (DISCOUNT[carType]) acqTax = Math.max(0, acqTax - DISCOUNT[carType]);
   const eduTax   = Math.floor(acqTax * 0.10);
-  const bondRate = BOND_RATES[region]?.[carType] ?? 0.05;
+  const bondRate = (BOND_RATES[region] && BOND_RATES[region][carType]) || 0.05;
   const bondAmt  = Math.floor(price * bondRate);
   const bondLoss = Math.floor(bondAmt * BOND_DISCOUNT_RATE);
   const totalCost = acqTax + eduTax + bondLoss;

@@ -329,9 +329,9 @@ function setSize(is5plus) {
 }
 
 function updatePreview(id) {
-  const gross = parseFloat(document.getElementById(`s${id}-gross`)?.value) || 0;
-  const brk   = parseFloat(document.getElementById(`s${id}-break`)?.value) || 0;
-  const days  = parseFloat(document.getElementById(`s${id}-days`)?.value)  || 5;
+  const gross = parseFloat((document.getElementById(`s${id}-gross`)||{}).value) || 0;
+  const brk   = parseFloat((document.getElementById(`s${id}-break`)||{}).value) || 0;
+  const days  = parseFloat((document.getElementById(`s${id}-days`)||{}).value)  || 5;
   const real  = Math.max(0, gross - brk);
   const week  = real * days;
   const el = document.getElementById(`s${id}-preview`);
@@ -400,11 +400,11 @@ function calc() {
 
   rows.forEach(row => {
     const id    = row.id.replace('staff-', '');
-    const name  = document.getElementById(`s${id}-name`)?.value || `직원 ${id}`;
-    const wage  = parseFloat(document.getElementById(`s${id}-wage`)?.value)  || MIN_WAGE;
-    const gross = parseFloat(document.getElementById(`s${id}-gross`)?.value) || 8;
-    const brk   = parseFloat(document.getElementById(`s${id}-break`)?.value) || 0;
-    const days  = parseFloat(document.getElementById(`s${id}-days`)?.value)  || 5;
+    const name  = (document.getElementById(`s${id}-name`)||{}).value || `직원 ${id}`;
+    const wage  = parseFloat((document.getElementById(`s${id}-wage`)||{}).value)  || MIN_WAGE;
+    const gross = parseFloat((document.getElementById(`s${id}-gross`)||{}).value) || 8;
+    const brk   = parseFloat((document.getElementById(`s${id}-break`)||{}).value) || 0;
+    const days  = parseFloat((document.getElementById(`s${id}-days`)||{}).value)  || 5;
 
     const hpd      = Math.max(0, gross - brk);          // 실 근무시간/일 (휴게 제외)
     const weekH    = hpd * days;                          // 주 실 근무시간

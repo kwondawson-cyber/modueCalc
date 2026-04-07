@@ -271,9 +271,9 @@ function updateCustoms(){
 }
 
 function updateSimCustoms() {
-  const price = parseFloat(document.getElementById('foreignPrice')?.value?.replace(/,/g,'')) || 0;
-  const ship  = parseFloat(document.getElementById('shippingFee')?.value?.replace(/,/g,'')) || 0;
-  const rate  = parseFloat(document.getElementById('exchangeRate')?.value?.replace(/,/g,'')) || 1350;
+  const price = parseFloat(((document.getElementById('foreignPrice')||{}).value||'').replace(/,/g,'')) || 0;
+  const ship  = parseFloat(((document.getElementById('shippingFee')||{}).value||'').replace(/,/g,'')) || 0;
+  const rate  = parseFloat(((document.getElementById('exchangeRate')||{}).value||'').replace(/,/g,'')) || 1350;
   const krw   = (price + ship) * rate;
   const tbody = document.getElementById('simCustomsBody');
   if (!tbody) return;

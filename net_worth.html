@@ -334,8 +334,8 @@
     const parts = sel.value.split(',');
     const label  = parts[0];
     const avgWon = Number(parts[1]) * 10000;
-    const asset = ['a1','a2','a3','a4','a5','a6'].reduce((s,id) => s + (parseFloat(document.getElementById(id)?.value)||0), 0);
-    const debt  = ['d1','d2','d3','d4','d5','d6'].reduce((s,id) => s + (parseFloat(document.getElementById(id)?.value)||0), 0);
+    const asset = ['a1','a2','a3','a4','a5','a6'].reduce((s,id) => s + (parseFloat((document.getElementById(id)||{}).value)||0), 0);
+    const debt  = ['d1','d2','d3','d4','d5','d6'].reduce((s,id) => s + (parseFloat((document.getElementById(id)||{}).value)||0), 0);
     const net   = asset - debt;
     const pct = avgWon > 0 ? Math.round(net / avgWon * 100) : 0;
     const barW = Math.max(0, Math.min(pct, 100));

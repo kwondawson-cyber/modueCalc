@@ -244,7 +244,7 @@ function calcInsurance() {
   const smoke  = parseInt(document.getElementById('smoke').value);
   const period = parseInt(document.getElementById('period').value);
   const selected = ['life','silson','cancer','ci','dementia'].filter(k =>
-    document.getElementById('ch-' + k)?.checked
+    (document.getElementById('ch-' + k) || {}).checked
   );
   if (selected.length === 0) { alert('보험 종류를 하나 이상 선택해주세요.'); return; }
 

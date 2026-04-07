@@ -257,9 +257,9 @@
   }
 
   function calcSleepDebt() {
-    const target = parseFloat(document.getElementById('debt-target')?.value) || 7.5;
-    const actual = parseFloat(document.getElementById('debt-actual')?.value) || 6;
-    const days   = parseInt(document.getElementById('debt-days')?.value)   || 7;
+    const target = parseFloat((document.getElementById('debt-target')||{}).value) || 7.5;
+    const actual = parseFloat((document.getElementById('debt-actual')||{}).value) || 6;
+    const days   = parseInt((document.getElementById('debt-days')||{}).value)   || 7;
     const el     = document.getElementById('debtResult');
     if(!el) return;
 

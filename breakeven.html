@@ -330,7 +330,7 @@ function getListTotal(listId) {
 function calc() {
   const price = +document.getElementById('price').value || 0;
   const varUnit = +document.getElementById('varUnit').value || 0;
-  const fixedTotal = getListTotal('fixed-list') || +document.getElementById('fixed-ttl')?.value || 0;
+  const fixedTotal = getListTotal('fixed-list') || +(document.getElementById('fixed-ttl')||{}).value || 0;
   const curQty = +document.getElementById('curQty').value || 0;
 
   if (!price) { alert('판매가를 입력해주세요.'); return; }
