@@ -435,7 +435,7 @@ function calc() {
   document.getElementById('saving-content').innerHTML = html;
 }
 
-window.onload = () => calc();
+window.onload = () => { if (document.getElementById('cardSales').value) calc(); };
 </script>
 <script src="/common.js" defer></script><script src="/share.js" defer></script><script src="/calculator.js" defer></script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}</script>

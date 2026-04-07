@@ -320,7 +320,7 @@ function selectApp(app, el) {
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('preset-info').textContent = APPS.baemin.info;
   document.getElementById('platformRate').value = APPS.baemin.rate;
-  calc();
+  if (document.getElementById('orderAmt').value) calc();
 });
 
 function calc() {

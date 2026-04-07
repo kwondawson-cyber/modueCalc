@@ -493,7 +493,7 @@ function calcSubscription(){
   document.getElementById('result-sub').classList.add('show');
 }
 
-window.onload = () => calcBasic();
+window.onload = () => { if (document.getElementById('b-paid').value) calcBasic(); };
 </script>
 <script src="/common.js" defer></script><script src="/share.js" defer></script><script src="/calculator.js" defer></script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}</script>

@@ -375,7 +375,7 @@ function calc() {
   document.getElementById('result').style.display = 'block';
 }
 
-window.onload = () => calc();
+window.onload = () => { if (document.getElementById('buyPrice').value) calc(); };
 </script>
 </body>
 </html>
