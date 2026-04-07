@@ -441,4 +441,66 @@
 
   window.__common = { CALC_LIST:CALC_LIST, getFavs:getFavs, isFav:isFav, showToast:showToast };
 
+  // ─── WebApplication 스키마 자동 주입 ───────────────────────────────
+  // 계산기 페이지(홈·about·faq·privacy 제외)에 JSON-LD를 동적으로 삽입합니다.
+  // common.js 한 곳만 수정하면 77개 전체 계산기에 일괄 반영됩니다.
+  (function injectSchema(){
+    var SKIP = ['/', '/about', '/faq', '/privacy'];
+    if (SKIP.indexOf(PATH) !== -1) return;
+
+    // applicationCategory 매핑
+    // Schema.org 권장값: FinanceApplication / HealthApplication / UtilitiesApplication
+    var HEALTH  = ['/bmi','/bmr','/calorie','/blood_pressure','/pregnancy',
+                   '/ovulation','/fasting','/child_height','/sleep'];
+    var UTILITY = ['/age','/dday','/date_diff','/area_converter','/cm_inch',
+                   '/address_converter','/golf_handicap','/timezone','/lotto',
+                   '/cm_inch','/fuel_economy'];
+
+    var appCat = HEALTH.indexOf(PATH) !== -1  ? 'HealthApplication'  :
+                 UTILITY.indexOf(PATH) !== -1 ? 'UtilitiesApplication' :
+                                                'FinanceApplication';
+
+    // 현재 페이지의 CALC_LIST 항목 찾기 (제목 추출용)
+    var cur = null;
+    for (var i = 0; i < CALC_LIST.length; i++) {
+      if (CALC_LIST[i].path === PATH) { cur = CALC_LIST[i]; break; }
+    }
+
+    // <title> 태그에서 이름 추출 (CALC_LIST에 없는 신규 페이지도 커버)
+    var rawTitle = document.title || '';
+    var calcName = cur ? cur.title :
+                   rawTitle.replace(/\s*[\|·\-–]\s*모두의계산기.*$/, '').trim();
+    if (!calcName) return; // 제목 없으면 스킵
+
+    // "계산기" 중복 방지
+    var fullName = /계산기|계산|변환기/.test(calcName) ? calcName : calcName + ' 계산기';
+
+    var schema = {
+      '@context': 'https://schema.org',
+      '@type': 'WebApplication',
+      'name': fullName,
+      'url': 'https://www.everycalc.kr' + PATH,
+      'applicationCategory': appCat,
+      'operatingSystem': 'Web',
+      'inLanguage': 'ko',
+      'isAccessibleForFree': true,
+      'offers': {
+        '@type': 'Offer',
+        'price': '0',
+        'priceCurrency': 'KRW'
+      },
+      'provider': {
+        '@type': 'Organization',
+        'name': '모두의계산기',
+        'url': 'https://www.everycalc.kr'
+      }
+    };
+
+    var s = document.createElement('script');
+    s.type = 'application/ld+json';
+    s.textContent = JSON.stringify(schema, null, 2);
+    document.head.appendChild(s);
+  })();
+  // ──────────────────────────────────────────────────────────────────
+
 })();

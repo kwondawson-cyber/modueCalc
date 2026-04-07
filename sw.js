@@ -3,7 +3,7 @@
 // 전략: Cache First (정적 자산) + Network First (HTML)
 // =============================================
 
-const CACHE_NAME    = 'everycalc-v6';
+const CACHE_NAME    = 'everycalc-v7';
 const STATIC_ASSETS = [
   '/',
   '/common.js',
