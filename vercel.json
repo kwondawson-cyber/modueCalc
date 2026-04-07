@@ -251,6 +251,10 @@
       "destination": "/parental_leave.html"
     },
     {
+      "source": "/maternity_leave",
+      "destination": "/maternity_leave.html"
+    },
+    {
       "source": "/freelancer_tax",
       "destination": "/freelancer_tax.html"
     },

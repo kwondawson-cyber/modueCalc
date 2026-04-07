@@ -78,6 +78,7 @@
     {title:'로또 당첨금',   path:'/lotto',            emoji:'🎱'},
     {title:'아이 예상키',   path:'/child_height',     emoji:'📏'},
     {title:'육아휴직 급여', path:'/parental_leave',   emoji:'👶'},
+    {title:'출산휴가 급여', path:'/maternity_leave',  emoji:'🤱'},
     {title:'프리랜서 세금', path:'/freelancer_tax',   emoji:'💼'},
     {title:'증여세 절세',   path:'/gift_tax_sim',     emoji:'🎁'},
     {title:'대출 한도',     path:'/loan_limit',       emoji:'🏦'},

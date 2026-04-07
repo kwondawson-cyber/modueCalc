@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#00d4aa" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="모두의계산기" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>출산휴가 급여 계산기 2026 | 출산전후휴가 상한액 · 배우자 출산휴가 | 모두의계산기</title>
+  <meta name="description" content="출산휴가 급여 계산기. 우선지원대상기업·대기업 구분, 단태아·다태아 90일/120일 기준 출산전후휴가 급여와 배우자 출산휴가 10일 급여를 자동 계산. 2026년 고용보험 상한액 반영." />
+  <link rel="canonical" href="https://www.everycalc.kr/maternity_leave" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="출산휴가 급여 계산기 2026 | 모두의계산기" />
+  <meta property="og:description" content="출산전후휴가 급여 자동 계산. 우선지원대상기업·대기업, 단태아·다태아, 배우자 출산휴가까지 한번에." />
+  <meta property="og:url" content="https://www.everycalc.kr/maternity_leave" />
+  <meta property="og:image" content="https://www.everycalc.kr/og-image.png" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6079812618767597" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" /></noscript>
+  <style>
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#00d4aa;--accent2:#0095ff;--text:#e6edf3;--text-muted:#8b949e;--radius:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,170,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+    .container{max-width:660px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
+    .home-btn-wrap{text-align:center;margin-bottom:8px}
+    .home-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;height:54px;background:rgba(0,212,170,0.08);border:1.5px solid rgba(0,212,170,0.35);border-radius:50%;text-decoration:none;transition:all .2s}
+    .home-btn:hover{background:rgba(0,212,170,0.18);transform:translateY(-2px)}
+    .home-btn-emoji{font-size:20px;line-height:1}
+    .home-btn-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#00d4aa}
+    .header{text-align:center;margin-bottom:32px}
+    .header h1{font-size:clamp(26px,6vw,42px);font-weight:900;line-height:1.1;margin-bottom:8px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .header h1 .emoji{-webkit-text-fill-color:initial;background:none;font-family:initial}
+    .header p{color:var(--text-muted);font-size:13px}
+    /* 탭 */
+    .tab-wrap{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px}
+    .tab-btn{padding:12px 8px;background:var(--surface);border:1px solid var(--border);border-radius:12px;font-size:13px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:var(--text-muted);cursor:pointer;transition:all .2s;text-align:center;line-height:1.5}
+    .tab-btn:hover{border-color:rgba(0,212,170,0.3);color:var(--text)}
+    .tab-btn.active{background:rgba(0,212,170,0.1);border-color:rgba(0,212,170,0.5);color:var(--accent)}
+    .tab-btn .tab-sub{display:block;font-size:10px;font-weight:400;margin-top:2px;opacity:.7}
+    .tab-pane{display:none}.tab-pane.active{display:block}
+    /* 카드 */
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:14px}
+    .card-title{font-size:13px;font-weight:800;color:var(--accent);margin-bottom:18px}
+    /* 입력 */
+    .input-group{margin-bottom:16px}
+    .input-group label{display:block;font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:7px}
+    .input-wrapper{position:relative}
+    .input-wrapper input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px 58px 12px 14px;font-size:20px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none;transition:border-color .2s}
+    .input-wrapper input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,170,0.1)}
+    .input-unit{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--text-muted);font-weight:500;pointer-events:none}
+    /* 세그먼트 선택 */
+    .seg-wrap{display:flex;gap:6px;margin-bottom:16px}
+    .seg-btn{flex:1;padding:10px 6px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;font-size:12px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:var(--text-muted);cursor:pointer;transition:all .2s;text-align:center}
+    .seg-btn:hover{border-color:rgba(0,212,170,0.3)}
+    .seg-btn.active{background:rgba(0,212,170,0.1);border-color:rgba(0,212,170,0.5);color:var(--accent)}
+    .seg-btn .seg-sub{display:block;font-size:10px;font-weight:400;margin-top:2px;opacity:.8}
+    /* 정보 박스 */
+    .info-box{background:rgba(0,149,255,0.06);border:1px solid rgba(0,149,255,0.2);border-left:3px solid var(--accent2);border-radius:10px;padding:12px 16px;font-size:12px;color:var(--text-muted);margin-bottom:16px;line-height:1.9}
+    .info-box strong{color:var(--text)}
+    /* 계산 버튼 */
+    .calc-btn{width:100%;padding:15px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;font-size:15px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:#000;cursor:pointer;transition:transform .15s,box-shadow .15s}
+    .calc-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,212,170,0.3)}
+    /* 결과 */
+    .result-wrap{animation:fadeUp .4s ease}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+    .r-main{background:linear-gradient(135deg,rgba(0,212,170,0.1),rgba(0,149,255,0.05));border:1px solid rgba(0,212,170,0.4);border-radius:14px;padding:22px;text-align:center;margin-bottom:12px}
+    .r-main-label{font-size:12px;color:var(--text-muted);font-weight:600;margin-bottom:6px}
+    .r-main-value{font-family:'Montserrat',sans-serif;font-size:38px;font-weight:900;color:var(--accent)}
+    .r-main-unit{font-size:13px;color:var(--text-muted);margin-top:3px}
+    .r-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+    .r-box{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center}
+    .r-box .rl{font-size:11px;color:var(--text-muted);font-weight:600;margin-bottom:5px}
+    .r-box .rv{font-family:'Montserrat',sans-serif;font-size:19px;font-weight:900;color:var(--text)}
+    .r-box .ru{font-size:11px;color:var(--text-muted);margin-top:3px}
+    .detail-list{border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:12px}
+    .dl-row{display:flex;justify-content:space-between;align-items:center;padding:11px 16px;border-bottom:1px solid var(--border);font-size:13px}
+    .dl-row:last-child{border-bottom:none}
+    .dl-row.header-row{background:var(--surface2)}
+    .dl-label{color:var(--text-muted)}
+    .dl-value{font-weight:700}
+    .dl-value.accent{color:var(--accent)}
+    .dl-value.blue{color:var(--accent2)}
+    .dl-value.warn{color:#ff6b6b}
+    /* 타임라인 */
+    .timeline{margin:12px 0}
+    .tl-bar{height:28px;border-radius:8px;display:flex;overflow:hidden;margin-bottom:6px}
+    .tl-seg{display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#000;transition:width .6s ease;overflow:hidden;white-space:nowrap}
+    .tl-legend{display:flex;flex-wrap:wrap;gap:10px}
+    .tl-legend-item{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text-muted)}
+    .tl-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+    /* 알림 박스 */
+    .alert-box{background:rgba(255,193,7,0.07);border:1px solid rgba(255,193,7,0.25);border-radius:10px;padding:12px 16px;font-size:12px;color:var(--text-muted);line-height:1.9;margin-top:12px}
+    .alert-box strong{color:#ffc107}
+    /* 월별 지급 내역 */
+    .monthly-table{width:100%;border-collapse:collapse;font-size:12px;margin:0}
+    .monthly-table th{background:var(--surface2);color:var(--text);padding:9px 10px;text-align:center;border:1px solid var(--border);font-weight:700;white-space:nowrap}
+    .monthly-table td{padding:9px 10px;border:1px solid var(--border);color:var(--text-muted);text-align:right;vertical-align:middle}
+    .monthly-table td.month-label{text-align:center;font-weight:700;color:var(--text);white-space:nowrap}
+    .monthly-table td.days-cell{text-align:center;color:var(--text-muted)}
+    .monthly-table tr:last-child td{background:rgba(0,212,170,0.06);font-weight:700;color:var(--text)}
+    .monthly-table .ins-cell{color:var(--accent)}
+    .monthly-table .emp-cell{color:var(--accent2)}
+    .monthly-table .total-cell{color:var(--text);font-weight:700}
+    @media(max-width:480px){.monthly-table{font-size:11px}.monthly-table th,.monthly-table td{padding:7px 6px}}
+    /* SEO */
+    .seo-section{max-width:660px;margin:60px auto 0;padding:0 4px 60px}
+    .seo-section h2{font-size:20px;font-weight:900;color:var(--text);margin:40px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+    .seo-section h3{font-size:15px;font-weight:700;color:var(--accent);margin:18px 0 8px}
+    .seo-section p{font-size:14px;color:var(--text-muted);line-height:1.9;margin-bottom:10px}
+    .seo-section table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+    .seo-section table th{background:var(--surface2);color:var(--text);padding:10px 12px;text-align:left;border:1px solid var(--border);font-weight:700}
+    .seo-section table td{padding:9px 12px;border:1px solid var(--border);color:var(--text-muted);line-height:1.7}
+    .seo-section table tr:nth-child(even) td{background:var(--surface)}
+    .seo-section table td strong{color:var(--accent)}
+    .seo-section .tip-box{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:var(--text-muted);line-height:1.9}
+    .seo-section .tip-box strong{color:var(--accent)}
+    .seo-section .warn-box{background:rgba(255,107,107,0.06);border:1px solid rgba(255,107,107,0.25);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:13px;color:var(--text-muted);line-height:1.9}
+    .seo-section .warn-box strong{color:#ff6b6b}
+    .seo-section details{border:1px solid var(--border);border-radius:10px;margin-bottom:10px;overflow:hidden}
+    .seo-section summary{padding:14px 18px;font-size:14px;font-weight:600;color:var(--text);cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+    .seo-section summary::after{content:'＋';color:var(--accent);font-size:16px}
+    .seo-section details[open] summary::after{content:'－'}
+    .seo-section details[open]{background:var(--surface)}
+    .seo-section .faq-answer{padding:0 18px 16px;font-size:13px;color:var(--text-muted);line-height:1.9}
+    /* rel */
+    .rel-section{max-width:660px;margin:32px auto 8px;padding:0 4px}
+    .rel-section h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
+    /* 시뮬레이터 섹션 */
+    .sim-section{max-width:660px;margin:40px auto 0;padding:0 20px}
+    .sim-section-title{font-size:18px;font-weight:900;color:var(--text);margin-bottom:6px}
+    .sim-section-sub{font-size:13px;color:var(--text-muted);margin-bottom:20px}
+    .sim-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px;margin-bottom:14px}
+    .sim-card-title{font-size:13px;font-weight:800;color:var(--accent);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+    .sim-card-title .sim-tag{font-size:10px;padding:2px 8px;border-radius:20px;letter-spacing:.5px}
+    .sim-tag-emp{background:rgba(0,212,170,0.12);border:1px solid rgba(0,212,170,0.3);color:var(--accent)}
+    .sim-tag-hr{background:rgba(0,149,255,0.12);border:1px solid rgba(0,149,255,0.3);color:var(--accent2)}
+    .sim-input-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+    .sim-input-group label{display:block;font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:6px}
+    .sim-input-group input[type="date"],.sim-input-group input[type="number"],.sim-input-group input[type="text"]{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:14px;font-weight:600;font-family:'Noto Sans KR',sans-serif;color:var(--text);outline:none;transition:border-color .2s}
+    .sim-input-group input:focus{border-color:var(--accent)}
+    input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(.7);cursor:pointer}
+    .sim-btn{padding:10px 20px;background:var(--surface2);border:1px solid rgba(0,212,170,0.4);border-radius:8px;font-size:13px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:var(--accent);cursor:pointer;transition:all .2s}
+    .sim-btn:hover{background:rgba(0,212,170,0.1)}
+    /* 일정 타임라인 */
+    .schedule-list{margin-top:14px}
+    .sch-row{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
+    .sch-row:last-child{border-bottom:none}
+    .sch-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:4px}
+    .sch-date{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;color:var(--text);min-width:96px}
+    .sch-label{font-size:13px;color:var(--text-muted);line-height:1.5}
+    .sch-badge{display:inline-block;font-size:10px;font-weight:700;padding:1px 7px;border-radius:10px;margin-left:6px;vertical-align:middle}
+    .badge-deadline{background:rgba(255,107,107,.15);color:#ff6b6b;border:1px solid rgba(255,107,107,.3)}
+    .badge-important{background:rgba(255,193,7,.15);color:#ffc107;border:1px solid rgba(255,193,7,.3)}
+    /* 급여 연계 바 */
+    .wage-bar-wrap{margin:14px 0}
+    .wage-bar{height:24px;border-radius:8px;display:flex;overflow:hidden}
+    .wage-seg{display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#000;white-space:nowrap;overflow:hidden;transition:width .5s ease}
+    .wage-total{font-family:'Montserrat',sans-serif;font-size:28px;font-weight:900;color:var(--accent);text-align:center;padding:10px 0 4px}
+    .wage-label{font-size:12px;color:var(--text-muted);text-align:center}
+    /* HR 비용 비교 */
+    .cost-compare{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+    .cost-col{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center}
+    .cost-col-title{font-size:11px;font-weight:700;color:var(--text-muted);margin-bottom:10px;letter-spacing:.5px}
+    .cost-col-value{font-family:'Montserrat',sans-serif;font-size:22px;font-weight:900;margin-bottom:4px}
+    .cost-col-sub{font-size:11px;color:var(--text-muted)}
+    .cost-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:12px}
+    .cost-row:last-child{border-bottom:none}
+    .cost-row-label{color:var(--text-muted)}
+    .cost-row-val{font-weight:700}
+    @media(max-width:480px){.sim-input-row{grid-template-columns:1fr}.cost-compare{grid-template-columns:1fr}}
+    .rel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+    .rel-card{display:block;padding:14px 8px;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-decoration:none;transition:all .2s;text-align:center}
+    .rel-card:hover{border-color:var(--accent);background:rgba(0,212,170,0.06);transform:translateY(-2px)}
+    .rel-card .re{font-size:22px;display:block;margin-bottom:4px}
+    .rel-card .rn{font-size:11px;font-weight:700;color:var(--text)}
+    /* 분할 시나리오 행 */
+    .sim-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);gap:12px;font-family:'Noto Sans KR',sans-serif}
+    .sim-row:last-child{border-bottom:none}
+    .sim-row.current{background:rgba(0,212,170,0.04);border-radius:8px;margin:0 -4px;padding:10px 4px}
+    .sim-label{font-size:13px;font-weight:700;margin-bottom:2px}
+    .sim-row .sim-sub{font-size:12px;color:var(--text-muted);line-height:1.6}
+    .sim-amount{font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700}
+    @media(max-width:480px){.card{padding:18px 14px}.r-grid{grid-template-columns:1fr}.seg-wrap{flex-wrap:wrap}}
+  </style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7GYSXR7WJ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-E7GYSXR7WJ');</script>
+</head>
+<body>
+<div class="container">
+
+  <div class="home-btn-wrap">
+    <a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a>
+  </div>
+
+  <div class="header">
+    <h1><span class="emoji">🤱</span> 출산휴가 급여 계산기</h1>
+    <p>출산전후휴가 급여 · 배우자 출산휴가 급여 — 2026년 고용보험 기준</p>
+  </div>
+
+  <!-- 탭 -->
+  <div class="tab-wrap">
+    <button class="tab-btn active" onclick="switchTab('mama',this)">
+      🤱 출산전후휴가
+      <span class="tab-sub">본인 90일/120일 급여</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('papa',this)">
+      👨‍👩‍👧 배우자 출산휴가
+      <span class="tab-sub">배우자 10일 급여</span>
+    </button>
+  </div>
+
+  <!-- ══════ 탭 1: 출산전후휴가 ══════ -->
+  <div class="tab-pane active" id="tab-mama">
+
+    <div class="info-box">
+      <strong>출산전후휴가</strong>란 출산 전후 근로자에게 부여되는 90일(다태아 120일)의 유급 휴가입니다.
+      고용보험에서 급여를 지원하며, 기업 규모에 따라 지급 구조가 다릅니다.
+    </div>
+
+    <div class="card">
+      <div class="card-title">기업 유형</div>
+      <div class="seg-wrap">
+        <button class="seg-btn active" onclick="setSeg('m-biz','sme',this)">
+          중소·중견기업
+          <span class="seg-sub">우선지원대상기업</span>
+        </button>
+        <button class="seg-btn" onclick="setSeg('m-biz','large',this)">
+          대기업
+          <span class="seg-sub">우선지원대상기업 外</span>
+        </button>
+      </div>
+
+      <div class="card-title" style="margin-top:4px">출산 유형</div>
+      <div class="seg-wrap">
+        <button class="seg-btn active" onclick="setSeg('m-birth','single',this)">
+          단태아
+          <span class="seg-sub">휴가 90일</span>
+        </button>
+        <button class="seg-btn" onclick="setSeg('m-birth','twin',this)">
+          다태아 (쌍둥이↑)
+          <span class="seg-sub">휴가 120일</span>
+        </button>
+      </div>
+
+      <div class="input-group">
+        <label>월 통상임금</label>
+        <div class="input-wrapper">
+          <input type="text" id="m-salary" inputmode="numeric" value="3,000,000" oninput="fmtInput(this)" />
+          <span class="input-unit">원</span>
+        </div>
+      </div>
+
+      <button class="calc-btn" onclick="calcMama()">🤱 출산휴가 급여 계산하기</button>
+    </div>
+
+    <div id="mama-result" class="result-wrap" style="display:none">
+      <!-- 총 수령액 -->
+      <div class="r-main">
+        <div class="r-main-label">출산전후휴가 기간 총 수령액</div>
+        <div class="r-main-value" id="mr-total">—</div>
+        <div class="r-main-unit">원</div>
+      </div>
+
+      <!-- 요약 그리드 -->
+      <div class="r-grid">
+        <div class="r-box">
+          <div class="rl">고용보험 지급</div>
+          <div class="rv" id="mr-insure">—</div>
+          <div class="ru">원</div>
+        </div>
+        <div class="r-box">
+          <div class="rl">사업주 지급</div>
+          <div class="rv" id="mr-employer">—</div>
+          <div class="ru">원</div>
+        </div>
+      </div>
+
+      <!-- 기간 타임라인 -->
+      <div class="card" style="padding:18px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(--accent);margin-bottom:12px">TIMELINE</div>
+        <div class="timeline">
+          <div class="tl-bar" id="mr-bar"></div>
+          <div class="tl-legend" id="mr-legend"></div>
+        </div>
+      </div>
+
+      <!-- 세부 내역 -->
+      <div class="detail-list">
+        <div class="dl-row header-row">
+          <span class="dl-label" style="font-weight:700;color:var(--text)">세부 내역</span>
+          <span></span>
+        </div>
+        <div class="dl-row"><span class="dl-label">휴가 총 기간</span><span class="dl-value" id="mr-days">—</span></div>
+        <div class="dl-row"><span class="dl-label">1일 통상임금</span><span class="dl-value" id="mr-daily">—</span></div>
+        <div class="dl-row" id="mr-employer-row"><span class="dl-label" id="mr-employer-label">사업주 지급 (–일)</span><span class="dl-value blue" id="mr-employer-detail">—</span></div>
+        <div class="dl-row"><span class="dl-label" id="mr-ins-label">고용보험 지급 (–일)</span><span class="dl-value accent" id="mr-ins-detail">—</span></div>
+        <div class="dl-row"><span class="dl-label">고용보험 적용 상한액</span><span class="dl-value" id="mr-cap">—</span></div>
+        <div class="dl-row" id="mr-cap-warn-row" style="display:none">
+          <span class="dl-label warn" style="color:#ffc107">⚠️ 상한 적용됨</span>
+          <span class="dl-value warn" id="mr-cap-warn-val">—</span>
+        </div>
+      </div>
+
+      <!-- 월별 지급 내역 -->
+      <div class="card" style="padding:18px;margin-bottom:12px">
+        <div style="font-size:13px;font-weight:800;color:var(--accent);margin-bottom:4px">월별 지급 내역</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:14px">출산휴가 시작일을 입력하면 월별 상세 내역을 계산합니다</div>
+        <div style="display:flex;gap:10px;align-items:flex-end;margin-bottom:12px;flex-wrap:wrap">
+          <div style="flex:1;min-width:160px">
+            <label style="display:block;font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:5px">출산휴가 시작일</label>
+            <input type="date" id="mr-start-date" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-size:14px;font-family:'Noto Sans KR',sans-serif;color:var(--text);outline:none" />
+          </div>
+          <button onclick="calcMonthly()" style="padding:9px 18px;background:rgba(0,212,170,0.1);border:1px solid rgba(0,212,170,0.4);border-radius:8px;font-size:13px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:var(--accent);cursor:pointer;white-space:nowrap">월별 계산</button>
+        </div>
+        <div id="monthly-table-wrap" style="display:none;overflow-x:auto">
+          <table class="monthly-table" id="monthly-table"></table>
+          <div style="margin-top:10px;padding:10px 12px;background:rgba(0,149,255,0.05);border:1px solid rgba(0,149,255,0.15);border-radius:8px;font-size:11px;color:var(--text-muted);line-height:1.8" id="monthly-note"></div>
+        </div>
+      </div>
+
+      <!-- 신청 안내 -->
+      <div class="alert-box">
+        <strong>📋 고용보험 급여 신청 방법</strong><br>
+        · 출산일로부터 <strong>12개월 이내</strong> 신청 (기간 내 미신청 시 소멸)<br>
+        · 신청처: 고용센터 방문 또는 <strong>고용보험 홈페이지(ei.go.kr)</strong> 온라인 신청<br>
+        · 필요서류: 출산전후휴가 확인서, 통상임금 확인 서류, 통장사본<br>
+        · 지급 주기: 매월 지급 (분할 또는 일괄 신청 가능)
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ 탭 2: 배우자 출산휴가 ══════ -->
+  <div class="tab-pane" id="tab-papa">
+
+    <div class="info-box">
+      <strong>배우자 출산휴가</strong>는 배우자 출산 시 남성 근로자에게 부여되는 <strong>유급 10일</strong> 휴가입니다.
+      출산일로부터 <strong>90일 이내</strong> 사용, <strong>2회까지 분할</strong> 가능합니다.
+      우선지원대상기업은 10일 전체를 고용보험에서 지원하며, 대기업은 5일 사업주 + 5일 고용보험 구조입니다.
+    </div>
+
+    <div class="card">
+      <div class="card-title">기업 유형</div>
+      <div class="seg-wrap">
+        <button class="seg-btn active" onclick="setSeg('p-biz','sme',this)">
+          중소·중견기업
+          <span class="seg-sub">우선지원대상기업</span>
+        </button>
+        <button class="seg-btn" onclick="setSeg('p-biz','large',this)">
+          대기업
+          <span class="seg-sub">우선지원대상기업 外</span>
+        </button>
+      </div>
+
+      <div class="input-group">
+        <label>월 통상임금</label>
+        <div class="input-wrapper">
+          <input type="text" id="p-salary" inputmode="numeric" value="3,000,000" oninput="fmtInput(this)" />
+          <span class="input-unit">원</span>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+        <div class="input-group" style="margin:0">
+          <label>출산일 <span style="font-size:10px;color:var(--text-muted)">(선택 — 일정 계산용)</span></label>
+          <input type="date" id="p-birth-date" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:11px 12px;font-size:14px;font-family:'Noto Sans KR',sans-serif;color:var(--text);outline:none" />
+        </div>
+        <div class="input-group" style="margin:0">
+          <label>분할 사용 여부</label>
+          <select id="p-split" onchange="toggleSplit()" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:11px 12px;font-size:14px;font-family:'Noto Sans KR',sans-serif;color:var(--text);outline:none">
+            <option value="all">한 번에 10일 사용</option>
+            <option value="split">분할 사용 (2회)</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="p-split-detail" style="display:none;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:16px">
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px">✏️ 분할 일수 설정 (합계 10일 고정)</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div>
+            <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:5px">1차 사용 일수</label>
+            <input type="number" id="p-split-1" value="5" min="1" max="9" oninput="syncSplit(this)" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-size:18px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none" />
+          </div>
+          <div>
+            <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:5px">2차 사용 일수 (자동)</label>
+            <input type="number" id="p-split-2" value="5" readonly style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-size:18px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text-muted);outline:none" />
+          </div>
+        </div>
+      </div>
+
+      <button class="calc-btn" onclick="calcPapa()">👨 배우자 출산휴가 급여 계산하기</button>
+    </div>
+
+    <div id="papa-result" class="result-wrap" style="display:none">
+      <div class="r-main">
+        <div class="r-main-label">배우자 출산휴가 10일 총 급여</div>
+        <div class="r-main-value" id="pr-total">—</div>
+        <div class="r-main-unit">원</div>
+      </div>
+
+      <div class="r-grid">
+        <div class="r-box">
+          <div class="rl">고용보험 지급</div>
+          <div class="rv" id="pr-insure">—</div>
+          <div class="ru">원</div>
+        </div>
+        <div class="r-box">
+          <div class="rl" id="pr-employer-label2">사업주 지급</div>
+          <div class="rv" id="pr-employer">—</div>
+          <div class="ru">원</div>
+        </div>
+      </div>
+
+      <div class="detail-list">
+        <div class="dl-row header-row">
+          <span class="dl-label" style="font-weight:700;color:var(--text)">세부 내역</span><span></span>
+        </div>
+        <div class="dl-row"><span class="dl-label">휴가 기간</span><span class="dl-value">10일 (유급)</span></div>
+        <div class="dl-row"><span class="dl-label">1일 통상임금</span><span class="dl-value" id="pr-daily">—</span></div>
+        <div class="dl-row" id="pr-employer-row">
+          <span class="dl-label" id="pr-employer-label">사업주 지급 (5일)</span>
+          <span class="dl-value blue" id="pr-employer-detail">—</span>
+        </div>
+        <div class="dl-row" id="pr-diff-row" style="display:none">
+          <span class="dl-label" id="pr-diff-label">사업주 차액 보전</span>
+          <span class="dl-value blue" id="pr-diff-detail">—</span>
+        </div>
+        <div class="dl-row">
+          <span class="dl-label" id="pr-ins-label">고용보험 지급 (10일)</span>
+          <span class="dl-value accent" id="pr-ins-detail">—</span>
+        </div>
+        <div class="dl-row">
+          <span class="dl-label">고용보험 상한액</span>
+          <span class="dl-value" id="pr-cap">—</span>
+        </div>
+      </div>
+
+      <!-- 일정 카드 (출산일 입력 시) -->
+      <div id="pr-schedule-wrap" style="display:none">
+        <div class="card" style="padding:18px;margin-top:12px">
+          <div style="font-size:13px;font-weight:800;color:var(--accent);margin-bottom:14px">사용 일정 및 신청 마감</div>
+          <div id="pr-schedule-list"></div>
+        </div>
+      </div>
+
+      <!-- 분할 사용 시나리오 시뮬레이터 -->
+      <div class="card" style="padding:18px;margin-top:12px">
+        <div style="font-size:13px;font-weight:800;color:var(--accent);margin-bottom:4px">분할 사용 시나리오</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:12px">같은 급여 — 언제 어떻게 나눠 쓸지 비교합니다</div>
+        <div id="pr-split-sim"></div>
+      </div>
+
+      <div class="alert-box">
+        <strong>📋 배우자 출산휴가 신청 방법</strong><br>
+        · 출산일로부터 <strong>90일 이내</strong> 사용 (사용 기간 내 신청)<br>
+        · 분할 사용 가능 (2회까지, 1회 최소 1일 이상)<br>
+        · 신청처: 고용보험 홈페이지(ei.go.kr) 또는 고용센터<br>
+        · 필요서류: 배우자 출산휴가 확인서, 통상임금 확인 서류, 가족관계증명서<br>
+        · <strong>고용보험 급여 신청:</strong> 휴가 종료 후 12개월 이내 (기간 경과 시 소멸)
+      </div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<!-- 시뮬레이터 섹션 -->
+<div class="sim-section">
+  <div class="sim-section-title" id="sim-title">📊 추가 시뮬레이터</div>
+  <div class="sim-section-sub" id="sim-sub">직원과 인사담당자 모두를 위한 심화 계산 도구입니다.</div>
+
+  <!-- ══════ 출산전후휴가 탭용 시뮬레이터 ══════ -->
+  <div id="sim-mama-group">
+
+    <!-- Sim M1: 출산휴가 일정 자동 계산 -->
+    <div class="sim-card">
+      <div class="sim-card-title">
+        📅 출산휴가 일정 자동 계산
+        <span class="sim-tag sim-tag-emp">직원용</span>
+      </div>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;line-height:1.8">출산 예정일을 입력하면 휴가 시작·종료일, 고용보험 신청 마감일, 배우자 출산휴가 마감일까지 한번에 계산합니다.</p>
+      <div class="sim-input-row">
+        <div class="sim-input-group">
+          <label>출산 예정일</label>
+          <input type="date" id="sim-due-date" />
+        </div>
+        <div class="sim-input-group">
+          <label>출산 유형</label>
+          <select id="sim-birth-type" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:14px;font-weight:600;font-family:'Noto Sans KR',sans-serif;color:var(--text);width:100%;outline:none">
+            <option value="90">단태아 (90일)</option>
+            <option value="120">다태아 (120일)</option>
+          </select>
+        </div>
+      </div>
+      <button class="sim-btn" onclick="calcSchedule()">📅 일정 계산하기</button>
+      <div id="schedule-result" style="display:none">
+        <div class="schedule-list" id="schedule-list"></div>
+        <div style="margin-top:12px;padding:12px 14px;background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;font-size:12px;color:var(--text-muted);line-height:1.9">
+          💡 예정일과 실제 출산일이 다른 경우, 신청 마감일은 <strong style="color:var(--text)">실제 출산일 기준</strong>으로 다시 계산됩니다.
+        </div>
+      </div>
+    </div>
+
+    <!-- Sim M2: 엄마 육아휴직 연계 총급여 -->
+    <div class="sim-card">
+      <div class="sim-card-title">
+        💰 육아휴직 연계 총 급여 시뮬레이터
+        <span class="sim-tag sim-tag-emp">직원용</span>
+      </div>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;line-height:1.8">출산전후휴가(90일) 후 육아휴직을 연이어 사용할 경우 총 수령액을 계산합니다. 6+6 부모 육아휴직 특례도 반영됩니다.</p>
+      <div class="sim-input-row">
+        <div class="sim-input-group">
+          <label>월 통상임금</label>
+          <input type="text" id="sim-wage" inputmode="numeric" value="3,000,000" oninput="fmtInput(this);calcLinked()" />
+        </div>
+        <div class="sim-input-group">
+          <label>육아휴직 기간</label>
+          <select id="sim-parental-months" onchange="calcLinked()" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:14px;font-family:'Noto Sans KR',sans-serif;color:var(--text);width:100%;outline:none">
+            <option value="6">6개월</option>
+            <option value="12" selected>12개월 (최대)</option>
+          </select>
+        </div>
+      </div>
+      <div class="sim-input-row">
+        <div class="sim-input-group">
+          <label>6+6 특례 적용</label>
+          <select id="sim-66" onchange="calcLinked()" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:14px;font-family:'Noto Sans KR',sans-serif;color:var(--text);width:100%;outline:none">
+            <option value="yes">적용 (부모 동시 또는 순차)</option>
+            <option value="no">미적용</option>
+          </select>
+        </div>
+        <div class="sim-input-group">
+          <label>기업 유형</label>
+          <select id="sim-biz-linked" onchange="calcLinked()" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:14px;font-family:'Noto Sans KR',sans-serif;color:var(--text);width:100%;outline:none">
+            <option value="sme">중소·중견 (우선지원)</option>
+            <option value="large">대기업</option>
+          </select>
+        </div>
+      </div>
+      <div id="linked-result" style="display:none">
+        <div class="wage-total" id="linked-total">—</div>
+        <div class="wage-label" id="linked-period">—</div>
+        <div class="wage-bar-wrap">
+          <div class="wage-bar" id="linked-bar"></div>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px" id="linked-legend"></div>
+        </div>
+        <div style="border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-top:12px" id="linked-detail"></div>
+      </div>
+    </div>
+
+    <!-- Sim M3: HR 비용 분석 (출산전후 90일) -->
+    <div class="sim-card">
+      <div class="sim-card-title">
+        🏢 인사담당자용 비용 분석 — 출산전후휴가 90일
+        <span class="sim-tag sim-tag-hr">HR용</span>
+      </div>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;line-height:1.8">출산전후휴가 90일 동안 회사 실부담 비용, 고용보험 지원액, 대체인력 채용 비용을 비교합니다.</p>
+      <div class="sim-input-row">
+        <div class="sim-input-group">
+          <label>기업 유형</label>
+          <select id="hr-biz" onchange="calcHR()" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:14px;font-family:'Noto Sans KR',sans-serif;color:var(--text);width:100%;outline:none">
+            <option value="sme">중소·중견 (우선지원)</option>
+            <option value="large">대기업</option>
+          </select>
+        </div>
+        <div class="sim-input-group">
+          <label>직원 월 통상임금</label>
+          <input type="text" id="hr-wage" inputmode="numeric" value="3,000,000" oninput="fmtInput(this);calcHR()" />
+        </div>
+      </div>
+      <div class="sim-input-row">
+        <div class="sim-input-group">
+          <label>대체인력 월 인건비 <span style="font-size:10px;color:var(--text-muted)">(없으면 0)</span></label>
+          <input type="text" id="hr-replace" inputmode="numeric" value="2,800,000" oninput="fmtInput(this);calcHR()" />
+        </div>
+        <div class="sim-input-group">
+          <label>출산 예정 직원 수</label>
+          <input type="number" id="hr-count" value="1" min="1" max="20" oninput="calcHR()" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:16px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);width:100%;outline:none" />
+        </div>
+      </div>
+      <div id="hr-result" style="display:none">
+        <div class="cost-compare">
+          <div class="cost-col">
+            <div class="cost-col-title">회사 실부담</div>
+            <div class="cost-col-value" id="hr-company-cost" style="color:#ff6b6b">—</div>
+            <div class="cost-col-sub">90일 기준</div>
+          </div>
+          <div class="cost-col">
+            <div class="cost-col-title">고용보험 지원</div>
+            <div class="cost-col-value" id="hr-gov-support" style="color:var(--accent)">—</div>
+            <div class="cost-col-sub">정부 부담</div>
+          </div>
+        </div>
+        <div style="border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-top:12px" id="hr-detail"></div>
+        <div id="hr-replace-note" style="margin-top:10px;padding:12px 14px;border-radius:10px;font-size:12px;line-height:1.9;display:none"></div>
+      </div>
+    </div>
+
+  </div><!-- /sim-mama-group -->
+
+  <!-- ══════ 배우자 출산휴가 탭용 시뮬레이터 ══════ -->
+  <div id="sim-papa-group" style="display:none">
+
+    <!-- Sim P1: 아빠 육아휴직 연계 총급여 -->
+    <div class="sim-card">
+      <div class="sim-card-title">
+        👨‍👧 아빠 육아휴직 연계 총 급여 시뮬레이터
+        <span class="sim-tag sim-tag-emp">직원용</span>
+      </div>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;line-height:1.8">배우자 출산휴가(10일) 이후 아빠도 육아휴직 최대 1년을 사용할 수 있습니다. 6+6 특례 포함 총 급여를 계산합니다.</p>
+      <div class="sim-input-row">
+        <div class="sim-input-group">
+          <label>아빠 월 통상임금</label>
+          <input type="text" id="p-sim-wage" inputmode="numeric" value="3,000,000" oninput="fmtInput(this);calcPapaLinked()" />
+        </div>
+        <div class="sim-input-group">
+          <label>아빠 육아휴직 기간</label>
+          <select id="p-sim-months" onchange="calcPapaLinked()" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:14px;font-family:'Noto Sans KR',sans-serif;color:var(--text);width:100%;outline:none">
+            <option value="3">3개월</option>
+            <option value="6">6개월</option>
+            <option value="12" selected>12개월 (최대)</option>
+          </select>
+        </div>
+      </div>
+      <div class="sim-input-row">
+        <div class="sim-input-group">
+          <label>6+6 특례 적용 여부</label>
+          <select id="p-sim-66" onchange="calcPapaLinked()" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:14px;font-family:'Noto Sans KR',sans-serif;color:var(--text);width:100%;outline:none">
+            <option value="yes">적용 (엄마도 육아휴직 사용)</option>
+            <option value="no">미적용 (아빠만 사용)</option>
+          </select>
+        </div>
+        <div class="sim-input-group">
+          <label>기업 유형</label>
+          <select id="p-sim-biz" onchange="calcPapaLinked()" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:14px;font-family:'Noto Sans KR',sans-serif;color:var(--text);width:100%;outline:none">
+            <option value="sme">중소·중견 (우선지원)</option>
+            <option value="large">대기업</option>
+          </select>
+        </div>
+      </div>
+      <div id="papa-linked-result" style="display:none">
+        <div class="wage-total" id="pl-total">—</div>
+        <div class="wage-label" id="pl-period">—</div>
+        <div class="wage-bar-wrap">
+          <div class="wage-bar" id="pl-bar"></div>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px" id="pl-legend"></div>
+        </div>
+        <div style="border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-top:12px" id="pl-detail"></div>
+        <div style="margin-top:10px;padding:12px 14px;background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;font-size:12px;color:var(--text-muted);line-height:1.9">
+          💡 <strong style="color:var(--text)">6+6 특례란?</strong> 부모가 같은 자녀에 대해 동시 또는 순차로 육아휴직을 사용하면, 각각 첫 6개월의 상한이 월 최대 200만원(→ 순차 시 최대 450만원)으로 상향됩니다.
+        </div>
+      </div>
+    </div>
+
+    <!-- Sim P2: 배우자 출산휴가 HR 비용 분석 (10일) -->
+    <div class="sim-card">
+      <div class="sim-card-title">
+        🏢 인사담당자용 비용 분석 — 배우자 출산휴가 10일
+        <span class="sim-tag sim-tag-hr">HR용</span>
+      </div>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;line-height:1.8">배우자 출산휴가 10일 동안 회사 실부담 비용과 고용보험 지원액을 분석합니다. 대체인력 필요 여부도 비교합니다.</p>
+      <div class="sim-input-row">
+        <div class="sim-input-group">
+          <label>기업 유형</label>
+          <select id="p-hr-biz" onchange="calcPapaHR()" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:14px;font-family:'Noto Sans KR',sans-serif;color:var(--text);width:100%;outline:none">
+            <option value="sme">중소·중견 (우선지원)</option>
+            <option value="large">대기업</option>
+          </select>
+        </div>
+        <div class="sim-input-group">
+          <label>직원 월 통상임금</label>
+          <input type="text" id="p-hr-wage" inputmode="numeric" value="3,000,000" oninput="fmtInput(this);calcPapaHR()" />
+        </div>
+      </div>
+      <div class="sim-input-row">
+        <div class="sim-input-group">
+          <label>대체인력 일 인건비 <span style="font-size:10px;color:var(--text-muted)">(없으면 0)</span></label>
+          <input type="text" id="p-hr-replace" inputmode="numeric" value="0" oninput="fmtInput(this);calcPapaHR()" />
+        </div>
+        <div class="sim-input-group">
+          <label>해당 직원 수</label>
+          <input type="number" id="p-hr-count" value="1" min="1" max="20" oninput="calcPapaHR()" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:16px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);width:100%;outline:none" />
+        </div>
+      </div>
+      <div id="p-hr-result" style="display:none">
+        <div class="cost-compare">
+          <div class="cost-col">
+            <div class="cost-col-title">회사 실부담</div>
+            <div class="cost-col-value" id="p-hr-company-cost" style="color:#ff6b6b">—</div>
+            <div class="cost-col-sub">10일 기준</div>
+          </div>
+          <div class="cost-col">
+            <div class="cost-col-title">고용보험 지원</div>
+            <div class="cost-col-value" id="p-hr-gov-support" style="color:var(--accent)">—</div>
+            <div class="cost-col-sub">정부 부담</div>
+          </div>
+        </div>
+        <div style="border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-top:12px" id="p-hr-detail"></div>
+        <div id="p-hr-replace-note" style="margin-top:10px;padding:12px 14px;border-radius:10px;font-size:12px;line-height:1.9;display:none"></div>
+        <div style="margin-top:10px;padding:12px 14px;background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;font-size:12px;color:var(--text-muted);line-height:1.9">
+          💡 10일은 짧아 대부분 대체인력을 별도 채용하지 않고 팀 내 업무 분담으로 처리합니다. 업종·직무 특성에 따라 판단하세요.
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /sim-papa-group -->
+
+</div>
+<!-- /시뮬레이터 섹션 -->
+
+
+<!-- 관련 계산기 -->
+<div class="rel-section" style="max-width:660px;margin:0 auto 0;padding:0 20px">
+  <h2>📌 함께 쓰면 유용한 계산기</h2>
+  <div class="rel-grid">
+    <a href="/parental_leave" class="rel-card"><span class="re">👶</span><span class="rn">육아휴직 급여</span></a>
+    <a href="/unemployment" class="rel-card"><span class="re">📋</span><span class="rn">실업급여</span></a>
+    <a href="/salary" class="rel-card"><span class="re">💰</span><span class="rn">연봉 실수령</span></a>
+    <a href="/annual_leave" class="rel-card"><span class="re">🏖️</span><span class="rn">연차수당</span></a>
+    <a href="/health_insurance" class="rel-card"><span class="re">🏥</span><span class="rn">건강보험료</span></a>
+  </div>
+</div>
+
+<!-- SEO 섹션 -->
+<div class="seo-section" style="max-width:660px;margin:60px auto 0;padding:0 20px 60px">
+
+  <h2>출산전후휴가 급여란? — 지급 구조 완전 정리</h2>
+  <p>출산전후휴가(산전후휴가)는 근로기준법 제74조에 따라 임신 중인 여성 근로자에게 출산 전후로 부여되는 유급 휴가입니다. 단태아는 <strong>90일</strong>, 다태아(쌍둥이 이상)는 <strong>120일</strong>이 보장되며, 출산 후 최소 45일(다태아 60일) 이상을 반드시 사용해야 합니다. 미숙아 출산 시에는 의사 소견에 따라 최대 <strong>100일</strong>까지 연장이 가능합니다. 고용보험 피보험 기간이 180일 이상인 근로자라면 고용보험에서 급여를 지원받을 수 있습니다.</p>
+  <p>출산전후휴가 급여는 월 통상임금의 100%를 지급하는 것이 원칙입니다. 2026년부터 고용보험에서 지급하는 상한액이 <strong>월 2,200,000원(1일 약 73,333원)</strong>으로 인상됐습니다. 통상임금이 상한을 초과하는 경우 초과분은 사업주가 별도로 지급해야 하며, 미지급 시 근로기준법 위반으로 처벌받을 수 있습니다.</p>
+  <p>기업 규모에 따라 지급 주체가 달라집니다. 우선지원대상기업(중소·중견기업)은 전체 휴가 기간을 고용보험에서 지원하지만, 대기업은 앞 60일(다태아 75일)을 사업주가 직접 지급하고 나머지만 고용보험에서 지원합니다. 이 구분은 회사의 상시근로자 수와 업종에 따라 달라집니다.</p>
+  <table>
+    <thead><tr><th>구분</th><th>우선지원대상기업 (중소·중견)</th><th>대기업</th></tr></thead>
+    <tbody>
+      <tr><td>단태아 지급 구조</td><td>전체 90일 고용보험 지급</td><td>60일 사업주 + 30일 고용보험</td></tr>
+      <tr><td>다태아 지급 구조</td><td>전체 120일 고용보험 지급</td><td>75일 사업주 + 45일 고용보험</td></tr>
+      <tr><td>급여 기준</td><td>월 통상임금 100%</td><td>동일</td></tr>
+      <tr><td>고용보험 상한 (2026)</td><td><strong>월 2,200,000원</strong></td><td><strong>월 2,200,000원</strong></td></tr>
+      <tr><td>하한액 (2026)</td><td colspan="2">최저임금 기준 월 약 2,156,880원</td></tr>
+    </tbody>
+  </table>
+
+  <h2>우선지원대상기업 — 출산전후휴가 급여 계산 예시</h2>
+  <p>우선지원대상기업은 업종별 상시근로자 수 기준을 충족하는 중소·중견기업을 말합니다. 제조업 500인 이하, 광업·건설업·운수업 300인 이하, 서비스업 100인 이하가 기준입니다. 이 기업에 재직 중인 근로자는 출산전후휴가 기간 전체(단태아 90일, 다태아 120일)의 급여를 고용보험에서 지원받을 수 있어 사업주의 직접 부담이 없습니다.</p>
+  <p>월 통상임금이 상한(월 2,200,000원)을 초과하는 경우 고용보험은 상한까지만 지급하고, 초과분은 사업주가 별도 지급해야 합니다. 예를 들어 월 통상임금이 3,500,000원인 근로자가 출산전후휴가를 사용하면, 고용보험에서는 월 2,200,000원(1일 73,333원)만 지급하고 나머지 1,300,000원은 사업주가 부담합니다.</p>
+  <p>아래 표에서 월 통상임금별로 90일 총 급여를 확인할 수 있습니다. 2026년 기준 상한은 1일 약 73,333원(월 2,200,000원 ÷ 30일)이며, 이를 초과하는 경우 상한이 적용됩니다.</p>
+  <table>
+    <thead><tr><th>월 통상임금</th><th>1일 급여</th><th>90일 총 급여</th><th>상한 적용 여부</th></tr></thead>
+    <tbody>
+      <tr><td>2,000,000원</td><td>66,667원</td><td>6,000,000원</td><td>상한 이하</td></tr>
+      <tr><td>2,200,000원</td><td>73,333원</td><td>6,600,000원</td><td>상한 이하</td></tr>
+      <tr><td><strong>3,000,000원</strong></td><td>73,333원 (상한 적용)</td><td><strong>약 6,600,000원</strong></td><td>상한 적용 — 사업주 차액 부담</td></tr>
+      <tr><td>4,000,000원</td><td>73,333원 (상한 적용)</td><td>약 6,600,000원</td><td>상한 적용 — 사업주 차액 부담</td></tr>
+    </tbody>
+  </table>
+  <div class="tip-box"><strong>💡 상한 초과 시 차액은 사업주 부담:</strong> 통상임금이 월 2,200,000원을 초과하면 고용보험은 상한(1일 약 73,333원)까지만 지급합니다. 예를 들어 월급 300만원인 경우 1일 통상임금 100,000원 중 73,333원은 고용보험, 나머지 26,667원은 사업주가 지급해야 합니다. 90일 기준 사업주 추가 부담은 약 2,400,000원이 됩니다.</div>
+
+  <h2>대기업 — 출산전후휴가 급여 계산 방법</h2>
+  <p>우선지원대상기업이 아닌 대기업은 처음 60일(다태아 75일)을 사업주가 통상임금 100%로 전액 지급하고, 마지막 30일(다태아 45일)만 고용보험에서 지원합니다. 이 구조는 대기업의 재정 부담 능력을 감안한 정책적 설계로, 고용보험 재정을 중소기업 근로자에게 더 집중하기 위한 것입니다.</p>
+  <p>고용보험 지급 구간(마지막 30일)에도 상한액 월 2,200,000원이 동일하게 적용됩니다. 사업주 지급 구간에는 상한 제한 없이 통상임금 100%를 지급해야 하므로, 월급이 높을수록 대기업 사업주의 실부담은 커집니다. 월 통상임금 5,000,000원인 경우 사업주는 60일간 약 10,000,000원을 지급해야 합니다.</p>
+  <table>
+    <thead><tr><th>구간</th><th>지급 주체</th><th>금액 기준</th><th>비고</th></tr></thead>
+    <tbody>
+      <tr><td>단태아 1~60일<br>다태아 1~75일</td><td>사업주</td><td>통상임금 100% (상한 없음)</td><td>고용보험 지원 없음</td></tr>
+      <tr><td>단태아 61~90일<br>다태아 76~120일</td><td>고용보험</td><td>통상임금 100%</td><td>월 상한 2,200,000원 적용</td></tr>
+    </tbody>
+  </table>
+  <div class="warn-box"><strong>⚠️ 주의:</strong> 사업주 지급 구간(60일)에서 급여를 축소하거나 미지급하는 것은 근로기준법 위반입니다. 이 경우 근로자는 노동청에 진정을 제기할 수 있으며, 사업주는 3년 이하 징역 또는 3천만원 이하 벌금을 받을 수 있습니다. 급여명세서를 꼼꼼히 확인하세요.</div>
+
+  <h2>통상임금 개념과 월별 지급 내역 계산법</h2>
+  <p>출산전후휴가 급여의 기준이 되는 통상임금은 기본급에 정기적·일률적으로 지급되는 수당을 합산한 금액입니다. 식대·교통비 중 고정 지급 항목은 포함되지만, 성과급·초과근무수당 등 변동 항목은 제외됩니다. 정확한 통상임금 산정이 급여 계산의 출발점이 됩니다.</p>
+  <p>출산휴가가 두 달에 걸쳐 시작하거나 달력 월을 넘어가는 경우, 실제 지급 금액은 월마다 다를 수 있습니다. 이 계산기의 <strong>월별 지급 내역</strong> 기능에 출산휴가 시작일을 입력하면, 각 월별로 고용보험·사업주 지급분이 얼마씩 나뉘는지 자동으로 계산해 줍니다. 복직 일정이나 가계 자금 계획을 세울 때 유용하게 활용할 수 있습니다.</p>
+  <p>예를 들어 단태아이고 중소기업 재직 중이며 3월 15일에 출산휴가를 시작한다면, 3월분(17일치)과 4·5월분(각 31일, 30일), 6월분(12일치)으로 나뉩니다. 각 구간의 일수에 1일 급여(또는 상한 적용 1일 급여)를 곱하면 월별 실수령 예상액을 파악할 수 있습니다.</p>
+  <table>
+    <thead><tr><th>계산 항목</th><th>내용</th><th>비고</th></tr></thead>
+    <tbody>
+      <tr><td>통상임금</td><td>기본급 + 고정 수당 합계</td><td>변동 성과급 제외</td></tr>
+      <tr><td>1일 급여</td><td>월 통상임금 ÷ 30일</td><td>상한 1일 73,333원 적용</td></tr>
+      <tr><td>월별 지급액</td><td>1일 급여 × 해당 월 휴가 일수</td><td>시작·종료 월은 일할 계산</td></tr>
+      <tr><td>고용보험 신청</td><td>휴가 시작 1개월 후 ~ 종료 후 12개월 이내</td><td>기간 초과 시 소멸</td></tr>
+    </tbody>
+  </table>
+
+  <h2>배우자 출산휴가 — 남성 근로자 10일 급여</h2>
+  <p>배우자 출산휴가는 배우자(아내)가 출산했을 때 남성 근로자가 사용할 수 있는 유급 10일 휴가입니다. 2019년 10월부터 5일에서 10일로 확대됐고, 우선지원대상기업 재직자는 10일 전체 급여를 고용보험에서 지원받습니다. 출산일로부터 <strong>90일 이내</strong>에 사용해야 하며, 기간 내에 사용하지 않으면 소멸됩니다.</p>
+  <p>우선지원대상기업 재직자는 1일 급여 상한 약 73,333원(월 2,200,000원 ÷ 30) 기준으로 10일치를 고용보험에서 받습니다. 대기업은 사업주가 5일분을 통상임금으로 지급하고, 나머지 5일분만 고용보험에서 지원합니다. 급여는 휴가 종료 후 12개월 이내에 고용보험 홈페이지(ei.go.kr)에서 신청해야 하며, 기간을 넘기면 청구권이 소멸합니다.</p>
+  <p>배우자 출산휴가 급여를 신청할 때 필요한 서류는 배우자 출산휴가 확인서(사업주 확인), 가족관계증명서(배우자와의 관계 확인), 통상임금 확인 서류, 통장 사본입니다. 고용보험 홈페이지에서 온라인 신청이 가능하며 직접 고용센터를 방문해도 됩니다.</p>
+  <table>
+    <thead><tr><th>기업 유형</th><th>사업주 지급</th><th>고용보험 지급</th><th>월 통상임금 300만원 기준</th></tr></thead>
+    <tbody>
+      <tr><td><strong>우선지원대상기업</strong></td><td>차액 보전만</td><td>10일분 전체 (상한 적용)</td><td>고용보험 약 733,330원 + 사업주 차액 약 266,670원</td></tr>
+      <tr><td><strong>대기업</strong></td><td>5일분 (통상임금 100%)</td><td>5일분 (상한 적용)</td><td>사업주 500,000원 + 고용보험 약 366,665원</td></tr>
+    </tbody>
+  </table>
+
+  <h2>배우자 출산휴가 분할 사용 — 언제 어떻게 나눌까</h2>
+  <p>배우자 출산휴가 10일은 출산일로부터 90일 이내에 한해 2회까지 분할 사용이 가능합니다. 분할 방법에 따라 실질적인 효과가 달라지므로 상황에 맞게 계획하는 것이 중요합니다. 급여 총액은 분할 방식과 무관하게 동일합니다. 이 계산기의 <strong>분할 사용 시나리오</strong> 기능에서 연속 10일, 5일+5일, 3일+7일 등 패턴별 급여와 실용성을 비교해볼 수 있습니다.</p>
+  <p>가장 일반적인 패턴은 출산 직후 5일 + 산후조리원 퇴실 시 5일 사용입니다. 출산 직후에는 배우자 회복을 돕고, 조리원 퇴실 후에는 집에서 신생아 돌봄을 집중적으로 할 수 있어 실용적입니다. 조리원을 이용하지 않는 경우는 연속 10일을 출산 직후 바로 사용하는 것이 배우자 회복 측면에서 가장 효과적입니다.</p>
+  <table>
+    <thead><tr><th>분할 패턴</th><th>권장 상황</th><th>특징</th></tr></thead>
+    <tbody>
+      <tr><td>연속 10일</td><td>산후조리원 미이용 가정</td><td>출산 직후 집중 돌봄. 회복 초기에 가장 효과적</td></tr>
+      <tr><td>5일 + 5일</td><td>산후조리원 2주 이용 가정</td><td>출산 직후 + 퇴실 시 분할. 가장 일반적 패턴</td></tr>
+      <tr><td>3일 + 7일</td><td>초기 짧게 + 복귀 후 집중</td><td>퇴원 보조 후 조리원 퇴실 때 집중 사용</td></tr>
+      <tr><td>7일 + 3일</td><td>초기 집중 후 여분 확보</td><td>초기 집중 돌봄 후 복직, 필요 시 추가 사용</td></tr>
+      <tr><td>1일 + 9일</td><td>출산 당일만 함께하고 싶을 때</td><td>당일만 사용 후 조리원 퇴실 때 집중 사용</td></tr>
+    </tbody>
+  </table>
+  <div class="tip-box"><strong>💡 분할 사용 신청 유의사항:</strong> 각 분할 사용 시마다 사업주에게 사전 신청하고, 사용 종료 후 고용보험에 급여를 청구해야 합니다. 1차·2차 신청을 묶어서 한 번에 처리할 수도 있습니다. 단, 90일이라는 사용 기한을 반드시 지켜야 합니다.</div>
+
+  <h2>출산전후휴가 중 4대보험 처리 방법</h2>
+  <p>출산전후휴가 기간에도 4대보험 자격은 유지되므로 건강보험증은 계속 사용할 수 있습니다. 다만 보험료 납부 구조는 항목마다 다릅니다. 건강보험료는 휴가 중에도 기존 보수월액 기준으로 계속 부과되며, 사업주와 근로자가 각각 절반씩 납부합니다. 급여 수준이 크게 낮아졌더라도 건강보험료 조정은 다음 연도 정산 시점에 반영됩니다.</p>
+  <p>국민연금은 출산전후휴가 기간 중 <strong>납부 예외 신청</strong>이 가능합니다. 국민연금공단에 신청하면 해당 기간 동안 보험료를 납부하지 않아도 됩니다. 단, 납부 예외 기간은 연금 가입 기간에서 제외되어 나중에 받는 연금액이 줄어들 수 있습니다. 이를 보완하려면 복직 후 추후납부 신청으로 해당 기간 보험료를 소급하여 낼 수 있습니다.</p>
+  <p>고용보험료는 고용보험에서 출산전후휴가 급여를 받는 기간에는 면제됩니다. 산재보험도 휴가 기간 중 별도 처리 없이 자동 유지됩니다. 4대보험 중 실질 부담이 생기는 항목은 건강보험과 국민연금 정도이며, 특히 무급 기간이 없는 출산전후휴가는 건강보험 실직자 전환 걱정을 할 필요가 없습니다.</p>
+  <table>
+    <thead><tr><th>보험 항목</th><th>휴가 기간 처리</th><th>주요 유의사항</th></tr></thead>
+    <tbody>
+      <tr><td>건강보험</td><td>기존 보수월액으로 계속 부과</td><td>다음 연도 정산 시 조정됨</td></tr>
+      <tr><td>국민연금</td><td>납부 예외 신청 가능</td><td>예외 기간은 가입 기간 미산입 — 추후납부로 보완 가능</td></tr>
+      <tr><td>고용보험</td><td>급여 수급 기간 중 보험료 면제</td><td>별도 신청 불필요</td></tr>
+      <tr><td>산재보험</td><td>자동 유지</td><td>별도 처리 없음</td></tr>
+    </tbody>
+  </table>
+  <div class="tip-box"><strong>💡 복직 후 체크:</strong> 출산전후휴가 중 국민연금 납부 예외를 신청했다면, 복직 후 추후납부 신청 여부를 검토해보세요. 납부한 보험료는 전액 연금 가입 기간으로 인정되어 노후 연금액에 직접 반영됩니다.</div>
+
+  <h2>출산전후휴가 vs 육아휴직 — 차이점과 연계 전략</h2>
+  <p>출산전후휴가와 육아휴직은 법적으로 완전히 별개의 제도입니다. 출산전후휴가는 출산이라는 사건을 기준으로 여성 근로자에게 자동 부여되는 90일의 유급 휴가인 반면, 육아휴직은 만 8세 이하 또는 초등학교 2학년 이하 자녀를 둔 부모라면 남녀 모두 신청할 수 있는 최대 1년의 제도입니다. 두 제도를 이어서 사용하면 여성은 출산 후 최대 1년 3개월(90일+1년)간 연속으로 직장을 떠날 수 있습니다.</p>
+  <p>육아휴직 급여는 통상임금의 80%(상한 월 150만원)이 기본이지만, <strong>6+6 부모육아휴직제</strong>를 활용하면 첫 6개월 상한이 최대 월 450만원까지 올라갑니다. 이 특례는 부모가 같은 자녀에 대해 동시에 또는 순차로 육아휴직을 사용할 때 적용됩니다. 부부가 모두 직장인이라면 이 제도를 적극 활용하는 것이 수익 측면에서 유리합니다.</p>
+  <p>이 계산기의 <strong>아빠 육아휴직 연계</strong> 시뮬레이터를 통해 배우자 출산휴가 10일과 육아휴직을 이어서 사용할 때 총 급여가 얼마가 되는지 한 번에 계산해볼 수 있습니다. 육아휴직 기간을 몇 개월로 설정하느냐에 따라 총 수령액이 크게 달라지므로 사전에 시뮬레이션해보는 것을 권장합니다.</p>
+  <table>
+    <thead><tr><th>구분</th><th>출산전후휴가</th><th>육아휴직</th></tr></thead>
+    <tbody>
+      <tr><td>대상</td><td>임산부 본인 (여성)</td><td>만 8세 이하 자녀 부모 (남녀 모두)</td></tr>
+      <tr><td>기간</td><td>90일 (다태아 120일)</td><td>최대 1년 (부모 각각 1년)</td></tr>
+      <tr><td>2026년 급여</td><td>통상임금 100% (상한 월 220만원)</td><td>통상임금 80% (6+6 특례 최대 월 450만원)</td></tr>
+      <tr><td>신청 자격</td><td>고용보험 피보험 180일 이상</td><td>고용보험 피보험 180일 이상</td></tr>
+      <tr><td>연계 방법</td><td colspan="2">출산전후휴가 종료 다음 날 바로 육아휴직 개시 신청 가능</td></tr>
+    </tbody>
+  </table>
+
+  <h2>자주 묻는 질문 (FAQ)</h2>
+  <details><summary>출산전후휴가 급여는 언제부터 신청할 수 있나요?</summary>
+  <div class="faq-answer">휴가 시작 후 <strong>1개월이 지난 날</strong>부터 신청 가능합니다. 가장 늦어도 휴가 종료 후 12개월 이내에는 신청해야 하며, 이 기간을 넘기면 급여 청구권이 소멸됩니다. 고용보험 홈페이지(ei.go.kr) 또는 거주지·사업장 관할 고용센터에서 신청할 수 있습니다.</div></details>
+  <details><summary>계약직·기간제 근로자도 출산전후휴가를 받을 수 있나요?</summary>
+  <div class="faq-answer">네. 고용 형태와 관계없이 근로계약이 유효한 기간 중이라면 출산전후휴가를 사용할 수 있습니다. 다만 고용보험 급여를 받으려면 피보험 단위 기간이 통산 <strong>180일 이상</strong>이어야 합니다. 휴가 중 계약 기간이 만료되면 만료일까지만 급여가 지급됩니다.</div></details>
+  <details><summary>우선지원대상기업인지 어떻게 확인하나요?</summary>
+  <div class="faq-answer">업종별 상시근로자 수 기준으로 판단합니다. 제조업 500인 이하, 광업·건설업·운수업 300인 이하, 서비스업(도소매·음식·숙박·금융 등) 100인 이하가 기준입니다. 고용보험 홈페이지 → 고용24 → 사업장 정보 조회에서 확인하거나, HR 담당자에게 직접 문의하면 됩니다.</div></details>
+  <details><summary>출산전후휴가 기간에 해고할 수 있나요?</summary>
+  <div class="faq-answer">아니요. 근로기준법 제74조 제7항에 따라 출산전후휴가 기간 및 그 이후 30일간은 사업주가 근로자를 해고할 수 없습니다. 이를 위반한 해고는 무효이며, 사업주는 <strong>2년 이하 징역 또는 2천만원 이하 벌금</strong>의 형사처벌을 받을 수 있습니다.</div></details>
+  <details><summary>배우자 출산휴가 10일을 한 번에 다 써야 하나요?</summary>
+  <div class="faq-answer">아니요. <strong>2회까지 분할 사용</strong>이 가능합니다. 단, 출산일로부터 90일 이내에 모두 사용해야 합니다. 예를 들어 출산 직후 5일, 산후조리원 퇴실 시 5일로 나누어 사용하는 것이 가장 일반적인 패턴입니다. 이 계산기의 분할 사용 시나리오 기능에서 패턴별 비교가 가능합니다.</div></details>
+  <details><summary>출산전후휴가 급여는 세금이 부과되나요?</summary>
+  <div class="faq-answer">고용보험에서 지급하는 출산전후휴가 급여는 <strong>소득세 비과세</strong>입니다. 즉, 전액 실수령이 가능합니다. 단, 대기업에서 사업주가 직접 지급하는 구간(60일분)은 근로소득으로 보아 소득세가 원천징수될 수 있습니다.</div></details>
+  <details><summary>출산 예정일과 실제 출산일이 다르면 어떻게 되나요?</summary>
+  <div class="faq-answer">출산전후휴가 기간 및 고용보험 급여 신청 마감일은 모두 <strong>실제 출산일 기준</strong>으로 계산됩니다. 예정일보다 일찍 출산해도 90일의 휴가 일수는 동일하게 보장됩니다. 이 계산기의 일정 계산 시뮬레이터에 실제 출산일을 입력하면 정확한 휴가 종료일과 신청 마감일을 확인할 수 있습니다.</div></details>
+  <details><summary>HR 담당자로서 회사가 부담해야 하는 비용은 어떻게 계산하나요?</summary>
+  <div class="faq-answer">대기업은 처음 60일(다태아 75일)분 통상임금과 4대보험 사업주분을 직접 부담합니다. 우선지원대상기업은 통상임금이 상한(월 220만원)을 초과하는 경우 차액분과 4대보험 사업주분을 부담합니다. 이 계산기의 <strong>HR 비용 계산 시뮬레이터</strong>에서 직원 수와 평균 급여를 입력하면 회사 실부담 총액과 고용보험 지원액을 자동으로 계산할 수 있습니다.</div></details>
+
+</div>
+
+<script>
+const MIN_CAP = 2200000;  // 2026년 출산전후휴가 고용보험 상한 (월)
+const DAILY_CAP = Math.round(MIN_CAP / 30); // 70,000원
+
+function numFmt(n){return Math.round(n).toLocaleString('ko-KR');}
+function numVal(id){return parseFloat((document.getElementById(id).value||'').replace(/,/g,''))||0;}
+function fmtInput(el){const r=el.value.replace(/[^0-9]/g,'');el.value=r?Number(r).toLocaleString('ko-KR'):'';}
+
+// 세그먼트 선택 상태 저장
+const segState = { 'm-biz':'sme', 'm-birth':'single', 'p-biz':'sme' };
+function setSeg(group, val, btn){
+  segState[group] = val;
+  btn.closest('.seg-wrap').querySelectorAll('.seg-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function switchTab(id, btn){
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+  // 시뮬레이터 그룹 전환
+  const isMama = id === 'mama';
+  document.getElementById('sim-mama-group').style.display = isMama ? '' : 'none';
+  document.getElementById('sim-papa-group').style.display = isMama ? 'none' : '';
+  document.getElementById('sim-title').textContent = isMama
+    ? '📊 추가 시뮬레이터 — 출산전후휴가'
+    : '📊 추가 시뮬레이터 — 배우자 출산휴가';
+  document.getElementById('sim-sub').textContent = isMama
+    ? '출산전후휴가 일정·육아휴직 연계·HR 비용 분석'
+    : '아빠 육아휴직 연계·배우자 출산휴가 HR 비용 분석';
+  // 배우자 탭 전환 시 초기 계산
+  if(!isMama){
+    calcPapaLinked();
+    calcPapaHR();
+  }
+}
+
+// ── 출산전후휴가 계산 ──────────────────────────
+function calcMama(){
+  const monthly = numVal('m-salary');
+  if(!monthly){ alert('월 통상임금을 입력해주세요.'); return; }
+  const biz   = segState['m-biz'];
+  const birth = segState['m-birth'];
+
+  const totalDays  = birth === 'twin' ? 120 : 90;
+  const dailyWage  = monthly / 30;
+  const dailyCap   = Math.min(dailyWage, DAILY_CAP);
+  const capApplied = dailyWage > DAILY_CAP;
+  const dailyDiff  = capApplied ? dailyWage - DAILY_CAP : 0;
+
+  // ── 지급 구조 ──
+  // SME: 고용보험 전 기간(상한까지) + 통상임금>상한이면 사업주가 차액 보전
+  // 대기업: 앞 60일(다태아 75일) 사업주 전액 + 나머지 고용보험(상한까지)
+  let insureAmt, employerAmt, insureLabel, employerLabel;
+
+  if(biz === 'sme'){
+    insureAmt     = Math.round(dailyCap  * totalDays);
+    employerAmt   = Math.round(dailyDiff * totalDays);
+    insureLabel   = `고용보험 지급 (${totalDays}일)`;
+    employerLabel = capApplied
+      ? `사업주 차액 보전 (일 ${numFmt(Math.round(dailyDiff))}원 × ${totalDays}일)`
+      : '사업주 차액 보전';
+  } else {
+    const empDays = birth === 'twin' ? 75 : 60;
+    const insDays = totalDays - empDays;
+    insureAmt     = Math.round(dailyCap  * insDays);
+    employerAmt   = Math.round(dailyWage * empDays);
+    insureLabel   = `고용보험 지급 (${insDays}일)`;
+    employerLabel = `사업주 지급 (${empDays}일)`;
+  }
+  const totalAmt = insureAmt + employerAmt;
+
+  // ── 결과 표시 ──
+  document.getElementById('mr-total').textContent    = numFmt(totalAmt);
+  document.getElementById('mr-insure').textContent   = numFmt(insureAmt);
+  document.getElementById('mr-employer').textContent = numFmt(employerAmt);
+  document.getElementById('mr-days').textContent     = totalDays + '일';
+  document.getElementById('mr-daily').textContent    = numFmt(Math.round(dailyWage)) + '원';
+  document.getElementById('mr-cap').textContent      = numFmt(MIN_CAP) + '원/월';
+
+  const empRow = document.getElementById('mr-employer-row');
+  if(employerAmt > 0){
+    empRow.style.display='flex';
+    document.getElementById('mr-employer-label').textContent  = employerLabel;
+    document.getElementById('mr-employer-detail').textContent = numFmt(employerAmt) + '원';
+  } else {
+    empRow.style.display='flex';
+    document.getElementById('mr-employer-label').textContent  = '사업주 차액 보전';
+    document.getElementById('mr-employer-detail').textContent = '없음 (통상임금 ≤ 상한액)';
+  }
+  document.getElementById('mr-ins-label').textContent  = insureLabel;
+  document.getElementById('mr-ins-detail').textContent = numFmt(insureAmt) + '원';
+
+  const capWarnRow = document.getElementById('mr-cap-warn-row');
+  if(capApplied){
+    capWarnRow.style.display='flex';
+    document.getElementById('mr-cap-warn-val').textContent = biz==='sme'
+      ? `월 ${numFmt(Math.round(dailyDiff*30))}원 사업주 보전`
+      : '고용보험 구간 상한 적용';
+  } else {
+    capWarnRow.style.display='none';
+  }
+
+  // 타임라인 바
+  const bar = document.getElementById('mr-bar');
+  const legend = document.getElementById('mr-legend');
+  let barHTML = '', legendHTML = '';
+  if(biz === 'large'){
+    const empDays = birth === 'twin' ? 75 : 60;
+    const insDays = totalDays - empDays;
+    barHTML   += `<div class="tl-seg" style="width:${(empDays/totalDays*100).toFixed(1)}%;background:#0095ff;">${empDays}일</div>`;
+    legendHTML += `<div class="tl-legend-item"><div class="tl-dot" style="background:#0095ff"></div>사업주 지급 ${empDays}일</div>`;
+    barHTML   += `<div class="tl-seg" style="width:${(insDays/totalDays*100).toFixed(1)}%;background:#00d4aa;">${insDays}일</div>`;
+    legendHTML += `<div class="tl-legend-item"><div class="tl-dot" style="background:#00d4aa"></div>고용보험 지급 ${insDays}일</div>`;
+  } else {
+    barHTML   += `<div class="tl-seg" style="width:100%;background:#00d4aa;">${totalDays}일</div>`;
+    legendHTML += `<div class="tl-legend-item"><div class="tl-dot" style="background:#00d4aa"></div>고용보험 지급 ${totalDays}일</div>`;
+    if(capApplied) legendHTML += `<div class="tl-legend-item"><div class="tl-dot" style="background:#0095ff"></div>사업주 차액 보전 (월 ${numFmt(Math.round(dailyDiff*30))}원)</div>`;
+  }
+  bar.innerHTML    = barHTML;
+  legend.innerHTML = legendHTML;
+
+  document.getElementById('mama-result').style.display='block';
+  if(document.getElementById('mr-start-date').value) calcMonthly();
+}
+
+
+// ── 배우자 출산휴가 계산 ──────────────────────────
+function toggleSplit(){
+  const v = document.getElementById('p-split').value;
+  document.getElementById('p-split-detail').style.display = v==='split' ? 'block' : 'none';
+}
+function syncSplit(el){
+  const v1 = parseInt(el.value)||1;
+  const v2 = Math.max(1, 10 - v1);
+  el.value = Math.min(9, v1);
+  document.getElementById('p-split-2').value = Math.max(1, 10 - parseInt(el.value));
+}
+
+function calcPapa(){
+  const monthly   = numVal('p-salary');
+  if(!monthly){ alert('월 통상임금을 입력해주세요.'); return; }
+  const biz       = segState['p-biz'];
+  const birthStr  = document.getElementById('p-birth-date').value;
+  const splitMode = document.getElementById('p-split').value;
+  const split1    = parseInt(document.getElementById('p-split-1').value)||5;
+  const split2    = 10 - split1;
+
+  const totalDays = 10;
+  const dailyWage = monthly / 30;
+  const dailyCap  = Math.min(dailyWage, DAILY_CAP);
+  const capApplied= dailyWage > DAILY_CAP;
+  const dailyDiff = capApplied ? dailyWage - DAILY_CAP : 0;
+
+  // 지급 구조
+  // SME: 고용보험 10일 전체(상한 이내) + 차액 있으면 사업주 보전
+  // 대기업: 사업주 5일(통상임금) + 고용보험 5일(상한 이내)
+  let insAmt, empAmt, diffAmt, insLabel, empLabel;
+  if(biz === 'sme'){
+    insAmt  = Math.round(dailyCap  * totalDays);
+    empAmt  = 0;
+    diffAmt = Math.round(dailyDiff * totalDays);
+    insLabel  = '고용보험 지급 (10일)';
+    empLabel  = capApplied ? `사업주 차액 보전 (일 ${numFmt(Math.round(dailyDiff))}원 × 10일)` : '사업주 차액 보전';
+  } else {
+    insAmt  = Math.round(dailyCap  * 5);
+    empAmt  = Math.round(dailyWage * 5);
+    diffAmt = 0;
+    insLabel  = '고용보험 지급 (5일)';
+    empLabel  = '사업주 지급 (5일)';
+  }
+  const totalAmt = insAmt + empAmt + diffAmt;
+
+  // 요약 그리드 - 사업주 합계(직접지급+차액)
+  const empTotal = empAmt + diffAmt;
+  document.getElementById('pr-total').textContent    = numFmt(totalAmt);
+  document.getElementById('pr-insure').textContent   = numFmt(insAmt);
+  document.getElementById('pr-employer').textContent = numFmt(empTotal);
+  document.getElementById('pr-employer-label2').textContent = empTotal > 0 ? '사업주 부담' : '사업주 부담';
+
+  document.getElementById('pr-daily').textContent    = numFmt(Math.round(dailyWage)) + '원';
+  document.getElementById('pr-cap').textContent      = numFmt(Math.round(DAILY_CAP * (biz==='sme'?10:5))) + '원 (' + (biz==='sme'?10:5) + '일분)';
+
+  // 사업주 직접지급 행 (대기업)
+  const empRow = document.getElementById('pr-employer-row');
+  if(empAmt > 0){
+    empRow.style.display='flex';
+    document.getElementById('pr-employer-label').textContent  = empLabel;
+    document.getElementById('pr-employer-detail').textContent = numFmt(empAmt) + '원';
+  } else {
+    empRow.style.display = 'none';
+  }
+
+  // 차액 보전 행 (SME + 통상임금 > 상한)
+  const diffRow = document.getElementById('pr-diff-row');
+  if(diffAmt > 0){
+    diffRow.style.display='flex';
+    document.getElementById('pr-diff-label').textContent  = empLabel;
+    document.getElementById('pr-diff-detail').textContent = numFmt(diffAmt) + '원';
+  } else if(biz === 'sme'){
+    diffRow.style.display='flex';
+    document.getElementById('pr-diff-label').textContent  = '사업주 차액 보전';
+    document.getElementById('pr-diff-detail').textContent = '없음 (통상임금 ≤ 상한액)';
+  } else {
+    diffRow.style.display='none';
+  }
+
+  document.getElementById('pr-ins-label').textContent  = insLabel;
+  document.getElementById('pr-ins-detail').textContent = numFmt(insAmt) + '원';
+
+  // ── 일정 계산 (출산일 입력 시) ──
+  const schedWrap = document.getElementById('pr-schedule-wrap');
+  if(birthStr){
+    const birth   = new Date(birthStr);
+    const addD    = (d,n)=>{ const r=new Date(d); r.setDate(r.getDate()+n); return r; };
+    const fmtDate = d => d.getFullYear()+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+String(d.getDate()).padStart(2,'0');
+    const deadline= addD(birth, 90);
+    const insDeadline = addD(birth, 365);
+
+    let items = [
+      {dot:'#00d4aa', date:fmtDate(birth),    label:'출산일', sub:'배우자 출산휴가 사용 가능 시작일'},
+      {dot:'#ffc107', date:fmtDate(deadline),  label:'휴가 사용 마감일 <span class="sch-badge badge-deadline">D+90</span>', sub:'출산일로부터 90일 이내 모두 사용 완료'},
+      {dot:'#ff6b6b', date:fmtDate(insDeadline),label:'고용보험 신청 마감일 <span class="sch-badge badge-deadline">D+365</span>', sub:'휴가 종료 후 12개월 이내 신청'},
+    ];
+
+    if(splitMode === 'split'){
+      const use1End  = addD(birth, split1);   // 대략 1차 종료 (예시)
+      items.splice(1,0,
+        {dot:'#0095ff', date:'출산일 이후', label:`1차 사용 (${split1}일)`, sub:`출산 전후 가장 바쁜 시기에 우선 사용 권장`},
+        {dot:'#0095ff', date:'이후 유연하게', label:`2차 사용 (${split2}일)`, sub:`배우자 퇴원·산후조리원 퇴실 등 필요 시점에 사용`}
+      );
+    } else {
+      items.splice(1,0,{dot:'#0095ff', date:'출산일~', label:'10일 연속 사용', sub:'출산 직후 연속 사용 시 집중적인 돌봄 가능'});
+    }
+
+    document.getElementById('pr-schedule-list').innerHTML = items.map(it=>`
+      <div class="sch-row">
+        <div class="sch-dot" style="background:${it.dot}"></div>
+        <div>
+          <div class="sch-date">${it.date}</div>
+          <div class="sch-label">${it.label}<br><span style="font-size:11px;opacity:.7">${it.sub}</span></div>
+        </div>
+      </div>`).join('');
+    schedWrap.style.display = 'block';
+  } else {
+    schedWrap.style.display = 'none';
+  }
+
+  // ── 분할 사용 시나리오 시뮬레이터 ──
+  const scenarios = [
+    {label:'연속 10일', d1:10, d2:0, tip:'출산 직후 집중 돌봄. 배우자 회복 초기에 가장 효과적'},
+    {label:'5일 + 5일', d1:5,  d2:5, tip:'출산 직후 + 산후조리원 퇴실 시 분할. 가장 일반적'},
+    {label:'3일 + 7일', d1:3,  d2:7, tip:'출산 직후 퇴원 보조 + 조리원 퇴실 후 집중 사용'},
+    {label:'7일 + 3일', d1:7,  d2:3, tip:'초기 집중 돌봄 후 복직, 이후 필요 시 추가 사용'},
+    {label:'1일 + 9일', d1:1,  d2:9, tip:'출산 당일만 사용 후, 조리원 퇴실 후 집중 사용'},
+  ];
+
+  const curD1 = splitMode === 'split' ? split1 : 10;
+  document.getElementById('pr-split-sim').innerHTML = scenarios.map(s => {
+    const isCur = (splitMode==='all' && s.d2===0) || (splitMode==='split' && s.d1===curD1);
+    // 급여는 동일, 사용 패턴만 다름
+    return `<div class="sim-row${isCur?' current':''}">
+      <div style="flex:1;min-width:0">
+        <div class="sim-label" style="color:${isCur?'var(--accent)':'var(--text)'};">${s.label}${isCur?' ← 현재':''}</div>
+        <div class="sim-sub">${s.tip}</div>
+      </div>
+      <div class="sim-amount" style="color:${isCur?'var(--accent)':'var(--text)'};flex-shrink:0;font-size:15px">${numFmt(totalAmt)}원</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('papa-result').style.display='block';
+}</script>
+<script>
+if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{});});}
+// ── 월별 지급 내역 계산 ────────────────────────────
+function calcMonthly(){
+  const startStr = document.getElementById('mr-start-date').value;
+  if(!startStr){ alert('출산휴가 시작일을 입력해주세요.'); return; }
+  const monthly  = numVal('m-salary');
+  if(!monthly){ alert('먼저 월 통상임금을 입력하고 계산해주세요.'); return; }
+  const biz       = segState['m-biz'];
+  const birth     = segState['m-birth'];
+  const totalDays = birth === 'twin' ? 120 : 90;
+  const dailyWage = monthly / 30;
+  const dailyCap  = Math.min(dailyWage, DAILY_CAP);
+  const dailyDiff = dailyWage > DAILY_CAP ? dailyWage - DAILY_CAP : 0;
+  const capApplied= dailyWage > DAILY_CAP;
+  const empDaysTotal = biz === 'large' ? (birth==='twin'?75:60) : 0;
+  const addD        = (d,n)=>{ const r=new Date(d); r.setDate(r.getDate()+n); return r; };
+  const fmtM        = d => d.getFullYear()+'년 '+(d.getMonth()+1)+'월';
+  const daysInMonth = d => new Date(d.getFullYear(), d.getMonth()+1, 0).getDate();
+  const start = new Date(startStr);
+  const end   = addD(start, totalDays-1);
+  const months = [];
+  let cur = new Date(start), daysPassed = 0;
+  while(cur <= end){
+    const y = cur.getFullYear(), m = cur.getMonth();
+    const segEnd   = (()=>{ const me=new Date(y,m+1,0); return end<me?end:me; })();
+    const segDays  = Math.round((segEnd-cur)/(86400000))+1;
+    let eD=0, iD=0;
+    for(let i=0;i<segDays;i++){ if(daysPassed+i<empDaysTotal) eD++; else iD++; }
+    const isFirst=months.length===0, isLast=segEnd>=end;
+    let empAmt,insAmt,diffAmt;
+    if(biz==='large'){ empAmt=Math.round(dailyWage*eD); insAmt=Math.round(dailyCap*iD); diffAmt=0; }
+    else { empAmt=0; insAmt=Math.round(dailyCap*segDays); diffAmt=Math.round(dailyDiff*segDays); }
+    months.push({ label:fmtM(cur), startDay:isFirst?start.getDate():1, endDay:isLast?end.getDate():daysInMonth(cur), leaveDays:segDays, empAmt, insAmt, diffAmt, totalAmt:empAmt+insAmt+diffAmt });
+    daysPassed+=segDays; cur=new Date(y,m+1,1);
+  }
+  const isLarge=biz==='large', hasDiff=!isLarge&&capApplied;
+  let html='<thead><tr><th>월</th><th>기간</th><th>일수</th>';
+  if(isLarge) html+='<th style="color:var(--accent2)">사업주 지급</th>';
+  html+='<th style="color:var(--accent)">고용보험</th>';
+  if(hasDiff) html+='<th style="color:var(--accent2)">사업주 차액</th>';
+  html+='<th>합계</th></tr></thead><tbody>';
+  let sE=0,sI=0,sD=0,sT=0;
+  months.forEach(mo=>{
+    sE+=mo.empAmt; sI+=mo.insAmt; sD+=mo.diffAmt; sT+=mo.totalAmt;
+    html+=`<tr><td class="month-label">${mo.label}</td><td class="days-cell">${mo.startDay}일~${mo.endDay}일</td><td class="days-cell">${mo.leaveDays}일</td>`;
+    if(isLarge) html+=`<td class="emp-cell">${mo.empAmt>0?numFmt(mo.empAmt)+'원':'—'}</td>`;
+    html+=`<td class="ins-cell">${numFmt(mo.insAmt)}원</td>`;
+    if(hasDiff) html+=`<td class="emp-cell">${numFmt(mo.diffAmt)}원</td>`;
+    html+=`<td class="total-cell">${numFmt(mo.totalAmt)}원</td></tr>`;
+  });
+  html+=`<tr><td class="month-label" colspan="3">합계 (${totalDays}일)</td>`;
+  if(isLarge) html+=`<td class="emp-cell">${numFmt(sE)}원</td>`;
+  html+=`<td class="ins-cell">${numFmt(sI)}원</td>`;
+  if(hasDiff) html+=`<td class="emp-cell">${numFmt(sD)}원</td>`;
+  html+=`<td class="total-cell">${numFmt(sT)}원</td></tr></tbody>`;
+  document.getElementById('monthly-table').innerHTML=html;
+  const fmtDate=d=>d.getFullYear()+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+String(d.getDate()).padStart(2,'0');
+  let note=`📅 휴가 기간: ${fmtDate(start)} ~ ${fmtDate(end)} (${totalDays}일)<br>`;
+  note+=`💡 고용보험 신청 마감: <strong style="color:var(--text)">${fmtDate(addD(start,365))}</strong><br>`;
+  if(biz==='sme'&&capApplied) note+=`🏢 우선지원: 고용보험(상한 월 ${numFmt(MIN_CAP)}원) + 사업주 차액 보전(월 ${numFmt(Math.round(dailyDiff*30))}원) 구조.`;
+  else if(biz==='sme') note+=`🏢 우선지원대상기업: 통상임금 ≤ 상한 → 고용보험 전액 지급.`;
+  else { const ed=birth==='twin'?75:60; note+=`🏢 대기업: 처음 ${ed}일 사업주 지급 + 이후 ${totalDays-ed}일 고용보험 지급.`; }
+  document.getElementById('monthly-note').innerHTML=note;
+  document.getElementById('monthly-table-wrap').style.display='block';
+}
+
+// ── Sim 1: 출산휴가 일정 계산 ─────────────────────
+function calcSchedule(){
+  const dueStr=document.getElementById('sim-due-date').value;
+  if(!dueStr){ alert('출산 예정일을 입력해주세요.'); return; }
+  const totalDays=parseInt(document.getElementById('sim-birth-type').value);
+  const due=new Date(dueStr);
+  const fmtD=d=>d.getFullYear()+'.'+(d.getMonth()+1).toString().padStart(2,'0')+'.'+d.getDate().toString().padStart(2,'0');
+  const addD=(d,n)=>{ const r=new Date(d); r.setDate(r.getDate()+n); return r; };
+  const items=[
+    {dot:'#8b949e',date:fmtD(addD(due,-45)),label:'출산전후휴가 권장 시작일<span class="sch-badge badge-important">D-45</span>',sub:'출산 45일 전 (이른 시작 권장)'},
+    {dot:'#00d4aa',date:fmtD(due),label:'출산 예정일',sub:'실제 출산일에 따라 일정 조정'},
+    {dot:'#00d4aa',date:fmtD(addD(due,45)),label:'출산 후 최소 사용 종료일<span class="sch-badge badge-important">필수</span>',sub:'출산 후 최소 45일 의무 사용'},
+    {dot:'#00d4aa',date:fmtD(addD(due,totalDays-45)),label:`출산전후휴가 종료일 (${totalDays}일 기준)`,sub:'이후 육아휴직 연계 가능'},
+    {dot:'#0095ff',date:fmtD(addD(due,totalDays-44)),label:'육아휴직 시작 가능일',sub:'출산전후휴가 직후 신청 가능'},
+    {dot:'#ffc107',date:fmtD(addD(due,90)),label:'배우자 출산휴가 마감<span class="sch-badge badge-deadline">D+90</span>',sub:'출산일로부터 90일 이내'},
+    {dot:'#ff6b6b',date:fmtD(addD(due,365)),label:'고용보험 신청 마감<span class="sch-badge badge-deadline">D+365</span>',sub:'기간 내 미신청 시 청구권 소멸'},
+  ];
+  document.getElementById('schedule-list').innerHTML=items.map(it=>`<div class="sch-row"><div class="sch-dot" style="background:${it.dot}"></div><div><div class="sch-date">${it.date}</div><div class="sch-label">${it.label}<br><span style="font-size:11px;opacity:.7">${it.sub}</span></div></div></div>`).join('');
+  document.getElementById('schedule-result').style.display='block';
+}
+
+// ── Sim 2: 육아휴직 연계 총급여 ──────────────────
+function calcLinked(){
+  const monthly=parseFloat((document.getElementById('sim-wage').value||'').replace(/,/g,''))||0;
+  if(!monthly) return;
+  const months=parseInt(document.getElementById('sim-parental-months').value);
+  const use66=document.getElementById('sim-66').value==='yes';
+  const matTotal=Math.round(Math.min(monthly/30,DAILY_CAP)*90);
+  const P6=2000000,PC=1500000,PF=700000,PR=0.8;
+  let rows=[],pTotal=0;
+  if(use66){
+    const m6=Math.min(6,months),p6=Math.round(Math.min(Math.max(monthly,PF),P6)*m6);
+    rows.push({label:`육아휴직 6+6 특례 ${m6}개월 (100%)`,amount:p6,color:'#7c3aed'}); pTotal+=p6;
+    if(months>6){ const mr=months-6,pr=Math.round(Math.min(Math.max(monthly*PR,PF),PC)*mr); rows.push({label:`일반 ${mr}개월 (80%)`,amount:pr,color:'#9333ea'}); pTotal+=pr; }
+  } else { const p=Math.round(Math.min(Math.max(monthly*PR,PF),PC)*months); rows.push({label:`육아휴직 ${months}개월 (80%)`,amount:p,color:'#7c3aed'}); pTotal=p; }
+  const total=matTotal+pTotal;
+  document.getElementById('linked-total').textContent=numFmt(total)+'원';
+  document.getElementById('linked-period').textContent=`출산전후휴가 3개월 + 육아휴직 ${months}개월 = 총 ${3+months}개월`;
+  const segs=[{label:`출산전후휴가(${numFmt(matTotal)}원)`,amount:matTotal,color:'#00d4aa'},...rows];
+  document.getElementById('linked-bar').innerHTML=segs.map(s=>`<div class="wage-seg" style="width:${(s.amount/total*100).toFixed(1)}%;background:${s.color};">${(s.amount/total*100).toFixed(0)}%</div>`).join('');
+  document.getElementById('linked-legend').innerHTML=segs.map(s=>`<div style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text-muted)"><div style="width:10px;height:10px;border-radius:3px;background:${s.color}"></div>${s.label}</div>`).join('');
+  document.getElementById('linked-detail').innerHTML=[{label:'출산전후휴가 90일',val:numFmt(matTotal)+'원',color:'var(--accent)'},...rows.map(r=>({label:r.label,val:numFmt(r.amount)+'원',color:'#9333ea'})),{label:'총 수령액',val:numFmt(total)+'원',color:'var(--accent)',bold:true}].map(r=>`<div class="cost-row" style="${r.bold?'background:rgba(0,212,170,0.05)':''}"><span class="cost-row-label" style="${r.bold?'color:var(--text);font-weight:700':''}">${r.label}</span><span class="cost-row-val" style="color:${r.color}">${r.val}</span></div>`).join('');
+  document.getElementById('linked-result').style.display='block';
+}
+
+// ── Sim 3: HR 비용 분석 ──────────────────────────
+function calcHR(){
+  const monthly=parseFloat((document.getElementById('hr-wage').value||'').replace(/,/g,''))||0;
+  const replace=parseFloat((document.getElementById('hr-replace').value||'').replace(/,/g,''))||0;
+  const count=parseInt(document.getElementById('hr-count').value)||1;
+  const biz=document.getElementById('hr-biz').value;
+  if(!monthly) return;
+  const dailyCap=Math.min(monthly/30,DAILY_CAP),dailyWage=monthly/30;
+  const cD=biz==='sme'?0:60, iD=biz==='sme'?90:30;
+  const cW=Math.round(dailyWage*cD), iS=Math.round(dailyCap*iD);
+  const eI=Math.round(monthly*0.0947*3), rC=Math.round(monthly/12*3);
+  const repT=Math.round(replace*3*1.178);
+  const cost=(cW+eI+rC)*count, sup=iS*count, rep=repT*count;
+  document.getElementById('hr-company-cost').textContent=numFmt(cost)+'원';
+  document.getElementById('hr-gov-support').textContent=numFmt(sup)+'원';
+  document.getElementById('hr-detail').innerHTML=[
+    {label:`직원 ${count}명 월 통상임금`,val:numFmt(monthly*count)+'원/월'},
+    {label:`사업주 급여부담 (${cD}일)`,val:cD>0?numFmt(cW*count)+'원':'고용보험 전액 지원'},
+    {label:'4대보험 사업주분 (3개월)',val:numFmt(eI*count)+'원'},
+    {label:'퇴직충당금 (3개월)',val:numFmt(rC*count)+'원'},
+    {label:'고용보험 지원액',val:'-'+numFmt(sup)+'원',color:'var(--accent)'},
+    {label:'회사 실부담 합계',val:numFmt(cost)+'원',bold:true,color:'#ff6b6b'},
+  ].map(r=>`<div class="cost-row" style="${r.bold?'background:rgba(255,107,107,0.05)':''}"><span class="cost-row-label" style="${r.bold?'color:var(--text);font-weight:700':''}">${r.label}</span><span class="cost-row-val" style="color:${r.color||'var(--text)'}">${r.val}</span></div>`).join('');
+  const noteEl=document.getElementById('hr-replace-note');
+  if(replace>0){
+    const diff=rep-cost,cheaper=diff>0?'출산휴가 유지':'대체인력 채용';
+    noteEl.style.display='block';
+    noteEl.style.background=diff>0?'rgba(0,212,170,0.06)':'rgba(255,107,107,0.06)';
+    noteEl.style.border=diff>0?'1px solid rgba(0,212,170,0.2)':'1px solid rgba(255,107,107,0.2)';
+    noteEl.innerHTML=`<strong style="color:${diff>0?'var(--accent)':'#ff6b6b'}">💡 대체인력 총비용: ${numFmt(rep)}원</strong><br>실부담보다 <strong>${numFmt(Math.abs(diff))}원 ${diff>0?'더 많습니다':'더 적습니다'}</strong> → <strong>${cheaper}</strong>가 효율적.<br><span style="font-size:11px;opacity:.7">※ 대체인력에 4대보험(9.47%)+퇴직충당금(8.33%) 포함.</span>`;
+  } else noteEl.style.display='none';
+  document.getElementById('hr-result').style.display='block';
+}
+
+// ── Sim P1: 아빠 육아휴직 연계 총급여 ──────────────
+function calcPapaLinked(){
+  const monthly = parseFloat((document.getElementById('p-sim-wage').value||'').replace(/,/g,''))||0;
+  if(!monthly) return;
+  const months = parseInt(document.getElementById('p-sim-months').value);
+  const use66  = document.getElementById('p-sim-66').value === 'yes';
+  const biz    = document.getElementById('p-sim-biz').value;
+
+  // 배우자 출산휴가 10일 급여
+  const dailyCap = Math.min(monthly/30, DAILY_CAP);
+  const papaLeaveAmt = Math.round(dailyCap * 10);
+
+  // 아빠 육아휴직 급여
+  // 6+6 특례: 첫 6개월 100% (상한 월 200만→순차 시 최대 450만, 여기선 200만으로 계산)
+  // 일반: 80% (상한 150만, 하한 70만)
+  const P6=2000000, PC=1500000, PF=700000, PR=0.8;
+  let rows=[], pTotal=0;
+  if(use66){
+    const m6=Math.min(6,months);
+    const pay6=Math.round(Math.min(Math.max(monthly,PF),P6)*m6);
+    rows.push({label:`6+6 특례 ${m6}개월 (100%, 상한 200만)`, amount:pay6, color:'#7c3aed'});
+    pTotal+=pay6;
+    if(months>6){
+      const mr=months-6;
+      const pr=Math.round(Math.min(Math.max(monthly*PR,PF),PC)*mr);
+      rows.push({label:`일반 육아휴직 ${mr}개월 (80%)`, amount:pr, color:'#9333ea'});
+      pTotal+=pr;
+    }
+  } else {
+    const pay=Math.round(Math.min(Math.max(monthly*PR,PF),PC)*months);
+    rows.push({label:`육아휴직 ${months}개월 (80%)`, amount:pay, color:'#7c3aed'});
+    pTotal=pay;
+  }
+  const total=papaLeaveAmt+pTotal;
+
+  document.getElementById('pl-total').textContent = numFmt(total)+'원';
+  document.getElementById('pl-period').textContent = `배우자 출산휴가 10일 + 아빠 육아휴직 ${months}개월 = 총 ${months}개월 10일`;
+
+  const segs=[{label:`배우자 출산휴가 (${numFmt(papaLeaveAmt)}원)`, amount:papaLeaveAmt, color:'#00d4aa'}, ...rows];
+  document.getElementById('pl-bar').innerHTML = segs.map(s=>
+    `<div class="wage-seg" style="width:${(s.amount/total*100).toFixed(1)}%;background:${s.color};">${(s.amount/total*100).toFixed(0)}%</div>`
+  ).join('');
+  document.getElementById('pl-legend').innerHTML = segs.map(s=>
+    `<div style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text-muted)"><div style="width:10px;height:10px;border-radius:3px;background:${s.color}"></div>${s.label}</div>`
+  ).join('');
+
+  const detailRows=[
+    {label:'배우자 출산휴가 10일', val:numFmt(papaLeaveAmt)+'원', color:'var(--accent)'},
+    ...rows.map(r=>({label:r.label, val:numFmt(r.amount)+'원', color:'#9333ea'})),
+    {label:'아빠 육아휴직 소계', val:numFmt(pTotal)+'원', color:'#7c3aed'},
+    {label:'총 수령액', val:numFmt(total)+'원', color:'var(--accent)', bold:true},
+  ];
+  document.getElementById('pl-detail').innerHTML = detailRows.map(r=>
+    `<div class="cost-row" style="${r.bold?'background:rgba(0,212,170,0.05)':''}">
+      <span class="cost-row-label" style="${r.bold?'color:var(--text);font-weight:700':''}">${r.label}</span>
+      <span class="cost-row-val" style="color:${r.color}">${r.val}</span>
+    </div>`
+  ).join('');
+  document.getElementById('papa-linked-result').style.display='block';
+}
+
+// ── Sim P2: 배우자 출산휴가 HR 비용 (10일) ──────────
+function calcPapaHR(){
+  const monthly = parseFloat((document.getElementById('p-hr-wage').value||'').replace(/,/g,''))||0;
+  const replDay = parseFloat((document.getElementById('p-hr-replace').value||'').replace(/,/g,''))||0;
+  const count   = parseInt(document.getElementById('p-hr-count').value)||1;
+  const biz     = document.getElementById('p-hr-biz').value;
+  if(!monthly) return;
+
+  const totalDays = 10;
+  const dailyWage = monthly / 30;
+  const dailyCap  = Math.min(dailyWage, DAILY_CAP);
+  const dailyDiff = dailyWage > DAILY_CAP ? dailyWage - DAILY_CAP : 0;
+
+  // 지급 구조
+  // SME: 고용보험 10일(상한) + 차액 사업주
+  // 대기업: 사업주 5일(통상임금) + 고용보험 5일(상한)
+  let empAmt, insAmt, diffAmt;
+  if(biz==='sme'){
+    insAmt  = Math.round(dailyCap  * 10);
+    empAmt  = 0;
+    diffAmt = Math.round(dailyDiff * 10);
+  } else {
+    insAmt  = Math.round(dailyCap  * 5);
+    empAmt  = Math.round(dailyWage * 5);
+    diffAmt = 0;
+  }
+  const totalPay   = empAmt + insAmt + diffAmt;
+  // 4대보험 사업주분 (10일치 = 월 × 10/30)
+  const empIns     = Math.round(monthly * 0.0947 * (10/30));
+  // 회사 실부담 = 사업주 직접지급 + 차액보전 + 4대보험 사업주분
+  const companyCost= (empAmt + diffAmt + empIns) * count;
+  const govSupport = insAmt * count;
+  // 대체인력 비용 (일당 × 10일)
+  const replaceCost= replDay * 10 * count;
+
+  document.getElementById('p-hr-company-cost').textContent = numFmt(companyCost)+'원';
+  document.getElementById('p-hr-gov-support').textContent  = numFmt(govSupport)+'원';
+
+  const rows=[
+    {label:`직원 ${count}명 10일 통상임금`,      val: numFmt(Math.round(dailyWage*10)*count)+'원'},
+    {label:`사업주 직접 급여 부담`,               val: empAmt>0 ? numFmt(empAmt*count)+'원' : (diffAmt>0?'차액 보전만':'없음 (고용보험 전액)')},
+    {label:`사업주 차액 보전`,                    val: diffAmt>0 ? numFmt(diffAmt*count)+'원' : '없음'},
+    {label:`4대보험 사업주분 (10일)`,             val: numFmt(empIns*count)+'원'},
+    {label:`고용보험 지원액`,                     val: '-'+numFmt(govSupport)+'원', color:'var(--accent)'},
+    {label:`회사 실부담 합계`,                    val: numFmt(companyCost)+'원', bold:true, color:'#ff6b6b'},
+  ];
+  document.getElementById('p-hr-detail').innerHTML = rows.map(r=>
+    `<div class="cost-row" style="${r.bold?'background:rgba(255,107,107,0.05)':''}">
+      <span class="cost-row-label" style="${r.bold?'color:var(--text);font-weight:700':''}">${r.label}</span>
+      <span class="cost-row-val" style="color:${r.color||'var(--text)'}">${r.val}</span>
+    </div>`
+  ).join('');
+
+  // 대체인력 비교
+  const noteEl = document.getElementById('p-hr-replace-note');
+  if(replDay>0){
+    const diff=replaceCost-companyCost;
+    noteEl.style.display='block';
+    noteEl.style.background = diff>0?'rgba(0,212,170,0.06)':'rgba(255,107,107,0.06)';
+    noteEl.style.border     = diff>0?'1px solid rgba(0,212,170,0.2)':'1px solid rgba(255,107,107,0.2)';
+    noteEl.innerHTML = `<strong style="color:${diff>0?'var(--accent)':'#ff6b6b'}">💡 대체인력 10일 비용: ${numFmt(replaceCost)}원</strong><br>
+      실부담보다 <strong>${numFmt(Math.abs(diff))}원 ${diff>0?'더 많습니다':'더 적습니다'}</strong> → <strong>${diff>0?'현 직원 유지':'대체인력 고려'}</strong>가 비용 효율적.<br>
+      <span style="font-size:11px;opacity:.7">※ 10일은 짧아 일반적으로 대체인력보다 업무 분담이 효율적입니다.</span>`;
+  } else {
+    noteEl.style.display='none';
+  }
+  document.getElementById('p-hr-result').style.display='block';
+}
+
+window.addEventListener('load', ()=>{
+  calcMama(); calcPapa();
+  calcLinked(); calcHR();
+  calcPapaLinked(); calcPapaHR();
+  const d=new Date(); d.setMonth(d.getMonth()+6);
+  document.getElementById('sim-due-date').value=d.toISOString().split('T')[0];
+  calcSchedule();
+});
+
+</script>
+</body>
+</html>
