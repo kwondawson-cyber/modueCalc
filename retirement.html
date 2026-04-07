@@ -297,8 +297,8 @@
 
       <hr class="divider" />
 
-      <div class="card-title">최근 3개월 급여</div>
-      <div class="section-label">퇴직 전 3개월간 받은 급여의 합을 입력하세요</div>
+      <div class="card-title">급여 정보</div>
+      <div class="section-label">기본급·수당은 <strong>월액</strong>, 상여·연차수당은 <strong>연간 총액</strong>으로 입력 (3개월치는 자동 계산)</div>
 
       <div class="input-group">
         <label>월 기본급 (세전)</label>
@@ -389,7 +389,7 @@
 
     function calculate() {
       const start = new Date(document.getElementById('startDate').value);
-      const end = new Date(document.getElementById('endDate').value);
+      const end   = new Date(document.getElementById('endDate').value);
       const baseSalary = getNum('baseSalary');
       const allowance  = getNum('allowance');
       const bonus      = getNum('bonus');
@@ -401,8 +401,7 @@
       if (start >= end) { alert('퇴사일이 입사일보다 이후여야 합니다.'); return; }
 
       // 재직일수
-      const diffMs = end - start;
-      const totalDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+      const totalDays = Math.floor((end - start) / (1000 * 60 * 60 * 24));
 
       if (totalDays < 365) {
         alert('1년 미만 근무 시 퇴직금이 발생하지 않습니다.\n(재직일수: ' + totalDays + '일)');
@@ -417,63 +416,149 @@
       if (months < 0) { years--; months += 12; }
       const periodText = `${years}년 ${months}개월 ${days}일 (총 ${fmt(totalDays)}일)`;
 
-      // 평균임금 계산 (3개월 기준 = 91일)
-      const last3MonthsWage = (baseSalary + allowance) * 3;
-      const bonusPortion = bonus * (3 / 12);
-      const vacationPortion = vacation * (3 / 12);
-      const totalWage3Months = last3MonthsWage + bonusPortion + vacationPortion;
-      const dailyWage = totalWage3Months / 91;
+      // 실제 3개월 일수 계산 (91일 고정 → 정확한 날짜 기반)
+      const threeMonthsAgo = new Date(end.getFullYear(), end.getMonth() - 3, end.getDate());
+      const actual3MonthDays = Math.floor((end - threeMonthsAgo) / (1000 * 60 * 60 * 24));
+
+      // 평균임금 계산
+      const last3MonthsWage   = (baseSalary + allowance) * 3;
+      const bonusPortion      = bonus * (3 / 12);
+      const vacationPortion   = vacation * (3 / 12);
+      const totalWage3Months  = last3MonthsWage + bonusPortion + vacationPortion;
+      const dailyWage         = totalWage3Months / actual3MonthDays;
 
       // 퇴직금 = 1일 평균임금 × 30일 × (재직일수 / 365)
       const retirementPay = dailyWage * 30 * (totalDays / 365);
-
-      // 근속연수 (소수점 표시)
-      const serviceYears = (totalDays / 365).toFixed(2);
+      const serviceYears  = (totalDays / 365).toFixed(2);
 
       // 결과 표시
       document.getElementById('retirementPay').innerHTML = `${fmt(retirementPay)}<span>원</span>`;
-      document.getElementById('d-period').textContent = periodText;
-      document.getElementById('d-daily').textContent = `${fmt(dailyWage)}원`;
+      document.getElementById('d-period').textContent  = periodText;
+      document.getElementById('d-daily').textContent   = `${fmt(dailyWage)}원 (3개월 ${actual3MonthDays}일 기준)`;
       document.getElementById('d-monthly').textContent = `${fmt(dailyWage * 30)}원`;
-      document.getElementById('d-years').textContent = `${serviceYears}년`;
+      document.getElementById('d-years').textContent   = `${serviceYears}년`;
       document.getElementById('d-formula').textContent = `${fmt(dailyWage * 30)}원 × ${serviceYears}년`;
 
-      const resultCard = document.getElementById('resultCard');
-      resultCard.classList.add('visible');
+      document.getElementById('resultCard').classList.add('visible');
 
-      // IRP 시뮬레이터 활성화
+      // IRP 시뮬레이터
       _retirePay = retirementPay;
       document.getElementById('irpCard').style.display = 'block';
       updateIrp();
+
+      // 사업주 카드
+      _dailyWage  = dailyWage;
+      _totalDays  = totalDays;
+      _endDate    = end;
+      _baseSalary = baseSalary;
+      _allowance  = allowance;
+      _bonus      = bonus;
+      _vacation   = vacation;
+      document.getElementById('employerCard').style.display = 'block';
+      updateEmployer();
+
+      // 근속연수 시뮬레이터
+      document.getElementById('simCard').style.display = 'block';
+      updateSim();
     }
 
-    let _retirePay = 0;
+    let _retirePay = 0, _dailyWage = 0, _totalDays = 0, _endDate = null;
+    let _baseSalary = 0, _allowance = 0, _bonus = 0, _vacation = 0;
+
     function updateIrp() {
       if (!_retirePay) return;
       const years = parseInt(document.getElementById('irp-years').value) || 10;
       document.getElementById('irp-years-label').textContent = years + '년';
-      // 퇴직소득세 추정 (간이 계산: 실효세율 약 5~15% 수준 간이 적용)
-      // 실제 퇴직소득세는 근속연수공제 등 복잡하지만, 시뮬용 간이 계산
       const pay = _retirePay;
-      // 퇴직소득 과세표준 간이 추정 (근속연수공제 무시, 참고용)
-      const roughTax = pay * 0.08; // 약 8% 간이 실효세율
-      const discount = years >= 10 ? 0.40 : 0.30; // 10년이상 40%, 미만 30% 감면
+      const roughTax = pay * 0.08;
+      const discount = years >= 10 ? 0.40 : 0.30;
       const saved = roughTax * discount;
-      const el = document.getElementById('irpResult');
-      el.innerHTML = `
+      document.getElementById('irpResult').innerHTML = `
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
           <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center">
             <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">일시금 수령 (예상 퇴직소득세)</div>
             <div style="font-size:17px;font-weight:900;font-family:Montserrat,sans-serif;color:#ff6b6b">약 ${fmt(roughTax)}원</div>
           </div>
           <div style="background:rgba(0,212,170,.08);border:1px solid rgba(0,212,170,.3);border-radius:12px;padding:14px;text-align:center">
-            <div style="font-size:11px;color:var(--accent);margin-bottom:4px">IRP 연금 수령 (${years}년 분할, 절세 후)</div>
+            <div style="font-size:11px;color:var(--accent);margin-bottom:4px">IRP 연금 수령 (${years}년, 절세 후)</div>
             <div style="font-size:17px;font-weight:900;font-family:Montserrat,sans-serif;color:var(--accent)">약 ${fmt(roughTax - saved)}원</div>
           </div>
         </div>
         <div style="text-align:center;padding:10px;background:rgba(0,212,170,.05);border-radius:10px;font-size:13px;color:var(--text-muted)">
           IRP 연금 수령 시 퇴직소득세 <strong style="color:var(--accent)">${(discount*100).toFixed(0)}% 감면</strong> → 약 <strong style="color:var(--accent)">${fmt(saved)}원</strong> 절세 예상<br>
           <span style="font-size:11px">※ 간이 추정치(실효세율 약 8% 가정). 정확한 세액은 세무사 상담 권장</span>
+        </div>`;
+    }
+
+    function updateEmployer() {
+      if (!_endDate) return;
+      const deadline = new Date(_endDate);
+      deadline.setDate(deadline.getDate() + 14);
+      const today = new Date();
+      const daysLeft = Math.ceil((deadline - today) / (1000*60*60*24));
+      const overdue  = daysLeft < 0;
+      const overdueD = overdue ? Math.abs(daysLeft) : 0;
+      const lateInterest = overdue ? (_retirePay * 0.20 / 365 * overdueD) : 0;
+      const monthlyAccrual = _dailyWage * 30 / 12; // 월 적립 필요액
+      const annualAccrual  = _dailyWage * 30;       // 연 적립 필요액
+
+      const df = d => `${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일`;
+      const deadlineColor = overdue ? '#ff6b6b' : daysLeft <= 3 ? '#ffa500' : 'var(--accent)';
+      const deadlineLabel = overdue
+        ? `<span style="color:#ff6b6b">⚠️ 기한 초과 ${overdueD}일 경과</span>`
+        : daysLeft === 0 ? `<span style="color:#ffa500">⚠️ 오늘이 마감일!</span>`
+        : `<span style="color:var(--accent)">D-${daysLeft}</span>`;
+
+      document.getElementById('employerResult').innerHTML = `
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+          <div style="background:var(--surface2);border:1px solid ${deadlineColor};border-radius:10px;padding:14px;text-align:center">
+            <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">퇴직금 지급 기한</div>
+            <div style="font-size:13px;font-weight:900;color:${deadlineColor}">${df(deadline)}</div>
+            <div style="font-size:12px;margin-top:4px">${deadlineLabel}</div>
+          </div>
+          <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center">
+            <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">월 적립 권고액</div>
+            <div style="font-size:16px;font-weight:900;font-family:Montserrat,sans-serif;color:var(--accent)">${fmt(monthlyAccrual)}원</div>
+            <div style="font-size:10px;color:var(--text-muted);margin-top:3px">연 ${fmt(annualAccrual)}원</div>
+          </div>
+        </div>
+        ${overdue ? `
+        <div style="background:rgba(255,107,107,.08);border:1px solid rgba(255,107,107,.3);border-radius:10px;padding:14px;margin-bottom:10px">
+          <div style="font-size:12px;color:#ff6b6b;font-weight:700;margin-bottom:6px">⚠️ 지연이자 발생 (연 20%)</div>
+          <div style="display:flex;justify-content:space-between;font-size:13px">
+            <span style="color:var(--text-muted)">지연 ${overdueD}일 기준 지연이자</span>
+            <strong style="color:#ff6b6b">${fmt(lateInterest)}원</strong>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;margin-top:6px">
+            <span style="color:var(--text-muted)">퇴직금 + 지연이자 합계</span>
+            <strong style="color:#ff6b6b">${fmt(_retirePay + lateInterest)}원</strong>
+          </div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:8px">근로기준법 제37조 · 지연일수 × 20% / 365일</div>
+        </div>` : ''}
+        <div style="font-size:12px;color:var(--text-muted);line-height:1.8;padding:10px 12px;background:rgba(0,212,170,.04);border-radius:8px">
+          💡 DC형 퇴직연금 가입 시 매년 <strong style="color:var(--text)">${fmt(annualAccrual)}원</strong>(연봉의 1/12) 이상을 IRP 계좌에 적립해야 합니다.
+        </div>`;
+    }
+
+    function updateSim() {
+      const slider = document.getElementById('sim-years');
+      if (!slider) return;
+      const targetYears = parseFloat(slider.value);
+      document.getElementById('sim-years-label').textContent = targetYears + '년';
+      const simDays = Math.round(targetYears * 365);
+      const simPay  = _dailyWage * 30 * (simDays / 365);
+      const diff    = simPay - _retirePay;
+      const sign    = diff >= 0 ? '+' : '';
+      document.getElementById('simResult').innerHTML = `
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div style="background:rgba(0,212,170,.06);border:1px solid rgba(0,212,170,.2);border-radius:10px;padding:14px;text-align:center">
+            <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">${targetYears}년 근속 시 퇴직금</div>
+            <div style="font-size:18px;font-weight:900;font-family:Montserrat,sans-serif;color:var(--accent)">${fmt(simPay)}원</div>
+          </div>
+          <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center">
+            <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">현재 대비</div>
+            <div style="font-size:18px;font-weight:900;font-family:Montserrat,sans-serif;color:${diff>=0?'var(--accent)':'#ff6b6b'}">${sign}${fmt(diff)}원</div>
+          </div>
         </div>`;
     }
 
@@ -491,6 +576,35 @@
       <div id="irp-years-label" style="font-size:16px;font-weight:900;color:var(--accent);min-width:40px">10년</div>
     </div>
     <div id="irpResult"></div>
+  </div>
+</div>
+
+<!-- 사업주 체크 카드 -->
+<div class="container" style="padding-top:0;padding-bottom:0">
+  <div class="card" id="employerCard" style="display:none">
+    <div class="card-title">🏢 사업주 체크 — 지급 기한 · 지연이자 · 월 적립</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">
+      퇴직금은 퇴직일로부터 <strong style="color:var(--text)">14일 이내</strong> 지급 의무 (근로기준법 제36조). 초과 시 <strong style="color:#ff6b6b">연 20% 지연이자</strong> 발생.
+    </p>
+    <div id="employerResult"></div>
+  </div>
+</div>
+
+<!-- 근속연수 시뮬레이터 -->
+<div class="container" style="padding-top:0;padding-bottom:0">
+  <div class="card" id="simCard" style="display:none">
+    <div class="card-title">📈 근속연수 시뮬레이터 — 더 다니면 얼마?</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">
+      현재 평균임금 기준으로 근속연수를 바꾸면 퇴직금이 어떻게 달라지는지 확인하세요.
+    </p>
+    <div style="display:flex;gap:12px;align-items:center;margin-bottom:14px">
+      <div style="font-size:13px;color:var(--text-muted);font-weight:600;white-space:nowrap">근속연수</div>
+      <input type="range" id="sim-years" min="1" max="30" step="0.5" value="5"
+        oninput="document.getElementById('sim-years-label').textContent=this.value+'년';updateSim()"
+        style="flex:1;accent-color:var(--accent)" />
+      <div id="sim-years-label" style="font-size:16px;font-weight:900;color:var(--accent);min-width:44px">5년</div>
+    </div>
+    <div id="simResult"></div>
   </div>
 </div>
 
