@@ -275,6 +275,10 @@
           <option value="0.3">30%</option>
           <option value="0.4">40%</option>
           <option value="0.5">50%</option>
+          <option value="0.6">60%</option>
+          <option value="0.7">70%</option>
+          <option value="0.8">80%</option>
+          <option value="0.9">90%</option>
         </select>
       </div>
     </div>
@@ -543,8 +547,12 @@ function calc() {
 function updateSim() {
   const rate = parseFloat(document.getElementById('sim-type').value) || 0.15;
   const inputRate = parseFloat(document.getElementById('sim-input-rate').value) || 0.2;
-  const milRows = [3000, 5000, 7000, 9000, 10400]; // 단위: 만원
-  const fw = n => Math.round(n).toLocaleString() + '원';
+  const milRows = [3000, 5000, 7000, 9000, 10400];
+  const fw = n => Math.round(Math.abs(n)).toLocaleString() + '원';
+  // 간이과세 역전점: 매출 × rate × 10% = 매출 × inputRate × 10%  →  inputRate = rate
+  const breakEven = rate; // 매입비율이 부가가치율보다 높으면 일반이 유리
+  const isGeneralBetter = inputRate > breakEven;
+
   let html = `<table class="ex-table" style="min-width:360px">
     <thead><tr>
       <th>연 매출</th>
@@ -554,25 +562,42 @@ function updateSim() {
     </tr></thead><tbody>`;
   milRows.forEach(m => {
     const s = m * 10000;
-    const simple  = s * 0.1 * rate;
-    const general = Math.max(0, s * 0.1 - s * inputRate * 0.1);
+    const simple  = Math.max(0, s * rate * 0.1);
+    const generalRaw = s * 0.1 - s * inputRate * 0.1;
+    const general = generalRaw < 0 ? generalRaw : generalRaw; // 음수=환급
     const diff    = general - simple;
     const isLimit = m >= 10400;
-    const diffCell = isLimit
-      ? '<span style="color:var(--warn);font-size:11px">⚠️ 일반과세 전환 기준</span>'
-      : diff > 0
-        ? `<strong style="color:var(--accent)">간이 유리 +${fw(diff)}</strong>`
-        : diff < 0
-          ? `<span style="color:var(--danger)">일반 유리 +${fw(-diff)}</span>`
-          : '동일';
+    let diffCell;
+    if (isLimit) {
+      diffCell = '<span style="color:#ffc107;font-size:11px">⚠️ 일반과세 전환 기준</span>';
+    } else if (general < 0) {
+      diffCell = `<strong style="color:var(--accent)">일반 유리 (환급 ${fw(-general)})</strong>`;
+    } else if (diff > 0) {
+      diffCell = `<strong style="color:var(--accent)">간이 유리 +${fw(diff)}</strong>`;
+    } else if (diff < 0) {
+      diffCell = `<strong style="color:#ff6b6b">일반 유리 +${fw(-diff)}</strong>`;
+    } else {
+      diffCell = '동일';
+    }
     html += `<tr>
       <td>${fw(s)}</td>
       <td>${fw(simple)}</td>
-      <td>${fw(general)}</td>
+      <td>${general < 0 ? `<span style="color:var(--accent)">환급 ${fw(-general)}</span>` : fw(general)}</td>
       <td>${diffCell}</td>
     </tr>`;
   });
   html += '</tbody></table>';
+  // 역전 안내
+  if (isGeneralBetter) {
+    html += `<div style="margin-top:10px;padding:10px 14px;background:rgba(255,107,107,0.07);border:1px solid rgba(255,107,107,0.25);border-radius:8px;font-size:12px;color:var(--text-muted);line-height:1.8">
+      ⚠️ <strong style="color:#ff6b6b">매입비율(${(inputRate*100).toFixed(0)}%)이 업종 부가가치율(${(rate*100).toFixed(0)}%)보다 높습니다.</strong><br>
+      이 경우 일반과세가 더 유리하거나, 매입이 매출을 초과하면 환급도 가능합니다. 일반과세자 등록을 검토해보세요.
+    </div>`;
+  } else {
+    html += `<div style="margin-top:10px;padding:10px 14px;background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.15);border-radius:8px;font-size:12px;color:var(--text-muted);line-height:1.8">
+      💡 현재 매입비율에서는 <strong style="color:var(--accent)">간이과세가 유리</strong>합니다. 매입비율이 <strong>${(rate*100).toFixed(0)}%</strong>를 넘어가면 일반과세가 유리해집니다.
+    </div>`;
+  }
   document.getElementById('sim-wrap').innerHTML = html;
 }
 
