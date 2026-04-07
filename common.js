@@ -441,6 +441,20 @@
 
   window.__common = { CALC_LIST:CALC_LIST, getFavs:getFavs, isFav:isFav, showToast:showToast };
 
+  // ─── canonical 태그 자동 주입 ────────────────────────────────────
+  // 모든 페이지에 canonical을 동적 삽입합니다.
+  // about.html·faq.html처럼 이미 하드코딩된 파일은 중복 방지 후 스킵합니다.
+  (function injectCanonical(){
+    if (document.querySelector('link[rel="canonical"]')) return; // 이미 있으면 스킵
+    var base = 'https://www.everycalc.kr';
+    var href = base + (PATH === '/' ? '' : PATH);
+    var link = document.createElement('link');
+    link.rel  = 'canonical';
+    link.href = href;
+    document.head.appendChild(link);
+  })();
+  // ──────────────────────────────────────────────────────────────────
+
   // ─── WebApplication 스키마 자동 주입 ───────────────────────────────
   // 계산기 페이지(홈·about·faq·privacy 제외)에 JSON-LD를 동적으로 삽입합니다.
   // common.js 한 곳만 수정하면 77개 전체 계산기에 일괄 반영됩니다.
