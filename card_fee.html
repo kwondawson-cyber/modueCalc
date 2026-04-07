@@ -79,6 +79,13 @@
     details summary::after{content:'＋';color:var(--accent);font-size:16px}
     details[open] summary::after{content:'－'}
     details .faq-answer{padding:12px 16px;font-size:13px;color:var(--text-muted);line-height:1.9;background:var(--surface2)}
+    input[type="range"]{width:100%;height:6px;background:var(--border);border-radius:3px;outline:none;cursor:pointer;accent-color:var(--accent);border:none;padding:8px 0;-webkit-appearance:none}
+    input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--accent);cursor:pointer;box-shadow:0 0 6px rgba(0,212,170,.4)}
+    .mode-btn{padding:10px 8px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;font-size:12px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:var(--text-muted);cursor:pointer;transition:all .2s;width:100%}
+    .mode-btn.active{background:rgba(0,212,170,0.1);border-color:rgba(0,212,170,0.5);color:var(--accent)}
+    .delivery-toggle{padding:6px 14px;background:rgba(0,212,170,0.1);border:1px solid rgba(0,212,170,0.3);border-radius:20px;font-size:12px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:var(--accent);cursor:pointer;transition:all .2s}
+    .delivery-toggle.on{background:rgba(255,107,107,0.1);border-color:rgba(255,107,107,0.3);color:var(--danger)}
+    .calc-preview{background:rgba(0,212,170,0.06);border:1px solid rgba(0,212,170,0.2);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--text-muted);margin-top:10px;line-height:1.8}
     @media(max-width:480px){.result-grid{grid-template-columns:1fr}.tier-cards{grid-template-columns:1fr 1fr}.row2{grid-template-columns:1fr}}
 
     .seo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px;max-width:680px;margin-left:auto;margin-right:auto;margin-top:0}
@@ -116,15 +123,21 @@
   <div class="home-btn-wrap"><a href="/" class="home-btn"><span class="home-btn-emoji">🏠</span><span class="home-btn-label">HOME</span></a></div>
   <div class="header">
     <h1><span class="emoji">💳</span> 카드 수수료 계산기</h1>
-    <p>영세·중소가맹점 우대수수료 기준 월 실수령액 계산</p>
+    <p>우대수수료 자동 감지 · 슬라이더 입력 · 배달앱 통합</p>
   </div>
   <div class="badges">
-    <span class="badge">🏪 소상공인</span><span class="badge">💳 우대수수료</span><span class="badge">2026년 기준</span>
+    <span class="badge">🏪 소상공인</span><span class="badge">💳 우대수수료</span><span class="badge">🛵 배달앱 통합</span><span class="badge">2026년 기준</span>
   </div>
 
+  <!-- ① 구간 자동 감지 -->
   <div class="card">
-    <h2>📊 가맹점 구간 선택</h2>
-    <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px">연 매출에 따라 우대수수료율이 자동 적용됩니다.</p>
+    <h2>📊 내 가맹점 구간 확인</h2>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">연 매출을 입력하면 수수료율이 자동 선택됩니다. 아래 카드를 직접 클릭해 수동 변경도 가능합니다.</p>
+    <div class="form-group" style="margin-bottom:14px">
+      <label>연 총매출 (원) — 입력 시 구간 자동 감지</label>
+      <input type="text" inputmode="numeric" id="annualSales" placeholder="예: 150,000,000  (= 1억 5천만원)" oninput="numFmt(this);detectTier()" />
+      <div id="tierNotice" style="min-height:20px;margin-top:7px;font-size:13px;color:var(--text-muted)"></div>
+    </div>
     <div class="tier-cards">
       <div class="tier-card active" onclick="selectTier(0,this)">
         <div class="tier-name">영세</div>
@@ -157,70 +170,103 @@
         <div class="tier-range">수동설정</div>
       </div>
     </div>
-    <div class="form-group" id="custom-input" style="display:none">
-      <label>직접 입력할 수수료율 (%)</label>
-      <input type="number" id="customRate" step="0.01" placeholder="예: 1.8" oninput="document.getElementById('custom-rate-display').textContent=this.value+'%'" />
+    <div class="form-group" id="custom-input" style="display:none;margin-top:10px">
+      <label>직접 입력 수수료율 (%)</label>
+      <input type="number" id="customRate" step="0.01" placeholder="예: 1.8"
+        oninput="document.getElementById('custom-rate-display').textContent=this.value+'%';selectedRate=parseFloat(this.value)||0" />
     </div>
   </div>
 
+  <!-- ② 이번 달 매출 입력 -->
   <div class="card">
-    <h2>💰 매출 정보</h2>
-    <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">월 카드 매출과 현금 매출을 구분해 입력하면 실수령액과 연간 수수료 합계를 확인할 수 있습니다.</p>
-    <div class="row2">
+    <h2>💰 이번 달 매출 입력</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:16px">
+      <button id="modeSlider" class="mode-btn active" onclick="setMode('slider')">🎚 총매출 + 비율 슬라이더</button>
+      <button id="modeDirect" class="mode-btn" onclick="setMode('direct')">✏️ 카드매출 직접 입력</button>
+    </div>
+
+    <!-- 슬라이더 모드 -->
+    <div id="panel-slider">
       <div class="form-group">
-        <label>월 카드 매출 (원)</label>
-        <input type="number" id="cardSales" placeholder="예: 10000000" />
+        <label>월 총매출 (카드 + 현금 합계, 원)</label>
+        <input type="text" inputmode="numeric" id="totalSalesInput" placeholder="예: 15,000,000" oninput="numFmt(this);updatePreview()" />
       </div>
-      <div class="form-group">
-        <label>현금·기타 매출 (원)</label>
-        <input type="number" id="cashSales" placeholder="예: 2000000" value="0" />
+      <div class="form-group" style="margin-bottom:6px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <label style="margin:0">카드 결제 비율</label>
+          <strong id="ratioDisplay" style="color:var(--accent);font-size:22px;font-family:'Montserrat',sans-serif">80%</strong>
+        </div>
+        <input type="range" id="cardRatioSlider" min="0" max="100" step="5" value="80" oninput="updatePreview()" />
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted);margin-top:6px">
+          <span>0% (현금만)</span><span>25%</span><span>50%</span><span>75%</span><span>100% (카드만)</span>
+        </div>
+      </div>
+      <div id="sliderPreview" class="calc-preview" style="display:none"></div>
+    </div>
+
+    <!-- 직접입력 모드 -->
+    <div id="panel-direct" style="display:none">
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:12px;background:rgba(0,149,255,0.06);border:1px solid rgba(0,149,255,0.15);border-left:3px solid var(--accent2);border-radius:8px;padding:10px 12px;line-height:1.7">
+        💡 카드 단말기 또는 POS에서 카드·현금 매출 합계를 확인할 수 있습니다.
+      </div>
+      <div class="row2">
+        <div class="form-group">
+          <label>월 카드 매출 (원)</label>
+          <input type="text" inputmode="numeric" id="cardSalesDirect" placeholder="카드 결제 합계" />
+        </div>
+        <div class="form-group">
+          <label>현금·기타 매출 (원)</label>
+          <input type="text" inputmode="numeric" id="cashSalesDirect" placeholder="현금 결제 합계" value="0" oninput="numFmt(this)" />
+        </div>
       </div>
     </div>
-    <div class="form-group">
-      <label>카드 결제 비율 (%)</label>
-      <input type="number" id="cardRatio" placeholder="예: 85" value="85" />
-    </div>
-    <button class="btn" onclick="calc()">카드수수료 계산하기</button>
   </div>
 
-  <div class="result-card" id="result">
+  <!-- ③ 배달앱 수수료 -->
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <h2 style="margin:0">🛵 배달앱 수수료 추가</h2>
+      <button class="delivery-toggle" id="deliveryToggleBtn" onclick="toggleDelivery()">＋ 추가하기</button>
+    </div>
+    <p style="font-size:12px;color:var(--text-muted);margin-top:8px;line-height:1.6">배달앱을 여러 개 쓰면 모두 추가하세요. 홀 매출과 중복 입력하지 마세요.</p>
+    <div id="deliverySection" style="display:none;margin-top:14px;border-top:1px solid var(--border);padding-top:14px">
+      <div style="font-size:11px;color:var(--text-muted);margin-bottom:12px;line-height:1.7;background:rgba(255,193,7,0.06);border:1px solid rgba(255,193,7,0.2);border-radius:8px;padding:8px 12px">
+        ⚠️ 배달앱 수수료율은 매출 구간별 차등 적용 (배민·쿠팡이츠 하위 20% → 2%, 중간 → 6.8%, 상위 35% → 7.8%). 정산서에서 실제 적용율을 확인하세요.
+      </div>
+      <div id="deliveryRows"></div>
+      <button onclick="addDeliveryRow()" style="width:100%;margin-top:10px;padding:10px;background:rgba(0,212,170,0.06);border:1px dashed rgba(0,212,170,0.3);border-radius:8px;font-size:13px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:var(--accent);cursor:pointer">
+        ＋ 배달앱 추가
+      </button>
+    </div>
+  </div>
+
+  <button class="btn" onclick="calc()">💳 카드 수수료 계산하기</button>
+
+  <!-- 결과 -->
+  <div class="result-card" id="result" style="display:none">
     <div class="result-main">
-      <div class="result-label">월 카드수수료</div>
-      <div class="result-value danger" id="r-fee">0원</div>
+      <div class="result-label" id="r-label">월 카드 수수료</div>
+      <div class="result-value danger" id="r-total-fee">0원</div>
       <div class="result-sub" id="r-sub"></div>
     </div>
     <div class="result-grid">
-      <div class="result-item"><div class="result-item-label">월 카드 매출</div><div class="result-item-value" id="r-card-sales">-</div></div>
-      <div class="result-item"><div class="result-item-label">카드 실수령액</div><div class="result-item-value" id="r-net">-</div></div>
+      <div class="result-item"><div class="result-item-label">카드 수수료</div><div class="result-item-value danger" id="r-card-fee">-</div></div>
+      <div class="result-item" id="r-delivery-box" style="display:none"><div class="result-item-label">배달앱 수수료</div><div class="result-item-value danger" id="r-delivery-fee">-</div></div>
+      <div class="result-item"><div class="result-item-label">월 실수령액</div><div class="result-item-value" id="r-net">-</div></div>
       <div class="result-item"><div class="result-item-label">연간 수수료 합계</div><div class="result-item-value danger" id="r-annual-fee">-</div></div>
-      <div class="result-item"><div class="result-item-label">총 매출 실수령률</div><div class="result-item-value" id="r-net-rate">-</div></div>
     </div>
-
     <div class="breakdown">
-      <h3>💡 월 수익 상세</h3>
-      <div class="bd-row"><span>총 매출 (카드+현금)</span><span id="bd-total-sales">-</span></div>
-      <div class="bd-row deduct"><span>(−) 카드 수수료 <span id="bd-rate-show" style="color:var(--text-muted)"></span></span><span id="bd-fee">-</span></div>
-      <div class="bd-row"><span>= 실수령액</span><span id="bd-net">-</span></div>
+      <h3>📋 수수료 상세 내역</h3>
+      <div id="bd-body"></div>
     </div>
-
-    <div style="margin-top:16px">
-      <div style="font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:10px">📊 수수료율별 월 수수료 비교</div>
-      <table class="card-compare">
-        <thead><tr><th>구간</th><th>수수료율</th><th>월 수수료</th><th>연 수수료</th></tr></thead>
-        <tbody id="compare-body"></tbody>
-      </table>
-    </div>
-
-    <div style="margin-top:16px">
-      <div style="font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:10px">💡 수수료 절감 시뮬레이션</div>
-      <div id="saving-content"></div>
-    </div>
+    <div id="r-compare" style="margin-top:16px"></div>
+    <div id="saving-content" style="margin-top:16px"></div>
   </div>
 
-  <!-- 빠른 수수료 시뮬레이터 -->
+  <!-- 빠른 시뮬레이터 -->
   <div class="card" id="simCard" style="margin-top:16px">
     <div style="font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:10px">⚡ 구간별 수수료 즉시 비교</div>
-    <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">월 카드 매출을 입력하면 영세~일반 구간별 수수료를 한눈에 비교합니다. (기본값: 월 1,000만원)</p>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">월 카드 매출을 입력하면 영세~일반 구간별 수수료를 한눈에 비교합니다.</p>
     <div class="form-group">
       <label>월 카드 매출 (원)</label>
       <input type="number" id="sim-sales" value="10000000" oninput="simFee()" />
@@ -325,14 +371,283 @@
 
 
 <script>
+const fw = n => Math.round(n).toLocaleString() + '원';
+const TIERS = [
+  { name:'영세',   rate:0.5,  range:'연 3억 이하' },
+  { name:'중소 1', rate:1.1,  range:'3억~5억' },
+  { name:'중소 2', rate:1.25, range:'5억~10억' },
+  { name:'중소 3', rate:1.5,  range:'10억~30억' },
+  { name:'일반',   rate:2.0,  range:'30억 초과' },
+  { name:'직접입력', rate:null, range:'수동설정' }
+];
+let selectedRate = 0.5;
+let currentMode  = 'slider';
+let deliveryOn   = false;
+
+// ── comma 입력 헬퍼 ────────────────────────────────
+function numFmt(el) {
+  const raw = el.value.replace(/[^0-9]/g, '');
+  el.value = raw ? parseInt(raw, 10).toLocaleString('ko-KR') : '';
+}
+function numVal(id) {
+  return parseFloat((document.getElementById(id).value || '').replace(/,/g, '')) || 0;
+}
+
+// ── 연 매출 → 구간 자동 감지 ──────────────────────
+function detectTier() {
+  const annual = numVal('annualSales');
+  if (!annual) { document.getElementById('tierNotice').innerHTML = ''; return; }
+  let idx;
+  if      (annual <= 300000000)   idx = 0;
+  else if (annual <= 500000000)   idx = 1;
+  else if (annual <= 1000000000)  idx = 2;
+  else if (annual <= 3000000000)  idx = 3;
+  else                            idx = 4;
+
+  document.querySelectorAll('.tier-card').forEach((c,i) => c.classList.toggle('active', i===idx));
+  document.getElementById('custom-input').style.display = 'none';
+  selectedRate = TIERS[idx].rate;
+  document.getElementById('tierNotice').innerHTML =
+    `✅ <strong style="color:var(--text)">${TIERS[idx].name} 가맹점</strong> — 적용 수수료율 <strong style="color:var(--accent)">${TIERS[idx].rate}%</strong> 자동 선택됨`;
+  updatePreview();
+}
+
+function selectTier(idx, el) {
+  document.querySelectorAll('.tier-card').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  const ci = document.getElementById('custom-input');
+  if (idx === 5) {
+    ci.style.display = 'block';
+    selectedRate = parseFloat(document.getElementById('customRate').value) || 0;
+  } else {
+    ci.style.display = 'none';
+    selectedRate = TIERS[idx].rate;
+  }
+  document.getElementById('tierNotice').innerHTML = '';
+  updatePreview();
+}
+
+// ── 입력 모드 전환 ─────────────────────────────────
+function setMode(mode) {
+  currentMode = mode;
+  document.getElementById('modeSlider').classList.toggle('active', mode==='slider');
+  document.getElementById('modeDirect').classList.toggle('active', mode==='direct');
+  document.getElementById('panel-slider').style.display = mode==='slider'?'block':'none';
+  document.getElementById('panel-direct').style.display = mode==='direct'?'block':'none';
+}
+
+// ── 슬라이더 실시간 미리보기 ───────────────────────
+function updatePreview() {
+  if (currentMode !== 'slider') return;
+  const total = numVal('totalSalesInput');
+  const ratio = +document.getElementById('cardRatioSlider').value;
+  document.getElementById('ratioDisplay').textContent = ratio + '%';
+  const cardSales = Math.round(total * ratio / 100);
+  const cashSales = total - cardSales;
+  const fee = Math.round(cardSales * selectedRate / 100);
+  const preview = document.getElementById('sliderPreview');
+  if (total > 0) {
+    preview.style.display = 'block';
+    preview.innerHTML =
+      `카드 매출 <strong style="color:var(--text)">${fw(cardSales)}</strong> + 현금 <strong style="color:var(--text)">${fw(cashSales)}</strong><br>` +
+      `예상 카드 수수료 <strong style="color:var(--danger)">${fw(fee)}</strong> (수수료율 ${selectedRate}% 기준)`;
+  } else {
+    preview.style.display = 'none';
+  }
+}
+
+// ── 배달앱 토글 + 복수 행 ──────────────────────────
+const DELIVERY_APPS = [
+  { label:'배달의민족 (6.8%)',  rate:6.8  },
+  { label:'쿠팡이츠 (6.8%)',    rate:6.8  },
+  { label:'요기요 (9.7%)',      rate:9.7  },
+  { label:'땡겨요 (2.0%)',      rate:2.0  },
+  { label:'직접 입력',          rate:null },
+];
+let deliveryRowCount = 0;
+
+function buildDeliverySelect(rowId) {
+  return DELIVERY_APPS.map((a,i) =>
+    `<option value="${a.rate ?? 'custom'}">${a.label}</option>`
+  ).join('');
+}
+
+function addDeliveryRow() {
+  const id = ++deliveryRowCount;
+  const wrap = document.getElementById('deliveryRows');
+  const div = document.createElement('div');
+  div.id = `drow-${id}`;
+  div.style.cssText = 'display:grid;grid-template-columns:1fr 1fr auto;gap:8px;margin-bottom:10px;align-items:end';
+  div.innerHTML = `
+    <div>
+      <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:5px">배달앱</label>
+      <select id="dtype-${id}" onchange="onDeliveryTypeChange(${id})"
+        style="width:100%;padding:10px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:'Noto Sans KR',sans-serif;color:var(--text);outline:none">
+        ${buildDeliverySelect(id)}
+      </select>
+    </div>
+    <div>
+      <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:5px">월 매출 (원)</label>
+      <input type="text" inputmode="numeric" id="dsales-${id}" placeholder="정산 전 매출"
+        oninput="numFmt(this)"
+        style="width:100%;padding:10px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;font-size:14px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none" />
+    </div>
+    <button onclick="removeDeliveryRow(${id})"
+      style="padding:10px 12px;background:rgba(255,107,107,0.1);border:1px solid rgba(255,107,107,0.25);border-radius:8px;color:var(--danger);font-size:14px;cursor:pointer;font-family:'Noto Sans KR',sans-serif;white-space:nowrap">✕</button>
+    <div id="dcustom-${id}" style="display:none;grid-column:1/3;margin-top:-4px">
+      <input type="number" id="dcrate-${id}" step="0.1" placeholder="수수료율 직접 입력 (%)"
+        style="width:100%;padding:9px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:'Noto Sans KR',sans-serif;color:var(--text);outline:none" />
+    </div>`;
+  wrap.appendChild(div);
+}
+
+function removeDeliveryRow(id) {
+  const el = document.getElementById(`drow-${id}`);
+  if (el) el.remove();
+}
+
+function onDeliveryTypeChange(id) {
+  const val = document.getElementById(`dtype-${id}`).value;
+  document.getElementById(`dcustom-${id}`).style.display = val==='custom' ? 'block' : 'none';
+}
+
+function toggleDelivery() {
+  deliveryOn = !deliveryOn;
+  const sec = document.getElementById('deliverySection');
+  const btn = document.getElementById('deliveryToggleBtn');
+  sec.style.display = deliveryOn ? 'block' : 'none';
+  btn.textContent = deliveryOn ? '✕ 닫기' : '＋ 추가하기';
+  btn.classList.toggle('on', deliveryOn);
+  // 첫 행 자동 추가
+  if (deliveryOn && document.getElementById('deliveryRows').children.length === 0) {
+    addDeliveryRow();
+  }
+}
+
+function getDeliveryRows() {
+  // 현재 추가된 행에서 데이터 수집
+  const rows = [];
+  document.querySelectorAll('[id^="drow-"]').forEach(div => {
+    const id = div.id.replace('drow-', '');
+    const typeVal = document.getElementById(`dtype-${id}`)?.value;
+    const sales = parseFloat((document.getElementById(`dsales-${id}`)?.value || '').replace(/,/g,'')) || 0;
+    let rate;
+    if (typeVal === 'custom') {
+      rate = parseFloat(document.getElementById(`dcrate-${id}`)?.value) || 0;
+    } else {
+      rate = parseFloat(typeVal) || 0;
+    }
+    const name = document.getElementById(`dtype-${id}`)?.options[document.getElementById(`dtype-${id}`)?.selectedIndex]?.text || '배달앱';
+    if (sales > 0) rows.push({ name, rate, sales, fee: Math.round(sales * rate / 100) });
+  });
+  return rows;
+}
+
+// ── 메인 계산 ──────────────────────────────────────
+function calc() {
+  let cardSales, totalHall;
+
+  if (currentMode === 'slider') {
+    totalHall  = numVal('totalSalesInput');
+    const ratio = +document.getElementById('cardRatioSlider').value || 80;
+    cardSales  = Math.round(totalHall * ratio / 100);
+  } else {
+    cardSales  = numVal('cardSalesDirect');
+    const cash = numVal('cashSalesDirect');
+    totalHall  = cardSales + cash;
+  }
+
+  if (!totalHall && !cardSales) { alert('매출을 입력해주세요.'); return; }
+
+  const cardFee = Math.round(cardSales * selectedRate / 100);
+
+  let deliverySales = 0, deliveryFee = 0;
+  let deliveryRows = [];
+  if (deliveryOn) {
+    deliveryRows = getDeliveryRows();
+    deliverySales = deliveryRows.reduce((s,r) => s + r.sales, 0);
+    deliveryFee   = deliveryRows.reduce((s,r) => s + r.fee,   0);
+  }
+
+  const totalFee   = cardFee + deliveryFee;
+  const totalSales = totalHall + deliverySales;
+  const netSales   = totalSales - totalFee;
+  const netRate    = totalSales > 0 ? (netSales / totalSales * 100).toFixed(1) : 0;
+
+  const hasDelivery = deliveryOn && deliveryRows.length > 0;
+  document.getElementById('r-label').textContent = hasDelivery ? '월 수수료 합계 (카드 + 배달앱)' : '월 카드 수수료';
+  document.getElementById('r-total-fee').textContent = fw(totalFee);
+  document.getElementById('r-sub').textContent = `연간 ${fw(totalFee*12)} · 실수령률 ${netRate}%`;
+  document.getElementById('r-card-fee').textContent = fw(cardFee);
+  document.getElementById('r-net').textContent = fw(netSales);
+  document.getElementById('r-annual-fee').textContent = fw(totalFee * 12);
+
+  const dBox = document.getElementById('r-delivery-box');
+  dBox.style.display = hasDelivery ? 'block' : 'none';
+  if (hasDelivery) document.getElementById('r-delivery-fee').textContent = fw(deliveryFee);
+
+  let bdHtml = `<div class="bd-row"><span>총 매출 합계 (카드+현금${deliveryRows.length>0?'+배달':''})</span><span>${fw(totalSales)}</span></div>`;
+  bdHtml += `<div class="bd-row deduct"><span>(−) 카드 수수료 (${fw(cardSales)} × ${selectedRate}%)</span><span>${fw(cardFee)}</span></div>`;
+  deliveryRows.forEach(r => {
+    bdHtml += `<div class="bd-row deduct"><span>(−) ${r.name} (${fw(r.sales)} × ${r.rate}%)</span><span>${fw(r.fee)}</span></div>`;
+  });
+  bdHtml += `<div class="bd-row"><span>= 월 실수령액</span><span style="color:var(--accent)">${fw(netSales)}</span></div>`;
+  document.getElementById('bd-body').innerHTML = bdHtml;
+
+  document.getElementById('r-compare').innerHTML = `
+    <div style="font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:10px">📊 수수료율별 비교 (카드 매출 ${fw(cardSales)} 기준)</div>
+    <table class="card-compare">
+      <thead><tr><th>구간</th><th>수수료율</th><th>월 수수료</th><th>연 수수료</th></tr></thead>
+      <tbody>${TIERS.slice(0,5).map(t => {
+        const f = Math.round(cardSales * t.rate / 100);
+        const cur = t.rate === selectedRate;
+        return `<tr style="${cur?'background:rgba(0,212,170,0.08)':''}">
+          <td>${t.name} (${t.range})${cur?' ◀':''}</td>
+          <td>${t.rate}%</td>
+          <td style="color:var(--danger);font-weight:700">${fw(f)}</td>
+          <td style="color:var(--text-muted)">${fw(f*12)}</td>
+        </tr>`;
+      }).join('')}</tbody>
+    </table>`;
+
+  const t0fee  = Math.round(cardSales * 0.5 / 100);
+  const t0save = cardFee - t0fee;
+  document.getElementById('saving-content').innerHTML = `
+    <div style="font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:10px">💡 수수료 절감 시뮬레이션</div>
+    <div style="background:var(--surface2);border-radius:12px;padding:14px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center">
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">영세(0.5%) 적용 시</div>
+          <div style="font-size:18px;font-weight:900;color:${t0save>0?'var(--accent)':'var(--text-muted)'}">
+            ${t0save>0?fw(t0save)+'/월':'현재 최저'}
+          </div>
+          ${t0save>0?`<div style="font-size:11px;color:var(--text-muted);margin-top:2px">연 ${fw(t0save*12)} 절감</div>`:''}
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center">
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">제로페이 전환 시</div>
+          <div style="font-size:18px;font-weight:900;color:var(--accent)">${fw(cardFee)}/월</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:2px">연 ${fw(cardFee*12)} 절감 (0%)</div>
+        </div>
+      </div>
+      <div style="margin-top:10px;font-size:12px;color:var(--text-muted);line-height:1.7">
+        ※ 영세가맹점 우대 수수료 신청: 여신금융협회(crefia.or.kr) 또는 카드사 고객센터<br>
+        ※ 제로페이: 소상공인 수수료 0% — 소상공인시장진흥공단 무료 가맹 신청
+      </div>
+    </div>`;
+
+  document.getElementById('result').style.display = 'block';
+  document.getElementById('result').scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+
+// ── 빠른 시뮬레이터 ───────────────────────────────
 function simFee() {
   const sales = +document.getElementById('sim-sales').value || 0;
   const tiers = [
-    { name:'영세 (3억 이하)', rate:0.5 },
-    { name:'중소1 (3억~5억)', rate:1.1 },
+    { name:'영세 (3억 이하)',   rate:0.5  },
+    { name:'중소1 (3억~5억)',  rate:1.1  },
     { name:'중소2 (5억~10억)', rate:1.25 },
-    { name:'중소3 (10억~30억)', rate:1.5 },
-    { name:'일반 (30억 초과)', rate:2.0 },
+    { name:'중소3 (10억~30억)',rate:1.5  },
+    { name:'일반 (30억 초과)', rate:2.0  },
   ];
   const tbody = document.getElementById('sim-tbody');
   if (!tbody) return;
@@ -346,96 +661,8 @@ function simFee() {
     </tr>`;
   }).join('');
 }
+
 window.addEventListener('DOMContentLoaded', simFee);
-
-const fw = n => Math.round(n).toLocaleString() + '원';
-const TIERS = [
-  { name:'영세', rate:0.5, range:'연 3억 이하' },
-  { name:'중소 1', rate:1.1, range:'3억~5억' },
-  { name:'중소 2', rate:1.25, range:'5억~10억' },
-  { name:'중소 3', rate:1.5, range:'10억~30억' },
-  { name:'일반', rate:2.0, range:'30억 초과' },
-  { name:'직접입력', rate:null, range:'수동설정' }
-];
-let selectedRate = 0.5;
-
-function selectTier(idx, el) {
-  document.querySelectorAll('.tier-card').forEach(c => c.classList.remove('active'));
-  el.classList.add('active');
-  const ci = document.getElementById('custom-input');
-  if (idx === 5) {
-    ci.style.display = 'block';
-    const v = parseFloat(document.getElementById('customRate').value);
-    selectedRate = isNaN(v) ? 0 : v;
-  } else {
-    ci.style.display = 'none';
-    selectedRate = TIERS[idx].rate;
-  }
-}
-
-function calc() {
-  const v = parseFloat((document.getElementById('customRate')||{}).value);
-  const ci = document.getElementById('custom-input');
-  if (ci.style.display !== 'none' && !isNaN(v)) selectedRate = v;
-
-  const cardSales = +document.getElementById('cardSales').value || 0;
-  const cashSales = +document.getElementById('cashSales').value || 0;
-  const totalSales = cardSales + cashSales;
-  if (!cardSales) { alert('월 카드 매출을 입력해주세요.'); return; }
-
-  const fee = cardSales * selectedRate / 100;
-  const net = totalSales - fee;
-  const netRate = totalSales > 0 ? ((net / totalSales) * 100).toFixed(1) : 0;
-
-  document.getElementById('r-fee').textContent = fw(fee);
-  document.getElementById('r-sub').textContent = `수수료율 ${selectedRate}% 적용`;
-  document.getElementById('r-card-sales').textContent = fw(cardSales);
-  document.getElementById('r-net').textContent = fw(net);
-  document.getElementById('r-annual-fee').textContent = fw(fee * 12);
-  document.getElementById('r-net-rate').textContent = netRate + '%';
-  document.getElementById('bd-total-sales').textContent = fw(totalSales);
-  document.getElementById('bd-rate-show').textContent = `(${selectedRate}%)`;
-  document.getElementById('bd-fee').textContent = '-' + fw(fee);
-  document.getElementById('bd-net').textContent = fw(net);
-
-  // 비교 표
-  const tbody = document.getElementById('compare-body');
-  tbody.innerHTML = '';
-  TIERS.slice(0, 5).forEach(t => {
-    const f = cardSales * t.rate / 100;
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${t.name} (${t.range})</td><td>${t.rate}%</td><td>${fw(f)}</td><td>${fw(f*12)}</td>`;
-    if (t.rate === selectedRate) tr.style.background = 'rgba(0,212,170,0.08)';
-    tbody.appendChild(tr);
-  });
-
-  document.getElementById('result').style.display = 'block';
-
-  // 절감 시뮬레이션
-  const zeropayFee = 0;
-  const zeropayNet = cardSales - zeropayFee;
-  const zeropayAnnualSave = fee * 12;
-  const t1fee = cardSales * TIERS[0].rate / 100; // 영세 0.5%
-  const t1save = fee - t1fee;
-  const html = `
-    <div style="background:var(--surface2);border-radius:12px;padding:14px;font-size:13px">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-        <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center">
-          <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">영세(0.5%) 적용 시 절감</div>
-          <div style="font-size:18px;font-weight:900;color:${t1save>0?'#00d4aa':'var(--text-muted)'}">${t1save>0?fw(t1save)+'/월':'현재 최저'}${t1save>0?'<div style="font-size:11px;color:#8b949e;margin-top:2px">연 '+fw(t1save*12)+' 절감</div>':''}</div>
-        </div>
-        <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center">
-          <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">제로페이 전환 시 절감</div>
-          <div style="font-size:18px;font-weight:900;color:#00d4aa">${fw(fee)}/월</div>
-          <div style="font-size:11px;color:#8b949e;margin-top:2px">연 ${fw(zeropayAnnualSave)} 절감 (수수료 0%)</div>
-        </div>
-      </div>
-      <div style="margin-top:10px;font-size:12px;color:var(--text-muted);line-height:1.7">※ 영세가맹점 우대 수수료 적용 신청: 여신금융협회(www.crefia.or.kr) 또는 카드사 고객센터<br>※ 제로페이는 소상공인 결제 수수료 0% — 소비자 QR코드 결제 방식</div>
-    </div>`;
-  document.getElementById('saving-content').innerHTML = html;
-}
-
-window.onload = () => { if (document.getElementById('cardSales').value) calc(); };
 </script>
 <script src="/common.js" defer></script><script src="/share.js" defer></script><script src="/calculator.js" defer></script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')});}</script>
