@@ -381,11 +381,11 @@
             <div class="p-val">${fmt(totalHoliday)}원</div>
           </div>
           <div class="p-box">
-            <div class="p-label">총 근무수당</div>
+            <div class="p-label">총 급여${_is5plus && publicHolidays>0 ? `<span style="font-size:10px;color:var(--accent);display:block;margin-top:2px">공휴일 ${publicHolidays}일 유급 포함</span>` : ''}</div>
             <div class="p-val" style="font-size:15px;color:var(--text)">${fmt(totalWork)}원</div>
           </div>
           <div class="p-box">
-            <div class="p-label">총 합계 (주휴 포함)</div>
+            <div class="p-label">총 합계 (주휴수당)</div>
             <div class="p-val" style="font-size:15px;color:#ffd54f">${fmt(grandTotal)}원</div>
           </div>
         </div>
@@ -394,6 +394,7 @@
         <div class="p-detail"><span class="p-dl">주당 주휴수당</span><span class="p-dv acc">${fmt(holidayPerWeek)}원</span></div>
         <div class="p-detail"><span class="p-dl">주휴수당 발생 주수</span><span class="p-dv">${qualifyWeeks}주</span></div>
         ${deductNote}
+        ${_is5plus && publicHolidays>0 ? `<div class="p-detail"><span class="p-dl" style="color:var(--accent)">공휴일 유급 (${publicHolidays}일 × ${hpd}시간 × ${hourly.toLocaleString()}원)</span><span class="p-dv" style="color:var(--accent)">+${fmt(publicHolidays*hpd*hourly)}원 포함</span></div>` : ''}
         <div class="p-detail"><span class="p-dl">주당 급여 합계</span><span class="p-dv">${fmt(weeklyTotal)}원</span></div>
       </div>`;
   }
