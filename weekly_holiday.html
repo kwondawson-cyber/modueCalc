@@ -256,9 +256,28 @@
         <div class="input-wrapper"><input type="number" id="p-absent" value="0" min="0" /><span class="input-unit">주</span></div>
       </div>
     </div>
+    <div class="input-row">
+      <div class="input-group">
+        <label>소정근로일 겹치는 공휴일 수 <span style="font-size:11px;font-weight:400;color:var(--text-muted)">(설날·추석 등)</span></label>
+        <div class="input-wrapper"><input type="number" id="p-holiday" value="0" min="0" /><span class="input-unit">일</span></div>
+      </div>
+      <div class="input-group">
+        <label>사업장 규모</label>
+        <div style="display:flex;gap:8px;margin-top:2px">
+          <button type="button" id="btn-5plus" onclick="setSizeBtn(true)"
+            style="flex:1;padding:12px 6px;border-radius:10px;font-size:12px;font-weight:700;border:1.5px solid rgba(0,212,170,.5);background:rgba(0,212,170,.12);color:var(--accent);cursor:pointer;transition:.15s">
+            5인 이상<br><span style="font-size:10px;font-weight:400;color:var(--text-muted)">공휴일 유급</span>
+          </button>
+          <button type="button" id="btn-5minus" onclick="setSizeBtn(false)"
+            style="flex:1;padding:12px 6px;border-radius:10px;font-size:12px;font-weight:700;border:1.5px solid var(--border);background:var(--surface2);color:var(--text-muted);cursor:pointer;transition:.15s">
+            5인 미만<br><span style="font-size:10px;font-weight:400">공휴일 무급</span>
+          </button>
+        </div>
+      </div>
+    </div>
     <div class="info-box" style="margin-bottom:16px">
-      💡 <strong>공휴일·연차</strong>는 결근이 아니므로 발생 주수에서 빼지 않아도 됩니다.<br>
-      실제로 결근(무단 또는 사전 미승인 결석)이 있었던 <strong>주 수</strong>만 입력하세요.
+      💡 <strong>공휴일</strong>은 개근으로 처리돼 주휴수당에는 영향 없음. 5인 미만은 공휴일 당일 근무수당이 차감됩니다.<br>
+      <strong>결근한 주 수</strong>는 무단·미승인 결석이 있었던 주만 입력하세요.
     </div>
     <button class="calc-btn" onclick="calcPeriod()">📅 기간별 주휴수당 계산하기</button>
     <div id="periodResult"></div>
@@ -285,6 +304,15 @@
   .p-weeks-bar .wbar-partial{background:rgba(255,213,79,.4);display:flex;align-items:center;justify-content:center;color:#000;transition:width .4s}
 </style>
 <script>
+  let _is5plus = true;
+  function setSizeBtn(is5plus){
+    _is5plus = is5plus;
+    const on = 'flex:1;padding:12px 6px;border-radius:10px;font-size:12px;font-weight:700;border:1.5px solid rgba(0,212,170,.5);background:rgba(0,212,170,.12);color:var(--accent);cursor:pointer;transition:.15s';
+    const off = 'flex:1;padding:12px 6px;border-radius:10px;font-size:12px;font-weight:700;border:1.5px solid var(--border);background:var(--surface2);color:var(--text-muted);cursor:pointer;transition:.15s';
+    document.getElementById('btn-5plus').style.cssText = is5plus ? on : off;
+    document.getElementById('btn-5minus').style.cssText = is5plus ? off : on;
+    if(!is5plus) document.getElementById('btn-5minus').style.color='#e6edf3';
+  }
   function calcPeriod(){
     const sv=document.getElementById('p-start').value;
     const ev=document.getElementById('p-end').value;
@@ -295,6 +323,7 @@
     const days=parseInt(document.getElementById('p-days').value)||5;
     const hpd=parseFloat(document.getElementById('p-hpd').value)||8;
     const absent=parseInt(document.getElementById('p-absent').value)||0;
+    const publicHolidays=parseInt(document.getElementById('p-holiday').value)||0;
     if(days<1||days>6){alert('1주간 근무일수는 1~6일로 입력해주세요.');return;}
     const weekHours=days*hpd;
     if(weekHours<15){alert('주 15시간 미만은 주휴수당이 발생하지 않습니다.');return;}
@@ -303,7 +332,6 @@
     const totalDays=Math.floor((end-start)/(1000*60*60*24))+1;
     const fullWeeks=Math.floor(totalDays/7);
     const remainDays=totalDays%7;
-    // 나머지 날수 >= 주 근무일수면 그 주도 주휴수당 발생
     const partialWeek=(remainDays>=days)?1:0;
     const totalWeeks=fullWeeks+partialWeek;
     const qualifyWeeks=Math.max(0,totalWeeks-absent);
@@ -313,8 +341,11 @@
     const workPerWeek=hourly*weekHours;
     const weeklyTotal=workPerWeek+holidayPerWeek;
     const totalHoliday=holidayPerWeek*qualifyWeeks;
-    const totalWork=workPerWeek*qualifyWeeks;
-    const grandTotal=weeklyTotal*qualifyWeeks;
+
+    // 5인 미만: 공휴일 수 × 1일 근무시간 × 시급 차감
+    const holidayDeduct = _is5plus ? 0 : publicHolidays * hpd * hourly;
+    const totalWork = workPerWeek * qualifyWeeks - holidayDeduct;
+    const grandTotal = totalHoliday + totalWork;
 
     // 날짜 포맷
     const df=d=>`${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일`;
@@ -326,10 +357,15 @@
     const aPct=totalWeeks>0?Math.round(absent/totalWeeks*100):0;
     const ppPct=100-qPct-aPct;
 
+    const sizeLabel = _is5plus ? '5인 이상 (공휴일 유급)' : '5인 미만 (공휴일 무급)';
+    const deductNote = (!_is5plus && publicHolidays > 0)
+      ? `<div class="p-detail"><span class="p-dl" style="color:#ff6b6b">공휴일 무급 차감 (${publicHolidays}일)</span><span class="p-dv" style="color:#ff6b6b">−${fmt(holidayDeduct)}원</span></div>`
+      : '';
+
     document.getElementById('periodResult').innerHTML=`
       <div class="period-result-box">
         <div style="padding:12px 0 10px;border-bottom:1px solid var(--border);font-size:12px;color:var(--text-muted);margin-bottom:12px">
-          📆 ${df(start)} ~ ${df(end)}${mLabel} · 총 <strong style="color:var(--text)">${totalDays}일</strong>
+          📆 ${df(start)} ~ ${df(end)}${mLabel} · 총 <strong style="color:var(--text)">${totalDays}일</strong> · <span style="color:${_is5plus?'var(--accent)':'#ffd54f'}">${sizeLabel}</span>
         </div>
         <div class="p-weeks-bar">
           ${qualifyWeeks>0?`<div class="wbar-qualify" style="width:${qPct}%">${qualifyWeeks}주 지급</div>`:''}
@@ -357,6 +393,7 @@
         <div class="p-detail"><span class="p-dl">주당 주휴시간</span><span class="p-dv">${holidayH}시간</span></div>
         <div class="p-detail"><span class="p-dl">주당 주휴수당</span><span class="p-dv acc">${fmt(holidayPerWeek)}원</span></div>
         <div class="p-detail"><span class="p-dl">주휴수당 발생 주수</span><span class="p-dv">${qualifyWeeks}주</span></div>
+        ${deductNote}
         <div class="p-detail"><span class="p-dl">주당 급여 합계</span><span class="p-dv">${fmt(weeklyTotal)}원</span></div>
       </div>`;
   }
