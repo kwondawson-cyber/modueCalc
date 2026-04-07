@@ -367,11 +367,14 @@ function calc() {
         <div style="display:flex;justify-content:space-between;padding:10px 0;font-weight:800;font-size:15px"><span>${isPay ? '납부세액' : '환급세액'}</span><span style="color:${isPay ? 'var(--danger,#ff6b6b)' : 'var(--accent)'}">${fw(payable)}</span></div>
       </div>`;
   } else {
-    const sales = +document.getElementById('simple-sales').value * 10000 || 0;
-    const type  = document.getElementById('simple-type').value;
-    const rates = { retail: 0.15, mfg: 0.20, construct: 0.30, service: 0.40 };
-    const rate  = rates[type] || 0.15;
-    const vat   = sales * 0.1 * rate;
+    const sales     = +document.getElementById('simple-sales').value || 0;
+    const type      = document.getElementById('simple-type').value;
+    const rate      = parseFloat(type) || 0.15;
+    const inputVatRaw = +document.getElementById('simple-input').value || 0;
+    // 간이과세 납부세액 = 매출 × 부가가치율 × 10% - 세금계산서 매입VAT × 부가가치율
+    const baseVat   = sales * rate * 0.1;
+    const deduct    = inputVatRaw * rate;
+    const vat       = Math.max(0, baseVat - deduct);
 
     const lbl = document.getElementById('r-label');
     const amt = document.getElementById('r-amount');
@@ -379,9 +382,13 @@ function calc() {
     const pnl = document.getElementById('r-pnl');
 
     if (lbl) lbl.textContent = '납부할 부가세 (간이과세)';
-    if (amt) { amt.textContent = fw(vat); amt.style.color = 'var(--accent)'; }
-    if (sub) sub.textContent  = `매출 ${fw(sales)} × 부가가치율 ${(rate * 100).toFixed(0)}% × 10%`;
-    if (pnl) pnl.innerHTML    = '';
+    if (amt) { amt.textContent = fw(vat); amt.style.color = vat > 0 ? 'var(--accent)' : '#00d4aa'; }
+    if (sub) sub.textContent  = `매출 ${fw(sales)} × 부가가치율 ${(rate * 100).toFixed(0)}% × 10%${deduct > 0 ? ` - 매입공제 ${fw(deduct)}` : ''}`;
+    if (pnl) pnl.innerHTML    = `
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)"><span style="color:var(--text-muted)">기본 납부세액</span><span style="font-weight:700">${fw(baseVat)}</span></div>
+      ${deduct > 0 ? `<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)"><span style="color:var(--text-muted)">세금계산서 매입 공제 (VAT × 부가가치율)</span><span style="font-weight:700;color:var(--accent)">-${fw(deduct)}</span></div>` : ''}
+      <div style="display:flex;justify-content:space-between;padding:10px 0;font-weight:800;font-size:15px"><span>최종 납부세액</span><span style="color:var(--accent)">${fw(vat)}</span></div>
+    `;
   }
   const res = document.getElementById('result');
   if (res) res.style.display = 'block';
