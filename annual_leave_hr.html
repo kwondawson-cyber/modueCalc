@@ -363,7 +363,7 @@ function delLog(i) {
   calcAnnual();
 }
 
-window.onload = () => calcAnnual();
+window.onload = () => { if (document.getElementById('hireDate').value) calcAnnual(); };
 </script>
 </body>
 </html>
