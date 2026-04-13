@@ -447,7 +447,7 @@
   // about.html·faq.html처럼 이미 하드코딩된 파일은 중복 방지 후 스킵합니다.
   (function injectCanonical(){
     if (document.querySelector('link[rel="canonical"]')) return; // 이미 있으면 스킵
-    var base = 'https://www.everycalc.kr';
+    var base = 'https://everycalc.kr';
     var href = base + (PATH === '/' ? '' : PATH);
     var link = document.createElement('link');
     link.rel  = 'canonical';
@@ -494,7 +494,7 @@
       '@context': 'https://schema.org',
       '@type': 'WebApplication',
       'name': fullName,
-      'url': 'https://www.everycalc.kr' + PATH,
+      'url': 'https://everycalc.kr' + PATH,
       'applicationCategory': appCat,
       'operatingSystem': 'Web',
       'inLanguage': 'ko',
@@ -507,7 +507,7 @@
       'provider': {
         '@type': 'Organization',
         'name': '모두의계산기',
-        'url': 'https://www.everycalc.kr'
+        'url': 'https://everycalc.kr'
       }
     };
 
