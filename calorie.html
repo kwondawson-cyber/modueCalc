@@ -62,6 +62,8 @@
     .btn-sub{background:var(--surface2);color:var(--accent);border:1px solid rgba(0,212,170,.3)}
     .btn-sub:hover{background:rgba(0,212,170,.1)}
     @media(max-width:600px){.detail-grid{grid-template-columns:1fr}.two-btn{grid-template-columns:1fr}}
+    .cat-btn{background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:5px 11px;font-size:12px;font-weight:600;font-family:'Noto Sans KR',sans-serif;color:var(--text-muted);cursor:pointer;transition:all .2s;white-space:nowrap}
+    .cat-btn:hover,.cat-active{background:rgba(0,212,170,.12);border-color:rgba(0,212,170,.4);color:var(--accent)}
 
     /* ── 홈 버튼 ── */
     .home-btn-wrap { text-align: center; margin-bottom: 8px; }
@@ -108,18 +110,45 @@
     <p>오늘 먹은 것 입력 → 소모 운동 플랜 자동 생성</p>
   </div>
 
-  <!-- STEP 1: 체중 입력 -->
+  <!-- STEP 1: 체중 + 칼로리 직접 입력 -->
   <div class="card">
-    <div class="card-title">⚖️ 내 체중</div>
-    <div class="input-wrapper">
-      <input type="number" id="bodyWeight" value="65" min="30" max="200" oninput="renderPlan()" data-ec-comma="skip" />
-      <span class="input-unit">kg</span>
+    <div class="card-title">⚖️ 내 정보 입력</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+      <div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;font-weight:600">내 체중</div>
+        <div class="input-wrapper">
+          <input type="number" id="bodyWeight" value="65" min="30" max="200" oninput="renderPlan()" data-ec-comma="skip" />
+          <span class="input-unit">kg</span>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:12px;color:var(--accent);margin-bottom:8px;font-weight:600">총 칼로리 직접 입력</div>
+        <div class="input-wrapper">
+          <input type="number" id="directKcal" placeholder="예: 800" min="0" oninput="renderPlan()" data-ec-comma="skip" />
+          <span class="input-unit">kcal</span>
+        </div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:5px">↓ 음식 추가 시 자동 계산</div>
+      </div>
     </div>
   </div>
 
   <!-- STEP 2: 음식 검색 & 누적 -->
   <div class="card">
-    <div class="card-title">🍽️ 오늘 먹은 음식</div>
+    <div class="card-title">🍽️ 오늘 먹은 음식 <span style="font-size:11px;font-weight:400;color:var(--text-muted)">(추가하면 위에 자동 계산)</span></div>
+    <!-- 카테고리 필터 -->
+    <div id="catBtns" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px">
+      <button class="cat-btn cat-active" onclick="filterCat(this,'')">전체</button>
+      <button class="cat-btn" onclick="filterCat(this,'밥·면·빵')">🍚 밥·면·빵</button>
+      <button class="cat-btn" onclick="filterCat(this,'한식')">🥘 한식</button>
+      <button class="cat-btn" onclick="filterCat(this,'편의점')">🏪 편의점</button>
+      <button class="cat-btn" onclick="filterCat(this,'패스트푸드')">🍔 패스트푸드</button>
+      <button class="cat-btn" onclick="filterCat(this,'단백질')">🥩 단백질</button>
+      <button class="cat-btn" onclick="filterCat(this,'채소·과일')">🥗 채소·과일</button>
+      <button class="cat-btn" onclick="filterCat(this,'간식')">🍫 간식</button>
+      <button class="cat-btn" onclick="filterCat(this,'음료')">☕ 음료</button>
+      <button class="cat-btn" onclick="filterCat(this,'유제품')">🧀 유제품</button>
+      <button class="cat-btn" onclick="filterCat(this,'견과류')">🥜 견과류</button>
+    </div>
     <div style="position:relative;margin-bottom:10px">
       <input type="text" id="foodSearch" placeholder="음식 검색 (예: 밥, 치킨, 라면...)" autocomplete="off"
         oninput="searchFood()" onfocus="searchFood()"
@@ -166,20 +195,20 @@
       </div>
     </div>
 
-    <div id="emptyHint" style="text-align:center;padding:24px 0;color:var(--text-muted);font-size:13px">
-      👆 음식을 검색해서 추가하면 운동 플랜이 자동 생성됩니다
+    <div id="emptyHint" style="text-align:center;padding:20px 0;color:var(--text-muted);font-size:13px">
+      🔍 카테고리 탭을 누르거나 음식을 검색해 추가하세요
     </div>
   </div>
 
   <!-- STEP 3: 운동 플랜 결과 -->
-  <div id="planCard" class="card" style="display:none">
-    <div class="card-title">🏋️ 오늘 먹은 칼로리를 태우려면?</div>
+  <div id="planCard" class="card">
+    <div class="card-title">🏋️ 이 칼로리를 태우려면?</div>
     <div style="text-align:center;margin-bottom:20px;padding:16px;background:rgba(0,212,170,.06);border-radius:12px">
       <span style="font-size:13px;color:var(--text-muted)">총 </span>
-      <span id="planTotalKcal" style="font-size:24px;font-weight:900;color:var(--accent);font-family:'Montserrat',sans-serif"></span>
+      <span id="planTotalKcal" style="font-size:24px;font-weight:900;color:var(--accent);font-family:'Montserrat',sans-serif">-</span>
       <span style="font-size:13px;color:var(--text-muted)"> kcal 소모 목표</span>
     </div>
-    <div id="planList"></div>
+    <div id="planList"><div style="text-align:center;padding:28px 16px;color:var(--text-muted);font-size:13px;line-height:2.2">위에 <strong style="color:var(--accent)">총 칼로리</strong>를 직접 입력하거나<br>아래에서 <strong style="color:var(--accent)">음식을 추가</strong>하면<br>운동별 소모 시간이 자동 계산됩니다 🏋️</div></div>
     <div style="margin-top:16px;padding:14px;background:rgba(0,149,255,.05);border:1px solid rgba(0,149,255,.15);border-radius:10px;font-size:12px;color:var(--text-muted);line-height:1.9">
       💡 실제 소모 칼로리는 심박수·운동 강도·개인 신체 조건에 따라 달라집니다. 운동 전 충분한 스트레칭을 권장합니다.
     </div>
@@ -187,41 +216,67 @@
 
 <script>
 const FOODS = [
+  // 밥·면·빵
   ['흰쌀밥',130,28,2.7,0.3,'밥·면·빵'],['현미밥',111,23,2.6,0.9,'밥·면·빵'],
   ['잡곡밥',118,25,3,0.6,'밥·면·빵'],['오트밀(건조)',389,66,17,7,'밥·면·빵'],
-  ['라면(1봉 120g)',500,73,9,17,'밥·면·빵'],['스파게티(삶은것)',157,31,6,0.9,'밥·면·빵'],
-  ['우동',95,20,3,0.4,'밥·면·빵'],['냉면',100,20,3,0.5,'밥·면·빵'],
-  ['식빵(1장 35g)',98,18,3.5,1.5,'밥·면·빵'],['크루아상',406,46,8,21,'밥·면·빵'],
-  ['떡(가래떡)',221,51,3.8,0.3,'밥·면·빵'],
+  ['라면(1봉 120g)',500,73,9,17,'밥·면·빵'],['불닭볶음면(1봉)',380,64,10,11,'밥·면·빵'],
+  ['스파게티(삶은것)',157,31,6,0.9,'밥·면·빵'],['우동',95,20,3,0.4,'밥·면·빵'],
+  ['냉면',100,20,3,0.5,'밥·면·빵'],['식빵(1장 35g)',98,18,3.5,1.5,'밥·면·빵'],
+  ['크루아상',406,46,8,21,'밥·면·빵'],['떡(가래떡)',221,51,3.8,0.3,'밥·면·빵'],
+  // 단백질
   ['닭가슴살',109,0,23,1.2,'단백질'],['닭다리살(껍질 포함)',215,0,18,15,'단백질'],
   ['삼겹살',330,0,17,28,'단백질'],['돼지안심',143,0,21,6,'단백질'],
   ['소고기(등심)',250,0,19,19,'단백질'],['소고기(안심)',180,0,21,10,'단백질'],
   ['연어',208,0,20,13,'단백질'],['참치(통조림)',96,0,21,0.8,'단백질'],
   ['달걀(1개 50g)',75,0.4,6.3,5,'단백질'],['두부',76,2,8,4.5,'단백질'],
   ['새우',99,0,21,1.1,'단백질'],['고등어',202,0,19,14,'단백질'],
+  ['족발',205,0,18,14,'단백질'],['보쌈',220,0.5,20,15,'단백질'],
+  // 채소·과일
   ['브로콜리',34,7,2.8,0.4,'채소·과일'],['시금치',23,3.6,2.9,0.4,'채소·과일'],
   ['당근',41,10,0.9,0.2,'채소·과일'],['오이',15,3.6,0.7,0.1,'채소·과일'],
   ['토마토',18,3.9,0.9,0.2,'채소·과일'],['고구마',90,21,1.6,0.1,'채소·과일'],
   ['감자',77,17,2,0.1,'채소·과일'],['바나나(1개 120g)',104,27,1.3,0.3,'채소·과일'],
   ['사과(1개 200g)',104,28,0.5,0.3,'채소·과일'],['오렌지',47,12,0.9,0.1,'채소·과일'],
   ['아보카도',160,9,2,15,'채소·과일'],['딸기',32,7.7,0.7,0.3,'채소·과일'],
+  // 한식
   ['김밥(1줄 250g)',380,60,10,8,'한식'],['떡볶이',140,28,3.5,1.5,'한식'],
   ['비빔밥',130,22,5,3,'한식'],['된장찌개(1인분)',65,8,5,2,'한식'],
-  ['김치찌개(1인분)',80,6,7,3,'한식'],['순대(100g)',210,18,10,11,'한식'],
-  ['불고기(100g)',162,9,16,7,'한식'],['제육볶음(100g)',196,6,16,12,'한식'],
+  ['김치찌개(1인분)',80,6,7,3,'한식'],['순대',210,18,10,11,'한식'],
+  ['불고기',162,9,16,7,'한식'],['제육볶음',196,6,16,12,'한식'],
   ['치킨(후라이드 1조각)',245,8,20,15,'한식'],['치킨(양념 1조각)',260,15,18,14,'한식'],
   ['갈비탕(1인분)',180,5,18,10,'한식'],['부대찌개(1인분)',220,15,15,10,'한식'],
+  ['짜장면',110,22,4,1.5,'한식'],['짬뽕',105,15,8,2,'한식'],
+  ['탕수육',210,20,10,9,'한식'],['마라탕',140,10,6,7,'한식'],
+  ['삼계탕',88,3,12,3.5,'한식'],['순대국밥',80,13,7,2,'한식'],
+  // 패스트푸드
   ['피자(1조각 100g)',266,30,11,12,'패스트푸드'],['햄버거(빅맥)',495,44,25,26,'패스트푸드'],
   ['감자튀김(미디엄)',365,48,4,17,'패스트푸드'],['핫도그',260,24,10,14,'패스트푸드'],
+  ['치킨너겟',250,18,13,14,'패스트푸드'],['치즈버거',305,28,16,14,'패스트푸드'],
+  // 편의점
+  ['삼각김밥(참치마요)',200,36,7,4,'편의점'],['컵라면(신라면)',365,56,9,10,'편의점'],
+  ['바나나우유(240ml)',63,12,2,1.5,'편의점'],['핫바',360,18,9,28,'편의점'],
+  ['샌드위치(에그마요)',230,30,9,9,'편의점'],['메로나(1개 80g)',138,28,1.5,2.5,'편의점'],
+  ['에너지바',400,55,8,16,'편의점'],['캔커피(달달한것)',43,9,0.8,0.8,'편의점'],
+  ['편의점 도시락(평균)',150,23,7,3.5,'편의점'],['편의점 주먹밥',175,35,4.5,1.5,'편의점'],
+  // 간식
   ['초콜릿(밀크)',535,59,8,30,'간식'],['포테이토칩',536,52,7,35,'간식'],
   ['아이스크림(바닐라)',200,23,3.5,11,'간식'],['도넛',452,51,5,25,'간식'],
+  ['붕어빵',260,48,6,4,'간식'],['떡꼬치',240,44,5,4,'간식'],
+  ['팝콘',390,70,8,18,'간식'],['와플',300,40,7,13,'간식'],
+  // 음료
   ['아메리카노(355ml)',10,2,0.3,0,'음료'],['카페라떼(355ml)',190,19,7,7,'음료'],
+  ['바닐라라떼(355ml)',99,15,4,3,'음료'],['아이스초코(355ml)',98,17,3.5,3,'음료'],
   ['콜라(250ml)',105,27,0,0,'음료'],['오렌지주스(250ml)',112,27,1,0,'음료'],
   ['우유(200ml)',134,10,7,7,'음료'],['두유(무가당 200ml)',78,5,5,4,'음료'],
   ['맥주(500ml)',215,16,2,0,'음료'],['소주(1잔 50ml)',65,0,0,0,'음료'],
   ['와인(1잔 150ml)',120,3.8,0,0,'음료'],['막걸리(1잔 200ml)',92,12,1.5,0,'음료'],
+  ['에너지드링크',45,11,0,0,'음료'],['이온음료',23,6,0,0,'음료'],
+  // 유제품
   ['그릭요거트',59,3.6,10,0.4,'유제품'],['플레인요거트',61,7,3.5,3.2,'유제품'],
+  ['슬라이스치즈(1장 18g)',305,2,18,23,'유제품'],['크림치즈',342,4,5.9,33,'유제품'],
+  // 견과류
   ['아몬드(10알 12g)',69,2.5,2.5,6,'견과류'],['호두(4개 28g)',185,4,4,18,'견과류'],
+  ['땅콩버터',588,22,25,50,'견과류'],
 ];
 
 // 운동 플랜 목록 (이름, MET, 이모지, 설명)
@@ -243,20 +298,38 @@ const EXERCISES = [
 
 let foodList = [];
 let selectedFoodIdx = -1;
+let currentCat = '';
+
+function filterCat(btn, cat){
+  currentCat = cat;
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('cat-active'));
+  btn.classList.add('cat-active');
+  showDropdown(document.getElementById('foodSearch').value.trim());
+}
 
 function searchFood(){
-  const q = document.getElementById('foodSearch').value.trim();
+  showDropdown(document.getElementById('foodSearch').value.trim());
+}
+
+function showDropdown(q){
   const dd = document.getElementById('searchDropdown');
-  if(!q){ dd.style.display='none'; return; }
-  const results = FOODS.map((f,i)=>({i,f}))
-    .filter(({f})=>f[0].includes(q)||f[5].includes(q))
-    .slice(0,12);
-  if(!results.length){ dd.style.display='none'; return; }
-  dd.innerHTML = results.map(({i,f})=>
+  let results = FOODS.map((f,i) => ({i,f}));
+  if(currentCat) results = results.filter(({f}) => f[5] === currentCat);
+  if(q) results = results.filter(({f}) => f[0].includes(q) || f[5].includes(q));
+  if(!q && !currentCat){ dd.style.display='none'; return; }
+  results = results.slice(0, 16);
+  if(!results.length){
+    dd.innerHTML = '<div style="padding:12px 14px;font-size:13px;color:var(--text-muted)">검색 결과가 없습니다</div>';
+    dd.style.display='block'; return;
+  }
+  dd.innerHTML = results.map(({i,f}) =>
     `<div onclick="selectFood(${i})" style="padding:10px 14px;cursor:pointer;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center"
       onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background=''">
-      <span style="font-size:14px;font-weight:600">${f[0]}</span>
-      <span style="font-size:12px;color:var(--accent);font-family:Montserrat,sans-serif">${f[1]}kcal<span style="color:var(--text-muted);font-size:10px">/100g</span></span>
+      <div>
+        <span style="font-size:14px;font-weight:600">${f[0]}</span>
+        <span style="font-size:10px;color:var(--text-muted);margin-left:6px;background:var(--surface2);padding:1px 6px;border-radius:8px">${f[5]}</span>
+      </div>
+      <span style="font-size:12px;color:var(--accent);font-family:Montserrat,sans-serif;white-space:nowrap">${f[1]}<span style="color:var(--text-muted);font-size:10px">kcal/100g</span></span>
     </div>`
   ).join('');
   dd.style.display='block';
@@ -299,12 +372,12 @@ function clearList(){ foodList=[]; renderAll(); }
 function renderAll(){
   const area = document.getElementById('foodListArea');
   const hint = document.getElementById('emptyHint');
-  const plan = document.getElementById('planCard');
 
   if(!foodList.length){
     area.style.display='none';
     hint.style.display='block';
-    plan.style.display='none';
+    document.getElementById('directKcal').value = '';
+    renderPlan();
     return;
   }
   hint.style.display='none';
@@ -331,16 +404,25 @@ function renderAll(){
   document.getElementById('totalKcal').textContent = totalKcal.toLocaleString();
   document.getElementById('totalMacro').textContent = `탄수화물 ${totalCarb}g · 단백질 ${totalProt}g · 지방 ${totalFat}g`;
 
-  // 운동 플랜 생성
-  renderPlan(totalKcal);
+  // directKcal 자동 동기화
+  document.getElementById('directKcal').value = totalKcal;
+  renderPlan();
 }
 
-function renderPlan(totalKcal){
-  if(!foodList.length) return;
-  if(!totalKcal) totalKcal = foodList.reduce((s,x)=>s+x.kcal,0);
-  const bw = parseFloat(document.getElementById('bodyWeight').value)||65;
+const EMPTY_PLAN = '<div style="text-align:center;padding:28px 16px;color:var(--text-muted);font-size:13px;line-height:2.2">위에 <strong style="color:var(--accent)">총 칼로리</strong>를 직접 입력하거나<br>아래에서 <strong style="color:var(--accent)">음식을 추가</strong>하면<br>운동별 소모 시간이 자동 계산됩니다 🏋️</div>';
 
-  plan.style.display='block';
+function renderPlan(){
+  const bw = parseFloat(document.getElementById('bodyWeight').value)||65;
+  const direct = parseFloat(document.getElementById('directKcal').value)||0;
+  const fromFood = foodList.reduce((s,x)=>s+x.kcal,0);
+  const totalKcal = fromFood || direct;
+
+  if(!totalKcal){
+    document.getElementById('planTotalKcal').textContent = '-';
+    document.getElementById('planList').innerHTML = EMPTY_PLAN;
+    return;
+  }
+
   document.getElementById('planTotalKcal').textContent = totalKcal.toLocaleString();
 
   // 각 운동별 필요 시간 계산 (MET 공식)
@@ -379,11 +461,12 @@ function renderPlan(totalKcal){
 }
 
 document.addEventListener('click', e=>{
-  if(!e.target.closest('#foodSearch')&&!e.target.closest('#searchDropdown'))
+  if(!e.target.closest('#foodSearch')&&!e.target.closest('#searchDropdown')&&!e.target.closest('#catBtns'))
     document.getElementById('searchDropdown').style.display='none';
 });
 
-const plan = document.getElementById('planCard');
+// 페이지 로드 시 빈 상태 표시
+renderPlan();
 </script>
 
 <!-- 다이어트 목표 시뮬레이터 -->
