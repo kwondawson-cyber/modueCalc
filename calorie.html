@@ -477,21 +477,21 @@ renderPlan();
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
       <div>
         <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px;font-weight:600">현재 체중 (kg)</div>
-        <input type="number" id="ds-current" placeholder="예: 75" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:16px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none" oninput="calcDietSim()" />
+        <input type="number" id="ds-current" placeholder="예: 75" data-ec-comma="skip" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:16px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none" oninput="calcDietSim()" />
       </div>
       <div>
         <div style="font-size:12px;color:var(--accent);margin-bottom:6px;font-weight:600">목표 체중 (kg)</div>
-        <input type="number" id="ds-target" placeholder="예: 65" style="width:100%;background:var(--surface2);border:1px solid rgba(0,212,170,.4);border-radius:8px;padding:10px 14px;font-size:16px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none" oninput="calcDietSim()" />
+        <input type="number" id="ds-target" placeholder="예: 65" data-ec-comma="skip" style="width:100%;background:var(--surface2);border:1px solid rgba(0,212,170,.4);border-radius:8px;padding:10px 14px;font-size:16px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none" oninput="calcDietSim()" />
       </div>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
       <div>
         <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px;font-weight:600">목표 기간 (주)</div>
-        <input type="number" id="ds-weeks" placeholder="예: 12" min="1" max="104" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:16px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none" oninput="calcDietSim()" />
+        <input type="number" id="ds-weeks" placeholder="예: 12" min="1" max="104" data-ec-comma="skip" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:16px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none" oninput="calcDietSim()" />
       </div>
       <div>
         <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px;font-weight:600">기초대사량 BMR (kcal, 선택)</div>
-        <input type="number" id="ds-bmr" placeholder="예: 1600" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:16px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none" oninput="calcDietSim()" />
+        <input type="text" inputmode="numeric" id="ds-bmr" placeholder="예: 1,600" data-ec-comma="skip" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:16px;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text);outline:none" oninput="fmtDsBmr(this);calcDietSim()" />
       </div>
     </div>
     <div id="dietSimResult" style="display:none;background:rgba(0,212,170,.06);border:1px solid rgba(0,212,170,.25);border-radius:12px;padding:16px"></div>
@@ -499,11 +499,19 @@ renderPlan();
 </div>
 
 <script>
+function fmtDsBmr(el){
+  const raw = el.value.replace(/[^0-9]/g,'');
+  const cursor = el.selectionStart;
+  const prevLen = el.value.length;
+  el.value = raw ? parseInt(raw,10).toLocaleString('ko-KR') : '';
+  const diff = el.value.length - prevLen;
+  try{ el.setSelectionRange(cursor+diff, cursor+diff); }catch(e){}
+}
 function calcDietSim(){
   const cur   = parseFloat(document.getElementById('ds-current').value)||0;
   const tgt   = parseFloat(document.getElementById('ds-target').value)||0;
   const weeks = parseFloat(document.getElementById('ds-weeks').value)||0;
-  const bmr   = parseFloat(document.getElementById('ds-bmr').value)||0;
+  const bmr   = parseFloat((document.getElementById('ds-bmr').value||'').replace(/,/g,''))||0;
   const el    = document.getElementById('dietSimResult');
   if(!cur||!tgt||!weeks){el.style.display='none';return;}
   const diff  = cur - tgt;  // 감량 필요 kg (양수=감량, 음수=증량)
