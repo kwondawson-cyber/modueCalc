@@ -1,442 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
-
-  <!-- === /id/ INDEX === -->
-  <url>
-    <loc>https://novacalcs.com/id</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id"/>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-
-  <!-- === STATIC PAGES === -->
-  <url>
-    <loc>https://novacalcs.com/id/tentang</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/tentang"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kebijakan-privasi</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kebijakan-privasi"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kontak</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kontak"/>
-    <lastmod>2026-04-29</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-
-  <!-- === KESEHATAN === -->
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-bmi</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-bmi"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-bmr</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-bmr"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-kalori</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-kalori"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-kalori-makanan-indonesia</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-kalori-makanan-indonesia"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-kalori-olahraga</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-kalori-olahraga"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/berat-badan-ideal</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/berat-badan-ideal"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-whr</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-whr"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-tensi</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-tensi"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-gula-darah</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-gula-darah"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-kolesterol</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-kolesterol"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-kehamilan</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-kehamilan"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-kehamilan-bb</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-kehamilan-bb"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-hpl</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-hpl"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-masa-subur</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-masa-subur"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-berat-bayi</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-berat-bayi"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-bpjs</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-bpjs"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- === KEUANGAN === -->
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-kpr</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-kpr"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-cicilan</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-cicilan"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-cicilan-motor</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-cicilan-motor"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-dp-rumah</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-dp-rumah"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-kta</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-kta"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-bunga-pinjol</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-bunga-pinjol"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-investasi</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-investasi"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-tabungan</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-tabungan"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-tabungan-haji</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-tabungan-haji"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-inflasi</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-inflasi"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-roi</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-roi"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-payback</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-payback"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-gaji-bersih</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-gaji-bersih"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-pph</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-pph"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-pph-freelance</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-pph-freelance"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-ppn</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-ppn"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-ppn-12</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-ppn-12"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-pajak-kendaraan</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-pajak-kendaraan"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-pesangon</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-pesangon"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-thr</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-thr"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-diskon</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-diskon"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-split-bill</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-split-bill"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-tip</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-tip"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-tip-ojol</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-tip-ojol"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-kos</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-kos"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-listrik</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-listrik"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-bbm</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-bbm"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-umur-pensiun</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-umur-pensiun"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- === MATEMATIKA === -->
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-persen</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-persen"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-rata-rata</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-rata-rata"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-proporsi</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-proporsi"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-pangkat</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-pangkat"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-nilai</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-nilai"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-ipk</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-ipk"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- === KONVERSI === -->
-  <url>
-    <loc>https://novacalcs.com/id/konversi-berat</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/konversi-berat"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/konversi-panjang</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/konversi-panjang"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/konversi-suhu</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/konversi-suhu"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/konversi-volume</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/konversi-volume"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/konversi-luas</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/konversi-luas"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/konversi-kecepatan</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/konversi-kecepatan"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/konversi-data</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/konversi-data"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/konversi-waktu</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/konversi-waktu"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/konversi-mata-uang</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/konversi-mata-uang"/>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/konversi-ukuran-baju</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/konversi-ukuran-baju"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- === TANGGAL === -->
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-usia</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-usia"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/selisih-tanggal</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/selisih-tanggal"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/hari-kerja</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/hari-kerja"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- === UTILITAS === -->
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-waktu-sholat</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-waktu-sholat"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-zakat</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-zakat"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://novacalcs.com/id/kalkulator-zakat-penghasilan</loc>
-    <xhtml:link rel="alternate" hreflang="id" href="https://novacalcs.com/id/kalkulator-zakat-penghasilan"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://everycalc.kr/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://everycalc.kr/salary</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://everycalc.kr/retirement</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://everycalc.kr/median_income</loc><changefreq>yearly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://everycalc.kr/earned_credit</loc><changefreq>yearly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://everycalc.kr/loan</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://everycalc.kr/unemployment</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://everycalc.kr/savings</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://everycalc.kr/cheongmirae</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://everycalc.kr/inflation</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://everycalc.kr/realestate</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://everycalc.kr/acquisition</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://everycalc.kr/capital_gains</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://everycalc.kr/gift_tax</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://everycalc.kr/rent_conversion</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://everycalc.kr/age</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://everycalc.kr/dday</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://everycalc.kr/bmi</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://everycalc.kr/bmr</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://everycalc.kr/pregnancy</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://everycalc.kr/exchange</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://everycalc.kr/weekly_holiday</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://everycalc.kr/hourly_salary</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://everycalc.kr/annual_leave</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://everycalc.kr/stock_return</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://everycalc.kr/vat</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://everycalc.kr/margin</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://everycalc.kr/health_insurance</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://everycalc.kr/income_tax</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://everycalc.kr/address_converter</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://everycalc.kr/area_converter</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://everycalc.kr/cm_inch</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://everycalc.kr/pension</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://everycalc.kr/calorie</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://everycalc.kr/blood_pressure</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://everycalc.kr/golf_handicap</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://everycalc.kr/customs</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://everycalc.kr/lotto</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://everycalc.kr/child_height</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://everycalc.kr/parental_leave</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url>
+    <loc>https://everycalc.kr/maternity_leave</loc>
+    <lastmod>2026-04-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url><loc>https://everycalc.kr/freelancer_tax</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://everycalc.kr/gift_tax_sim</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://everycalc.kr/loan_limit</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://everycalc.kr/date_diff</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://everycalc.kr/car_tax</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://everycalc.kr/fuel_economy</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://everycalc.kr/jeonse_loan</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://everycalc.kr/car_installment</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://everycalc.kr/car_lease</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://everycalc.kr/insurance</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://everycalc.kr/retirement_pension</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://everycalc.kr/refund</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://everycalc.kr/annual_leave_hr</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://everycalc.kr/salary_slip</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://everycalc.kr/corporate_tax</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://everycalc.kr/product_cost</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://everycalc.kr/operating_profit</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://everycalc.kr/breakeven</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://everycalc.kr/delivery_fee</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://everycalc.kr/card_fee</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://everycalc.kr/rent_yield</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://everycalc.kr/part_time_cost</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://everycalc.kr/cheongak</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://everycalc.kr/ovulation</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://everycalc.kr/compound</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://everycalc.kr/vat_biz</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://everycalc.kr/etf_return</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://everycalc.kr/dividend</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://everycalc.kr/sleep</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://everycalc.kr/youtube</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <!-- 신규 추가 2026.03 -->
+  <url><loc>https://everycalc.kr/mortgage</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://everycalc.kr/retirement_plan</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://everycalc.kr/net_worth</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://everycalc.kr/fasting</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://everycalc.kr/remodeling</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://everycalc.kr/timezone</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://everycalc.kr/student_loan</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://everycalc.kr/freelancer_rate</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://everycalc.kr/faq</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://everycalc.kr/about</loc><changefreq>yearly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://everycalc.kr/privacy</loc><changefreq>yearly</changefreq><priority>0.4</priority></url>
 </urlset>
